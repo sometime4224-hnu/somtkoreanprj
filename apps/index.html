@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공용 프로그램 허브</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-start: #f6fbff;
+            --bg-end: #eefcfb;
+            --ink: #1f2937;
+            --muted: #64748b;
+            --panel: rgba(255,255,255,0.9);
+            --shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(96, 165, 250, 0.16), transparent 28%),
+                radial-gradient(circle at 88% 16%, rgba(45, 212, 191, 0.14), transparent 28%),
+                linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+        }
+
+        .shell {
+            width: min(1040px, calc(100% - 32px));
+            margin: 28px auto 56px;
+        }
+
+        .topbar,
+        .hero,
+        .panel {
+            background: var(--panel);
+            border: 1px solid rgba(255,255,255,0.72);
+            box-shadow: var(--shadow);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 18px;
+            border-radius: 24px;
+        }
+
+        .topbar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #0369a1;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .hero,
+        .panel {
+            margin-top: 20px;
+            padding: 28px;
+            border-radius: 28px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(239,246,255,0.92) 48%, rgba(236,254,255,0.94) 100%);
+        }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(14, 165, 233, 0.12);
+            color: #0369a1;
+            font-weight: 800;
+        }
+
+        .hero h1 {
+            margin: 14px 0 0;
+            font-size: clamp(2rem, 4vw, 3.3rem);
+            line-height: 1.08;
+        }
+
+        .staff-note {
+            margin-top: 20px;
+            padding: 18px 20px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.82);
+            border: 1px solid rgba(148,163,184,0.22);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .staff-note summary {
+            cursor: pointer;
+            font-weight: 800;
+            color: #475569;
+        }
+
+        .staff-note p {
+            margin: 12px 0 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .hero p,
+        .panel p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .panel h2 {
+            margin: 0 0 10px;
+            font-size: 1.55rem;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .app-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 18px;
+            border-radius: 22px;
+            text-decoration: none;
+            color: inherit;
+            background: #ffffff;
+            border: 1px solid #bfdbfe;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 32px rgba(59, 130, 246, 0.12);
+        }
+
+        .app-card__pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 11px;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .app-card__title {
+            display: block;
+            margin-top: 10px;
+            font-size: 1.08rem;
+            font-weight: 800;
+        }
+
+        .app-card__note {
+            display: block;
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 0.94rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <div class="topbar">
+            <a href="../index.html">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>메인으로</span>
+            </a>
+            <strong>공용 프로그램 허브</strong>
+        </div>
+
+        <section class="hero">
+            <div class="hero__badge">
+                <i class="fa-solid fa-cubes"></i>
+                <span>여러 챕터에서 활용 가능</span>
+            </div>
+            <h1>공용 프로그램 허브</h1>
+        </section>
+
+        <section class="panel">
+            <h2>공용 프로그램과 게임</h2>
+            <p>여러 챕터에서 공통으로 활용할 수 있는 독립형 게임과 스탠드얼론 활동입니다.</p>
+            <div class="app-grid">
+                <a href="korean-survivor-loopr/index.html" class="app-card">
+                    <div>
+                        <span class="app-card__pill"><i class="fa-solid fa-burst"></i> Game</span>
+                        <span class="app-card__title">한글 서바이버 샘플</span>
+                        <span class="app-card__note">스마트폰에서 바로 플레이하는 뱀파이어 서바이벌류 한국어 학습 게임 샘플입니다.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="standalone-pages/voiceinvader.html" class="app-card">
+                    <div>
+                        <span class="app-card__pill"><i class="fa-solid fa-gamepad"></i> Standalone</span>
+                        <span class="app-card__title">말글 인베이더</span>
+                        <span class="app-card__note">소리와 발화를 활용해 진행하는 독립형 학습 게임입니다.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="standalone-pages/escape.html" class="app-card">
+                    <div>
+                        <span class="app-card__pill"><i class="fa-solid fa-puzzle-piece"></i> Standalone</span>
+                        <span class="app-card__title">한국어 탈출 게임</span>
+                        <span class="app-card__note">챕터와 무관하게 활용할 수 있는 독립형 게임 활동입니다.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="standalone-pages/통과 심사(완료, 진행, 미완).html" class="app-card">
+                    <div>
+                        <span class="app-card__pill"><i class="fa-solid fa-stamp"></i> Standalone</span>
+                        <span class="app-card__title">문법 입장 심사소</span>
+                        <span class="app-card__note">완료, 진행, 미완 상태를 판별하며 인터뷰식으로 진행하는 독립형 문법 심사 게임입니다.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>앱 프로젝트</h2>
+            <p>`apps` 아래에 정리된 별도 프로젝트형 자료입니다.</p>
+            <div class="app-grid">
+                <a href="formal-lab/index.html" class="app-card">
+                    <div>
+                        <span class="app-card__pill"><i class="fa-solid fa-chalkboard-user"></i> Teacher</span>
+                        <span class="app-card__title">예의 있게 쓰기 · 교사용</span>
+                        <span class="app-card__note">교사용으로 구성된 격식체 쓰기 실습 앱입니다.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="formal-lab/student.html" class="app-card">
+                    <div>
+                        <span class="app-card__pill"><i class="fa-solid fa-user-graduate"></i> Student</span>
+                        <span class="app-card__title">예의 있게 쓰기 · 학생용</span>
+                        <span class="app-card__note">같은 앱의 학생용 진입점입니다.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="writeclass/Formal_language/index.html" class="app-card">
+                    <div>
+                        <span class="app-card__pill"><i class="fa-solid fa-pen-fancy"></i> Writeclass</span>
+                        <span class="app-card__title">공적인 글쓰기 연습</span>
+                        <span class="app-card__note">격식체 글쓰기 활동을 모아 둔 별도 앱 프로젝트입니다.</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+        <details class="staff-note">
+            <summary>강사용 안내</summary>
+            <p>이 허브는 특정 과에 속하지 않는 자료를 모으는 용도입니다. 상단에는 여러 챕터에서 공통으로 쓰는 독립형 게임과 스탠드얼론 활동을 두고, 하단에는 `apps` 아래의 별도 프로젝트형 자료를 분리해 정리했습니다.</p>
+        </details>
+    </main>
+</body>
+</html>

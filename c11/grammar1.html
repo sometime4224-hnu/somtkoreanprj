@@ -1,0 +1,434 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>11과 문법1 업그레이드 | 사동사</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%); }
+        .c11-global-nav {
+            position: sticky; top: 0; z-index: 1000; height: 58px; width: 100%;
+            display: flex; align-items: center; gap: 12px; padding: 0 16px; box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.92); border-bottom: 1px solid #dbeafe; backdrop-filter: blur(8px);
+        }
+        .c11-global-nav a { color: #4f46e5; text-decoration: none; font-weight: 700; font-size: 14px; }
+        .c11-divider { color: #cbd5e1; font-weight: 700; }
+        .safe { word-break: keep-all; overflow-wrap: break-word; }
+        .tab-btn.active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+        .vi-text { display: none; }
+        .vi-on .vi-text { display: block; }
+        .choice-btn { min-height: 52px; }
+    </style>
+</head>
+<body>
+    <nav class="c11-global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="c11-divider">|</span>
+        <a href="index.html">11과 목록</a>
+    </nav>
+
+    <main id="page" class="max-w-md mx-auto px-4 py-4 pb-10">
+        <section class="bg-white border border-blue-100 rounded-2xl p-5 shadow-sm">
+            <div class="flex items-start justify-between gap-2">
+                <div>
+                    <p class="text-xs font-bold text-blue-600">문법 1 업그레이드</p>
+                    <h1 class="text-2xl font-black text-slate-800 mt-1">사동사</h1>
+                    <p class="text-sm text-slate-600 mt-1 safe">누군가가 다른 사람에게 행동하게 할 때</p>
+                    <p class="vi-text text-xs text-blue-700 mt-1 safe">Dùng khi làm cho/ khiến người khác thực hiện hành động.</p>
+                </div>
+                <button id="viToggle" class="shrink-0 px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700">Tiếng Việt OFF</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button id="tabLearn" class="tab-btn active border rounded-xl py-2.5 text-sm font-bold border-blue-200" type="button">학습</button>
+                <button id="tabPractice" class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">연습</button>
+            </div>
+        </section>
+
+        <section id="learnPanel" class="mt-4 space-y-3">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">핵심 개념</h2>
+                <p class="text-sm text-slate-700 mt-2 safe">사동사는 주어가 다른 대상에게 어떤 행동을 하게 만드는 표현입니다.</p>
+                <p class="text-sm text-slate-700 mt-1 safe">예) 엄마가 아이에게 밥을 <b>먹이다</b>.</p>
+                <p class="vi-text text-xs text-blue-700 mt-2 safe">Động từ sai khiến diễn tả chủ thể làm cho đối tượng khác thực hiện hành động.</p>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">만드는 법</h2>
+                <ul class="mt-2 space-y-2 text-sm text-slate-700">
+                    <li>먹다 → <b class="text-blue-700">먹이다</b></li>
+                    <li>앉다 → <b class="text-blue-700">앉히다</b></li>
+                    <li>울다 → <b class="text-blue-700">울리다</b></li>
+                    <li>자다 → <b class="text-blue-700">재우다</b></li>
+                </ul>
+                <p class="mt-2 text-xs text-slate-500 safe">접미사 -이/-히/-리/-기/-우 등이 동사마다 다르게 붙습니다.</p>
+                <p class="vi-text text-xs text-blue-700 mt-1 safe">Hậu tố -이/-히/-리/-기/-우 thay đổi theo từng động từ, cần học theo cụm.</p>
+            </article>
+
+            <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-amber-800">헷갈림 비교</h2>
+                <div class="mt-2 space-y-3">
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">직접행동 vs 사동</p>
+                        <p class="text-sm text-slate-700 safe">아이가 옷을 입어요. / 엄마가 아이에게 옷을 입혀요.</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1 safe">Hành động trực tiếp: đứa trẻ tự mặc. Sai khiến: mẹ mặc cho đứa trẻ.</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">사동 vs 피동</p>
+                        <p class="text-sm text-slate-700 safe">선생님이 학생을 앉혔어요(사동) / 학생이 앉혀졌어요(피동).</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1 safe">Sai khiến: chủ thể khiến người khác làm. Bị động: chủ thể bị tác động.</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">형태 주의</p>
+                        <p class="text-sm text-slate-700 safe">*먹히다(피동)와 먹이다(사동)를 혼동하지 않기.</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1 safe">Phân biệt rõ 먹히다 (bị ăn) và 먹이다 (cho ăn).</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <section id="practicePanel" class="mt-4 hidden">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between text-xs">
+                    <span id="progress" class="font-bold text-blue-600"></span>
+                    <span class="text-slate-500">즉시 피드백</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+                    <div id="progressBar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+                <p id="qGrammar" class="mt-2 text-[11px] font-bold text-violet-700"></p>
+                <p id="qText" class="mt-2 text-base font-bold text-slate-800 safe"></p>
+                <p id="qHintKo" class="mt-2 text-xs text-slate-600 safe"></p>
+                <p id="qHintVi" class="vi-text text-xs text-blue-700 mt-1 safe"></p>
+
+                <div id="choices" class="mt-3 space-y-2"></div>
+                <div id="shortWrap" class="mt-3 hidden">
+                    <input id="shortInput" type="text" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm" placeholder="정답 입력" />
+                    <button id="checkShortBtn" class="mt-2 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">정답 확인</button>
+                </div>
+
+                <div id="feedbackBox" class="hidden mt-3 rounded-xl border p-3"></div>
+                <button id="nextBtn" class="hidden mt-3 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">다음 문제</button>
+            </article>
+
+            <article id="resultPanel" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+        </section>
+    </main>
+
+    <script>
+        const page = document.getElementById('page');
+        const viToggle = document.getElementById('viToggle');
+        const tabLearn = document.getElementById('tabLearn');
+        const tabPractice = document.getElementById('tabPractice');
+        const learnPanel = document.getElementById('learnPanel');
+        const practicePanel = document.getElementById('practicePanel');
+
+        let viOn = false;
+
+        viToggle.addEventListener('click', function () {
+            viOn = !viOn;
+            page.classList.toggle('vi-on', viOn);
+            viToggle.textContent = viOn ? 'Tiếng Việt ON' : 'Tiếng Việt OFF';
+        });
+
+        function showTab(name) {
+            const learn = name === 'learn';
+            learnPanel.classList.toggle('hidden', !learn);
+            practicePanel.classList.toggle('hidden', learn);
+            tabLearn.classList.toggle('active', learn);
+            tabPractice.classList.toggle('active', !learn);
+            tabLearn.classList.toggle('text-slate-600', !learn);
+            tabPractice.classList.toggle('text-slate-600', learn);
+            if (!learn && !state.started) { state.started = true; renderQuestion(); }
+        }
+
+        tabLearn.addEventListener('click', function () { showTab('learn'); });
+        tabPractice.addEventListener('click', function () { showTab('practice'); });
+
+        const quiz = [
+            {
+                type: 'mcq',
+                grammar: '사동사 기본',
+                q: '엄마가 아이에게 밥을 ____.',
+                hintKo: '아이 스스로 먹는 것이 아니라 엄마가 먹게 하는 상황',
+                hintVi: 'Mẹ làm cho con ăn, không phải con tự ăn.',
+                options: ['먹었어요', '먹였어요', '먹어요', '먹게요'],
+                answer: '먹였어요',
+                explainKo: '먹다의 사동형은 먹이다입니다. 과거형은 먹였어요예요.',
+                explainVi: 'Dạng sai khiến của 먹다 là 먹이다. Quá khứ là 먹였어요.'
+            },
+            {
+                type: 'mcq',
+                grammar: '사동/피동 구별',
+                q: '선생님이 학생을 자리에 ____.',
+                hintKo: '선생님이 학생에게 앉게 함',
+                hintVi: 'Giáo viên khiến học sinh ngồi xuống.',
+                options: ['앉았어요', '앉혔어요', '앉혀졌어요', '앉아요'],
+                answer: '앉혔어요',
+                explainKo: '사동은 행위자가 다른 사람에게 동작을 하게 하는 표현입니다.',
+                explainVi: 'Sai khiến dùng khi chủ thể khiến người khác hành động.'
+            },
+            {
+                type: 'short',
+                grammar: '복합형',
+                q: '선생님께서 학생들에게 사진을 _____. (보다 + 어 주다 + 시 + 었어요)',
+                hintKo: '공손한 높임 + 도움 표현',
+                hintVi: 'Kết hợp kính ngữ và cấu trúc “làm cho/cho xem”.',
+                answers: ['보여주셨어요', '보여 주셨어요'],
+                explainKo: '보다 → 보이다(보여-) + 주시다의 과거형으로 보여주셨어요가 맞습니다.',
+                explainVi: '보다 → 보이다(보여-) kết hợp 주시다 ở quá khứ: 보여주셨어요.'
+            },
+            {
+                type: 'mcq',
+                grammar: '형태 규칙',
+                q: '자다의 사동형은?',
+                hintKo: '아기를 재우다 표현을 떠올리세요.',
+                hintVi: 'Hãy nhớ cụm “ru em bé ngủ”.',
+                options: ['자이다', '재우다', '자히다', '잘리다'],
+                answer: '재우다',
+                explainKo: '자다의 사동형은 재우다입니다.',
+                explainVi: 'Dạng sai khiến của 자다 là 재우다.'
+            },
+            {
+                type: 'mcq',
+                grammar: '어휘 결합',
+                q: '친구가 저를 집까지 ____.',
+                hintKo: '차로 태워 주는 상황',
+                hintVi: 'Tình huống cho đi nhờ xe.',
+                options: ['탔어요', '태웠어요', '태어났어요', '타졌어요'],
+                answer: '태웠어요',
+                explainKo: '타다의 사동형 태우다를 써서 태웠어요가 됩니다.',
+                explainVi: 'Dùng dạng sai khiến 태우다 của 타다 nên là 태웠어요.'
+            },
+            {
+                type: 'short',
+                grammar: '형태 인지',
+                q: '웃다의 사동형을 쓰세요.',
+                hintKo: '“사람들을 ___.”에서 자주 쓰는 형태',
+                hintVi: 'Dạng thường gặp trong câu “làm mọi người cười”.',
+                answers: ['웃기다'],
+                explainKo: '웃다 → 웃기다가 사동형입니다.',
+                explainVi: '웃다 → 웃기다 là dạng sai khiến.'
+            },
+            {
+                type: 'mcq',
+                grammar: '사동/직접행동 구별',
+                q: '“아이가 옷을 입었어요”와 의미가 가장 다른 문장은?',
+                hintKo: '사동 의미를 고르세요.',
+                hintVi: 'Chọn câu có nghĩa sai khiến.',
+                options: ['아이가 옷을 입었어요.', '엄마가 아이에게 옷을 입혔어요.', '아이가 스스로 옷을 입어요.', '아이가 옷을 입는 중이에요.'],
+                answer: '엄마가 아이에게 옷을 입혔어요.',
+                explainKo: '입혔어요는 다른 사람에게 입게 하는 사동 의미입니다.',
+                explainVi: '입혔어요 mang nghĩa khiến người khác mặc.'
+            },
+            {
+                type: 'mcq',
+                grammar: '오류 찾기',
+                q: '사동 의미로 가장 자연스러운 문장은?',
+                hintKo: '“강아지를 앉게 했다” 의미',
+                hintVi: 'Nghĩa: “làm chó ngồi xuống”.',
+                options: ['강아지가 앉았어요.', '제가 강아지를 앉혔어요.', '강아지가 앉혀졌어요.', '제가 강아지를 앉았어요.'],
+                answer: '제가 강아지를 앉혔어요.',
+                explainKo: '행위자인 제가 강아지에게 동작을 시키므로 앉혔어요가 맞습니다.',
+                explainVi: 'Vì “tôi” khiến chó hành động nên dùng 앉혔어요.'
+            }
+        ];
+
+        const progress = document.getElementById('progress');
+        const qGrammar = document.getElementById('qGrammar');
+        const qText = document.getElementById('qText');
+        const qHintKo = document.getElementById('qHintKo');
+        const qHintVi = document.getElementById('qHintVi');
+        const choices = document.getElementById('choices');
+        const shortWrap = document.getElementById('shortWrap');
+        const shortInput = document.getElementById('shortInput');
+        const checkShortBtn = document.getElementById('checkShortBtn');
+        const feedbackBox = document.getElementById('feedbackBox');
+        const nextBtn = document.getElementById('nextBtn');
+        const resultPanel = document.getElementById('resultPanel');
+
+        function shuffleQuiz() { for (var i = quiz.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = quiz[i]; quiz[i] = quiz[j]; quiz[j] = t; } }
+        shuffleQuiz();
+
+        const state = { idx: 0, answered: false, score: 0, logs: [], started: false };
+
+        function esc(text) {
+            return String(text == null ? '' : text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function normalize(text) {
+            return String(text || '').toLowerCase().replace(/[\s.,!?~]/g, '');
+        }
+
+        function lockInputs(q, user) {
+            if (q && q.type === 'mcq') {
+                Array.from(choices.querySelectorAll('button')).forEach(function (btn) {
+                    btn.disabled = true;
+                    if (btn.textContent === q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-emerald-400 bg-emerald-50 text-emerald-800';
+                    } else if (btn.textContent === user && btn.textContent !== q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-rose-400 bg-rose-50 text-rose-800';
+                    } else {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-slate-200 bg-slate-50 text-slate-400';
+                    }
+                });
+            } else {
+                shortInput.disabled = true;
+                checkShortBtn.disabled = true;
+            }
+        }
+
+        function feedbackHtml(ok, user, correct, q) {
+            return '' +
+                '<p class="text-sm font-bold ' + (ok ? 'text-emerald-700' : 'text-rose-700') + '">' + (ok ? '정답입니다.' : '오답입니다.') + ' <span class="text-xs">(' + (ok ? 'Đúng' : 'Sai') + ')</span></p>' +
+                '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(user || '(무응답)') + '</p>' +
+                '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>' +
+                '<p class="text-xs text-slate-700 mt-2 safe"><b>설명(KO):</b> ' + esc(q.explainKo) + '</p>' +
+                '<p class="text-xs text-blue-700 mt-1 safe"><b>Giải thích (VI):</b> ' + esc(q.explainVi) + '</p>';
+        }
+
+        function answerQuestion(user) {
+            if (state.answered) return;
+            const q = quiz[state.idx];
+            let ok = false;
+            let correct = q.type === 'mcq' ? q.answer : q.answers[0];
+            if (q.type === 'mcq') {
+                ok = user === q.answer;
+            } else {
+                const n = normalize(user);
+                ok = q.answers.some(function (a) { return normalize(a) === n; });
+            }
+
+            state.answered = true;
+            if (ok) state.score += 1;
+            state.logs.push({ ok: ok, user: user, correct: correct, q: q.q, explainKo: q.explainKo, explainVi: q.explainVi });
+
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200');
+            feedbackBox.innerHTML = feedbackHtml(ok, user, correct, q);
+            nextBtn.classList.remove('hidden');
+            lockInputs(q, user);
+        }
+
+        function renderQuestion() {
+            if (state.idx >= quiz.length) {
+                renderResult();
+                return;
+            }
+
+            const q = quiz[state.idx];
+            state.answered = false;
+            progress.textContent = (state.idx + 1) + ' / ' + quiz.length;
+            const bar = document.getElementById('progressBar');
+            if (bar) bar.style.width = (state.idx / quiz.length * 100) + '%';
+            qGrammar.textContent = q.grammar;
+            qText.textContent = q.q;
+            qHintKo.textContent = '상황: ' + q.hintKo;
+            qHintVi.textContent = 'Tình huống: ' + q.hintVi;
+
+            choices.innerHTML = '';
+            feedbackBox.classList.add('hidden');
+            feedbackBox.innerHTML = '';
+            nextBtn.classList.add('hidden');
+            shortWrap.classList.add('hidden');
+            shortInput.value = '';
+            shortInput.disabled = false;
+            checkShortBtn.disabled = false;
+
+            if (q.type === 'mcq') {
+                q.options.forEach(function (opt) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn w-full border border-slate-300 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-800';
+                    btn.textContent = opt;
+                    btn.addEventListener('click', function () { answerQuestion(opt); });
+                    choices.appendChild(btn);
+                });
+            } else {
+                shortWrap.classList.remove('hidden');
+            }
+
+            resultPanel.classList.add('hidden');
+        }
+
+        function renderResult() {
+            const percent = Math.round((state.score / quiz.length) * 100);
+            const wrong = state.logs.filter(function (x) { return !x.ok; });
+            let detail = '';
+
+            if (wrong.length === 0) {
+                detail = '<p class="text-sm text-emerald-700 mt-2">모든 문항을 정확히 풀었습니다.</p><p class="vi-text text-xs text-blue-700 mt-1">Bạn đã trả lời đúng toàn bộ câu hỏi.</p>';
+            } else {
+                detail = state.logs.map(function (w, idx) {
+                    if (w.ok) {
+                        return '<article class="rounded-xl border border-emerald-200 bg-emerald-50 p-3">' +
+                            '<p class="text-xs font-bold text-emerald-700">정답 ' + (idx + 1) + '</p>' +
+                            '<p class="text-sm text-slate-800 mt-1 safe">' + esc(w.q) + '</p>' +
+                            '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(w.correct) + '</p>' +
+                            '<p class="text-xs text-emerald-700 mt-1 safe"><b>설명(KO):</b> ' + esc(w.explainKo) + '</p>' +
+                            '<p class="text-xs text-blue-700 mt-1 safe vi-text"><b>Giải thích (VI):</b> ' + esc(w.explainVi) + '</p>' +
+                            '</article>';
+                    }
+                    return '<article class="rounded-xl border border-rose-200 bg-rose-50 p-3">' +
+                        '<p class="text-xs font-bold text-rose-700">오답 ' + (idx + 1) + '</p>' +
+                        '<p class="text-sm text-slate-800 mt-1 safe">' + esc(w.q) + '</p>' +
+                        '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(w.user || '(무응답)') + '</p>' +
+                        '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(w.correct) + '</p>' +
+                        '<p class="text-xs text-rose-700 mt-2 safe"><b>설명(KO):</b> ' + esc(w.explainKo) + '</p>' +
+                        '<p class="text-xs text-blue-700 mt-1 safe"><b>Giải thích (VI):</b> ' + esc(w.explainVi) + '</p>' +
+                        '</article>';
+                }).join('');
+            }
+
+            resultPanel.innerHTML = '' +
+                '<div class="rounded-xl border border-blue-200 bg-blue-50 p-4 text-center">' +
+                '<p class="text-xs text-blue-700 font-bold">연습 완료</p>' +
+                '<h3 class="text-2xl font-black text-slate-800 mt-1">' + state.score + ' / ' + quiz.length + '</h3>' +
+                '<p class="text-sm text-slate-600 mt-1">정답률 ' + percent + '%</p>' +
+                '<button id="restartBtn" class="mt-3 px-4 py-2 rounded-lg bg-slate-800 text-white text-sm font-bold" type="button">다시 풀기</button>' +
+                '</div>' +
+                '<div class="mt-3 space-y-2">' + detail + '</div>';
+
+            resultPanel.classList.remove('hidden');
+            document.getElementById('restartBtn').addEventListener('click', function () {
+                state.idx = 0;
+                state.score = 0;
+                state.logs = [];
+                shuffleQuiz();
+                renderQuestion();
+            });
+        }
+
+        checkShortBtn.addEventListener('click', function () {
+            const val = shortInput.value.trim();
+            if (!val) return;
+            answerQuestion(val);
+        });
+
+        shortInput.addEventListener('keydown', function (event) {
+            if (event.isComposing) return;
+            if (event.key === 'Enter' && !state.answered) {
+                event.preventDefault();
+                checkShortBtn.click();
+            }
+        });
+
+        nextBtn.addEventListener('click', function () {
+            state.idx += 1;
+            renderQuestion();
+        });
+
+        showTab('learn');
+    </script>
+    <script src="../shared/learning-enhancements.js"></script>
+</body>
+</html>

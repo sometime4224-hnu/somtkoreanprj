@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NB76SV96');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한국어 3B반 학습 자료</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-start: #fff9f2;
+            --bg-end: #eef8ff;
+            --ink: #1f2937;
+            --muted: #64748b;
+            --line: rgba(148, 163, 184, 0.28);
+            --panel: rgba(255, 255, 255, 0.88);
+            --shadow: 0 24px 54px rgba(15, 23, 42, 0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(251, 191, 36, 0.16), transparent 26%),
+                radial-gradient(circle at 88% 12%, rgba(59, 130, 246, 0.14), transparent 28%),
+                radial-gradient(circle at 80% 86%, rgba(168, 85, 247, 0.1), transparent 26%),
+                linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 999px;
+            filter: blur(18px);
+            opacity: 0.56;
+            pointer-events: none;
+        }
+
+        body::before {
+            inset: 98px auto auto -52px;
+            width: 220px;
+            height: 220px;
+            background: rgba(254, 205, 211, 0.42);
+        }
+
+        body::after {
+            inset: auto -40px 72px auto;
+            width: 240px;
+            height: 240px;
+            background: rgba(147, 197, 253, 0.34);
+        }
+
+        .shell {
+            width: min(1160px, calc(100% - 32px));
+            margin: 28px auto 56px;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 24px 26px;
+            border-radius: 34px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 247, 237, 0.9) 42%, rgba(239, 246, 255, 0.92) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            box-shadow: var(--shadow);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -44px -82px auto;
+            width: 280px;
+            height: 280px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(99, 102, 241, 0) 72%);
+        }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(254, 215, 170, 0.76), rgba(191, 219, 254, 0.78));
+            color: #7c2d12;
+            font-weight: 800;
+        }
+
+        .hero h1 {
+            margin: 14px 0 0;
+            font-size: clamp(2.1rem, 4.5vw, 4rem);
+            line-height: 1.08;
+        }
+
+        .staff-note {
+            margin-top: 24px;
+            padding: 18px 20px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .staff-note summary {
+            cursor: pointer;
+            font-weight: 800;
+            color: #475569;
+        }
+
+        .staff-note p {
+            margin: 12px 0 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 760px;
+            color: var(--muted);
+            font-size: 1.04rem;
+            line-height: 1.72;
+        }
+
+        .hero__chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .hero__chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            color: #334155;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.42);
+        }
+
+        .section {
+            margin-top: 28px;
+            padding: 28px;
+            border-radius: 30px;
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: var(--shadow);
+        }
+
+        .section__head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .section__eyebrow {
+            margin: 0 0 8px;
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: #7c3aed;
+        }
+
+        .section h2 {
+            margin: 0;
+            font-size: clamp(1.45rem, 2vw, 2rem);
+        }
+
+        .section__head p {
+            margin: 0;
+            max-width: 540px;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .chapter-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+            padding: 22px;
+            border-radius: 28px;
+            text-decoration: none;
+            color: inherit;
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.06);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(129, 140, 248, 0.34);
+            box-shadow: 0 20px 32px rgba(79, 70, 229, 0.12);
+        }
+
+        .chapter-card.disabled {
+            filter: grayscale(1);
+            opacity: 0.58;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .chapter-card__label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .chapter-card__number {
+            display: block;
+            margin-top: 20px;
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            line-height: 1;
+            font-weight: 900;
+            color: #4338ca;
+        }
+
+        .chapter-card__title {
+            display: block;
+            margin-top: 14px;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .chapter-card__note {
+            display: block;
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .status-badge {
+            position: absolute;
+            inset: auto 18px 18px auto;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: #eef2ff;
+            color: #4338ca;
+        }
+
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .hub-card {
+            position: relative;
+            overflow: hidden;
+            padding: 24px;
+            border-radius: 28px;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.06);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .hub-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 38px rgba(15, 23, 42, 0.1);
+        }
+
+        .hub-card--review {
+            background: linear-gradient(135deg, #fff7ed 0%, #fff1f2 100%);
+        }
+
+        .hub-card--programs {
+            background: linear-gradient(135deg, #eff6ff 0%, #ecfeff 100%);
+        }
+
+        .hub-card__pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hub-card--review .hub-card__pill {
+            background: rgba(251, 146, 60, 0.14);
+            color: #c2410c;
+        }
+
+        .hub-card--programs .hub-card__pill {
+            background: rgba(14, 165, 233, 0.14);
+            color: #0369a1;
+        }
+
+        .hub-card h3 {
+            margin: 16px 0 10px;
+            font-size: 1.45rem;
+        }
+
+        .hub-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .hub-card__foot {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 760px) {
+            .shell {
+                width: min(100% - 20px, 1160px);
+                margin-top: 18px;
+            }
+
+            .hero,
+            .section {
+                padding: 22px;
+                border-radius: 24px;
+            }
+
+            .section__head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .chapter-card {
+                min-height: 164px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+    <main class="shell">
+        <section class="hero">
+            <div class="hero__badge">
+                <i class="fa-solid fa-language"></i>
+                <span>한국어 3B반 학습 자료</span>
+            </div>
+            <h1>한국어 3B반 학습 자료</h1>
+        </section>
+
+        <section class="section">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Chapters</p>
+                    <h2>챕터 선택</h2>
+                </div>
+                <p>현재 준비된 단원은 바로 열리고, 아직 없는 단원은 준비 중 상태로 표시됩니다.</p>
+            </div>
+            <div class="chapter-grid">
+                <a href="c10/index.html" data-chapter="c10" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">10</span>
+                    <span class="chapter-card__title">결혼하려면 아직 멀었어요</span>
+                    <span class="chapter-card__note">어휘, 문법 1~4, 듣기, 읽기, 복습 퀴즈</span>
+                </a>
+                <a href="c11/index.html" data-chapter="c11" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">11</span>
+                    <span class="chapter-card__title">취업과 회사 생활</span>
+                    <span class="chapter-card__note">문법 3 보조연습과 어휘 확장까지 묶인 챕터</span>
+                </a>
+                <a href="c12/index.html" data-chapter="c12" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">12</span>
+                    <span class="chapter-card__title">몸과 건강, 권유와 조언</span>
+                    <span class="chapter-card__note">어휘 보조자료와 말하기·쓰기까지 연결된 챕터</span>
+                </a>
+                <a href="c13/index.html" data-chapter="c13" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">13</span>
+                    <span class="chapter-card__title">다음 챕터 준비 중</span>
+                    <span class="chapter-card__note">추가 자료가 연결되면 자동으로 활성화됩니다.</span>
+                </a>
+                <a href="c14/index.html" data-chapter="c14" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">14</span>
+                    <span class="chapter-card__title">다음 챕터 준비 중</span>
+                    <span class="chapter-card__note">추가 자료가 연결되면 자동으로 활성화됩니다.</span>
+                </a>
+                <a href="c15/index.html" data-chapter="c15" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">15</span>
+                    <span class="chapter-card__title">다음 챕터 준비 중</span>
+                    <span class="chapter-card__note">추가 자료가 연결되면 자동으로 활성화됩니다.</span>
+                </a>
+                <a href="c16/index.html" data-chapter="c16" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">16</span>
+                    <span class="chapter-card__title">다음 챕터 준비 중</span>
+                    <span class="chapter-card__note">추가 자료가 연결되면 자동으로 활성화됩니다.</span>
+                </a>
+                <a href="c17/index.html" data-chapter="c17" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">17</span>
+                    <span class="chapter-card__title">다음 챕터 준비 중</span>
+                    <span class="chapter-card__note">추가 자료가 연결되면 자동으로 활성화됩니다.</span>
+                </a>
+                <a href="c18/index.html" data-chapter="c18" class="chapter-card">
+                    <span class="chapter-card__label"><i class="fa-solid fa-book"></i> 단원</span>
+                    <span class="chapter-card__number">18</span>
+                    <span class="chapter-card__title">다음 챕터 준비 중</span>
+                    <span class="chapter-card__note">추가 자료가 연결되면 자동으로 활성화됩니다.</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Cross-Unit Hubs</p>
+                    <h2>챕터 밖 자료</h2>
+                </div>
+                <p>단원을 아우르는 복습 자료와 여러 곳에 활용할 수 있는 프로그램은 별도 허브 안에서 고를 수 있도록 분리했습니다.</p>
+            </div>
+            <div class="hub-grid">
+                <a href="review/index.html" class="hub-card hub-card--review">
+                    <span class="hub-card__pill"><i class="fa-solid fa-list-check"></i> 복습 퀴즈</span>
+                    <h3>복습 퀴즈 허브</h3>
+                    <p>10~12과처럼 여러 챕터를 아우르는 복습 자료를 한곳에 모았습니다. 루트 인덱스에는 버튼만 두고, 실제 자료 선택은 허브 안에서 하도록 정리했습니다.</p>
+                    <span class="hub-card__foot">퀴즈 고르러 가기 <i class="fa-solid fa-arrow-right"></i></span>
+                </a>
+                <a href="apps/index.html" class="hub-card hub-card--programs">
+                    <span class="hub-card__pill"><i class="fa-solid fa-cubes"></i> 공용 프로그램</span>
+                    <h3>프로그램 허브</h3>
+                    <p>말하기 실험실, 발음 클리닉, 스탠드얼론 게임처럼 특정 과에 묶이지 않고 여러 곳에서 활용할 수 있는 프로그램을 한곳에 모았습니다.</p>
+                    <span class="hub-card__foot">프로그램 보러 가기 <i class="fa-solid fa-arrow-right"></i></span>
+                </a>
+            </div>
+        </section>
+
+        <details class="staff-note">
+            <summary>강사용 안내</summary>
+            <p>챕터 학습은 위 단원 카드에서 시작하고, 여러 챕터를 함께 복습하는 자료는 복습 퀴즈 허브로, 특정 과에 속하지 않는 실험실·게임·별도 앱 프로젝트는 공용 프로그램 허브로 분리해 두었습니다.</p>
+        </details>
+    </main>
+
+    <script>
+        (function () {
+            const availableFileChapters = new Set(['c10', 'c11', 'c12']);
+            const notReadyText = '아직 준비 중입니다.';
+
+            function markDisabled(card) {
+                if (card.classList.contains('disabled')) return;
+                card.classList.add('disabled');
+                card.setAttribute('aria-disabled', 'true');
+                card.setAttribute('title', notReadyText);
+                const badge = document.createElement('span');
+                badge.className = 'status-badge';
+                badge.textContent = '준비 중';
+                card.appendChild(badge);
+            }
+
+            function markEnabled(card) {
+                card.classList.remove('disabled');
+                card.removeAttribute('aria-disabled');
+                card.removeAttribute('title');
+                const badge = card.querySelector('.status-badge');
+                if (badge) badge.remove();
+            }
+
+            const chapterCards = document.querySelectorAll('.chapter-card[data-chapter]');
+            if (window.location.protocol === 'file:') {
+                chapterCards.forEach((card) => {
+                    const chapter = (card.dataset.chapter || '').toLowerCase();
+                    if (availableFileChapters.has(chapter)) {
+                        markEnabled(card);
+                    } else {
+                        markDisabled(card);
+                    }
+                });
+                return;
+            }
+
+            chapterCards.forEach((card) => {
+                const target = card.getAttribute('href');
+                fetch(target, { method: 'HEAD' })
+                    .then((response) => {
+                        if (response.ok) {
+                            markEnabled(card);
+                        } else {
+                            markDisabled(card);
+                        }
+                    })
+                    .catch(() => {
+                        // transient network failure: leave enabled
+                    });
+            });
+        })();
+    </script>
+    <script src="shared/learning-enhancements.js"></script>
+</body>
+</html>

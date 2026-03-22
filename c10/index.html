@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10과 학습 허브</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-start: #fff8ef;
+            --bg-end: #eef7ff;
+            --ink: #1f2937;
+            --muted: #64748b;
+            --line: rgba(148, 163, 184, 0.28);
+            --panel: rgba(255, 255, 255, 0.86);
+            --shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
+            --hero-a: #fb7185;
+            --hero-b: #8b5cf6;
+            --hero-c: #38bdf8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(251, 113, 133, 0.18), transparent 32%),
+                radial-gradient(circle at 85% 14%, rgba(56, 189, 248, 0.18), transparent 28%),
+                linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 999px;
+            filter: blur(18px);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        body::before {
+            inset: 84px auto auto -56px;
+            width: 180px;
+            height: 180px;
+            background: rgba(249, 168, 212, 0.45);
+        }
+
+        body::after {
+            inset: auto -48px 72px auto;
+            width: 220px;
+            height: 220px;
+            background: rgba(147, 197, 253, 0.35);
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 18px;
+            backdrop-filter: blur(14px);
+            background: rgba(255, 255, 255, 0.76);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .topbar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #7c3aed;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .topbar span {
+            color: #475569;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .shell {
+            width: min(1120px, calc(100% - 32px));
+            margin: 26px auto 56px;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 24px 26px;
+            border-radius: 32px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 251, 235, 0.9) 46%, rgba(237, 242, 255, 0.92) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            box-shadow: var(--shadow);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -40px -72px auto;
+            width: 240px;
+            height: 240px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(129, 140, 248, 0.28) 0%, rgba(129, 140, 248, 0) 70%);
+        }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(254, 205, 211, 0.7), rgba(191, 219, 254, 0.72));
+            color: #7c2d12;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+
+        .hero h1 {
+            margin: 14px 0 0;
+            font-size: clamp(2rem, 4vw, 3.55rem);
+            line-height: 1.08;
+        }
+
+        .staff-note {
+            margin-top: 24px;
+            padding: 18px 20px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .staff-note summary {
+            cursor: pointer;
+            font-weight: 800;
+            color: #475569;
+        }
+
+        .staff-note p {
+            margin: 12px 0 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 760px;
+            color: var(--muted);
+            font-size: 1.02rem;
+            line-height: 1.7;
+        }
+
+        .hero__chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .hero__chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            color: #334155;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.45);
+        }
+
+        .section {
+            margin-top: 28px;
+            padding: 28px;
+            border-radius: 30px;
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: var(--shadow);
+        }
+
+        .section__head {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: end;
+            margin-bottom: 18px;
+        }
+
+        .section__eyebrow {
+            margin: 0 0 8px;
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: #a855f7;
+        }
+
+        .section h2 {
+            margin: 0;
+            font-size: clamp(1.4rem, 2vw, 1.95rem);
+        }
+
+        .section__head p {
+            margin: 0;
+            max-width: 520px;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .path-card {
+            position: relative;
+            overflow: hidden;
+            padding: 22px;
+            border-radius: 26px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.06);
+        }
+
+        .path-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 6px;
+            background: linear-gradient(90deg, var(--tone-a), var(--tone-b));
+        }
+
+        .path-card[data-tone="vocab"] {
+            --tone-a: #60a5fa;
+            --tone-b: #22d3ee;
+            --tone-soft: #eff6ff;
+            --tone-strong: #bfdbfe;
+        }
+
+        .path-card[data-tone="grammar"] {
+            --tone-a: #f59e0b;
+            --tone-b: #fb7185;
+            --tone-soft: #fff7ed;
+            --tone-strong: #fed7aa;
+        }
+
+        .path-card[data-tone="listening"] {
+            --tone-a: #22c55e;
+            --tone-b: #14b8a6;
+            --tone-soft: #ecfdf5;
+            --tone-strong: #bbf7d0;
+        }
+
+        .path-card[data-tone="review"] {
+            --tone-a: #8b5cf6;
+            --tone-b: #ec4899;
+            --tone-soft: #f5f3ff;
+            --tone-strong: #ddd6fe;
+        }
+
+        .path-card__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--tone-soft), #ffffff);
+            color: #334155;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .path-card h3 {
+            margin: 16px 0 8px;
+            font-size: 1.25rem;
+        }
+
+        .path-card > p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .lesson-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .lesson-link {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 14px 16px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: inherit;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .lesson-link:hover {
+            transform: translateY(-2px);
+            border-color: var(--tone-strong);
+            box-shadow: 0 14px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .lesson-link--main {
+            background: linear-gradient(135deg, #ffffff 0%, var(--tone-soft) 100%);
+            border-color: var(--tone-strong);
+        }
+
+        .lesson-kind {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 9px;
+            border-radius: 999px;
+            font-size: 0.73rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .lesson-kind--main {
+            background: #1f2937;
+            color: #ffffff;
+        }
+
+        .lesson-kind--check {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .lesson-kind--extend {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .lesson-title {
+            display: block;
+            margin-top: 8px;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .lesson-note {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .lesson-arrow {
+            padding-top: 4px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 760px) {
+            .topbar {
+                padding: 13px 14px;
+            }
+
+            .shell {
+                width: min(100% - 20px, 1120px);
+                margin-top: 18px;
+            }
+
+            .hero,
+            .section {
+                padding: 22px;
+                border-radius: 24px;
+            }
+
+            .section__head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="topbar">
+        <a href="../index.html">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>메인으로</span>
+        </a>
+        <span>10과 학습 허브</span>
+    </nav>
+
+    <main class="shell">
+        <section class="hero">
+            <div class="hero__badge">
+                <i class="fa-solid fa-sun"></i>
+                <span>10과 | 결혼하려면 아직 멀었어요</span>
+            </div>
+            <h1>10과 학습 허브</h1>
+        </section>
+
+        <section class="section">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Vocabulary</p>
+                    <h2>어휘</h2>
+                </div>
+                <p>첫 만남부터 고백까지 이어지는 핵심 어휘를 먼저 익히는 시작 지점입니다.</p>
+            </div>
+            <div class="path-grid">
+                <article class="path-card" data-tone="vocab">
+                    <span class="path-card__badge"><i class="fa-solid fa-book"></i> 메인 시작점</span>
+                    <h3>어휘 카드</h3>
+                    <p>이 단원은 어휘 카드 페이지를 중심으로 출발합니다. 먼저 표현을 익히고, 이후 문법과 듣기로 넘어가면 흐름이 자연스럽습니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="vocabulary.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--main">핵심</span>
+                                <span class="lesson-title">어휘 카드</span>
+                                <span class="lesson-note">첫 만남부터 고백까지 이어지는 관계 어휘 학습</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Grammar</p>
+                    <h2>문법</h2>
+                </div>
+                <p>문법 1~4의 메인 페이지를 순서대로 두고, 연결되는 게임과 퀴즈는 바로 옆 카드에서 이어서 접근할 수 있게 묶었습니다.</p>
+            </div>
+            <div class="path-grid">
+                <article class="path-card" data-tone="grammar">
+                    <span class="path-card__badge"><i class="fa-solid fa-1"></i> 문법 1</span>
+                    <h3>-던과 관형형 확장</h3>
+                    <p>핵심 문법 설명을 본 뒤, 축구 게임으로 바로 반복 연습을 연결할 수 있게 배치했습니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="grammar1.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--main">핵심</span>
+                                <span class="lesson-title">문법 1</span>
+                                <span class="lesson-note">-던 표현의 의미와 쓰임 정리</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                        <a class="lesson-link" href="grammar1-game-soccer.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--extend">보조</span>
+                                <span class="lesson-title">문법 1 축구 게임</span>
+                                <span class="lesson-note">관형형을 빠르게 반복하는 모바일 게임</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="path-card" data-tone="grammar">
+                    <span class="path-card__badge"><i class="fa-solid fa-2"></i> 문법 2</span>
+                    <h3>-잖아요</h3>
+                    <p>상대와 이미 공유하고 있는 정보를 끌어오는 표현을 차분히 정리하는 메인 페이지입니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="grammar2.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--main">핵심</span>
+                                <span class="lesson-title">문법 2</span>
+                                <span class="lesson-note">-잖아요의 의미와 실제 사용 장면 학습</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="path-card" data-tone="grammar">
+                    <span class="path-card__badge"><i class="fa-solid fa-list-check"></i> 문법 1~2 점검</span>
+                    <h3>퀴즈 허브</h3>
+                    <p>문법 1과 2를 묶어서 복습할 수 있도록 메뉴, 워밍업, 통합 퀴즈를 한 카드 안에 붙였습니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="grammar12-quiz-menu.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--check">점검</span>
+                                <span class="lesson-title">문법 1+2 퀴즈 메뉴</span>
+                                <span class="lesson-note">문법 1~2 점검 흐름으로 들어가는 시작 페이지</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                        <a class="lesson-link" href="grammar12-quiz-warmup.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--check">점검</span>
+                                <span class="lesson-title">문법 1+2 O/X 워밍업</span>
+                                <span class="lesson-note">본 퀴즈 전 빠르게 감각을 올리는 예열 활동</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                        <a class="lesson-link" href="grammar12-quiz.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--check">점검</span>
+                                <span class="lesson-title">문법 1+2 통합 퀴즈</span>
+                                <span class="lesson-note">모바일 환경 기준으로 풀 수 있는 통합 점검</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="path-card" data-tone="grammar">
+                    <span class="path-card__badge"><i class="fa-solid fa-3"></i> 문법 3</span>
+                    <h3>계획과 예정 표현</h3>
+                    <p>하고 싶은 일, 잡힌 일정, 세운 계획을 말할 때 쓰는 문형을 정리하는 핵심 페이지입니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="grammar3.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--main">핵심</span>
+                                <span class="lesson-title">문법 3</span>
+                                <span class="lesson-note">V-(으)ㄹ 생각/계획/예정이다 정리</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="path-card" data-tone="grammar">
+                    <span class="path-card__badge"><i class="fa-solid fa-4"></i> 문법 4</span>
+                    <h3>조건 표현과 응용 게임</h3>
+                    <p>문법 4를 본 뒤, 문법 3+4를 묶은 응용 게임으로 자연스럽게 넘어갈 수 있게 구성했습니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="grammar4.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--main">핵심</span>
+                                <span class="lesson-title">문법 4</span>
+                                <span class="lesson-note">V-(으)려면 멀었다로 조건과 현실의 거리 말하기</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                        <a class="lesson-link" href="grammar34-game-rpg.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--extend">보조</span>
+                                <span class="lesson-title">문법 3+4 RPG</span>
+                                <span class="lesson-note">계획과 현실을 연결하는 인생 목표 게임</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Listening And Reading</p>
+                    <h2>듣기와 읽기</h2>
+                </div>
+                <p>중심 줄기인 듣기 1~2를 먼저 배치하고, 이어서 읽기 활동을 같은 구간에서 확인할 수 있게 정리했습니다.</p>
+            </div>
+            <div class="path-grid">
+                <article class="path-card" data-tone="listening">
+                    <span class="path-card__badge"><i class="fa-solid fa-headphones"></i> 듣기 흐름</span>
+                    <h3>듣기 1에서 듣기 2로</h3>
+                    <p>듣기 학습을 먼저 하고, 바로 평가형 듣기 2로 연결할 수 있는 구조입니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="listening1.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--main">핵심</span>
+                                <span class="lesson-title">듣기 1</span>
+                                <span class="lesson-note">10과 듣기 내용을 학습형 흐름으로 익히기</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                        <a class="lesson-link" href="listening2.html">
+                            <div>
+                                <span class="lesson-kind">이어서</span>
+                                <span class="lesson-title">듣기 2</span>
+                                <span class="lesson-note">심화 평가 퀴즈 중심의 듣기 점검</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="path-card" data-tone="listening">
+                    <span class="path-card__badge"><i class="fa-solid fa-book-open"></i> 읽기</span>
+                    <h3>읽기 활동</h3>
+                    <p>연애 칼럼을 읽으며 단원 표현을 문장 단위로 다시 확인하는 확장 활동입니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="reading.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--main">핵심</span>
+                                <span class="lesson-title">읽기</span>
+                                <span class="lesson-note">김영희의 연애 칼럼 읽기 활동</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Review</p>
+                    <h2>복습</h2>
+                </div>
+                <p>단원 전체 흐름을 한 번 더 묶어서 점검하는 마지막 단계입니다.</p>
+            </div>
+            <div class="path-grid">
+                <article class="path-card" data-tone="review">
+                    <span class="path-card__badge"><i class="fa-solid fa-flag-checkered"></i> 단원 마무리</span>
+                    <h3>복습 퀴즈</h3>
+                    <p>핵심 학습과 보조 활동을 마친 뒤, 10과 전체를 다시 정리하는 마지막 점검 카드입니다.</p>
+                    <div class="lesson-list">
+                        <a class="lesson-link lesson-link--main" href="review-quiz.html">
+                            <div>
+                                <span class="lesson-kind lesson-kind--check">점검</span>
+                                <span class="lesson-title">10과 복습 퀴즈</span>
+                                <span class="lesson-note">단원 핵심 내용을 종합해서 확인하는 마무리 퀴즈</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <details class="staff-note">
+            <summary>강사용 안내</summary>
+            <p>10과는 어휘, 문법 1~4, 듣기, 읽기를 메인 흐름으로 두고, 문법 1 축구 게임, 문법 1+2 퀴즈 묶음, 문법 3+4 RPG, 단원 복습 퀴즈를 하단 단계에서 이어서 활용할 수 있게 정리했습니다.</p>
+        </details>
+    </main>
+
+    <script src="../shared/learning-enhancements.js"></script>
+</body>
+</html>

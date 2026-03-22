@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>말글 인베이더 | 한남대학교 국어문화원</title>
+    <meta name="description" content="외래어를 순화어로 말해 적을 격추하는 국어 학습 게임입니다." />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background: #0a0a1a;
+        color: #e8e8f0;
+        font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+        color: #a0e0ff;
+      }
+      .subtitle {
+        font-size: 0.78rem;
+        color: #7090a0;
+        margin-bottom: 14px;
+      }
+
+      #hud {
+        display: flex;
+        gap: 28px;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+        color: #c0d8e8;
+      }
+      #hud span { color: #a0e0ff; font-weight: bold; }
+
+      #canvas-wrap { position: relative; }
+
+      canvas {
+        display: block;
+        background: #0a0a1a;
+        border: 1px solid #1a3a5a;
+        border-radius: 4px;
+      }
+
+      /* overlay panels */
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(10,10,26,0.88);
+        border-radius: 4px;
+        gap: 14px;
+        padding: 24px;
+        text-align: center;
+      }
+      .overlay h2 { font-size: 1.5rem; color: #a0e0ff; }
+      .overlay p  { font-size: 0.88rem; color: #9ab0c0; line-height: 1.7; max-width: 340px; }
+      .overlay .score-big { font-size: 2rem; color: #ffd080; font-weight: bold; }
+
+      button {
+        background: #1a5080;
+        color: #e0f0ff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 28px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.15s;
+      }
+      button:hover { background: #2070a8; }
+
+      /* mic status bar */
+      #mic-bar {
+        margin-top: 10px;
+        width: 100%;
+        max-width: 520px;
+        min-height: 36px;
+        background: #0f1a28;
+        border: 1px solid #1a3a5a;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 14px;
+        font-size: 0.82rem;
+        color: #7090a0;
+      }
+      #mic-dot {
+        width: 10px; height: 10px;
+        border-radius: 50%;
+        background: #304050;
+        flex-shrink: 0;
+        transition: background 0.2s;
+      }
+      #mic-dot.active  { background: #40e080; box-shadow: 0 0 6px #40e080; }
+      #mic-dot.error   { background: #e04040; }
+      #mic-text { flex: 1; }
+
+      #word-prompt {
+        margin-top: 8px;
+        font-size: 1rem;
+        color: #ffd080;
+        min-height: 1.5em;
+        text-align: center;
+      }
+
+      .hidden { display: none !important; }
+
+      a.back {
+        margin-top: 18px;
+        font-size: 0.78rem;
+        color: #506070;
+        text-decoration: none;
+      }
+      a.back:hover { color: #90b0c0; }
+    </style>
+  </head>
+  <body>
+    <h1>말글 인베이더</h1>
+    <p class="subtitle">외래어를 보고 순화어를 목소리로 말해 적을 격추하세요!</p>
+
+    <div id="hud">
+      <div>점수: <span id="score-val">0</span></div>
+      <div>단계: <span id="level-val">1</span></div>
+      <div>생명: <span id="lives-val">❤️❤️❤️</span></div>
+    </div>
+
+    <div id="canvas-wrap">
+      <canvas id="canvas" width="520" height="480"></canvas>
+
+      <!-- START overlay -->
+      <div class="overlay" id="overlay-start">
+        <h2>말글 인베이더</h2>
+        <p>
+          화면에 나타나는 <strong style="color:#ffd080">외래어</strong>를 보고<br>
+          마이크에 대고 <strong style="color:#a0e0ff">순화어</strong>를 말하세요.<br>
+          맞추면 적이 격추됩니다!<br><br>
+          적이 아래까지 내려오거나 맞추지 못하면 생명이 줄어듭니다.
+        </p>
+        <button id="btn-start">시작하기</button>
+      </div>
+
+      <!-- GAME OVER overlay -->
+      <div class="overlay hidden" id="overlay-over">
+        <h2>게임 오버</h2>
+        <div class="score-big" id="final-score">0점</div>
+        <p id="over-msg"></p>
+        <button id="btn-retry">다시 하기</button>
+      </div>
+    </div>
+
+    <div id="mic-bar">
+      <div id="mic-dot"></div>
+      <span id="mic-text">시작 버튼을 누르면 마이크가 활성화됩니다.</span>
+    </div>
+    <div id="word-prompt"></div>
+
+    <a class="back" href="../index.html">← 프로그램 허브로 돌아가기</a>
+
+    <script>
+    (() => {
+      'use strict';
+
+      /* ── 어휘 목록 (외래어 → 순화어, 허용 동의어 포함) ── */
+      const VOCAB = [
+        { foreign: '리플',      answer: '댓글',       alt: [] },
+        { foreign: '노쇼',      answer: '예약부도',    alt: ['예약 부도'] },
+        { foreign: '셀카',      answer: '자기사진',    alt: ['자찍사', '자찍'] },
+        { foreign: '스펙',      answer: '역량',        alt: ['능력', '실력'] },
+        { foreign: '멘토',      answer: '길잡이',      alt: ['조언자'] },
+        { foreign: '컨텐츠',    answer: '콘텐츠',      alt: ['내용물', '내용'] },
+        { foreign: '블로그',    answer: '누리사랑방',  alt: [] },
+        { foreign: '팬덤',      answer: '팬층',        alt: ['열성팬'] },
+        { foreign: '트렌드',    answer: '유행',        alt: ['추세', '경향'] },
+        { foreign: '리뷰',      answer: '평',          alt: ['후기', '평가'] },
+        { foreign: '힐링',      answer: '치유',        alt: ['치료'] },
+        { foreign: '매뉴얼',    answer: '안내서',      alt: ['설명서', '지침서'] },
+        { foreign: '컨셉',      answer: '개념',        alt: ['콘셉트', '주제'] },
+        { foreign: '플랫폼',    answer: '토대',        alt: ['기반'] },
+        { foreign: '아이콘',    answer: '상징',        alt: ['상징물'] },
+        { foreign: '팩트',      answer: '사실',        alt: [] },
+        { foreign: '바우처',    answer: '이용권',      alt: [] },
+        { foreign: '클리셰',    answer: '상투적 표현', alt: ['진부한 표현'] },
+        { foreign: '오피스텔',  answer: '업무용 주거시설', alt: ['사무겸용주거시설'] },
+        { foreign: '인프라',    answer: '기반시설',    alt: ['기반 시설', '하부구조'] },
+        { foreign: '프리랜서',  answer: '자유계약자',  alt: ['자유직업자'] },
+        { foreign: '리더십',    answer: '지도력',      alt: [] },
+        { foreign: '네티즌',    answer: '누리꾼',      alt: [] },
+        { foreign: '누리집',    answer: '웹사이트',    alt: ['홈페이지'] },
+        { foreign: '이메일',    answer: '전자우편',    alt: ['전자 우편'] },
+        { foreign: '업로드',    answer: '올리기',      alt: ['올림'] },
+        { foreign: '다운로드',  answer: '내려받기',    alt: ['내려받음'] },
+        { foreign: '댁배',      answer: '택배',        alt: [] },
+        { foreign: '셔틀버스',  answer: '순환버스',    alt: ['순환 버스'] },
+        { foreign: '엔딩',      answer: '결말',        alt: ['마무리'] },
+      ];
+
+      /* ── 게임 상수 ── */
+      const W = 520, H = 480;
+      const INVADER_W = 110, INVADER_H = 42;
+      const COLS = 4;
+      const GAP_X = (W - COLS * INVADER_W) / (COLS + 1);
+      const START_Y = 30;
+      const MAX_LIVES = 3;
+      const BASE_SPEED = 28; // px/s (단계별 증가)
+
+      /* ── DOM ── */
+      const canvas   = document.getElementById('canvas');
+      const ctx      = canvas.getContext('2d');
+      const scoreEl  = document.getElementById('score-val');
+      const levelEl  = document.getElementById('level-val');
+      const livesEl  = document.getElementById('lives-val');
+      const micDot   = document.getElementById('mic-dot');
+      const micText  = document.getElementById('mic-text');
+      const wordPrompt = document.getElementById('word-prompt');
+      const overlayStart = document.getElementById('overlay-start');
+      const overlayOver  = document.getElementById('overlay-over');
+      const finalScoreEl = document.getElementById('final-score');
+      const overMsgEl    = document.getElementById('over-msg');
+
+      /* ── 상태 ── */
+      let invaders = [];
+      let score = 0, lives = MAX_LIVES, level = 1;
+      let raf = null;
+      let lastTime = 0;
+      let gameRunning = false;
+      let targetInvader = null;   // 현재 격추 대상
+      let recognition = null;
+      let recogActive = false;
+      let vocabPool = [];          // 남은 어휘 풀
+
+      /* ── STT ── */
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const hasSpeech = !!SpeechRec;
+
+      function initRecog() {
+        if (!hasSpeech) return;
+        recognition = new SpeechRec();
+        recognition.lang = 'ko-KR';
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onstart = () => {
+          recogActive = true;
+          micDot.className = 'active';
+          micText.textContent = '마이크 켜짐 — 순화어를 말해 보세요';
+        };
+        recognition.onend = () => {
+          recogActive = false;
+          micDot.className = '';
+          if (gameRunning) {
+            // 자동 재시작
+            setTimeout(() => { try { recognition.start(); } catch(e){} }, 200);
+          }
+        };
+        recognition.onerror = (e) => {
+          micDot.className = 'error';
+          micText.textContent = '마이크 오류: ' + e.error;
+        };
+        recognition.onresult = (e) => {
+          if (!gameRunning || !targetInvader) return;
+          let heard = '';
+          for (let i = e.resultIndex; i < e.results.length; i++) {
+            heard += e.results[i][0].transcript;
+          }
+          heard = heard.trim().replace(/\s+/g, '');
+          checkAnswer(heard);
+        };
+      }
+
+      function startRecog() {
+        if (!recognition) return;
+        if (recogActive) return;
+        try { recognition.start(); } catch(e) {}
+      }
+      function stopRecog() {
+        if (!recognition) return;
+        recogActive = false;
+        try { recognition.stop(); } catch(e) {}
+      }
+
+      /* ── TTS 피드백 ── */
+      function speak(text) {
+        if (!window.speechSynthesis) return;
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR';
+        u.rate = 1.1;
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(u);
+      }
+
+      /* ── 어휘 풀 관리 ── */
+      function refillPool() {
+        vocabPool = [...VOCAB].sort(() => Math.random() - 0.5);
+      }
+      function pickWord() {
+        if (vocabPool.length === 0) refillPool();
+        return vocabPool.pop();
+      }
+
+      /* ── 인베이더 생성 ── */
+      function makeInvader(col, row) {
+        const vocab = pickWord();
+        const x = GAP_X + col * (INVADER_W + GAP_X);
+        const y = START_Y + row * (INVADER_H + 12);
+        return {
+          x, y,
+          col, row,
+          vocab,
+          alive: true,
+          flash: 0,        // 격추 플래시 타이머
+          miss: 0,         // 놓침 플래시 타이머
+        };
+      }
+
+      function spawnWave() {
+        invaders = [];
+        const rows = Math.min(1 + Math.floor((level - 1) / 2), 3);
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < COLS; c++) {
+            invaders.push(makeInvader(c, r));
+          }
+        }
+        pickTarget();
+      }
+
+      function pickTarget() {
+        // 살아있는 인베이더 중 가장 아래(y 큰 것) → 가장 위협적인 것
+        const alive = invaders.filter(i => i.alive);
+        if (alive.length === 0) return;
+        alive.sort((a, b) => b.y - a.y);
+        targetInvader = alive[0];
+        wordPrompt.textContent = '▶ 순화어를 말하세요: ' + targetInvader.vocab.foreign + ' → ?';
+      }
+
+      /* ── 정답 판정 ── */
+      function normalize(s) {
+        return s.replace(/\s+/g, '').toLowerCase();
+      }
+
+      function checkAnswer(heard) {
+        if (!targetInvader || !targetInvader.alive) return;
+        const v = targetInvader.vocab;
+        const answers = [v.answer, ...v.alt].map(normalize);
+        const h = normalize(heard);
+        if (answers.some(a => h.includes(a) || a.includes(h))) {
+          // 정답
+          targetInvader.flash = 0.4; // 0.4초 흰색 플래시
+          setTimeout(() => {
+            if (targetInvader) targetInvader.alive = false;
+            score += 10 * level;
+            scoreEl.textContent = score;
+            speak('정답!');
+            micText.textContent = `"${v.foreign}" → "${v.answer}" 맞습니다!`;
+            targetInvader = null;
+            wordPrompt.textContent = '';
+            checkWaveClear();
+          }, 350);
+        }
+      }
+
+      function checkWaveClear() {
+        const alive = invaders.filter(i => i.alive);
+        if (alive.length === 0) {
+          level++;
+          levelEl.textContent = level;
+          speak('단계 클리어!');
+          setTimeout(spawnWave, 1200);
+        } else {
+          pickTarget();
+        }
+      }
+
+      /* ── 업데이트 ── */
+      function speed() {
+        return BASE_SPEED + (level - 1) * 8;
+      }
+
+      function update(dt) {
+        const sp = speed() * dt;
+        let lost = false;
+
+        for (const inv of invaders) {
+          if (!inv.alive) continue;
+          inv.y += sp;
+          if (inv.flash > 0) inv.flash -= dt;
+          if (inv.miss  > 0) inv.miss  -= dt;
+
+          if (inv.y + INVADER_H >= H - 20) {
+            // 바닥 도달 → 생명 감소
+            inv.alive = false;
+            lives = Math.max(0, lives - 1);
+            livesEl.textContent = '❤️'.repeat(lives) || '💀';
+            speak('놓쳤습니다');
+            micText.textContent = `"${inv.vocab.foreign}" → "${inv.vocab.answer}" 놓쳤습니다.`;
+            lost = true;
+          }
+        }
+
+        if (lost) {
+          if (lives <= 0) {
+            endGame();
+            return;
+          }
+          // 타겟 재선정
+          const wasTarget = targetInvader && !targetInvader.alive;
+          if (wasTarget) { targetInvader = null; wordPrompt.textContent = ''; }
+          checkWaveClear();
+        }
+      }
+
+      /* ── 렌더 ── */
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // 별 배경 (정적)
+        ctx.fillStyle = 'rgba(255,255,255,0.35)';
+        for (const s of stars) {
+          ctx.fillRect(s.x, s.y, s.r, s.r);
+        }
+
+        // 바닥선
+        ctx.strokeStyle = '#2a6090';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, H - 20);
+        ctx.lineTo(W, H - 20);
+        ctx.stroke();
+
+        // 인베이더
+        for (const inv of invaders) {
+          if (!inv.alive) continue;
+          const isTarget = inv === targetInvader;
+          const flashing = inv.flash > 0;
+
+          // 박스
+          ctx.fillStyle = flashing ? '#ffffff' : isTarget ? '#0a3060' : '#0d1a2a';
+          ctx.strokeStyle = flashing ? '#ffffff' : isTarget ? '#60c0ff' : '#1a4060';
+          ctx.lineWidth = isTarget ? 2 : 1;
+          roundRect(ctx, inv.x, inv.y, INVADER_W, INVADER_H, 6);
+
+          if (!flashing) {
+            // 외래어 텍스트
+            ctx.fillStyle = isTarget ? '#ffd080' : '#90b8d0';
+            ctx.font = `bold ${isTarget ? 15 : 13}px 'Malgun Gothic', sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(inv.vocab.foreign, inv.x + INVADER_W / 2, inv.y + INVADER_H / 2);
+          }
+        }
+
+        // 포탑 (플레이어)
+        drawCannon();
+      }
+
+      function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.arcTo(x + w, y, x + w, y + r, r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+        ctx.lineTo(x + r, y + h);
+        ctx.arcTo(x, y + h, x, y + h - r, r);
+        ctx.lineTo(x, y + r);
+        ctx.arcTo(x, y, x + r, y, r);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+      }
+
+      function drawCannon() {
+        const cx = W / 2, cy = H - 10;
+        ctx.fillStyle = '#40a0e0';
+        // 본체
+        ctx.fillRect(cx - 20, cy - 10, 40, 12);
+        // 포신
+        ctx.fillRect(cx - 5, cy - 22, 10, 16);
+      }
+
+      /* ── 별 배경 생성 ── */
+      const stars = Array.from({length: 60}, () => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() < 0.3 ? 2 : 1,
+      }));
+
+      /* ── 게임 루프 ── */
+      function loop(ts) {
+        if (!gameRunning) return;
+        const dt = Math.min((ts - lastTime) / 1000, 0.1);
+        lastTime = ts;
+        update(dt);
+        draw();
+        raf = requestAnimationFrame(loop);
+      }
+
+      /* ── 게임 시작 / 종료 ── */
+      function startGame() {
+        score = 0; lives = MAX_LIVES; level = 1;
+        scoreEl.textContent = '0';
+        levelEl.textContent = '1';
+        livesEl.textContent = '❤️'.repeat(MAX_LIVES);
+        wordPrompt.textContent = '';
+        refillPool();
+        spawnWave();
+
+        overlayStart.classList.add('hidden');
+        overlayOver.classList.add('hidden');
+
+        gameRunning = true;
+        lastTime = performance.now();
+        raf = requestAnimationFrame(loop);
+
+        if (hasSpeech) {
+          initRecog();
+          startRecog();
+        } else {
+          micDot.className = 'error';
+          micText.textContent = '이 브라우저는 음성 인식을 지원하지 않습니다.';
+        }
+      }
+
+      function endGame() {
+        gameRunning = false;
+        cancelAnimationFrame(raf);
+        stopRecog();
+        targetInvader = null;
+        wordPrompt.textContent = '';
+
+        finalScoreEl.textContent = score + '점';
+        overMsgEl.textContent = score >= 100
+          ? '훌륭합니다! 우리말 실력이 느는군요 😊'
+          : '아쉽네요. 다시 도전해 보세요!';
+        overlayOver.classList.remove('hidden');
+        micDot.className = '';
+        micText.textContent = '게임이 끝났습니다.';
+        speak('게임 오버. ' + score + '점입니다.');
+      }
+
+      /* ── 버튼 이벤트 ── */
+      document.getElementById('btn-start').addEventListener('click', startGame);
+      document.getElementById('btn-retry').addEventListener('click', () => {
+        overlayOver.classList.add('hidden');
+        startGame();
+      });
+
+      /* ── 초기 그리기 (타이틀 화면) ── */
+      draw();
+    })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+.claude/
+.tools/
+backup/
+**/node_modules/
+**/dist/
+*.log

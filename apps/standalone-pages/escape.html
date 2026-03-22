@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>🔐 한국어 탈출 게임</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #0d0d1a;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── Intro ── */
+        #introScreen {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: radial-gradient(ellipse at 50% 30%, #1e1040 0%, #0d0d1a 70%);
+            padding: 28px 20px;
+            text-align: center;
+        }
+        .title-glow { text-shadow: 0 0 24px #818cf8, 0 0 48px #6366f1; }
+
+        /* ── Stars bg ── */
+        .stars {
+            position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
+        }
+        .star {
+            position: absolute; background: white; border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.1; } 50% { opacity: 0.7; }
+        }
+
+        /* ── Game screen ── */
+        #gameScreen {
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 15% 40%, rgba(99,102,241,0.10) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 60%, rgba(239,68,68,0.07) 0%, transparent 55%),
+                linear-gradient(180deg, #111827 0%, #0d0d1a 100%);
+            padding: 16px 16px 32px;
+        }
+
+        /* ── Timer ── */
+        .timer-display {
+            font-family: 'Orbitron', monospace;
+            font-size: 30px; font-weight: 700;
+            color: #fbbf24;
+            text-shadow: 0 0 12px #fbbf24, 0 0 24px rgba(251,191,36,0.4);
+        }
+
+        /* ── Progress segments ── */
+        .seg {
+            height: 6px; border-radius: 3px;
+            flex: 1; background: #2d2d4e;
+            transition: background 0.5s;
+        }
+        .seg.done   { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+        .seg.active { background: #818cf8; box-shadow: 0 0 6px #818cf8; animation: seg-pulse 1.5s ease-in-out infinite; }
+        @keyframes seg-pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+
+        /* ── Lock panels ── */
+        .lock-panel {
+            border-radius: 18px; padding: 18px 12px;
+            cursor: pointer; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+            user-select: none; -webkit-tap-highlight-color: transparent;
+            text-align: center;
+        }
+        .lp-inactive {
+            background: #161625; border: 2px solid #2d2d45;
+            opacity: 0.45; cursor: not-allowed;
+        }
+        .lp-active {
+            background: linear-gradient(145deg, #1e1e38 0%, #252548 100%);
+            border: 2px solid #6366f1;
+            box-shadow: 0 0 22px rgba(99,102,241,0.35), inset 0 0 22px rgba(99,102,241,0.07);
+            animation: lp-pulse 2s ease-in-out infinite;
+        }
+        @keyframes lp-pulse {
+            0%,100% { box-shadow: 0 0 22px rgba(99,102,241,0.35), inset 0 0 22px rgba(99,102,241,0.07); }
+            50%      { box-shadow: 0 0 36px rgba(99,102,241,0.55), inset 0 0 36px rgba(99,102,241,0.14); }
+        }
+        .lp-active:active { transform: scale(0.97); }
+        .lp-done {
+            background: linear-gradient(145deg, #052e16 0%, #14532d 100%);
+            border: 2px solid #22c55e;
+            box-shadow: 0 0 18px rgba(34,197,94,0.30);
+            cursor: default; opacity: 1;
+        }
+        @keyframes unlock-pop {
+            0%  { transform: scale(1); }
+            35% { transform: scale(1.09); }
+            65% { transform: scale(0.97); }
+            100%{ transform: scale(1); }
+        }
+        .unlock-anim { animation: unlock-pop 0.5s ease-out; }
+
+        /* ── Atmosphere bar ── */
+        .atmo-bar {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 9px 16px;
+            font-size: 12px; color: #94a3b8;
+            text-align: center; margin-bottom: 18px;
+        }
+
+        /* ── Modal ── */
+        #lockModal {
+            position: fixed; inset: 0; z-index: 200;
+            display: flex; align-items: flex-end; justify-content: center;
+            background: rgba(0,0,0,0.80);
+            backdrop-filter: blur(5px);
+        }
+        .modal-sheet {
+            background: #13131f;
+            border: 1px solid #2d2d4e;
+            border-radius: 26px 26px 0 0;
+            border-bottom: none;
+            width: 100%; max-width: 500px;
+            padding: 22px 18px 40px;
+            max-height: 92vh; overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ── Rec button ── */
+        .rec-btn {
+            width: 82px; height: 82px; border-radius: 50%;
+            border: none; cursor: pointer;
+            font-size: 30px;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .rec-idle {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            box-shadow: 0 4px 24px rgba(99,102,241,0.55);
+        }
+        .rec-idle:active { transform: scale(0.94); }
+        .rec-on {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 24px rgba(239,68,68,0.65);
+            animation: rec-glow 1s ease-in-out infinite;
+        }
+        @keyframes rec-glow {
+            0%,100% { box-shadow: 0 4px 24px rgba(239,68,68,0.65); }
+            50%      { box-shadow: 0 4px 40px rgba(239,68,68,0.95); }
+        }
+
+        /* ── Wave bars ── */
+        .wbar {
+            width: 4px; border-radius: 2px; background: #818cf8;
+            animation: wv 0.55s ease-in-out infinite alternate;
+        }
+        @keyframes wv { from { height:5px; } to { height:26px; } }
+
+        /* ══ TERMINAL / SCANNER RESULT UI ══════════════════════════════════ */
+
+        /* 터미널 패널 외곽 */
+        .terminal-panel {
+            background: #020c06;
+            border: 1px solid #00cc66;
+            border-radius: 10px;
+            padding: 16px 14px;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        /* 스캔 라인 — 패널 등장 시 한 번만 훑고 사라짐 */
+        .terminal-panel::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #00ff88 50%, transparent 100%);
+            animation: scanline 1.6s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes scanline {
+            0%   { top: 0%;   opacity: 1; }
+            85%  { opacity: 0.8; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* MATCH % 숫자 */
+        .match-pct {
+            font-family: 'Orbitron', monospace;
+            font-size: 54px; font-weight: 700;
+            line-height: 1;
+            text-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+        }
+
+        /* 음절 행 */
+        .phoneme-row {
+            display: flex; align-items: center; gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0,255,136,0.07);
+        }
+        .phoneme-track {
+            flex: 1; height: 7px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 3px; overflow: hidden;
+        }
+        .phoneme-fill {
+            height: 100%; border-radius: 3px;
+            width: 0%; transition: width 0.75s ease;
+        }
+
+        /* ACCESS GRANTED / DENIED 배너 */
+        .status-banner {
+            border-radius: 7px; padding: 11px 14px;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700; letter-spacing: 2px;
+            font-size: 13px;
+        }
+        .status-granted {
+            background: rgba(0,255,136,0.07);
+            border: 1px solid #00cc66;
+            color: #00ff88;
+            text-shadow: 0 0 12px #00ff88;
+            animation: granted-pop 0.45s ease-out;
+        }
+        .status-denied {
+            background: rgba(255,68,68,0.07);
+            border: 1px solid #cc3333;
+            color: #ff5555;
+            text-shadow: 0 0 12px #ff5555;
+            animation: denied-shake 0.35s ease-out;
+        }
+        @keyframes granted-pop {
+            0%  { transform: scale(0.93); opacity: 0; }
+            60% { transform: scale(1.04); }
+            100%{ transform: scale(1);    opacity: 1; }
+        }
+        @keyframes denied-shake {
+            0%,100% { transform: translateX(0); }
+            25%     { transform: translateX(-5px); }
+            75%     { transform: translateX(5px); }
+        }
+
+        /* 터미널 버튼 */
+        .btn-pass {
+            width: 100%;
+            background: transparent;
+            border: 1px solid #00cc66;
+            color: #00ff88;
+            font-size: 13px; font-weight: 700;
+            padding: 13px; border-radius: 7px;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.2s;
+            text-shadow: 0 0 8px #00ff88;
+            box-shadow: 0 0 10px rgba(0,255,136,0.15), inset 0 0 10px rgba(0,255,136,0.05);
+        }
+        .btn-pass:active { background: rgba(0,255,136,0.12); }
+
+        .btn-retry, .btn-hint {
+            flex: 1; font-size: 12px; font-weight: 700;
+            padding: 11px 8px; border-radius: 7px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+        }
+        .btn-retry {
+            background: transparent; color: #94a3b8;
+            border: 1px solid #334155;
+        }
+        .btn-retry:active { background: rgba(148,163,184,0.08); }
+        .btn-hint {
+            background: transparent; color: #818cf8;
+            border: 1px solid #3730a3;
+            text-shadow: 0 0 8px #818cf8;
+        }
+        .btn-hint:active { background: rgba(129,140,248,0.08); }
+
+        /* ── Hint box ── */
+        .hint-box {
+            background: #070d14; border: 1px solid #1e3a5f;
+            border-radius: 8px; padding: 12px 14px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ── Success screen ── */
+        #successScreen {
+            position: fixed; inset: 0; z-index: 300;
+            background: radial-gradient(ellipse at 50% 40%, #052e16 0%, #0d0d1a 100%);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 28px; overflow-y: auto;
+        }
+        .confetti-el {
+            position: fixed; border-radius: 2px;
+            animation: cffall linear infinite;
+        }
+        @keyframes cffall {
+            0%   { transform: translateY(-80px) rotate(0deg);   opacity:1; }
+            100% { transform: translateY(105vh) rotate(540deg); opacity:0; }
+        }
+        @keyframes bounce-in {
+            0%  { transform: scale(0);    opacity:0; }
+            60% { transform: scale(1.18); }
+            100%{ transform: scale(1);    opacity:1; }
+        }
+        .bounce-in { animation: bounce-in 0.65s ease-out; }
+
+        /* ── Tap bounce ── */
+        @keyframes bounce-y {
+            0%,100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+        .tap-bounce { animation: bounce-y 0.9s ease-in-out infinite; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<!-- ★ Stars background ─────────────────────────────────────────────────────── -->
+<div class="stars" id="starsBg"></div>
+
+<!-- ═══ INTRO ════════════════════════════════════════════════════════════════ -->
+<div id="introScreen" style="position:relative;z-index:1">
+
+    <div style="font-size:80px;margin-bottom:12px;filter:drop-shadow(0 0 28px #818cf8)">🔐</div>
+    <h1 class="title-glow" style="font-size:30px;font-weight:900;margin:0 0 4px">한국어 탈출 게임</h1>
+    <p style="color:#818cf8;font-size:14px;margin:0 0 28px">Trò Chơi Trốn Thoát Tiếng Hàn</p>
+
+    <!-- Rules -->
+    <div style="background:rgba(255,255,255,0.04);border:1px solid #2d2d4e;border-radius:20px;padding:20px;max-width:340px;width:100%;margin-bottom:28px;text-align:left">
+        <p style="font-weight:700;font-size:14px;margin:0 0 12px;color:#c4b5fd">📖 게임 방법 / Cách chơi</p>
+        <div style="font-size:12.5px;color:#94a3b8;line-height:1.85">
+            <p style="margin:0">🔒 잠금장치 4개를 모두 열면 탈출 성공!</p>
+            <p style="margin:0;font-size:11px;color:#4c4c6e">Mở khóa 4 ổ khóa để thoát!</p>
+            <p style="margin:6px 0 0">🎤 목표 문장을 한국어로 말하세요</p>
+            <p style="margin:0;font-size:11px;color:#4c4c6e">Nói câu mục tiêu bằng tiếng Hàn</p>
+            <p style="margin:6px 0 0">⚡ 65점 이상이면 잠금 해제!</p>
+            <p style="margin:0;font-size:11px;color:#4c4c6e">Đạt 65 điểm trở lên là mở khóa!</p>
+            <p style="margin:6px 0 0">💡 어려우면 힌트를 확인하세요</p>
+            <p style="margin:0;font-size:11px;color:#4c4c6e">Nếu khó, hãy xem gợi ý!</p>
+        </div>
+    </div>
+
+    <button onclick="startGame()"
+        style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;color:white;
+               font-size:18px;font-weight:900;padding:16px 52px;border-radius:50px;
+               cursor:pointer;box-shadow:0 4px 32px rgba(99,102,241,0.55);
+               font-family:inherit;-webkit-tap-highlight-color:transparent">
+        🚀 탈출 시작! / Bắt Đầu!
+    </button>
+
+    <p id="browserWarn" class="hidden"
+       style="color:#ef4444;font-size:12px;margin-top:18px;max-width:300px">
+        ⚠️ 이 브라우저는 음성 인식을 지원하지 않아요.<br>
+        Chrome 또는 Safari를 사용해 주세요.
+    </p>
+</div>
+
+<!-- ═══ GAME SCREEN ══════════════════════════════════════════════════════════ -->
+<div id="gameScreen" class="hidden" style="position:relative;z-index:1">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div>
+            <div class="timer-display" id="timerDisplay">00:00</div>
+            <div style="font-size:10px;color:#4c4c6e;margin-top:2px">탈출 시간</div>
+        </div>
+        <div style="text-align:center">
+            <div style="font-size:12px;font-weight:700;color:#c4b5fd;margin-bottom:5px" id="progressLabel">0 / 4 해제</div>
+            <div style="display:flex;gap:5px;width:108px">
+                <div class="seg" id="seg0"></div>
+                <div class="seg" id="seg1"></div>
+                <div class="seg" id="seg2"></div>
+                <div class="seg" id="seg3"></div>
+            </div>
+        </div>
+        <div style="text-align:right">
+            <div style="font-size:26px" id="charEmoji">😰</div>
+            <div style="font-size:10px;color:#4c4c6e">나 / Tôi</div>
+        </div>
+    </div>
+
+    <!-- Atmosphere -->
+    <div class="atmo-bar" id="atmoText">한국어 교실에 갇혔어요! 탈출하세요! 😱</div>
+
+    <!-- Lock panels (2×2) -->
+    <div id="lockGrid"
+         style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:480px;margin:0 auto 20px">
+    </div>
+
+    <!-- Tap hint -->
+    <div class="tap-bounce" id="tapHint"
+         style="text-align:center;font-size:11.5px;color:#3d3d5c;margin-top:4px">
+        👆 잠금장치를 눌러서 말하세요 / Nhấn ổ khóa để nói
+    </div>
+</div>
+
+<!-- ═══ LOCK MODAL ═══════════════════════════════════════════════════════════ -->
+<div id="lockModal" class="hidden" style="z-index:200">
+    <div class="modal-sheet">
+
+        <!-- Modal header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+            <div>
+                <div style="font-size:10px;color:#818cf8;font-weight:700;letter-spacing:1.2px" id="mLockNum">잠금장치 1 / 4</div>
+                <div style="font-size:19px;font-weight:900" id="mLockName">경보 해제</div>
+            </div>
+            <button onclick="closeModal()"
+                    style="background:#1e1e38;border:1px solid #2d2d4e;color:#64748b;
+                           width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:15px;
+                           display:flex;align-items:center;justify-content:center">✕</button>
+        </div>
+
+        <!-- Scene -->
+        <div style="background:#0c0c1a;border:1px solid #1e1e38;border-radius:14px;padding:13px 14px;margin-bottom:18px">
+            <div style="font-size:10px;color:#475569;margin-bottom:4px">📍 상황 / Tình huống</div>
+            <div style="font-size:13.5px;font-weight:700;color:#e2e8f0" id="mScene"></div>
+            <div style="font-size:11px;color:#334155;margin-top:3px" id="mSceneVi"></div>
+        </div>
+
+        <!-- Target sentence -->
+        <div style="background:#1a1635;border:2px solid #6366f1;border-radius:14px;padding:16px;margin-bottom:22px;text-align:center">
+            <div style="font-size:10px;color:#818cf8;margin-bottom:6px" id="mPrompt">이렇게 말해 보세요:</div>
+            <div style="font-size:19px;font-weight:900;color:#f1f5f9;line-height:1.55" id="mTarget"></div>
+            <button onclick="speakTarget()"
+                    style="margin-top:9px;background:none;border:1px solid #2d2d4e;
+                           color:#818cf8;font-size:11px;padding:4px 14px;
+                           border-radius:20px;cursor:pointer;font-family:inherit">
+                🔊 듣기 / Nghe
+            </button>
+        </div>
+
+        <!-- Recording area -->
+        <div id="recordArea" style="text-align:center">
+            <!-- Waveform -->
+            <div id="waveform" style="display:flex;justify-content:center;align-items:center;
+                                      gap:4px;height:34px;margin-bottom:12px;visibility:hidden">
+                <div class="wbar" style="animation-delay:0s"></div>
+                <div class="wbar" style="animation-delay:0.08s"></div>
+                <div class="wbar" style="animation-delay:0.16s"></div>
+                <div class="wbar" style="animation-delay:0.24s"></div>
+                <div class="wbar" style="animation-delay:0.32s"></div>
+                <div class="wbar" style="animation-delay:0.40s"></div>
+                <div class="wbar" style="animation-delay:0.48s"></div>
+            </div>
+
+            <!-- Mic button -->
+            <button class="rec-btn rec-idle" id="recBtn" onclick="toggleRecording()">
+                <i class="fa-solid fa-microphone" id="recIcon"></i>
+            </button>
+
+            <div style="font-size:12px;color:#64748b;margin-top:10px" id="recStatus">
+                눌러서 말하기 / Nhấn để nói
+            </div>
+
+            <!-- Recognized text -->
+            <div id="recBox" style="display:none;min-height:34px;margin-top:10px;
+                                    font-size:13px;color:#cbd5e1;background:#0c0c1a;
+                                    border:1px solid #1e1e38;border-radius:10px;padding:8px 12px">
+                <span id="recText"></span>
+            </div>
+        </div>
+
+        <!-- Result area (hidden until analyzed) -->
+        <div id="resultArea" class="hidden"></div>
+
+        <!-- Hint area (hidden until needed) -->
+        <div id="hintArea" class="hidden" style="margin-top:14px">
+            <div class="hint-box">
+                <div style="font-size:8px;letter-spacing:2px;color:#2563eb;margin-bottom:8px">
+                    &gt; HINT_DATA.log ─────────────────────────</div>
+                <div style="font-size:11.5px;color:#93c5fd;line-height:1.85;white-space:pre-line"
+                     id="hintKo"></div>
+                <div style="margin-top:8px;padding-top:8px;border-top:1px solid #1e3a5f;
+                            font-size:10.5px;color:#3b5f8a;line-height:1.7;white-space:pre-line"
+                     id="hintVi"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ═══ SUCCESS SCREEN ═══════════════════════════════════════════════════════ -->
+<div id="successScreen" class="hidden" style="position:relative;z-index:300">
+    <div id="confettiWrap" style="position:fixed;inset:0;pointer-events:none"></div>
+
+    <div class="bounce-in" style="position:relative;z-index:1">
+        <div style="font-size:88px;margin-bottom:14px">🎉</div>
+        <h1 style="font-size:30px;font-weight:900;color:#22c55e;
+                   text-shadow:0 0 24px #22c55e;margin:0 0 6px">탈출 성공!</h1>
+        <p style="color:#86efac;font-size:15px;margin:0 0 30px">Thoát thành công! 🏃‍♂️💨</p>
+
+        <!-- Time box -->
+        <div style="background:#052e16;border:1px solid #166534;border-radius:20px;
+                    padding:22px 32px;margin-bottom:22px">
+            <div style="font-size:12px;color:#86efac;margin-bottom:6px">⏱️ 탈출 시간 / Thời gian thoát</div>
+            <div style="font-family:'Orbitron',monospace;font-size:44px;font-weight:700;
+                        color:#22c55e;text-shadow:0 0 24px #22c55e" id="finalTime">00:00</div>
+        </div>
+
+        <!-- Summary log -->
+        <div style="background:rgba(255,255,255,0.04);border:1px solid #1e2d20;
+                    border-radius:16px;padding:16px;margin-bottom:28px;
+                    min-width:260px;max-width:340px;width:100%;text-align:left">
+            <div style="font-size:11.5px;color:#94a3b8;font-weight:700;margin-bottom:10px">
+                📊 잠금장치별 점수 / Điểm từng ổ khóa
+            </div>
+            <div id="summaryLog"></div>
+        </div>
+
+        <button onclick="restartGame()"
+            style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;color:white;
+                   font-size:16px;font-weight:900;padding:14px 44px;border-radius:50px;
+                   cursor:pointer;box-shadow:0 4px 24px rgba(99,102,241,0.55);
+                   font-family:inherit;-webkit-tap-highlight-color:transparent;margin-bottom:12px">
+            🔄 다시 도전! / Chơi Lại!
+        </button>
+        <br>
+                                <a href="../index.html"
+           style="color:#4c4c6e;font-size:12px;text-decoration:none">← 프로그램 허브 / Trang chương trình</a>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SCRIPT
+════════════════════════════════════════════════════════════════════════════ -->
+<script>
+// ─── 콘텐츠 ──────────────────────────────────────────────────────────────────
+const LOCKS = [
+    {
+        id: 1, icon: '🚨',
+        name: '경보 해제', namevi: 'Tắt Báo Động',
+        scene: '한국어 교실에 갇혔어요! 비상 경보가 울리고 있어요.',
+        scenevi: 'Bạn bị mắc kẹt trong lớp tiếng Hàn! Còi báo động đang kêu.',
+        prompt: '경보 시스템 마이크에 대고 외쳐 보세요:',
+        promptvi: 'Nói vào micro hệ thống báo động:',
+        target: '도와주세요 문이 안 열려요',
+        display: '도와주세요! 문이 안 열려요.',
+        hintKo: '• "도와주세요" = "Help me!" (도와 + 주세요: please help)\n• "안 + 동사" = 부정 → "안 열려요" = "It doesn\'t open"',
+        hintVi: '• "도와주세요" = "Xin giúp tôi!"\n• "안 열려요" = "Không mở được"\n• 안 + động từ = phủ định',
+    },
+    {
+        id: 2, icon: '💡',
+        name: '전등 켜기', namevi: 'Bật Đèn',
+        scene: '갑자기 불이 꺼졌어요. 너무 어두워서 아무것도 보이지 않아요!',
+        scenevi: 'Đèn đột nhiên tắt. Tối quá, không thấy gì cả!',
+        prompt: '관리실에 전화해서 부탁해 보세요:',
+        promptvi: 'Gọi điện phòng quản lý và nhờ giúp đỡ:',
+        target: '불을 켜 줄 수 있어요 너무 어두워요',
+        display: '불을 켜 줄 수 있어요? 너무 어두워요.',
+        hintKo: '• "불을 켜다" = "to turn on the light"\n• "-아/어 줄 수 있어요?" = "Can you do ~ for me?"\n• 부탁할 때 많이 써요!',
+        hintVi: '• "불" = đèn, "켜다" = bật\n• "-아/어 줄 수 있어요?" = "Bạn có thể ... cho tôi không?"\n• Dùng để nhờ vả lịch sự!',
+    },
+    {
+        id: 3, icon: '📞',
+        name: '구조 요청', namevi: 'Gọi Cứu Trợ',
+        scene: '오래된 전화기를 찾았어요! 119에 전화해서 구조를 요청하세요!',
+        scenevi: 'Tìm thấy điện thoại cũ rồi! Gọi 119 để xin cứu trợ!',
+        prompt: '119 소방서에 신고해 보세요:',
+        promptvi: 'Gọi điện báo cho 119:',
+        target: '여기 한국어 교실에 갇혔어요 빨리 와 주세요',
+        display: '여기 한국어 교실에 갇혔어요! 빨리 와 주세요!',
+        hintKo: '• "갇히다" → "갇혔어요" = "I am trapped" (피동 + 과거)\n• "빨리" = quickly\n• "와 주세요" = "Please come" (오다 + 주세요)',
+        hintVi: '• "갇혔어요" = "Tôi bị mắc kẹt"\n• "빨리" = nhanh lên\n• "와 주세요" = "Hãy đến giúp tôi"',
+    },
+    {
+        id: 4, icon: '🏃',
+        name: '최종 탈출', namevi: 'Thoát Ra Ngoài',
+        scene: '구조대가 도착했어요! 문이 열렸어요! 탈출하기 전에 감사 인사를!',
+        scenevi: 'Đội cứu hộ đến rồi! Cửa mở rồi! Hãy cảm ơn trước khi thoát!',
+        prompt: '구조대원에게 감사 인사를 해 보세요:',
+        promptvi: 'Nói lời cảm ơn đội cứu hộ:',
+        target: '감사합니다 덕분에 살았어요 정말 다행이에요',
+        display: '감사합니다! 덕분에 살았어요. 정말 다행이에요.',
+        hintKo: '• "덕분에" = "thanks to you / thanks to ~"\n• "살았어요" = "I survived / I\'m alive!" (살다 과거)\n• "다행이에요" = "What a relief!"',
+        hintVi: '• "덕분에" = "nhờ có bạn / nhờ có ~"\n• "살았어요" = "Tôi sống rồi!"\n• "다행이에요" = "Thật may mắn!"',
+    },
+];
+
+const PASS = 65;
+const CHAR_EMOJIS   = ['😰', '😟', '😮', '😊', '🥳'];
+const ATMO_TEXTS    = [
+    '한국어 교실에 갇혔어요! 탈출하세요! 😱',
+    '1개 해제 완료! 계속 탈출해요! 💪',
+    '절반 성공! 포기하지 마세요! 🔥',
+    '마지막 잠금장치! 조금만 더! ⚡',
+    '탈출 완료! 대단해요! 🎉',
+];
+
+// ─── 상태 ─────────────────────────────────────────────────────────────────
+let timerSec      = 0;
+let timerInterval = null;
+let unlocked      = 0;
+let curIdx        = null;   // 0-based
+let isRecording   = false;
+let recognition   = null;
+let lockBest      = [null, null, null, null];  // best score per lock
+let totalAttempts = 0;
+
+// ─── 초기화 ───────────────────────────────────────────────────────────────
+window.onload = () => {
+    generateStars();
+    if (!window.SpeechRecognition && !window.webkitSpeechRecognition)
+        document.getElementById('browserWarn').classList.remove('hidden');
+    speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+};
+
+function generateStars() {
+    const sb = document.getElementById('starsBg');
+    for (let i = 0; i < 80; i++) {
+        const s = document.createElement('div');
+        const size = Math.random() * 2.5 + 0.5;
+        s.className = 'star';
+        s.style.cssText = `
+            left:${Math.random()*100}%; top:${Math.random()*100}%;
+            width:${size}px; height:${size}px;
+            animation-duration:${2+Math.random()*4}s;
+            animation-delay:${Math.random()*4}s;
+        `;
+        sb.appendChild(s);
+    }
+}
+
+// ─── 게임 시작 ────────────────────────────────────────────────────────────
+function startGame() {
+    document.getElementById('introScreen').classList.add('hidden');
+    document.getElementById('gameScreen').classList.remove('hidden');
+    timerSec = 0; unlocked = 0; curIdx = null; isRecording = false;
+    lockBest = [null, null, null, null]; totalAttempts = 0;
+    renderGrid();
+    updateProgress();
+    updateAtmo();
+    timerInterval = setInterval(() => {
+        timerSec++;
+        const m = String(Math.floor(timerSec/60)).padStart(2,'0');
+        const s = String(timerSec%60).padStart(2,'0');
+        document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+    }, 1000);
+}
+
+function restartGame() {
+    clearInterval(timerInterval); timerInterval = null;
+    document.getElementById('successScreen').classList.add('hidden');
+    startGame();
+}
+
+// ─── 그리드 ───────────────────────────────────────────────────────────────
+function renderGrid() {
+    const grid = document.getElementById('lockGrid');
+    grid.innerHTML = LOCKS.map((lock, i) => {
+        const isDone   = i < unlocked;
+        const isActive = i === unlocked;
+        const cls      = isDone ? 'lp-done' : isActive ? 'lp-active' : 'lp-inactive';
+        const stIcon   = isDone ? '✅' : isActive ? '🔓' : '🔒';
+        const nameCol  = isDone ? '#22c55e' : isActive ? '#e2e8f0' : '#3d3d5c';
+        const numCol   = isDone ? '#86efac' : isActive ? '#818cf8' : '#2d2d45';
+        const click    = isActive ? `onclick="openModal(${i})"` : '';
+        const bestHtml = lockBest[i] !== null
+            ? `<div style="font-size:11px;font-weight:700;color:#22c55e;margin-top:5px">${lockBest[i]}점</div>`
+            : '';
+        return `
+        <div class="lock-panel ${cls}" id="panel-${i}" ${click}>
+            <div style="font-size:38px;margin-bottom:6px">${lock.icon}</div>
+            <div style="font-size:9.5px;font-weight:700;letter-spacing:1px;color:${numCol};margin-bottom:2px">
+                LOCK ${lock.id} ${stIcon}
+            </div>
+            <div style="font-size:13.5px;font-weight:900;color:${nameCol}">${lock.name}</div>
+            <div style="font-size:10px;color:${isDone?'#16a34a':isActive?'#4c4c6e':'#1e1e38'};margin-top:2px">${lock.namevi}</div>
+            ${bestHtml}
+        </div>`;
+    }).join('');
+}
+
+function updateProgress() {
+    document.getElementById('progressLabel').textContent = `${unlocked} / 4 해제`;
+    for (let i = 0; i < 4; i++) {
+        const seg = document.getElementById('seg'+i);
+        if (!seg) continue;
+        seg.className = 'seg' + (i < unlocked ? ' done' : i === unlocked ? ' active' : '');
+    }
+}
+
+function updateAtmo() {
+    document.getElementById('charEmoji').textContent = CHAR_EMOJIS[unlocked];
+    document.getElementById('atmoText').textContent  = ATMO_TEXTS[unlocked];
+    if (unlocked >= 4) document.getElementById('tapHint').classList.add('hidden');
+}
+
+// ─── 모달 ─────────────────────────────────────────────────────────────────
+function openModal(idx) {
+    curIdx = idx;
+    const lock = LOCKS[idx];
+    document.getElementById('mLockNum').textContent = `잠금장치 ${lock.id} / 4`;
+    document.getElementById('mLockName').textContent = lock.name;
+    document.getElementById('mScene').textContent   = lock.scene;
+    document.getElementById('mSceneVi').textContent = lock.scenevi;
+    document.getElementById('mPrompt').textContent  = lock.prompt;
+    document.getElementById('mTarget').textContent  = lock.display;
+    document.getElementById('hintKo').textContent   = lock.hintKo;
+    document.getElementById('hintVi').textContent   = lock.hintVi;
+    // reset panels
+    document.getElementById('resultArea').classList.add('hidden');
+    document.getElementById('resultArea').innerHTML = '';
+    document.getElementById('hintArea').classList.add('hidden');
+    document.getElementById('recordArea').style.display = 'block';
+    document.getElementById('recBox').style.display = 'none';
+    resetRecUI();
+    document.getElementById('lockModal').classList.remove('hidden');
+}
+
+function closeModal() {
+    if (isRecording) stopRecording();
+    document.getElementById('lockModal').classList.add('hidden');
+    curIdx = null;
+}
+
+// ─── TTS ──────────────────────────────────────────────────────────────────
+function speakTarget() {
+    if (curIdx === null) return;
+    const utt = new SpeechSynthesisUtterance(LOCKS[curIdx].display);
+    utt.lang = 'ko-KR'; utt.rate = 0.82;
+    const v = speechSynthesis.getVoices().find(v => v.lang.startsWith('ko'));
+    if (v) utt.voice = v;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(utt);
+}
+
+// ─── STT ──────────────────────────────────────────────────────────────────
+function toggleRecording() { isRecording ? stopRecording() : startRecording(); }
+
+function startRecording() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR || curIdx === null) return;
+
+    let finalReceived = false;
+    let restarts = 0;
+    const MAX_R = 5;
+
+    // Immediate UI
+    isRecording = true;
+    document.getElementById('recBtn').className  = 'rec-btn rec-on';
+    document.getElementById('recIcon').className = 'fa-solid fa-stop';
+    document.getElementById('recStatus').textContent  = '● 녹음 중 / Đang ghi âm...';
+    document.getElementById('recStatus').style.color  = '#ef4444';
+    document.getElementById('waveform').style.visibility = 'visible';
+    document.getElementById('recBox').style.display   = 'block';
+    document.getElementById('recText').textContent    = '인식 중... / Đang nhận dạng...';
+
+    function startSR() {
+        recognition = new SR();
+        recognition.lang = 'ko-KR';
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 3;
+
+        recognition.onstart = () => { isRecording = true; };
+
+        recognition.onresult = (e) => {
+            let interim = '', finalSpoken = '';
+            for (let i = e.resultIndex; i < e.results.length; i++) {
+                if (e.results[i].isFinal) {
+                    const tgt = norm(LOCKS[curIdx].target);
+                    let best = e.results[i][0].transcript;
+                    let bSc  = jamoAnalyze(norm(best), tgt).score;
+                    for (let a = 1; a < e.results[i].length; a++) {
+                        const alt = e.results[i][a].transcript;
+                        const s   = jamoAnalyze(norm(alt), tgt).score;
+                        if (s > bSc) { bSc = s; best = alt; }
+                    }
+                    finalSpoken += best;
+                } else { interim += e.results[i][0].transcript; }
+            }
+            document.getElementById('recText').textContent = finalSpoken || interim || '—';
+            if (finalSpoken) {
+                finalReceived = true;
+                stopRecording();
+                analyzeResult(finalSpoken.trim());
+            }
+        };
+
+        recognition.onerror = (e) => {
+            if (e.error === 'no-speech' && isRecording && restarts < MAX_R) {
+                restarts++;
+                setTimeout(() => { if (isRecording) startSR(); }, 200);
+                return;
+            }
+            stopRecording();
+            document.getElementById('recStatus').textContent = '인식 오류. 다시 눌러 주세요.';
+            document.getElementById('recStatus').style.color = '#f59e0b';
+        };
+
+        recognition.onend = () => {
+            if (!isRecording) return;
+            if (!finalReceived && restarts < MAX_R) {
+                restarts++;
+                setTimeout(() => { if (isRecording) startSR(); }, 200);
+            } else { stopRecording(); }
+        };
+
+        try { recognition.start(); } catch(e) { stopRecording(); }
+    }
+    startSR();
+}
+
+function stopRecording() {
+    isRecording = false;
+    if (recognition) { try { recognition.stop(); } catch(e){} }
+    const btn = document.getElementById('recBtn');
+    if (btn) btn.className = 'rec-btn rec-idle';
+    const ic = document.getElementById('recIcon');
+    if (ic) ic.className = 'fa-solid fa-microphone';
+    const wf = document.getElementById('waveform');
+    if (wf) wf.style.visibility = 'hidden';
+    const rs = document.getElementById('recStatus');
+    if (rs) { rs.textContent = '분석 중... / Đang phân tích...'; rs.style.color = '#94a3b8'; }
+}
+
+function resetRecUI() {
+    isRecording = false;
+    if (recognition) { try { recognition.stop(); } catch(e){} }
+    const btn = document.getElementById('recBtn');
+    if (btn) { btn.className = 'rec-btn rec-idle';
+                document.getElementById('recIcon').className = 'fa-solid fa-microphone'; }
+    const wf = document.getElementById('waveform');
+    if (wf) wf.style.visibility = 'hidden';
+    const rs = document.getElementById('recStatus');
+    if (rs) { rs.textContent = '눌러서 말하기 / Nhấn để nói'; rs.style.color = '#64748b'; }
+}
+
+// ─── 분석 엔진 ────────────────────────────────────────────────────────────
+function norm(s) { return s.replace(/[\s.,!?。]/g,''); }
+
+function lcs(a, b) {
+    const m = a.length, n = b.length;
+    const dp = Array.from({length:m+1}, () => new Array(n+1).fill(0));
+    for (let i = 1; i <= m; i++)
+        for (let j = 1; j <= n; j++)
+            dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j], dp[i][j-1]);
+    return dp[m][n];
+}
+
+function decomposeHangul(str) {
+    const CHO  = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+    const JUNG = 'ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ';
+    const JONG = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+    let out = '';
+    for (const ch of str) {
+        const c = ch.charCodeAt(0);
+        if (c >= 0xAC00 && c <= 0xD7A3) {
+            const off = c - 0xAC00, j = off % 28;
+            const jg  = ((off-j)/28) % 21;
+            const c2  = Math.floor((off-j)/28/21);
+            out += CHO[c2] + JUNG[jg] + (j ? JONG[j] : '');
+        } else { out += ch; }
+    }
+    return out;
+}
+
+function jamoAnalyze(spokenN, target) {
+    const jt = decomposeHangul(target), js = decomposeHangul(spokenN);
+    const m = jt.length, n = js.length;
+    if (!m) return { accuracy:0, completeness:0, score:0 };
+    const lcsLen      = lcs(jt, js);
+    const accuracy    = Math.round(lcsLen / m * 100);
+    const completeness= Math.round(lcsLen / Math.max(m, n||1) * 100);
+    const score       = Math.round(accuracy * 0.65 + completeness * 0.35);
+    return { accuracy, completeness, score };
+}
+
+function syllableSim(tc, sc) {
+    if (!sc) return 0;
+    if (tc === sc) return 1;
+    const jt = decomposeHangul(tc), js = decomposeHangul(sc);
+    return jt.length ? lcs(jt, js) / jt.length : 0;
+}
+
+// 음절별 수평 스캔 바 (터미널 스타일)
+function buildPhonemeRows(target, spoken) {
+    const tA = [...target], sA = [...spoken];
+    let rows = '';
+
+    for (let i = 0; i < tA.length; i++) {
+        const tc = tA[i], sc = sA[i] || '';
+        const sim = syllableSim(tc, sc);
+        const pct = Math.round(sim * 100);
+
+        let fillColor, statusChar, statusColor, spokenTag = '';
+        if (!sc) {
+            fillColor = '#1e3a2e'; statusChar = '─'; statusColor = '#2d4a3e';
+        } else if (sim >= 0.99) {
+            fillColor = '#00cc66'; statusChar = '✓'; statusColor = '#00ff88';
+        } else if (sim >= 0.55) {
+            fillColor = '#cc8800'; statusChar = '△'; statusColor = '#ffaa00';
+            spokenTag = `<span style="font-size:9px;color:#ffaa00;margin-left:2px">[${sc}]</span>`;
+        } else {
+            fillColor = '#cc2222'; statusChar = '✗'; statusColor = '#ff5555';
+            if (sc) spokenTag = `<span style="font-size:9px;color:#ff5555;margin-left:2px">[${sc}]</span>`;
+        }
+
+        rows += `
+        <div class="phoneme-row">
+            <span style="font-size:16px;font-weight:900;color:#e2e8f0;width:22px;
+                         text-align:center;font-family:'Noto Sans KR',sans-serif">${tc}</span>
+            ${spokenTag
+                ? `<span style="width:28px;font-size:9px;color:${statusColor};letter-spacing:0">${spokenTag}</span>`
+                : `<span style="width:28px"></span>`}
+            <div class="phoneme-track">
+                <div class="phoneme-fill" style="background:${fillColor};
+                     box-shadow:0 0 5px ${fillColor};" data-pct="${pct}"></div>
+            </div>
+            <span style="font-size:10px;color:#2d4a3e;width:32px;text-align:right;
+                         font-family:'Courier New',monospace">${sc ? pct+'%' : '---'}</span>
+            <span style="font-size:12px;font-weight:700;color:${statusColor};
+                         width:14px;text-align:center">${statusChar}</span>
+        </div>`;
+    }
+
+    // 여분 음절
+    for (let i = tA.length; i < sA.length; i++) {
+        rows += `
+        <div class="phoneme-row">
+            <span style="font-size:16px;font-weight:900;color:#3b82f6;width:22px;text-align:center">${sA[i]}</span>
+            <span style="width:28px"></span>
+            <div class="phoneme-track">
+                <div class="phoneme-fill" style="background:#1d4ed8;width:100%"></div>
+            </div>
+            <span style="font-size:10px;color:#3b82f6;width:32px;text-align:right;
+                         font-family:'Courier New',monospace">EXT</span>
+            <span style="font-size:12px;color:#3b82f6;width:14px;text-align:center">+</span>
+        </div>`;
+    }
+    return rows;
+}
+
+// ─── 결과 처리 ────────────────────────────────────────────────────────────
+function analyzeResult(spoken) {
+    if (curIdx === null) return;
+    const lock = LOCKS[curIdx];
+    const target  = norm(lock.target);
+    const spokenN = norm(spoken);
+    const { accuracy, completeness, score } = jamoAnalyze(spokenN, target);
+    const passed = score >= PASS;
+    totalAttempts++;
+    if (lockBest[curIdx] === null || score > lockBest[curIdx])
+        lockBest[curIdx] = score;
+    showResult(target, spokenN, accuracy, completeness, score, passed);
+}
+
+function showResult(target, spoken, accuracy, completeness, score, passed) {
+    // ① 녹음 영역 숨기기
+    document.getElementById('recordArea').style.display = 'none';
+
+    // ② "ANALYZING..." 중간 화면 (0.9초)
+    const ra = document.getElementById('resultArea');
+    ra.classList.remove('hidden');
+    ra.innerHTML = `
+    <div style="background:#020c06;border:1px solid #00441f;border-radius:10px;
+                padding:28px 16px;text-align:center;font-family:'Courier New',monospace">
+        <div style="font-size:11px;color:#00aa55;letter-spacing:3px;margin-bottom:16px">
+            VOICE_ANALYZER.exe</div>
+        <div style="font-size:13px;color:#00ff88;letter-spacing:2px" id="scanTxt">
+            ANALYZING</div>
+        <div style="margin:14px auto 0;width:180px;height:4px;
+                    background:rgba(0,255,136,0.1);border-radius:2px;overflow:hidden">
+            <div id="scanProg" style="height:100%;width:0%;background:#00ff88;
+                 border-radius:2px;transition:width 0.85s linear;
+                 box-shadow:0 0 8px #00ff88"></div>
+        </div>
+    </div>`;
+
+    // 점점 채워지는 바
+    setTimeout(() => {
+        const sp = document.getElementById('scanProg');
+        if (sp) sp.style.width = '100%';
+        // 점 애니메이션
+        let dots = 0;
+        const dotTick = setInterval(() => {
+            dots = (dots + 1) % 4;
+            const el = document.getElementById('scanTxt');
+            if (el) el.textContent = 'ANALYZING' + '.'.repeat(dots);
+        }, 220);
+        setTimeout(() => { clearInterval(dotTick); renderResult(); }, 920);
+    }, 50);
+
+    // ③ 실제 결과 렌더링
+    function renderResult() {
+        const matchColor   = passed ? '#00ff88' : score >= 50 ? '#ffaa00' : '#ff5555';
+        const statusClass  = passed ? 'status-granted' : 'status-denied';
+        const matchLabel   = passed
+            ? (score >= 90 ? 'PERFECT MATCH' : 'VOICE CONFIRMED')
+            : (score >= 50 ? 'PARTIAL MATCH'  : 'VOICE MISMATCH');
+        const statusLine1  = passed ? '🔓  ACCESS GRANTED' : '🔒  ACCESS DENIED';
+        const statusLine2  = passed
+            ? (score >= 90 ? 'Phát âm hoàn hảo!' : 'Mở khóa thành công!')
+            : (score >= 50 ? 'Gần đúng rồi! Thử lại.' : 'Chưa đúng. Nghe lại và thử!');
+
+        const phonemeRows = buildPhonemeRows(target, spoken);
+
+        ra.innerHTML = `
+        <div class="terminal-panel" id="termPanel">
+
+            <!-- 헤더 -->
+            <div style="display:flex;justify-content:space-between;align-items:center;
+                        margin-bottom:14px;font-size:8px;letter-spacing:2px;color:#00441f">
+                <span>&gt; VOICE_ANALYZER.exe</span>
+                <span style="color:#1a3a2a">ESCAPE_ROOM_v1.0</span>
+            </div>
+
+            <!-- MATCH % -->
+            <div style="text-align:center;margin-bottom:16px">
+                <div style="font-size:9px;letter-spacing:3px;color:#00441f;margin-bottom:5px">
+                    VOICE MATCH</div>
+                <div class="match-pct" style="color:${matchColor}" id="matchPct">0%</div>
+                <div style="margin:8px auto 0;max-width:200px;height:5px;
+                            background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden">
+                    <div id="matchBar"
+                         style="height:100%;width:0%;border-radius:3px;transition:width 0.85s ease;
+                                background:${matchColor};box-shadow:0 0 8px ${matchColor}"></div>
+                </div>
+                <div style="font-size:9px;letter-spacing:2px;color:#00441f;margin-top:5px">
+                    ${matchLabel}</div>
+            </div>
+
+            <!-- PHONEME SCAN -->
+            <div style="margin-bottom:14px">
+                <div style="font-size:8px;letter-spacing:2px;color:#00441f;margin-bottom:8px">
+                    &gt; PHONEME_SCAN ─────────────────────────</div>
+                ${phonemeRows}
+                <div style="display:flex;gap:12px;margin-top:8px;font-size:8px;
+                            letter-spacing:1px;font-family:'Courier New',monospace">
+                    <span style="color:#00cc66">✓ MATCH</span>
+                    <span style="color:#cc8800">△ NEAR</span>
+                    <span style="color:#cc2222">✗ MISS</span>
+                    <span style="color:#1e3a2e">─ SILENT</span>
+                </div>
+            </div>
+
+            <!-- STATUS BANNER -->
+            <div class="${statusClass} status-banner" style="margin-bottom:14px">
+                ${statusLine1}
+                <div style="font-size:10px;font-weight:400;letter-spacing:1px;
+                            opacity:0.75;margin-top:3px;font-family:'Noto Sans KR',sans-serif">
+                    ${statusLine2}</div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div style="display:grid;grid-template-columns:${passed ? '1fr' : '1fr 1fr'};gap:8px;margin-bottom:4px">
+                ${passed
+                    ? `<button class="btn-pass" onclick="onPass()">
+                           ▶ PROCEED TO NEXT LOCK
+                           <div style="font-size:10px;font-weight:400;letter-spacing:0;
+                                opacity:0.75;margin-top:2px;font-family:'Noto Sans KR',sans-serif">
+                               다음 잠금장치로 →</div>
+                       </button>`
+                    : `<button class="btn-retry" onclick="retryLock()">
+                           ◀ RETRY<div style="font-size:9px;opacity:0.6;margin-top:1px">다시 말하기</div>
+                       </button>
+                       <button class="btn-hint" onclick="showHint()">
+                           ? HINT<div style="font-size:9px;opacity:0.7;margin-top:1px">힌트 보기</div>
+                       </button>`
+                }
+            </div>
+
+            <!-- footer -->
+            <div style="font-size:7px;color:#0d2618;text-align:right;margin-top:10px;
+                        letter-spacing:1px">VOICE_ENGINE :: JAMO_LCS_v2</div>
+        </div>`;
+
+        // 애니메이션: 바 채우기 + % 카운트업
+        setTimeout(() => {
+            const mb = document.getElementById('matchBar');
+            if (mb) mb.style.width = score + '%';
+            document.querySelectorAll('.phoneme-fill[data-pct]').forEach(el => {
+                el.style.width = el.dataset.pct + '%';
+            });
+            let cur = 0;
+            const tick = setInterval(() => {
+                cur = Math.min(cur + Math.ceil(score / 16), score);
+                const el = document.getElementById('matchPct');
+                if (el) el.textContent = cur + '%';
+                if (cur >= score) clearInterval(tick);
+            }, 32);
+        }, 80);
+
+        if (!passed) document.getElementById('hintArea').classList.remove('hidden');
+    }
+}
+
+function onPass() {
+    const idx = curIdx;
+    unlocked = Math.max(unlocked, idx + 1);
+    closeModal();
+    renderGrid();
+    updateProgress();
+    updateAtmo();
+    // pop animation
+    setTimeout(() => {
+        const p = document.getElementById('panel-' + idx);
+        if (p) { p.classList.add('unlock-anim'); }
+    }, 60);
+    if (unlocked >= 4) {
+        clearInterval(timerInterval);
+        setTimeout(showSuccess, 700);
+    }
+}
+
+function retryLock() {
+    document.getElementById('resultArea').classList.add('hidden');
+    document.getElementById('resultArea').innerHTML = '';
+    document.getElementById('hintArea').classList.add('hidden');
+    document.getElementById('recordArea').style.display = 'block';
+    document.getElementById('recBox').style.display = 'none';
+    resetRecUI();
+}
+
+function showHint() {
+    const ha = document.getElementById('hintArea');
+    ha.classList.remove('hidden');
+    ha.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ─── 성공 화면 ────────────────────────────────────────────────────────────
+function showSuccess() {
+    document.getElementById('gameScreen').classList.add('hidden');
+    document.getElementById('successScreen').classList.remove('hidden');
+
+    const m = String(Math.floor(timerSec/60)).padStart(2,'0');
+    const s = String(timerSec%60).padStart(2,'0');
+    document.getElementById('finalTime').textContent = `${m}:${s}`;
+
+    // Confetti
+    const wrap = document.getElementById('confettiWrap');
+    wrap.innerHTML = '';
+    const cols = ['#22c55e','#818cf8','#fbbf24','#ef4444','#06b6d4','#ec4899','#a3e635'];
+    for (let i = 0; i < 50; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-el';
+        const size = 6 + Math.random() * 9;
+        el.style.cssText = `
+            left:${Math.random()*100}%;
+            background:${cols[i%cols.length]};
+            width:${size}px; height:${size}px;
+            border-radius:${Math.random()>.5?'50%':'2px'};
+            animation-duration:${2.2+Math.random()*3.5}s;
+            animation-delay:${Math.random()*2.5}s;
+        `;
+        wrap.appendChild(el);
+    }
+
+    // Summary
+    const scoreColor = s => s>=85?'#22c55e' : s>=65?'#86efac' : '#f59e0b';
+    document.getElementById('summaryLog').innerHTML = LOCKS.map((lock, i) => `
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 0;
+                    border-bottom:1px solid #1a2e1c">
+            <span style="font-size:20px">${lock.icon}</span>
+            <span style="flex:1;font-size:12px;color:#94a3b8">${lock.name}</span>
+            <span style="font-size:14px;font-weight:900;color:${scoreColor(lockBest[i]||0)}">${lockBest[i]||0}점</span>
+        </div>
+    `).join('');
+}
+</script>
+</body>
+</html>

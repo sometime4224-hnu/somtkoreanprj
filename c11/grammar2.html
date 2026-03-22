@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>11과 문법2 업그레이드 | -(ㄴ/는)다면</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%); }
+        .c11-global-nav {
+            position: sticky; top: 0; z-index: 1000; height: 58px; width: 100%;
+            display: flex; align-items: center; gap: 12px; padding: 0 16px; box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.92); border-bottom: 1px solid #dbeafe; backdrop-filter: blur(8px);
+        }
+        .c11-global-nav a { color: #4f46e5; text-decoration: none; font-weight: 700; font-size: 14px; }
+        .c11-divider { color: #cbd5e1; font-weight: 700; }
+        .safe { word-break: keep-all; overflow-wrap: break-word; }
+        .tab-btn.active       { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+        .tab-btn.active-drill { background: #ede9fe; color: #6d28d9; border-color: #c4b5fd; }
+        .vi-text { display: none; }
+        .vi-on .vi-text { display: block; }
+        .choice-btn { min-height: 52px; }
+        #cardFront { transition: opacity .15s; }
+        #cardFront:active { opacity: .7; }
+    </style>
+</head>
+<body>
+    <nav class="c11-global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="c11-divider">|</span>
+        <a href="index.html">11과 목록</a>
+    </nav>
+
+    <main id="page" class="max-w-md mx-auto px-4 py-4 pb-10">
+
+        <!-- 헤더 -->
+        <section class="bg-white border border-blue-100 rounded-2xl p-5 shadow-sm">
+            <div class="flex items-start justify-between gap-2">
+                <div>
+                    <p class="text-xs font-bold text-blue-600">문법 2 업그레이드</p>
+                    <h1 class="text-2xl font-black text-slate-800 mt-1">A/V-(ㄴ/는)다면, N(이)라면</h1>
+                    <p class="text-sm text-slate-600 mt-1 safe">가정, 상상, 가능성이 낮은 조건을 말할 때</p>
+                    <p class="vi-text text-xs text-blue-700 mt-1 safe">Dùng cho giả định, tưởng tượng hoặc điều kiện khó xảy ra.</p>
+                </div>
+                <button id="viToggle" class="shrink-0 px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700">Tiếng Việt OFF</button>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-4">
+                <button id="tabLearn" class="tab-btn active border rounded-xl py-2.5 text-sm font-bold border-blue-200"   type="button">학습</button>
+                <button id="tabDrill" class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">형태 드릴</button>
+                <button id="tabQuiz"  class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">퀴즈</button>
+            </div>
+        </section>
+
+        <!-- ── 학습 패널 ───────────────────────────────────────── -->
+        <section id="learnPanel" class="mt-4 space-y-3">
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">핵심 개념</h2>
+                <p class="text-sm text-slate-700 mt-2 safe">'-(ㄴ/는)다면'은 실제가 아닌 상황을 가정할 때 씁니다.</p>
+                <p class="text-sm text-slate-700 mt-1 safe">예) 제가 면접관이라면, 그 답변을 더 듣고 싶어요.</p>
+                <p class="vi-text text-xs text-blue-700 mt-2 safe">'-(ㄴ/는)다면' thường dùng khi đặt giả định chưa chắc xảy ra.</p>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">형태 규칙</h2>
+                <div class="mt-3 rounded-xl overflow-hidden border border-slate-200 text-sm">
+                    <div class="grid grid-cols-3 bg-slate-100 text-xs font-bold text-slate-600">
+                        <div class="px-3 py-2">유형</div>
+                        <div class="px-3 py-2">조건</div>
+                        <div class="px-3 py-2 text-blue-700">형태 / 예</div>
+                    </div>
+                    <div class="grid grid-cols-3 text-slate-700 border-t border-slate-100">
+                        <div class="px-3 py-2 font-bold">동사</div>
+                        <div class="px-3 py-2 text-xs">받침 O</div>
+                        <div class="px-3 py-2 font-bold text-blue-700">-는다면<br><span class="font-normal text-slate-500">먹→먹는다면</span></div>
+                    </div>
+                    <div class="grid grid-cols-3 text-slate-700 border-t border-slate-100 bg-slate-50">
+                        <div class="px-3 py-2 font-bold">동사</div>
+                        <div class="px-3 py-2 text-xs">받침 X / ㄹ탈락</div>
+                        <div class="px-3 py-2 font-bold text-blue-700">-ㄴ다면<br><span class="font-normal text-slate-500">가→간다면</span></div>
+                    </div>
+                    <div class="grid grid-cols-3 text-slate-700 border-t border-slate-100">
+                        <div class="px-3 py-2 font-bold">형용사</div>
+                        <div class="px-3 py-2 text-xs">모두</div>
+                        <div class="px-3 py-2 font-bold text-blue-700">-다면<br><span class="font-normal text-slate-500">좋→좋다면</span></div>
+                    </div>
+                    <div class="grid grid-cols-3 text-slate-700 border-t border-slate-100 bg-slate-50">
+                        <div class="px-3 py-2 font-bold">명사</div>
+                        <div class="px-3 py-2 text-xs">받침 O</div>
+                        <div class="px-3 py-2 font-bold text-blue-700">-이라면<br><span class="font-normal text-slate-500">학생→학생이라면</span></div>
+                    </div>
+                    <div class="grid grid-cols-3 text-slate-700 border-t border-slate-100">
+                        <div class="px-3 py-2 font-bold">명사</div>
+                        <div class="px-3 py-2 text-xs">받침 X</div>
+                        <div class="px-3 py-2 font-bold text-blue-700">-라면<br><span class="font-normal text-slate-500">의사→의사라면</span></div>
+                    </div>
+                </div>
+                <p class="mt-3 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 safe">
+                    ⚠ <b>ㄹ 받침 동사 주의:</b> ㄹ이 탈락하고 -ㄴ다면이 붙습니다.<br>
+                    만들다 → 만든다면 / 알다 → 안다면 / 살다 → 산다면
+                </p>
+                <p class="vi-text text-xs text-blue-700 mt-2 safe">Động từ đuôi ㄹ: ㄹ rụng rồi thêm -ㄴ다면. Ví dụ: 만들다→만든다면, 알다→안다면.</p>
+            </article>
+
+            <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-amber-800">헷갈림 비교</h2>
+                <div class="mt-2 space-y-3">
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">-(으)면 vs -다면</p>
+                        <p class="text-sm text-slate-700 safe">비가 오면 우산을 써요 (일반 조건) / 비가 온다면 야외 수업은 취소예요 (가정 강조).</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1 safe">-(으)면: điều kiện thực tế. -다면: giả định, nhấn mạnh tính giả thiết.</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">-다면 vs -았/었더라면</p>
+                        <p class="text-sm text-slate-700 safe">지금 가정: 시간이 많다면 / 과거 후회: 시간이 많았더라면 합격했을 텐데.</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1 safe">-다면 cho hiện tại/tương lai. -았/었더라면 cho tiếc nuối quá khứ.</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">명사 받침 구별</p>
+                        <p class="text-sm text-slate-700 safe">학생이라면 (받침 O) / 의사라면 (받침 X)</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1 safe">Danh từ có 받침 → 이라면 / không có 받침 → 라면.</p>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- ── 형태 드릴 패널 ──────────────────────────────────── -->
+        <section id="drillPanel" class="mt-4 hidden">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between text-xs mb-1">
+                    <span id="drillProgress" class="font-bold text-violet-600"></span>
+                    <span class="text-slate-500">탭해서 정답 확인</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mb-4">
+                    <div id="drillBar" class="bg-violet-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+
+                <!-- 카드 앞면 -->
+                <div id="cardFront" class="rounded-2xl border-2 border-violet-200 bg-violet-50 p-6 text-center cursor-pointer select-none">
+                    <p id="cardTag" class="text-xs font-bold text-violet-500 mb-3"></p>
+                    <p id="cardFrontText" class="text-3xl font-black text-slate-800"></p>
+                    <p id="cardFrontSub" class="text-sm text-slate-500 mt-2 safe"></p>
+                    <p class="text-xs text-slate-400 mt-5">탭해서 확인 →</p>
+                </div>
+
+                <!-- 카드 뒷면 -->
+                <div id="cardBack" class="hidden rounded-2xl border-2 border-blue-300 bg-blue-50 p-5 text-center">
+                    <p class="text-xs font-bold text-blue-500 mb-2">정답</p>
+                    <p id="cardBackText" class="text-3xl font-black text-blue-800"></p>
+                    <p id="cardRule" class="text-xs text-slate-600 mt-3 safe"></p>
+                    <p id="cardRuleVi" class="vi-text text-xs text-blue-700 mt-1 safe"></p>
+                    <div class="grid grid-cols-2 gap-3 mt-5">
+                        <button id="drillKnowBtn" class="py-3 rounded-xl bg-emerald-100 border border-emerald-300 text-sm font-bold text-emerald-700" type="button">알아요 ✓</button>
+                        <button id="drillRetryBtn" class="py-3 rounded-xl bg-rose-100 border border-rose-300 text-sm font-bold text-rose-700" type="button">다시 볼게요</button>
+                    </div>
+                </div>
+            </article>
+
+            <article id="drillResult" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+        </section>
+
+        <!-- ── 퀴즈 패널 ───────────────────────────────────────── -->
+        <section id="quizPanel" class="mt-4 hidden">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between text-xs">
+                    <span id="progress" class="font-bold text-blue-600"></span>
+                    <span class="text-slate-500">즉시 피드백</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+                    <div id="progressBar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+                <p id="qGrammar" class="mt-3 text-[11px] font-bold text-violet-700"></p>
+                <p id="qText" class="mt-2 text-base font-bold text-slate-800 safe"></p>
+                <p id="qHintKo" class="mt-2 text-xs text-slate-600 safe"></p>
+                <p id="qHintVi" class="vi-text text-xs text-blue-700 mt-1 safe"></p>
+                <div id="choices" class="mt-3 space-y-2"></div>
+                <div id="shortWrap" class="mt-3 hidden">
+                    <input id="shortInput" type="text" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm" placeholder="정답 입력" />
+                    <button id="checkShortBtn" class="mt-2 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">정답 확인</button>
+                </div>
+                <div id="feedbackBox" class="hidden mt-3 rounded-xl border p-3"></div>
+                <button id="nextBtn" class="hidden mt-3 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">다음 문제</button>
+            </article>
+            <article id="resultPanel" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+        </section>
+    </main>
+
+    <script>
+        // ── 공통 ────────────────────────────────────────────────
+        const page = document.getElementById('page');
+        let viOn = false;
+        document.getElementById('viToggle').addEventListener('click', function () {
+            viOn = !viOn;
+            page.classList.toggle('vi-on', viOn);
+            document.getElementById('viToggle').textContent = viOn ? 'Tiếng Việt ON' : 'Tiếng Việt OFF';
+        });
+
+        function esc(t) {
+            return String(t == null ? '' : t)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+        function norm(t) { return String(t || '').toLowerCase().replace(/[\s.,!?~]/g, ''); }
+        function shuffle(arr) {
+            const c = arr.slice();
+            for (var i = c.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = c[i]; c[i] = c[j]; c[j] = tmp; }
+            return c;
+        }
+
+        // ── 탭 ──────────────────────────────────────────────────
+        const panels = {
+            learn: document.getElementById('learnPanel'),
+            drill: document.getElementById('drillPanel'),
+            quiz:  document.getElementById('quizPanel')
+        };
+        const btns = {
+            learn: document.getElementById('tabLearn'),
+            drill: document.getElementById('tabDrill'),
+            quiz:  document.getElementById('tabQuiz')
+        };
+        const tabStarted = { drill: false, quiz: false };
+
+        function showTab(name) {
+            Object.keys(panels).forEach(function (k) {
+                panels[k].classList.toggle('hidden', k !== name);
+                btns[k].classList.remove('active', 'active-drill', 'text-slate-600');
+                if (k === name) {
+                    btns[k].classList.add(k === 'drill' ? 'active-drill' : 'active');
+                } else {
+                    btns[k].classList.add('text-slate-600');
+                }
+            });
+            if (name === 'drill' && !tabStarted.drill) { tabStarted.drill = true; initDrill(); }
+            if (name === 'quiz'  && !tabStarted.quiz)  { tabStarted.quiz  = true; renderQuestion(); }
+        }
+        btns.learn.addEventListener('click', function () { showTab('learn'); });
+        btns.drill.addEventListener('click', function () { showTab('drill'); });
+        btns.quiz.addEventListener('click',  function () { showTab('quiz');  });
+
+        // ── 형태 드릴 ────────────────────────────────────────────
+        const drillCards = [
+            // 동사 받침 O
+            { front: '먹다', tag: '동사 · 받침 O', sub: '',         back: '먹는다면', rule: '동사 받침 O → -는다면',        ruleVi: 'Động từ có 받침 → -는다면' },
+            { front: '읽다', tag: '동사 · 받침 O', sub: '',         back: '읽는다면', rule: '동사 받침 O → -는다면',        ruleVi: 'Động từ có 받침 → -는다면' },
+            // 동사 받침 X
+            { front: '가다',  tag: '동사 · 받침 X', sub: '',        back: '간다면',   rule: '동사 받침 X → -ㄴ다면',         ruleVi: 'Động từ không 받침 → -ㄴ다면' },
+            { front: '오다',  tag: '동사 · 받침 X', sub: '',        back: '온다면',   rule: '동사 받침 X → -ㄴ다면',         ruleVi: 'Động từ không 받침 → -ㄴ다면' },
+            { front: '쓰다',  tag: '동사 · 받침 X', sub: '',        back: '쓴다면',   rule: '동사 받침 X → -ㄴ다면',         ruleVi: 'Động từ không 받침 → -ㄴ다면' },
+            // ㄹ 불규칙
+            { front: '만들다', tag: '동사 · ㄹ탈락', sub: 'ㄹ → 탈락 후 ㄴ다면', back: '만든다면', rule: 'ㄹ 탈락: 만들→만 + ㄴ다면 = 만든다면', ruleVi: 'Bỏ ㄹ: 만들→만 + ㄴ다면 = 만든다면' },
+            { front: '알다',  tag: '동사 · ㄹ탈락',  sub: 'ㄹ → 탈락 후 ㄴ다면', back: '안다면',  rule: 'ㄹ 탈락: 알→아 + ㄴ다면 = 안다면',  ruleVi: 'Bỏ ㄹ: 알→아 + ㄴ다면 = 안다면' },
+            { front: '살다',  tag: '동사 · ㄹ탈락',  sub: 'ㄹ → 탈락 후 ㄴ다면', back: '산다면',  rule: 'ㄹ 탈락: 살→사 + ㄴ다면 = 산다면',  ruleVi: 'Bỏ ㄹ: 살→사 + ㄴ다면 = 산다면' },
+            // 형용사
+            { front: '좋다',   tag: '형용사', sub: '', back: '좋다면',   rule: '형용사 → -다면 (받침 무관)',        ruleVi: 'Tính từ → -다면 (bất kể 받침)' },
+            { front: '바쁘다', tag: '형용사', sub: '', back: '바쁘다면', rule: '형용사 → -다면. 으 탈락 없음',       ruleVi: 'Tính từ → -다면. 으 không rụng' },
+            // 명사
+            { front: '학생',  tag: '명사 · 받침 O', sub: '', back: '학생이라면', rule: '받침 O 명사 → -이라면',          ruleVi: 'Danh từ có 받침 → -이라면' },
+            { front: '의사',  tag: '명사 · 받침 X', sub: '', back: '의사라면',  rule: '받침 X 명사 → -라면 (이 없음)',    ruleVi: 'Danh từ không 받침 → -라면' },
+        ];
+
+        const ds = { cards: [], idx: 0, score: 0, missed: [] };
+
+        function initDrill() {
+            ds.cards = shuffle(drillCards);
+            ds.idx = 0; ds.score = 0; ds.missed = [];
+            document.getElementById('drillResult').classList.add('hidden');
+            renderDrillCard();
+        }
+
+        function renderDrillCard() {
+            const c = ds.cards[ds.idx];
+            const total = ds.cards.length;
+            document.getElementById('drillProgress').textContent = (ds.idx + 1) + ' / ' + total;
+            document.getElementById('drillBar').style.width = (ds.idx / total * 100) + '%';
+            document.getElementById('cardTag').textContent = c.tag;
+            document.getElementById('cardFrontText').textContent = c.front;
+            document.getElementById('cardFrontSub').textContent = c.sub || '';
+            document.getElementById('cardFront').classList.remove('hidden');
+            document.getElementById('cardBack').classList.add('hidden');
+        }
+
+        document.getElementById('cardFront').addEventListener('click', function () {
+            const c = ds.cards[ds.idx];
+            document.getElementById('cardBackText').textContent = c.back;
+            document.getElementById('cardRule').textContent = c.rule;
+            document.getElementById('cardRuleVi').textContent = c.ruleVi;
+            document.getElementById('cardFront').classList.add('hidden');
+            document.getElementById('cardBack').classList.remove('hidden');
+        });
+
+        function rateDrill(knew) {
+            if (knew) { ds.score += 1; } else { ds.missed.push(ds.cards[ds.idx]); }
+            ds.idx += 1;
+            if (ds.idx >= ds.cards.length) { showDrillResult(); } else { renderDrillCard(); }
+        }
+
+        document.getElementById('drillKnowBtn').addEventListener('click',  function () { rateDrill(true);  });
+        document.getElementById('drillRetryBtn').addEventListener('click', function () { rateDrill(false); });
+
+        function showDrillResult() {
+            const total = ds.cards.length;
+            document.getElementById('drillBar').style.width = '100%';
+            document.getElementById('cardFront').classList.add('hidden');
+            document.getElementById('cardBack').classList.add('hidden');
+
+            var missedHtml = '';
+            if (ds.missed.length > 0) {
+                missedHtml = '<div class="mt-3"><p class="text-xs font-bold text-rose-700 mb-2">다시 볼 카드</p><div class="space-y-2">' +
+                    ds.missed.map(function (c) {
+                        return '<div class="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 flex justify-between items-center">' +
+                            '<span class="text-sm font-bold text-slate-800">' + esc(c.front) + '</span>' +
+                            '<span class="text-sm font-bold text-blue-700">→ ' + esc(c.back) + '</span>' +
+                            '</div>';
+                    }).join('') + '</div></div>';
+            }
+
+            document.getElementById('drillResult').innerHTML =
+                '<div class="rounded-xl border border-violet-200 bg-violet-50 p-4 text-center">' +
+                '<p class="text-xs text-violet-700 font-bold">드릴 완료</p>' +
+                '<h3 class="text-2xl font-black text-slate-800 mt-1">' + ds.score + ' / ' + total + '</h3>' +
+                '<p class="text-sm text-slate-600 mt-1">즉시 인지 ' + Math.round(ds.score / total * 100) + '%</p>' +
+                '<div class="grid grid-cols-2 gap-2 mt-3">' +
+                '<button class="px-3 py-2 rounded-lg bg-violet-600 text-white text-sm font-bold" onclick="initDrill()" type="button">다시 드릴</button>' +
+                (ds.missed.length > 0
+                    ? '<button class="px-3 py-2 rounded-lg border border-rose-300 bg-rose-50 text-rose-700 text-sm font-bold" onclick="reviewMissed()" type="button">오답만 복습</button>'
+                    : '<div></div>') +
+                '</div></div>' + missedHtml;
+            document.getElementById('drillResult').classList.remove('hidden');
+        }
+
+        function reviewMissed() {
+            if (ds.missed.length === 0) return;
+            ds.cards = shuffle(ds.missed);
+            ds.idx = 0; ds.score = 0; ds.missed = [];
+            document.getElementById('drillResult').classList.add('hidden');
+            renderDrillCard();
+        }
+
+        window.initDrill = initDrill;
+        window.reviewMissed = reviewMissed;
+
+        // ── 퀴즈 ─────────────────────────────────────────────────
+        const quiz = [
+            {
+                type: 'mcq', grammar: '동사 받침 O',
+                q: '동사 "먹다" 뒤에 알맞은 형태는?',
+                hintKo: '동사 + 받침 O 규칙', hintVi: 'Quy tắc động từ có 받침.',
+                options: ['먹다면', '먹는다면', '먹은다면', '먹라면'], answer: '먹는다면',
+                explainKo: '동사 받침 O는 -는다면을 붙입니다.',
+                explainVi: 'Động từ có 받침 dùng -는다면.'
+            },
+            {
+                type: 'mcq', grammar: '동사 받침 X',
+                q: '동사 "가다" 뒤에 알맞은 형태는?',
+                hintKo: '동사 + 받침 X 규칙', hintVi: 'Quy tắc động từ không 받침.',
+                options: ['가다면', '간다면', '가는다면', '가이라면'], answer: '간다면',
+                explainKo: '동사 받침 X는 ㄴ다면 형태를 씁니다.',
+                explainVi: 'Động từ không 받침 dùng dạng ㄴ다면.'
+            },
+            {
+                type: 'short', grammar: 'ㄹ 불규칙',
+                q: '"만들다"를 -(ㄴ/는)다면 형태로 바꾸세요.',
+                hintKo: 'ㄹ 받침 동사: ㄹ 탈락 후 ㄴ다면', hintVi: 'Động từ đuôi ㄹ: bỏ ㄹ rồi thêm ㄴ다면.',
+                answers: ['만든다면'],
+                explainKo: 'ㄹ 탈락: 만들→만 + ㄴ다면 = 만든다면. (만드는다면, 만들다면은 오답)',
+                explainVi: 'Bỏ ㄹ: 만들→만 + ㄴ다면 = 만든다면.'
+            },
+            {
+                type: 'mcq', grammar: '형용사',
+                q: '형용사 "좋다"는 어떻게 연결할까요?',
+                hintKo: '형용사는 -다면', hintVi: 'Tính từ dùng -다면.',
+                options: ['좋는다면', '좋다면', '좋은다면', '좋라면'], answer: '좋다면',
+                explainKo: '형용사는 보통 -다면을 사용합니다.',
+                explainVi: 'Tính từ thường gắn -다면.'
+            },
+            {
+                type: 'mcq', grammar: '명사 받침 O',
+                q: '명사 "학생" 뒤에 알맞은 형태는?',
+                hintKo: '받침 O 명사', hintVi: 'Danh từ có 받침.',
+                options: ['학생라면', '학생이라면', '학생다면', '학생은다면'], answer: '학생이라면',
+                explainKo: '받침 있는 명사는 -이라면을 붙입니다.',
+                explainVi: 'Danh từ có 받침 dùng -이라면.'
+            },
+            {
+                type: 'mcq', grammar: '명사 받침 X',
+                q: '명사 "의사" 뒤에 알맞은 형태는?',
+                hintKo: '받침 X 명사', hintVi: 'Danh từ không 받침.',
+                options: ['의사이라면', '의사라면', '의사다면', '의사는다면'], answer: '의사라면',
+                explainKo: '받침 없는 명사는 -라면을 씁니다.',
+                explainVi: 'Danh từ không 받침 dùng -라면.'
+            },
+            {
+                type: 'short', grammar: '문장 완성',
+                q: '시간이 ____ 같이 공부해요. (많다)',
+                hintKo: '형용사 연결', hintVi: 'Nối với tính từ "많다".',
+                answers: ['많다면'],
+                explainKo: '많다는 형용사이므로 많다면이 맞습니다.',
+                explainVi: 'Vì 많다 là tính từ nên dùng 많다면.'
+            },
+            {
+                type: 'mcq', grammar: '의미 구별',
+                q: '"내가 면접관이라면…"의 기능은?',
+                hintKo: '실제 사실이 아닌 가정', hintVi: 'Giả định, không phải sự thật hiện tại.',
+                options: ['과거 회상', '현재 습관', '가정/상상', '명령'], answer: '가정/상상',
+                explainKo: '이라면은 가정 상황을 제시할 때 자주 씁니다.',
+                explainVi: '이라면 thường dùng để nêu tình huống giả định.'
+            },
+            {
+                type: 'mcq', grammar: '뉘앙스 비교',
+                q: '더 가정적인 느낌이 강한 표현은?',
+                hintKo: '둘 다 가능하지만 뉘앙스 차이', hintVi: 'Cả hai đều đúng, nhưng sắc thái khác nhau.',
+                options: ['시간이 있으면', '시간이 있다면', '둘 다 동일', '둘 다 불가능'], answer: '시간이 있다면',
+                explainKo: '-다면은 -(으)면보다 가정적/가설적 느낌이 더 강합니다.',
+                explainVi: '-다면 mang sắc thái giả định mạnh hơn -(으)면.'
+            },
+            {
+                type: 'mcq', grammar: '과거 가정 구별',
+                q: '"그때 더 열심히 공부했더라면 합격했을 텐데." 이 표현이 나타내는 의미는?',
+                hintKo: '-았/었더라면: 현재 -다면과 다른 쓰임', hintVi: '-았/었더라면 khác -다면 ở điểm nào?',
+                options: ['현재 상황 가정', '과거에 대한 후회/아쉬움', '미래 계획', '습관적 행동'], answer: '과거에 대한 후회/아쉬움',
+                explainKo: '-았/었더라면은 이미 지난 일에 대한 후회. -다면은 현재/미래 가정.',
+                explainVi: '-았/었더라면 diễn đạt nuối tiếc quá khứ. -다면 cho giả định hiện tại/tương lai.'
+            }
+        ];
+
+        (function () { for (var i = quiz.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = quiz[i]; quiz[i] = quiz[j]; quiz[j] = t; } })();
+
+        const qState = { idx: 0, answered: false, score: 0, logs: [] };
+
+        const progressEl   = document.getElementById('progress');
+        const qGrammarEl   = document.getElementById('qGrammar');
+        const qTextEl      = document.getElementById('qText');
+        const qHintKoEl    = document.getElementById('qHintKo');
+        const qHintViEl    = document.getElementById('qHintVi');
+        const choicesEl    = document.getElementById('choices');
+        const shortWrapEl  = document.getElementById('shortWrap');
+        const shortInputEl = document.getElementById('shortInput');
+        const checkShortEl = document.getElementById('checkShortBtn');
+        const feedbackEl   = document.getElementById('feedbackBox');
+        const nextBtnEl    = document.getElementById('nextBtn');
+        const resultEl     = document.getElementById('resultPanel');
+
+        function lockInputs(q, user) {
+            if (q && q.type === 'mcq') {
+                Array.from(choicesEl.querySelectorAll('button')).forEach(function (btn) {
+                    btn.disabled = true;
+                    if (btn.textContent === q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-emerald-400 bg-emerald-50 text-emerald-800';
+                    } else if (btn.textContent === user && btn.textContent !== q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-rose-400 bg-rose-50 text-rose-800';
+                    } else {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-slate-200 bg-slate-50 text-slate-400';
+                    }
+                });
+            } else {
+                shortInputEl.disabled = true;
+                checkShortEl.disabled = true;
+            }
+        }
+
+        function feedbackHtml(ok, user, correct, q) {
+            return '<p class="text-sm font-bold ' + (ok ? 'text-emerald-700' : 'text-rose-700') + '">' + (ok ? '정답입니다.' : '오답입니다.') + ' <span class="text-xs">(' + (ok ? 'Đúng' : 'Sai') + ')</span></p>' +
+                '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(user || '(무응답)') + '</p>' +
+                '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>' +
+                '<p class="text-xs text-slate-700 mt-2 safe"><b>설명(KO):</b> ' + esc(q.explainKo) + '</p>' +
+                '<p class="text-xs text-blue-700 mt-1 safe"><b>Giải thích (VI):</b> ' + esc(q.explainVi) + '</p>';
+        }
+
+        function answerQuestion(user) {
+            if (qState.answered) return;
+            const q = quiz[qState.idx];
+            const correct = q.type === 'mcq' ? q.answer : q.answers[0];
+            let ok = q.type === 'mcq' ? user === q.answer : q.answers.some(function (a) { return norm(a) === norm(user); });
+            qState.answered = true;
+            if (ok) qState.score += 1;
+            qState.logs.push({ ok: ok, user: user, correct: correct, q: q.q, explainKo: q.explainKo, explainVi: q.explainVi });
+            feedbackEl.classList.remove('hidden');
+            feedbackEl.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200');
+            feedbackEl.innerHTML = feedbackHtml(ok, user, correct, q);
+            nextBtnEl.classList.remove('hidden');
+            lockInputs(q, user);
+        }
+
+        function renderQuestion() {
+            if (qState.idx >= quiz.length) { renderResult(); return; }
+            const q = quiz[qState.idx];
+            qState.answered = false;
+            progressEl.textContent = (qState.idx + 1) + ' / ' + quiz.length;
+            document.getElementById('progressBar').style.width = (qState.idx / quiz.length * 100) + '%';
+            qGrammarEl.textContent = q.grammar;
+            qTextEl.textContent = q.q;
+            qHintKoEl.textContent = '상황: ' + q.hintKo;
+            qHintViEl.textContent = 'Tình huống: ' + q.hintVi;
+            choicesEl.innerHTML = '';
+            feedbackEl.classList.add('hidden'); feedbackEl.innerHTML = '';
+            nextBtnEl.classList.add('hidden');
+            shortWrapEl.classList.add('hidden');
+            shortInputEl.value = ''; shortInputEl.disabled = false; checkShortEl.disabled = false;
+            if (q.type === 'mcq') {
+                q.options.forEach(function (opt) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn w-full border border-slate-300 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-800';
+                    btn.textContent = opt;
+                    btn.addEventListener('click', function () { answerQuestion(opt); });
+                    choicesEl.appendChild(btn);
+                });
+            } else {
+                shortWrapEl.classList.remove('hidden');
+            }
+            resultEl.classList.add('hidden');
+        }
+
+        function renderResult() {
+            const pct = Math.round(qState.score / quiz.length * 100);
+            const wrong = qState.logs.filter(function (x) { return !x.ok; });
+            let detail = '';
+            if (wrong.length === 0) {
+                detail = '<p class="text-sm text-emerald-700 mt-2">모든 문항을 정확히 풀었습니다.</p><p class="vi-text text-xs text-blue-700 mt-1">Bạn đã trả lời đúng toàn bộ câu hỏi.</p>';
+            } else {
+                detail = qState.logs.map(function (w, i) {
+                    if (w.ok) {
+                        return '<article class="rounded-xl border border-emerald-200 bg-emerald-50 p-3">' +
+                            '<p class="text-xs font-bold text-emerald-700">정답 ' + (i + 1) + '</p>' +
+                            '<p class="text-sm text-slate-800 mt-1 safe">' + esc(w.q) + '</p>' +
+                            '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(w.correct) + '</p>' +
+                            '<p class="text-xs text-emerald-700 mt-1 safe"><b>설명(KO):</b> ' + esc(w.explainKo) + '</p>' +
+                            '<p class="vi-text text-xs text-blue-700 mt-1 safe"><b>Giải thích (VI):</b> ' + esc(w.explainVi) + '</p>' +
+                            '</article>';
+                    }
+                    return '<article class="rounded-xl border border-rose-200 bg-rose-50 p-3">' +
+                        '<p class="text-xs font-bold text-rose-700">오답 ' + (i + 1) + '</p>' +
+                        '<p class="text-sm text-slate-800 mt-1 safe">' + esc(w.q) + '</p>' +
+                        '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(w.user || '(무응답)') + '</p>' +
+                        '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(w.correct) + '</p>' +
+                        '<p class="text-xs text-rose-700 mt-2 safe"><b>설명(KO):</b> ' + esc(w.explainKo) + '</p>' +
+                        '<p class="text-xs text-blue-700 mt-1 safe"><b>Giải thích (VI):</b> ' + esc(w.explainVi) + '</p>' +
+                        '</article>';
+                }).join('');
+            }
+            resultEl.innerHTML =
+                '<div class="rounded-xl border border-blue-200 bg-blue-50 p-4 text-center">' +
+                '<p class="text-xs text-blue-700 font-bold">퀴즈 완료</p>' +
+                '<h3 class="text-2xl font-black text-slate-800 mt-1">' + qState.score + ' / ' + quiz.length + '</h3>' +
+                '<p class="text-sm text-slate-600 mt-1">정답률 ' + pct + '%</p>' +
+                '<button id="restartBtn" class="mt-3 px-4 py-2 rounded-lg bg-slate-800 text-white text-sm font-bold" type="button">다시 풀기</button>' +
+                '</div><div class="mt-3 space-y-2">' + detail + '</div>';
+            resultEl.classList.remove('hidden');
+            document.getElementById('restartBtn').addEventListener('click', function () {
+                qState.idx = 0; qState.score = 0; qState.logs = [];
+                for (var i = quiz.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = quiz[i]; quiz[i] = quiz[j]; quiz[j] = t; }
+                renderQuestion();
+            });
+        }
+
+        checkShortEl.addEventListener('click', function () {
+            const val = shortInputEl.value.trim(); if (!val) return; answerQuestion(val);
+        });
+        shortInputEl.addEventListener('keydown', function (e) {
+            if (e.isComposing) return;
+            if (e.key === 'Enter' && !qState.answered) { e.preventDefault(); checkShortEl.click(); }
+        });
+        nextBtnEl.addEventListener('click', function () { qState.idx += 1; renderQuestion(); });
+
+        showTab('learn');
+    </script>
+    <script src="../shared/learning-enhancements.js"></script>
+</body>
+</html>
