@@ -380,7 +380,7 @@
         }
     </style>
 </head>
-<body>
+<body data-page="root-index">
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
@@ -492,7 +492,7 @@
 
     <script>
         (function () {
-            const availableFileChapters = new Set(['c10', 'c11', 'c12']);
+            const alwaysReadyChapters = new Set(['c10', 'c11', 'c12']);
             const notReadyText = '아직 준비 중입니다.';
 
             function markDisabled(card) {
@@ -514,32 +514,53 @@
                 if (badge) badge.remove();
             }
 
-            const chapterCards = document.querySelectorAll('.chapter-card[data-chapter]');
-            if (window.location.protocol === 'file:') {
-                chapterCards.forEach((card) => {
-                    const chapter = (card.dataset.chapter || '').toLowerCase();
-                    if (availableFileChapters.has(chapter)) {
+            function verifyChapterCard(card) {
+                const target = card.getAttribute('href');
+                if (!target) return;
+
+                const applyResponse = (response) => {
+                    if (response.ok) {
                         markEnabled(card);
                     } else {
                         markDisabled(card);
                     }
-                });
+                };
+
+                const retryWithGet = () => {
+                    fetch(target, { method: 'GET', cache: 'no-store' })
+                        .then(applyResponse)
+                        .catch(() => {
+                            // Keep the current state if the network check itself fails.
+                        });
+                };
+
+                fetch(target, { method: 'HEAD', cache: 'no-store' })
+                    .then((response) => {
+                        if (response.ok) {
+                            markEnabled(card);
+                            return;
+                        }
+                        retryWithGet();
+                    })
+                    .catch(() => {
+                        retryWithGet();
+                    });
+            }
+
+            const chapterCards = document.querySelectorAll('.chapter-card[data-chapter]');
+            chapterCards.forEach((card) => {
+                const chapter = (card.dataset.chapter || '').toLowerCase();
+                if (!alwaysReadyChapters.has(chapter)) {
+                    markDisabled(card);
+                }
+            });
+
+            if (window.location.protocol === 'file:') {
                 return;
             }
 
             chapterCards.forEach((card) => {
-                const target = card.getAttribute('href');
-                fetch(target, { method: 'HEAD' })
-                    .then((response) => {
-                        if (response.ok) {
-                            markEnabled(card);
-                        } else {
-                            markDisabled(card);
-                        }
-                    })
-                    .catch(() => {
-                        // transient network failure: leave enabled
-                    });
+                verifyChapterCard(card);
             });
         })();
     </script>

@@ -55,7 +55,9 @@
   const storage = createStorage();
 
   function cleanPath(pathname) {
-    return String(pathname || "").split("#")[0].split("?")[0];
+    const clean = String(pathname || "").split("#")[0].split("?")[0];
+    if (!clean) return "/index.html";
+    return clean.endsWith("/") ? `${clean}index.html` : clean;
   }
 
   function getCurrentPath() {
@@ -104,8 +106,8 @@
     return pathname.toLowerCase().endsWith("/index.html");
   }
 
-  function isRootIndex(pathname) {
-    return pathname.toLowerCase().endsWith("/korean3bimprove/index.html");
+  function isRootIndex() {
+    return Boolean(document.body && document.body.dataset.page === "root-index");
   }
 
   function inChapterFolder(pathname) {
