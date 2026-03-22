@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>13과 문법 4 | V-도록</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 100%); }
+        .global-nav {
+            position: sticky; top: 0; z-index: 1000; height: 58px; width: 100%;
+            display: flex; align-items: center; gap: 12px; padding: 0 16px; box-sizing: border-box;
+            background: rgba(255,255,255,0.92); border-bottom: 1px solid #bfdbfe; backdrop-filter: blur(8px);
+        }
+        .global-nav a { color: #1d4ed8; text-decoration: none; font-weight: 700; font-size: 14px; }
+        .nav-divider { color: #cbd5e1; font-weight: 700; }
+        .safe { word-break: keep-all; overflow-wrap: break-word; }
+        .tab-btn.active { background: #dbeafe; color: #1e3a8a; border-color: #93c5fd; }
+        .vi-text { display: none; }
+        .vi-on .vi-text { display: block; }
+        .choice-btn { min-height: 52px; }
+        .prev-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 9999px;
+            border: 1px solid #cbd5e1; background: rgba(255,255,255,0.9);
+            color: #475569; text-decoration: none; font-size: 13px; font-weight: 700;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .prev-link:hover { background: #f8fafc; transform: translateY(-1px); }
+        .tag {
+            display: inline-block; padding: 2px 8px; border-radius: 9999px;
+            font-size: 11px; font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">13과 목록</a>
+    </nav>
+
+    <main id="page" class="max-w-md mx-auto px-4 py-4 pb-12">
+
+        <!-- Header Card -->
+        <section class="bg-white border border-blue-100 rounded-2xl p-5 shadow-sm">
+            <div class="flex items-start justify-between gap-2">
+                <div>
+                    <p class="text-xs font-bold text-blue-600">13과 문법 4</p>
+                    <h1 class="text-2xl font-black text-slate-800 mt-1">V-도록</h1>
+                    <p class="text-sm text-slate-600 mt-1 safe">
+                        목적·결과·정도·지시를 나타낼 때 써요. 앞 절이 뒤 절의 목적이나 기준이 됩니다.
+                    </p>
+                    <p class="vi-text text-xs text-blue-700 mt-1 safe">
+                        Diễn tả mục đích, kết quả, mức độ hoặc chỉ dẫn — mệnh đề trước là mục tiêu/chuẩn của mệnh đề sau.
+                    </p>
+                </div>
+                <button id="viToggle" class="shrink-0 px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 whitespace-nowrap">
+                    Tiếng Việt OFF
+                </button>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button id="tabLearn" class="tab-btn active border rounded-xl py-2.5 text-sm font-bold border-blue-200" type="button">학습</button>
+                <button id="tabPractice" class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">연습</button>
+            </div>
+        </section>
+
+        <!-- ── LEARN PANEL ── -->
+        <section id="learnPanel" class="mt-4 space-y-3">
+
+            <!-- 핵심 개념 -->
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">핵심 개념 — 세 가지 쓰임</h2>
+                <div class="mt-3 space-y-3 text-sm">
+                    <div class="bg-blue-50 border border-blue-100 rounded-xl px-3 py-2">
+                        <p class="font-bold text-blue-700">① 목적 / 결과 (so that / in order to)</p>
+                        <p class="text-slate-700 mt-1 safe">앞 절이 뒤 절 행동의 목적이나 의도한 결과입니다.</p>
+                        <p class="text-slate-700 mt-1">예) 한국어를 잘 할 수 있<strong>도록</strong> 매일 연습해요.</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1">VD: Tôi luyện tập mỗi ngày để có thể nói tiếng Hàn tốt.</p>
+                    </div>
+                    <div class="bg-sky-50 border border-sky-100 rounded-xl px-3 py-2">
+                        <p class="font-bold text-sky-700">② 정도 (to the extent that / until)</p>
+                        <p class="text-slate-700 mt-1 safe">어느 수준이나 정도까지 동작이 이루어짐을 나타냅니다.</p>
+                        <p class="text-slate-700 mt-1">예) 배가 터질 것 같<strong>도록</strong> 많이 먹었어요.</p>
+                        <p class="vi-text text-xs text-sky-700 mt-1">VD: Tôi ăn đến mức tưởng chừng vỡ bụng.</p>
+                    </div>
+                    <div class="bg-indigo-50 border border-indigo-100 rounded-xl px-3 py-2">
+                        <p class="font-bold text-indigo-700">③ 지시·요청 (telling/urging someone to)</p>
+                        <p class="text-slate-700 mt-1 safe">누군가에게 어떤 행동을 하도록 말하거나 시킬 때 씁니다.</p>
+                        <p class="text-slate-700 mt-1">예) 조용히 하<strong>도록</strong> 하세요. / 제때 오<strong>도록</strong> 해요.</p>
+                        <p class="vi-text text-xs text-indigo-700 mt-1">VD: Hãy làm cho yên lặng. / Hãy đến đúng giờ.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 만드는 법 -->
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">만드는 법</h2>
+                <div class="mt-3 space-y-2 text-sm">
+                    <div class="flex items-start gap-3 bg-slate-50 rounded-xl px-3 py-2">
+                        <span class="tag bg-blue-100 text-blue-800 mt-0.5 shrink-0">모든 동사</span>
+                        <div class="text-slate-700 safe">
+                            동사 어간 + <strong class="text-blue-700">도록</strong><br>
+                            가다 → <strong>가도록</strong> &nbsp;·&nbsp; 먹다 → <strong>먹도록</strong><br>
+                            공부하다 → <strong>공부하도록</strong>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 bg-slate-50 rounded-xl px-3 py-2">
+                        <span class="tag bg-sky-100 text-sky-800 mt-0.5 shrink-0">주어 주의</span>
+                        <div class="text-slate-700 safe">
+                            <strong>목적·정도 용법</strong>: 앞뒤 절 주어가 같거나 달라도 됩니다.<br>
+                            <strong>지시 용법</strong>: 주로 뒤 절 주어가 앞 절 행동을 시키는 구조.
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 px-1 safe">받침 유무와 관계없이 어간에 그대로 "-도록"을 붙입니다.</p>
+                </div>
+                <div class="vi-text text-xs text-blue-700 mt-2 space-y-1 safe">
+                    <p>· Tất cả động từ → gốc + <strong>도록</strong>. Không có biến đổi gốc.</p>
+                    <p>· Lưu ý chủ ngữ tùy theo cách dùng (mục đích / mức độ / chỉ dẫn).</p>
+                </div>
+            </article>
+
+            <!-- 헷갈림 비교 -->
+            <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-amber-800">헷갈림 비교: -도록 vs -게</h2>
+                <div class="mt-3 space-y-3 text-sm">
+                    <div>
+                        <p class="font-bold text-slate-800">V-도록 (목적·정도·지시)</p>
+                        <p class="text-slate-700 safe mt-1">목적, 결과 기준, 지시 등을 나타냄. 주로 동사와 함께.</p>
+                        <p class="text-slate-700">예) 잘 들<strong>리도록</strong> 크게 말해 주세요.</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1">Nói to để nghe rõ hơn.</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-slate-800">V/A-게 (방식·정도 부사)</p>
+                        <p class="text-slate-700 safe mt-1">동사나 형용사를 부사처럼 수식. 방식이나 정도를 나타냄.</p>
+                        <p class="text-slate-700">예) 크<strong>게</strong> 말해 주세요.</p>
+                        <p class="vi-text text-xs text-blue-700 mt-1">Hãy nói to (cách thức).</p>
+                    </div>
+                    <div class="bg-amber-100 rounded-xl px-3 py-2">
+                        <p class="text-xs font-bold text-amber-900">비교 포인트</p>
+                        <p class="text-xs text-amber-800 safe">
+                            "-도록"은 목적절 또는 기준이 되는 상태를 이끌고,<br>
+                            "-게"는 단순 부사적 수식에 가깝습니다.<br>
+                            두 표현이 바꿔 쓰일 때도 있지만 뉘앙스가 다릅니다.
+                        </p>
+                        <p class="vi-text text-xs text-amber-800 mt-1">"-도록" dẫn mệnh đề mục đích/chuẩn. "-게" gần với trạng từ đơn thuần.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 대화 예시 -->
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">대화 예시</h2>
+                <div class="mt-3 space-y-4 text-sm">
+
+                    <div class="space-y-2">
+                        <div class="flex items-start gap-2">
+                            <span class="shrink-0 w-7 h-7 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-xs">A</span>
+                            <div class="bg-slate-100 rounded-2xl rounded-tl-sm px-3 py-2 text-slate-800 safe">왜 이렇게 열심히 공부해요?</div>
+                        </div>
+                        <div class="flex items-start gap-2 flex-row-reverse">
+                            <span class="shrink-0 w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">B</span>
+                            <div class="bg-blue-600 text-white rounded-2xl rounded-tr-sm px-3 py-2 safe">장학금을 받을 수 있<strong>도록</strong> 최선을 다하고 있어요.</div>
+                        </div>
+                        <p class="vi-text text-xs text-blue-700 ml-9 safe">B: Tôi đang cố hết sức để có thể nhận học bổng.</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-start gap-2">
+                            <span class="shrink-0 w-7 h-7 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs">A</span>
+                            <div class="bg-slate-100 rounded-2xl rounded-tl-sm px-3 py-2 text-slate-800 safe">어제 파티 어땠어요?</div>
+                        </div>
+                        <div class="flex items-start gap-2 flex-row-reverse">
+                            <span class="shrink-0 w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">B</span>
+                            <div class="bg-blue-600 text-white rounded-2xl rounded-tr-sm px-3 py-2 safe">너무 재밌어서 시간 가는 줄 모를 정<strong>도록</strong> 놀았어요.</div>
+                        </div>
+                        <p class="vi-text text-xs text-blue-700 ml-9 safe">B: Vui đến mức không biết thời gian trôi qua lúc nào.</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex items-start gap-2">
+                            <span class="shrink-0 w-7 h-7 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs">A</span>
+                            <div class="bg-slate-100 rounded-2xl rounded-tl-sm px-3 py-2 text-slate-800 safe">학생들한테 무슨 말씀 하셨어요?</div>
+                        </div>
+                        <div class="flex items-start gap-2 flex-row-reverse">
+                            <span class="shrink-0 w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">B</span>
+                            <div class="bg-blue-600 text-white rounded-2xl rounded-tr-sm px-3 py-2 safe">수업 시간에 늦지 않<strong>도록</strong> 하라고 했어요.</div>
+                        </div>
+                        <p class="vi-text text-xs text-blue-700 ml-9 safe">B: Tôi dặn các em không được đến muộn giờ học.</p>
+                    </div>
+
+                </div>
+            </article>
+
+            <!-- 문장 예시 -->
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">문장 예시</h2>
+                <ul class="mt-3 space-y-3 text-sm text-slate-700">
+                    <li class="safe">
+                        발표를 잘 할 수 있<strong class="text-blue-700">도록</strong> 며칠 동안 연습했어요.
+                        <p class="vi-text text-xs text-blue-700 mt-0.5">Tôi đã luyện tập nhiều ngày để có thể thuyết trình tốt.</p>
+                    </li>
+                    <li class="safe">
+                        목이 쉬<strong class="text-blue-700">도록</strong> 응원을 했어요.
+                        <p class="vi-text text-xs text-blue-700 mt-0.5">Tôi đã hô vang cổ vũ đến khàn cả giọng.</p>
+                    </li>
+                    <li class="safe">
+                        다음에는 이런 실수를 하지 않<strong class="text-blue-700">도록</strong> 주의하세요.
+                        <p class="vi-text text-xs text-blue-700 mt-0.5">Lần sau hãy chú ý để không mắc lỗi như vậy nữa.</p>
+                    </li>
+                    <li class="safe">
+                        건강을 잘 유지할 수 있<strong class="text-blue-700">도록</strong> 규칙적으로 운동하고 있어요.
+                        <p class="vi-text text-xs text-blue-700 mt-0.5">Tôi đang tập thể dục đều đặn để duy trì sức khỏe tốt.</p>
+                    </li>
+                    <li class="safe">
+                        모두가 들을 수 있<strong class="text-blue-700">도록</strong> 마이크를 켜 주세요.
+                        <p class="vi-text text-xs text-blue-700 mt-0.5">Hãy bật micro để mọi người có thể nghe.</p>
+                    </li>
+                </ul>
+            </article>
+
+        </section>
+
+        <!-- ── PRACTICE PANEL ── -->
+        <section id="practicePanel" class="mt-4 hidden">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between text-xs">
+                    <span id="progress" class="font-bold text-blue-600"></span>
+                    <span class="text-slate-500">즉시 피드백</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+                    <div id="progressBar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+                <p id="qGrammar" class="mt-3 text-[11px] font-bold text-blue-600 uppercase tracking-wide"></p>
+                <p id="qText" class="mt-1 text-base font-bold text-slate-800 safe"></p>
+                <p id="qHintKo" class="mt-1 text-xs text-slate-500 safe"></p>
+                <p id="qHintVi" class="vi-text text-xs text-blue-600 mt-0.5 safe"></p>
+                <div id="choices" class="mt-3 space-y-2"></div>
+                <div id="shortWrap" class="mt-3 hidden">
+                    <input id="shortInput" type="text"
+                        class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400"
+                        placeholder="정답 입력 후 Enter 또는 확인" />
+                    <button id="checkShortBtn" class="mt-2 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">정답 확인</button>
+                </div>
+                <div id="feedbackBox" class="hidden mt-3 rounded-xl border p-3"></div>
+                <button id="nextBtn" class="hidden mt-3 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">다음 문제 →</button>
+            </article>
+            <article id="resultPanel" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+        </section>
+
+        <!-- 이전 -->
+        <div class="mt-5 flex justify-start items-center">
+            <a href="grammar3.html" class="prev-link">← 문법 3</a>
+        </div>
+
+    </main>
+
+    <script>
+        const page          = document.getElementById('page');
+        const viToggle      = document.getElementById('viToggle');
+        const tabLearn      = document.getElementById('tabLearn');
+        const tabPractice   = document.getElementById('tabPractice');
+        const learnPanel    = document.getElementById('learnPanel');
+        const practicePanel = document.getElementById('practicePanel');
+        const progressEl    = document.getElementById('progress');
+        const progressBar   = document.getElementById('progressBar');
+        const qGrammar      = document.getElementById('qGrammar');
+        const qText         = document.getElementById('qText');
+        const qHintKo       = document.getElementById('qHintKo');
+        const qHintVi       = document.getElementById('qHintVi');
+        const choices       = document.getElementById('choices');
+        const shortWrap     = document.getElementById('shortWrap');
+        const shortInput    = document.getElementById('shortInput');
+        const checkShortBtn = document.getElementById('checkShortBtn');
+        const feedbackBox   = document.getElementById('feedbackBox');
+        const nextBtn       = document.getElementById('nextBtn');
+        const resultPanel   = document.getElementById('resultPanel');
+
+        let viOn = false;
+        viToggle.addEventListener('click', function () {
+            viOn = !viOn;
+            page.classList.toggle('vi-on', viOn);
+            viToggle.textContent = viOn ? 'Tiếng Việt ON' : 'Tiếng Việt OFF';
+        });
+
+        function showTab(name) {
+            const learn = name === 'learn';
+            learnPanel.classList.toggle('hidden', !learn);
+            practicePanel.classList.toggle('hidden', learn);
+            tabLearn.classList.toggle('active', learn);
+            tabPractice.classList.toggle('active', !learn);
+            tabLearn.classList.toggle('text-slate-600', !learn);
+            tabPractice.classList.toggle('text-slate-600', learn);
+            if (!learn && !state.started) { state.started = true; renderQuestion(); }
+        }
+        tabLearn.addEventListener('click',    function () { showTab('learn'); });
+        tabPractice.addEventListener('click', function () { showTab('practice'); });
+
+        const quiz = [
+            {
+                type: 'mcq',
+                grammar: '의미 이해',
+                q: '"한국어를 잘 할 수 있도록 매일 연습해요"에서 "-도록"의 쓰임은?',
+                hintKo: '앞 절이 뒤 절 행동의 이유·목적인지 생각해 보세요.',
+                hintVi: 'Hãy xem mệnh đề trước có phải là mục đích của mệnh đề sau không.',
+                options: ['정도 표현', '지시·요청', '목적·결과', '시간 순서'],
+                answer: '목적·결과',
+                explainKo: '"잘 할 수 있도록"은 "매일 연습"의 목적입니다. 앞 절이 뒤 절의 목적을 나타냅니다.',
+                explainVi: '"잘 할 수 있도록" là mục đích của "매일 연습". Mệnh đề trước diễn tả mục đích.'
+            },
+            {
+                type: 'short',
+                grammar: '형태 변환',
+                q: '모두가 들을 수 있_____ 마이크를 켜 주세요. (도록)',
+                hintKo: '"들을 수 있다" 어간에 "도록"을 붙여요.',
+                hintVi: 'Gốc "들을 수 있" + "도록".',
+                answers: ['도록'],
+                explainKo: '"들을 수 있다"의 어간에 "도록"을 그대로 붙여 "들을 수 있도록"이 됩니다.',
+                explainVi: '"들을 수 있다" + "도록" = "들을 수 있도록". Không có biến đổi gốc.'
+            },
+            {
+                type: 'mcq',
+                grammar: '형태 규칙',
+                q: '"먹다"에 "-도록"을 붙인 형태로 맞는 것은?',
+                hintKo: '받침 유무와 상관없이 어간에 "도록"을 붙여요.',
+                hintVi: 'Gốc động từ + "도록", không phụ thuộc vào có hay không có patchim.',
+                options: ['먹어도록', '먹을도록', '먹도록', '먹으도록'],
+                answer: '먹도록',
+                explainKo: '"먹다" 어간 "먹"에 "도록"을 붙이면 "먹도록"입니다. 어간 변화 없이 그냥 붙입니다.',
+                explainVi: '"먹다" gốc "먹" + "도록" = "먹도록". Không biến đổi gốc.'
+            },
+            {
+                type: 'mcq',
+                grammar: '세 가지 쓰임',
+                q: '"목이 쉬도록 응원을 했어요"에서 "-도록"의 쓰임은?',
+                hintKo: '목이 쉬는 것이 목적인지, 결과·정도인지 생각해 보세요.',
+                hintVi: 'Hãy xem "쉬다" là mục đích hay là mức độ/kết quả.',
+                options: ['목적', '정도', '지시', '시간'],
+                answer: '정도',
+                explainKo: '"목이 쉬도록"은 응원의 결과로 나타난 정도를 나타냅니다. "~할 정도까지"의 의미입니다.',
+                explainVi: '"목이 쉬도록" diễn tả mức độ của việc cổ vũ — đến mức khàn giọng.'
+            },
+            {
+                type: 'mcq',
+                grammar: '-도록 vs -게',
+                q: '다음 두 문장 중 의미가 거의 같은 것끼리 짝지어진 것은?',
+                hintKo: '"-도록"과 "-게"가 비슷하게 쓰이는 경우를 찾아보세요.',
+                hintVi: 'Tìm cặp câu mà "-도록" và "-게" có thể dùng thay nhau.',
+                options: [
+                    '잘 들리도록 말해요 ↔ 잘 들리게 말해요',
+                    '배가 터지도록 먹었어요 ↔ 배가 터지게 먹었어요',
+                    '위 두 쌍 모두 의미가 거의 같다',
+                    '위 두 쌍 모두 의미가 완전히 다르다'
+                ],
+                answer: '위 두 쌍 모두 의미가 거의 같다',
+                explainKo: '"-도록"과 "-게"는 목적/결과 및 정도를 나타낼 때 바꿔 쓸 수 있는 경우가 있습니다.',
+                explainVi: '"-도록"과 "-게" có thể dùng thay nhau trong một số trường hợp diễn tả mục đích/kết quả và mức độ.'
+            },
+            {
+                type: 'short',
+                grammar: '형태 변환',
+                q: '실수를 하지 않_____ 주의하세요. (도록)',
+                hintKo: '"하지 않다" 어간에 "도록"을 붙여요.',
+                hintVi: 'Gốc "하지 않" + "도록".',
+                answers: ['도록'],
+                explainKo: '"하지 않다" 어간에 "도록"을 붙이면 "하지 않도록"이 됩니다.',
+                explainVi: '"하지 않다" + "도록" = "하지 않도록". Không biến đổi gốc.'
+            },
+            {
+                type: 'mcq',
+                grammar: '지시 용법',
+                q: '"학생들에게 제때 오도록 했어요"에서 화자가 한 행동은?',
+                hintKo: '"-도록 하다"의 지시 용법을 생각해 보세요.',
+                hintVi: 'Hãy nghĩ về cách dùng chỉ dẫn của "-도록 하다".',
+                options: [
+                    '화자 자신이 제때 왔다',
+                    '학생들에게 제때 오라고 지시하거나 요청했다',
+                    '학생들이 제때 올 것이라고 예측했다',
+                    '학생들이 제때 왔다는 사실을 확인했다'
+                ],
+                answer: '학생들에게 제때 오라고 지시하거나 요청했다',
+                explainKo: '"V-도록 하다"는 누군가에게 어떤 행동을 하도록 지시하거나 요청하는 표현입니다.',
+                explainVi: '"V-도록 하다" diễn tả việc chỉ dẫn hoặc yêu cầu ai đó thực hiện hành động.'
+            },
+            {
+                type: 'mcq',
+                grammar: '자연스러운 문장 고르기',
+                q: 'V-도록을 가장 자연스럽게 쓴 문장은?',
+                hintKo: '"도록"의 세 가지 쓰임(목적, 정도, 지시)에 맞는 문장을 고르세요.',
+                hintVi: 'Chọn câu dùng "도록" tự nhiên nhất theo ba nghĩa (mục đích, mức độ, chỉ dẫn).',
+                options: [
+                    '내일 비가 오도록 우산을 가져왔어요. (× 비가 오는 것이 목적이 아님)',
+                    '건강을 위해 매일 운동할 수 있도록 시간을 만들어요.',
+                    '그 사람이 예쁘도록 화장을 했어요. (× 형용사에는 부자연스러움)',
+                    '어제 일찍 자도록 피곤했어요. (× 논리 오류)'
+                ],
+                answer: '건강을 위해 매일 운동할 수 있도록 시간을 만들어요.',
+                explainKo: '"운동할 수 있도록 시간을 만들어요"는 앞 절이 뒤 절 행동의 목적을 나타내는 자연스러운 사용입니다.',
+                explainVi: '"운동할 수 있도록 시간을 만들어요": mệnh đề trước là mục đích của mệnh đề sau — cách dùng tự nhiên.'
+            },
+            {
+                type: 'short',
+                grammar: '형태 변환',
+                q: '발표를 잘 할 수 있_____ 며칠 동안 연습했어요. (도록)',
+                hintKo: '"할 수 있다" 어간에 "도록"을 붙여요.',
+                hintVi: '"할 수 있" + "도록".',
+                answers: ['도록'],
+                explainKo: '"할 수 있다" + "도록" = "할 수 있도록". 어간 변화 없이 붙입니다.',
+                explainVi: '"할 수 있다" + "도록" = "할 수 있도록". Không biến đổi gốc.'
+            },
+            {
+                type: 'mcq',
+                grammar: '종합 이해',
+                q: '다음 중 V-도록의 쓰임이 나머지와 다른 하나는?',
+                hintKo: '목적, 정도, 지시 중 어떤 쓰임인지 구별해 보세요.',
+                hintVi: 'Phân biệt ba cách dùng: mục đích, mức độ, chỉ dẫn.',
+                options: [
+                    '한국어를 잘 하도록 매일 공부해요. (목적)',
+                    '눈물이 나도록 슬픈 영화를 봤어요. (정도)',
+                    '제시간에 오도록 하세요. (지시)',
+                    '밥을 먹도록 식당에 갔어요. (목적)'
+                ],
+                answer: '눈물이 나도록 슬픈 영화를 봤어요. (정도)',
+                explainKo: '"눈물이 나도록"은 정도를 나타내고, 나머지는 목적이나 지시를 나타냅니다.',
+                explainVi: '"눈물이 나도록" diễn tả mức độ. Các câu còn lại diễn tả mục đích hoặc chỉ dẫn.'
+            }
+        ];
+
+        const state = { idx: 0, answered: false, score: 0, logs: [], started: false };
+
+        function esc(t) {
+            return String(t == null ? '' : t)
+                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+        }
+        function normalize(t) { return String(t||'').replace(/\s/g,''); }
+
+        function shuffleQuiz() {
+            for (var i = quiz.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = quiz[i]; quiz[i] = quiz[j]; quiz[j] = tmp;
+            }
+        }
+        shuffleQuiz();
+
+        function lockInputs(q, user) {
+            if (q.type === 'mcq') {
+                Array.from(choices.querySelectorAll('button')).forEach(function (btn) {
+                    btn.disabled = true;
+                    if (btn.textContent === q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-blue-400 bg-blue-50 text-blue-800';
+                    } else if (btn.textContent === user && btn.textContent !== q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-rose-400 bg-rose-50 text-rose-800';
+                    } else {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-slate-200 bg-slate-50 text-slate-400';
+                    }
+                });
+            } else {
+                shortInput.disabled = true;
+                checkShortBtn.disabled = true;
+                checkShortBtn.className = 'mt-2 w-full bg-slate-400 text-white py-3 rounded-xl text-sm font-bold cursor-not-allowed';
+            }
+        }
+
+        function feedbackHtml(ok, user, correct, q) {
+            return '<p class="text-sm font-bold ' + (ok ? 'text-blue-700' : 'text-rose-700') + '">'
+                + (ok ? '정답입니다.' : '오답입니다.')
+                + ' <span class="text-xs font-normal">(' + (ok ? 'Đúng' : 'Sai') + ')</span></p>'
+                + '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(user || '(무응답)') + '</p>'
+                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>'
+                + '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(q.explainKo) + '</p>'
+                + '<p class="text-xs text-blue-700 mt-1 safe"><b>VI:</b> ' + esc(q.explainVi) + '</p>';
+        }
+
+        function answerQuestion(user) {
+            if (state.answered) return;
+            const q = quiz[state.idx];
+            const correct = q.type === 'mcq' ? q.answer : q.answers[0];
+            let ok;
+            if (q.type === 'mcq') {
+                ok = user === q.answer;
+            } else {
+                const n = normalize(user);
+                ok = q.answers.some(function (a) { return normalize(a) === n; });
+            }
+            state.answered = true;
+            if (ok) state.score += 1;
+            state.logs.push({ ok: ok, user: user, correct: correct, q: q.q, explainKo: q.explainKo, explainVi: q.explainVi });
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-blue-50 border-blue-200' : 'bg-rose-50 border-rose-200');
+            feedbackBox.innerHTML = feedbackHtml(ok, user, correct, q);
+            nextBtn.classList.remove('hidden');
+            lockInputs(q, user);
+        }
+
+        function renderQuestion() {
+            if (state.idx >= quiz.length) { renderResult(); return; }
+            const q = quiz[state.idx];
+            state.answered = false;
+            progressEl.textContent = (state.idx + 1) + ' / ' + quiz.length;
+            progressBar.style.width = (state.idx / quiz.length * 100) + '%';
+            qGrammar.textContent = q.grammar;
+            qText.textContent = q.q;
+            qHintKo.textContent = '힌트: ' + q.hintKo;
+            qHintVi.textContent = 'Gợi ý: ' + q.hintVi;
+            choices.innerHTML = '';
+            feedbackBox.classList.add('hidden');
+            feedbackBox.innerHTML = '';
+            nextBtn.classList.add('hidden');
+            shortWrap.classList.add('hidden');
+            shortInput.value = '';
+            shortInput.disabled = false;
+            checkShortBtn.disabled = false;
+            checkShortBtn.className = 'mt-2 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold';
+            if (q.type === 'mcq') {
+                q.options.forEach(function (opt) {
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn w-full border border-slate-300 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-800';
+                    btn.textContent = opt;
+                    btn.addEventListener('click', function () { answerQuestion(opt); });
+                    choices.appendChild(btn);
+                });
+            } else {
+                shortWrap.classList.remove('hidden');
+                shortInput.focus();
+            }
+        }
+
+        shortInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { answerQuestion(shortInput.value.trim()); }
+        });
+        checkShortBtn.addEventListener('click', function () { answerQuestion(shortInput.value.trim()); });
+        nextBtn.addEventListener('click', function () {
+            state.idx += 1;
+            renderQuestion();
+        });
+
+        function renderResult() {
+            practicePanel.querySelector('article:first-child').classList.add('hidden');
+            resultPanel.classList.remove('hidden');
+            const total = quiz.length;
+            const pct = Math.round(state.score / total * 100);
+            const wrongItems = state.logs.filter(function (l) { return !l.ok; });
+            let html = '<p class="text-lg font-black text-slate-800">결과: ' + state.score + ' / ' + total
+                + ' <span class="text-blue-600">(' + pct + '%)</span></p>'
+                + '<p class="text-xs text-slate-500 mt-1">Kết quả: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
+            if (pct >= 80) {
+                html += '<p class="text-sm text-blue-700 font-bold mt-2">훌륭해요! 문법을 잘 이해했어요.</p>'
+                    + '<p class="text-xs text-blue-600">Xuất sắc! Bạn đã nắm tốt ngữ pháp này.</p>';
+            } else {
+                html += '<p class="text-sm text-amber-700 font-bold mt-2">조금 더 연습해 봐요!</p>'
+                    + '<p class="text-xs text-amber-600">Hãy luyện thêm một chút nhé!</p>';
+            }
+            if (wrongItems.length > 0) {
+                html += '<div class="mt-3 border-t pt-3"><p class="text-xs font-bold text-slate-700 mb-2">틀린 문제 복습 / Ôn lại câu sai:</p>';
+                wrongItems.forEach(function (l) {
+                    html += '<div class="mb-2 bg-rose-50 border border-rose-100 rounded-xl px-3 py-2">'
+                        + '<p class="text-xs text-slate-700 font-semibold safe">' + esc(l.q) + '</p>'
+                        + '<p class="text-xs text-rose-700 mt-1">내 답: ' + esc(l.user || '(무응답)') + '</p>'
+                        + '<p class="text-xs text-blue-700">정답: ' + esc(l.correct) + '</p>'
+                        + '<p class="text-xs text-slate-600 mt-1 safe">' + esc(l.explainKo) + '</p>'
+                        + '</div>';
+                });
+                html += '</div>';
+            }
+            html += '<button id="retryBtn" class="mt-4 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">다시 풀기 / Làm lại</button>';
+            resultPanel.innerHTML = html;
+            document.getElementById('retryBtn').addEventListener('click', function () {
+                state.idx = 0; state.score = 0; state.logs = []; state.answered = false;
+                shuffleQuiz();
+                resultPanel.classList.add('hidden');
+                practicePanel.querySelector('article:first-child').classList.remove('hidden');
+                renderQuestion();
+            });
+        }
+    </script>
+</body>
+</html>
