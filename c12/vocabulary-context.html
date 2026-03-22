@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Google Tag Manager -->
+        <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.getElementsByTagName(s)[0],dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
     <!-- End Google Tag Manager -->
@@ -78,6 +78,45 @@
             gap: 20px;
         }
         .hero { grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr); padding: 24px; }
+        .hero-compact {
+            grid-template-columns: minmax(0, 1fr);
+            align-items: center;
+            padding: 20px 24px;
+        }
+        .hero-compact h1 {
+            margin-bottom: 0;
+            font-size: clamp(1.7rem, 2.4vw, 2.35rem);
+        }
+        .hero-compact .lang-row {
+            margin-top: 16px;
+        }
+        .staff-note {
+            margin-top: 20px;
+            padding: 20px 24px;
+        }
+        .staff-note summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--blue);
+        }
+        .staff-note summary::-webkit-details-marker {
+            display: none;
+        }
+        .staff-note[open] summary {
+            margin-bottom: 12px;
+        }
+        .staff-note p {
+            margin-bottom: 12px;
+        }
+        .staff-note p:last-of-type {
+            margin-bottom: 0;
+        }
+        .staff-note ul {
+            margin: 0;
+        }
+        .staff-note li + li {
+            margin-top: 8px;
+        }
         .context-grid { grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.85fr); margin-top: 20px; }
         .detail-grid { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); margin-top: 20px; }
         .transfer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 20px; }
@@ -358,38 +397,22 @@
         <a href="index.html">12과 목록</a>
     </nav>
 
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <main>
-        <section class="panel hero">
+        <section class="panel hero hero-compact">
             <div>
                 <p class="eyebrow">Context First Vocabulary</p>
-                <h1>12과 어휘를 몸과 건강 상태 중심의 문맥형 페이지로 정리했습니다.</h1>
-                <p>이 페이지는 먼저 운동 전후의 짧은 상황을 읽고, 그다음에 몸 상태 표현, 증상, 회복 표현, 스트레칭 동작을 뜻과 예문으로 확인하게 구성했습니다. 단어 카드보다 먼저 문맥에서 느낌을 잡고, 마지막에 복습 카드와 회상 퀴즈로 다시 떠올리도록 만들었습니다.</p>
-                <div class="row">
-                    <span class="badge">건강 · 운동 주제</span>
-                    <span class="badge">상태 표현 + 동작 표현</span>
-                    <span class="badge">문맥 → 사용 → 복습</span>
-                </div>
-                <div class="row" style="margin-top:16px;">
+                <h1>12과 어휘 문맥 학습</h1>
+                <div class="row lang-row">
                     <button class="btn active lang-btn" type="button" data-lang="korean">한국어 설명</button>
                     <button class="btn lang-btn" type="button" data-lang="vietnamese">베트남어</button>
                     <button class="btn lang-btn" type="button" data-lang="japanese">일본어</button>
                     <button class="btn lang-btn" type="button" data-lang="chinese">중국어</button>
                 </div>
-            </div>
-            <div class="card">
-                <h2>학습 흐름</h2>
-                <ul>
-                    <li>운동 전후의 짧은 문맥에서 몸 상태와 동작을 먼저 만납니다.</li>
-                    <li>아래 패널에서 뜻, 같이 쓰는 말, 조사, 비슷한 형태를 확인합니다.</li>
-                    <li>말하기·쓰기 질문으로 내 몸 상태를 직접 설명해 봅니다.</li>
-                    <li>맨 아래 복습 카드와 퀴즈로 회상합니다.</li>
-                </ul>
-                <div class="soft">동작 표현은 조사까지 같이 보고, 상태 표현은 반대말과 함께 기억하면 더 오래 남습니다.</div>
             </div>
         </section>
 
@@ -608,6 +631,15 @@
                 </div>
             </section>
         </section>
+            <details class="panel staff-note">
+            <summary>강사용 안내</summary>
+            <p>이 페이지는 몸 상태와 동작 표현을 카드보다 먼저 문맥에서 익히도록 구성한 어휘 확장 자료입니다.</p>
+            <ul>
+                <li>짧은 상황 읽기 뒤에 뜻, 같이 쓰는 말, 예문을 바로 확인합니다.</li>
+                <li>말하기 질문과 복습 카드까지 한 흐름으로 이어집니다.</li>
+                <li>언어 버튼은 설명 언어만 바꾸고 활동 순서는 유지합니다.</li>
+            </ul>
+        </details>
     </main>
 
     <div class="modal-backdrop" id="context-modal" hidden>

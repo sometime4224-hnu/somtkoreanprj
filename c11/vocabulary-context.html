@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- Google Tag Manager -->
+        <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.getElementsByTagName(s)[0],dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
     <!-- End Google Tag Manager -->
@@ -78,6 +78,45 @@
             gap: 20px;
         }
         .hero { grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr); padding: 24px; }
+        .hero-compact {
+            grid-template-columns: minmax(0, 1fr);
+            align-items: center;
+            padding: 20px 24px;
+        }
+        .hero-compact h1 {
+            margin-bottom: 0;
+            font-size: clamp(1.7rem, 2.4vw, 2.35rem);
+        }
+        .hero-compact .lang-row {
+            margin-top: 16px;
+        }
+        .staff-note {
+            margin-top: 20px;
+            padding: 20px 24px;
+        }
+        .staff-note summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--blue);
+        }
+        .staff-note summary::-webkit-details-marker {
+            display: none;
+        }
+        .staff-note[open] summary {
+            margin-bottom: 12px;
+        }
+        .staff-note p {
+            margin-bottom: 12px;
+        }
+        .staff-note p:last-of-type {
+            margin-bottom: 0;
+        }
+        .staff-note ul {
+            margin: 0;
+        }
+        .staff-note li + li {
+            margin-top: 8px;
+        }
         .context-grid { grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.85fr); margin-top: 20px; }
         .detail-grid { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); margin-top: 20px; }
         .transfer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 20px; }
@@ -358,38 +397,22 @@
         <a href="index.html">11과 목록</a>
     </nav>
 
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <main>
-        <section class="panel hero">
+        <section class="panel hero hero-compact">
             <div>
                 <p class="eyebrow">Context First Vocabulary</p>
-                <h1>11과 어휘를 주제 기반 문맥형 페이지로 업그레이드했습니다.</h1>
-                <p>이 페이지는 먼저 짧은 글을 읽고, 그다음에 단어 뜻, 같이 쓰는 말, 예문, 복습 문제를 보게 했습니다. 어려운 설명보다 쉬운 문장으로 먼저 뜻을 잡을 수 있게 바꿨습니다.</p>
-                <div class="row">
-                    <span class="badge">중급 텍스트 기반</span>
-                    <span class="badge">일 구하기와 회사 생활</span>
-                    <span class="badge">문맥 → 사용 → 복습</span>
-                </div>
-                <div class="row" style="margin-top:16px;">
+                <h1>11과 어휘 문맥 학습</h1>
+                <div class="row lang-row">
                     <button class="btn active lang-btn" type="button" data-lang="korean">한국어 설명</button>
                     <button class="btn lang-btn" type="button" data-lang="vietnamese">베트남어</button>
                     <button class="btn lang-btn" type="button" data-lang="japanese">일본어</button>
                     <button class="btn lang-btn" type="button" data-lang="chinese">중국어</button>
                 </div>
-            </div>
-            <div class="card">
-                <h2>학습 흐름</h2>
-                <ul>
-                    <li>짧은 문맥에서 중요한 말을 먼저 만납니다.</li>
-                    <li>아래 패널에서 뜻, 같이 쓰는 말, 조사, 비슷한 형태를 봅니다.</li>
-                    <li>짧은 말하기·쓰기 문제로 바로 써 봅니다.</li>
-                    <li>맨 아래 복습 카드와 퀴즈로 회상합니다.</li>
-                </ul>
-                <div class="soft">카드는 맨 마지막에만 보고, 앞에서는 문장과 예문으로 먼저 공부합니다.</div>
             </div>
         </section>
 
@@ -596,6 +619,15 @@
                 </div>
             </section>
         </section>
+            <details class="panel staff-note">
+            <summary>강사용 안내</summary>
+            <p>이 페이지는 어휘 카드를 먼저 보여 주기보다 짧은 문맥에서 핵심 어휘를 먼저 만나게 하도록 구성했습니다.</p>
+            <ul>
+                <li>문맥 읽기 후 단어 뜻과 같이 쓰는 말을 바로 확인합니다.</li>
+                <li>예문, 말하기 질문, 카드 복습 순으로 이어집니다.</li>
+                <li>언어 버튼은 설명 언어만 바꾸고 활동 흐름은 그대로 유지합니다.</li>
+            </ul>
+        </details>
     </main>
 
     <div class="modal-backdrop" id="context-modal" hidden>
