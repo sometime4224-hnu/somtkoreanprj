@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>12과 어휘 인베이더</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+        :root {
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-top: env(safe-area-inset-top, 0px);
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #07071a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            inset: 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .top-nav {
+            display: flex; align-items: center; gap: 8px;
+            padding: 0 16px;
+            height: calc(44px + var(--safe-top));
+            padding-top: var(--safe-top);
+            background: rgba(7,7,26,0.97);
+            border-bottom: 1px solid rgba(99,102,241,0.35);
+            flex-shrink: 0;
+            z-index: 200;
+        }
+        .top-nav a { color: #818cf8; font-weight: 700; font-size: 13px; text-decoration: none; }
+        .top-nav .sep { color: #374151; }
+        .top-nav .title { color: #e2e8f0; font-weight: 700; font-size: 13px; }
+
+        .screen { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+        .screen.active { display: flex; }
+
+        #start-screen {
+            align-items: center;
+            justify-content: center;
+            padding: 20px 20px calc(20px + var(--safe-bottom));
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            gap: 0;
+        }
+
+        .game-logo {
+            font-size: clamp(26px, 7vw, 40px);
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #818cf8, #e879f9, #f472b6);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        .game-subtitle { color: #6b7280; font-size: 13px; margin-bottom: 24px; text-align: center; }
+
+        .section-card {
+            width: 100%; max-width: 340px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .section-card h3 {
+            color: #6b7280; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1.2px;
+            margin-bottom: 12px;
+        }
+
+        .diff-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+        .diff-btn {
+            padding: 10px 6px;
+            border: 2px solid rgba(99,102,241,0.25);
+            border-radius: 10px;
+            background: rgba(99,102,241,0.06);
+            color: #c7d2fe;
+            font-family: inherit; font-size: 13px; font-weight: 700;
+            cursor: pointer; transition: all 0.18s;
+            text-align: center; line-height: 1.4;
+        }
+        .diff-btn .sub { font-size: 10px; color: #6b7280; font-weight: 400; }
+        .diff-btn:active, .diff-btn.selected {
+            border-color: #818cf8;
+            background: rgba(99,102,241,0.22);
+            box-shadow: 0 0 12px rgba(129,140,248,0.3);
+        }
+
+        .how-to {
+            width: 100%; max-width: 340px;
+            color: #4b5563; font-size: 12px; line-height: 1.8;
+            text-align: center; margin-bottom: 14px;
+        }
+        .how-to span { color: #818cf8; font-weight: 700; }
+
+        .start-btn {
+            width: 100%; max-width: 340px;
+            padding: 16px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none; border-radius: 14px;
+            color: #fff; font-family: inherit;
+            font-size: 17px; font-weight: 900;
+            cursor: pointer; letter-spacing: 1px;
+            box-shadow: 0 4px 20px rgba(99,102,241,0.45);
+            transition: all 0.18s;
+            -webkit-appearance: none;
+        }
+        .start-btn:active { transform: scale(0.97); }
+
+        #game-screen { flex-direction: column; }
+
+        .game-hud {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 6px 16px;
+            background: rgba(0,0,0,0.6);
+            border-bottom: 1px solid rgba(99,102,241,0.15);
+            flex-shrink: 0;
+        }
+        .hud-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+        .hud-label { font-size: 9px; color: #4b5563; text-transform: uppercase; letter-spacing: 1px; }
+        .hud-value { font-size: 17px; font-weight: 900; color: #e2e8f0; line-height: 1.1; }
+        .hud-lives { display: flex; gap: 3px; }
+        .heart { font-size: 14px; }
+
+        .question-banner {
+            background: rgba(99,102,241,0.1);
+            border-bottom: 1px solid rgba(99,102,241,0.2);
+            padding: 8px 14px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .q-label { font-size: 10px; color: #4b5563; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+
+        .chosung-row {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            align-items: center; gap: 3px;
+            min-height: 36px;
+        }
+        .cs-block {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px;
+            background: rgba(129,140,248,0.18);
+            border: 1.5px solid rgba(129,140,248,0.5);
+            border-radius: 7px;
+            font-size: 18px; font-weight: 900; color: #a5b4fc;
+            line-height: 1;
+        }
+        .cs-sep {
+            font-size: 16px; color: #374151; font-weight: 700;
+            padding: 0 2px;
+        }
+
+        .speech-status {
+            font-size: 11px; margin-top: 5px;
+            min-height: 16px; color: #6b7280;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .speech-status .dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #374151; flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .speech-status.listening .dot {
+            background: #22c55e;
+            animation: pulse-dot 1s infinite;
+        }
+        .speech-status.heard .dot { background: #818cf8; }
+        .speech-status.error .dot { background: #ef4444; }
+        @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .canvas-wrapper {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        #game-canvas {
+            display: block;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        .mic-bar {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 20px calc(8px + var(--safe-bottom));
+            background: rgba(0,0,0,0.7);
+            border-top: 1px solid rgba(99,102,241,0.15);
+            gap: 12px;
+        }
+        .move-btn {
+            width: 62px; height: 62px;
+            border-radius: 50%;
+            border: 2px solid rgba(99,102,241,0.4);
+            background: rgba(99,102,241,0.1);
+            color: #818cf8; font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; user-select: none; -webkit-user-select: none;
+            flex-shrink: 0;
+            -webkit-appearance: none;
+            transition: background 0.1s;
+        }
+        .move-btn:active { background: rgba(99,102,241,0.3); }
+        .mic-btn {
+            flex: 1;
+            height: 62px;
+            border-radius: 16px;
+            border: 2px solid rgba(129,140,248,0.5);
+            background: rgba(99,102,241,0.12);
+            color: #818cf8;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            cursor: pointer; user-select: none; -webkit-user-select: none;
+            font-family: inherit; font-size: 14px; font-weight: 700;
+            transition: all 0.15s;
+            -webkit-appearance: none;
+        }
+        .mic-btn.active {
+            background: rgba(239,68,68,0.2);
+            border-color: #f87171;
+            color: #f87171;
+            box-shadow: 0 0 16px rgba(239,68,68,0.3);
+        }
+        .mic-icon { font-size: 24px; }
+
+        #end-screen {
+            align-items: center; justify-content: center;
+            padding: 20px 20px calc(20px + var(--safe-bottom));
+            overflow-y: auto; gap: 0; text-align: center;
+        }
+        .result-emoji { font-size: 56px; margin-bottom: 10px; }
+        .result-title {
+            font-size: 26px; font-weight: 900;
+            background: linear-gradient(135deg, #818cf8, #e879f9);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 8px;
+        }
+        .result-score { font-size: 52px; font-weight: 900; color: #f9fafb; margin-bottom: 2px; }
+        .result-sub { color: #4b5563; font-size: 13px; margin-bottom: 22px; }
+        .result-stats {
+            display: grid; grid-template-columns: repeat(3,1fr);
+            gap: 10px; margin-bottom: 22px; width: 100%; max-width: 300px;
+        }
+        .stat-box {
+            background: rgba(99,102,241,0.1);
+            border: 1px solid rgba(99,102,241,0.2);
+            border-radius: 12px; padding: 12px 6px;
+        }
+        .stat-num { font-size: 22px; font-weight: 900; color: #e2e8f0; }
+        .stat-lbl { font-size: 10px; color: #4b5563; margin-top: 2px; }
+        .end-actions { display: flex; gap: 10px; }
+        .end-btn {
+            padding: 13px 24px; border-radius: 12px; border: none;
+            font-family: inherit; font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: all 0.18s; -webkit-appearance: none;
+        }
+        .btn-retry {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff; box-shadow: 0 4px 14px rgba(99,102,241,0.4);
+        }
+        .btn-home {
+            background: rgba(99,102,241,0.1); color: #818cf8;
+            border: 2px solid rgba(99,102,241,0.25);
+        }
+        .end-btn:active { transform: scale(0.96); }
+
+        .flash-overlay {
+            position: fixed; inset: 0; pointer-events: none; z-index: 999;
+            opacity: 0; transition: opacity 0.12s;
+        }
+        .flash-overlay.g { background: rgba(34,197,94,0.22); }
+        .flash-overlay.r { background: rgba(239,68,68,0.22); }
+        .flash-overlay.show { opacity: 1; }
+
+        .no-speech-notice {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 12px; color: #fca5a5;
+            margin-bottom: 14px;
+            max-width: 340px; width: 100%;
+            text-align: center; display: none;
+        }
+    </style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<div class="flash-overlay" id="flash"></div>
+
+<nav class="top-nav">
+    <a href="index.html">12과</a>
+    <span class="sep">›</span>
+    <span class="title">어휘 인베이더</span>
+</nav>
+
+<div id="start-screen" class="screen active">
+    <div class="game-logo">👾 어휘 인베이더</div>
+    <div class="game-subtitle">12과 · 초성 힌트로 단어 맞히기</div>
+
+    <div id="no-speech-notice" class="no-speech-notice">
+        ⚠️ 이 브라우저는 음성 인식을 지원하지 않습니다.<br>Chrome 또는 Edge를 사용하세요.
+    </div>
+
+    <div class="section-card">
+        <h3>난이도</h3>
+        <div class="diff-grid">
+            <button class="diff-btn" data-diff="easy" onclick="selectDiff(this)">
+                쉬움<br><span class="sub">매우 느림</span>
+            </button>
+            <button class="diff-btn selected" data-diff="normal" onclick="selectDiff(this)">
+                보통<br><span class="sub">느린 속도</span>
+            </button>
+            <button class="diff-btn" data-diff="hard" onclick="selectDiff(this)">
+                어려움<br><span class="sub">조금 빠름</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="how-to">
+        상단의 <span>초성 힌트</span>를 보고 해당 한국어 단어를 떠올리세요.<br>
+        마이크 버튼을 한 번 누르면 <span>계속 듣기</span>가 유지됩니다.<br>
+        인베이더가 땅에 닿기 전에 정답을 맞히세요.
+    </div>
+
+    <button class="start-btn" onclick="startGame()">게임 시작 ▶</button>
+</div>
+
+<div id="game-screen" class="screen">
+    <div class="game-hud">
+        <div class="hud-item">
+            <span class="hud-label">점수</span>
+            <span class="hud-value" id="hud-score">0</span>
+        </div>
+        <div class="hud-item">
+            <span class="hud-label">생명</span>
+            <div class="hud-lives" id="hud-lives">
+                <span class="heart">❤️</span><span class="heart">❤️</span><span class="heart">❤️</span>
+            </div>
+        </div>
+        <div class="hud-item">
+            <span class="hud-label">웨이브</span>
+            <span class="hud-value" id="hud-wave">1</span>
+        </div>
+    </div>
+
+    <div class="question-banner">
+        <div class="q-label">초성 힌트 — 이 단어는?</div>
+        <div class="chosung-row" id="chosung-row"></div>
+        <div class="speech-status" id="speech-status">
+            <span class="dot"></span>
+            <span id="status-text">마이크 버튼을 누르고 말하세요</span>
+        </div>
+    </div>
+
+    <div class="canvas-wrapper" id="canvas-wrapper">
+        <canvas id="game-canvas"></canvas>
+    </div>
+
+    <div class="mic-bar">
+        <button class="move-btn" id="btn-left" aria-label="왼쪽">◀</button>
+        <button class="mic-btn" id="mic-btn" aria-label="마이크">
+            <span class="mic-icon">🎤</span>
+            <span id="mic-label">말하기</span>
+        </button>
+        <button class="move-btn" id="btn-right" aria-label="오른쪽">▶</button>
+    </div>
+</div>
+
+<div id="end-screen" class="screen">
+    <div class="result-emoji" id="result-emoji">🎉</div>
+    <div class="result-title" id="result-title">클리어!</div>
+    <div class="result-score" id="result-score">0</div>
+    <div class="result-sub">점수</div>
+    <div class="result-stats">
+        <div class="stat-box">
+            <div class="stat-num" id="stat-hits">0</div>
+            <div class="stat-lbl">정답</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num" id="stat-miss">0</div>
+            <div class="stat-lbl">오답</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-num" id="stat-wave">0</div>
+            <div class="stat-lbl">웨이브</div>
+        </div>
+    </div>
+    <div class="end-actions">
+        <button class="end-btn btn-retry" onclick="retryGame()">다시 하기</button>
+        <button class="end-btn btn-home" onclick="goHome()">처음으로</button>
+    </div>
+</div>
+
+<script>
+'use strict';
+
+const VOCAB_WORDS = [
+    "살이 찌다/빠지다",
+    "힘이 세다/약하다",
+    "자세가 좋다/나쁘다",
+    "몸이 무겁다/가볍다",
+    "숨이 차다",
+    "땀이 나다",
+    "쥐가 나다",
+    "지치다",
+    "기분이 상쾌하다",
+    "기운이 나다",
+    "몸이 좋아지다",
+    "근육이 생기다",
+    "(목을) 돌리다",
+    "(옆구리를) 굽히다",
+    "(가슴을) 펴다",
+    "(몸을) 젖히다",
+    "(손을 허리에) 대다",
+    "(팔을) 뻗다",
+    "(다리를) 벌리다",
+    "(발뒤꿈치를) 들다",
+];
+
+const CHOSUNG_LIST = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+
+function extractChosung(text) {
+    return text.split('').map(ch => {
+        const code = ch.charCodeAt(0);
+        if (code >= 0xAC00 && code <= 0xD7A3) {
+            return { type: 'cs', char: CHOSUNG_LIST[Math.floor((code - 0xAC00) / 588)] };
+        }
+        if (ch === ' ') return { type: 'sp' };
+        if (ch === '/' || ch === '(' || ch === ')') return { type: 'sep', char: ch };
+        return { type: 'other', char: ch };
+    });
+}
+
+function renderChosung(text) {
+    const row = document.getElementById('chosung-row');
+    row.innerHTML = '';
+    const tokens = extractChosung(text);
+    tokens.forEach(t => {
+        if (t.type === 'cs') {
+            const el = document.createElement('span');
+            el.className = 'cs-block';
+            el.textContent = t.char;
+            row.appendChild(el);
+        } else if (t.type === 'sp') {
+            const el = document.createElement('span');
+            el.style.cssText = 'display:inline-block;width:10px';
+            row.appendChild(el);
+        } else if (t.type === 'sep' || t.type === 'other') {
+            const el = document.createElement('span');
+            el.className = 'cs-sep';
+            el.textContent = t.char;
+            row.appendChild(el);
+        }
+    });
+}
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let recognition = null;
+let micActive = false;
+let micShouldStayOn = false;
+let intentionalStop = false;
+let restartTimer = null;
+let speechCooldown = false;
+let controlBound = false;
+let resizeBound = false;
+
+function clearRestartTimer() {
+    if (restartTimer) {
+        clearTimeout(restartTimer);
+        restartTimer = null;
+    }
+}
+
+function shouldAutoListen() {
+    return !!(recognition && gameState && !gameState.over && micShouldStayOn);
+}
+
+function syncMicUI(activeText = '계속 듣는 중...') {
+    const micBtn = document.getElementById('mic-btn');
+    const micLabel = document.getElementById('mic-label');
+
+    if (shouldAutoListen()) {
+        micBtn.classList.add('active');
+        micLabel.textContent = '자동 듣기';
+        setSpeechStatus('listening', activeText);
+    } else {
+        micBtn.classList.remove('active');
+        micLabel.textContent = '말하기';
+        if (gameState && !gameState.over) {
+            setSpeechStatus('', '마이크 버튼을 누르고 말하세요');
+        }
+    }
+}
+
+function queueRecognitionRestart(delay = 180) {
+    clearRestartTimer();
+
+    if (!shouldAutoListen() || micActive || intentionalStop) return;
+
+    restartTimer = setTimeout(() => {
+        restartTimer = null;
+        if (!shouldAutoListen() || micActive || intentionalStop) return;
+        try {
+            recognition.start();
+        } catch (e) {
+            queueRecognitionRestart(350);
+        }
+    }, delay);
+}
+
+function initSpeech() {
+    if (!SR) {
+        document.getElementById('no-speech-notice').style.display = 'block';
+        recognition = null;
+        return;
+    }
+
+    if (recognition) {
+        try { recognition.onstart = null; recognition.onend = null; recognition.onerror = null; recognition.onresult = null; } catch (e) {}
+    }
+
+    recognition = new SR();
+    recognition.lang = 'ko-KR';
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 5;
+
+    recognition.onstart = () => {
+        micActive = true;
+        clearRestartTimer();
+        if (shouldAutoListen()) {
+            syncMicUI('계속 듣는 중...');
+        }
+    };
+
+    recognition.onend = () => {
+        micActive = false;
+        if (!shouldAutoListen() || intentionalStop) {
+            syncMicUI();
+            return;
+        }
+        syncMicUI('계속 듣는 중...');
+        queueRecognitionRestart(160);
+    };
+
+    recognition.onerror = (e) => {
+        micActive = false;
+
+        const fatalErrors = ['not-allowed', 'service-not-allowed', 'audio-capture'];
+        const transientErrors = ['no-speech', 'aborted', 'network'];
+
+        if (fatalErrors.includes(e.error)) {
+            micShouldStayOn = false;
+            intentionalStop = true;
+
+            let msg = '마이크를 사용할 수 없습니다';
+            if (e.error === 'not-allowed' || e.error === 'service-not-allowed') msg = '마이크 권한이 필요합니다';
+
+            document.getElementById('mic-btn').classList.remove('active');
+            document.getElementById('mic-label').textContent = '말하기';
+            setSpeechStatus('error', msg);
+            clearRestartTimer();
+            return;
+        }
+
+        if (shouldAutoListen() && transientErrors.includes(e.error)) {
+            syncMicUI('계속 듣는 중...');
+            queueRecognitionRestart(e.error === 'network' ? 700 : 250);
+            return;
+        }
+
+        document.getElementById('mic-btn').classList.remove('active');
+        document.getElementById('mic-label').textContent = '말하기';
+        setSpeechStatus('error', '다시 시도하세요');
+    };
+
+    recognition.onresult = (e) => {
+        if (!gameState || gameState.over || speechCooldown) return;
+
+        const finalTranscripts = [];
+        let interimDisplay = '';
+
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+            const res = e.results[i];
+            for (let j = 0; j < res.length; j++) {
+                const txt = res[j].transcript.trim();
+                if (!txt) continue;
+                if (res.isFinal) finalTranscripts.push(txt);
+                else if (!interimDisplay) interimDisplay = txt;
+            }
+        }
+
+        if (finalTranscripts.length > 0) {
+            handleSpeech(finalTranscripts);
+        } else if (interimDisplay && shouldAutoListen()) {
+            setSpeechStatus('listening', `듣는 중... "${interimDisplay}"`);
+        }
+    };
+}
+
+function setSpeechStatus(cls, text) {
+    const el = document.getElementById('speech-status');
+    el.className = 'speech-status ' + cls;
+    document.getElementById('status-text').textContent = text;
+}
+
+function startMic() {
+    if (!recognition || !gameState || gameState.over) return;
+    micShouldStayOn = true;
+    intentionalStop = false;
+    syncMicUI('계속 듣는 중...');
+    if (micActive) return;
+    queueRecognitionRestart(0);
+}
+
+function stopMic() {
+    micShouldStayOn = false;
+    intentionalStop = true;
+    clearRestartTimer();
+
+    document.getElementById('mic-btn').classList.remove('active');
+    document.getElementById('mic-label').textContent = '말하기';
+
+    if (gameState && !gameState.over) {
+        setSpeechStatus('', '마이크 버튼을 누르고 말하세요');
+    }
+
+    if (!recognition || !micActive) return;
+    try { recognition.stop(); } catch (e) {}
+}
+
+function stripSpecial(text) {
+    return text.replace(/[\s()/]/g, '');
+}
+
+function speechMatch(transcript, invaderText) {
+    const t = stripSpecial(transcript);
+    if (t.length < 2) return false;
+    const variants = [invaderText, ...invaderText.split('/')].map(v => stripSpecial(v)).filter(v => v.length >= 2);
+    return variants.some(v => t.includes(v) || v.includes(t));
+}
+
+function handleSpeech(transcripts) {
+    if (!gameState || speechCooldown) return;
+    const gs = gameState;
+
+    const display = transcripts[0] || '';
+    setSpeechStatus('heard', `"${display}"`);
+
+    let matchedInv = null;
+    outer:
+    for (const tr of transcripts) {
+        for (const inv of gs.invaders) {
+            if (!inv.alive) continue;
+            if (speechMatch(tr, inv.text)) {
+                matchedInv = inv;
+                break outer;
+            }
+        }
+    }
+
+    if (!matchedInv) {
+        if (shouldAutoListen()) {
+            setTimeout(() => {
+                if (shouldAutoListen()) setSpeechStatus('listening', '계속 듣는 중...');
+            }, 500);
+        }
+        return;
+    }
+
+    speechCooldown = true;
+    setTimeout(() => { speechCooldown = false; }, 1000);
+
+    const bx = gs.player.x + gs.player.w / 2 - 2;
+    const by = gs.player.y;
+    const tx = matchedInv.x + matchedInv.w / 2 - 2;
+    const ty = matchedInv.y + matchedInv.h / 2;
+    const dx = tx - bx, dy = ty - by;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const speed = 9;
+
+    gs.voiceBullet = {
+        x: bx, y: by,
+        vx: dx / dist * speed,
+        vy: dy / dist * speed,
+        target: matchedInv,
+    };
+}
+
+const DIFF = {
+    easy:   { invSpeed: 0.08, dropAmt: 4 },
+    normal: { invSpeed: 0.14, dropAmt: 5 },
+    hard:   { invSpeed: 0.22, dropAmt: 6 },
+};
+
+let selectedDiff = 'normal';
+let gameState = null;
+let animId = null;
+let canvas, ctx;
+
+const PLAYER_H = 38;
+const BULLET_W = 4, BULLET_H = 14;
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function selectDiff(btn) {
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedDiff = btn.dataset.diff;
+}
+
+function flashScreen(color) {
+    const el = document.getElementById('flash');
+    el.className = 'flash-overlay ' + color + ' show';
+    setTimeout(() => el.classList.remove('show'), 180);
+}
+
+function updateHUD() {
+    const gs = gameState;
+    document.getElementById('hud-score').textContent = gs.score;
+    document.getElementById('hud-wave').textContent = gs.wave;
+    const lv = document.getElementById('hud-lives');
+    lv.innerHTML = Array.from({length: gs.lives}, () => '<span class="heart">❤️</span>').join('');
+}
+
+function setupCanvas() {
+    canvas = document.getElementById('game-canvas');
+    ctx = canvas.getContext('2d');
+    resizeCanvas();
+
+    if (!resizeBound) {
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 200));
+        resizeBound = true;
+    }
+}
+
+function resizeCanvas() {
+    const w = document.getElementById('canvas-wrapper');
+    if (!w || !canvas) return;
+
+    canvas.width = w.clientWidth;
+    canvas.height = w.clientHeight;
+
+    if (gameState) {
+        gameState.player.y = canvas.height - PLAYER_H - 6;
+        gameState.stars = null;
+    }
+}
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function buildWave() {
+    const gs = gameState;
+    const answer = gs.queue[gs.qIdx];
+
+    const pool = VOCAB_WORDS.filter(w => w !== answer);
+    const distractors = shuffle(pool).slice(0, 3);
+    const options = shuffle([answer, ...distractors]);
+
+    const W = canvas.width;
+    const cols = W >= 460 ? 4 : 2;
+    const pad = 12;
+    const invW = Math.min(Math.floor((W - pad * (cols + 1)) / cols), 200);
+    const invH = 50;
+    const totalW = cols * invW + (cols - 1) * pad;
+    const startX = (W - totalW) / 2;
+    const startY = 24;
+
+    gs.invaders = options.map((text, i) => ({
+        x: startX + (i % cols) * (invW + pad),
+        y: startY + Math.floor(i / cols) * (invH + 14),
+        w: invW, h: invH,
+        text,
+        isAnswer: text === answer,
+        alive: true,
+        flashFrames: 0,
+        flashColor: '',
+    }));
+
+    gs.invDir = 1;
+    gs.dropLeft = 0;
+    gs.voiceBullet = null;
+    speechCooldown = false;
+
+    renderChosung(answer);
+
+    if (shouldAutoListen()) {
+        syncMicUI('계속 듣는 중...');
+        queueRecognitionRestart(120);
+    } else {
+        syncMicUI();
+    }
+}
+
+function startGame() {
+    if (animId) cancelAnimationFrame(animId);
+    clearRestartTimer();
+    stopMic();
+
+    showScreen('game-screen');
+    setupCanvas();
+    initSpeech();
+
+    const queue = shuffle([...VOCAB_WORDS]);
+    const diff = DIFF[selectedDiff];
+
+    gameState = {
+        lives: 3, score: 0, wave: 1,
+        queue, qIdx: 0,
+        invaders: [], invDir: 1, dropLeft: 0,
+        player: { x: 0, y: canvas.height - PLAYER_H - 6, w: 50, h: PLAYER_H },
+        keys: { left: false, right: false },
+        voiceBullet: null,
+        hits: 0, misses: 0,
+        diff, tick: 0,
+        over: false, win: false,
+        stars: null,
+    };
+
+    gameState.player.x = canvas.width / 2 - 25;
+
+    buildWave();
+    updateHUD();
+    setupControls();
+    loop();
+}
+
+function loop() {
+    update();
+    draw();
+    if (!gameState.over) {
+        animId = requestAnimationFrame(loop);
+    } else {
+        showEnd();
+    }
+}
+
+function update() {
+    const gs = gameState;
+    if (gs.over) return;
+
+    gs.tick++;
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const spd = 4.5;
+    if (gs.keys.left) gs.player.x = Math.max(0, gs.player.x - spd);
+    if (gs.keys.right) gs.player.x = Math.min(W - gs.player.w, gs.player.x + spd);
+    gs.player.y = H - PLAYER_H - 6;
+
+    if (gs.voiceBullet) {
+        const vb = gs.voiceBullet;
+        vb.x += vb.vx;
+        vb.y += vb.vy;
+
+        if (
+            vb.target && vb.target.alive &&
+            vb.x < vb.target.x + vb.target.w &&
+            vb.x + BULLET_W > vb.target.x &&
+            vb.y < vb.target.y + vb.target.h &&
+            vb.y + BULLET_H > vb.target.y
+        ) {
+            gs.voiceBullet = null;
+            const inv = vb.target;
+
+            if (inv.isAnswer) {
+                inv.alive = false;
+                gs.invaders.forEach(i => i.alive = false);
+                gs.score += 100 + (gs.wave - 1) * 20;
+                gs.hits++;
+                flashScreen('g');
+                updateHUD();
+                setSpeechStatus(shouldAutoListen() ? 'listening' : '', shouldAutoListen() ? '✅ 정답! 계속 듣는 중...' : '✅ 정답!');
+            } else {
+                inv.flashFrames = 16;
+                inv.flashColor = '#ef4444';
+                gs.lives--;
+                gs.misses++;
+                flashScreen('r');
+                updateHUD();
+                setSpeechStatus('error', '❌ 오답');
+                if (gs.lives <= 0) { gs.over = true; return; }
+
+                if (shouldAutoListen()) {
+                    setTimeout(() => {
+                        if (shouldAutoListen()) setSpeechStatus('listening', '계속 듣는 중...');
+                    }, 700);
+                }
+            }
+        }
+
+        if (vb.y < -20 || vb.y > H + 20 || vb.x < -20 || vb.x > W + 20) {
+            gs.voiceBullet = null;
+        }
+    }
+
+    const alive = gs.invaders.filter(i => i.alive);
+
+    if (alive.length === 0) {
+        gs.qIdx++;
+        if (gs.qIdx >= gs.queue.length) {
+            gs.over = true;
+            gs.win = true;
+            return;
+        }
+        gs.wave++;
+        buildWave();
+        updateHUD();
+        return;
+    }
+
+    const dspd = gs.diff.invSpeed;
+    let minX = Infinity, maxX = -Infinity;
+
+    alive.forEach(inv => {
+        minX = Math.min(minX, inv.x);
+        maxX = Math.max(maxX, inv.x + inv.w);
+    });
+
+    if (maxX + dspd * gs.invDir > W - 8) {
+        gs.invDir = -1;
+        gs.dropLeft = gs.diff.dropAmt;
+    }
+    if (minX + dspd * gs.invDir < 8) {
+        gs.invDir = 1;
+        gs.dropLeft = gs.diff.dropAmt;
+    }
+
+    gs.invaders.forEach(inv => {
+        if (!inv.alive) return;
+        inv.x += dspd * gs.invDir;
+        if (gs.dropLeft > 0) inv.y += 0.5;
+        if (inv.flashFrames > 0) inv.flashFrames--;
+    });
+
+    if (gs.dropLeft > 0) gs.dropLeft--;
+
+    const playerTop = gs.player.y - 8;
+    for (const inv of alive) {
+        if (inv.y + inv.h >= playerTop) {
+            gs.lives--;
+            gs.invaders.forEach(i => i.alive = false);
+            flashScreen('r');
+            updateHUD();
+            if (gs.lives <= 0) { gs.over = true; return; }
+            buildWave();
+            break;
+        }
+    }
+}
+
+function draw() {
+    const gs = gameState;
+    const W = canvas.width, H = canvas.height;
+
+    ctx.fillStyle = '#07071a';
+    ctx.fillRect(0, 0, W, H);
+
+    if (!gs.stars) {
+        gs.stars = Array.from({length: 55}, () => ({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.4 + 0.3,
+            a: Math.random()
+        }));
+    }
+
+    gs.stars.forEach(s => {
+        ctx.globalAlpha = s.a * (0.4 + 0.4 * Math.sin(gs.tick * 0.025 + s.x));
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    ctx.textBaseline = 'middle';
+    gs.invaders.forEach(inv => {
+        if (!inv.alive) return;
+        const fl = inv.flashFrames > 0;
+
+        const g = ctx.createLinearGradient(inv.x, inv.y, inv.x, inv.y + inv.h);
+        g.addColorStop(0, fl ? '#3b0a0a' : '#1c1a3e');
+        g.addColorStop(1, fl ? '#7f1d1d' : '#2e2a5e');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        roundRect(ctx, inv.x, inv.y, inv.w, inv.h, 8);
+        ctx.fill();
+
+        ctx.strokeStyle = fl ? '#f87171' : 'rgba(129,140,248,0.55)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        roundRect(ctx, inv.x, inv.y, inv.w, inv.h, 8);
+        ctx.stroke();
+
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('👾', inv.x + 7, inv.y + 14);
+
+        ctx.fillStyle = fl ? '#fca5a5' : '#e2e8f0';
+        ctx.font = `bold ${inv.w < 100 ? 11 : 12}px 'Noto Sans KR', sans-serif`;
+        ctx.textAlign = 'center';
+        wrapText(inv.text, inv.x + inv.w / 2, inv.y + inv.h / 2 + 5, inv.w - 18, 14);
+    });
+
+    const p = gs.player;
+
+    const eg = ctx.createRadialGradient(p.x + p.w / 2, p.y + p.h, 0, p.x + p.w / 2, p.y + p.h, 18);
+    eg.addColorStop(0, 'rgba(139,92,246,0.7)');
+    eg.addColorStop(1, 'transparent');
+    ctx.fillStyle = eg;
+    ctx.beginPath();
+    ctx.arc(p.x + p.w / 2, p.y + p.h, 14, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#6366f1';
+    ctx.beginPath();
+    ctx.moveTo(p.x + p.w / 2, p.y + 2);
+    ctx.lineTo(p.x + p.w - 2, p.y + p.h);
+    ctx.lineTo(p.x + 2, p.y + p.h);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = '#a5b4fc';
+    ctx.beginPath();
+    ctx.arc(p.x + p.w / 2, p.y + p.h * 0.5, 6, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (gs.voiceBullet) {
+        const vb = gs.voiceBullet;
+        const bg = ctx.createLinearGradient(vb.x, vb.y, vb.x, vb.y + BULLET_H);
+        bg.addColorStop(0, '#fff');
+        bg.addColorStop(1, '#818cf8');
+        ctx.fillStyle = bg;
+        ctx.beginPath();
+        roundRect(ctx, vb.x, vb.y, BULLET_W, BULLET_H, 2);
+        ctx.fill();
+    }
+
+    ctx.globalAlpha = 0.2;
+    ctx.strokeStyle = '#6366f1';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, H - 2);
+    ctx.lineTo(W, H - 2);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+    if (ctx.roundRect) {
+        ctx.roundRect(x, y, w, h, r);
+        return;
+    }
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+}
+
+function wrapText(text, cx, cy, maxW, lineH) {
+    const words = text.split(/\s+/);
+    if (words.length === 1 || ctx.measureText(text).width <= maxW) {
+        ctx.fillText(text, cx, cy);
+        return;
+    }
+    const lines = [];
+    let line = '';
+    words.forEach(word => {
+        const test = line ? line + ' ' + word : word;
+        if (ctx.measureText(test).width > maxW && line) {
+            lines.push(line);
+            line = word;
+        } else {
+            line = test;
+        }
+    });
+    if (line) lines.push(line);
+    const total = lines.length * lineH;
+    lines.forEach((l, i) => ctx.fillText(l, cx, cy - total / 2 + i * lineH + lineH / 2));
+}
+
+function setupControls() {
+    if (controlBound) return;
+    controlBound = true;
+
+    document.addEventListener('keydown', e => {
+        if (!gameState || gameState.over) return;
+
+        if (e.code === 'ArrowLeft') {
+            e.preventDefault();
+            gameState.keys.left = true;
+        }
+        if (e.code === 'ArrowRight') {
+            e.preventDefault();
+            gameState.keys.right = true;
+        }
+        if (e.code === 'Space') {
+            e.preventDefault();
+            if (micShouldStayOn) stopMic();
+            else startMic();
+        }
+    });
+
+    document.addEventListener('keyup', e => {
+        if (!gameState) return;
+        if (e.code === 'ArrowLeft') gameState.keys.left = false;
+        if (e.code === 'ArrowRight') gameState.keys.right = false;
+    });
+
+    const bindHoldBtn = (id, key) => {
+        const btn = document.getElementById(id);
+        const on = () => {
+            if (!gameState || gameState.over) return;
+            gameState.keys[key] = true;
+        };
+        const off = () => {
+            if (!gameState) return;
+            gameState.keys[key] = false;
+        };
+        btn.addEventListener('pointerdown', on);
+        btn.addEventListener('pointerup', off);
+        btn.addEventListener('pointerleave', off);
+        btn.addEventListener('pointercancel', off);
+    };
+
+    bindHoldBtn('btn-left', 'left');
+    bindHoldBtn('btn-right', 'right');
+
+    document.getElementById('mic-btn').addEventListener('pointerdown', e => {
+        e.preventDefault();
+        if (!gameState || gameState.over) return;
+        if (micShouldStayOn) stopMic();
+        else startMic();
+    });
+}
+
+function showEnd() {
+    const gs = gameState;
+    stopMic();
+
+    document.getElementById('result-emoji').textContent = gs.win ? '🎉' : '💫';
+    document.getElementById('result-title').textContent = gs.win ? '완전 클리어!' : '게임 오버';
+    document.getElementById('result-score').textContent = gs.score;
+    document.getElementById('stat-hits').textContent = gs.hits;
+    document.getElementById('stat-miss').textContent = gs.misses;
+    document.getElementById('stat-wave').textContent = gs.wave;
+    showScreen('end-screen');
+}
+
+function retryGame() {
+    if (animId) cancelAnimationFrame(animId);
+    startGame();
+}
+
+function goHome() {
+    if (animId) cancelAnimationFrame(animId);
+    stopMic();
+    gameState = null;
+    showScreen('start-screen');
+}
+
+if (!SR) {
+    document.getElementById('no-speech-notice').style.display = 'block';
+}
+</script>
+</body>
+</html>
