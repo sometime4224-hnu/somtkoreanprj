@@ -151,7 +151,6 @@
         .hud-lives { display: flex; gap: 3px; }
         .heart { font-size: 14px; }
 
-        /* Question / 초성 banner */
         .question-banner {
             background: rgba(99,102,241,0.1);
             border-bottom: 1px solid rgba(99,102,241,0.2);
@@ -161,7 +160,6 @@
         }
         .q-label { font-size: 10px; color: #4b5563; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
 
-        /* 초성 blocks */
         .chosung-row {
             display: flex; flex-wrap: wrap; justify-content: center;
             align-items: center; gap: 3px;
@@ -181,7 +179,6 @@
             padding: 0 2px;
         }
 
-        /* Speech status */
         .speech-status {
             font-size: 11px; margin-top: 5px;
             min-height: 16px; color: #6b7280;
@@ -200,7 +197,6 @@
         .speech-status.error .dot { background: #ef4444; }
         @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-        /* Canvas area */
         .canvas-wrapper {
             flex: 1;
             position: relative;
@@ -213,7 +209,6 @@
             width: 100%; height: 100%;
         }
 
-        /* Mobile mic bar */
         .mic-bar {
             flex-shrink: 0;
             display: flex;
@@ -300,7 +295,6 @@
         }
         .end-btn:active { transform: scale(0.96); }
 
-        /* Flash overlay */
         .flash-overlay {
             position: fixed; inset: 0; pointer-events: none; z-index: 999;
             opacity: 0; transition: opacity 0.12s;
@@ -309,7 +303,6 @@
         .flash-overlay.r { background: rgba(239,68,68,0.22); }
         .flash-overlay.show { opacity: 1; }
 
-        /* No speech API notice */
         .no-speech-notice {
             background: rgba(239,68,68,0.1);
             border: 1px solid rgba(239,68,68,0.3);
@@ -334,7 +327,6 @@
     <span class="title">어휘 인베이더</span>
 </nav>
 
-<!-- ══ START SCREEN ══ -->
 <div id="start-screen" class="screen active">
     <div class="game-logo">👾 어휘 인베이더</div>
     <div class="game-subtitle">12과 · 초성 힌트로 단어 맞히기</div>
@@ -347,13 +339,13 @@
         <h3>난이도</h3>
         <div class="diff-grid">
             <button class="diff-btn" data-diff="easy" onclick="selectDiff(this)">
-                쉬움<br><span class="sub">느린 속도</span>
+                쉬움<br><span class="sub">매우 느림</span>
             </button>
             <button class="diff-btn selected" data-diff="normal" onclick="selectDiff(this)">
-                보통<br><span class="sub">일반 속도</span>
+                보통<br><span class="sub">느린 속도</span>
             </button>
             <button class="diff-btn" data-diff="hard" onclick="selectDiff(this)">
-                어려움<br><span class="sub">빠른 속도</span>
+                어려움<br><span class="sub">조금 빠름</span>
             </button>
         </div>
     </div>
@@ -367,7 +359,6 @@
     <button class="start-btn" onclick="startGame()">게임 시작 ▶</button>
 </div>
 
-<!-- ══ GAME SCREEN ══ -->
 <div id="game-screen" class="screen">
     <div class="game-hud">
         <div class="hud-item">
@@ -409,7 +400,6 @@
     </div>
 </div>
 
-<!-- ══ END SCREEN ══ -->
 <div id="end-screen" class="screen">
     <div class="result-emoji" id="result-emoji">🎉</div>
     <div class="result-title" id="result-title">클리어!</div>
@@ -437,9 +427,7 @@
 
 <script>
 'use strict';
-// ─────────────────────────────────────────
-// VOCABULARY (20 words)
-// ─────────────────────────────────────────
+
 const VOCAB_WORDS = [
     "살이 찌다/빠지다",
     "힘이 세다/약하다",
@@ -463,9 +451,6 @@ const VOCAB_WORDS = [
     "(발뒤꿈치를) 들다",
 ];
 
-// ─────────────────────────────────────────
-// CHOSUNG EXTRACTION
-// ─────────────────────────────────────────
 const CHOSUNG_LIST = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 
 function extractChosung(text) {
@@ -503,9 +488,6 @@ function renderChosung(text) {
     });
 }
 
-// ─────────────────────────────────────────
-// SPEECH RECOGNITION
-// ─────────────────────────────────────────
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 let micActive = false;
@@ -549,7 +531,6 @@ function initSpeech() {
 
     recognition.onresult = (e) => {
         if (!gameState || gameState.over || speechCooldown) return;
-        // Collect all alternatives
         const transcripts = [];
         for (let i = e.resultIndex; i < e.results.length; i++) {
             const res = e.results[i];
@@ -571,7 +552,7 @@ function startMic() {
     if (!recognition || micActive || !gameState || gameState.over) return;
     try {
         recognition.start();
-    } catch(e) { /* already started */ }
+    } catch(e) {}
 }
 
 function stopMic() {
@@ -579,9 +560,6 @@ function stopMic() {
     try { recognition.stop(); } catch(e) {}
 }
 
-// ─────────────────────────────────────────
-// VOICE MATCHING
-// ─────────────────────────────────────────
 function stripSpecial(text) {
     return text.replace(/[\s()/]/g, '');
 }
@@ -589,7 +567,6 @@ function stripSpecial(text) {
 function speechMatch(transcript, invaderText) {
     const t = stripSpecial(transcript);
     if (t.length < 2) return false;
-    // Split on / for variant matching
     const variants = [invaderText, ...invaderText.split('/')].map(v => stripSpecial(v)).filter(v => v.length >= 2);
     return variants.some(v => t.includes(v) || v.includes(t));
 }
@@ -598,11 +575,9 @@ function handleSpeech(transcripts) {
     if (!gameState || speechCooldown) return;
     const gs = gameState;
 
-    // Show what was heard
     const display = transcripts[0] || '';
     setSpeechStatus('heard', `"${display}"`);
 
-    // Try to match to an invader
     let matchedInv = null;
     outer:
     for (const tr of transcripts) {
@@ -617,7 +592,6 @@ function handleSpeech(transcripts) {
 
     if (!matchedInv) return;
 
-    // Fire toward matched invader
     speechCooldown = true;
     setTimeout(() => { speechCooldown = false; }, 1200);
 
@@ -636,14 +610,12 @@ function handleSpeech(transcripts) {
     };
 }
 
-// ─────────────────────────────────────────
-// GAME STATE
-// ─────────────────────────────────────────
 const DIFF = {
-    easy:   { invSpeed: 0.3, dropAmt: 10 },
-    normal: { invSpeed: 0.55, dropAmt: 14 },
-    hard:   { invSpeed: 0.9, dropAmt: 18 },
+    easy:   { invSpeed: 0.08, dropAmt: 4 },
+    normal: { invSpeed: 0.14, dropAmt: 5 },
+    hard:   { invSpeed: 0.22, dropAmt: 6 },
 };
+
 let selectedDiff = 'normal';
 let gameState = null;
 let animId = null;
@@ -652,23 +624,23 @@ let canvas, ctx;
 const PLAYER_H = 38;
 const BULLET_W = 4, BULLET_H = 14;
 
-// ─────────────────────────────────────────
-// UI
-// ─────────────────────────────────────────
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
+
 function selectDiff(btn) {
     document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     selectedDiff = btn.dataset.diff;
 }
+
 function flashScreen(color) {
     const el = document.getElementById('flash');
     el.className = 'flash-overlay ' + color + ' show';
     setTimeout(() => el.classList.remove('show'), 180);
 }
+
 function updateHUD() {
     const gs = gameState;
     document.getElementById('hud-score').textContent = gs.score;
@@ -677,9 +649,6 @@ function updateHUD() {
     lv.innerHTML = Array.from({length: gs.lives}, () => '<span class="heart">❤️</span>').join('');
 }
 
-// ─────────────────────────────────────────
-// CANVAS
-// ─────────────────────────────────────────
 function setupCanvas() {
     canvas = document.getElementById('game-canvas');
     ctx = canvas.getContext('2d');
@@ -687,6 +656,7 @@ function setupCanvas() {
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 200));
 }
+
 function resizeCanvas() {
     const w = document.getElementById('canvas-wrapper');
     canvas.width = w.clientWidth;
@@ -697,9 +667,6 @@ function resizeCanvas() {
     }
 }
 
-// ─────────────────────────────────────────
-// SHUFFLE
-// ─────────────────────────────────────────
 function shuffle(arr) {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -709,14 +676,10 @@ function shuffle(arr) {
     return a;
 }
 
-// ─────────────────────────────────────────
-// BUILD WAVE
-// ─────────────────────────────────────────
 function buildWave() {
     const gs = gameState;
     const answer = gs.queue[gs.qIdx];
 
-    // Pick 3 distractors from remaining words
     const pool = VOCAB_WORDS.filter(w => w !== answer);
     const distractors = shuffle(pool).slice(0, 3);
     const options = shuffle([answer, ...distractors]);
@@ -751,9 +714,6 @@ function buildWave() {
     setSpeechStatus('', '마이크 버튼을 누르고 말하세요');
 }
 
-// ─────────────────────────────────────────
-// START GAME
-// ─────────────────────────────────────────
 function startGame() {
     if (animId) cancelAnimationFrame(animId);
     stopMic();
@@ -784,9 +744,6 @@ function startGame() {
     loop();
 }
 
-// ─────────────────────────────────────────
-// GAME LOOP
-// ─────────────────────────────────────────
 function loop() {
     update();
     draw();
@@ -804,18 +761,16 @@ function update() {
     const W = canvas.width;
     const H = canvas.height;
 
-    // Player movement
     const spd = 4.5;
     if (gs.keys.left)  gs.player.x = Math.max(0, gs.player.x - spd);
     if (gs.keys.right) gs.player.x = Math.min(W - gs.player.w, gs.player.x + spd);
     gs.player.y = H - PLAYER_H - 6;
 
-    // Voice bullet
     if (gs.voiceBullet) {
         const vb = gs.voiceBullet;
         vb.x += vb.vx;
         vb.y += vb.vy;
-        // Hit target invader
+
         if (vb.target && vb.target.alive &&
             vb.x < vb.target.x + vb.target.w &&
             vb.x + BULLET_W > vb.target.x &&
@@ -843,13 +798,12 @@ function update() {
                 if (gs.lives <= 0) { gs.over = true; return; }
             }
         }
-        // Out of bounds
+
         if (vb.y < -20 || vb.y > H + 20 || vb.x < -20 || vb.x > W + 20) {
             gs.voiceBullet = null;
         }
     }
 
-    // Invader movement
     const alive = gs.invaders.filter(i => i.alive);
     if (alive.length === 0) {
         gs.qIdx++;
@@ -862,19 +816,29 @@ function update() {
 
     const dspd = gs.diff.invSpeed;
     let minX = Infinity, maxX = -Infinity;
-    alive.forEach(inv => { minX = Math.min(minX, inv.x); maxX = Math.max(maxX, inv.x + inv.w); });
-    if (maxX + dspd * gs.invDir > W - 8) { gs.invDir = -1; gs.dropLeft = gs.diff.dropAmt; }
-    if (minX + dspd * gs.invDir < 8) { gs.invDir = 1; gs.dropLeft = gs.diff.dropAmt; }
+    alive.forEach(inv => {
+        minX = Math.min(minX, inv.x);
+        maxX = Math.max(maxX, inv.x + inv.w);
+    });
+
+    if (maxX + dspd * gs.invDir > W - 8) {
+        gs.invDir = -1;
+        gs.dropLeft = gs.diff.dropAmt;
+    }
+    if (minX + dspd * gs.invDir < 8) {
+        gs.invDir = 1;
+        gs.dropLeft = gs.diff.dropAmt;
+    }
 
     gs.invaders.forEach(inv => {
         if (!inv.alive) return;
         inv.x += dspd * gs.invDir;
-        if (gs.dropLeft > 0) inv.y += 1.5;
+        if (gs.dropLeft > 0) inv.y += 0.5;
         if (inv.flashFrames > 0) inv.flashFrames--;
     });
+
     if (gs.dropLeft > 0) gs.dropLeft--;
 
-    // Invaders reach player line
     const playerTop = gs.player.y - 8;
     for (const inv of alive) {
         if (inv.y + inv.h >= playerTop) {
@@ -889,18 +853,13 @@ function update() {
     }
 }
 
-// ─────────────────────────────────────────
-// DRAW
-// ─────────────────────────────────────────
 function draw() {
     const gs = gameState;
     const W = canvas.width, H = canvas.height;
 
-    // BG
     ctx.fillStyle = '#07071a';
     ctx.fillRect(0, 0, W, H);
 
-    // Stars
     if (!gs.stars) {
         gs.stars = Array.from({length: 55}, () => ({
             x: Math.random() * W, y: Math.random() * H,
@@ -916,13 +875,11 @@ function draw() {
     });
     ctx.globalAlpha = 1;
 
-    // Invaders
     ctx.textBaseline = 'middle';
     gs.invaders.forEach(inv => {
         if (!inv.alive) return;
         const fl = inv.flashFrames > 0;
 
-        // Box gradient
         const g = ctx.createLinearGradient(inv.x, inv.y, inv.x, inv.y + inv.h);
         g.addColorStop(0, fl ? '#3b0a0a' : '#1c1a3e');
         g.addColorStop(1, fl ? '#7f1d1d' : '#2e2a5e');
@@ -937,21 +894,17 @@ function draw() {
         roundRect(ctx, inv.x, inv.y, inv.w, inv.h, 8);
         ctx.stroke();
 
-        // Alien emoji
         ctx.font = '14px sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText('👾', inv.x + 7, inv.y + 14);
 
-        // Word text
         ctx.fillStyle = fl ? '#fca5a5' : '#e2e8f0';
         ctx.font = `bold ${inv.w < 100 ? 11 : 12}px 'Noto Sans KR', sans-serif`;
         ctx.textAlign = 'center';
         wrapText(inv.text, inv.x + inv.w / 2, inv.y + inv.h / 2 + 5, inv.w - 18, 14);
     });
 
-    // Player ship
     const p = gs.player;
-    // Engine glow
     const eg = ctx.createRadialGradient(p.x + p.w / 2, p.y + p.h, 0, p.x + p.w / 2, p.y + p.h, 18);
     eg.addColorStop(0, 'rgba(139,92,246,0.7)');
     eg.addColorStop(1, 'transparent');
@@ -973,7 +926,6 @@ function draw() {
     ctx.arc(p.x + p.w / 2, p.y + p.h * 0.5, 6, 0, Math.PI * 2);
     ctx.fill();
 
-    // Voice bullet
     if (gs.voiceBullet) {
         const vb = gs.voiceBullet;
         const bg = ctx.createLinearGradient(vb.x, vb.y, vb.x, vb.y + BULLET_H);
@@ -985,12 +937,12 @@ function draw() {
         ctx.fill();
     }
 
-    // Ground line
     ctx.globalAlpha = 0.2;
     ctx.strokeStyle = '#6366f1';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(0, H - 2); ctx.lineTo(W, H - 2);
+    ctx.moveTo(0, H - 2);
+    ctx.lineTo(W, H - 2);
     ctx.stroke();
     ctx.globalAlpha = 1;
 }
@@ -1019,21 +971,21 @@ function wrapText(text, cx, cy, maxW, lineH) {
     let line = '';
     words.forEach(word => {
         const test = line ? line + ' ' + word : word;
-        if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = word; }
-        else line = test;
+        if (ctx.measureText(test).width > maxW && line) {
+            lines.push(line);
+            line = word;
+        } else {
+            line = test;
+        }
     });
     if (line) lines.push(line);
     const total = lines.length * lineH;
     lines.forEach((l, i) => ctx.fillText(l, cx, cy - total / 2 + i * lineH + lineH / 2));
 }
 
-// ─────────────────────────────────────────
-// CONTROLS
-// ─────────────────────────────────────────
 function setupControls() {
     const gs = gameState;
 
-    // Keyboard
     const kd = e => {
         if (e.code === 'ArrowLeft')  { e.preventDefault(); gs.keys.left = true; }
         if (e.code === 'ArrowRight') { e.preventDefault(); gs.keys.right = true; }
@@ -1043,22 +995,20 @@ function setupControls() {
         if (e.code === 'ArrowRight') gs.keys.right = false;
     };
     document.addEventListener('keydown', kd);
-    document.addEventListener('keyup',   ku);
+    document.addEventListener('keyup', ku);
 
-    // Mobile move buttons (hold)
     const holdBtn = (id, key) => {
         const btn = document.getElementById(id);
-        const on  = () => gs.keys[key] = true;
+        const on = () => gs.keys[key] = true;
         const off = () => gs.keys[key] = false;
         btn.addEventListener('pointerdown', on);
-        btn.addEventListener('pointerup',   off);
+        btn.addEventListener('pointerup', off);
         btn.addEventListener('pointerleave', off);
         btn.addEventListener('pointercancel', off);
     };
-    holdBtn('btn-left',  'left');
+    holdBtn('btn-left', 'left');
     holdBtn('btn-right', 'right');
 
-    // Mic button — tap to start, auto-stops on recognition end
     const micBtn = document.getElementById('mic-btn');
     micBtn.addEventListener('pointerdown', e => {
         e.preventDefault();
@@ -1066,7 +1016,6 @@ function setupControls() {
         else startMic();
     });
 
-    // Space bar → mic
     const spaceHandler = e => {
         if (e.code === 'Space') {
             e.preventDefault();
@@ -1078,25 +1027,22 @@ function setupControls() {
 
     gs._cleanup = () => {
         document.removeEventListener('keydown', kd);
-        document.removeEventListener('keyup',   ku);
+        document.removeEventListener('keyup', ku);
         document.removeEventListener('keydown', spaceHandler);
     };
 }
 
-// ─────────────────────────────────────────
-// END / RETRY
-// ─────────────────────────────────────────
 function showEnd() {
     const gs = gameState;
     stopMic();
     if (gs._cleanup) gs._cleanup();
 
-    document.getElementById('result-emoji').textContent  = gs.win ? '🎉' : '💫';
-    document.getElementById('result-title').textContent  = gs.win ? '완전 클리어!' : '게임 오버';
-    document.getElementById('result-score').textContent  = gs.score;
-    document.getElementById('stat-hits').textContent  = gs.hits;
-    document.getElementById('stat-miss').textContent  = gs.misses;
-    document.getElementById('stat-wave').textContent  = gs.wave;
+    document.getElementById('result-emoji').textContent = gs.win ? '🎉' : '💫';
+    document.getElementById('result-title').textContent = gs.win ? '완전 클리어!' : '게임 오버';
+    document.getElementById('result-score').textContent = gs.score;
+    document.getElementById('stat-hits').textContent = gs.hits;
+    document.getElementById('stat-miss').textContent = gs.misses;
+    document.getElementById('stat-wave').textContent = gs.wave;
     showScreen('end-screen');
 }
 
@@ -1104,6 +1050,7 @@ function retryGame() {
     if (animId) cancelAnimationFrame(animId);
     startGame();
 }
+
 function goHome() {
     if (animId) cancelAnimationFrame(animId);
     stopMic();
@@ -1111,9 +1058,6 @@ function goHome() {
     showScreen('start-screen');
 }
 
-// ─────────────────────────────────────────
-// INIT: check SR support on load
-// ─────────────────────────────────────────
 if (!SR) {
     document.getElementById('no-speech-notice').style.display = 'block';
 }
