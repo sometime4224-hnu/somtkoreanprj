@@ -6,6 +6,7 @@
   const SCRIPT_SRC = document.currentScript && document.currentScript.src ? document.currentScript.src : '';
 
   if (document.getElementById(FOOTER_ID)) return;
+  if (document.body && document.body.dataset.skipGlobalCopyright === 'true') return;
 
   function init() {
     if (document.getElementById(FOOTER_ID)) return;
