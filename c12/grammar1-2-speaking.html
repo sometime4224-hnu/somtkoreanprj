@@ -242,8 +242,8 @@
 
         function createInitialResults() {
             return CYCLES.map(() => ({
-                grammar1:{draft:'',status:'pending',exact:false,accepted:false,grammarOk:false,usedModel:false,checked:false},
-                grammar2:{draft:'',status:'pending',exact:false,accepted:false,grammarOk:false,usedModel:false,checked:false},
+                grammar1:{draft:'',status:'pending',exact:false,accepted:false,grammarOk:false,usedModel:false,checked:false,writingActive:false},
+                grammar2:{draft:'',status:'pending',exact:false,accepted:false,grammarOk:false,usedModel:false,checked:false,writingActive:false},
                 speaking:[
                     {attempts:0,bestScore:null,lastScore:null,accuracy:0,completeness:0,spoken:'',completed:false,listened:false,slowListened:false},
                     {attempts:0,bestScore:null,lastScore:null,accuracy:0,completeness:0,spoken:'',completed:false,listened:false,slowListened:false}
@@ -499,6 +499,8 @@
 
                 <div class="mt-4" id="actionGuideSlot">${renderActionGuide(grammarGuideState(stepKey))}</div>
 
+                ${renderWritingPreviewDock(step, result.writingActive && !result.checked)}
+
                 <div class="mt-4">
                     <div class="grid grid-cols-2 gap-2 sm:gap-3">
                         ${step.images.map(renderImageCard).join('')}
@@ -608,10 +610,41 @@
             `;
         }
 
+        function renderWritingPreviewDock(step, active) {
+            return `
+                <div id="writingPreviewDock" class="${active ? '' : 'hidden '}sm:hidden sticky top-[68px] z-40 mt-3 rounded-[20px] border border-slate-200 bg-white/95 p-2 shadow-lg backdrop-blur">
+                    <div class="mb-2 flex items-center gap-2 px-1 text-[11px] font-black uppercase tracking-[0.14em] text-slate-500">
+                        <i class="fa-solid fa-image text-orange-500"></i>
+                        <span>그림 참고</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        ${step.images.map(renderWritingPreviewThumb).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderWritingPreviewThumb(image) {
+            return `
+                <div class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                    <div class="aspect-[4/3] overflow-hidden bg-white">
+                        <img src="${escapeAttr(image.src)}" alt="${escapeAttr(image.title)}" class="block h-full w-full object-contain" loading="lazy" decoding="async" />
+                    </div>
+                    <div class="px-2 py-1.5 text-[10px] font-black leading-4 text-slate-600">${escapeHtml(image.badge)}</div>
+                </div>
+            `;
+        }
+
         function bindGrammarStep(stepKey) {
             const result = state.results[state.cycleIndex][stepKey];
             const step = currentCycle()[stepKey];
             const input = document.getElementById('builderInput');
+            const activateWritingMode = () => {
+                if (result.writingActive) return;
+                result.writingActive = true;
+                const dock = document.getElementById('writingPreviewDock');
+                if (dock) dock.classList.remove('hidden');
+            };
             const markDraftDirty = () => {
                 result.checked = false;
                 result.exact = false;
@@ -628,12 +661,15 @@
                 }
                 applyGrammarGuideUI(stepKey);
             };
+            input.addEventListener('focus', activateWritingMode);
             input.addEventListener('input', (event) => {
+                activateWritingMode();
                 result.draft = event.target.value;
                 markDraftDirty();
             });
             document.querySelectorAll('[data-token]').forEach((button) => {
                 button.addEventListener('click', () => {
+                    activateWritingMode();
                     result.draft = appendToken(result.draft, button.dataset.token);
                     markDraftDirty();
                     input.value = result.draft;
@@ -642,11 +678,11 @@
             document.getElementById('clearDraftBtn').addEventListener('click', () => { result.draft=''; markDraftDirty(); renderGrammarStep(stepKey); });
             document.getElementById('undoDraftBtn').addEventListener('click', () => { result.draft = removeLastToken(result.draft); markDraftDirty(); input.value = result.draft; });
             document.getElementById('loadTargetBtn').addEventListener('click', () => {
-                result.draft = step.target; result.checked = true; result.exact = false; result.accepted = false; result.grammarOk = true; result.usedModel = true; result.status = 'model'; renderGrammarStep(stepKey);
+                result.writingActive = false; result.draft = step.target; result.checked = true; result.exact = false; result.accepted = false; result.grammarOk = true; result.usedModel = true; result.status = 'model'; renderGrammarStep(stepKey);
             });
             document.getElementById('checkDraftBtn').addEventListener('click', () => {
                 const evalResult = evaluateGrammar(stepKey, result.draft, step);
-                result.checked = true; result.exact = evalResult.exact; result.accepted = evalResult.accepted; result.grammarOk = evalResult.grammarOk; result.usedModel = false; result.status = evalResult.status;
+                result.writingActive = false; result.checked = true; result.exact = evalResult.exact; result.accepted = evalResult.accepted; result.grammarOk = evalResult.grammarOk; result.usedModel = false; result.status = evalResult.status;
                 renderGrammarStep(stepKey);
             });
             document.getElementById('nextStageBtn').addEventListener('click', nextStage);
