@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기억에 남는 날 쓰기</title>
+    <meta name="description" content="스마트폰에서 단계적으로 한국어 글쓰기를 할 수 있는 간단한 쓰기 보조 페이지입니다.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-top: #fff8f1;
+            --bg-bottom: #eef7ff;
+            --panel: rgba(255, 255, 255, 0.9);
+            --ink: #1f2937;
+            --muted: #64748b;
+            --line: rgba(148, 163, 184, 0.22);
+            --accent: #ef6c57;
+            --accent-soft: rgba(239, 108, 87, 0.12);
+            --mint: #0f9d87;
+            --shadow: 0 18px 34px rgba(15, 23, 42, 0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 12%, rgba(239, 108, 87, 0.14), transparent 24%),
+                radial-gradient(circle at 88% 10%, rgba(59, 130, 246, 0.12), transparent 26%),
+                linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        .app {
+            width: min(100% - 20px, 480px);
+            margin: 14px auto 24px;
+        }
+
+        .topbar,
+        .hero,
+        .panel,
+        .nav-bar {
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, 0.74);
+            box-shadow: var(--shadow);
+        }
+
+        .topbar {
+            position: sticky;
+            top: 10px;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            backdrop-filter: blur(14px);
+        }
+
+        .topbar a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .save-status {
+            color: var(--mint);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .hero,
+        .panel {
+            margin-top: 14px;
+            padding: 20px 16px;
+            border-radius: 24px;
+        }
+
+        .hero__badge {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: #9a3412;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .hero h1 {
+            margin: 12px 0 8px;
+            font-size: 1.85rem;
+            line-height: 1.15;
+        }
+
+        .hero p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        .stepper {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .step-dot {
+            padding: 10px 0;
+            border-radius: 14px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid var(--line);
+            color: #94a3b8;
+            font-size: 0.84rem;
+            font-weight: 800;
+        }
+
+        .step-dot.active {
+            background: linear-gradient(135deg, rgba(255, 236, 220, 0.98), rgba(255, 255, 255, 0.94));
+            border-color: rgba(239, 108, 87, 0.32);
+            color: var(--accent);
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .step-head p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .eyebrow {
+            margin: 0 0 6px;
+            color: var(--mint);
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .step h2 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .choice-grid,
+        .field-stack {
+            display: grid;
+            gap: 12px;
+        }
+
+        .choice {
+            width: 100%;
+            padding: 15px 14px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.84);
+            text-align: left;
+            color: var(--ink);
+            cursor: pointer;
+            transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .choice:hover,
+        .choice:focus-visible {
+            transform: translateY(-1px);
+            border-color: rgba(37, 99, 235, 0.28);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+            outline: none;
+        }
+
+        .choice.active {
+            background: linear-gradient(180deg, rgba(255, 238, 228, 0.98), rgba(255, 255, 255, 0.95));
+            border-color: rgba(239, 108, 87, 0.38);
+        }
+
+        .choice strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .choice span {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .field {
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        label small {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            border: 1.5px solid rgba(148, 163, 184, 0.26);
+            border-radius: 14px;
+            padding: 12px 13px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--ink);
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: rgba(37, 99, 235, 0.42);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+        }
+
+        textarea {
+            min-height: 108px;
+            line-height: 1.7;
+            resize: vertical;
+        }
+
+        .summary {
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            color: #334155;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .summary strong {
+            color: #0f172a;
+        }
+
+        .build-button,
+        .nav-button {
+            border: none;
+            border-radius: 999px;
+            padding: 13px 16px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .build-button,
+        .nav-button.next {
+            background: linear-gradient(135deg, var(--accent) 0%, #f59e0b 100%);
+            color: #fff;
+        }
+
+        .nav-button.prev {
+            background: rgba(15, 157, 135, 0.12);
+            color: var(--mint);
+        }
+
+        .draft-tools {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .nav-bar {
+            position: sticky;
+            bottom: 10px;
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 18px;
+            backdrop-filter: blur(14px);
+        }
+
+        .nav-button {
+            flex: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <main class="app">
+        <header class="topbar">
+            <a href="../index.html">&larr; 공용 허브</a>
+            <span class="save-status" id="saveStatus">저장 준비됨</span>
+        </header>
+
+        <section class="hero">
+            <span class="hero__badge">기억에 남는 날 쓰기</span>
+            <h1>짧게 메모하고<br>바로 초안 쓰기</h1>
+            <p>한 번에 한 단계씩만 진행합니다.</p>
+            <div class="stepper">
+                <div class="step-dot active" data-step-dot="0">1</div>
+                <div class="step-dot" data-step-dot="1">2</div>
+                <div class="step-dot" data-step-dot="2">3</div>
+                <div class="step-dot" data-step-dot="3">4</div>
+            </div>
+        </section>
+
+        <section class="panel step active" data-step="0">
+            <div class="step-head">
+                <div>
+                    <p class="eyebrow">Step 1</p>
+                    <h2>날 고르기</h2>
+                </div>
+                <p>하나만 고르세요.</p>
+            </div>
+            <div class="choice-grid" id="topicGrid">
+                <button class="choice active" type="button" data-topic="arrival">
+                    <strong>한국에 처음 도착한 날</strong>
+                    <span>공항, 기숙사, 첫인상</span>
+                </button>
+                <button class="choice" type="button" data-topic="snow">
+                    <strong>첫눈을 본 날</strong>
+                    <span>날씨, 감정, 비교</span>
+                </button>
+                <button class="choice" type="button" data-topic="help">
+                    <strong>도움을 많이 받은 날</strong>
+                    <span>사람, 감사, 변화</span>
+                </button>
+                <button class="choice" type="button" data-topic="result">
+                    <strong>시험이나 결과를 들은 날</strong>
+                    <span>기대, 긴장, 안도감</span>
+                </button>
+            </div>
+            <div class="field" style="margin-top:12px;">
+                <label for="customTheme">직접 쓰기
+                    <small>예: 한국에서 처음 아르바이트를 시작한 날</small>
+                </label>
+                <input id="customTheme" data-field="customTheme" type="text" placeholder="직접 쓰고 싶으면 적으세요.">
+            </div>
+        </section>
+
+        <section class="panel step" data-step="1">
+            <div class="step-head">
+                <div>
+                    <p class="eyebrow">Step 2</p>
+                    <h2>무슨 일이 있었나요?</h2>
+                </div>
+                <p>짧게만 적어도 됩니다.</p>
+            </div>
+            <div class="field-stack">
+                <div class="field">
+                    <label for="moment">언제였습니까?</label>
+                    <input id="moment" data-field="moment" type="text" placeholder="예: 작년 12월 금요일 저녁">
+                </div>
+                <div class="field">
+                    <label for="place">어디에 있었습니까?</label>
+                    <input id="place" data-field="place" type="text" placeholder="예: 기숙사 앞">
+                </div>
+                <div class="field">
+                    <label for="mainEvent">무슨 일이 있었습니까?</label>
+                    <textarea id="mainEvent" data-field="mainEvent" placeholder="예: 친구들과 처음으로 눈사람을 만들었다."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel step" data-step="2">
+            <div class="step-head">
+                <div>
+                    <p class="eyebrow">Step 3</p>
+                    <h2>왜 기억에 남나요?</h2>
+                </div>
+                <p>감정과 이유만 씁니다.</p>
+            </div>
+            <div class="field-stack">
+                <div class="field">
+                    <label for="emotion">그때 기분</label>
+                    <textarea id="emotion" data-field="emotion" placeholder="예: 처음에는 긴장했지만 곧 즐거워졌다."></textarea>
+                </div>
+                <div class="field">
+                    <label for="reason">기억에 남는 이유</label>
+                    <textarea id="reason" data-field="reason" placeholder="예: 한국에서 처음 겪는 특별한 경험이었기 때문이다."></textarea>
+                </div>
+                <div class="field">
+                    <label for="change">그날 이후 달라진 점</label>
+                    <textarea id="change" data-field="change" placeholder="예: 한국 생활이 더 친근하게 느껴졌다."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel step" data-step="3">
+            <div class="step-head">
+                <div>
+                    <p class="eyebrow">Step 4</p>
+                    <h2>초안 쓰기</h2>
+                </div>
+                <p>버튼을 누르면 초안이 들어갑니다.</p>
+            </div>
+            <div class="summary" id="summaryBox"></div>
+            <div class="draft-tools" style="margin-top:12px;">
+                <button class="build-button" id="buildDraftButton" type="button">초안 넣기</button>
+            </div>
+            <div class="field">
+                <label for="draft">글쓰기 초안</label>
+                <textarea id="draft" data-field="draft" style="min-height:240px;" placeholder="여기에 직접 수정하며 쓰세요."></textarea>
+            </div>
+        </section>
+
+        <div class="nav-bar">
+            <button class="nav-button prev" id="prevButton" type="button">이전</button>
+            <button class="nav-button next" id="nextButton" type="button">다음</button>
+        </div>
+    </main>
+
+    <script>
+        const STORAGE_KEY = "somt-memorable-day-writing-mobile-v1";
+        const topicLabels = {
+            arrival: "한국에 처음 도착한 날",
+            snow: "첫눈을 본 날",
+            help: "도움을 많이 받은 날",
+            result: "시험이나 결과를 들은 날"
+        };
+
+        const defaults = {
+            step: 0,
+            topic: "arrival",
+            customTheme: "",
+            moment: "",
+            place: "",
+            mainEvent: "",
+            emotion: "",
+            reason: "",
+            change: "",
+            draft: ""
+        };
+
+        const state = loadState();
+        const steps = Array.from(document.querySelectorAll(".step"));
+        const stepDots = Array.from(document.querySelectorAll("[data-step-dot]"));
+        const topicButtons = Array.from(document.querySelectorAll("[data-topic]"));
+        const fields = Array.from(document.querySelectorAll("[data-field]"));
+        const saveStatus = document.getElementById("saveStatus");
+        const prevButton = document.getElementById("prevButton");
+        const nextButton = document.getElementById("nextButton");
+        const draftField = document.getElementById("draft");
+        const summaryBox = document.getElementById("summaryBox");
+        let saveTimer = null;
+
+        hydrate();
+        bind();
+        render();
+
+        function loadState() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+                return saved ? { ...defaults, ...saved } : { ...defaults };
+            } catch {
+                return { ...defaults };
+            }
+        }
+
+        function hydrate() {
+            fields.forEach((field) => {
+                field.value = state[field.dataset.field] || "";
+            });
+            setTopic(state.topic);
+        }
+
+        function bind() {
+            topicButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    state.topic = button.dataset.topic;
+                    setTopic(state.topic);
+                    persist();
+                    render();
+                });
+            });
+
+            fields.forEach((field) => {
+                field.addEventListener("input", () => {
+                    state[field.dataset.field] = field.value;
+                    persist();
+                    render();
+                });
+            });
+
+            prevButton.addEventListener("click", () => {
+                if (state.step > 0) {
+                    state.step -= 1;
+                    persist();
+                    render();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+            });
+
+            nextButton.addEventListener("click", () => {
+                if (state.step < steps.length - 1) {
+                    state.step += 1;
+                    persist();
+                    render();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+            });
+
+            document.getElementById("buildDraftButton").addEventListener("click", () => {
+                if (draftField.value.trim() && !window.confirm("현재 초안을 새 초안으로 바꿀까요?")) return;
+                draftField.value = makeDraft();
+                state.draft = draftField.value;
+                persist();
+                render();
+            });
+        }
+
+        function persist() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            const time = new Date().toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+            saveStatus.textContent = `저장됨 ${time}`;
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
+                saveStatus.textContent = "저장 준비됨";
+            }, 2200);
+        }
+
+        function setTopic(topic) {
+            topicButtons.forEach((button) => {
+                button.classList.toggle("active", button.dataset.topic === topic);
+            });
+        }
+
+        function themeLabel() {
+            return state.customTheme.trim() || topicLabels[state.topic] || "기억에 남는 날";
+        }
+
+        function render() {
+            steps.forEach((step, index) => {
+                step.classList.toggle("active", index === state.step);
+            });
+
+            stepDots.forEach((dot, index) => {
+                dot.classList.toggle("active", index === state.step);
+            });
+
+            prevButton.classList.toggle("hidden", state.step === 0);
+            nextButton.classList.toggle("hidden", state.step === steps.length - 1);
+
+            summaryBox.innerHTML =
+                `<strong>주제</strong> ${escapeHtml(themeLabel())}<br>` +
+                `<strong>언제</strong> ${valueOrBlank(state.moment)}<br>` +
+                `<strong>어디</strong> ${valueOrBlank(state.place)}<br>` +
+                `<strong>사건</strong> ${valueOrBlank(state.mainEvent)}<br>` +
+                `<strong>기분</strong> ${valueOrBlank(state.emotion)}<br>` +
+                `<strong>이유</strong> ${valueOrBlank(state.reason)}`;
+        }
+
+        function valueOrBlank(value) {
+            const text = (value || "").trim();
+            return text ? escapeHtml(text) : `<span class="placeholder">아직 비어 있음</span>`;
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#39;");
+        }
+
+        function fill(value, label) {
+            return (value || "").trim() || `[${label}]`;
+        }
+
+        function makeDraft() {
+            return [
+                `제가 한국에서 살면서 가장 기억에 남는 날은 ${fill(themeLabel(), "어떤 날")}입니다.`,
+                `그날은 ${fill(state.moment, "언제")}였고, 저는 ${fill(state.place, "어디")}에 있었습니다.`,
+                `그날 ${fill(state.mainEvent, "무슨 일")}이 있었습니다.`,
+                `그때 저는 ${fill(state.emotion, "기분")}을 느꼈습니다.`,
+                `이 날이 기억에 남는 이유는 ${fill(state.reason, "이유")}이기 때문입니다.`,
+                `그날 이후 ${fill(state.change, "달라진 점")}이 생겼습니다.`
+            ].join("\n\n");
+        }
+    </script>
+</body>
+</html>
