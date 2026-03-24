@@ -1337,6 +1337,17 @@
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--lw-accent) 18%, transparent);
 }
 
+.lw-line-card.is-audio-active .lw-keyword-pack span {
+    background: color-mix(in srgb, var(--lw-accent) 18%, white);
+    color: color-mix(in srgb, var(--lw-accent-dark) 88%, black);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--lw-accent) 12%, transparent);
+}
+
+.lw-line-card.is-audio-active .lw-cue-keyword.is-audio-current {
+    background: color-mix(in srgb, var(--lw-accent) 78%, white) !important;
+    color: #fff !important;
+}
+
 .lw-line-card.is-audio-active .lw-line-chunk.is-audio-active {
     background: color-mix(in srgb, var(--lw-accent) 24%, white);
 }

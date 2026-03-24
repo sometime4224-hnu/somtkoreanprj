@@ -441,6 +441,7 @@
     const clozeState = new Map();
     const audioLineState = new Map();
     const audioChunkState = new Map();
+    const audioKeywordState = new Map();
     const lineChunkCache = new WeakMap();
     const sequenceState = new Map();
     let pageConfig = null;
@@ -2310,7 +2311,13 @@
                     <article class="lw-transcript-line" id="transcript-line-${escapeHtml(lesson.id)}-${index}" data-line-index="${index}">
                         <div class="lw-line-speaker">${escapeHtml(line.speaker)}</div>
                         <div class="lw-keyword-pack">
-                            ${(line.keywords || []).map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
+                            ${(line.keywords || []).map((keyword, keywordIndex) => `
+                                <span
+                                    class="lw-cue-keyword"
+                                    id="transcript-keyword-${escapeHtml(lesson.id)}-${index}-${keywordIndex}"
+                                    data-keyword-index="${keywordIndex}"
+                                >${escapeHtml(keyword)}</span>
+                            `).join("")}
                         </div>
                     </article>
                 `;
@@ -2332,7 +2339,17 @@
         }
 
         if (stage === 1) {
-            return `<div class="lw-keyword-pack">${(line.keywords || []).map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}</div>`;
+            return `
+                <div class="lw-keyword-pack">
+                    ${(line.keywords || []).map((keyword, keywordIndex) => `
+                        <span
+                            class="lw-cue-keyword"
+                            id="preview-keyword-${escapeHtml(lessonId)}-${lineIndex}-${keywordIndex}"
+                            data-keyword-index="${keywordIndex}"
+                        >${escapeHtml(keyword)}</span>
+                    `).join("")}
+                </div>
+            `;
         }
 
         return `
@@ -2409,6 +2426,35 @@
         return chunks;
     }
 
+    function getKeywordProgressIndex(range, keywordCount, currentTime) {
+        if (!range || !Number.isInteger(keywordCount) || keywordCount <= 0) return null;
+
+        const duration = range.end - range.start;
+        if (!(duration > 0)) return 0;
+
+        const safeTime = Number.isFinite(currentTime) ? currentTime : range.start;
+        const progress = Math.min(Math.max((safeTime - range.start) / duration, 0), 0.999999);
+        return Math.max(0, Math.min(Math.floor(progress * keywordCount), keywordCount - 1));
+    }
+
+    function getLineKeywordIndex(line, currentTime) {
+        if (!line || !Array.isArray(line.keywords) || !line.keywords.length) return null;
+
+        const safeTime = Number.isFinite(currentTime) ? currentTime : 0;
+        const explicitChunks = getLineChunks(line);
+        if (explicitChunks && explicitChunks.length === line.keywords.length) {
+            for (let index = 0; index < explicitChunks.length; index += 1) {
+                const chunk = explicitChunks[index];
+                if (safeTime >= Math.max(0, chunk.start - 0.05) && safeTime < chunk.end + 0.05) {
+                    return index;
+                }
+            }
+        }
+
+        const range = getLineTimeRange(line);
+        return getKeywordProgressIndex(range, line.keywords.length, safeTime);
+    }
+
     function hasTimedTranscript(lesson) {
         return Boolean(lesson && Array.isArray(lesson.transcript) && lesson.transcript.some((line) => getLineTimeRange(line)));
     }
@@ -2469,7 +2515,11 @@
                     for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex += 1) {
                         const chunk = chunks[chunkIndex];
                         if (safeTime >= Math.max(0, chunk.start - 0.05) && safeTime < chunk.end + 0.05) {
-                            return { lineIndex, chunkIndex };
+                            return {
+                                lineIndex,
+                                chunkIndex,
+                                keywordIndex: getLineKeywordIndex(line, safeTime)
+                            };
                         }
                     }
                 }
@@ -2477,7 +2527,11 @@
                 const range = getLineTimeRange(line);
                 if (!range) continue;
                 if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
-                    return { lineIndex, chunkIndex: null };
+                    return {
+                        lineIndex,
+                        chunkIndex: null,
+                        keywordIndex: getLineKeywordIndex(line, safeTime)
+                    };
                 }
             }
             return null;
@@ -2493,7 +2547,8 @@
             if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
                 return {
                     lineIndex,
-                    chunkIndex: getPublicCueKeywordIndex(cue, safeTime, duration)
+                    chunkIndex: null,
+                    keywordIndex: getPublicCueKeywordIndex(cue, safeTime, duration)
                 };
             }
         }
@@ -2514,9 +2569,17 @@
 
         const previewChunk = document.getElementById(`preview-chunk-${lessonId}-${lineIndex}-${chunkIndex}`);
         if (previewChunk) previewChunk.classList.toggle("is-audio-active", active);
+    }
 
-        const cueKeyword = document.getElementById(`cue-keyword-${lessonId}-${lineIndex}-${chunkIndex}`);
+    function setAudioKeywordClass(lessonId, lineIndex, keywordIndex, active) {
+        const cueKeyword = document.getElementById(`cue-keyword-${lessonId}-${lineIndex}-${keywordIndex}`);
         if (cueKeyword) cueKeyword.classList.toggle("is-audio-current", active);
+
+        const transcriptKeyword = document.getElementById(`transcript-keyword-${lessonId}-${lineIndex}-${keywordIndex}`);
+        if (transcriptKeyword) transcriptKeyword.classList.toggle("is-audio-current", active);
+
+        const previewKeyword = document.getElementById(`preview-keyword-${lessonId}-${lineIndex}-${keywordIndex}`);
+        if (previewKeyword) previewKeyword.classList.toggle("is-audio-current", active);
     }
 
     function maybeScrollAudioLineIntoView(lessonId, lineIndex) {
@@ -2539,22 +2602,29 @@
         if (!lesson || !audio || !hasAudioGuide) {
             const previousLine = audioLineState.get(lessonId);
             const previousChunk = audioChunkState.get(lessonId);
+            const previousKeyword = audioKeywordState.get(lessonId);
             if (Number.isInteger(previousChunk) && Number.isInteger(previousLine)) {
                 setAudioChunkClass(lessonId, previousLine, previousChunk, false);
+            }
+            if (Number.isInteger(previousKeyword) && Number.isInteger(previousLine)) {
+                setAudioKeywordClass(lessonId, previousLine, previousKeyword, false);
             }
             if (Number.isInteger(previousLine)) setAudioLineClass(lessonId, previousLine, false);
             audioLineState.delete(lessonId);
             audioChunkState.delete(lessonId);
+            audioKeywordState.delete(lessonId);
             return;
         }
 
         const target = getAudioSyncTarget(lessonId, audio.currentTime);
         const activeLineIndex = target ? target.lineIndex : null;
         const activeChunkIndex = target ? target.chunkIndex : null;
+        const activeKeywordIndex = target ? target.keywordIndex : null;
         const previousLine = audioLineState.get(lessonId);
         const previousChunk = audioChunkState.get(lessonId);
+        const previousKeyword = audioKeywordState.get(lessonId);
 
-        if (previousLine === activeLineIndex && previousChunk === activeChunkIndex && !options.force) {
+        if (previousLine === activeLineIndex && previousChunk === activeChunkIndex && previousKeyword === activeKeywordIndex && !options.force) {
             if (Number.isInteger(activeLineIndex) && playbackState.kind === "audio" && playbackState.lessonId === lessonId) {
                 playbackState.currentLineIndex = activeLineIndex;
             }
@@ -2563,6 +2633,9 @@
 
         if (Number.isInteger(previousChunk) && Number.isInteger(previousLine)) {
             setAudioChunkClass(lessonId, previousLine, previousChunk, false);
+        }
+        if (Number.isInteger(previousKeyword) && Number.isInteger(previousLine)) {
+            setAudioKeywordClass(lessonId, previousLine, previousKeyword, false);
         }
         if (Number.isInteger(previousLine) && (previousLine !== activeLineIndex || options.force)) {
             setAudioLineClass(lessonId, previousLine, false);
@@ -2577,6 +2650,12 @@
             } else {
                 audioChunkState.delete(lessonId);
             }
+            if (Number.isInteger(activeKeywordIndex)) {
+                setAudioKeywordClass(lessonId, activeLineIndex, activeKeywordIndex, true);
+                audioKeywordState.set(lessonId, activeKeywordIndex);
+            } else {
+                audioKeywordState.delete(lessonId);
+            }
             if (playbackState.kind === "audio" && playbackState.lessonId === lessonId) {
                 playbackState.currentLineIndex = activeLineIndex;
             }
@@ -2588,6 +2667,7 @@
 
         audioLineState.delete(lessonId);
         audioChunkState.delete(lessonId);
+        audioKeywordState.delete(lessonId);
     }
 
     function updateQuizUI(lessonId) {
@@ -4289,12 +4369,19 @@
         const range = getPublicCueTimeRange(cue, audioDuration);
         if (!range) return null;
 
-        const duration = range.end - range.start;
-        if (!(duration > 0)) return 0;
-
         const safeTime = Number.isFinite(currentTime) ? currentTime : range.start;
-        const progress = Math.min(Math.max((safeTime - range.start) / duration, 0), 0.999999);
-        return Math.max(0, Math.min(Math.floor(progress * keywords.length), keywords.length - 1));
+        if (Array.isArray(cue.keywordTimings) && cue.keywordTimings.length) {
+            const timedCount = Math.min(cue.keywordTimings.length, keywords.length);
+            for (let index = 0; index < timedCount; index += 1) {
+                const keywordRange = getPublicCueTimeRange(cue.keywordTimings[index], audioDuration);
+                if (!keywordRange) continue;
+                if (safeTime >= Math.max(0, keywordRange.start - 0.05) && safeTime < keywordRange.end + 0.05) {
+                    return index;
+                }
+            }
+        }
+
+        return getKeywordProgressIndex(range, keywords.length, safeTime);
     }
 
     function renderPublicCueTimeline(lesson, options = {}) {
