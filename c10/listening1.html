@@ -126,96 +126,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         backgroundPrompt: "이 인터뷰에서 기자가 추가로 물을 것 같은 질문을 1개 적어 보세요.",
                         backgroundPromptVi: "Hãy viết 1 câu hỏi mà em nghĩ phóng viên có thể hỏi thêm trong cuộc phỏng vấn này."
                     },
-                    transcript: [
-                        {
-                            speaker: "여",
-                            text: "안녕하세요? 박민호 씨. ‘올해의 선수상’을 받으신 것을 축하드립니다.",
-                            vi: "Xin chào anh Park Minho. Xin chúc mừng anh đã nhận giải Cầu thủ của năm.",
-                            keywords: ["박민호", "선수상", "축하"]
-                        },
-                        {
-                            speaker: "남",
-                            text: "감사합니다. 야구를 사랑하시고 항상 응원해 주시는 팬 여러분의 덕분입니다.",
-                            vi: "Cảm ơn. Tất cả là nhờ những người hâm mộ luôn yêu bóng chày và cổ vũ cho tôi.",
-                            keywords: ["감사", "팬", "응원"]
-                        },
-                        {
-                            speaker: "여",
-                            text: "그런데 박민호 씨, 좋은 소식이 들리던데요. 곧 결혼하신다고요?",
-                            vi: "Nhưng mà anh Park Minho, tôi nghe có tin vui. Anh sắp kết hôn phải không?",
-                            keywords: ["좋은 소식", "들리던데요", "결혼"],
-                            highlights: [
-                                { term: "그런데", type: "담화 전환" },
-                                { term: "들리던데요", type: "전언 / 반응" },
-                                { term: "결혼하신다고요", type: "확인 질문" }
-                            ]
-                        },
-                        {
-                            speaker: "남",
-                            text: "네, 내년 1월에 결혼식을 할 예정입니다.",
-                            vi: "Vâng, tôi dự định sẽ tổ chức đám cưới vào tháng 1 năm sau.",
-                            keywords: ["내년", "1월", "결혼식"]
-                        },
-                        {
-                            speaker: "여",
-                            text: "박민호 선수는 여성 팬들에게 인기가 많으신데 신부는 어떤 분일까요? 요즘 운동선수들이 배우나 가수하고 많이 결혼하시잖아요. 혹시 저희들도 아는 분인가요?",
-                            vi: "Cầu thủ Park Minho rất được fan nữ yêu mến, cô dâu là người như thế nào nhỉ? Dạo này vận động viên hay kết hôn với diễn viên hoặc ca sĩ mà. Có phải là người chúng tôi cũng biết không?",
-                            keywords: ["여성 팬", "신부", "배우", "가수"],
-                            highlights: [
-                                { term: "인기가 많으신데", type: "배경 제시" },
-                                { term: "결혼하시잖아요", type: "공유 정보 환기" },
-                                { term: "혹시", type: "완곡한 질문" }
-                            ]
-                        },
-                        {
-                            speaker: "남",
-                            text: "아닙니다. 저와 결혼할 사람은 그냥 보통 여자예요. 조용하고 마음씨가 착한 사람입니다.",
-                            vi: "Không đâu. Người sẽ kết hôn với tôi chỉ là một cô gái bình thường thôi. Cô ấy hiền và tốt bụng.",
-                            keywords: ["그냥", "보통 여자", "마음씨"],
-                            highlights: [
-                                { term: "그냥", type: "완곡화" }
-                            ]
-                        },
-                        {
-                            speaker: "여",
-                            text: "그렇군요. 언제 그렇게 비밀 연애를 하셨어요?",
-                            vi: "Ra vậy. Anh hẹn hò bí mật từ bao giờ thế?",
-                            keywords: ["그렇군요", "비밀 연애", "언제"]
-                        },
-                        {
-                            speaker: "남",
-                            text: "하하, 제가 운동하느라 바빠서 연애는 못했고요. 저희는 선봐서 만났어요. 제가 허리를 다쳤을 때 치료를 해 주시던 의사 선생님의 조카입니다. 알고 보니 초등학교 후배여서 빨리 친해질 수 있었습니다.",
-                            vi: "Ha ha, vì bận tập luyện nên tôi không có thời gian hẹn hò đâu. Chúng tôi gặp nhau qua xem mắt. Cô ấy là cháu của bác sĩ đã điều trị cho tôi khi tôi bị thương ở lưng. Sau khi biết ra, tôi mới thấy cô ấy là đàn em ở trường tiểu học nên chúng tôi nhanh thân nhau hơn.",
-                            keywords: ["하하", "선봐서", "의사 선생님", "조카", "후배"],
-                            highlights: [
-                                { term: "하하", type: "웃음 / 머뭇거림" },
-                                { term: "못했고요", type: "회화체 연결" }
-                            ]
-                        },
-                        {
-                            speaker: "여",
-                            text: "아, 네. 그런데 그분의 어디가 마음에 드셔서 결혼을 결심하셨나요?",
-                            vi: "À, vâng. Vậy điều gì ở cô ấy khiến anh quyết định kết hôn?",
-                            keywords: ["마음", "결심", "이유"],
-                            highlights: [
-                                { term: "그런데", type: "화제 전환" }
-                            ]
-                        },
-                        {
-                            speaker: "남",
-                            text: "그 사람의 오빠도 운동선수라서 운동하는 사람의 생활을 잘 이해해 주는 점이 좋았어요. 전 외모나 조건보다 성격이 더 중요하다고 생각하는데 저와 성격이 잘 맞는 사람입니다.",
-                            vi: "Anh trai của cô ấy cũng là vận động viên nên cô ấy hiểu rất rõ cuộc sống của người làm thể thao. Tôi nghĩ tính cách quan trọng hơn ngoại hình hay điều kiện, và cô ấy là người rất hợp tính với tôi.",
-                            keywords: ["운동선수", "생활 이해", "성격", "잘 맞다"],
-                            highlights: [
-                                { term: "생각하는데", type: "배경 설명" }
-                            ]
-                        }
-                    ],
+                    transcript: [],
                     dictogloss: {
                         prompt: "2~3회 듣고 아래 핵심어만 보고 인터뷰 내용을 다시 구성해 보세요.",
                         promptVi: "Sau khi nghe 2~3 lần, hãy chỉ nhìn các từ khóa dưới đây rồi tái cấu trúc lại nội dung cuộc phỏng vấn.",
                         keywords: ["선수상", "결혼", "보통 여자", "선봐서", "의사 선생님의 조카", "성격이 잘 맞다"],
-                        modelSummary: "박민호 선수는 올해의 선수상을 받은 뒤 인터뷰에서 내년 1월 결혼 계획을 밝힌다. 예비 신부는 연예인이 아니라 조용하고 착한 평범한 사람이며, 의사 선생님의 조카로 선을 봐서 만났다. 그는 외모나 조건보다 서로의 성격이 잘 맞고 운동선수의 생활을 이해해 주는 점이 좋아 결혼을 결심했다.",
                         placeholder: "인터뷰 내용을 3~5문장으로 재구성해 보세요.",
                         placeholderVi: "Hãy viết lại nội dung phỏng vấn trong 3~5 câu."
                     },
@@ -350,63 +265,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         backgroundPrompt: "사랑 이야기에서 갈등이 생긴다면 어떤 이유일지 먼저 써 보세요.",
                         backgroundPromptVi: "Nếu trong câu chuyện tình yêu này có mâu thuẫn, em nghĩ nguyên nhân sẽ là gì? Hãy viết trước."
                     },
-                    transcript: [
-                        {
-                            speaker: "멘트",
-                            text: "다음은 여러분의 사랑 이야기를 읽어 드리는 시간입니다. 오늘은 서초동에 사시는 이준서 님의 사연을 읽어 드리겠습니다.",
-                            vi: "Sau đây là mục đọc chuyện tình yêu của quý vị. Hôm nay chúng tôi xin đọc câu chuyện của anh Lee Junseo sống ở Seocho-dong.",
-                            keywords: ["사랑 이야기", "이준서", "사연"]
-                        },
-                        {
-                            speaker: "사연",
-                            text: "저는 요리를 배우기 위해서 일본으로 유학을 갔는데 요리학교에서 그녀를 만났습니다. 저보다 3살이 많은 그녀는 일본어를 잘 못하던 저를 항상 누나처럼 친절하게 도와주었습니다. 저는 그녀가 좋았지만 졸업하자마자 한국으로 돌아올 생각이었기 때문에 고백하지 않았습니다.",
-                            vi: "Tôi đã du học Nhật Bản để học nấu ăn và gặp cô ấy ở trường dạy nấu ăn. Cô ấy hơn tôi 3 tuổi và luôn tận tình giúp đỡ tôi như một người chị khi tôi chưa giỏi tiếng Nhật. Tôi có cảm tình với cô ấy nhưng vì định sẽ quay về Hàn Quốc ngay sau khi tốt nghiệp nên đã không tỏ tình.",
-                            keywords: ["요리", "일본 유학", "3살", "고백하지 않다"]
-                        },
-                        {
-                            speaker: "사연",
-                            text: "그런데 귀국하기 전날 밤, 저는 교통사고를 당했습니다. 눈을 떠 보니 병원이었고 침대 옆에 그녀가 울면서 서 있었습니다. 그리고 세 달 동안이나 저를 잘 간호해 주었습니다.",
-                            vi: "Thế nhưng vào đêm trước ngày về nước, tôi bị tai nạn giao thông. Khi tỉnh lại thì tôi đang ở bệnh viện, và cô ấy đứng bên giường vừa khóc. Sau đó cô ấy đã chăm sóc tôi rất chu đáo suốt ba tháng.",
-                            keywords: ["귀국 전날", "교통사고", "병원", "간호"],
-                            highlights: [
-                                { term: "그런데", type: "사건 전환" },
-                                { term: "눈을 떠 보니", type: "구어적 장면 전환" }
-                            ]
-                        },
-                        {
-                            speaker: "사연",
-                            text: "병원에서 퇴원하던 날 저는 그녀에게 청혼했습니다. 그런데 양쪽 부모님이 우리의 결혼을 반대하셨습니다. 그녀의 부모님은 딸이 한국으로 시집가는 것을 반대하셨고 제 부모님은 연상의 외국 여자가 며느리로 들어오는 것을 싫어하셨습니다. 하지만 변하지 않는 우리의 사랑을 보시고 마침내 결혼을 허락해 주셨습니다.",
-                            vi: "Vào ngày ra viện, tôi đã cầu hôn cô ấy. Nhưng bố mẹ hai bên đều phản đối đám cưới của chúng tôi. Bố mẹ cô ấy không đồng ý việc con gái lấy chồng Hàn Quốc, còn bố mẹ tôi thì không muốn cô dâu là phụ nữ nước ngoài lớn tuổi hơn tôi. Tuy nhiên sau khi thấy tình yêu không đổi của chúng tôi, cuối cùng họ đã cho phép kết hôn.",
-                            keywords: ["퇴원", "청혼", "반대", "허락"],
-                            highlights: [
-                                { term: "그런데", type: "갈등 제시" },
-                                { term: "하지만", type: "대조 연결" }
-                            ]
-                        },
-                        {
-                            speaker: "사연",
-                            text: "저희는 세상에서 제일 맛있는 빵집을 만들 계획입니다. 그 꿈을 이루려면 아직 멀었지만 아무리 힘들어도 포기하지 않을 겁니다. 저희를 응원해 주세요.",
-                            vi: "Chúng tôi dự định sẽ mở tiệm bánh ngon nhất thế gian. Để thực hiện ước mơ ấy vẫn còn xa, nhưng dù khó khăn đến đâu chúng tôi cũng sẽ không bỏ cuộc. Xin hãy cổ vũ cho chúng tôi.",
-                            keywords: ["빵집", "계획", "아무리 힘들어도", "포기하지 않다"],
-                            highlights: [
-                                { term: "아무리 힘들어도", type: "강조 / 양보" }
-                            ]
-                        },
-                        {
-                            speaker: "멘트",
-                            text: "네, 두 분의 결혼을 축하합니다. 노래 한 곡 들려 드립니다. ‘우리 서로 사랑하잖아.’",
-                            vi: "Vâng, xin chúc mừng đám cưới của hai bạn. Sau đây xin gửi tặng một bài hát: 'Chúng ta yêu nhau mà.'",
-                            keywords: ["결혼 축하", "노래", "사랑하잖아"],
-                            highlights: [
-                                { term: "사랑하잖아", type: "-잖아 친근체" }
-                            ]
-                        }
-                    ],
+                    transcript: [],
                     dictogloss: {
                         prompt: "사연의 시간 순서를 유지하면서 핵심어만 보고 다시 써 보세요.",
                         promptVi: "Hãy chỉ nhìn các từ khóa và viết lại câu chuyện theo đúng trình tự thời gian của sự việc.",
                         keywords: ["일본 유학", "3살 많은 그녀", "교통사고", "세 달 간호", "청혼", "빵집"],
-                        modelSummary: "이준서 씨는 일본에서 요리를 배우다가 자신보다 세 살 많은 여성을 만났다. 처음에는 한국으로 돌아올 생각이라 고백하지 않았지만 귀국 전날 교통사고를 당한 뒤 그녀의 간호를 받으면서 마음을 확인했다. 퇴원하던 날 청혼했고 양가의 반대를 넘어서 결혼 허락을 받았으며, 앞으로는 함께 맛있는 빵집을 만들 계획이다.",
                         placeholder: "시간 순서를 살려 4~6문장으로 다시 써 보세요.",
                         placeholderVi: "Hãy viết lại trong 4~6 câu, giữ rõ trình tự thời gian."
                     },

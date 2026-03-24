@@ -4201,6 +4201,719 @@
         if (action === "reset-quiz") return void resetQuiz(lessonId);
     }
 
+    function lessonHasTranscript(lesson) {
+        return Boolean(lesson && Array.isArray(lesson.transcript) && lesson.transcript.length);
+    }
+
+    function getLessonStages(lesson) {
+        if (lessonHasTranscript(lesson)) return STAGES;
+        return [
+            { id: 0, label: "듣기만", labelVi: "Chi nghe", unlock: 0 },
+            { id: 1, label: "핵심어", labelVi: "Tu khoa", unlock: 1 },
+            { id: 2, label: "핵심 포인트", labelVi: "Y chinh", unlock: 2 }
+        ];
+    }
+
+    function getLessonUnlockedStage(lesson, listens) {
+        const maxStage = Math.max(getLessonStages(lesson).length - 1, 0);
+        if (listens >= 3) return Math.min(3, maxStage);
+        if (listens >= 2) return Math.min(2, maxStage);
+        if (listens >= 1) return Math.min(1, maxStage);
+        return 0;
+    }
+
+    function getKeywordGuideCards(lesson) {
+        if (!lesson) return [];
+
+        const cards = [];
+        const summary = getLocalizedField(lesson, "summary", lesson.summary || "");
+        const keywordPrompt = getLocalizedNotePrompt(lesson, "keywords", "");
+        const cue = getLocalizedNotePrompt(lesson, "cue", "");
+        const details = getLocalizedNotePrompt(lesson, "details", "");
+        const predictionNote = getLocalizedField(lesson.preListening || {}, "predictionNote", (lesson.preListening && lesson.preListening.predictionNote) || "");
+
+        if (summary) cards.push({ title: chooseLocalizedText("내용 포인트", "Noi dung chinh"), body: summary });
+        if (keywordPrompt) cards.push({ title: chooseLocalizedText("키워드 확장", "Mo rong tu khoa"), body: keywordPrompt });
+        if (cue) cards.push({ title: chooseLocalizedText("흐름 힌트", "Goi y trinh tu"), body: cue });
+        if (details) cards.push({ title: chooseLocalizedText("집중해서 들을 점", "Diem can chu y"), body: details });
+        if (predictionNote) cards.push({ title: chooseLocalizedText("상황 힌트", "Goi y tinh huong"), body: predictionNote });
+
+        return cards.slice(0, 4);
+    }
+
+    function buildKeywordGuideMarkup(lesson, options = {}) {
+        const cards = getKeywordGuideCards(lesson);
+        const cardClass = options.cardClass || "lw-summary-block";
+        const emptyMessage = options.emptyMessage || chooseLocalizedText(
+            "공개본에서는 전체 대본 대신 핵심어와 핵심 포인트만 제공합니다.",
+            "Ban cong khai chi cung cap tu khoa va diem chinh thay cho toan van."
+        );
+
+        if (!cards.length) {
+            return `<div class="lw-status" data-tone="info">${escapeHtml(emptyMessage)}</div>`;
+        }
+
+        return cards.map((card) => `
+            <article class="${cardClass}">
+                <strong>${escapeHtml(card.title)}</strong>
+                <div class="lw-line-text">${escapeHtml(card.body)}</div>
+            </article>
+        `).join("");
+    }
+
+    function getAudioSourceLabel(lesson) {
+        const uiText = getInstructionText();
+        const source = getEffectiveAudioSource(lesson);
+        if (source.mode === "local") return uiText.quickDockLocalAudioSource;
+        if (source.mode === "remote") return uiText.quickDockAudioSource;
+        if (!lessonHasTranscript(lesson)) {
+            return chooseLocalizedText("교사 로컬 음원", "Am thanh cuc bo cua giao vien");
+        }
+        return uiText.quickDockTtsSource;
+    }
+
+    function getQuickDockProgressData(lesson) {
+        const uiText = getInstructionText();
+        if (!lesson) {
+            return {
+                mode: "audio",
+                min: 0,
+                max: 1,
+                value: 0,
+                currentLabel: "0:00",
+                totalLabel: "0:00"
+            };
+        }
+
+        if (hasPlayableAudio(lesson)) {
+            const audio = document.getElementById(`audio-${lesson.id}`);
+            const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
+            const currentTime = audio ? audio.currentTime : 0;
+            return {
+                mode: "audio",
+                min: 0,
+                max: duration > 0 ? duration : 1,
+                value: Math.min(currentTime, duration > 0 ? duration : 1),
+                currentLabel: formatClockTime(currentTime),
+                totalLabel: formatClockTime(duration)
+            };
+        }
+
+        if (!lessonHasTranscript(lesson)) {
+            return {
+                mode: "audio",
+                min: 0,
+                max: 1,
+                value: 0,
+                currentLabel: chooseLocalizedText("대기", "Cho"),
+                totalLabel: chooseLocalizedText("로컬 음원", "Am thanh cuc bo")
+            };
+        }
+
+        const state = getState(lesson.id);
+        const total = Math.max((lesson.transcript || []).length, 1);
+        const activeIndex = playbackState.lessonId === lesson.id && Number.isInteger(playbackState.currentLineIndex)
+            ? playbackState.currentLineIndex
+            : state.dialogueStartLine;
+        const lineIndex = Math.max(0, Math.min(activeIndex, total - 1));
+        return {
+            mode: "tts",
+            min: 0,
+            max: Math.max(total - 1, 0),
+            value: lineIndex,
+            currentLabel: uiText.quickDockLinePosition(lineIndex + 1, total),
+            totalLabel: uiText.quickDockLineTotal(total)
+        };
+    }
+
+    function getLessonProgressSteps(lesson) {
+        const subtitleLabel = lessonHasTranscript(lesson)
+            ? chooseLocalizedText("자막", "Phu de")
+            : chooseLocalizedText("핵심어", "Tu khoa");
+        const sentenceLabel = lessonHasTranscript(lesson)
+            ? chooseLocalizedText("문장 연습", "Luyen tung cau")
+            : chooseLocalizedText("핵심 포인트", "Diem chinh");
+
+        return [
+            {
+                id: "pre",
+                label: chooseLocalizedText("듣기 전", "Truoc khi nghe"),
+                anchorId: `pre-section-${lesson.id}`,
+                targetIds: [`pre-section-${lesson.id}`]
+            },
+            {
+                id: "audio",
+                label: chooseLocalizedText("듣기", "Nghe"),
+                anchorId: `audio-section-${lesson.id}`,
+                targetIds: [`audio-section-${lesson.id}`]
+            },
+            {
+                id: "subtitle",
+                label: subtitleLabel,
+                anchorId: `subtitle-section-${lesson.id}`,
+                targetIds: [`subtitle-section-${lesson.id}`]
+            },
+            {
+                id: "sentence",
+                label: sentenceLabel,
+                anchorId: `sentence-section-${lesson.id}`,
+                targetIds: [`sentence-section-${lesson.id}`]
+            },
+            {
+                id: "analysis",
+                label: chooseLocalizedText("재구성", "Tai cau truc"),
+                anchorId: hasSequenceTask(lesson) ? `sequence-section-${lesson.id}` : `dictogloss-section-${lesson.id}`,
+                targetIds: [
+                    hasSequenceTask(lesson) ? `sequence-section-${lesson.id}` : null,
+                    `dictogloss-section-${lesson.id}`
+                ].filter(Boolean)
+            },
+            {
+                id: "note",
+                label: chooseLocalizedText("노트", "Ghi chu"),
+                anchorId: `note-section-${lesson.id}`,
+                targetIds: [`note-section-${lesson.id}`]
+            },
+            {
+                id: "quiz",
+                label: chooseLocalizedText("퀴즈", "Cau hoi"),
+                anchorId: hasClozeItems(lesson)
+                    ? `cloze-section-${lesson.id}`
+                    : (hasTfQuestions(lesson) ? `tf-section-${lesson.id}` : `quiz-section-${lesson.id}`),
+                targetIds: [
+                    hasClozeItems(lesson) ? `cloze-section-${lesson.id}` : null,
+                    hasTfQuestions(lesson) ? `tf-section-${lesson.id}` : null,
+                    `quiz-section-${lesson.id}`
+                ].filter(Boolean)
+            }
+        ];
+    }
+
+    function syncState(lessonId) {
+        const state = getState(lessonId);
+        const lesson = lessonMap.get(lessonId);
+        const unlocked = getLessonUnlockedStage(lesson, state.listens);
+        if (state.stage > unlocked) state.stage = unlocked;
+        writeStorage(storageKey(lessonId, "listens"), state.listens);
+        writeStorage(storageKey(lessonId, "stage"), state.stage);
+        writeStorage(storageKey(lessonId, "speed"), state.speed);
+        writeStorage(storageKey(lessonId, "loop"), state.loop);
+        writeStorage(storageKey(lessonId, "note-tab"), state.noteTab);
+        writeStorage(storageKey(lessonId, "quiz-language"), getQuizLanguage(state));
+        writeStorage(storageKey(lessonId, "dialogue-start-line"), state.dialogueStartLine);
+    }
+
+    function buildAudioPlayerMarkup(lesson, options = {}) {
+        const { compact = false } = options;
+        const state = getState(lesson.id);
+        const uiText = getInstructionText();
+        const actionSpacing = compact ? "" : ' style="margin-top: 12px;"';
+        const fallbackHelpClass = compact ? "lw-help-box lw-help-box--compact" : "lw-help-box";
+        const source = getEffectiveAudioSource(lesson);
+        const localSource = getLocalAudioResolution(lesson);
+        const localStatusClass = compact ? "lw-status lw-status--compact" : "lw-status";
+        const controlButtons = [];
+        const transcriptAvailable = lessonHasTranscript(lesson);
+
+        if (localAudioState.supported) {
+            if (localSource.status === "permission-required") {
+                controlButtons.push(`
+                    <button type="button" class="lw-button" data-action="reconnect-local-audio-folder" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.localAudioReconnect)}</button>
+                `);
+                controlButtons.push(`
+                    <button type="button" class="lw-button-secondary lw-button" data-action="connect-local-audio-folder" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.localAudioChangeFolder)}</button>
+                `);
+            } else {
+                controlButtons.push(`
+                    <button type="button" class="lw-button" data-action="connect-local-audio-folder" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(localAudioState.folderHandle ? uiText.localAudioChangeFolder : uiText.localAudioConnect)}</button>
+                `);
+            }
+
+            if (localAudioState.folderHandle) {
+                controlButtons.push(`
+                    <button type="button" class="lw-button-secondary lw-button" data-action="disconnect-local-audio-folder" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.localAudioDisconnect)}</button>
+                `);
+            }
+        }
+
+        const localAudioControls = `
+            <div class="lw-local-audio-box${compact ? " lw-local-audio-box--compact" : ""}">
+                <div class="lw-local-audio-box__header">
+                    <strong>${escapeHtml(uiText.localAudioTitle)}</strong>
+                    <span class="lw-mini-chip">${escapeHtml(localSource.expectedFileName || LOCAL_AUDIO_FILE_EXAMPLE)}</span>
+                </div>
+                ${controlButtons.length ? `<div class="lw-local-audio-box__actions">${controlButtons.join("")}</div>` : ""}
+                <div id="local-audio-status-${escapeHtml(lesson.id)}" class="${localStatusClass}" data-tone="${escapeHtml(getLocalAudioStatusTone(localSource.status))}">${escapeHtml(getLocalAudioStatusMessage(lesson))}</div>
+            </div>
+        `;
+
+        if (source.mode !== "tts" && source.src) {
+            return `
+                ${localAudioControls}
+                <div class="lw-audio-wrap">
+                    <div class="lw-local-audio-player-label">
+                        <strong>${escapeHtml(source.mode === "local" ? uiText.localAudioPlayback : uiText.originalAudio)}</strong>
+                        ${source.mode === "local" && source.foundFileName ? `<span class="lw-mini-chip">${escapeHtml(source.foundFileName)}</span>` : ""}
+                    </div>
+                    <audio id="audio-${escapeHtml(lesson.id)}" controls preload="metadata">
+                        <source src="${escapeHtml(source.src)}" type="audio/mpeg">
+                        ${escapeHtml(uiText.audioUnsupported)}
+                    </audio>
+                </div>
+                <div class="lw-inline-actions"${actionSpacing}>
+                    <button type="button" class="lw-button-secondary lw-button" data-action="toggle-loop" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(state.loop ? uiText.loopOn : uiText.loopOff)}</button>
+                    ${transcriptAvailable ? `<button type="button" class="lw-button-secondary lw-button" data-action="stop-speech" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.stopLineSpeech)}</button>` : ""}
+                </div>
+            `;
+        }
+
+        const publicHelp = transcriptAvailable
+            ? uiText.noAudioSupport
+            : chooseLocalizedText(
+                "공개본에서는 전체 대본 대신 핵심어만 제공됩니다. 원음 재생은 교사용 PC에서 로컬 음원 폴더를 연결해 주세요.",
+                "Ban cong khai chi cung cap tu khoa thay cho toan van. De phat am thanh goc, hay ket noi thu muc am thanh cuc bo tren may giao vien."
+            );
+
+        return `
+            ${localAudioControls}
+            <div class="${fallbackHelpClass}">${escapeHtml(publicHelp)}</div>
+            ${transcriptAvailable ? `
+                <div class="lw-inline-actions"${actionSpacing}>
+                    <button type="button" class="lw-button" data-action="play-dialogue" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.playDialogue)}</button>
+                    <button type="button" class="lw-button-secondary lw-button" data-action="stop-speech" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.stopAudio)}</button>
+                </div>
+            ` : ""}
+        `;
+    }
+
+    function buildSubtitleSection(lesson) {
+        const uiText = getInstructionText();
+        const stages = getLessonStages(lesson);
+        const sectionTitle = lessonHasTranscript(lesson)
+            ? uiText.subtitleTitle
+            : chooseLocalizedText("핵심어 보기", "Xem tu khoa");
+        return `
+            <section class="lw-section lw-progress-target" id="subtitle-section-${escapeHtml(lesson.id)}">
+                <h3>${escapeHtml(sectionTitle)}</h3>
+                <div class="lw-stage-row">
+                    ${stages.map((stage) => `
+                        <button type="button" class="lw-stage-button" data-action="set-stage" data-lesson-id="${escapeHtml(lesson.id)}" data-stage="${stage.id}">
+                            ${escapeHtml(getStageLabel(stage))}
+                        </button>
+                    `).join("")}
+                </div>
+                <div id="stage-meta-${escapeHtml(lesson.id)}" class="lw-help-box"></div>
+                <div id="transcript-${escapeHtml(lesson.id)}" class="lw-transcript-panel"></div>
+            </section>
+        `;
+    }
+
+    function buildSentenceTrainer(lesson) {
+        const uiText = getInstructionText();
+        if (lessonHasTranscript(lesson)) {
+            return `
+                <section class="lw-section lw-progress-target" id="sentence-section-${escapeHtml(lesson.id)}">
+                    <h3>${escapeHtml(uiText.sentenceTitle)}</h3>
+                    <p class="lw-section-copy">${escapeHtml(uiText.sentenceCopy)}</p>
+                    <div class="lw-grid">
+                        ${lesson.transcript.map((line, index) => `
+                            <article class="lw-line-card" id="line-card-${escapeHtml(lesson.id)}-${index}">
+                                <div class="lw-line-top">
+                                    <span>${escapeHtml(uiText.sentenceNumber(index + 1))}</span>
+                                    <span>${escapeHtml(line.speaker)}</span>
+                                </div>
+                                <div id="line-preview-${escapeHtml(lesson.id)}-${index}"></div>
+                                <div class="lw-line-actions" style="margin-top: 12px;">
+                                    <button type="button" class="lw-line-button" data-action="play-line" data-lesson-id="${escapeHtml(lesson.id)}" data-line-index="${index}">${escapeHtml(uiText.playLine)}</button>
+                                    <button type="button" class="lw-line-button" data-action="repeat-line" data-lesson-id="${escapeHtml(lesson.id)}" data-line-index="${index}">${escapeHtml(uiText.repeatLine)}</button>
+                                    <button type="button" class="lw-line-button" data-action="shadow-line" data-lesson-id="${escapeHtml(lesson.id)}" data-line-index="${index}">${escapeHtml(uiText.shadowLine)}</button>
+                                </div>
+                            </article>
+                        `).join("")}
+                    </div>
+                    <div id="line-status-${escapeHtml(lesson.id)}" class="lw-status" data-tone="info">${escapeHtml(uiText.lineStatusInitial)}</div>
+                </section>
+            `;
+        }
+
+        return `
+            <section class="lw-section lw-progress-target" id="sentence-section-${escapeHtml(lesson.id)}">
+                <h3>${escapeHtml(chooseLocalizedText("핵심 포인트", "Diem chinh"))}</h3>
+                <p class="lw-section-copy">${escapeHtml(chooseLocalizedText(
+                    "공개본에서는 전체 대본 대신 핵심어를 확장해 장면과 흐름을 정리합니다.",
+                    "Ban cong khai sap xep bo cuc canh va dong chay noi dung bang tu khoa mo rong thay cho toan van."
+                ))}</p>
+                <div class="lw-grid">
+                    ${buildKeywordGuideMarkup(lesson, {
+                        cardClass: "lw-line-card",
+                        emptyMessage: chooseLocalizedText(
+                            "공개본에서는 전체 대본 대신 핵심 포인트만 제공합니다.",
+                            "Ban cong khai chi cung cap diem chinh thay cho toan van."
+                        )
+                    })}
+                </div>
+                <div id="line-status-${escapeHtml(lesson.id)}" class="lw-status" data-tone="info">${escapeHtml(chooseLocalizedText(
+                    "문장별 대본과 문장별 듣기는 교사용 로컬 자료에서만 사용해 주세요.",
+                    "Hay chi su dung toan van va luyen tung cau trong tai lieu cuc bo danh cho giao vien."
+                ))}</div>
+            </section>
+        `;
+    }
+
+    function buildDictogloss(lesson) {
+        const uiText = getInstructionText();
+        const transcriptAvailable = lessonHasTranscript(lesson);
+        const publicPrompt = chooseLocalizedText(
+            "핵심어와 핵심 포인트를 바탕으로 3~5문장 요약을 작성해 보세요.",
+            "Hay dua vao tu khoa va diem chinh de viet ban tom tat 3~5 cau."
+        );
+        return `
+            <section class="lw-section lw-progress-target" id="dictogloss-section-${escapeHtml(lesson.id)}">
+                <h3>${escapeHtml(uiText.dictoglossTitle)}</h3>
+                <p class="lw-section-copy">${escapeHtml(transcriptAvailable
+                    ? getLocalizedField(lesson.dictogloss, "prompt", "2~3번 듣고 아래 핵심어만 보고 전체 내용을 다시 구성해 보세요.")
+                    : publicPrompt)}</p>
+                <div class="lw-keyword-pack">
+                    ${(lesson.dictogloss.keywords || []).map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
+                </div>
+                <textarea id="dictogloss-input-${escapeHtml(lesson.id)}" class="lw-textarea" data-storage-key="${escapeHtml(storageKey(lesson.id, "dictogloss"))}" placeholder="${escapeHtml(getLocalizedField(lesson.dictogloss, "placeholder", "핵심어를 활용해 내용을 정리해 보세요."))}" style="margin-top: 14px;"></textarea>
+                <div class="lw-inline-actions" style="margin-top: 12px;">
+                    <button type="button" class="lw-button" data-action="check-dictogloss" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.dictoglossCheck)}</button>
+                    ${transcriptAvailable ? `<button type="button" class="lw-button-secondary lw-button" data-action="toggle-model-summary" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.dictoglossModel)}</button>` : ""}
+                </div>
+                <div id="dictogloss-feedback-${escapeHtml(lesson.id)}" class="lw-status" data-tone="info">${escapeHtml(uiText.dictoglossInitial)}</div>
+                ${transcriptAvailable ? `
+                    <div id="model-summary-${escapeHtml(lesson.id)}" class="lw-summary-block" hidden>
+                        <strong>${escapeHtml(uiText.modelSummary)}</strong>
+                        <div style="font-size: 14px; line-height: 1.8; color: #475569;">${escapeHtml(lesson.dictogloss.modelSummary || "")}</div>
+                    </div>
+                ` : ""}
+            </section>
+        `;
+    }
+
+    function renderTranscriptStage(lesson, stage) {
+        const uiText = getInstructionText();
+        if (!lessonHasTranscript(lesson)) {
+            if (stage === 0) {
+                return `
+                    <div class="lw-status" data-tone="info">
+                        ${escapeHtml(chooseLocalizedText(
+                            "먼저 듣기에 집중해 보세요. 다시 들은 뒤 핵심어를 확인할 수 있습니다.",
+                            "Hay tap trung nghe truoc. Sau khi nghe lai, em co the xem tu khoa."
+                        ))}
+                    </div>
+                `;
+            }
+
+            if (stage === 1) {
+                const noteKeywordText = getLocalizedNotePrompt(lesson, "keywords", "");
+                return `
+                    <article class="lw-transcript-line">
+                        <div class="lw-line-speaker">${escapeHtml(chooseLocalizedText("핵심어", "Tu khoa"))}</div>
+                        <div class="lw-keyword-pack">
+                            ${(lesson.dictogloss.keywords || []).map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
+                        </div>
+                    </article>
+                    ${noteKeywordText ? `
+                        <article class="lw-transcript-line">
+                            <div class="lw-line-speaker">${escapeHtml(chooseLocalizedText("핵심 키워드 묶음", "Cum tu khoa"))}</div>
+                            <div class="lw-line-text">${escapeHtml(noteKeywordText)}</div>
+                        </article>
+                    ` : ""}
+                `;
+            }
+
+            return buildKeywordGuideMarkup(lesson, {
+                cardClass: "lw-transcript-line",
+                emptyMessage: chooseLocalizedText(
+                    "공개본에서는 전체 대본 대신 핵심 포인트만 제공합니다.",
+                    "Ban cong khai chi cung cap diem chinh thay cho toan van."
+                )
+            });
+        }
+
+        if (stage === 0) {
+            return `
+                <div class="lw-status" data-tone="info">
+                    ${escapeHtml(uiText.subtitleClosed)}
+                </div>
+            `;
+        }
+
+        return lesson.transcript.map((line, index) => {
+            if (stage === 1) {
+                return `
+                    <article class="lw-transcript-line" id="transcript-line-${escapeHtml(lesson.id)}-${index}" data-line-index="${index}">
+                        <div class="lw-line-speaker">${escapeHtml(line.speaker)}</div>
+                        <div class="lw-keyword-pack">
+                            ${(line.keywords || []).map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
+                        </div>
+                    </article>
+                `;
+            }
+
+            return `
+                <article class="lw-transcript-line" id="transcript-line-${escapeHtml(lesson.id)}-${index}" data-line-index="${index}">
+                    <div class="lw-line-speaker">${escapeHtml(line.speaker)}</div>
+                    <div class="lw-line-text">${renderChunkedLineText(lesson.id, index, line, "transcript-chunk")}</div>
+                    ${stage === 3 ? `<div class="lw-line-translation">${escapeHtml(line.vi || "")}</div>` : ""}
+                </article>
+            `;
+        }).join("");
+    }
+
+    function renderStageMeta(lessonId) {
+        const state = getState(lessonId);
+        const lesson = lessonMap.get(lessonId);
+        const stages = getLessonStages(lesson);
+        const unlocked = getLessonUnlockedStage(lesson, state.listens);
+        const current = stages.find((stage) => stage.id === state.stage) || stages[0];
+        return getInstructionText().currentStage(getStageLabel(current), unlocked);
+    }
+
+    function updateLessonUI(lessonId) {
+        const lesson = lessonMap.get(lessonId);
+        if (!lesson) return;
+
+        const state = getState(lessonId);
+        const uiText = getInstructionText();
+        const stages = getLessonStages(lesson);
+        syncState(lessonId);
+
+        const countBadge = document.getElementById(`listen-count-${lessonId}`);
+        if (countBadge) countBadge.textContent = uiText.listenBadge(state.listens);
+
+        const listenStatus = document.getElementById(`listen-status-${lessonId}`);
+        if (listenStatus) listenStatus.textContent = uiText.listenCount(state.listens);
+
+        const stageMeta = document.getElementById(`stage-meta-${lessonId}`);
+        if (stageMeta) stageMeta.textContent = renderStageMeta(lessonId);
+
+        const transcript = document.getElementById(`transcript-${lessonId}`);
+        if (transcript) transcript.innerHTML = renderTranscriptStage(lesson, state.stage);
+
+        const unlocked = getLessonUnlockedStage(lesson, state.listens);
+        document.querySelectorAll(`[data-lesson-id="${lessonId}"][data-stage]`).forEach((button) => {
+            const stageValue = Number(button.dataset.stage);
+            button.classList.toggle("is-active", stageValue === state.stage);
+            button.classList.toggle("is-locked", stageValue > unlocked);
+            button.hidden = !stages.some((stage) => stage.id === stageValue);
+        });
+
+        document.querySelectorAll(`[data-lesson-id="${lessonId}"][data-speed]`).forEach((button) => {
+            button.classList.toggle("is-active", Number(button.dataset.speed) === state.speed);
+        });
+
+        const loopButton = document.querySelector(`[data-action="toggle-loop"][data-lesson-id="${lessonId}"]`);
+        if (loopButton) {
+            loopButton.textContent = state.loop ? uiText.loopOn : uiText.loopOff;
+        }
+
+        const audio = document.getElementById(`audio-${lessonId}`);
+        if (audio) {
+            audio.playbackRate = state.speed;
+            audio.loop = state.loop;
+        }
+
+        (lesson.transcript || []).forEach((line, index) => {
+            const preview = document.getElementById(`line-preview-${lessonId}-${index}`);
+            if (preview) preview.innerHTML = renderLinePreview(lessonId, index, line, state.stage);
+        });
+
+        document.querySelectorAll(`[data-action="set-note-tab"][data-lesson-id="${lessonId}"]`).forEach((button) => {
+            button.classList.toggle("is-active", button.dataset.noteTab === state.noteTab);
+        });
+
+        const threePanel = document.getElementById(`note-three-${lessonId}`);
+        const cornellPanel = document.getElementById(`note-cornell-${lessonId}`);
+        if (threePanel) threePanel.classList.toggle("is-active", state.noteTab === "three");
+        if (cornellPanel) cornellPanel.classList.toggle("is-active", state.noteTab === "cornell");
+
+        updateAudioSyncUI(lessonId, { force: true, scroll: false });
+        updateClozeUI(lessonId);
+        updateSequenceTaskUI(lessonId);
+        updateTfUI(lessonId);
+        updateQuizUI(lessonId);
+        updateLessonProgressUI(lessonId);
+        updateQuickDockUI();
+    }
+
+    function registerListen(lessonId, amount = 1) {
+        const uiText = getInstructionText();
+        const state = getState(lessonId);
+        const lesson = lessonMap.get(lessonId);
+        const stages = getLessonStages(lesson);
+        state.listens += amount;
+        const unlockedBefore = getLessonUnlockedStage(lesson, state.listens - amount);
+        const unlockedAfter = getLessonUnlockedStage(lesson, state.listens);
+        if (state.stage > unlockedAfter) state.stage = unlockedAfter;
+        syncState(lessonId);
+        updateLessonUI(lessonId);
+        if (unlockedAfter > unlockedBefore) {
+            setStatus(`listen-status-${lessonId}`, uiText.listenUnlocked(state.listens, getStageLabel(stages[unlockedAfter])), "success");
+        } else {
+            setStatus(`listen-status-${lessonId}`, uiText.listenRecorded(state.listens), "success");
+        }
+    }
+
+    function setStage(lessonId, stageId) {
+        const uiText = getInstructionText();
+        const state = getState(lessonId);
+        const lesson = lessonMap.get(lessonId);
+        const stages = getLessonStages(lesson);
+        const unlocked = getLessonUnlockedStage(lesson, state.listens);
+        if (stageId > unlocked) {
+            const targetStage = stages.find((stage) => stage.id === stageId) || stages[Math.min(unlocked + 1, stages.length - 1)] || stages[0];
+            setStatus(`listen-status-${lessonId}`, uiText.stageLocked(stageId, getStageLabel(targetStage)), "warn");
+            return;
+        }
+
+        if (!stages.some((stage) => stage.id === stageId)) {
+            state.stage = unlocked;
+        } else {
+            state.stage = stageId;
+        }
+        syncState(lessonId);
+        updateLessonUI(lessonId);
+    }
+
+    function clearSpeakingState() {
+        if (!speechState.activeLessonId) return;
+        const lesson = lessonMap.get(speechState.activeLessonId);
+        if (!lesson) return;
+        (lesson.transcript || []).forEach((line, index) => {
+            const card = document.getElementById(`line-card-${speechState.activeLessonId}-${index}`);
+            if (card) card.classList.remove("is-speaking");
+        });
+        speechState.activeLessonId = null;
+    }
+
+    async function playQuickLesson() {
+        const lesson = getQuickDockLesson();
+        if (!lesson) return;
+        setQuickDockLesson(lesson.id);
+
+        if (hasPlayableAudio(lesson)) {
+            const audio = document.getElementById(`audio-${lesson.id}`);
+            const state = getState(lesson.id);
+            if (!audio) return;
+            cancelSpeech();
+            pauseAllAudio();
+            audio.playbackRate = state.speed;
+            audio.loop = state.loop;
+            try {
+                await audio.play();
+            } catch (error) {
+                setStatus(`listen-status-${lesson.id}`, getInstructionText().audioUnsupported, "warn");
+            }
+            return;
+        }
+
+        if (!lessonHasTranscript(lesson)) {
+            setStatus(`listen-status-${lesson.id}`, chooseLocalizedText(
+                "공개본에서는 원음이 없으면 재생할 수 없습니다. 교사용 PC에서 로컬 음원 폴더를 연결해 주세요.",
+                "Ban cong khai khong the phat khi khong co am thanh goc. Hay ket noi thu muc am thanh cuc bo tren may giao vien."
+            ), "warn");
+            return;
+        }
+
+        await playDialogue(lesson.id, getState(lesson.id).dialogueStartLine || 0);
+    }
+
+    async function playLine(lessonId, lineIndex, mode) {
+        const uiText = getInstructionText();
+        const lesson = lessonMap.get(lessonId);
+        const state = getState(lessonId);
+        if (!lesson || !lesson.transcript[lineIndex]) {
+            setStatus(`line-status-${lessonId}`, chooseLocalizedText(
+                "공개본에서는 문장별 대본과 문장별 재생을 제공하지 않습니다.",
+                "Ban cong khai khong cung cap toan van theo tung cau va phat theo tung cau."
+            ), "warn");
+            return;
+        }
+        if (!speechApi) {
+            setStatus(`line-status-${lessonId}`, uiText.lineUnsupported, "warn");
+            return;
+        }
+
+        cancelSpeech();
+        pauseAllAudio();
+
+        const token = speechState.token;
+        const line = lesson.transcript[lineIndex];
+        setPlaybackState("speech", lessonId, { mode: "line", currentLineIndex: lineIndex });
+        setSpeakingLine(lessonId, lineIndex);
+
+        if (mode === "once") {
+            setStatus(`line-status-${lessonId}`, uiText.linePlayOnce(lineIndex + 1), "info");
+            await speakText(line.text, state.speed, token);
+        } else if (mode === "repeat") {
+            setStatus(`line-status-${lessonId}`, uiText.linePlayRepeat(lineIndex + 1), "info");
+            await speakText(line.text, state.speed, token);
+            if (token !== speechState.token) return;
+            await wait(320, token);
+            if (token !== speechState.token) return;
+            await speakText(line.text, state.speed, token);
+        } else {
+            setStatus(`line-status-${lessonId}`, uiText.lineShadowStart(lineIndex + 1), "info");
+            await speakText(line.text, state.speed, token);
+            if (token !== speechState.token) return;
+            setStatus(`line-status-${lessonId}`, uiText.lineShadowPrompt, "success");
+            await wait(1450, token);
+            if (token !== speechState.token) return;
+            await speakText(line.text, state.speed, token);
+        }
+
+        if (token !== speechState.token) return;
+        clearSpeakingState();
+        registerListen(lessonId, 1);
+        setStatus(`line-status-${lessonId}`, uiText.lineFinished(lineIndex + 1), "success");
+        clearPlaybackState("speech", lessonId);
+    }
+
+    async function playDialogue(lessonId, startIndex = 0) {
+        const uiText = getInstructionText();
+        const lesson = lessonMap.get(lessonId);
+        const state = getState(lessonId);
+        if (!lesson) return;
+        if (!lessonHasTranscript(lesson)) {
+            setStatus(`listen-status-${lessonId}`, chooseLocalizedText(
+                "공개본에서는 전체 대본 낭독 대신 핵심어만 제공합니다. 원음은 교사용 로컬 음원 폴더에서 재생해 주세요.",
+                "Ban cong khai chi cung cap tu khoa thay cho doc toan van. Hay phat am thanh goc tu thu muc cuc bo danh cho giao vien."
+            ), "warn");
+            return;
+        }
+        if (!speechApi) {
+            setStatus(`listen-status-${lessonId}`, uiText.dialogueUnsupported, "warn");
+            return;
+        }
+
+        cancelSpeech();
+        pauseAllAudio();
+
+        const token = speechState.token;
+        speechState.activeLessonId = lessonId;
+        const safeStart = Math.max(0, Math.min(Number(startIndex) || 0, Math.max((lesson.transcript || []).length - 1, 0)));
+        setDialogueStartLine(lessonId, safeStart);
+        setPlaybackState("speech", lessonId, { mode: "dialogue", currentLineIndex: safeStart });
+        setStatus(`listen-status-${lessonId}`, uiText.dialoguePlaying, "info");
+
+        for (let index = safeStart; index < lesson.transcript.length; index += 1) {
+            if (token !== speechState.token) return;
+            setSpeakingLine(lessonId, index);
+            await speakText(lesson.transcript[index].text, state.speed, token);
+            if (token !== speechState.token) return;
+            await wait(220, token);
+        }
+
+        if (token !== speechState.token) return;
+        clearSpeakingState();
+        registerListen(lessonId, 1);
+        setStatus(`listen-status-${lessonId}`, uiText.dialogueFinished, "success");
+        clearPlaybackState("speech", lessonId);
+    }
+
     function initSpeechVoice() {
         if (!speechApi) return;
         pickKoreanVoice();

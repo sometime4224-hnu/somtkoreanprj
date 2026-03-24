@@ -140,7 +140,7 @@
              <label for="audio-file" class="text-sm font-medium text-gray-700">듣기 음원</label>
              <audio id="audio-file" controls class="w-full mt-2">
                  <!-- 대화 내용에 맞는 오디오 파일을 여기에 추가하세요 -->
-                 <source src="../assets/c13/audio/tacrk41.mp3" type="audio/mpeg">
+                 <source src="" type="audio/mpeg">
                  Your browser does not support the audio element.
              </audio>
         </div>
@@ -148,21 +148,13 @@
         <!-- Script Toggle Button -->
         <div class="mb-6">
             <button id="toggle-script-btn" class="w-full text-left text-indigo-600 font-semibold py-2 px-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
-                <i class="fas fa-file-alt mr-2"></i>스크립트 보기
+                <i class="fas fa-tags mr-2"></i>??? ??
             </button>
             <div id="script-content" class="hidden mt-3 bg-gray-50 p-4 rounded-lg text-sm space-y-2 border">
-                <p><strong class="text-pink-600">엄마:</strong> 애, 너 그거 결혼식 부케 아니니? 회사 체육 대회 간다고 하더니 왜 부케를 들고 들어와?</p>
-                <p><strong class="text-blue-600">딸:</strong> 엄마, 제가 저녁 때 고등학교 친구 결혼식에 간다고 했잖아요.</p>
-                <p><strong class="text-pink-600">엄마:</strong> 맞다. 집에 들렀다 간다더니 그냥 갔어?</p>
-                <p><strong class="text-blue-600">딸:</strong> 네, 체육 대회가 너무 늦게 끝나서 결혼식에 늦을까 봐 곧장 갔어요. 집에 와서 옷을 갈아입고 갔어야 했는데……</p>
-                <p><strong class="text-pink-600">엄마:</strong> 그럼 너 그렇게 입고 결혼식에 간 거야? 청바지에 티셔츠 입고?</p>
-                <p><strong class="text-blue-600">딸:</strong> 네, 게다가 부케 받기로 한 친구가 갑자기 못 오게 돼서 제가 부케까지 받았어요.</p>
-                <p><strong class="text-pink-600">엄마:</strong> 세상에. 어쩌면 좋으니? 거기 온 손님들이 다 한마디씩 했겠다.</p>
-                <p><strong class="text-blue-600">딸:</strong> 그러게요. 하지만 저밖에 부케 받을 사람이 없다고 하잖아요. 다른 친구들은 다 결혼했고.</p>
-                <p><strong class="text-pink-600">엄마:</strong> 청바지에 티셔츠까지 입고 부케를 받았으니…… 쯧쯧.</p>
-                <p><strong class="text-blue-600">딸:</strong> 저도 얼마나 창피했는지 몰라요.</p>
-                <p><strong class="text-pink-600">엄마:</strong> 그거 봐라, 일이 재미있다고 결혼을 미루니까 그런 일도 생기잖니? 이제 부케까지 받았으니 빨리 결혼하도록 해. 부케 받고 6개월 안에 결혼 안 하면 평생 결혼 못 한다고 하더라.</p>
-                <p><strong class="text-blue-600">딸:</strong> 엄마! 결혼할 남자가 있어야 결혼을 하지요. 나도 속상해 죽겠는데 자꾸 왜 그래요?</p>
+                <p><strong class="text-indigo-600">???:</strong> ???, ??, ??, ????, ???, ???</p>
+                <p><strong class="text-indigo-600">?? ??:</strong> ???? ? ??? ??? ???? ??, ?? ???? ?????.</p>
+                <p><strong class="text-indigo-600">?? ???:</strong> ??? ?????, ? ?? ????? ?? ???, ??? ?? ??? ? ???? ?????? ??? ???.</p>
+                <p><strong class="text-indigo-600">????:</strong> ???? ?? ??, ??, ??? ??? 3???? ??? ???.</p>
             </div>
         </div>
 
@@ -202,14 +194,14 @@
 
     <!-- Floating Script Button -->
     <button id="floating-script-btn" class="hidden fixed bottom-4 right-4 bg-indigo-600 text-white p-3 rounded-full shadow-lg z-50 flex items-center justify-center w-12 h-12">
-        <i class="fas fa-file-alt text-lg"></i>
+        <i class="fas fa-tags text-lg"></i>
     </button>
 
     <!-- Script Modal -->
     <div id="script-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto relative">
             <button id="close-modal-btn" class="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
-            <h3 class="text-xl font-bold mb-4 text-gray-800">스크립트</h3>
+            <h3 class="text-xl font-bold mb-4 text-gray-800">???</h3>
             <div id="modal-script-content" class="text-sm space-y-2">
                 <!-- Script content will be copied here -->
             </div>
@@ -381,7 +373,7 @@
     toggleScriptBtn.addEventListener('click', () => {
         scriptContent.classList.toggle('hidden');
         const isHidden = scriptContent.classList.contains('hidden');
-        toggleScriptBtn.innerHTML = isHidden ? '<i class="fas fa-file-alt mr-2"></i>스크립트 보기' : '<i class="fas fa-eye-slash mr-2"></i>스크립트 숨기기';
+        toggleScriptBtn.innerHTML = isHidden ? '<i class="fas fa-tags mr-2"></i>핵심어 보기' : '<i class="fas fa-eye-slash mr-2"></i>핵심어 숨기기';
     });
     
     // --- MINI PLAYER LOGIC ---

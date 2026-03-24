@@ -6,8 +6,9 @@ Korean learning materials and interactive web activities published through GitHu
 
 This repository is public for viewing and deployment, but it is not open source by default.
 
-- Copyright © 2026 SOMT Korean Project. All rights reserved.
-- Unauthorized copying, redistribution, resale, or commercial use of the source code, lesson text, images, audio, and educational materials is prohibited without prior written permission.
-- If you want to reuse any part of this project, contact the repository owner first.
+- Copyright 2026 SOMT Korean Project. All rights reserved.
+- Unless a file or notice says otherwise, the repository owner claims rights only in original source code, page structure, UI/layout, and owner-created project assets.
+- Third-party textbook-derived text, publisher audio, trademarks, and any other third-party materials remain the property of their respective rights holders and are not relicensed by this repository.
+- If you want to reuse any material beyond normal web viewing, obtain permission from the relevant rights holder first.
 
 See [LICENSE.md](LICENSE.md) for the full notice and terms of use.

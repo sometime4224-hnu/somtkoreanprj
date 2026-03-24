@@ -1,6 +1,9 @@
 .claude/
 .tools/
 backup/
+*.teacher.html
+shared/*.teacher.js
+shared/*.teacher.css
 **/node_modules/
 **/dist/
 *.log
