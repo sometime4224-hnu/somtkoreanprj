@@ -178,6 +178,17 @@
             font-size: 1.3rem;
         }
 
+        .mini-guide {
+            margin: -4px 0 14px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: rgba(15, 157, 135, 0.08);
+            color: var(--mint);
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
         .choice-grid,
         .field-stack {
             display: grid;
@@ -317,8 +328,109 @@
             flex: 1;
         }
 
+        .hint-sheet {
+            position: sticky;
+            bottom: 84px;
+            z-index: 16;
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            box-shadow: 0 18px 34px rgba(15, 23, 42, 0.12);
+            backdrop-filter: blur(14px);
+        }
+
+        .hint-sheet__head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .hint-sheet__title {
+            margin: 0;
+            font-size: 0.98rem;
+            font-weight: 800;
+        }
+
+        .hint-close {
+            border: none;
+            background: rgba(15, 157, 135, 0.12);
+            color: var(--mint);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .hint-line + .hint-line {
+            margin-top: 8px;
+        }
+
+        .hint-line strong {
+            display: inline-block;
+            min-width: 44px;
+            color: #0f172a;
+        }
+
+        .hint-line span {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.92rem;
+        }
+
         .hidden {
             display: none;
+        }
+
+        .wave-target {
+            position: relative;
+            z-index: 1;
+        }
+
+        .wave-target::before {
+            content: attr(data-wave);
+            position: absolute;
+            top: -10px;
+            right: 12px;
+            transform: translateY(-100%);
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: #fff;
+            color: #9a3412;
+            font-size: 0.76rem;
+            font-weight: 800;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .wave-target::after {
+            content: "";
+            position: absolute;
+            inset: -6px;
+            border-radius: 22px;
+            border: 2px solid rgba(239, 108, 87, 0.34);
+            animation: wave-ring 1.6s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes wave-ring {
+            0% {
+                transform: scale(0.98);
+                opacity: 0.9;
+            }
+            70% {
+                transform: scale(1.03);
+                opacity: 0.24;
+            }
+            100% {
+                transform: scale(1.06);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -352,20 +464,21 @@
                 </div>
                 <p>하나만 고르세요.</p>
             </div>
+            <p class="mini-guide">VN: Chọn 1 chủ đề.</p>
             <div class="choice-grid" id="topicGrid">
-                <button class="choice active" type="button" data-topic="arrival">
+                <button class="choice active" type="button" data-topic="arrival" data-hint-key="topic-arrival">
                     <strong>한국에 처음 도착한 날</strong>
                     <span>공항, 기숙사, 첫인상</span>
                 </button>
-                <button class="choice" type="button" data-topic="snow">
+                <button class="choice" type="button" data-topic="snow" data-hint-key="topic-snow">
                     <strong>첫눈을 본 날</strong>
                     <span>날씨, 감정, 비교</span>
                 </button>
-                <button class="choice" type="button" data-topic="help">
+                <button class="choice" type="button" data-topic="help" data-hint-key="topic-help">
                     <strong>도움을 많이 받은 날</strong>
                     <span>사람, 감사, 변화</span>
                 </button>
-                <button class="choice" type="button" data-topic="result">
+                <button class="choice" type="button" data-topic="result" data-hint-key="topic-result">
                     <strong>시험이나 결과를 들은 날</strong>
                     <span>기대, 긴장, 안도감</span>
                 </button>
@@ -374,7 +487,7 @@
                 <label for="customTheme">직접 쓰기
                     <small>예: 한국에서 처음 아르바이트를 시작한 날</small>
                 </label>
-                <input id="customTheme" data-field="customTheme" type="text" placeholder="직접 쓰고 싶으면 적으세요.">
+                <input id="customTheme" data-field="customTheme" data-hint-key="customTheme" type="text" placeholder="직접 쓰고 싶으면 적으세요.">
             </div>
         </section>
 
@@ -386,18 +499,19 @@
                 </div>
                 <p>짧게만 적어도 됩니다.</p>
             </div>
+            <p class="mini-guide">VN: Viết khi nào, ở đâu, chuyện gì.</p>
             <div class="field-stack">
                 <div class="field">
                     <label for="moment">언제였습니까?</label>
-                    <input id="moment" data-field="moment" type="text" placeholder="예: 작년 12월 금요일 저녁">
+                    <input id="moment" data-field="moment" data-hint-key="moment" type="text" placeholder="예: 작년 12월 금요일 저녁">
                 </div>
                 <div class="field">
                     <label for="place">어디에 있었습니까?</label>
-                    <input id="place" data-field="place" type="text" placeholder="예: 기숙사 앞">
+                    <input id="place" data-field="place" data-hint-key="place" type="text" placeholder="예: 기숙사 앞">
                 </div>
                 <div class="field">
                     <label for="mainEvent">무슨 일이 있었습니까?</label>
-                    <textarea id="mainEvent" data-field="mainEvent" placeholder="예: 친구들과 처음으로 눈사람을 만들었다."></textarea>
+                    <textarea id="mainEvent" data-field="mainEvent" data-hint-key="mainEvent" placeholder="예: 친구들과 처음으로 눈사람을 만들었다."></textarea>
                 </div>
             </div>
         </section>
@@ -410,18 +524,19 @@
                 </div>
                 <p>감정과 이유만 씁니다.</p>
             </div>
+            <p class="mini-guide">VN: Viết cảm xúc, lý do, thay đổi.</p>
             <div class="field-stack">
                 <div class="field">
                     <label for="emotion">그때 기분</label>
-                    <textarea id="emotion" data-field="emotion" placeholder="예: 처음에는 긴장했지만 곧 즐거워졌다."></textarea>
+                    <textarea id="emotion" data-field="emotion" data-hint-key="emotion" placeholder="예: 처음에는 긴장했지만 곧 즐거워졌다."></textarea>
                 </div>
                 <div class="field">
                     <label for="reason">기억에 남는 이유</label>
-                    <textarea id="reason" data-field="reason" placeholder="예: 한국에서 처음 겪는 특별한 경험이었기 때문이다."></textarea>
+                    <textarea id="reason" data-field="reason" data-hint-key="reason" placeholder="예: 한국에서 처음 겪는 특별한 경험이었기 때문이다."></textarea>
                 </div>
                 <div class="field">
                     <label for="change">그날 이후 달라진 점</label>
-                    <textarea id="change" data-field="change" placeholder="예: 한국 생활이 더 친근하게 느껴졌다."></textarea>
+                    <textarea id="change" data-field="change" data-hint-key="change" placeholder="예: 한국 생활이 더 친근하게 느껴졌다."></textarea>
                 </div>
             </div>
         </section>
@@ -434,14 +549,25 @@
                 </div>
                 <p>버튼을 누르면 초안이 들어갑니다.</p>
             </div>
+            <p class="mini-guide">VN: Bấm nút rồi sửa bản nháp.</p>
             <div class="summary" id="summaryBox"></div>
             <div class="draft-tools" style="margin-top:12px;">
-                <button class="build-button" id="buildDraftButton" type="button">초안 넣기</button>
+                <button class="build-button" id="buildDraftButton" data-hint-key="draft" type="button">초안 넣기</button>
             </div>
             <div class="field">
                 <label for="draft">글쓰기 초안</label>
-                <textarea id="draft" data-field="draft" style="min-height:240px;" placeholder="여기에 직접 수정하며 쓰세요."></textarea>
+                <textarea id="draft" data-field="draft" data-hint-key="draft" style="min-height:240px;" placeholder="여기에 직접 수정하며 쓰세요."></textarea>
             </div>
+        </section>
+
+        <section class="hint-sheet hidden" id="hintSheet">
+            <div class="hint-sheet__head">
+                <p class="hint-sheet__title" id="hintTitle">추천</p>
+                <button class="hint-close" id="hintCloseButton" type="button">×</button>
+            </div>
+            <div class="hint-line"><strong>어휘</strong> <span id="hintVocab"></span></div>
+            <div class="hint-line"><strong>표현</strong> <span id="hintExpr"></span></div>
+            <div class="hint-line"><strong>문법</strong> <span id="hintGrammar"></span></div>
         </section>
 
         <div class="nav-bar">
@@ -459,6 +585,81 @@
             result: "시험이나 결과를 들은 날"
         };
 
+        const hints = {
+            "topic-arrival": {
+                title: "한국에 처음 도착한 날",
+                vocab: "공항, 입국, 짐, 기숙사",
+                expr: "처음 도착했을 때, 가장 먼저, 아직도 기억난다",
+                grammar: "-았/었을 때, -고 나서, N에 도착하다"
+            },
+            "topic-snow": {
+                title: "첫눈을 본 날",
+                vocab: "첫눈, 눈사람, 춥다, 사진",
+                expr: "너무 신기했다, 눈이 내리다, 많이 웃었다",
+                grammar: "-아서/어서, -지만, V-게 되다"
+            },
+            "topic-help": {
+                title: "도움을 많이 받은 날",
+                vocab: "도움, 친절, 감사, 용기",
+                expr: "도움을 받다, 정말 감사했다, 큰 힘이 되었다",
+                grammar: "-아/어 주다, -기 때문에, N에게"
+            },
+            "topic-result": {
+                title: "시험이나 결과를 들은 날",
+                vocab: "결과, 합격, 긴장, 안심",
+                expr: "결과를 듣다, 마음이 놓이다, 기대하고 있었다",
+                grammar: "-기 전, -았/었는데, -게 되다"
+            },
+            customTheme: {
+                title: "직접 주제 쓰기",
+                vocab: "처음, 특별하다, 경험, 변화",
+                expr: "가장 기억에 남는 날, 특별한 경험, 잊지 못하다",
+                grammar: "N은/는, -기 때문이다, -게 되다"
+            },
+            moment: {
+                title: "언제였습니까?",
+                vocab: "작년, 지난주, 아침, 저녁",
+                expr: "작년 겨울에, 금요일 저녁에, 한국에 온 지 얼마 안 되었을 때",
+                grammar: "N에, -았/었을 때"
+            },
+            place: {
+                title: "어디에 있었습니까?",
+                vocab: "기숙사, 학교, 거리, 카페",
+                expr: "~에서 있었다, ~ 앞에서 만났다, ~에 갔다",
+                grammar: "N에서, N에"
+            },
+            mainEvent: {
+                title: "무슨 일이 있었습니까?",
+                vocab: "만나다, 듣다, 만들다, 받다",
+                expr: "~이 있었다, ~하게 되었다, 가장 기억나는 장면은",
+                grammar: "-고 있다, -게 되다, -았/었다"
+            },
+            emotion: {
+                title: "그때 기분",
+                vocab: "긴장하다, 설레다, 당황하다, 기쁘다",
+                expr: "처음에는 ..., 나중에는 ..., 정말 행복했다",
+                grammar: "-지만, -아/어서"
+            },
+            reason: {
+                title: "기억에 남는 이유",
+                vocab: "처음, 특별하다, 소중하다, 잊지 못하다",
+                expr: "~기 때문이다, 그래서 더 기억난다, 특히 의미가 컸다",
+                grammar: "-기 때문이다, -아서/어서"
+            },
+            change: {
+                title: "그날 이후 달라진 점",
+                vocab: "익숙하다, 자신감, 친근하다, 용기",
+                expr: "~게 되었다, ~고 싶어졌다, 더 편해졌다",
+                grammar: "V-게 되다, V-고 싶어지다"
+            },
+            draft: {
+                title: "초안 쓰기",
+                vocab: "처음, 사건, 이유, 변화",
+                expr: "가장 기억에 남는 날은 ..., 그날 ..., 그래서 ...",
+                grammar: "-았/었을 때, -기 때문이다, -게 되다"
+            }
+        };
+
         const defaults = {
             step: 0,
             topic: "arrival",
@@ -469,7 +670,11 @@
             emotion: "",
             reason: "",
             change: "",
-            draft: ""
+            draft: "",
+            guide0: false,
+            guide1: false,
+            guide2: false,
+            guide3: false
         };
 
         const state = loadState();
@@ -482,7 +687,14 @@
         const nextButton = document.getElementById("nextButton");
         const draftField = document.getElementById("draft");
         const summaryBox = document.getElementById("summaryBox");
+        const hintSheet = document.getElementById("hintSheet");
+        const hintTitle = document.getElementById("hintTitle");
+        const hintVocab = document.getElementById("hintVocab");
+        const hintExpr = document.getElementById("hintExpr");
+        const hintGrammar = document.getElementById("hintGrammar");
         let saveTimer = null;
+        let autoAdvanceTimer = null;
+        let activeHintKey = null;
 
         hydrate();
         bind();
@@ -508,6 +720,8 @@
             topicButtons.forEach((button) => {
                 button.addEventListener("click", () => {
                     state.topic = button.dataset.topic;
+                    dismissGuide(0, false);
+                    openHint(button.dataset.hintKey);
                     setTopic(state.topic);
                     persist();
                     render();
@@ -515,15 +729,31 @@
             });
 
             fields.forEach((field) => {
+                field.addEventListener("focus", () => {
+                    const stepIndex = Number(field.closest(".step")?.dataset.step ?? -1);
+                    if (stepIndex >= 0) {
+                        dismissGuide(stepIndex);
+                    }
+                    openHint(field.dataset.hintKey);
+                });
+                field.addEventListener("click", () => {
+                    openHint(field.dataset.hintKey);
+                });
                 field.addEventListener("input", () => {
                     state[field.dataset.field] = field.value;
+                    const stepIndex = Number(field.closest(".step")?.dataset.step ?? -1);
+                    if (stepIndex >= 0) {
+                        dismissGuide(stepIndex, false);
+                    }
                     persist();
                     render();
+                    maybeAdvance(stepIndex);
                 });
             });
 
             prevButton.addEventListener("click", () => {
                 if (state.step > 0) {
+                    activeHintKey = null;
                     state.step -= 1;
                     persist();
                     render();
@@ -533,6 +763,7 @@
 
             nextButton.addEventListener("click", () => {
                 if (state.step < steps.length - 1) {
+                    activeHintKey = null;
                     state.step += 1;
                     persist();
                     render();
@@ -542,10 +773,16 @@
 
             document.getElementById("buildDraftButton").addEventListener("click", () => {
                 if (draftField.value.trim() && !window.confirm("현재 초안을 새 초안으로 바꿀까요?")) return;
+                dismissGuide(3, false);
+                openHint("draft");
                 draftField.value = makeDraft();
                 state.draft = draftField.value;
                 persist();
                 render();
+            });
+
+            document.getElementById("hintCloseButton").addEventListener("click", () => {
+                closeHint();
             });
         }
 
@@ -565,8 +802,77 @@
             });
         }
 
+        function dismissGuide(stepIndex, shouldPersist = true) {
+            const key = `guide${stepIndex}`;
+            if (!Object.prototype.hasOwnProperty.call(state, key) || state[key]) return;
+            state[key] = true;
+            if (shouldPersist) {
+                persist();
+                render();
+            }
+        }
+
+        function maybeAdvance(stepIndex) {
+            if (stepIndex === 0 && state.customTheme.trim()) {
+                autoAdvanceTo(1);
+            }
+            if (stepIndex === 1 && isStepComplete(1)) {
+                autoAdvanceTo(2);
+            }
+            if (stepIndex === 2 && isStepComplete(2)) {
+                autoAdvanceTo(3);
+            }
+        }
+
+        function autoAdvanceTo(stepIndex) {
+            clearTimeout(autoAdvanceTimer);
+            autoAdvanceTimer = setTimeout(() => {
+                if (state.step >= stepIndex) return;
+                activeHintKey = null;
+                state.step = stepIndex;
+                persist();
+                render();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }, 260);
+        }
+
+        function isStepComplete(stepIndex) {
+            if (stepIndex === 1) {
+                return Boolean(state.moment.trim() && state.place.trim() && state.mainEvent.trim());
+            }
+            if (stepIndex === 2) {
+                return Boolean(state.emotion.trim() && state.reason.trim() && state.change.trim());
+            }
+            return false;
+        }
+
         function themeLabel() {
             return state.customTheme.trim() || topicLabels[state.topic] || "기억에 남는 날";
+        }
+
+        function openHint(key) {
+            if (!key || !hints[key]) return;
+            activeHintKey = key;
+            renderHint();
+        }
+
+        function closeHint() {
+            activeHintKey = null;
+            renderHint();
+        }
+
+        function renderHint() {
+            if (!activeHintKey || !hints[activeHintKey]) {
+                hintSheet.classList.add("hidden");
+                return;
+            }
+
+            const hint = hints[activeHintKey];
+            hintTitle.textContent = hint.title;
+            hintVocab.textContent = hint.vocab;
+            hintExpr.textContent = hint.expr;
+            hintGrammar.textContent = hint.grammar;
+            hintSheet.classList.remove("hidden");
         }
 
         function render() {
@@ -588,6 +894,58 @@
                 `<strong>사건</strong> ${valueOrBlank(state.mainEvent)}<br>` +
                 `<strong>기분</strong> ${valueOrBlank(state.emotion)}<br>` +
                 `<strong>이유</strong> ${valueOrBlank(state.reason)}`;
+
+            applyWaveTarget();
+            renderHint();
+        }
+
+        function applyWaveTarget() {
+            document.querySelectorAll(".wave-target").forEach((node) => {
+                node.classList.remove("wave-target");
+                node.removeAttribute("data-wave");
+            });
+
+            const key = `guide${state.step}`;
+            if (state[key]) return;
+
+            const target = getWaveTarget(state.step);
+            if (!target) return;
+
+            target.classList.add("wave-target");
+            target.setAttribute("data-wave", "Chạm vào đây");
+        }
+
+        function getWaveTarget(stepIndex) {
+            if (stepIndex === 0) {
+                return state.customTheme.trim()
+                    ? document.getElementById("customTheme").closest(".field")
+                    : document.getElementById("topicGrid");
+            }
+
+            if (stepIndex === 1) {
+                return firstEmptyField(["moment", "place", "mainEvent"]);
+            }
+
+            if (stepIndex === 2) {
+                return firstEmptyField(["emotion", "reason", "change"]);
+            }
+
+            if (stepIndex === 3) {
+                if (!state.draft.trim()) return document.getElementById("buildDraftButton");
+                return document.getElementById("draft").closest(".field");
+            }
+
+            return null;
+        }
+
+        function firstEmptyField(ids) {
+            for (const id of ids) {
+                const value = (state[id] || "").trim();
+                if (!value) {
+                    return document.getElementById(id)?.closest(".field") || null;
+                }
+            }
+            return null;
         }
 
         function valueOrBlank(value) {
