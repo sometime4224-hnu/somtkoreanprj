@@ -3,12 +3,16 @@
 
   const FOOTER_ID = 'site-copyright-footer';
   const STYLE_ID = 'site-copyright-style';
-  const SCRIPT_SRC = document.currentScript && document.currentScript.src ? document.currentScript.src : '';
 
-  if (document.getElementById(FOOTER_ID)) return;
-  if (document.body && document.body.dataset.skipGlobalCopyright === 'true') return;
+  function shouldShowFooter() {
+    return Boolean(document.body && document.body.dataset.showGlobalCopyright === 'true');
+  }
 
   function init() {
+    // Global footer notices are disabled by default.
+    // If a specific local page ever needs one again, opt in with:
+    //   <body data-show-global-copyright="true">
+    if (!shouldShowFooter()) return;
     if (document.getElementById(FOOTER_ID)) return;
     injectStyle();
     injectFooter();
@@ -39,16 +43,6 @@
       #${FOOTER_ID} p {
         margin: 0;
       }
-
-      #${FOOTER_ID} p + p {
-        margin-top: 4px;
-      }
-
-      #${FOOTER_ID} a {
-        color: #475569;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-      }
     `;
     document.head.appendChild(style);
   }
@@ -56,29 +50,12 @@
   function injectFooter() {
     const footer = document.createElement('footer');
     footer.id = FOOTER_ID;
-
-    const licenseHref = getLicenseHref();
     footer.innerHTML = `
       <div class="site-copyright-inner">
-        <p>© 2026 SOMT Korean Project. All rights reserved.</p>
-        <p>본 웹사이트의 소스코드, 문구, 이미지, 오디오 및 교육 자료의 무단 복제, 재배포, 재판매 또는 상업적 이용을 금합니다.</p>
-        <p><a href="${licenseHref}">이용조건 보기</a></p>
+        <p>See the repository README and LICENSE for project notice details.</p>
       </div>
     `;
-
     document.body.appendChild(footer);
-  }
-
-  function getLicenseHref() {
-    if (!SCRIPT_SRC) return 'LICENSE.md';
-
-    try {
-      const url = new URL(SCRIPT_SRC, window.location.href);
-      const rootHref = url.href.replace(/shared\/site-copyright\.js(?:\?.*)?$/, '');
-      return rootHref + 'LICENSE.md';
-    } catch (error) {
-      return 'LICENSE.md';
-    }
   }
 
   if (document.readyState === 'loading') {

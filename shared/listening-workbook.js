@@ -2429,11 +2429,25 @@
 
     function getAudioActiveLineIndex(lessonId, currentTime) {
         const lesson = lessonMap.get(lessonId);
-        if (!lesson || !hasTimedTranscript(lesson)) return null;
+        if (!lesson) return null;
 
         const safeTime = Number.isFinite(currentTime) ? currentTime : 0;
-        for (let index = 0; index < lesson.transcript.length; index += 1) {
-            const range = getLineTimeRange(lesson.transcript[index]);
+        if (hasTimedTranscript(lesson)) {
+            for (let index = 0; index < lesson.transcript.length; index += 1) {
+                const range = getLineTimeRange(lesson.transcript[index]);
+                if (!range) continue;
+                if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
+                    return index;
+                }
+            }
+            return null;
+        }
+
+        if (!lessonHasTimedPublicCues(lesson)) return null;
+        const audio = document.getElementById(`audio-${lessonId}`);
+        const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
+        for (let index = 0; index < lesson.publicCues.length; index += 1) {
+            const range = getPublicCueTimeRange(lesson.publicCues[index], duration);
             if (!range) continue;
             if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
                 return index;
@@ -2444,22 +2458,36 @@
 
     function getAudioSyncTarget(lessonId, currentTime) {
         const lesson = lessonMap.get(lessonId);
-        if (!lesson || !hasTimedTranscript(lesson)) return null;
+        if (!lesson) return null;
 
         const safeTime = Number.isFinite(currentTime) ? currentTime : 0;
-        for (let lineIndex = 0; lineIndex < lesson.transcript.length; lineIndex += 1) {
-            const line = lesson.transcript[lineIndex];
-            const chunks = getLineChunks(line);
-            if (chunks && chunks.length) {
-                for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex += 1) {
-                    const chunk = chunks[chunkIndex];
-                    if (safeTime >= Math.max(0, chunk.start - 0.05) && safeTime < chunk.end + 0.05) {
-                        return { lineIndex, chunkIndex };
+        if (hasTimedTranscript(lesson)) {
+            for (let lineIndex = 0; lineIndex < lesson.transcript.length; lineIndex += 1) {
+                const line = lesson.transcript[lineIndex];
+                const chunks = getLineChunks(line);
+                if (chunks && chunks.length) {
+                    for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex += 1) {
+                        const chunk = chunks[chunkIndex];
+                        if (safeTime >= Math.max(0, chunk.start - 0.05) && safeTime < chunk.end + 0.05) {
+                            return { lineIndex, chunkIndex };
+                        }
                     }
                 }
-            }
 
-            const range = getLineTimeRange(line);
+                const range = getLineTimeRange(line);
+                if (!range) continue;
+                if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
+                    return { lineIndex, chunkIndex: null };
+                }
+            }
+            return null;
+        }
+
+        if (!lessonHasTimedPublicCues(lesson)) return null;
+        const audio = document.getElementById(`audio-${lessonId}`);
+        const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
+        for (let lineIndex = 0; lineIndex < lesson.publicCues.length; lineIndex += 1) {
+            const range = getPublicCueTimeRange(lesson.publicCues[lineIndex], duration);
             if (!range) continue;
             if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
                 return { lineIndex, chunkIndex: null };
@@ -2500,7 +2528,8 @@
     function updateAudioSyncUI(lessonId, options = {}) {
         const lesson = lessonMap.get(lessonId);
         const audio = document.getElementById(`audio-${lessonId}`);
-        if (!lesson || !audio || !hasTimedTranscript(lesson)) {
+        const hasAudioGuide = Boolean(lesson && (hasTimedTranscript(lesson) || lessonHasTimedPublicCues(lesson)));
+        if (!lesson || !audio || !hasAudioGuide) {
             const previousLine = audioLineState.get(lessonId);
             const previousChunk = audioChunkState.get(lessonId);
             if (Number.isInteger(previousChunk) && Number.isInteger(previousLine)) {
@@ -4205,6 +4234,70 @@
         return Boolean(lesson && Array.isArray(lesson.transcript) && lesson.transcript.length);
     }
 
+    function lessonHasPublicCues(lesson) {
+        return Boolean(lesson && Array.isArray(lesson.publicCues) && lesson.publicCues.length);
+    }
+
+    function lessonHasTimedPublicCues(lesson) {
+        return Boolean(lessonHasPublicCues(lesson) && lesson.publicCues.some((cue) => {
+            const start = Number(cue && cue.start);
+            const end = Number(cue && cue.end);
+            if (Number.isFinite(start) && Number.isFinite(end) && end > start) return true;
+
+            const startRatio = Number(cue && cue.startRatio);
+            const endRatio = Number(cue && cue.endRatio);
+            return Number.isFinite(startRatio) && Number.isFinite(endRatio) && endRatio > startRatio;
+        }));
+    }
+
+    function getPublicCueTimeRange(cue, audioDuration = 0) {
+        if (!cue) return null;
+
+        const start = Number(cue.start);
+        const end = Number(cue.end);
+        if (Number.isFinite(start) && Number.isFinite(end) && end > start) {
+            return { start, end };
+        }
+
+        const startRatio = Number(cue.startRatio);
+        const endRatio = Number(cue.endRatio);
+        if (Number.isFinite(startRatio) && Number.isFinite(endRatio) && endRatio > startRatio && audioDuration > 0) {
+            return {
+                start: Math.max(0, startRatio) * audioDuration,
+                end: Math.min(1, endRatio) * audioDuration
+            };
+        }
+
+        return null;
+    }
+
+    function renderPublicCueTimeline(lesson, options = {}) {
+        if (!lessonHasPublicCues(lesson)) return "";
+        const expanded = Boolean(options.expanded);
+
+        return lesson.publicCues.map((cue, index) => {
+            const detailKeywords = expanded ? (cue.extraKeywords || []) : [];
+            return `
+                <article class="lw-transcript-line lw-transcript-line--cue" id="transcript-line-${escapeHtml(lesson.id)}-${index}" data-line-index="${index}">
+                    <div class="lw-line-top lw-line-top--cue">
+                        <div class="lw-cue-heading">
+                            <span class="lw-cue-order">${String(index + 1).padStart(2, "0")}</span>
+                            <div class="lw-line-speaker">${escapeHtml(cue.speaker || chooseLocalizedText("핵심어", "Tu khoa"))}</div>
+                        </div>
+                    </div>
+                    <div class="lw-keyword-pack">
+                        ${(cue.keywords || []).map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
+                    </div>
+                    ${detailKeywords.length ? `
+                        <div class="lw-keyword-pack lw-keyword-pack--detail">
+                            ${detailKeywords.map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
+                        </div>
+                    ` : ""}
+                </article>
+            `;
+        }).join("");
+    }
+
     function getLessonStages(lesson) {
         if (lessonHasTranscript(lesson)) return STAGES;
         return [
@@ -4606,6 +4699,25 @@
                 `;
             }
 
+            if (lessonHasPublicCues(lesson)) {
+                if (stage === 1) {
+                    return renderPublicCueTimeline(lesson);
+                }
+
+                return `
+                    <div class="lw-transcript-stack">
+                        ${renderPublicCueTimeline(lesson, { expanded: true })}
+                        ${buildKeywordGuideMarkup(lesson, {
+                            cardClass: "lw-summary-block",
+                            emptyMessage: chooseLocalizedText(
+                                "공개본에서는 전체 대본 대신 핵심 포인트만 제공합니다.",
+                                "Ban cong khai chi cung cap diem chinh thay cho toan van."
+                            )
+                        })}
+                    </div>
+                `;
+            }
+
             if (stage === 1) {
                 const noteKeywordText = getLocalizedNotePrompt(lesson, "keywords", "");
                 return `
@@ -4720,6 +4832,8 @@
             const preview = document.getElementById(`line-preview-${lessonId}-${index}`);
             if (preview) preview.innerHTML = renderLinePreview(lessonId, index, line, state.stage);
         });
+
+        updateAudioSyncUI(lessonId, { force: true, scroll: false });
 
         document.querySelectorAll(`[data-action="set-note-tab"][data-lesson-id="${lessonId}"]`).forEach((button) => {
             button.classList.toggle("is-active", button.dataset.noteTab === state.noteTab);

@@ -127,6 +127,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         backgroundPromptVi: "Hãy viết 1 câu hỏi mà em nghĩ phóng viên có thể hỏi thêm trong cuộc phỏng vấn này."
                     },
                     transcript: [],
+                    publicCues: [
+                        {
+                            speaker: "여",
+                            startRatio: 0.00,
+                            endRatio: 0.10,
+                            keywords: ["선수상", "축하", "인터뷰"],
+                            extraKeywords: ["수상 직후", "박민호", "첫 질문"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.10,
+                            endRatio: 0.18,
+                            keywords: ["감사", "팬", "응원"],
+                            extraKeywords: ["야구", "덕분", "답변"]
+                        },
+                        {
+                            speaker: "여",
+                            startRatio: 0.18,
+                            endRatio: 0.30,
+                            keywords: ["좋은 소식", "결혼", "곧"],
+                            extraKeywords: ["추가 질문", "개인 소식", "확인"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.30,
+                            endRatio: 0.38,
+                            keywords: ["내년 1월", "결혼식", "예정"],
+                            extraKeywords: ["시기", "계획", "확답"]
+                        },
+                        {
+                            speaker: "여",
+                            startRatio: 0.38,
+                            endRatio: 0.54,
+                            keywords: ["신부", "여성 팬", "배우", "가수", "아는 사람"],
+                            extraKeywords: ["유명인 여부", "추측", "관심"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.54,
+                            endRatio: 0.72,
+                            keywords: ["보통 여자", "조용함", "마음씨", "선보다", "의사 선생님 조카", "초등학교 후배"],
+                            extraKeywords: ["허리 치료", "만남 계기", "빨리 친해짐"]
+                        },
+                        {
+                            speaker: "여",
+                            startRatio: 0.72,
+                            endRatio: 0.82,
+                            keywords: ["결혼 결심", "마음에 든 점", "이유"],
+                            extraKeywords: ["추가 확인", "조건", "성격"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.82,
+                            endRatio: 1.00,
+                            keywords: ["운동선수 오빠", "운동 생활 이해", "외모보다 성격", "성격이 잘 맞다"],
+                            extraKeywords: ["가치관", "결혼 이유", "생활 이해"]
+                        }
+                    ],
                     dictogloss: {
                         prompt: "2~3회 듣고 아래 핵심어만 보고 인터뷰 내용을 다시 구성해 보세요.",
                         promptVi: "Sau khi nghe 2~3 lần, hãy chỉ nhìn các từ khóa dưới đây rồi tái cấu trúc lại nội dung cuộc phỏng vấn.",
@@ -266,6 +324,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         backgroundPromptVi: "Nếu trong câu chuyện tình yêu này có mâu thuẫn, em nghĩ nguyên nhân sẽ là gì? Hãy viết trước."
                     },
                     transcript: [],
+                    publicCues: [
+                        {
+                            speaker: "진행",
+                            startRatio: 0.00,
+                            endRatio: 0.10,
+                            keywords: ["사랑 이야기", "사연 소개", "서초동"],
+                            extraKeywords: ["라디오", "청취자", "도입"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.10,
+                            endRatio: 0.28,
+                            keywords: ["일본 유학", "요리학교", "3살 연상", "친절"],
+                            extraKeywords: ["일본어 도움", "누나처럼", "좋아함"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.28,
+                            endRatio: 0.40,
+                            keywords: ["졸업", "한국 귀국", "고백 못 함"],
+                            extraKeywords: ["미래 계획", "망설임", "시간"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.40,
+                            endRatio: 0.58,
+                            keywords: ["귀국 전날", "교통사고", "병원", "세 달 간호"],
+                            extraKeywords: ["침대 옆", "울고 있음", "돌봄"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.58,
+                            endRatio: 0.80,
+                            keywords: ["퇴원", "청혼", "양가 반대", "허락"],
+                            extraKeywords: ["한국 시집", "연상 외국 여자", "변하지 않는 사랑"]
+                        },
+                        {
+                            speaker: "남",
+                            startRatio: 0.80,
+                            endRatio: 0.94,
+                            keywords: ["빵집", "꿈", "포기하지 않음", "응원"],
+                            extraKeywords: ["미래 계획", "함께", "목표"]
+                        },
+                        {
+                            speaker: "진행",
+                            startRatio: 0.94,
+                            endRatio: 1.00,
+                            keywords: ["결혼 축하", "노래", "마무리"],
+                            extraKeywords: ["방송 끝", "축하 멘트"]
+                        }
+                    ],
                     dictogloss: {
                         prompt: "사연의 시간 순서를 유지하면서 핵심어만 보고 다시 써 보세요.",
                         promptVi: "Hãy chỉ nhìn các từ khóa và viết lại câu chuyện theo đúng trình tự thời gian của sự việc.",
