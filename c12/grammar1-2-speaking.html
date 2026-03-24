@@ -499,11 +499,15 @@
 
                 <div class="mt-4" id="actionGuideSlot">${renderActionGuide(grammarGuideState(stepKey))}</div>
 
-                <div class="mt-4">
-                    <div class="grid grid-cols-2 gap-3">
+                <div class="mt-4 grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,360px)] lg:items-start">
+                    <div class="grid grid-cols-2 gap-2 sm:gap-3">
                         ${step.images.map(renderImageCard).join('')}
                     </div>
-                    <div class="mt-4 rounded-[24px] border border-slate-200 bg-white/90 p-4 sm:p-5">
+                    ${renderQuickBuildCard(step)}
+                </div>
+
+                <div class="mt-3">
+                    <div class="rounded-[24px] border border-slate-200 bg-white/90 p-4 sm:p-5">
                         <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                             <div>
                                 <p class="text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">Writing Card</p>
@@ -526,25 +530,6 @@
                             <div class="flex items-start gap-3 rounded-2xl border border-orange-200 bg-orange-50 px-3 py-3">
                                 <span class="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-black text-orange-700">핵심 표현</span>
                                 <p class="min-w-0 text-sm leading-6 text-orange-700">${step.focus.map(escapeHtml).join(' · ')}</p>
-                            </div>
-                        </div>
-                        <div id="tokenGuideBox" class="token-guide mt-3 rounded-[22px] border border-blue-200 bg-gradient-to-r from-blue-50 via-sky-50 to-white p-3">
-                            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                                <div>
-                                    <p class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-700">Quick Build</p>
-                                    <p class="mt-1 text-sm font-bold leading-6 text-slate-700">추천 어휘를 누르면 아래 입력칸에 바로 들어가요. 클릭만으로 문장을 만들어도 괜찮아요.</p>
-                                    ${renderVi(VI_TEXT.quickBuildDesc)}
-                                </div>
-                                <span class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-xs font-black text-blue-700">
-                                    <i class="fa-solid fa-hand-pointer"></i>
-                                    <span>
-                                        <span class="block">클릭해서 쓰기</span>
-                                        <span class="mt-0.5 block text-[11px] font-bold text-indigo-600">${escapeHtml(VI_TEXT.quickBuildChip)}</span>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="mt-3 flex flex-wrap gap-2">
-                                ${step.tokens.map((token) => `<button type="button" class="token-btn rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-black text-blue-700 shadow-sm" data-token="${escapeAttr(token)}">${escapeHtml(token)}</button>`).join('')}
                             </div>
                         </div>
                         <textarea id="builderInput" class="mt-3 min-h-[120px] w-full rounded-3xl border border-slate-300 px-4 py-4 text-base leading-8 text-slate-900" placeholder="${escapeAttr(`그림을 보고 문장을 만들어 보세요. / ${VI_TEXT.textareaPlaceholder}`)}">${escapeHtml(result.draft)}</textarea>
@@ -594,6 +579,30 @@
                         <p class="mt-1 text-xs leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-6">${escapeHtml(image.caption)}</p>
                     </div>
                 </article>
+            `;
+        }
+
+        function renderQuickBuildCard(step) {
+            return `
+                <div id="tokenGuideBox" class="token-guide rounded-[22px] border border-blue-200 bg-gradient-to-r from-blue-50 via-sky-50 to-white p-3 sm:p-4 lg:sticky lg:top-24">
+                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between lg:flex-col lg:items-start">
+                        <div>
+                            <p class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-700">Quick Build</p>
+                            <p class="mt-1 text-sm font-bold leading-6 text-slate-700">추천 어휘를 누르면 아래 입력칸에 바로 들어가요. 클릭만으로 문장을 만들어도 괜찮아요.</p>
+                            ${renderVi(VI_TEXT.quickBuildDesc)}
+                        </div>
+                        <span class="inline-flex items-center gap-2 self-start rounded-full bg-white px-3 py-2 text-xs font-black text-blue-700">
+                            <i class="fa-solid fa-hand-pointer"></i>
+                            <span>
+                                <span class="block">클릭해서 쓰기</span>
+                                <span class="mt-0.5 block text-[11px] font-bold text-indigo-600">${escapeHtml(VI_TEXT.quickBuildChip)}</span>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        ${step.tokens.map((token) => `<button type="button" class="token-btn rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-black text-blue-700 shadow-sm" data-token="${escapeAttr(token)}">${escapeHtml(token)}</button>`).join('')}
+                    </div>
+                </div>
             `;
         }
 
@@ -674,18 +683,62 @@
             if (!text) return { status:'error', exact:false, accepted:false, grammarOk:false };
             const normalized = normalizeSentence(text);
             const exact = normalized === normalizeSentence(step.target);
-            const grammarOk = stepKey === 'grammar1'
-                ? /(았더니|었더니|했더니)/.test(text)
-                : /얼마나/.test(text) && /지\s*몰라요|지\s*몰라/.test(text);
+            const grammarOk = matchesGrammarPattern(stepKey, text);
+            const semanticText = buildSemanticMatchText(text);
             const requiredGroups = step.validation?.requiredGroups || [];
-            const groupHitCount = countMatchedGroups(normalized, requiredGroups);
-            const accepted = grammarOk && requiredGroups.length > 0 && groupHitCount === requiredGroups.length;
+            const groupMatches = requiredGroups.map((group) => group.some((keyword) => semanticText.includes(keyword)));
+            const groupHitCount = groupMatches.filter(Boolean).length;
+            const pivot = Math.ceil(requiredGroups.length / 2);
+            const frontHitCount = groupMatches.slice(0, pivot).filter(Boolean).length;
+            const backHitCount = groupMatches.slice(pivot).filter(Boolean).length;
+            const balancedMeaning = requiredGroups.length <= 2
+                ? groupHitCount >= 1
+                : frontHitCount > 0 && backHitCount > 0;
+            const accepted = grammarOk && requiredGroups.length > 0 && (
+                groupHitCount === requiredGroups.length ||
+                (requiredGroups.length >= 4 && balancedMeaning && groupHitCount >= requiredGroups.length - 1)
+            );
 
             if (exact) return { status:'exact', exact:true, accepted:true, grammarOk:true };
             if (accepted) return { status:'accepted', exact:false, accepted:true, grammarOk:true };
-            if (grammarOk && groupHitCount >= Math.max(1, requiredGroups.length - 1)) return { status:'guided', exact:false, accepted:false, grammarOk:true };
+            if (grammarOk && balancedMeaning && groupHitCount >= Math.max(2, requiredGroups.length - 2)) return { status:'guided', exact:false, accepted:false, grammarOk:true };
             if (grammarOk) return { status:'support', exact:false, accepted:false, grammarOk:true };
             return { status:'error', exact:false, accepted:false, grammarOk:false };
+        }
+
+        function matchesGrammarPattern(stepKey, text) {
+            return stepKey === 'grammar1'
+                ? /(았더니|었더니|했더니|더니|고\s*나니)/.test(text)
+                : /얼마나/.test(text) && /(ㄴ지|는지|은지)\s*(몰라요|몰라|모르겠어요|모르겠다|모르겠어)/.test(text);
+        }
+
+        function buildSemanticMatchText(text) {
+            const normalized = normalizeSentence(text);
+            let enriched = normalized;
+            const aliasGroups = [
+                { canonical:'펴', patterns:[/펴/, /펼/, /폈/, /펴고/, /펴서/] },
+                { canonical:'자세', patterns:[/자세/, /허리/, /등/, /반듯/, /곧아/, /바르/] },
+                { canonical:'좋아졌', patterns:[/좋아졌/, /좋아진/, /건강해졌/, /튼튼해졌/, /나아졌/, /개선됐/] },
+                { canonical:'몸', patterns:[/몸/, /건강/, /컨디션/] },
+                { canonical:'가벼', patterns:[/가벼/, /개운/, /편안/, /편해/, /산뜻/] },
+                { canonical:'돌리', patterns:[/돌리/, /돌렸/, /돌리고/, /스트레칭/] },
+                { canonical:'기분', patterns:[/기분/, /느낌/, /컨디션/, /몸이/] },
+                { canonical:'상쾌', patterns:[/상쾌/, /개운/, /시원/, /후련/] },
+                { canonical:'꾸준히', patterns:[/꾸준/, /계속/, /열심히/, /매일/, /규칙적/] },
+                { canonical:'운동', patterns:[/운동/, /조깅/, /요가/, /헬스/, /스트레칭/] },
+                { canonical:'뻗', patterns:[/뻗/, /쭉/, /펴/] },
+                { canonical:'땀', patterns:[/땀/, /땀이/] },
+                { canonical:'났', patterns:[/났/, /나는/, /나요/, /흘렀/, /줄줄/] },
+                { canonical:'발뒤꿈치', patterns:[/발뒤꿈치/, /까치발/, /발끝/] },
+                { canonical:'들었', patterns:[/들었/, /들고/, /들면/, /올렸/, /세웠/] },
+                { canonical:'힘', patterns:[/힘/, /근력/, /다리/] },
+                { canonical:'세졌', patterns:[/세졌/, /강해졌/, /튼튼해졌/] }
+            ];
+
+            aliasGroups.forEach(({ canonical, patterns }) => {
+                if (patterns.some((pattern) => pattern.test(normalized))) enriched += canonical;
+            });
+            return enriched;
         }
 
         function nextStage() {
