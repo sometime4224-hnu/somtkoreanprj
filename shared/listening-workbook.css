@@ -1318,6 +1318,13 @@
     color: #9a3412;
 }
 
+.lw-cue-keyword.is-audio-current {
+    background: color-mix(in srgb, var(--lw-accent) 78%, white) !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--lw-accent) 28%, transparent), 0 10px 18px rgba(37, 99, 235, 0.18) !important;
+    transform: translateY(-1px);
+}
+
 .lw-line-chunk.is-audio-active {
     background: color-mix(in srgb, var(--lw-accent) 18%, white);
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--lw-accent) 10%, transparent);

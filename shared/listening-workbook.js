@@ -2487,10 +2487,14 @@
         const audio = document.getElementById(`audio-${lessonId}`);
         const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
         for (let lineIndex = 0; lineIndex < lesson.publicCues.length; lineIndex += 1) {
-            const range = getPublicCueTimeRange(lesson.publicCues[lineIndex], duration);
+            const cue = lesson.publicCues[lineIndex];
+            const range = getPublicCueTimeRange(cue, duration);
             if (!range) continue;
             if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
-                return { lineIndex, chunkIndex: null };
+                return {
+                    lineIndex,
+                    chunkIndex: getPublicCueKeywordIndex(cue, safeTime, duration)
+                };
             }
         }
         return null;
@@ -2510,6 +2514,9 @@
 
         const previewChunk = document.getElementById(`preview-chunk-${lessonId}-${lineIndex}-${chunkIndex}`);
         if (previewChunk) previewChunk.classList.toggle("is-audio-active", active);
+
+        const cueKeyword = document.getElementById(`cue-keyword-${lessonId}-${lineIndex}-${chunkIndex}`);
+        if (cueKeyword) cueKeyword.classList.toggle("is-audio-current", active);
     }
 
     function maybeScrollAudioLineIntoView(lessonId, lineIndex) {
@@ -4271,6 +4278,25 @@
         return null;
     }
 
+    function getPublicCueKeywordIndex(cue, currentTime, audioDuration = 0) {
+        if (!cue) return null;
+
+        const keywords = Array.isArray(cue.keywords) && cue.keywords.length
+            ? cue.keywords
+            : (Array.isArray(cue.extraKeywords) ? cue.extraKeywords : []);
+        if (!keywords.length) return null;
+
+        const range = getPublicCueTimeRange(cue, audioDuration);
+        if (!range) return null;
+
+        const duration = range.end - range.start;
+        if (!(duration > 0)) return 0;
+
+        const safeTime = Number.isFinite(currentTime) ? currentTime : range.start;
+        const progress = Math.min(Math.max((safeTime - range.start) / duration, 0), 0.999999);
+        return Math.max(0, Math.min(Math.floor(progress * keywords.length), keywords.length - 1));
+    }
+
     function renderPublicCueTimeline(lesson, options = {}) {
         if (!lessonHasPublicCues(lesson)) return "";
         const expanded = Boolean(options.expanded);
@@ -4286,7 +4312,13 @@
                         </div>
                     </div>
                     <div class="lw-keyword-pack">
-                        ${(cue.keywords || []).map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
+                        ${(cue.keywords || []).map((keyword, keywordIndex) => `
+                            <span
+                                class="lw-cue-keyword"
+                                id="cue-keyword-${escapeHtml(lesson.id)}-${index}-${keywordIndex}"
+                                data-keyword-index="${keywordIndex}"
+                            >${escapeHtml(keyword)}</span>
+                        `).join("")}
                     </div>
                     ${detailKeywords.length ? `
                         <div class="lw-keyword-pack lw-keyword-pack--detail">

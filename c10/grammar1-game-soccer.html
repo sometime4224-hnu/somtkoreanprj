@@ -55,31 +55,6 @@
             gap: 8px;
         }
 
-        .game-copyright {
-            position: fixed;
-            left: 50%;
-            bottom: max(6px, env(safe-area-inset-bottom));
-            transform: translateX(-50%);
-            width: min(calc(100vw - 20px), 440px);
-            padding: 7px 10px;
-            border-radius: 12px;
-            background: rgba(15, 23, 42, 0.48);
-            border: 1px solid rgba(255,255,255,0.22);
-            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.22);
-            backdrop-filter: blur(4px);
-            color: rgba(248, 250, 252, 0.95);
-            font-size: 10px;
-            line-height: 1.35;
-            text-align: center;
-            z-index: 40;
-        }
-
-        .game-copyright a {
-            color: #f8fafc;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-
         .app.shake {
             animation: appShake 0.28s ease;
         }
@@ -842,11 +817,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <section id="feedback" class="feedback">정답 어미를 빠르게 터치하세요.</section>
     </main>
     <div class="overlay" id="overlay"></div>
-    <footer class="game-copyright">
-        <div>&copy; 2026 SOMT Korean Project. All rights reserved.</div>
-        <div><a href="../LICENSE.md">이용조건 보기</a></div>
-    </footer>
-
     <script>
         const ENDINGS = {
             present: { label: "는", hint: "현재/일반 사실" },

@@ -50,25 +50,6 @@
             transform-origin: center;
             transition: stroke-dashoffset 0.1s linear;
         }
-
-        /* Floating Script Button Styles */
-        #floating-script-btn {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        #floating-script-btn.hidden {
-            transform: scale(0.8) translateY(20px);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Script Modal Styles */
-        #script-modal {
-            transition: opacity 0.3s ease-in-out;
-        }
-        #script-modal.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
     </style>
 
     <!-- Tailwind & Fonts Injected -->
@@ -145,19 +126,6 @@
              </audio>
         </div>
 
-        <!-- Script Toggle Button -->
-        <div class="mb-6">
-            <button id="toggle-script-btn" class="w-full text-left text-indigo-600 font-semibold py-2 px-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
-                <i class="fas fa-tags mr-2"></i>??? ??
-            </button>
-            <div id="script-content" class="hidden mt-3 bg-gray-50 p-4 rounded-lg text-sm space-y-2 border">
-                <p><strong class="text-indigo-600">???:</strong> ???, ??, ??, ????, ???, ???</p>
-                <p><strong class="text-indigo-600">?? ??:</strong> ???? ? ??? ??? ???? ??, ?? ???? ?????.</p>
-                <p><strong class="text-indigo-600">?? ???:</strong> ??? ?????, ? ?? ????? ?? ???, ??? ?? ??? ? ???? ?????? ??? ???.</p>
-                <p><strong class="text-indigo-600">????:</strong> ???? ?? ??, ??, ??? ??? 3???? ??? ???.</p>
-            </div>
-        </div>
-
         <!-- Quiz Container -->
         <div id="quiz-container" class="space-y-8 border-t pt-6">
             <!-- Quizzes are dynamically generated here -->
@@ -191,23 +159,6 @@
             </button>
         </div>
     </div>
-
-    <!-- Floating Script Button -->
-    <button id="floating-script-btn" class="hidden fixed bottom-4 right-4 bg-indigo-600 text-white p-3 rounded-full shadow-lg z-50 flex items-center justify-center w-12 h-12">
-        <i class="fas fa-tags text-lg"></i>
-    </button>
-
-    <!-- Script Modal -->
-    <div id="script-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto relative">
-            <button id="close-modal-btn" class="absolute top-2 right-3 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
-            <h3 class="text-xl font-bold mb-4 text-gray-800">???</h3>
-            <div id="modal-script-content" class="text-sm space-y-2">
-                <!-- Script content will be copied here -->
-            </div>
-        </div>
-    </div>
-
 
 <script>
     const quizData = [
@@ -271,8 +222,6 @@
     const scoreText = document.getElementById('score-text');
     const submitBtn = document.getElementById('submit-btn');
     const retryBtn = document.getElementById('retry-btn');
-    const toggleScriptBtn = document.getElementById('toggle-script-btn');
-    const scriptContent = document.getElementById('script-content');
     
     // Audio Player Elements
     const audio = document.getElementById('audio-file');
@@ -284,12 +233,6 @@
     const progressCircumference = 2 * Math.PI * progressCircleRadius;
     miniPlayerProgress.style.strokeDasharray = `${progressCircumference} ${progressCircumference}`;
     miniPlayerProgress.style.strokeDashoffset = progressCircumference;
-
-    // Script Modal & Floating Button Elements
-    const floatingScriptBtn = document.getElementById('floating-script-btn');
-    const scriptModal = document.getElementById('script-modal');
-    const closeModalBtn = document.getElementById('close-modal-btn');
-    const modalScriptContent = document.getElementById('modal-script-content');
 
     function showAlert(message) {
         const alertBox = document.getElementById('alert-box');
@@ -369,12 +312,6 @@
         retryBtn.classList.add('hidden');
         loadAllQuizzes();
     });
-
-    toggleScriptBtn.addEventListener('click', () => {
-        scriptContent.classList.toggle('hidden');
-        const isHidden = scriptContent.classList.contains('hidden');
-        toggleScriptBtn.innerHTML = isHidden ? '<i class="fas fa-tags mr-2"></i>핵심어 보기' : '<i class="fas fa-eye-slash mr-2"></i>핵심어 숨기기';
-    });
     
     // --- MINI PLAYER LOGIC ---
     miniPlayerPlayPauseBtn.addEventListener('click', () => audio.paused ? audio.play() : audio.pause());
@@ -390,19 +327,6 @@
         entries.forEach(entry => miniPlayer.classList.toggle('hidden', entry.isIntersecting));
     }, { threshold: 0.1 }); 
     playerObserver.observe(mainAudioPlayer);
-
-    // --- SCRIPT MODAL & FLOATING BUTTON LOGIC ---
-    modalScriptContent.innerHTML = scriptContent.innerHTML;
-    floatingScriptBtn.addEventListener('click', () => scriptModal.classList.remove('hidden'));
-    closeModalBtn.addEventListener('click', () => scriptModal.classList.add('hidden'));
-    scriptModal.addEventListener('click', (e) => {
-        if (e.target === scriptModal) scriptModal.classList.add('hidden');
-    });
-
-    const scriptButtonObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => floatingScriptBtn.classList.toggle('hidden', entry.isIntersecting));
-    }, { threshold: 0.1 });
-    scriptButtonObserver.observe(toggleScriptBtn);
 
     loadAllQuizzes();
 </script>
