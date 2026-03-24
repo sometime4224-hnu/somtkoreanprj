@@ -27,6 +27,10 @@
             -webkit-perspective: 1000px;
             cursor: pointer;
         }
+        .vocab-image-card {
+            width: 100%;
+            aspect-ratio: 1220 / 864;
+        }
         .card-inner {
             position: relative;
             width: 100%;
@@ -509,7 +513,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 
                 vocabulary.forEach(item => {
                     const cardContainer = document.createElement('div');
-                    cardContainer.className = 'card-container h-48';
+                    cardContainer.className = isKoreanMode ? 'card-container vocab-image-card' : 'card-container h-48';
                     const cardInner = document.createElement('div');
                     cardInner.className = 'card-inner';
 
