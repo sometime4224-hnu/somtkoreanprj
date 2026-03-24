@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>12과 문법1·2 융합 말하기 활동</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(251,146,60,.16), transparent 26%),
+                radial-gradient(circle at top right, rgba(59,130,246,.14), transparent 28%),
+                linear-gradient(180deg, #fff8ef 0%, #eef6ff 100%);
+            color: #0f172a;
+        }
+        .panel { background: rgba(255,255,255,.92); border: 1px solid rgba(255,255,255,.72); box-shadow: 0 20px 44px rgba(15,23,42,.08); }
+        .token-btn, .nav-btn, .tab-btn { transition: transform .15s ease, background .15s ease, border-color .15s ease; }
+        .token-btn:hover, .nav-btn:hover, .tab-btn:hover { transform: translateY(-1px); }
+        @keyframes mic-pulse { 0% { box-shadow: 0 0 0 0 rgba(220,38,38,.35);} 100% { box-shadow: 0 0 0 16px rgba(220,38,38,0);} }
+        .is-recording { animation: mic-pulse 1s ease-out infinite; }
+        .syllable-cell { min-width: 38px; padding: 6px 4px; border-radius: 11px; border: 2px solid transparent; display:flex; flex-direction:column; align-items:center; gap:2px; font-weight:900; }
+        .syllable-exact { background:#dcfce7; border-color:#86efac; color:#166534; }
+        .syllable-close { background:#fef9c3; border-color:#fde047; color:#854d0e; }
+        .syllable-miss { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
+        .syllable-empty { background:#f1f5f9; border-color:#cbd5e1; color:#64748b; }
+        .syllable-extra { background:#eff6ff; border-color:#93c5fd; color:#1d4ed8; border-style:dashed; }
+        .step-pill { box-shadow: 0 10px 24px rgba(37,99,235,.16); }
+        @keyframes token-guide-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,.0); transform: translateY(0); }
+            50% { box-shadow: 0 12px 28px rgba(59,130,246,.16); transform: translateY(-1px); }
+        }
+        .token-guide {
+            animation: token-guide-glow 2.4s ease-in-out infinite;
+        }
+        @keyframes guide-ring {
+            0% { box-shadow: 0 0 0 0 rgba(245,158,11,.28); }
+            100% { box-shadow: 0 0 0 12px rgba(245,158,11,0); }
+        }
+        @keyframes guide-bob {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-2px) scale(1.015); }
+        }
+        .guide-focus {
+            position: relative;
+            z-index: 2;
+            isolation: isolate;
+            overflow: visible;
+            scroll-margin-top: 96px;
+            border-color: rgba(245,158,11,.95) !important;
+            box-shadow:
+                0 0 0 3px rgba(245,158,11,.58),
+                0 18px 38px rgba(245,158,11,.30),
+                0 0 34px rgba(251,191,36,.52) !important;
+            animation: guide-bob 1.2s ease-in-out infinite;
+        }
+        .guide-focus::before {
+            content: '지금 여기';
+            position: absolute;
+            top: -15px;
+            left: 12px;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: .02em;
+            box-shadow: 0 10px 24px rgba(249,115,22,.34);
+        }
+        .guide-focus::after {
+            content: '';
+            position: absolute;
+            inset: -7px;
+            border: 3px solid rgba(245,158,11,.92);
+            border-radius: inherit;
+            pointer-events: none;
+            box-shadow: 0 0 0 4px rgba(255,255,255,.82);
+            animation: guide-ring 1.15s ease-out infinite;
+        }
+        .guide-soft {
+            position: relative;
+            z-index: 1;
+            border-color: rgba(59,130,246,.62) !important;
+            box-shadow:
+                0 0 0 2px rgba(59,130,246,.34),
+                0 14px 28px rgba(59,130,246,.18),
+                0 0 22px rgba(96,165,250,.20) !important;
+        }
+        .guide-banner {
+            box-shadow: 0 16px 28px rgba(15,23,42,.08);
+        }
+        .vi-guide {
+            margin-top: 4px;
+            color: #6366f1;
+            font-size: 12px;
+            line-height: 1.5;
+            font-weight: 700;
+        }
+        .vi-guide-soft {
+            color: #818cf8;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-white/70 bg-white/80 px-4 py-3 backdrop-blur">
+        <a href="index.html" class="inline-flex items-center gap-2 text-sm font-extrabold text-orange-600">
+            <i class="fa-solid fa-arrow-left"></i><span>12과 허브</span>
+        </a>
+        <span class="text-sm font-extrabold text-slate-600">문법1·2 융합 말하기 활동</span>
+    </nav>
+
+    <main class="mx-auto w-[min(1080px,calc(100%-20px))] py-4 pb-12">
+        <section class="panel rounded-[24px] px-4 py-3 sm:px-5">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-[0.18em] text-orange-700">Grammar Fusion</p>
+                    <h1 class="mt-1 text-lg font-black leading-tight text-slate-900 sm:text-2xl">그림 → 문장 만들기 → 말하기</h1>
+                    <p class="mt-1 text-xs leading-6 text-slate-600 sm:text-sm">문법1, 문법2, 말하기를 5사이클로 연결하는 활동입니다.</p>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs font-black text-slate-700">
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">문장 만들기</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">즉시 확인</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">말하기 연습</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel mt-3 rounded-[24px] p-4 sm:p-5">
+            <div class="grid gap-3 md:grid-cols-2">
+                <article class="rounded-3xl border border-slate-200 bg-white/90 p-4">
+                    <p class="text-xs font-black uppercase tracking-[0.14em] text-slate-500">Current Cycle</p>
+                    <h2 id="cycleTitle" class="mt-2 text-xl font-black text-slate-900 sm:text-2xl"></h2>
+                    <p id="cycleNote" class="mt-2 text-sm leading-6 text-slate-600"></p>
+                    <div class="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+                        <div id="overallProgress" class="h-full rounded-full bg-gradient-to-r from-orange-500 to-blue-500"></div>
+                    </div>
+                    <p id="overallProgressText" class="mt-2 text-sm font-semibold text-slate-500"></p>
+                </article>
+                <article class="rounded-3xl border border-slate-200 bg-white/90 p-4">
+                    <p class="text-xs font-black uppercase tracking-[0.14em] text-slate-500">Now Doing</p>
+                    <div id="stepTabs" class="mt-3 grid gap-2 sm:grid-cols-3"></div>
+                </article>
+            </div>
+        </section>
+
+        <section id="workspace" class="panel mt-3 rounded-[24px] p-4 sm:p-5"></section>
+    </main>
+
+    <script>
+        const ASSET_BASE = '../assets/c12/images/split_variants_webp/full';
+        const EXTENDED_ASSET_BASE = '../assets/c12/images/split_variants_35_webp/full';
+        const IMG = {
+            chestOpen: `${ASSET_BASE}/s03_bl_n15.webp`,
+            posture: `${ASSET_BASE}/s06_bl_n03.webp`,
+            lightBody: `${ASSET_BASE}/s06_br_n04.webp`,
+            neckRoll: `${ASSET_BASE}/s03_tl_n13.webp`,
+            refreshed: `${ASSET_BASE}/s04_tl_n09.webp`,
+            betterBody: `${ASSET_BASE}/s04_bl_n11.webp`,
+            armStretch: `${ASSET_BASE}/s01_tr_n18.webp`,
+            sweat: `${ASSET_BASE}/s05_tr_n06.webp`,
+            heelRaise: `${ASSET_BASE}/s01_br_n20.webp`,
+            strong: `${ASSET_BASE}/s06_tr_n02.webp`,
+            steadyWorkout: `${EXTENDED_ASSET_BASE}/n32.webp`
+        };
+        const VI_TEXT = {
+            writingFlow: 'Hãy nhìn tranh trước rồi viết ở bên dưới.',
+            writingTitle: 'Hãy hoàn thành câu ở bên dưới.',
+            writingChip: 'Nhìn tranh rồi viết',
+            quickBuildTitle: 'Ghép nhanh',
+            quickBuildDesc: 'Nhấn vào từ gợi ý để chèn ngay vào ô nhập bên dưới. Chỉ cần bấm để ghép câu cũng được.',
+            quickBuildChip: 'Nhấn để viết',
+            textareaPlaceholder: 'Hãy nhìn tranh và tạo câu.',
+            targetSentence: 'Câu mục tiêu của hoạt động này:',
+            speakingTitle: 'Hãy nói hai câu em đã tạo ở trên.',
+            speakingDesc: 'Hãy nghe câu mẫu, nghe chậm, rồi tự nói và kiểm tra phản hồi ngay.',
+            speechNoRecognition: 'Trình duyệt này không hỗ trợ nhận diện giọng nói. Sau khi nghe câu mẫu, em có thể chuyển bước bằng nút bên phải.',
+            speechSecure: 'Mic thường hoạt động ổn định nhất trong môi trường HTTPS hoặc localhost.',
+            statusRecording: 'Hãy nói rõ cả câu. Khi nói xong, hệ thống sẽ tự phân tích.',
+            statusReady: 'Hãy nghe câu mẫu một lần rồi nhấn nút micro để nói.',
+            statusRetry: (lastScore, bestScore) => `Lần gần nhất ${lastScore} điểm · cao nhất ${bestScore} điểm. Nếu muốn luyện thêm, hãy nói lại.`,
+            feedback: {
+                exact: { title:'Tốt lắm! Em đã tạo đúng câu mục tiêu.', body:'Hình thức ngữ pháp và cách nối từ vựng đều tự nhiên. Em sẽ luyện nói chính câu này ở bước tiếp theo.' },
+                accepted: { title:'Tốt lắm! Đây là đáp án đúng, phù hợp với tranh và ngữ pháp.', body:'Dù trạng từ hay chi tiết nhỏ có khác một chút, nếu tranh và ngữ pháp đúng thì vẫn được công nhận là đáp án đúng. Ở bước nói, em sẽ luyện theo câu mục tiêu bên dưới.' },
+                guided: { title:'Em đã nắm đúng khung ngữ pháp.', body:'Ý nghĩa khá giống, nhưng trong hoạt động này chúng ta sẽ thống nhất luyện nói theo câu mục tiêu bên dưới.' },
+                model: { title:'Đã đưa câu mẫu vào.', body:'Em sẽ luyện nói ở bước tiếp theo dựa trên câu này. Ngay cả khi thay hình sau này, đây vẫn là câu mục tiêu có thể dùng nguyên vẹn.' },
+                support: { title:'Mình cùng kiểm tra lại biểu hiện trọng tâm nhé?', body:'Ý nghĩa câu đang đi đúng hướng, nhưng trong hoạt động này chúng ta sẽ tiếp tục bước sau dựa trên câu mục tiêu.' },
+                error: { title:'Hãy kiểm tra lại khung câu.', body:'Trước tiên hãy xem lại câu mục tiêu của bước này, rồi luyện nói cùng câu đó để hoạt động được nối mạch ổn định hơn.' }
+            }
+        };
+
+        const CYCLES = [
+            { title:'사이클 1 · 자세와 몸의 변화', note:'가슴을 펴는 동작과 몸의 변화를 연결해 문법 1, 2를 차례로 연습합니다.',
+              grammar1:{ label:'문법 1 · V-았더니/었더니', prompt:'첫 그림의 행동을 하고 난 뒤, 두 번째 그림처럼 결과가 달라졌다고 말해 보세요.', promptVi:'Hãy nói rằng sau khi làm động tác ở tranh thứ nhất, kết quả đã thay đổi như tranh thứ hai.', frame:'[행동]했더니 [결과]었어요.', hint:'직접 해 본 행동 뒤에 결과가 나와야 해요.', hintVi:'Kết quả phải xuất hiện sau hành động em đã trực tiếp làm.', target:'가슴을 쭉 폈더니 자세가 좋아졌어요.', tokens:['좋아졌어요.','가슴을','쭉','폈더니','자세가'], focus:['가슴을 펴다','자세가 좋아지다'], validation:{ requiredGroups:[['가슴'],['펴','폈'],['자세'],['좋아졌']] }, images:[{src:IMG.chestOpen,badge:'행동 그림',title:'가슴을 쭉 펴는 장면',caption:'문법 1에서는 내가 직접 한 동작을 먼저 말해요.'},{src:IMG.posture,badge:'결과 그림',title:'자세가 좋아진 상태',caption:'그 동작 뒤에 달라진 결과를 이어서 말해 보세요.'}] },
+              grammar2:{ label:'문법 2 · 얼마나 -(으)ㄴ/는지 모르다', prompt:'같은 동작 뒤에 느낀 몸 상태를 강하게 강조해서 말해 보세요.', promptVi:'Với cùng động tác đó, hãy nhấn mạnh mạnh mẽ trạng thái cơ thể em cảm nhận được.', frame:'[대상]이/가 얼마나 [상태]ㄴ지/는지 몰라요.', hint:'얼마나와 -지 몰라요를 꼭 넣어 보세요.', hintVi:'Nhớ dùng 얼마나 và -지 몰라요.', target:'가슴을 펴고 나면 몸이 얼마나 가벼운지 몰라요.', tokens:['몸이','가슴을','펴고','나면','얼마나','가벼운지','몰라요.'], focus:['가슴을 펴다','몸이 가볍다'], validation:{ requiredGroups:[['가슴'],['펴','폈'],['몸'],['가벼']] }, images:[{src:IMG.chestOpen,badge:'상황 그림',title:'가슴을 펴는 동작',caption:'강한 정도를 말하기 전에 어떤 상황인지 떠올려 보세요.'},{src:IMG.lightBody,badge:'느낌 그림',title:'몸이 가벼워진 느낌',caption:'변화된 상태를 얼마나 강하게 느끼는지 말하면 돼요.'}] } },
+            { title:'사이클 2 · 스트레칭 뒤의 상쾌함', note:'목을 돌리는 행동과 상쾌한 느낌을 연결해 표현을 확장합니다.',
+              grammar1:{ label:'문법 1 · V-았더니/었더니', prompt:'목을 돌린 뒤 나타난 기분 변화를 결과로 말해 보세요.', promptVi:'Hãy nói kết quả là sự thay đổi về cảm giác sau khi xoay cổ.', frame:'[행동]했더니 [결과]었어요.', hint:'직접 한 동작 뒤에 느낀 변화를 붙이면 좋아요.', hintVi:'Sẽ tự nhiên hơn nếu nối động tác em đã làm với sự thay đổi em cảm thấy.', target:'목을 천천히 돌렸더니 기분이 상쾌해졌어요.', tokens:['기분이','돌렸더니','상쾌해졌어요.','목을','천천히'], focus:['목을 돌리다','기분이 상쾌해지다'], validation:{ requiredGroups:[['목'],['돌리','돌렸'],['기분'],['상쾌']] }, images:[{src:IMG.neckRoll,badge:'행동 그림',title:'목을 천천히 돌리는 장면',caption:'먼저 직접 해 본 동작을 떠올려 문장을 시작해 보세요.'},{src:IMG.refreshed,badge:'결과 그림',title:'상쾌해진 기분',caption:'그 뒤에 생긴 결과를 자연스럽게 연결합니다.'}] },
+              grammar2:{ label:'문법 2 · 얼마나 -(으)ㄴ/는지 모르다', prompt:'스트레칭 뒤에 느낀 상쾌함의 정도를 강하게 강조해 보세요.', promptVi:'Hãy nhấn mạnh mức độ sảng khoái em cảm thấy sau khi giãn cơ.', frame:'[상황] 얼마나 [상태]ㄴ지/는지 몰라요.', hint:'얼마나 상쾌한지 몰라요처럼 감탄이 드러나게 말해 보세요.', hintVi:'Hãy nói sao cho cảm giác cảm thán như "không biết sảng khoái đến mức nào" được thể hiện rõ.', target:'목을 천천히 돌리고 나면 기분이 얼마나 상쾌한지 몰라요.', tokens:['상쾌한지','기분이','몰라요.','목을','나면','얼마나','천천히','돌리고'], focus:['목을 돌리다','기분이 상쾌하다'], validation:{ requiredGroups:[['목'],['돌리','돌렸'],['기분'],['상쾌']] }, images:[{src:IMG.neckRoll,badge:'상황 그림',title:'목을 돌리는 스트레칭',caption:'행동 장면을 먼저 보고 정도 표현으로 확장해 보세요.'},{src:IMG.refreshed,badge:'느낌 그림',title:'상쾌해진 상태',caption:'얼마나 상쾌한지 강조하는 문장을 만듭니다.'}] } },
+            { title:'사이클 3 · 꾸준한 운동의 효과', note:'새로 추가된 운동 이미지를 활용해 꾸준한 습관과 몸의 변화를 함께 연결합니다.',
+              grammar1:{ label:'문법 1 · V-았더니/었더니', prompt:'꾸준히 운동한 뒤 몸 상태가 좋아진 결과를 말해 보세요.', promptVi:'Hãy nói kết quả là cơ thể tốt lên sau khi tập thể dục đều đặn.', frame:'[행동]했더니 [결과]었어요.', hint:'오랫동안 직접 해 본 행동과 그 결과를 한 문장으로 연결해 보세요.', hintVi:'Hãy nối hành động em đã duy trì lâu dài với kết quả của nó trong một câu.', target:'운동을 꾸준히 했더니 몸이 좋아졌어요.', tokens:['운동을','꾸준히','몸이','좋아졌어요.','했더니'], focus:['운동을 꾸준히 하다','몸이 좋아지다'], validation:{ requiredGroups:[['운동'],['꾸준히'],['몸'],['좋아졌']] }, images:[{src:IMG.steadyWorkout,badge:'행동 그림',title:'운동을 꾸준히 하는 장면',caption:'여러 운동을 규칙적으로 이어 가는 습관을 떠올리며 문장을 시작해 보세요.'},{src:IMG.betterBody,badge:'결과 그림',title:'몸이 좋아진 상태',caption:'꾸준한 운동 뒤 몸 상태가 좋아졌다는 결과를 말합니다.'}] },
+              grammar2:{ label:'문법 2 · 얼마나 -(으)ㄴ/는지 모르다', prompt:'최근 몸 상태가 얼마나 좋아졌는지 강하게 강조해 보세요.', promptVi:'Hãy nhấn mạnh mạnh mẽ cơ thể dạo này đã tốt lên đến mức nào.', frame:'[대상]이/가 얼마나 [상태]ㄴ지/는지 몰라요.', hint:'문장 앞에는 요즘처럼 상황을 넣어도 좋아요.', hintVi:'Em có thể thêm bối cảnh như 요즘 ở đầu câu.', target:'요즘 몸이 얼마나 좋아졌는지 몰라요.', tokens:['얼마나','좋아졌는지','몸이','몰라요.','요즘'], focus:['몸이 좋아지다'], validation:{ requiredGroups:[['몸'],['좋아졌']] }, images:[{src:IMG.steadyWorkout,badge:'상황 그림',title:'꾸준히 운동하는 흐름',caption:'조깅, 요가, 근력 운동처럼 이어지는 습관을 보고 변화의 배경을 떠올려 보세요.'},{src:IMG.betterBody,badge:'느낌 그림',title:'몸이 좋아진 변화',caption:'좋아진 정도가 아주 크다는 감탄을 넣어 말합니다.'}] } },
+            { title:'사이클 4 · 운동하면 나는 땀', note:'팔을 뻗는 운동 장면을 바탕으로 몸의 반응과 정도 표현을 함께 연습합니다.',
+              grammar1:{ label:'문법 1 · V-았더니/었더니', prompt:'팔을 계속 뻗는 동작 뒤에 나타난 몸의 반응을 결과로 말해 보세요.', promptVi:'Hãy nói phản ứng của cơ thể xuất hiện sau khi liên tục duỗi tay là kết quả.', frame:'[행동]했더니 [결과]았/었어요.', hint:'결과 자리에는 땀이 많이 났어요처럼 몸 반응을 넣으면 자연스러워요.', hintVi:'Ở vị trí kết quả, những câu như "ra nhiều mồ hôi" sẽ tự nhiên hơn.', target:'팔을 계속 뻗었더니 땀이 많이 났어요.', tokens:['많이','땀이','계속','났어요.','팔을','뻗었더니'], focus:['팔을 뻗다','땀이 나다'], validation:{ requiredGroups:[['팔'],['뻗'],['땀'],['났']] }, images:[{src:IMG.armStretch,badge:'행동 그림',title:'팔을 계속 뻗는 운동',caption:'직접 한 동작을 먼저 말하는 문장입니다.'},{src:IMG.sweat,badge:'결과 그림',title:'땀이 나는 상태',caption:'운동 뒤 나타난 몸 반응을 결과로 이어 보세요.'}] },
+              grammar2:{ label:'문법 2 · 얼마나 -(으)ㄴ/는지 모르다', prompt:'운동할 때 나는 땀의 정도를 강하게 강조해서 말해 보세요.', promptVi:'Hãy nhấn mạnh mức độ mồ hôi ra khi tập thể dục.', frame:'[상황] 얼마나 [상태]는지 몰라요.', hint:'동사는 -는지, 얼마나를 함께 쓰는 점을 확인해 보세요.', hintVi:'Hãy kiểm tra rằng em dùng cùng lúc 얼마나 và dạng -는지.', target:'운동을 하면 땀이 얼마나 많이 나는지 몰라요.', tokens:['얼마나','운동을','하면','많이','나는지','땀이','몰라요.'], focus:['운동을 하다','땀이 많이 나다'], validation:{ requiredGroups:[['운동'],['땀'],['나는지','났는지','나요']] }, images:[{src:IMG.armStretch,badge:'상황 그림',title:'운동하는 장면',caption:'운동 상황을 떠올리며 문장을 시작해 보세요.'},{src:IMG.sweat,badge:'느낌 그림',title:'땀이 많이 나는 모습',caption:'얼마나 많이 나는지 정도를 강조해 표현합니다.'}] } },
+            { title:'사이클 5 · 발뒤꿈치 들기와 다리 힘', note:'발뒤꿈치를 드는 동작을 바탕으로 결과 표현과 강한 정도 표현을 마무리합니다.',
+              grammar1:{ label:'문법 1 · V-았더니/었더니', prompt:'발뒤꿈치를 자주 든 뒤 다리 힘이 세진 결과를 말해 보세요.', promptVi:'Hãy nói kết quả là sức chân mạnh lên sau khi thường xuyên nhấc gót chân.', frame:'[행동]했더니 [결과]었어요.', hint:'행동은 반복, 결과는 변화가 드러나게 만드는 것이 좋아요.', hintVi:'Nên để hành động thể hiện sự lặp lại và kết quả thể hiện sự thay đổi.', target:'발뒤꿈치를 자주 들었더니 다리 힘이 세졌어요.', tokens:['자주','다리','들었더니','세졌어요.','힘이','발뒤꿈치를'], focus:['발뒤꿈치를 들다','힘이 세지다'], validation:{ requiredGroups:[['발뒤꿈치'],['들었'],['힘'],['세졌']] }, images:[{src:IMG.heelRaise,badge:'행동 그림',title:'발뒤꿈치를 드는 동작',caption:'반복해서 해 본 동작을 먼저 말합니다.'},{src:IMG.strong,badge:'결과 그림',title:'힘이 세진 상태',caption:'다리 힘이 좋아진 결과를 연결해 보세요.'}] },
+              grammar2:{ label:'문법 2 · 얼마나 -(으)ㄴ/는지 모르다', prompt:'요즘 다리 힘이 얼마나 세졌는지 감탄하며 말해 보세요.', promptVi:'Hãy cảm thán và nói rằng lực ở chân dạo này đã mạnh lên đến mức nào.', frame:'[대상]이/가 얼마나 [상태]졌는지 몰라요.', hint:'세졌는지처럼 변화된 상태를 넣으면 자연스럽습니다.', hintVi:'Dùng trạng thái đã thay đổi như 세졌는지 sẽ tự nhiên hơn.', target:'요즘 다리 힘이 얼마나 세졌는지 몰라요.', tokens:['세졌는지','얼마나','몰라요.','요즘','다리','힘이'], focus:['다리 힘이 세지다'], validation:{ requiredGroups:[['힘'],['세졌']] }, images:[{src:IMG.heelRaise,badge:'상황 그림',title:'발뒤꿈치를 드는 연습',caption:'어떤 연습을 했는지 장면을 보며 정도 표현으로 이어 갑니다.'},{src:IMG.strong,badge:'느낌 그림',title:'힘이 세진 결과',caption:'요즘 얼마나 세졌는지 강조하는 문장을 만들어 보세요.'}] } }
+        ];
+
+        const state = { cycleIndex:0, stepIndex:0, speakingIndex:0, results:createInitialResults(), logs:[], transcript:'', isRecording:false, recognition:null };
+        const refs = {
+            cycleTitle: document.getElementById('cycleTitle'),
+            cycleNote: document.getElementById('cycleNote'),
+            overallProgress: document.getElementById('overallProgress'),
+            overallProgressText: document.getElementById('overallProgressText'),
+            stepTabs: document.getElementById('stepTabs'),
+            workspace: document.getElementById('workspace')
+        };
+        const hasRecognition = Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
+
+        function createInitialResults() {
+            return CYCLES.map(() => ({
+                grammar1:{draft:'',status:'pending',exact:false,accepted:false,grammarOk:false,usedModel:false,checked:false},
+                grammar2:{draft:'',status:'pending',exact:false,accepted:false,grammarOk:false,usedModel:false,checked:false},
+                speaking:[
+                    {attempts:0,bestScore:null,lastScore:null,accuracy:0,completeness:0,spoken:'',completed:false,listened:false,slowListened:false},
+                    {attempts:0,bestScore:null,lastScore:null,accuracy:0,completeness:0,spoken:'',completed:false,listened:false,slowListened:false}
+                ]
+            }));
+        }
+
+        init();
+
+        function init() {
+            renderApp();
+            if (window.speechSynthesis) {
+                window.speechSynthesis.getVoices();
+                window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+            }
+        }
+
+        function renderVi(text, extraClass='') {
+            return text ? `<p class="vi-guide ${extraClass}">${escapeHtml(text)}</p>` : '';
+        }
+
+        function renderButtonLabel(ko, vi, viClass='text-indigo-600') {
+            return `<span><span class="block">${escapeHtml(ko)}</span><span class="mt-0.5 block text-[11px] font-bold ${viClass}">${escapeHtml(vi)}</span></span>`;
+        }
+
+        function renderActionGuide(guide) {
+            const toneMap = {
+                blue: {
+                    wrap:'border-blue-200 bg-gradient-to-r from-blue-50 via-white to-sky-50',
+                    icon:'bg-blue-600 text-white',
+                    eyebrow:'text-blue-700'
+                },
+                orange: {
+                    wrap:'border-orange-200 bg-gradient-to-r from-orange-50 via-white to-amber-50',
+                    icon:'bg-orange-500 text-white',
+                    eyebrow:'text-orange-700'
+                },
+                emerald: {
+                    wrap:'border-emerald-200 bg-gradient-to-r from-emerald-50 via-white to-green-50',
+                    icon:'bg-emerald-500 text-white',
+                    eyebrow:'text-emerald-700'
+                }
+            };
+            const tone = toneMap[guide.tone] || toneMap.blue;
+            return `
+                <div class="guide-banner rounded-[22px] border px-4 py-3 ${tone.wrap}">
+                    <div class="flex items-start gap-3">
+                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${tone.icon}">
+                            <i class="fa-solid ${escapeHtml(guide.icon || 'fa-hand-pointer')}"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-[11px] font-black uppercase tracking-[0.18em] ${tone.eyebrow}">Next Action</p>
+                            <p class="mt-1 text-sm font-black leading-6 text-slate-900">${escapeHtml(guide.ko)}</p>
+                            ${renderVi(guide.vi)}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleGuideClass(id, primary=false, secondary=false) {
+            const element = document.getElementById(id);
+            if (!element) return;
+            element.classList.toggle('guide-focus', primary);
+            element.classList.toggle('guide-soft', secondary);
+        }
+
+        function grammarGuideState(stepKey) {
+            const result = state.results[state.cycleIndex][stepKey];
+            if (result.checked) {
+                return {
+                    tone:'emerald',
+                    icon:'fa-circle-arrow-right',
+                    primary:'next',
+                    ko: stepKey === 'grammar1' ? '문장 확인을 마쳤으니 문법 2로 넘어가세요.' : '문장 확인을 마쳤으니 말하기 연습으로 넘어가세요.',
+                    vi: stepKey === 'grammar1' ? 'Em đã kiểm tra câu xong, hãy chuyển sang ngữ pháp 2.' : 'Em đã kiểm tra câu xong, hãy chuyển sang luyện nói.'
+                };
+            }
+            if (!result.draft.trim()) {
+                return {
+                    tone:'blue',
+                    icon:'fa-pen',
+                    primary:'compose',
+                    ko:'지금은 추천 어휘를 누르거나 아래 입력칸에 직접 문장을 쓰세요.',
+                    vi:'Bây giờ hãy nhấn từ gợi ý hoặc tự viết câu vào ô bên dưới.'
+                };
+            }
+            return {
+                tone:'orange',
+                icon:'fa-spell-check',
+                primary:'check',
+                ko:'문장을 만들었으면 이제 문장 확인을 눌러 보세요.',
+                vi:'Khi đã tạo xong câu, bây giờ hãy nhấn Kiểm tra câu.'
+            };
+        }
+
+        function speakingGuideState(speechState) {
+            if (state.isRecording) {
+                return {
+                    tone:'orange',
+                    icon:'fa-microphone',
+                    primary:'mic',
+                    ko:'지금은 문장을 끝까지 또렷하게 말하세요.',
+                    vi:'Bây giờ hãy nói rõ hết cả câu.'
+                };
+            }
+            if (speechState.attempts > 0) {
+                return {
+                    tone:'emerald',
+                    icon:'fa-circle-arrow-right',
+                    primary:'next',
+                    ko: state.speakingIndex === 0
+                        ? '첫 문장을 마쳤으니 다음 문장으로 넘어가세요.'
+                        : (state.cycleIndex === CYCLES.length - 1 ? '두 문장을 마쳤으니 종합 피드백으로 이동하세요.' : '두 문장을 마쳤으니 다음 사이클로 이동하세요.'),
+                    vi: state.speakingIndex === 0
+                        ? 'Em đã xong câu thứ nhất, hãy chuyển sang câu tiếp theo.'
+                        : (state.cycleIndex === CYCLES.length - 1 ? 'Em đã xong hai câu, hãy chuyển sang phản hồi tổng hợp.' : 'Em đã xong hai câu, hãy chuyển sang chu kỳ tiếp theo.')
+                };
+            }
+            if (!speechState.listened) {
+                return {
+                    tone:'blue',
+                    icon:'fa-volume-high',
+                    primary:'listen',
+                    ko:'먼저 모범 듣기를 눌러 문장을 들어 보세요.',
+                    vi:'Trước tiên hãy nhấn Nghe mẫu để nghe câu.'
+                };
+            }
+            if (!hasRecognition) {
+                return {
+                    tone:'orange',
+                    icon:'fa-circle-arrow-right',
+                    primary:'next',
+                    ko:'음성 인식이 없으니 이제 다음 버튼으로 이동하세요.',
+                    vi:'Vì không có nhận diện giọng nói, bây giờ hãy dùng nút tiếp theo để chuyển bước.'
+                };
+            }
+            return {
+                tone:'orange',
+                icon:'fa-microphone',
+                primary:'mic',
+                ko:'이제 말하기 시작을 눌러 직접 말해 보세요.',
+                vi:'Bây giờ hãy nhấn Bắt đầu nói và tự nói.'
+            };
+        }
+
+        function applyGrammarGuideUI(stepKey) {
+            const guide = grammarGuideState(stepKey);
+            const slot = document.getElementById('actionGuideSlot');
+            if (slot) slot.innerHTML = renderActionGuide(guide);
+            toggleGuideClass('tokenGuideBox', guide.primary === 'compose', false);
+            toggleGuideClass('builderInput', false, guide.primary === 'compose');
+            toggleGuideClass('checkDraftBtn', guide.primary === 'check', false);
+            toggleGuideClass('nextStageBtn', guide.primary === 'next', false);
+        }
+
+        function applySpeakingGuideUI(speechState) {
+            const guide = speakingGuideState(speechState);
+            const slot = document.getElementById('actionGuideSlot');
+            if (slot) slot.innerHTML = renderActionGuide(guide);
+            toggleGuideClass('listenBtn', guide.primary === 'listen', guide.primary === 'mic');
+            toggleGuideClass('slowBtn', false, guide.primary === 'listen');
+            toggleGuideClass('micBtn', guide.primary === 'mic', false);
+            toggleGuideClass('nextSpeechBtn', guide.primary === 'next', false);
+        }
+
+        function currentCycle() { return CYCLES[state.cycleIndex]; }
+        function currentStepKey() { return ['grammar1', 'grammar2', 'speaking'][state.stepIndex]; }
+
+        function completedStageCount() {
+            let count = 0;
+            state.results.forEach((cycle) => {
+                if (cycle.grammar1.checked) count += 1;
+                if (cycle.grammar2.checked) count += 1;
+                if (cycle.speaking.every((item) => item.completed || item.attempts > 0)) count += 1;
+            });
+            return count;
+        }
+
+        function renderApp() {
+            if (state.cycleIndex >= CYCLES.length) {
+                renderSummary();
+                return;
+            }
+            renderTopStatus();
+            if (currentStepKey() === 'speaking') renderSpeakingStep();
+            else renderGrammarStep(currentStepKey());
+        }
+
+        function renderTopStatus() {
+            const total = CYCLES.length * 3;
+            const done = completedStageCount();
+            const pct = Math.round(done / total * 100);
+            refs.cycleTitle.textContent = currentCycle().title;
+            refs.cycleNote.textContent = currentCycle().note;
+            refs.overallProgress.style.width = `${pct}%`;
+            refs.overallProgressText.textContent = `전체 ${total}단계 중 ${done}단계 완료 · 진행률 ${pct}%`;
+
+            const cycleResult = state.results[state.cycleIndex];
+            const stepMeta = [
+                { key:'grammar1', text:'1단계 · 문법 1', done:cycleResult.grammar1.checked },
+                { key:'grammar2', text:'2단계 · 문법 2', done:cycleResult.grammar2.checked },
+                { key:'speaking', text:'3단계 · 말하기', done:cycleResult.speaking.every((item) => item.completed || item.attempts > 0) }
+            ];
+            refs.stepTabs.innerHTML = stepMeta.map((item, idx) => {
+                const classes = idx === state.stepIndex
+                    ? 'tab-btn step-pill rounded-2xl border border-blue-500 bg-blue-600 px-4 py-3 text-sm font-black text-white ring-2 ring-blue-200'
+                    : item.done
+                    ? 'tab-btn rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700'
+                    : 'tab-btn rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-500';
+                const badge = idx === state.stepIndex
+                    ? '<span class="rounded-full bg-white/20 px-2 py-1 text-[11px] font-black text-white">지금 할 활동</span>'
+                    : item.done
+                    ? '<span class="rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-black text-emerald-700">완료</span>'
+                    : '<span class="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-black text-slate-500">대기</span>';
+                return `<div class="${classes}"><div class="flex items-center justify-between gap-2"><span>${item.text}</span>${badge}</div></div>`;
+            }).join('');
+        }
+
+        function renderGrammarStep(stepKey) {
+            const step = currentCycle()[stepKey];
+            const result = state.results[state.cycleIndex][stepKey];
+            const accentClass = stepKey === 'grammar1'
+                ? 'border-blue-200 bg-gradient-to-r from-blue-50 via-white to-sky-50'
+                : 'border-orange-200 bg-gradient-to-r from-orange-50 via-white to-amber-50';
+            const accentBadgeClass = stepKey === 'grammar1'
+                ? 'bg-blue-600 text-white'
+                : 'bg-orange-500 text-white';
+            refs.workspace.innerHTML = `
+                <div class="rounded-[24px] border p-4 sm:p-5 ${accentClass}">
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                            <p class="text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">Now Doing</p>
+                            <h2 class="mt-1 text-xl font-black leading-8 text-slate-900 sm:text-2xl">${escapeHtml(step.prompt)}</h2>
+                            ${renderVi(step.promptVi)}
+                            <p class="mt-2 text-sm leading-6 text-slate-600">${escapeHtml(step.hint)}</p>
+                            ${renderVi(step.hintVi, 'vi-guide-soft')}
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-black ${accentBadgeClass}">
+                                <i class="fa-solid ${stepKey==='grammar1'?'fa-pen-to-square':'fa-bolt'}"></i>${escapeHtml(step.label)}
+                            </span>
+                            <span class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-black text-slate-700">
+                                <i class="fa-solid fa-arrow-down-wide-short text-orange-500"></i>
+                                <span>
+                                    <span class="block">그림 먼저 보고 아래에서 쓰기</span>
+                                    <span class="mt-0.5 block text-[11px] font-bold text-indigo-600">${escapeHtml(VI_TEXT.writingFlow)}</span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4" id="actionGuideSlot">${renderActionGuide(grammarGuideState(stepKey))}</div>
+
+                <div class="mt-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        ${step.images.map(renderImageCard).join('')}
+                    </div>
+                    <div class="mt-4 rounded-[24px] border border-slate-200 bg-white/90 p-4 sm:p-5">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <div>
+                                <p class="text-[11px] font-black uppercase tracking-[0.18em] text-slate-500">Writing Card</p>
+                                <h3 class="mt-1 text-lg font-black text-slate-900 sm:text-xl">아래에 문장을 완성해 보세요.</h3>
+                                ${renderVi(VI_TEXT.writingTitle)}
+                            </div>
+                            <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 text-xs font-black text-slate-600">
+                                <i class="fa-solid fa-pen"></i>
+                                <span>
+                                    <span class="block">그림을 보고 쓰기</span>
+                                    <span class="mt-0.5 block text-[11px] font-bold text-indigo-600">${escapeHtml(VI_TEXT.writingChip)}</span>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="mt-3 grid gap-2 sm:grid-cols-2">
+                            <div class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3">
+                                <span class="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-black text-slate-700">문장 틀</span>
+                                <p class="min-w-0 text-sm leading-6 text-slate-600">${escapeHtml(step.frame)}</p>
+                            </div>
+                            <div class="flex items-start gap-3 rounded-2xl border border-orange-200 bg-orange-50 px-3 py-3">
+                                <span class="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-black text-orange-700">핵심 표현</span>
+                                <p class="min-w-0 text-sm leading-6 text-orange-700">${step.focus.map(escapeHtml).join(' · ')}</p>
+                            </div>
+                        </div>
+                        <div id="tokenGuideBox" class="token-guide mt-3 rounded-[22px] border border-blue-200 bg-gradient-to-r from-blue-50 via-sky-50 to-white p-3">
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-[11px] font-black uppercase tracking-[0.18em] text-blue-700">Quick Build</p>
+                                    <p class="mt-1 text-sm font-bold leading-6 text-slate-700">추천 어휘를 누르면 아래 입력칸에 바로 들어가요. 클릭만으로 문장을 만들어도 괜찮아요.</p>
+                                    ${renderVi(VI_TEXT.quickBuildDesc)}
+                                </div>
+                                <span class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-xs font-black text-blue-700">
+                                    <i class="fa-solid fa-hand-pointer"></i>
+                                    <span>
+                                        <span class="block">클릭해서 쓰기</span>
+                                        <span class="mt-0.5 block text-[11px] font-bold text-indigo-600">${escapeHtml(VI_TEXT.quickBuildChip)}</span>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                ${step.tokens.map((token) => `<button type="button" class="token-btn rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-black text-blue-700 shadow-sm" data-token="${escapeAttr(token)}">${escapeHtml(token)}</button>`).join('')}
+                            </div>
+                        </div>
+                        <textarea id="builderInput" class="mt-3 min-h-[120px] w-full rounded-3xl border border-slate-300 px-4 py-4 text-base leading-8 text-slate-900" placeholder="${escapeAttr(`그림을 보고 문장을 만들어 보세요. / ${VI_TEXT.textareaPlaceholder}`)}">${escapeHtml(result.draft)}</textarea>
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <button type="button" class="nav-btn rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-black text-slate-600" id="clearDraftBtn">${renderButtonLabel('지우기', 'Xóa', 'text-slate-500')}</button>
+                            <button type="button" class="nav-btn rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-black text-slate-600" id="undoDraftBtn">${renderButtonLabel('한 칸 지우기', 'Xóa 1 từ', 'text-slate-500')}</button>
+                            <button type="button" class="nav-btn rounded-2xl border border-orange-500 bg-orange-500 px-4 py-3 text-sm font-black text-white" id="loadTargetBtn">${renderButtonLabel('모범 문장 넣기', 'Chèn câu mẫu', 'text-orange-100')}</button>
+                            <button type="button" class="nav-btn rounded-2xl border border-blue-600 bg-blue-600 px-4 py-3 text-sm font-black text-white" id="checkDraftBtn">${renderButtonLabel('문장 확인', 'Kiểm tra câu', 'text-blue-100')}</button>
+                        </div>
+                        <div id="grammarFeedbackBox">${result.checked ? grammarFeedback(stepKey) : ''}</div>
+                        <button type="button" class="nav-btn mt-4 w-full rounded-2xl border border-blue-700 bg-blue-700 px-4 py-3 text-sm font-black text-white ${result.checked ? '' : 'opacity-40'}" id="nextStageBtn" ${result.checked ? '' : 'disabled'}>
+                            ${stepKey === 'grammar1'
+                                ? renderButtonLabel('문법 2로 넘어가기', 'Sang ngữ pháp 2', 'text-blue-100')
+                                : renderButtonLabel('말하기 연습으로 넘어가기', 'Sang luyện nói', 'text-blue-100')}
+                        </button>
+                    </div>
+                </div>
+            `;
+            bindGrammarStep(stepKey);
+        }
+
+        function renderImageCard(image) {
+            if (image.placeholder) {
+                return `
+                    <article class="overflow-hidden rounded-[24px] border border-slate-200 bg-white/90 shadow-sm">
+                        <span class="ml-4 mt-4 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700"><i class="fa-solid fa-screwdriver-wrench"></i>${escapeHtml(image.badge)}</span>
+                        <div class="flex min-h-[240px] flex-col items-center justify-center gap-4 bg-gradient-to-b from-slate-50 to-indigo-50 p-6 text-center">
+                            <div class="flex h-16 w-16 items-center justify-center rounded-3xl bg-blue-100 text-2xl text-blue-700 shadow"><i class="fa-solid fa-dumbbell"></i></div>
+                            <div>
+                                <strong class="block text-lg font-black text-slate-900">${escapeHtml(image.title)}</strong>
+                                <p class="mt-2 text-sm leading-7 text-slate-600">${escapeHtml(image.caption)}</p>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }
+            return `
+                <article class="overflow-hidden rounded-[22px] border border-slate-200 bg-white/90 shadow-sm">
+                    <span class="ml-3 mt-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] font-black text-slate-700 sm:ml-4 sm:mt-4 sm:text-xs"><i class="fa-solid fa-image"></i>${escapeHtml(image.badge)}</span>
+                    <div class="px-2 pb-2 pt-2 sm:px-3 sm:pb-3">
+                        <div class="aspect-[4/3] overflow-hidden rounded-[18px] bg-slate-50">
+                            <img src="${escapeAttr(image.src)}" alt="${escapeAttr(image.title)}" class="block h-full w-full bg-white object-contain" loading="lazy" decoding="async" />
+                        </div>
+                    </div>
+                    <div class="px-3 pb-4 sm:px-4">
+                        <strong class="block text-sm font-black leading-6 text-slate-900 sm:text-base">${escapeHtml(image.title)}</strong>
+                        <p class="mt-1 text-xs leading-5 text-slate-600 sm:mt-2 sm:text-sm sm:leading-6">${escapeHtml(image.caption)}</p>
+                    </div>
+                </article>
+            `;
+        }
+
+        function bindGrammarStep(stepKey) {
+            const result = state.results[state.cycleIndex][stepKey];
+            const step = currentCycle()[stepKey];
+            const input = document.getElementById('builderInput');
+            const markDraftDirty = () => {
+                result.checked = false;
+                result.exact = false;
+                result.accepted = false;
+                result.grammarOk = false;
+                result.usedModel = false;
+                result.status = 'pending';
+                const feedbackBox = document.getElementById('grammarFeedbackBox');
+                if (feedbackBox) feedbackBox.innerHTML = '';
+                const nextStageBtn = document.getElementById('nextStageBtn');
+                if (nextStageBtn) {
+                    nextStageBtn.disabled = true;
+                    nextStageBtn.classList.add('opacity-40');
+                }
+                applyGrammarGuideUI(stepKey);
+            };
+            input.addEventListener('input', (event) => {
+                result.draft = event.target.value;
+                markDraftDirty();
+            });
+            document.querySelectorAll('[data-token]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    result.draft = appendToken(result.draft, button.dataset.token);
+                    markDraftDirty();
+                    input.value = result.draft;
+                    input.focus();
+                });
+            });
+            document.getElementById('clearDraftBtn').addEventListener('click', () => { result.draft=''; markDraftDirty(); renderGrammarStep(stepKey); });
+            document.getElementById('undoDraftBtn').addEventListener('click', () => { result.draft = removeLastToken(result.draft); markDraftDirty(); input.value = result.draft; input.focus(); });
+            document.getElementById('loadTargetBtn').addEventListener('click', () => {
+                result.draft = step.target; result.checked = true; result.exact = false; result.accepted = false; result.grammarOk = true; result.usedModel = true; result.status = 'model'; renderGrammarStep(stepKey);
+            });
+            document.getElementById('checkDraftBtn').addEventListener('click', () => {
+                const evalResult = evaluateGrammar(stepKey, result.draft, step);
+                result.checked = true; result.exact = evalResult.exact; result.accepted = evalResult.accepted; result.grammarOk = evalResult.grammarOk; result.usedModel = false; result.status = evalResult.status;
+                renderGrammarStep(stepKey);
+            });
+            document.getElementById('nextStageBtn').addEventListener('click', nextStage);
+            applyGrammarGuideUI(stepKey);
+        }
+
+        function grammarFeedback(stepKey) {
+            const step = currentCycle()[stepKey];
+            const result = state.results[state.cycleIndex][stepKey];
+            const map = {
+                exact: { cls:'border-emerald-200 bg-emerald-50', title:'좋아요! 목표 문장을 정확하게 만들었어요.', body:'문법 형태와 어휘 연결이 모두 자연스럽습니다. 이 문장을 그대로 말하기 단계에서 연습합니다.', viTitle:VI_TEXT.feedback.exact.title, viBody:VI_TEXT.feedback.exact.body },
+                accepted: { cls:'border-emerald-200 bg-emerald-50', title:'좋아요! 그림과 문법에 맞는 정답이에요.', body:'부사나 세부 표현이 조금 달라도 그림과 문법이 맞으면 정답으로 인정합니다. 말하기 단계는 아래 목표 문장으로 통일해서 연습합니다.', viTitle:VI_TEXT.feedback.accepted.title, viBody:VI_TEXT.feedback.accepted.body },
+                guided: { cls:'border-amber-200 bg-amber-50', title:'문법 틀은 잘 잡았어요.', body:'의미는 비슷하지만 이번 활동에서는 아래 목표 문장으로 통일해서 말하기 연습을 진행합니다.', viTitle:VI_TEXT.feedback.guided.title, viBody:VI_TEXT.feedback.guided.body },
+                model: { cls:'border-orange-200 bg-orange-50', title:'모범 문장을 불러왔어요.', body:'이 문장을 기준으로 다음 단계 말하기 연습을 진행합니다. 나중에 이미지를 교체해도 그대로 활용할 수 있는 목표 문장입니다.', viTitle:VI_TEXT.feedback.model.title, viBody:VI_TEXT.feedback.model.body },
+                support: { cls:'border-orange-200 bg-orange-50', title:'핵심 표현을 한 번 더 확인해 볼까요?', body:'문장 의미는 맞는 방향이지만, 이번 활동에서는 목표 문장을 기준으로 다음 단계를 이어 갑니다.', viTitle:VI_TEXT.feedback.support.title, viBody:VI_TEXT.feedback.support.body },
+                error: { cls:'border-rose-200 bg-rose-50', title:'문장 틀을 다시 확인해 보세요.', body:'이번 단계의 목표 문장을 먼저 확인한 뒤, 같은 문장으로 말하기 연습을 해 보면 더 안정적으로 연결됩니다.', viTitle:VI_TEXT.feedback.error.title, viBody:VI_TEXT.feedback.error.body }
+            };
+            const feedback = map[result.status] || map.error;
+            return `
+                <div class="mt-4 rounded-3xl border p-4 ${feedback.cls}">
+                    <strong class="block text-base font-black text-slate-900">${escapeHtml(feedback.title)}</strong>
+                    ${renderVi(feedback.viTitle)}
+                    <p class="mt-2 text-sm leading-7 text-slate-700">${escapeHtml(feedback.body)}</p>
+                    ${renderVi(feedback.viBody, 'vi-guide-soft')}
+                    <div class="mt-3 rounded-2xl border border-dashed border-slate-300 bg-white/80 px-4 py-3 text-base font-black leading-8 text-slate-900">
+                        <span class="block">이번 활동의 목표 문장: ${escapeHtml(step.target)}</span>
+                        <span class="mt-1 block text-sm font-bold leading-6 text-indigo-600">${escapeHtml(VI_TEXT.targetSentence)}: ${escapeHtml(step.target)}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function evaluateGrammar(stepKey, draft, step) {
+            const text = draft.trim();
+            if (!text) return { status:'error', exact:false, accepted:false, grammarOk:false };
+            const normalized = normalizeSentence(text);
+            const exact = normalized === normalizeSentence(step.target);
+            const grammarOk = stepKey === 'grammar1'
+                ? /(았더니|었더니|했더니)/.test(text)
+                : /얼마나/.test(text) && /지\s*몰라요|지\s*몰라/.test(text);
+            const requiredGroups = step.validation?.requiredGroups || [];
+            const groupHitCount = countMatchedGroups(normalized, requiredGroups);
+            const accepted = grammarOk && requiredGroups.length > 0 && groupHitCount === requiredGroups.length;
+
+            if (exact) return { status:'exact', exact:true, accepted:true, grammarOk:true };
+            if (accepted) return { status:'accepted', exact:false, accepted:true, grammarOk:true };
+            if (grammarOk && groupHitCount >= Math.max(1, requiredGroups.length - 1)) return { status:'guided', exact:false, accepted:false, grammarOk:true };
+            if (grammarOk) return { status:'support', exact:false, accepted:false, grammarOk:true };
+            return { status:'error', exact:false, accepted:false, grammarOk:false };
+        }
+
+        function nextStage() {
+            if (state.isRecording) finishRecording();
+            if (state.stepIndex < 2) {
+                state.stepIndex += 1;
+                if (state.stepIndex === 2) state.speakingIndex = 0;
+            } else {
+                state.cycleIndex += 1;
+                state.stepIndex = 0;
+                state.speakingIndex = 0;
+            }
+            renderApp();
+        }
+
+        function renderSpeakingStep() {
+            const cycle = currentCycle();
+            const speechItems = [
+                { label:'문법 1 문장', fullLabel:cycle.grammar1.label, sentence:cycle.grammar1.target, focus:cycle.grammar1.focus },
+                { label:'문법 2 문장', fullLabel:cycle.grammar2.label, sentence:cycle.grammar2.target, focus:cycle.grammar2.focus }
+            ];
+            const cycleResult = state.results[state.cycleIndex];
+            const speechState = cycleResult.speaking[state.speakingIndex];
+            const currentItem = speechItems[state.speakingIndex];
+            const allowNext = !hasRecognition || speechState.attempts > 0;
+
+            refs.workspace.innerHTML = `
+                <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[0.14em] text-orange-700">Speaking Practice</p>
+                        <h2 class="mt-2 text-2xl font-black text-slate-900">앞에서 만든 두 문장을 말해 보세요.</h2>
+                        ${renderVi(VI_TEXT.speakingTitle)}
+                        <p class="mt-2 text-sm leading-7 text-slate-600">모범 발음을 듣고, 천천히 듣고, 직접 말한 뒤 즉시 피드백을 확인할 수 있습니다.</p>
+                        ${renderVi(VI_TEXT.speakingDesc, 'vi-guide-soft')}
+                    </div>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-black text-blue-700"><i class="fa-solid fa-microphone"></i>사이클 말하기</span>
+                </div>
+
+                <div class="mt-4" id="actionGuideSlot">${renderActionGuide(speakingGuideState(speechState))}</div>
+
+                <div class="mt-5 grid gap-4 lg:grid-cols-[300px_1fr]">
+                    <div class="grid gap-3">
+                        ${speechItems.map((item, idx) => {
+                            const itemState = cycleResult.speaking[idx];
+                            const active = idx === state.speakingIndex;
+                            const done = itemState.attempts > 0;
+                            return `
+                                <button type="button" class="tab-btn rounded-3xl border px-4 py-4 text-left ${active ? 'border-blue-300 bg-blue-50' : done ? 'border-emerald-300 bg-emerald-50' : 'border-slate-200 bg-white'}" data-speech-index="${idx}">
+                                    <small class="text-xs font-black uppercase tracking-[0.12em] ${active ? 'text-blue-700' : done ? 'text-emerald-700' : 'text-slate-500'}">${escapeHtml(item.label)}</small>
+                                    <strong class="mt-2 block text-base leading-7 text-slate-900">${escapeHtml(item.sentence)}</strong>
+                                    <div class="mt-3 flex items-center justify-between text-xs font-bold text-slate-500">
+                                        <span>시도 ${itemState.attempts}회</span>
+                                        <span>${itemState.bestScore === null ? '점수 없음' : `최고 ${itemState.bestScore}점`}</span>
+                                    </div>
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    <div class="rounded-[24px] border border-slate-200 bg-white/90 p-4">
+                        <div class="rounded-3xl border border-blue-200 bg-gradient-to-b from-white to-blue-50 p-5">
+                            <p class="text-sm font-bold text-slate-500">${escapeHtml(currentItem.fullLabel)}</p>
+                            <h3 class="mt-3 text-2xl font-black leading-10 text-slate-900">${escapeHtml(currentItem.sentence)}</h3>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                ${currentItem.focus.map((word) => `<span class="rounded-full border border-blue-200 bg-white px-3 py-2 text-sm font-black text-blue-700"><i class="fa-solid fa-tag mr-1 text-[11px]"></i>${escapeHtml(word)}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        ${speechWarning()}
+
+                        <div class="mt-4 grid gap-2 sm:grid-cols-4">
+                            <button type="button" class="nav-btn rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-black text-slate-700" id="listenBtn"><i class="fa-solid fa-volume-high mr-1"></i>${renderButtonLabel('모범 듣기', 'Nghe mẫu', 'text-slate-500')}</button>
+                            <button type="button" class="nav-btn rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-black text-slate-700" id="slowBtn"><i class="fa-solid fa-gauge-low mr-1"></i>${renderButtonLabel('천천히', 'Nghe chậm', 'text-slate-500')}</button>
+                            <button type="button" class="nav-btn rounded-2xl border border-orange-500 bg-orange-500 px-4 py-3 text-sm font-black text-white ${state.isRecording ? 'is-recording' : ''}" id="micBtn" ${hasRecognition ? '' : 'disabled'}>
+                                <i class="fa-solid ${state.isRecording ? 'fa-stop' : 'fa-microphone'} mr-1"></i>${state.isRecording ? renderButtonLabel('말하기 종료', 'Dừng nói', 'text-orange-100') : renderButtonLabel('말하기 시작', 'Bắt đầu nói', 'text-orange-100')}
+                            </button>
+                            <button type="button" class="nav-btn rounded-2xl border border-blue-700 bg-blue-700 px-4 py-3 text-sm font-black text-white ${allowNext ? '' : 'opacity-40'}" id="nextSpeechBtn" ${allowNext ? '' : 'disabled'}>
+                                ${state.speakingIndex === 0
+                                    ? renderButtonLabel('다음 문장', 'Câu tiếp theo', 'text-blue-100')
+                                    : (state.cycleIndex === CYCLES.length - 1
+                                        ? renderButtonLabel('종합 피드백 보기', 'Xem phản hồi tổng hợp', 'text-blue-100')
+                                        : renderButtonLabel('다음 사이클', 'Chu kỳ tiếp theo', 'text-blue-100'))}
+                            </button>
+                        </div>
+
+                        <div class="mt-4 rounded-2xl border ${state.isRecording ? 'border-rose-200 bg-rose-50' : 'border-slate-200 bg-slate-50'} px-4 py-3">
+                            <div class="text-sm font-semibold leading-7 text-slate-600">${speechStatus(speechState)}</div>
+                            <div class="mt-2 text-base font-bold text-slate-900">${escapeHtml(state.transcript || (state.isRecording ? '인식 중...' : ''))}</div>
+                        </div>
+
+                        ${speechState.lastScore === null ? '' : speechResultBox(speechState)}
+                    </div>
+                </div>
+            `;
+            bindSpeakingStep();
+            applySpeakingGuideUI(speechState);
+        }
+
+        function speechWarning() {
+            if (!hasRecognition) {
+                return `<div class="mt-4 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm leading-7 text-orange-800"><div><i class="fa-solid fa-triangle-exclamation mr-2"></i>이 브라우저에서는 음성 인식을 사용할 수 없습니다. 모범 발음을 들은 뒤 오른쪽 버튼으로 수동 진행할 수 있습니다.</div>${renderVi(VI_TEXT.speechNoRecognition)}</div>`;
+            }
+            if (!isSecureContextOrLocalhost()) {
+                return `<div class="mt-4 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-3 text-sm leading-7 text-orange-800"><div><i class="fa-solid fa-lock mr-2"></i>마이크 사용은 보통 HTTPS 또는 localhost 환경에서 가장 안정적으로 동작합니다.</div>${renderVi(VI_TEXT.speechSecure)}</div>`;
+            }
+            return '';
+        }
+
+        function speechStatus(speechState) {
+            if (state.isRecording) return `<p>지금 문장을 또렷하게 말해 보세요. 끝까지 말하면 자동으로 분석합니다.</p>${renderVi(VI_TEXT.statusRecording)}`;
+            if (speechState.attempts === 0) return `<p>모범 발음을 한 번 듣고, 마이크 버튼을 눌러 문장을 말해 보세요.</p>${renderVi(VI_TEXT.statusReady)}`;
+            return `<p>최근 시도 ${speechState.lastScore}점 · 최고 ${speechState.bestScore}점입니다. 더 연습하고 싶으면 다시 말해 보세요.</p>${renderVi(VI_TEXT.statusRetry(speechState.lastScore, speechState.bestScore))}`;
+        }
+
+        function speechResultBox(speechState) {
+            return `
+                <div class="mt-4 rounded-3xl border border-slate-200 bg-white p-4">
+                    <strong class="block text-base font-black text-slate-900">즉시 피드백</strong>
+                    <div class="mt-4 grid gap-3 sm:grid-cols-2">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4"><span class="block text-xs font-bold text-slate-500">정확도</span><strong class="mt-2 block text-3xl font-black text-emerald-600">${speechState.accuracy}%</strong></div>
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4"><span class="block text-xs font-bold text-slate-500">완성도</span><strong class="mt-2 block text-3xl font-black text-blue-600">${speechState.completeness}%</strong></div>
+                    </div>
+                    <div class="mt-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base font-bold leading-8 text-slate-900">인식한 문장: ${speechState.spoken ? escapeHtml(speechState.spoken) : '-'}</div>
+                    <div class="mt-4 flex flex-wrap gap-2">${buildSyllableBlocks(normalizeSentence(currentSpeakingSentence()), normalizeSentence(speechState.spoken || ''))}</div>
+                </div>
+            `;
+        }
+
+        function bindSpeakingStep() {
+            const speechState = state.results[state.cycleIndex].speaking[state.speakingIndex];
+            document.querySelectorAll('[data-speech-index]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (state.isRecording) finishRecording();
+                    state.speakingIndex = Number(button.dataset.speechIndex);
+                    state.transcript = '';
+                    renderSpeakingStep();
+                });
+            });
+            document.getElementById('listenBtn').addEventListener('click', () => {
+                speechState.listened = true;
+                speakText(currentSpeakingSentence(), 0.9);
+                renderSpeakingStep();
+            });
+            document.getElementById('slowBtn').addEventListener('click', () => {
+                speechState.listened = true;
+                speechState.slowListened = true;
+                speakText(currentSpeakingSentence(), 0.68);
+                renderSpeakingStep();
+            });
+            const micBtn = document.getElementById('micBtn');
+            if (micBtn) micBtn.addEventListener('click', toggleRecording);
+            document.getElementById('nextSpeechBtn').addEventListener('click', () => {
+                if (state.isRecording) finishRecording();
+                if (state.speakingIndex === 0) {
+                    state.speakingIndex = 1;
+                    state.transcript = '';
+                    renderSpeakingStep();
+                    return;
+                }
+                state.results[state.cycleIndex].speaking.forEach((item) => { if (!item.completed) item.completed = item.attempts > 0 || !hasRecognition; });
+                nextStage();
+            });
+        }
+
+        function currentSpeakingSentence() {
+            const cycle = currentCycle();
+            return state.speakingIndex === 0 ? cycle.grammar1.target : cycle.grammar2.target;
+        }
+
+        function toggleRecording() {
+            if (!hasRecognition) return;
+            if (state.isRecording) {
+                finishRecording();
+                renderSpeakingStep();
+            } else {
+                startRecording();
+            }
+        }
+
+        function startRecording() {
+            const RecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!RecognitionClass) return;
+            const targetSentence = currentSpeakingSentence();
+            let finalReceived = false;
+            let restartCount = 0;
+            const maxRestarts = 5;
+            state.transcript = '';
+            state.isRecording = true;
+            renderSpeakingStep();
+
+            const begin = () => {
+                state.recognition = new RecognitionClass();
+                state.recognition.lang = 'ko-KR';
+                state.recognition.interimResults = true;
+                state.recognition.maxAlternatives = 3;
+                state.recognition.onresult = (event) => {
+                    let interim = '', spokenFinal = '';
+                    for (let i = event.resultIndex; i < event.results.length; i += 1) {
+                        if (event.results[i].isFinal) {
+                            const targetNorm = normalizeSentence(targetSentence);
+                            let bestAlt = event.results[i][0].transcript;
+                            let bestScore = jamoAnalyze(normalizeSentence(bestAlt), targetNorm).score;
+                            for (let a = 1; a < event.results[i].length; a += 1) {
+                                const altText = event.results[i][a].transcript;
+                                const altScore = jamoAnalyze(normalizeSentence(altText), targetNorm).score;
+                                if (altScore > bestScore) { bestAlt = altText; bestScore = altScore; }
+                            }
+                            spokenFinal += `${bestAlt} `;
+                        } else interim += event.results[i][0].transcript;
+                    }
+                    state.transcript = (spokenFinal || interim).trim();
+                    if (spokenFinal.trim()) {
+                        finalReceived = true;
+                        finishRecording();
+                        analyzeSpeech(spokenFinal.trim());
+                    }
+                };
+                state.recognition.onerror = (event) => {
+                    if (event.error === 'no-speech' && state.isRecording && restartCount < maxRestarts) {
+                        restartCount += 1;
+                        setTimeout(() => { if (state.isRecording) begin(); }, 220);
+                        return;
+                    }
+                    finishRecording();
+                    state.transcript = event.error === 'not-allowed' ? '마이크 권한이 필요합니다.' : '음성이 감지되지 않았습니다. 다시 시도해 보세요.';
+                    renderSpeakingStep();
+                };
+                state.recognition.onend = () => {
+                    if (!state.isRecording) return;
+                    if (!finalReceived && restartCount < maxRestarts) {
+                        restartCount += 1;
+                        setTimeout(() => { if (state.isRecording) begin(); }, 220);
+                    } else {
+                        finishRecording();
+                        renderSpeakingStep();
+                    }
+                };
+                try { state.recognition.start(); } catch (error) { finishRecording(); renderSpeakingStep(); }
+            };
+            begin();
+        }
+
+        function finishRecording() {
+            state.isRecording = false;
+            if (state.recognition) { try { state.recognition.stop(); } catch (error) {} }
+        }
+
+        function analyzeSpeech(spoken) {
+            const target = normalizeSentence(currentSpeakingSentence());
+            const spokenNorm = normalizeSentence(spoken);
+            const { accuracy, completeness, score } = jamoAnalyze(spokenNorm, target);
+            const speechState = state.results[state.cycleIndex].speaking[state.speakingIndex];
+            speechState.attempts += 1;
+            speechState.lastScore = score;
+            speechState.accuracy = accuracy;
+            speechState.completeness = completeness;
+            speechState.spoken = spoken;
+            speechState.completed = true;
+            if (speechState.bestScore === null || score > speechState.bestScore) speechState.bestScore = score;
+            state.logs.push({ cycleTitle:currentCycle().title, shortLabel:state.speakingIndex===0?'문법 1 문장':'문법 2 문장', sentence:currentSpeakingSentence(), spoken, accuracy, completeness, score });
+            state.transcript = '';
+            renderSpeakingStep();
+        }
+
+        function renderSummary() {
+            const grammarFlat = [];
+            const bestScores = [];
+            state.results.forEach((cycle) => {
+                grammarFlat.push(cycle.grammar1, cycle.grammar2);
+                cycle.speaking.forEach((item) => { if (item.bestScore !== null) bestScores.push(item.bestScore); });
+            });
+            const acceptedCount = grammarFlat.filter((item) => item.accepted || item.exact).length;
+            const exactCount = grammarFlat.filter((item) => item.exact).length;
+            const grammarOkCount = grammarFlat.filter((item) => item.grammarOk).length;
+            const modelCount = grammarFlat.filter((item) => item.usedModel).length;
+            const totalAttempts = state.logs.length;
+            const avgBest = bestScores.length ? Math.round(bestScores.reduce((a, b) => a + b, 0) / bestScores.length) : 0;
+            const strongLogs = [...state.logs].sort((a,b) => b.score - a.score).slice(0, 2);
+            const weakLogs = [...state.logs].sort((a,b) => a.score - b.score).slice(0, 3);
+
+            refs.cycleTitle.textContent = '종합 피드백';
+            refs.cycleNote.textContent = '5사이클을 모두 마쳤습니다. 문법 사용과 말하기 결과를 함께 확인해 보세요.';
+            refs.overallProgress.style.width = '100%';
+            refs.overallProgressText.textContent = `전체 ${CYCLES.length * 3}단계를 모두 완료했습니다.`;
+            refs.stepTabs.innerHTML = '<div class="rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700">문법 1 완료</div><div class="rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700">문법 2 완료</div><div class="rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-black text-emerald-700">말하기 완료</div>';
+
+            refs.workspace.innerHTML = `
+                <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[0.14em] text-orange-700">Final Feedback</p>
+                        <h2 class="mt-2 text-2xl font-black text-slate-900">문법과 말하기 결과를 한 번에 정리했습니다.</h2>
+                        <p class="mt-2 text-sm leading-7 text-slate-600">그림과 문법에 맞아 정답으로 인정된 문장 수, 목표 문장 정확 일치 수, 말하기 최고 점수를 함께 확인할 수 있습니다.</p>
+                    </div>
+                    <button type="button" class="nav-btn rounded-2xl border border-blue-700 bg-blue-700 px-4 py-3 text-sm font-black text-white" id="restartBtn"><i class="fa-solid fa-rotate-right mr-1"></i>처음부터 다시</button>
+                </div>
+
+                <div class="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    <div class="rounded-3xl border border-slate-200 bg-white p-4"><span class="block text-xs font-bold text-slate-500">정답 인정</span><strong class="mt-2 block text-3xl font-black text-emerald-600">${acceptedCount}/10</strong></div>
+                    <div class="rounded-3xl border border-slate-200 bg-white p-4"><span class="block text-xs font-bold text-slate-500">목표 문장 정확 일치</span><strong class="mt-2 block text-3xl font-black text-blue-600">${exactCount}/10</strong></div>
+                    <div class="rounded-3xl border border-slate-200 bg-white p-4"><span class="block text-xs font-bold text-slate-500">말하기 총 시도</span><strong class="mt-2 block text-3xl font-black text-orange-600">${totalAttempts}</strong></div>
+                    <div class="rounded-3xl border border-slate-200 bg-white p-4"><span class="block text-xs font-bold text-slate-500">말하기 평균 최고 점수</span><strong class="mt-2 block text-3xl font-black text-violet-600">${avgBest}점</strong></div>
+                </div>
+
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <div class="rounded-3xl border border-slate-200 bg-white p-4">
+                        <strong class="block text-base font-black text-slate-900">종합 코멘트</strong>
+                        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700">
+                            <li>${grammarComment(acceptedCount, exactCount, grammarOkCount, modelCount)}</li>
+                            <li>${speakingComment(avgBest)}</li>
+                            <li>${modelCount > 0 ? `모범 문장을 ${modelCount}번 불러와 다음 단계로 연결했습니다.` : '모든 단계에서 직접 문장을 검토하며 활동을 진행했습니다.'}</li>
+                        </ul>
+                    </div>
+                    <div class="rounded-3xl border border-slate-200 bg-white p-4">
+                        <strong class="block text-base font-black text-slate-900">다시 연습하면 좋은 문장</strong>
+                        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700">
+                            ${weakLogs.length ? weakLogs.map((item) => `<li>${escapeHtml(item.shortLabel)} · ${escapeHtml(item.sentence)} (${item.score}점)</li>`).join('') : '<li>말하기 기록이 아직 없습니다.</li>'}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    <div class="rounded-3xl border border-slate-200 bg-white p-4">
+                        <strong class="block text-base font-black text-slate-900">가장 안정적으로 말한 문장</strong>
+                        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700">
+                            ${strongLogs.length ? strongLogs.map((item) => `<li>${escapeHtml(item.shortLabel)} · ${escapeHtml(item.sentence)} (${item.score}점)</li>`).join('') : '<li>말하기 기록이 아직 없습니다.</li>'}
+                        </ul>
+                    </div>
+                    <div class="rounded-3xl border border-slate-200 bg-white p-4">
+                        <strong class="block text-base font-black text-slate-900">권장 복습 순서</strong>
+                        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-slate-700">
+                            <li>문법 1은 행동 뒤 결과가 나오는 흐름을 다시 확인하세요.</li>
+                            <li>문법 2는 얼마나, -지 몰라요를 꼭 함께 넣어 강조를 분명히 하세요.</li>
+                            <li>말하기는 최고 점수가 80점 미만인 문장부터 천천히 다시 들어 보세요.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid gap-4 lg:grid-cols-2">
+                    ${CYCLES.map((cycle, idx) => cycleSummary(cycle, state.results[idx])).join('')}
+                </div>
+            `;
+            document.getElementById('restartBtn').addEventListener('click', restartActivity);
+        }
+
+        function grammarComment(acceptedCount, exactCount, grammarOkCount, modelCount) {
+            if (acceptedCount >= 9) return '그림과 문법에 맞는 답을 매우 안정적으로 만들었습니다. 세부 표현이 달라도 핵심 의미를 잘 잡고 있습니다.';
+            if (exactCount >= 8) return '목표 문장까지 매우 안정적으로 맞췄습니다. 문장 구성 감각이 잘 잡혀 있습니다.';
+            if (grammarOkCount >= 8) return '핵심 문법 틀은 대체로 잘 사용했습니다. 이제는 어휘 선택과 순서를 조금 더 다듬으면 더 좋아집니다.';
+            if (modelCount >= 3) return '모범 문장을 여러 번 참고하며 흐름을 익혔습니다. 다음에는 같은 틀로 직접 다시 써 보면 더 좋습니다.';
+            return '문법 형태는 조금 더 반복이 필요합니다. 특히 문법 1은 결과 연결, 문법 2는 강조 표현을 다시 확인해 보세요.';
+        }
+
+        function speakingComment(avgBest) {
+            if (avgBest >= 85) return '말하기 수행이 안정적입니다. 주요 목표 문장을 또렷하게 발화했습니다.';
+            if (avgBest >= 70) return '핵심 표현은 전달되었고, 몇 문장만 더 또렷하게 연습하면 안정감이 높아집니다.';
+            return '먼저 천천히 듣기 버튼으로 문장 리듬을 익힌 뒤 다시 시도하는 것이 좋습니다.';
+        }
+
+        function cycleSummary(cycle, result) {
+            return `
+                <div class="rounded-3xl border border-slate-200 bg-white p-4">
+                    <h3 class="text-lg font-black text-slate-900">${escapeHtml(cycle.title)}</h3>
+                    <div class="mt-3 space-y-3">
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3"><strong class="block text-sm font-black text-slate-800">문법 1</strong><p class="mt-1 text-sm leading-7 text-slate-700">${escapeHtml(cycle.grammar1.target)}</p><small class="mt-1 block text-xs font-bold text-slate-500">작성 상태: ${grammarStateText(result.grammar1)}</small></div>
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3"><strong class="block text-sm font-black text-slate-800">문법 2</strong><p class="mt-1 text-sm leading-7 text-slate-700">${escapeHtml(cycle.grammar2.target)}</p><small class="mt-1 block text-xs font-bold text-slate-500">작성 상태: ${grammarStateText(result.grammar2)}</small></div>
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3"><strong class="block text-sm font-black text-slate-800">말하기</strong><p class="mt-1 text-sm leading-7 text-slate-700">문법 1 문장 최고 ${result.speaking[0].bestScore === null ? '기록 없음' : `${result.speaking[0].bestScore}점`} · 문법 2 문장 최고 ${result.speaking[1].bestScore === null ? '기록 없음' : `${result.speaking[1].bestScore}점`}</p><small class="mt-1 block text-xs font-bold text-slate-500">시도 횟수: ${result.speaking[0].attempts + result.speaking[1].attempts}회</small></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function grammarStateText(item) {
+            if (item.exact) return '목표 문장 정확 일치';
+            if (item.accepted) return '정답 인정';
+            if (item.usedModel) return '모범 문장 사용';
+            if (item.grammarOk) return '문법 틀 사용 성공';
+            return '검토 필요';
+        }
+
+        function restartActivity() {
+            if (state.isRecording) finishRecording();
+            state.cycleIndex = 0;
+            state.stepIndex = 0;
+            state.speakingIndex = 0;
+            state.results = createInitialResults();
+            state.logs = [];
+            state.transcript = '';
+            state.isRecording = false;
+            renderApp();
+        }
+
+        function appendToken(current, token) { return current.trim() ? `${current.trim()} ${token}` : token; }
+        function removeLastToken(current) { return current.trim().split(/\s+/).slice(0, -1).join(' '); }
+        function normalizeSentence(value) { return value.replace(/[\s.,!?。]/g, ''); }
+        function countMatchedGroups(text, groups) {
+            return groups.filter((group) => group.some((keyword) => text.includes(keyword))).length;
+        }
+        function isSecureContextOrLocalhost() { return window.isSecureContext || location.hostname === 'localhost' || location.hostname === '127.0.0.1'; }
+        function pickKoreanVoice() { return window.speechSynthesis.getVoices().find((voice) => voice.lang && voice.lang.toLowerCase().startsWith('ko')); }
+        function speakText(text, rate) { if (!window.speechSynthesis) return; window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = 'ko-KR'; u.rate = rate; const v = pickKoreanVoice(); if (v) u.voice = v; window.speechSynthesis.speak(u); }
+
+        function lcs(a, b) {
+            const dp = Array.from({ length:a.length + 1 }, () => new Array(b.length + 1).fill(0));
+            for (let i = 1; i <= a.length; i += 1) for (let j = 1; j <= b.length; j += 1) dp[i][j] = a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
+            return dp[a.length][b.length];
+        }
+
+        function decomposeHangul(str) {
+            const cho = 'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+            const jung = 'ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ';
+            const jong = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+            let out = '';
+            for (const ch of str) {
+                const code = ch.charCodeAt(0);
+                if (code >= 0xAC00 && code <= 0xD7A3) {
+                    const off = code - 0xAC00, j = off % 28, g = ((off - j) / 28) % 21, c = Math.floor((off - j) / 28 / 21);
+                    out += cho[c] + jung[g] + (j ? jong[j] : '');
+                } else out += ch;
+            }
+            return out;
+        }
+
+        function jamoAnalyze(spoken, target) {
+            const jt = decomposeHangul(target), js = decomposeHangul(spoken);
+            if (!jt.length) return { accuracy:0, completeness:0, score:0 };
+            const common = lcs(jt, js);
+            const accuracy = Math.round(common / jt.length * 100);
+            const completeness = Math.round(common / Math.max(jt.length, js.length || 1) * 100);
+            return { accuracy, completeness, score:Math.round(accuracy * .65 + completeness * .35) };
+        }
+
+        function syllableSimilarity(a, b) { if (!b) return 0; if (a === b) return 1; const da = decomposeHangul(a), db = decomposeHangul(b); return da.length ? lcs(da, db) / da.length : 0; }
+
+        function buildSyllableBlocks(target, spoken) {
+            const t = [...target], s = [...spoken];
+            const base = t.map((tc, i) => {
+                const sc = s[i] || ''; const sim = syllableSimilarity(tc, sc);
+                let cls = 'syllable-empty', icon = '🔇', sub = '';
+                if (!sc) { cls = 'syllable-empty'; icon = '🔇'; }
+                else if (sim >= .99) { cls = 'syllable-exact'; icon = '✅'; }
+                else if (sim >= .55) { cls = 'syllable-close'; icon = '⚠️'; sub = `<span class="rounded-full bg-amber-50 px-1 text-[8px] text-amber-800">${escapeHtml(sc)}</span>`; }
+                else { cls = 'syllable-miss'; icon = '❌'; sub = `<span class="rounded-full bg-rose-50 px-1 text-[8px] text-rose-800">${escapeHtml(sc)}</span>`; }
+                return `<div class="syllable-cell ${cls}"><span class="text-[10px]">${icon}</span><span class="text-[15px] leading-none">${escapeHtml(tc)}</span>${sub}</div>`;
+            });
+            return base.concat(s.slice(t.length).map((sc) => `<div class="syllable-cell syllable-extra"><span class="text-[10px]">➕</span><span class="text-[15px] leading-none">${escapeHtml(sc)}</span></div>`)).join('');
+        }
+
+        function escapeHtml(value) { return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+        function escapeAttr(value) { return escapeHtml(value); }
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
