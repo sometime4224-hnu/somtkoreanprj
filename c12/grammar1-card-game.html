@@ -19,13 +19,14 @@
         body { margin:0; font-family:'Noto Sans KR',sans-serif; background:linear-gradient(180deg,#fff7ed 0%,#fffbf5 100%); color:#1f2937; }
         .screen { display:none; }
         .screen.active { display:block; }
-        .slot { border:2px dashed #fdba74; border-radius:24px; background:#fff; min-height:182px; padding:12px; transition:all .15s ease; }
+        .slot { border:2px dashed #fdba74; border-radius:22px; background:#fff; min-height:126px; padding:10px; transition:all .15s ease; }
         .slot.hover { border-color:#f97316; box-shadow:0 0 0 3px rgba(249,115,22,.12); }
         .slot.filled { border-style:solid; }
+        .slot.next { border-color:#f97316; background:#fff7ed; box-shadow:0 0 0 3px rgba(249,115,22,.1); }
         .slot.correct { border-color:#16a34a; box-shadow:0 0 0 3px rgba(22,163,74,.12); }
         .slot.wrong { border-color:#ef4444; box-shadow:0 0 0 3px rgba(239,68,68,.12); }
-        .choice-card { border:3px solid transparent; border-radius:24px; overflow:hidden; background:#fff; box-shadow:0 10px 24px rgba(15,23,42,.08); cursor:grab; transition:all .15s ease; position:relative; }
-        .choice-card.selected { border-color:#f97316; box-shadow:0 0 0 3px rgba(249,115,22,.12); }
+        .choice-card { border:3px solid transparent; border-radius:24px; overflow:hidden; background:#fff; box-shadow:0 10px 24px rgba(15,23,42,.08); cursor:pointer; transition:all .15s ease; position:relative; }
+        .choice-card:active { transform:scale(.98); }
         .choice-card.used { opacity:.42; cursor:default; }
         .choice-card.answer { border-color:#16a34a; }
         .card-media { aspect-ratio:1/1; background:#fff7ed; display:flex; align-items:center; justify-content:center; }
@@ -36,6 +37,28 @@
         .pill.reason { background:linear-gradient(135deg,#60a5fa,#2563eb); }
         .pill.discovery { background:linear-gradient(135deg,#fb923c,#ea580c); }
         .safe { word-break:keep-all; overflow-wrap:break-word; }
+        .game-sheet {
+            position:fixed;
+            left:50%;
+            bottom:max(10px, env(safe-area-inset-bottom));
+            transform:translateX(-50%);
+            width:min(1080px, calc(100vw - 16px));
+            z-index:45;
+        }
+        .slot-grid-basic, .slot-grid-compare { display:grid; gap:10px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+        .slot-grid-compare .slot-shared { grid-column:1 / -1; }
+        .slot-tip {
+            margin-top:8px;
+            font-size:11px;
+            font-weight:800;
+            line-height:1.45;
+            color:#94a3b8;
+            text-align:center;
+        }
+        @media (min-width: 768px) {
+            .slot { min-height:140px; padding:12px; }
+            .game-sheet { width:min(960px, calc(100vw - 40px)); }
+        }
     </style>
 </head>
 <body>
@@ -58,7 +81,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="overflow-hidden rounded-[32px] border border-orange-200 bg-white shadow-[0_20px_50px_rgba(194,65,12,0.08)]">
                 <div class="bg-gradient-to-br from-orange-50 via-amber-50 to-sky-50 px-6 py-7">
                     <span class="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-black text-orange-800">문법 카드 게임</span>
-                    <h1 class="mt-4 text-3xl font-black leading-tight text-slate-900 safe">상단 문장을 보고, 아래 그림 카드를 드래그앤드롭으로 넣어<br>`-았/었더니` 구조를 완성해 보세요.</h1>
+                    <h1 class="mt-4 text-3xl font-black leading-tight text-slate-900 safe">상단 문장을 보고, 아래 그림 카드를 순서대로 터치해<br>`-았/었더니` 구조를 완성해 보세요.</h1>
                     <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-600 safe">1단계는 `카드 -았/었더니 카드` 완성, 2단계는 같은 행동을 기준으로 `-아/어서`와 `-았/었더니`의 차이를 비교하는 활동입니다.</p>
                 </div>
                 <div class="grid gap-4 p-6 md:grid-cols-2">
@@ -73,8 +96,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <p class="text-xs font-black uppercase tracking-[0.14em] text-orange-700">How To Play</p>
                         <div class="mt-4 space-y-3 text-sm leading-7 text-slate-700">
                             <p>1. 문장을 읽고 들어갈 그림 카드를 떠올립니다.</p>
-                            <p>2. 카드를 드래그해서 슬롯에 놓습니다. 모바일에서는 카드를 탭한 뒤 슬롯을 눌러도 됩니다.</p>
-                            <p>3. 모든 슬롯을 채우면 정답 확인이 열립니다.</p>
+                            <p>2. 카드를 순서대로 터치하면 하단 슬롯이 왼쪽부터 자동으로 채워집니다.</p>
+                            <p>3. 실수했으면 슬롯을 눌러 그 칸부터 다시 고르고, 모두 채우면 정답을 확인합니다.</p>
                         </div>
                     </section>
                 </div>
@@ -97,7 +120,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </section>
 
-        <section id="screen-game" class="screen">
+        <section id="screen-game" class="screen pb-[430px] md:pb-[360px]">
             <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <div class="flex flex-wrap items-center gap-2">
@@ -110,22 +133,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <div class="rounded-full bg-white px-4 py-2 text-sm font-black text-orange-700 shadow">정답 <span id="scoreText">0</span> / <span id="totalText">10</span></div>
             </div>
 
-            <div class="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+            <div class="grid gap-4 lg:grid-cols-[1.02fr_0.98fr]">
                 <section id="promptBox" class="rounded-[28px] border border-orange-200 bg-white p-6 shadow-sm"></section>
                 <section class="rounded-[28px] border border-orange-200 bg-white p-5 shadow-sm">
                     <p class="text-xs font-black uppercase tracking-[0.14em] text-orange-700">Choice Cards</p>
-                    <p class="mt-2 text-sm leading-6 text-slate-600 safe">카드를 드래그하거나 탭한 뒤 슬롯을 눌러 배치하세요. 놓인 슬롯을 다시 누르면 카드가 빠집니다.</p>
+                    <p class="mt-2 text-sm leading-6 text-slate-600 safe">카드를 터치하면 하단 슬롯이 순서대로 채워집니다. 다시 고르고 싶으면 슬롯을 눌러 주세요.</p>
+                    <div id="tapGuideText" class="mt-3 inline-flex self-start rounded-full bg-orange-50 px-3 py-2 text-xs font-black text-orange-700">첫 칸부터 순서대로 선택하세요.</div>
                     <div id="choicesGrid" class="mt-4 grid grid-cols-2 gap-3"></div>
                 </section>
             </div>
 
-            <section class="mt-4 rounded-[28px] border border-orange-200 bg-white p-5 shadow-sm">
-                <p class="mb-3 text-sm leading-6 text-slate-600 safe">문장에 맞게 슬롯을 모두 채운 뒤 정답을 확인하세요.</p>
+            <section class="game-sheet">
+                <div class="rounded-[28px] border border-orange-200 bg-white/95 p-4 shadow-[0_18px_50px_rgba(194,65,12,0.16)] backdrop-blur">
+                    <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                        <div>
+                            <p class="text-xs font-black uppercase tracking-[0.14em] text-orange-700">Touch Builder</p>
+                            <p class="mt-1 text-sm leading-6 text-slate-600 safe">카드를 터치하면 슬롯이 순서대로 채워집니다. 채운 슬롯을 누르면 그 칸부터 다시 고를 수 있습니다.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="undoBtn" class="rounded-2xl bg-slate-100 px-4 py-3 text-sm font-black text-slate-700 ring-1 ring-slate-200 disabled:cursor-not-allowed disabled:opacity-40">한 칸 지우기</button>
+                            <button id="resetBtn" class="rounded-2xl bg-orange-50 px-4 py-3 text-sm font-black text-orange-800 ring-1 ring-orange-200 disabled:cursor-not-allowed disabled:opacity-40">처음부터</button>
+                        </div>
+                    </div>
+                <p class="mb-3 text-sm leading-6 text-slate-600 safe">하단 슬롯은 항상 보입니다. 왼쪽부터 차례대로 채운 뒤 정답을 확인하세요.</p>
                 <div id="board"></div>
                 <div id="feedbackBox" class="mt-4 hidden rounded-[22px] border p-4"></div>
                 <div class="mt-4 flex gap-3">
                     <button id="checkBtn" class="flex-1 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-3 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-40">정답 확인</button>
                     <button id="nextBtn" class="hidden flex-1 rounded-2xl bg-orange-50 px-5 py-3 text-sm font-black text-orange-800 ring-1 ring-orange-200">다음 문제</button>
+                </div>
                 </div>
             </section>
         </section>
@@ -176,7 +212,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             {stage:2,type:'compare',headline:'같은 실천이 두 문장에서 다른 역할을 해요.',reasonSentence:'계단을 이용해서 매일 걸었어요.',discoverySentence:'계단을 이용했더니 살이 조금 빠졌어요.',hint:'`-아/어서`는 습관이 이어지고, `-았/었더니`는 몸의 변화를 보여 줍니다.',explain:'뒤에 또 다른 행동이 이어지면 `-아/어서`, 직접 해 보고 난 뒤 변화가 오면 `-았/었더니`가 더 자연스럽습니다.',slots:[{key:'shared',label:'공통 행동',placeholder:'두 문장에 공통으로 들어갈 행동',icon:'🧩',answer:'v09'},{key:'reason',label:'이어서 한 행동',placeholder:'-아/어서 뒤 행동',icon:'➡️',answer:'v11'},{key:'discovery',label:'발견한 결과',placeholder:'-았/었더니 뒤 결과',icon:'💡',answer:'n01b'}],choices:['v09','v11','n01b','v03','n11','n20']},
             {stage:2,type:'compare',headline:'운동 동작도 두 표현으로 다르게 이어질 수 있어요.',reasonSentence:'목을 돌려서 팔을 뻗었어요.',discoverySentence:'목을 돌렸더니 몸이 가벼워졌어요.',hint:'왼쪽은 연속 동작, 오른쪽은 동작 후 느낀 결과입니다.',explain:'연속 동작은 `-아/어서`, 직접 해 본 뒤 몸 상태의 변화는 `-았/었더니`가 더 적절합니다.',slots:[{key:'shared',label:'공통 행동',placeholder:'두 문장에 공통으로 들어갈 행동',icon:'🧩',answer:'n13'},{key:'reason',label:'이어서 한 행동',placeholder:'-아/어서 뒤 행동',icon:'➡️',answer:'n18'},{key:'discovery',label:'발견한 결과',placeholder:'-았/었더니 뒤 결과',icon:'💡',answer:'n04b'}],choices:['n13','n18','n04b','n19','n03a','v05']}
         ];
-        const state = { questions:[], current:0, score:0, logs:[], placements:{}, selected:null, checked:false, dragId:null };
+        const state = { questions:[], current:0, score:0, logs:[], placements:{}, checked:false };
         const $ = (id) => document.getElementById(id);
         const shuffle = (arr) => { const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
         const show = (name) => ['start','break','game','result'].forEach((s) => $('screen-'+s).classList.toggle('active', s===name));
@@ -184,21 +220,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const card = (id) => `<div class="mx-auto w-full max-w-[180px] overflow-hidden rounded-[18px] bg-white shadow-md"><div class="card-media"><img src="${IMG}${CARDS[id].img}" alt="${CARDS[id].label}" loading="lazy"></div><div class="card-label">${CARDS[id].label}</div></div>`;
         const summaryNote = (score,total) => score===total ? '표현 차이를 정확히 구별했어요' : score>=8 ? '비교 단계까지 잘 연결했어요' : score>=6 ? '2단계 연결을 조금 더 연습해 보세요' : '기본형과 비교형을 다시 묶어 보세요';
         function buildQuestions(){ return shuffle(STAGE1).map((x)=>({...x,choices:shuffle(x.choices)})).concat(shuffle(STAGE2).map((x)=>({...x,choices:shuffle(x.choices)}))); }
-        function prepare(){ const placements={}; q().slots.forEach((slot)=> placements[slot.key]=null); state.placements=placements; state.selected=null; state.checked=false; state.dragId=null; }
+        function prepare(){ const placements={}; q().slots.forEach((slot)=> placements[slot.key]=null); state.placements=placements; state.checked=false; }
         function stageProgress(stage){ return { total: state.questions.filter((x)=>x.stage===stage).length, current: state.questions.slice(0,state.current).filter((x)=>x.stage===stage).length + 1 }; }
-        function slotMarkup(slot){ const val=state.placements[slot.key]; const classes=['slot']; if(val) classes.push('filled'); if(state.checked && val===slot.answer) classes.push('correct'); if(state.checked && val!==slot.answer) classes.push('wrong'); return `<div class="${classes.join(' ')}" data-slot="${slot.key}"><p class="text-xs font-black text-orange-700">${slot.label}</p><div class="mt-2 min-h-[130px] flex items-center justify-center">${val ? card(val) : `<div class="grid justify-items-center gap-2 text-center"><div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-2xl">${slot.icon}</div><strong class="text-sm text-orange-900">${slot.placeholder}</strong><span class="text-xs text-slate-400">알맞은 그림 카드를 놓아 주세요.</span></div>`}</div></div>`; }
+        function slotKeys(){ return q().slots.map((slot)=>slot.key); }
+        function nextEmptySlotKey(){ const next=q().slots.find((slot)=>!state.placements[slot.key]); return next ? next.key : null; }
+        function lastFilledSlotKey(){ const keys=slotKeys(); for(let i=keys.length-1;i>=0;i-=1){ if(state.placements[keys[i]]) return keys[i]; } return null; }
+        function clearFromSlot(key){ if(state.checked) return; const keys=slotKeys(); const index=keys.indexOf(key); if(index===-1) return; let changed=false; for(let i=index;i<keys.length;i+=1){ if(state.placements[keys[i]]){ state.placements[keys[i]]=null; changed=true; } } if(changed) render(); }
+        function undoPlacement(){ if(state.checked) return; const key=lastFilledSlotKey(); if(!key) return; state.placements[key]=null; render(); }
+        function resetPlacements(){ if(state.checked) return; Object.keys(state.placements).forEach((key)=>{ state.placements[key]=null; }); render(); }
+        function placeNext(id){ if(state.checked) return; if(Object.values(state.placements).includes(id)) return; const key=nextEmptySlotKey(); if(!key) return; state.placements[key]=id; render(); }
+        function slotMarkup(slot,index){ const val=state.placements[slot.key]; const nextKey=nextEmptySlotKey(); const isNext=!state.checked && !val && nextKey===slot.key; const classes=['slot']; if(val) classes.push('filled'); if(isNext) classes.push('next'); if(state.checked && val===slot.answer) classes.push('correct'); if(state.checked && val!==slot.answer) classes.push('wrong'); const tip = val ? '이 칸을 누르면 여기부터 다시 고를 수 있어요.' : isNext ? '지금 이 칸에 들어갈 카드를 아래에서 고르세요.' : '앞쪽 칸을 먼저 채우면 이 칸이 열립니다.'; return `<div class="${classes.join(' ')}" data-slot="${slot.key}"><div class="flex items-center justify-between gap-2"><p class="text-xs font-black text-orange-700">${index+1}. ${slot.label}</p>${isNext ? '<span class="rounded-full bg-orange-100 px-2 py-1 text-[10px] font-black text-orange-700">다음</span>' : ''}</div><div class="mt-2 min-h-[118px] flex items-center justify-center">${val ? card(val) : `<div class="grid justify-items-center gap-2 text-center"><div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-2xl">${slot.icon}</div><strong class="text-sm text-orange-900">${slot.placeholder}</strong><span class="text-xs text-slate-400">아래 카드에서 순서대로 골라 주세요.</span></div>`}</div><p class="slot-tip">${tip}</p></div>`; }
         function renderPrompt(){ const item=q(); if(item.type==='basic'){ $('promptBox').innerHTML = `<p class="text-xs font-black uppercase tracking-[0.14em] text-orange-700">-았/었더니 카드 채우기</p><h2 class="mt-3 text-2xl font-black leading-10 text-slate-900 safe">${item.sentence}</h2><p class="mt-3 text-sm leading-7 text-slate-600 safe">${item.hint}</p>`; return; } $('promptBox').innerHTML = `<p class="text-xs font-black uppercase tracking-[0.14em] text-orange-700">-아/어서 vs -았/었더니</p><h2 class="mt-3 text-2xl font-black leading-10 text-slate-900 safe">${item.headline}</h2><p class="mt-3 text-sm leading-7 text-slate-600 safe">${item.hint}</p><div class="mt-4 space-y-3"><article class="rounded-[22px] border border-sky-200 bg-sky-50 p-4"><span class="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-sky-700">-아/어서</span><p class="mt-2 text-sm font-black leading-7 text-slate-900 safe">${item.reasonSentence}</p></article><article class="rounded-[22px] border border-orange-200 bg-orange-50 p-4"><span class="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-orange-700">-았/었더니</span><p class="mt-2 text-sm font-black leading-7 text-slate-900 safe">${item.discoverySentence}</p></article></div>`; }
-        function renderBoard(){ const item=q(); $('board').innerHTML = item.type==='basic' ? `<div class="grid gap-3 md:grid-cols-[1fr_auto_1fr]">${slotMarkup(item.slots[0])}<div class="pill discovery">-았/었더니</div>${slotMarkup(item.slots[1])}</div>` : `<div class="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">${slotMarkup(item.slots[0])}<div class="grid gap-3"><div class="grid gap-3 md:grid-cols-[auto_1fr]"><div class="pill reason">-아/어서</div>${slotMarkup(item.slots[1])}</div><div class="grid gap-3 md:grid-cols-[auto_1fr]"><div class="pill discovery">-았/었더니</div>${slotMarkup(item.slots[2])}</div></div></div>`; Array.from(document.querySelectorAll('[data-slot]')).forEach((el)=>{ const key=el.dataset.slot; el.addEventListener('dragover',(e)=>{ if(state.checked) return; e.preventDefault(); el.classList.add('hover'); }); el.addEventListener('dragleave',()=>el.classList.remove('hover')); el.addEventListener('drop',(e)=>{ if(state.checked) return; e.preventDefault(); el.classList.remove('hover'); const id=e.dataTransfer.getData('text/plain')||state.dragId; if(id) place(id,key); }); el.addEventListener('click',()=>{ if(state.checked) return; if(state.selected){ place(state.selected,key); return; } if(state.placements[key]) { state.placements[key]=null; render(); } }); }); }
-        function renderChoices(){ const used=new Set(Object.values(state.placements).filter(Boolean)); $('choicesGrid').innerHTML = q().choices.map((id)=>{ const classes=['choice-card']; if(state.selected===id) classes.push('selected'); if(used.has(id)) classes.push('used'); if(state.checked && q().slots.some((slot)=>slot.answer===id)) classes.push('answer'); return `<div class="${classes.join(' ')}" data-card="${id}" draggable="${!state.checked && !used.has(id)}">${card(id)}${used.has(id)?'<span class="tag-used">사용 중</span>':''}</div>`; }).join(''); Array.from(document.querySelectorAll('[data-card]')).forEach((el)=>{ const id=el.dataset.card; const disabled=used.has(id)||state.checked; el.addEventListener('click',()=>{ if(disabled) return; state.selected = state.selected===id ? null : id; render(); }); el.addEventListener('dragstart',(e)=>{ if(disabled){ e.preventDefault(); return; } state.dragId=id; e.dataTransfer.setData('text/plain',id); }); el.addEventListener('dragend',()=>{ state.dragId=null; }); }); }
+        function renderBoard(){ const item=q(); $('board').innerHTML = item.type==='basic' ? `<div class="slot-grid-basic"><div>${slotMarkup(item.slots[0],0)}</div><div><div class="mb-2 flex justify-center"><div class="pill discovery">-았/었더니</div></div>${slotMarkup(item.slots[1],1)}</div></div>` : `<div class="slot-grid-compare"><div class="slot-shared">${slotMarkup(item.slots[0],0)}</div><div><div class="mb-2 flex justify-center"><div class="pill reason">-아/어서</div></div>${slotMarkup(item.slots[1],1)}</div><div><div class="mb-2 flex justify-center"><div class="pill discovery">-았/었더니</div></div>${slotMarkup(item.slots[2],2)}</div></div>`; Array.from(document.querySelectorAll('[data-slot]')).forEach((el)=>{ const key=el.dataset.slot; el.addEventListener('click',()=>{ if(!state.placements[key] || state.checked) return; clearFromSlot(key); }); }); }
+        function renderChoices(){ const used=new Set(Object.values(state.placements).filter(Boolean)); const locked=!nextEmptySlotKey(); $('choicesGrid').innerHTML = q().choices.map((id)=>{ const classes=['choice-card']; if(used.has(id)) classes.push('used'); if(state.checked && q().slots.some((slot)=>slot.answer===id)) classes.push('answer'); return `<div class="${classes.join(' ')}" data-card="${id}">${card(id)}${used.has(id)?'<span class="tag-used">사용 중</span>':''}</div>`; }).join(''); Array.from(document.querySelectorAll('[data-card]')).forEach((el)=>{ const id=el.dataset.card; const disabled=used.has(id)||state.checked||locked; el.addEventListener('click',()=>{ if(disabled) return; placeNext(id); }); }); }
         function renderFeedback(){ if(!state.checked){ $('feedbackBox').className='mt-4 hidden rounded-[22px] border p-4'; $('feedbackBox').innerHTML=''; return; } const ok=q().slots.every((slot)=>state.placements[slot.key]===slot.answer); $('feedbackBox').className='mt-4 rounded-[22px] border p-4 ' + (ok ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'); $('feedbackBox').innerHTML = `<p class="text-sm font-black ${ok ? 'text-emerald-700' : 'text-rose-700'}">${ok ? '정답이에요.' : '구조를 다시 확인해 보세요.'}</p><p class="mt-2 text-sm leading-7 text-slate-700 safe">${q().explain}</p><div class="mt-3 flex flex-wrap gap-2">${q().slots.map((slot)=>`<span class="rounded-full bg-white px-3 py-2 text-xs font-black text-slate-700 ring-1 ring-slate-200">${slot.label}: ${CARDS[slot.answer].label}</span>`).join('')}</div>`; }
         function renderHeader(){ const p=stageProgress(q().stage); $('stageChip').textContent = q().stage===1 ? '1단계' : '2단계'; $('stageChip').className = q().stage===1 ? 'inline-flex rounded-full bg-orange-50 px-3 py-1 text-xs font-black text-orange-700' : 'inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-700'; $('metaText').textContent = `전체 ${state.current+1} / ${state.questions.length}`; $('stageText').textContent = `${q().stage}단계 ${p.current} / ${p.total}`; $('scoreText').textContent = state.score; $('totalText').textContent = state.questions.length; $('progressFill').style.width = `${(state.current / state.questions.length) * 100}%`; }
-        function render(){ renderHeader(); renderPrompt(); renderBoard(); renderChoices(); renderFeedback(); const filled=q().slots.every((slot)=>!!state.placements[slot.key]); $('checkBtn').disabled = !filled || state.checked; $('nextBtn').classList.toggle('hidden', !state.checked); }
-        function place(id,key){ Object.keys(state.placements).forEach((k)=>{ if(state.placements[k]===id) state.placements[k]=null; }); state.placements[key]=id; state.selected=null; render(); }
+        function render(){ renderHeader(); renderPrompt(); renderBoard(); renderChoices(); renderFeedback(); const filled=q().slots.every((slot)=>!!state.placements[slot.key]); const hasAny=Object.values(state.placements).some(Boolean); const nextKey=nextEmptySlotKey(); $('checkBtn').disabled = !filled || state.checked; $('nextBtn').classList.toggle('hidden', !state.checked); $('undoBtn').disabled = !hasAny || state.checked; $('resetBtn').disabled = !hasAny || state.checked; $('tapGuideText').textContent = state.checked ? '설명을 보고 다음 문제로 넘어가세요.' : nextKey ? `${q().slots.find((slot)=>slot.key===nextKey).label} 카드를 골라 주세요.` : '모든 칸을 채웠어요. 정답 확인을 눌러 보세요.'; }
         function check(){ const ok=q().slots.every((slot)=>state.placements[slot.key]===slot.answer); state.checked=true; if(ok) state.score += 1; state.logs.push({stage:q().stage,ok,lines:q().type==='basic'?[q().sentence]:[q().reasonSentence,q().discoverySentence],answers:q().slots.map((slot)=>({label:slot.label,correct:CARDS[slot.answer].label,selected:state.placements[slot.key]?CARDS[state.placements[slot.key]].label:'(없음)'}))}); render(); }
         function next(){ const prev=q().stage; state.current += 1; if(state.current >= state.questions.length){ showResult(); return; } prepare(); if(q().stage !== prev){ show('break'); return; } render(); }
         function showResult(){ show('result'); const total=state.questions.length, rate=Math.round((state.score/total)*100), s1=state.logs.filter((x)=>x.stage===1&&x.ok).length, s2=state.logs.filter((x)=>x.stage===2&&x.ok).length, wrong=state.logs.filter((x)=>!x.ok); $('resultScore').textContent=`${state.score} / ${total}`; $('resultRate').textContent=`정답률 ${rate}%`; $('stage1Result').textContent=`${s1} / ${STAGE1.length}`; $('stage2Result').textContent=`${s2} / ${STAGE2.length}`; $('summaryNote').textContent=summaryNote(state.score,total); $('reviewList').innerHTML = wrong.length ? wrong.map((log)=>`<article class="rounded-[22px] border border-rose-200 bg-rose-50 p-4"><span class="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-rose-700">${log.stage}단계 다시 보기</span>${log.lines.map((line)=>`<p class="mt-2 text-sm font-black leading-7 text-slate-900 safe">${line}</p>`).join('')}${log.answers.map((a)=>`<p class="mt-2 text-sm text-slate-700"><b>${a.label}</b> 내 답: ${a.selected} / 정답: ${a.correct}</p>`).join('')}</article>`).join('') : `<article class="rounded-[22px] border border-emerald-200 bg-emerald-50 p-4"><p class="text-sm font-black text-emerald-700 safe">모든 문제를 정확하게 완성했어요. 이제 직접 문장을 만들어 보며 두 표현을 더 자연스럽게 구분해 보세요.</p></article>`; }
         function start(){ state.questions=buildQuestions(); state.current=0; state.score=0; state.logs=[]; prepare(); show('game'); render(); }
-        $('startBtn').addEventListener('click', start); $('continueBtn').addEventListener('click',()=>{ show('game'); render(); }); $('checkBtn').addEventListener('click', check); $('nextBtn').addEventListener('click', next); $('restartBtn').addEventListener('click', start); $('homeBtn').addEventListener('click',()=>show('start'));
+        $('startBtn').addEventListener('click', start); $('continueBtn').addEventListener('click',()=>{ show('game'); render(); }); $('checkBtn').addEventListener('click', check); $('nextBtn').addEventListener('click', next); $('undoBtn').addEventListener('click', undoPlacement); $('resetBtn').addEventListener('click', resetPlacements); $('restartBtn').addEventListener('click', start); $('homeBtn').addEventListener('click',()=>show('start'));
     </script>
     <script src="../shared/pc-mode.js"></script>
     <script src="../shared/site-copyright.js"></script>
