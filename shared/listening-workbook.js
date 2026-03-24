@@ -83,6 +83,31 @@
             quickDockQuiz: "문제",
             quickDockAudioSource: "원음",
             quickDockTtsSource: "대화 TTS",
+            quickDockLocalAudioSource: "로컬 음원",
+            localAudioTitle: "교사용 로컬 음원",
+            localAudioConnect: "로컬 음원 폴더 연결",
+            localAudioReconnect: "권한 다시 연결",
+            localAudioChangeFolder: "폴더 다시 선택",
+            localAudioDisconnect: "연결 해제",
+            localAudioPlayback: "로컬 음원 재생",
+            localAudioUnsupported: "로컬 폴더 음원 재생은 데스크톱 Chrome/Edge의 HTTPS 페이지에서만 사용할 수 있습니다.",
+            localAudioChooseHint(fileName) {
+                return `교사용 PC에서 ${fileName} 형식의 MP3가 들어 있는 폴더를 선택하세요.`;
+            },
+            localAudioResolving(fileName) {
+                return `${fileName || "지정한 음원"} 파일을 확인하고 있습니다.`;
+            },
+            localAudioReady(folderName, fileName) {
+                return `연결된 폴더${folderName ? ` (${folderName})` : ""}에서 ${fileName} 파일을 사용합니다.`;
+            },
+            localAudioMissing(folderName, fileName) {
+                return `연결된 폴더${folderName ? ` (${folderName})` : ""}에 ${fileName} 파일이 없습니다. TTS를 대신 사용할 수 있습니다.`;
+            },
+            localAudioPermissionRequired: "폴더 읽기 권한이 필요합니다. 권한을 다시 연결하거나 폴더를 다시 선택하세요.",
+            localAudioTrackUnavailable: "이 페이지에서 트랙 번호를 찾지 못해 로컬 음원을 자동 매칭할 수 없습니다.",
+            localAudioConnectCancelled: "폴더 선택이 취소되었습니다.",
+            localAudioConnectFailed: "로컬 음원 폴더를 연결하지 못했습니다.",
+            localAudioPermissionDenied: "폴더 읽기 권한이 허용되지 않았습니다.",
             quickDockNavAria: "빠른 이동",
             quickDockSeekAria: "재생 위치 조절",
             quickDockLinePosition(current, total) {
@@ -229,6 +254,31 @@
             quickDockQuiz: "Câu hỏi",
             quickDockAudioSource: "File gốc",
             quickDockTtsSource: "Hội thoại TTS",
+            quickDockLocalAudioSource: "Local audio",
+            localAudioTitle: "Teacher local audio",
+            localAudioConnect: "Connect local audio folder",
+            localAudioReconnect: "Reconnect folder",
+            localAudioChangeFolder: "Choose another folder",
+            localAudioDisconnect: "Disconnect",
+            localAudioPlayback: "Play local audio",
+            localAudioUnsupported: "Local folder playback is available only on desktop Chrome/Edge over HTTPS.",
+            localAudioChooseHint(fileName) {
+                return `Choose the folder on the teacher PC that contains MP3 files such as ${fileName}.`;
+            },
+            localAudioResolving(fileName) {
+                return `Checking for ${fileName || "the expected audio file"}.`;
+            },
+            localAudioReady(folderName, fileName) {
+                return `Using ${fileName} from${folderName ? ` ${folderName}` : " the selected folder"}.`;
+            },
+            localAudioMissing(folderName, fileName) {
+                return `${fileName} was not found in${folderName ? ` ${folderName}` : " the selected folder"}. TTS remains available.`;
+            },
+            localAudioPermissionRequired: "Read permission for the selected folder is required again.",
+            localAudioTrackUnavailable: "This lesson does not expose a usable track number for automatic local matching.",
+            localAudioConnectCancelled: "Folder selection was cancelled.",
+            localAudioConnectFailed: "Could not connect the local audio folder.",
+            localAudioPermissionDenied: "Folder read permission was not granted.",
             quickDockNavAria: "Đi nhanh",
             quickDockSeekAria: "Điều chỉnh vị trí phát",
             quickDockLinePosition(current, total) {
@@ -376,6 +426,13 @@
         { id: 2, label: "전체 대본", labelVi: "Toàn bộ văn bản", unlock: 2 },
         { id: 3, label: "한국어 + 베트남어", labelVi: "Tiếng Hàn + Tiếng Việt", unlock: 3 }
     ];
+    const LOCAL_AUDIO_DB_NAME = `${STORAGE_PREFIX}.local-audio`;
+    const LOCAL_AUDIO_DB_VERSION = 1;
+    const LOCAL_AUDIO_STORE_NAME = "handles";
+    const LOCAL_AUDIO_HANDLE_KEY = "teacher-audio-folder";
+    const LOCAL_AUDIO_FILE_PREFIX = "Seoul Univ_3B_Trk_";
+    const LOCAL_AUDIO_FILE_SUFFIX = ".mp3";
+    const LOCAL_AUDIO_FILE_EXAMPLE = `${LOCAL_AUDIO_FILE_PREFIX}00${LOCAL_AUDIO_FILE_SUFFIX}`;
 
     const lessonMap = new Map();
     const lessonState = new Map();
@@ -409,6 +466,17 @@
     const sequenceDragState = {
         lessonId: null,
         itemId: null
+    };
+    const localAudioState = {
+        supported: Boolean(window.isSecureContext && "showDirectoryPicker" in window),
+        canPersist: "indexedDB" in window,
+        folderHandle: null,
+        folderName: "",
+        permissionState: "unsupported",
+        isResolving: false,
+        lessonSources: new Map(),
+        objectUrls: new Map(),
+        resolveToken: 0
     };
 
     function escapeHtml(value) {
@@ -460,6 +528,261 @@
             return false;
         }
         return true;
+    }
+
+    function openLocalAudioDb() {
+        if (!localAudioState.canPersist) return Promise.resolve(null);
+        return new Promise((resolve) => {
+            try {
+                const request = window.indexedDB.open(LOCAL_AUDIO_DB_NAME, LOCAL_AUDIO_DB_VERSION);
+                request.onerror = () => resolve(null);
+                request.onupgradeneeded = () => {
+                    const db = request.result;
+                    if (!db.objectStoreNames.contains(LOCAL_AUDIO_STORE_NAME)) {
+                        db.createObjectStore(LOCAL_AUDIO_STORE_NAME, { keyPath: "key" });
+                    }
+                };
+                request.onsuccess = () => resolve(request.result);
+            } catch (error) {
+                resolve(null);
+            }
+        });
+    }
+
+    async function withLocalAudioStore(mode, callback) {
+        const db = await openLocalAudioDb();
+        if (!db) return null;
+        return new Promise((resolve) => {
+            try {
+                const transaction = db.transaction(LOCAL_AUDIO_STORE_NAME, mode);
+                const store = transaction.objectStore(LOCAL_AUDIO_STORE_NAME);
+                const result = callback(store, resolve);
+                transaction.onerror = () => resolve(null);
+                transaction.oncomplete = () => {
+                    if (result !== undefined) resolve(result);
+                };
+            } catch (error) {
+                resolve(null);
+            }
+        }).finally(() => {
+            db.close();
+        });
+    }
+
+    function loadSavedLocalAudioFolder() {
+        return withLocalAudioStore("readonly", (store, resolve) => {
+            const request = store.get(LOCAL_AUDIO_HANDLE_KEY);
+            request.onerror = () => resolve(null);
+            request.onsuccess = () => resolve(request.result || null);
+        });
+    }
+
+    function saveLocalAudioFolder(handle) {
+        if (!localAudioState.canPersist || !handle) return Promise.resolve(false);
+        return withLocalAudioStore("readwrite", (store, resolve) => {
+            const request = store.put({
+                key: LOCAL_AUDIO_HANDLE_KEY,
+                handle,
+                folderName: handle.name || "",
+                savedAt: Date.now()
+            });
+            request.onerror = () => resolve(false);
+            request.onsuccess = () => resolve(true);
+        }).then((value) => Boolean(value));
+    }
+
+    function deleteSavedLocalAudioFolder() {
+        if (!localAudioState.canPersist) return Promise.resolve(false);
+        return withLocalAudioStore("readwrite", (store, resolve) => {
+            const request = store.delete(LOCAL_AUDIO_HANDLE_KEY);
+            request.onerror = () => resolve(false);
+            request.onsuccess = () => resolve(true);
+        }).then((value) => Boolean(value));
+    }
+
+    function revokeLocalAudioObjectUrl(lessonId) {
+        const previous = localAudioState.objectUrls.get(lessonId);
+        if (previous) {
+            URL.revokeObjectURL(previous);
+            localAudioState.objectUrls.delete(lessonId);
+        }
+    }
+
+    function clearAllLocalAudioObjectUrls() {
+        localAudioState.objectUrls.forEach((url) => {
+            URL.revokeObjectURL(url);
+        });
+        localAudioState.objectUrls.clear();
+    }
+
+    function clearResolvedLocalAudioSources() {
+        localAudioState.resolveToken += 1;
+        localAudioState.isResolving = false;
+        localAudioState.lessonSources.clear();
+        clearAllLocalAudioObjectUrls();
+    }
+
+    function getLessonTrackNumber(lesson) {
+        const explicit = Number(lesson && lesson.audioTrackNumber);
+        if (Number.isInteger(explicit) && explicit > 0) return explicit;
+
+        const fromId = String(lesson && lesson.id || "").match(/\d+/);
+        if (fromId) return Number(fromId[0]);
+
+        const fromLabel = String(lesson && lesson.label || "").match(/\d+/);
+        if (fromLabel) return Number(fromLabel[0]);
+
+        return null;
+    }
+
+    function getExpectedLocalAudioFileName(trackNumber) {
+        if (!Number.isInteger(trackNumber) || trackNumber <= 0) return null;
+        return `${LOCAL_AUDIO_FILE_PREFIX}${String(trackNumber).padStart(2, "0")}${LOCAL_AUDIO_FILE_SUFFIX}`;
+    }
+
+    async function getLocalAudioPermission(handle, requestAccess = false) {
+        if (!handle) return "denied";
+        const options = { mode: "read" };
+        try {
+            if (typeof handle.queryPermission === "function") {
+                const current = await handle.queryPermission(options);
+                if (current === "granted" || !requestAccess || typeof handle.requestPermission !== "function") {
+                    return current;
+                }
+            }
+            if (requestAccess && typeof handle.requestPermission === "function") {
+                return await handle.requestPermission(options);
+            }
+        } catch (error) {
+            return "denied";
+        }
+        return "prompt";
+    }
+
+    function createLocalAudioStateEntry(lesson, status, overrides = {}) {
+        const trackNumber = getLessonTrackNumber(lesson);
+        return {
+            mode: "tts",
+            src: null,
+            trackNumber,
+            expectedFileName: getExpectedLocalAudioFileName(trackNumber),
+            foundFileName: null,
+            status,
+            ...overrides
+        };
+    }
+
+    async function resolveLocalAudioForLesson(handle, lesson) {
+        const base = createLocalAudioStateEntry(lesson, "missing");
+        if (!base.expectedFileName) {
+            return { ...base, status: "track-unavailable" };
+        }
+
+        try {
+            const fileHandle = await handle.getFileHandle(base.expectedFileName);
+            const file = await fileHandle.getFile();
+            const src = URL.createObjectURL(file);
+            return {
+                ...base,
+                mode: "local",
+                src,
+                foundFileName: file.name,
+                status: "ready"
+            };
+        } catch (error) {
+            if (error && error.name === "NotAllowedError") {
+                return { ...base, status: "permission-required" };
+            }
+            if (error && error.name === "NotFoundError") {
+                return { ...base, status: "missing" };
+            }
+            return { ...base, status: "missing" };
+        }
+    }
+
+    async function resolveAllLocalAudioSources() {
+        clearResolvedLocalAudioSources();
+        if (!pageConfig || !Array.isArray(pageConfig.lessons) || !localAudioState.folderHandle) return;
+
+        localAudioState.isResolving = true;
+        const token = localAudioState.resolveToken;
+        const results = await Promise.all(pageConfig.lessons.map((lesson) => resolveLocalAudioForLesson(localAudioState.folderHandle, lesson)));
+
+        if (token !== localAudioState.resolveToken) {
+            results.forEach((result) => {
+                if (result && result.mode === "local" && result.src) {
+                    URL.revokeObjectURL(result.src);
+                }
+            });
+            return;
+        }
+
+        results.forEach((result, index) => {
+            const lesson = pageConfig.lessons[index];
+            localAudioState.lessonSources.set(lesson.id, result);
+            if (result.mode === "local" && result.src) {
+                localAudioState.objectUrls.set(lesson.id, result.src);
+            }
+        });
+        localAudioState.isResolving = false;
+    }
+
+    function getLocalAudioResolution(lesson) {
+        if (!localAudioState.supported) return createLocalAudioStateEntry(lesson, "unsupported");
+        if (!localAudioState.folderHandle) return createLocalAudioStateEntry(lesson, "not-connected");
+        if (localAudioState.isResolving) return createLocalAudioStateEntry(lesson, "resolving");
+        const saved = localAudioState.lessonSources.get(lesson.id);
+        if (saved) return saved;
+        if (localAudioState.permissionState !== "granted") return createLocalAudioStateEntry(lesson, "permission-required");
+        return createLocalAudioStateEntry(lesson, "missing");
+    }
+
+    function getEffectiveAudioSource(lesson) {
+        const localSource = getLocalAudioResolution(lesson);
+        if (localSource.status === "ready" && localSource.src) return localSource;
+        if (lesson.audioSrc) {
+            return {
+                ...localSource,
+                mode: "remote",
+                src: lesson.audioSrc,
+                status: "ready"
+            };
+        }
+        return localSource;
+    }
+
+    function hasPlayableAudio(lesson) {
+        const source = getEffectiveAudioSource(lesson);
+        return Boolean(source && source.src && source.mode !== "tts");
+    }
+
+    function getAudioSourceLabel(lesson) {
+        const uiText = getInstructionText();
+        const source = getEffectiveAudioSource(lesson);
+        if (source.mode === "local") return uiText.quickDockLocalAudioSource;
+        if (source.mode === "remote") return uiText.quickDockAudioSource;
+        return uiText.quickDockTtsSource;
+    }
+
+    function getLocalAudioStatusTone(status) {
+        if (status === "ready") return "success";
+        if (status === "not-connected" || status === "resolving") return "info";
+        return "warn";
+    }
+
+    function getLocalAudioStatusMessage(lesson) {
+        const uiText = getInstructionText();
+        const source = getLocalAudioResolution(lesson);
+        const fileName = source.expectedFileName || LOCAL_AUDIO_FILE_EXAMPLE;
+        const folderName = localAudioState.folderName || (localAudioState.folderHandle && localAudioState.folderHandle.name) || "";
+
+        if (source.status === "unsupported") return uiText.localAudioUnsupported;
+        if (source.status === "track-unavailable") return uiText.localAudioTrackUnavailable;
+        if (source.status === "permission-required") return uiText.localAudioPermissionRequired;
+        if (source.status === "resolving") return uiText.localAudioResolving(fileName);
+        if (source.status === "ready") return uiText.localAudioReady(folderName, source.foundFileName || fileName);
+        if (source.status === "missing") return uiText.localAudioMissing(folderName, fileName);
+        return uiText.localAudioChooseHint(fileName);
     }
 
     function normalizeText(value) {
@@ -869,7 +1192,7 @@
             };
         }
 
-        if (lesson.audioSrc) {
+        if (hasPlayableAudio(lesson)) {
             const audio = document.getElementById(`audio-${lesson.id}`);
             const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
             const currentTime = audio ? audio.currentTime : 0;
@@ -1043,7 +1366,7 @@
         const lesson = getQuickDockLesson(config);
         if (!lesson) return "";
         const state = getState(lesson.id);
-        const sourceLabel = lesson.audioSrc ? uiText.quickDockAudioSource : uiText.quickDockTtsSource;
+        const sourceLabel = getAudioSourceLabel(lesson);
         const progress = getQuickDockProgressData(lesson);
 
         return `
@@ -1244,13 +1567,53 @@
         const uiText = getInstructionText();
         const actionSpacing = compact ? "" : ' style="margin-top: 12px;"';
         const fallbackHelpClass = compact ? "lw-help-box lw-help-box--compact" : "lw-help-box";
+        const source = getEffectiveAudioSource(lesson);
+        const localSource = getLocalAudioResolution(lesson);
+        const localStatusClass = compact ? "lw-status lw-status--compact" : "lw-status";
+        const controlButtons = [];
 
-        return lesson.audioSrc
+        if (localAudioState.supported) {
+            if (localSource.status === "permission-required") {
+                controlButtons.push(`
+                    <button type="button" class="lw-button" data-action="reconnect-local-audio-folder" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.localAudioReconnect)}</button>
+                `);
+                controlButtons.push(`
+                    <button type="button" class="lw-button-secondary lw-button" data-action="connect-local-audio-folder" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.localAudioChangeFolder)}</button>
+                `);
+            } else {
+                controlButtons.push(`
+                    <button type="button" class="lw-button" data-action="connect-local-audio-folder" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(localAudioState.folderHandle ? uiText.localAudioChangeFolder : uiText.localAudioConnect)}</button>
+                `);
+            }
+
+            if (localAudioState.folderHandle) {
+                controlButtons.push(`
+                    <button type="button" class="lw-button-secondary lw-button" data-action="disconnect-local-audio-folder" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.localAudioDisconnect)}</button>
+                `);
+            }
+        }
+
+        const localAudioControls = `
+            <div class="lw-local-audio-box${compact ? " lw-local-audio-box--compact" : ""}">
+                <div class="lw-local-audio-box__header">
+                    <strong>${escapeHtml(uiText.localAudioTitle)}</strong>
+                    <span class="lw-mini-chip">${escapeHtml(localSource.expectedFileName || LOCAL_AUDIO_FILE_EXAMPLE)}</span>
+                </div>
+                ${controlButtons.length ? `<div class="lw-local-audio-box__actions">${controlButtons.join("")}</div>` : ""}
+                <div id="local-audio-status-${escapeHtml(lesson.id)}" class="${localStatusClass}" data-tone="${escapeHtml(getLocalAudioStatusTone(localSource.status))}">${escapeHtml(getLocalAudioStatusMessage(lesson))}</div>
+            </div>
+        `;
+
+        return source.mode !== "tts" && source.src
             ? `
+                ${localAudioControls}
                 <div class="lw-audio-wrap">
-                    <strong>${escapeHtml(uiText.originalAudio)}</strong>
+                    <div class="lw-local-audio-player-label">
+                        <strong>${escapeHtml(source.mode === "local" ? uiText.localAudioPlayback : uiText.originalAudio)}</strong>
+                        ${source.mode === "local" && source.foundFileName ? `<span class="lw-mini-chip">${escapeHtml(source.foundFileName)}</span>` : ""}
+                    </div>
                     <audio id="audio-${escapeHtml(lesson.id)}" controls preload="metadata">
-                        <source src="${escapeHtml(lesson.audioSrc)}" type="audio/mpeg">
+                        <source src="${escapeHtml(source.src)}" type="audio/mpeg">
                         ${escapeHtml(uiText.audioUnsupported)}
                     </audio>
                 </div>
@@ -1260,6 +1623,7 @@
                 </div>
             `
             : `
+                ${localAudioControls}
                 <div class="${fallbackHelpClass}">${escapeHtml(uiText.noAudioSupport)}</div>
                 <div class="lw-inline-actions"${actionSpacing}>
                     <button type="button" class="lw-button" data-action="play-dialogue" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.playDialogue)}</button>
@@ -2397,6 +2761,112 @@
         setStatus(`listen-status-${lessonId}`, state.loop ? uiText.loopOnStatus : uiText.loopOffStatus, "info");
     }
 
+    function rerenderWorkbook(options = {}) {
+        if (!pageConfig) return;
+        renderApp(pageConfig, { preserveRuntime: options.preserveRuntime !== false });
+    }
+
+    async function connectLocalAudioFolder(lessonId) {
+        const uiText = getInstructionText();
+        if (!localAudioState.supported || typeof window.showDirectoryPicker !== "function") {
+            setStatus(`local-audio-status-${lessonId}`, uiText.localAudioUnsupported, "warn");
+            return;
+        }
+
+        try {
+            const handle = await window.showDirectoryPicker({
+                id: "korean3b-teacher-audio",
+                mode: "read"
+            });
+            localAudioState.folderHandle = handle;
+            localAudioState.folderName = handle.name || "";
+            localAudioState.permissionState = await getLocalAudioPermission(handle, true);
+
+            if (localAudioState.permissionState !== "granted") {
+                clearResolvedLocalAudioSources();
+                rerenderWorkbook();
+                setStatus(`local-audio-status-${lessonId}`, uiText.localAudioPermissionDenied, "warn");
+                return;
+            }
+
+            localAudioState.isResolving = true;
+            rerenderWorkbook();
+            await saveLocalAudioFolder(handle);
+            await resolveAllLocalAudioSources();
+            rerenderWorkbook();
+        } catch (error) {
+            if (error && error.name === "AbortError") {
+                setStatus(`local-audio-status-${lessonId}`, uiText.localAudioConnectCancelled, "info");
+                return;
+            }
+            setStatus(`local-audio-status-${lessonId}`, uiText.localAudioConnectFailed, "warn");
+        }
+    }
+
+    async function reconnectLocalAudioFolder(lessonId) {
+        const uiText = getInstructionText();
+        const currentHandle = localAudioState.folderHandle || (await loadSavedLocalAudioFolder())?.handle || null;
+        if (!currentHandle) {
+            await connectLocalAudioFolder(lessonId);
+            return;
+        }
+
+        localAudioState.folderHandle = currentHandle;
+        localAudioState.folderName = currentHandle.name || localAudioState.folderName || "";
+        localAudioState.permissionState = await getLocalAudioPermission(currentHandle, true);
+
+        if (localAudioState.permissionState !== "granted") {
+            clearResolvedLocalAudioSources();
+            rerenderWorkbook();
+            setStatus(`local-audio-status-${lessonId}`, uiText.localAudioPermissionDenied, "warn");
+            return;
+        }
+
+        localAudioState.isResolving = true;
+        rerenderWorkbook();
+        await saveLocalAudioFolder(currentHandle);
+        await resolveAllLocalAudioSources();
+        rerenderWorkbook();
+    }
+
+    async function disconnectLocalAudioFolder(lessonId) {
+        localAudioState.folderHandle = null;
+        localAudioState.folderName = "";
+        localAudioState.permissionState = localAudioState.supported ? "prompt" : "unsupported";
+        clearResolvedLocalAudioSources();
+        await deleteSavedLocalAudioFolder();
+        rerenderWorkbook();
+        if (lessonId) {
+            const lesson = lessonMap.get(lessonId);
+            const fileName = lesson ? (getExpectedLocalAudioFileName(getLessonTrackNumber(lesson)) || LOCAL_AUDIO_FILE_EXAMPLE) : LOCAL_AUDIO_FILE_EXAMPLE;
+            setStatus(`local-audio-status-${lessonId}`, getInstructionText().localAudioChooseHint(fileName), "info");
+        }
+    }
+
+    async function restoreSavedLocalAudioFolder() {
+        if (!localAudioState.supported || !localAudioState.canPersist) return;
+
+        const saved = await loadSavedLocalAudioFolder();
+        if (!saved || !saved.handle) {
+            localAudioState.permissionState = localAudioState.supported ? "prompt" : "unsupported";
+            return;
+        }
+
+        localAudioState.folderHandle = saved.handle;
+        localAudioState.folderName = saved.folderName || saved.handle.name || "";
+        localAudioState.permissionState = await getLocalAudioPermission(saved.handle, false);
+
+        if (localAudioState.permissionState === "granted") {
+            localAudioState.isResolving = true;
+            rerenderWorkbook();
+            await resolveAllLocalAudioSources();
+        } else {
+            clearResolvedLocalAudioSources();
+        }
+
+        rerenderWorkbook();
+    }
+
     function updateQuickDockUI() {
         const mount = document.getElementById("lw-quick-dock-mount");
         if (!mount || !pageConfig) return;
@@ -2636,7 +3106,7 @@
         if (!lesson) return;
         setQuickDockLesson(lesson.id);
 
-        if (lesson.audioSrc) {
+        if (hasPlayableAudio(lesson)) {
             const audio = document.getElementById(`audio-${lesson.id}`);
             const state = getState(lesson.id);
             if (!audio) return;
@@ -3700,6 +4170,9 @@
         if (action === "toggle-quick-dock") return void setQuickDockCollapsed(!quickDockCollapsed);
         if (action === "set-quick-lesson") return void setQuickDockLesson(lessonId);
         if (action === "toggle-loop") return void toggleLoop(lessonId);
+        if (action === "connect-local-audio-folder") return void connectLocalAudioFolder(lessonId);
+        if (action === "reconnect-local-audio-folder") return void reconnectLocalAudioFolder(lessonId);
+        if (action === "disconnect-local-audio-folder") return void disconnectLocalAudioFolder(lessonId);
         if (action === "play-line") return void playLine(lessonId, Number(button.dataset.lineIndex), "once");
         if (action === "repeat-line") return void playLine(lessonId, Number(button.dataset.lineIndex), "repeat");
         if (action === "shadow-line") return void playLine(lessonId, Number(button.dataset.lineIndex), "shadow");
@@ -3739,6 +4212,7 @@
         pageConfig = window.LISTENING_WORKBOOK_CONFIG;
         if (!pageConfig || !Array.isArray(pageConfig.lessons) || !pageConfig.lessons.length) return;
         hasInitialized = true;
+        localAudioState.permissionState = localAudioState.supported ? "prompt" : "unsupported";
         instructionLanguage = readInstructionLanguage(pageConfig);
         quickDockLessonId = readQuickDockLesson(pageConfig);
         quickDockCollapsed = readQuickDockCollapsed();
@@ -3749,6 +4223,7 @@
         attachSequenceTaskListeners();
         window.addEventListener("scroll", scheduleQuickDockViewportSync, { passive: true });
         window.addEventListener("resize", scheduleQuickDockViewportSync);
+        void restoreSavedLocalAudioFolder();
     }
 
     if (document.readyState === "loading") {

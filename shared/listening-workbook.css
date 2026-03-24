@@ -1116,6 +1116,45 @@
     margin-top: 12px;
 }
 
+.lw-local-audio-box {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.lw-local-audio-box--compact {
+    padding: 12px;
+}
+
+.lw-local-audio-box__header,
+.lw-local-audio-player-label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.lw-local-audio-box__header strong,
+.lw-local-audio-player-label strong {
+    font-size: 14px;
+    color: #0f172a;
+}
+
+.lw-local-audio-box__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.lw-local-audio-box .lw-status {
+    margin-top: 0;
+}
+
 .lw-help-box,
 .lw-status {
     border-radius: 16px;
