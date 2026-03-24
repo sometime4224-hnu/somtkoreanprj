@@ -50,7 +50,7 @@
 
         .app {
             width: min(100% - 20px, 480px);
-            margin: 14px auto 24px;
+            margin: 10px auto 18px;
         }
 
         .topbar,
@@ -89,9 +89,21 @@
 
         .hero,
         .panel {
-            margin-top: 14px;
-            padding: 20px 16px;
+            margin-top: 10px;
+            padding: 18px 15px;
             border-radius: 24px;
+        }
+
+        .hero__top {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 12px;
+        }
+
+        .hero__copy {
+            min-width: 0;
+            flex: 1;
         }
 
         .hero__badge {
@@ -105,33 +117,33 @@
         }
 
         .hero h1 {
-            margin: 12px 0 8px;
-            font-size: 1.85rem;
-            line-height: 1.15;
+            margin: 10px 0 4px;
+            font-size: 1.45rem;
+            line-height: 1.18;
         }
 
         .hero p {
             margin: 0;
             color: var(--muted);
-            line-height: 1.65;
-            font-size: 0.95rem;
+            line-height: 1.5;
+            font-size: 0.86rem;
         }
 
         .stepper {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 14px;
+            grid-template-columns: repeat(4, 44px);
+            gap: 6px;
+            flex-shrink: 0;
         }
 
         .step-dot {
-            padding: 10px 0;
-            border-radius: 14px;
+            padding: 8px 0;
+            border-radius: 12px;
             text-align: center;
             background: rgba(255, 255, 255, 0.78);
             border: 1px solid var(--line);
             color: #94a3b8;
-            font-size: 0.84rem;
+            font-size: 0.76rem;
             font-weight: 800;
         }
 
@@ -154,7 +166,7 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .step-head p {
@@ -192,12 +204,12 @@
         .choice-grid,
         .field-stack {
             display: grid;
-            gap: 12px;
+            gap: 10px;
         }
 
         .choice {
             width: 100%;
-            padding: 15px 14px;
+            padding: 13px 13px;
             border: 1px solid var(--line);
             border-radius: 18px;
             background: rgba(255, 255, 255, 0.84);
@@ -231,7 +243,7 @@
         }
 
         .field {
-            padding: 14px;
+            padding: 12px;
             border-radius: 18px;
             background: rgba(255, 255, 255, 0.82);
             border: 1px solid rgba(148, 163, 184, 0.16);
@@ -294,10 +306,11 @@
             padding: 13px 16px;
             font-weight: 800;
             cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease, background 0.18s ease, color 0.18s ease;
         }
 
         .build-button,
-        .nav-button.next {
+        .nav-button.next.ready {
             background: linear-gradient(135deg, var(--accent) 0%, #f59e0b 100%);
             color: #fff;
         }
@@ -305,6 +318,23 @@
         .nav-button.prev {
             background: rgba(15, 157, 135, 0.12);
             color: var(--mint);
+        }
+
+        .nav-button.next.pending {
+            background: rgba(148, 163, 184, 0.18);
+            color: #94a3b8;
+            box-shadow: none;
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .nav-button.next.ready {
+            box-shadow: 0 14px 28px rgba(245, 158, 11, 0.28);
+            animation: next-ready-pulse 1.8s ease-in-out infinite;
+        }
+
+        .nav-button:disabled {
+            pointer-events: none;
         }
 
         .draft-tools {
@@ -318,8 +348,8 @@
             bottom: 10px;
             display: flex;
             gap: 10px;
-            margin-top: 14px;
-            padding: 12px;
+            margin-top: 10px;
+            padding: 10px;
             border-radius: 18px;
             backdrop-filter: blur(14px);
         }
@@ -329,15 +359,14 @@
         }
 
         .hint-sheet {
-            position: sticky;
-            bottom: 84px;
-            z-index: 16;
-            margin-top: 14px;
-            padding: 14px;
+            position: relative;
+            z-index: 4;
+            margin: 8px 0 6px;
+            padding: 12px;
             border-radius: 18px;
             background: rgba(255, 255, 255, 0.96);
             border: 1px solid rgba(255, 255, 255, 0.78);
-            box-shadow: 0 18px 34px rgba(15, 23, 42, 0.12);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.1);
             backdrop-filter: blur(14px);
         }
 
@@ -408,6 +437,19 @@
             pointer-events: none;
         }
 
+        @keyframes next-ready-pulse {
+            0%,
+            100% {
+                transform: translateY(0);
+                box-shadow: 0 14px 28px rgba(245, 158, 11, 0.24);
+            }
+
+            50% {
+                transform: translateY(-1px) scale(1.01);
+                box-shadow: 0 18px 32px rgba(245, 158, 11, 0.34);
+            }
+        }
+
         .wave-target::after {
             content: "";
             position: absolute;
@@ -432,6 +474,51 @@
                 opacity: 0;
             }
         }
+
+        @media (max-width: 520px) {
+            .topbar {
+                top: 8px;
+                padding: 10px 12px;
+            }
+
+            .hero,
+            .panel {
+                padding: 16px 14px;
+                border-radius: 20px;
+            }
+
+            .hero__top {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .hero h1 {
+                font-size: 1.32rem;
+                margin-top: 8px;
+            }
+
+            .hero p {
+                font-size: 0.82rem;
+            }
+
+            .stepper {
+                grid-template-columns: repeat(4, 1fr);
+                width: 100%;
+            }
+
+            .mini-guide {
+                margin-bottom: 10px;
+                padding: 9px 11px;
+                font-size: 0.82rem;
+            }
+
+            .choice,
+            .field {
+                border-radius: 16px;
+            }
+
+        }
     </style>
 </head>
 <body>
@@ -445,14 +532,18 @@
         </header>
 
         <section class="hero">
-            <span class="hero__badge">기억에 남는 날 쓰기</span>
-            <h1>짧게 메모하고<br>바로 초안 쓰기</h1>
-            <p>한 번에 한 단계씩만 진행합니다.</p>
-            <div class="stepper">
-                <div class="step-dot active" data-step-dot="0">1</div>
-                <div class="step-dot" data-step-dot="1">2</div>
-                <div class="step-dot" data-step-dot="2">3</div>
-                <div class="step-dot" data-step-dot="3">4</div>
+            <div class="hero__top">
+                <div class="hero__copy">
+                    <span class="hero__badge">기억에 남는 날 쓰기</span>
+                    <h1>기억에 남는 날</h1>
+                    <p>한 단계씩 바로 씁니다.</p>
+                </div>
+                <div class="stepper">
+                    <div class="step-dot active" data-step-dot="0">1</div>
+                    <div class="step-dot" data-step-dot="1">2</div>
+                    <div class="step-dot" data-step-dot="2">3</div>
+                    <div class="step-dot" data-step-dot="3">4</div>
+                </div>
             </div>
         </section>
 
@@ -687,6 +778,8 @@
         const nextButton = document.getElementById("nextButton");
         const draftField = document.getElementById("draft");
         const summaryBox = document.getElementById("summaryBox");
+        const topBar = document.querySelector(".topbar");
+        const navBar = document.querySelector(".nav-bar");
         const hintSheet = document.getElementById("hintSheet");
         const hintTitle = document.getElementById("hintTitle");
         const hintVocab = document.getElementById("hintVocab");
@@ -695,6 +788,9 @@
         let saveTimer = null;
         let autoAdvanceTimer = null;
         let activeHintKey = null;
+        let activeHintAnchor = null;
+        let activeEditor = null;
+        let editorScrollTimers = [];
 
         hydrate();
         bind();
@@ -721,7 +817,7 @@
                 button.addEventListener("click", () => {
                     state.topic = button.dataset.topic;
                     dismissGuide(0, false);
-                    openHint(button.dataset.hintKey);
+                    openHint(button.dataset.hintKey, button);
                     setTopic(state.topic);
                     persist();
                     render();
@@ -734,10 +830,25 @@
                     if (stepIndex >= 0) {
                         dismissGuide(stepIndex);
                     }
-                    openHint(field.dataset.hintKey);
+                    openHint(field.dataset.hintKey, field);
+                    if (isTextField(field)) {
+                        requestEditorVisible(field);
+                    }
                 });
                 field.addEventListener("click", () => {
-                    openHint(field.dataset.hintKey);
+                    openHint(field.dataset.hintKey, field);
+                    if (isTextField(field)) {
+                        requestEditorVisible(field);
+                    }
+                });
+                field.addEventListener("blur", () => {
+                    if (!isTextField(field)) return;
+                    setTimeout(() => {
+                        if (!isTextField(document.activeElement)) {
+                            activeEditor = null;
+                            clearEditorScrollTimers();
+                        }
+                    }, 90);
                 });
                 field.addEventListener("input", () => {
                     state[field.dataset.field] = field.value;
@@ -748,12 +859,18 @@
                     persist();
                     render();
                     maybeAdvance(stepIndex);
+                    if (isTextField(field)) {
+                        requestEditorVisible(field, false);
+                    }
                 });
             });
 
             prevButton.addEventListener("click", () => {
                 if (state.step > 0) {
                     activeHintKey = null;
+                    activeHintAnchor = null;
+                    activeEditor = null;
+                    clearEditorScrollTimers();
                     state.step -= 1;
                     persist();
                     render();
@@ -764,6 +881,9 @@
             nextButton.addEventListener("click", () => {
                 if (state.step < steps.length - 1) {
                     activeHintKey = null;
+                    activeHintAnchor = null;
+                    activeEditor = null;
+                    clearEditorScrollTimers();
                     state.step += 1;
                     persist();
                     render();
@@ -774,7 +894,7 @@
             document.getElementById("buildDraftButton").addEventListener("click", () => {
                 if (draftField.value.trim() && !window.confirm("현재 초안을 새 초안으로 바꿀까요?")) return;
                 dismissGuide(3, false);
-                openHint("draft");
+                openHint("draft", document.getElementById("buildDraftButton"));
                 draftField.value = makeDraft();
                 state.draft = draftField.value;
                 persist();
@@ -784,6 +904,16 @@
             document.getElementById("hintCloseButton").addEventListener("click", () => {
                 closeHint();
             });
+
+            if (window.visualViewport) {
+                const handleViewportChange = () => {
+                    if (activeEditor) {
+                        requestEditorVisible(activeEditor, false);
+                    }
+                };
+                window.visualViewport.addEventListener("resize", handleViewportChange);
+                window.visualViewport.addEventListener("scroll", handleViewportChange);
+            }
         }
 
         function persist() {
@@ -800,6 +930,80 @@
             topicButtons.forEach((button) => {
                 button.classList.toggle("active", button.dataset.topic === topic);
             });
+        }
+
+        function isTextField(element) {
+            return Boolean(element && (element.matches("textarea") || element.matches('input[type="text"]')));
+        }
+
+        function clearEditorScrollTimers() {
+            editorScrollTimers.forEach((timer) => clearTimeout(timer));
+            editorScrollTimers = [];
+        }
+
+        function requestEditorVisible(field, smooth = true) {
+            if (!isTextField(field)) return;
+            activeEditor = field;
+            clearEditorScrollTimers();
+            [0, 120, 260, 420].forEach((delay, index) => {
+                editorScrollTimers.push(setTimeout(() => {
+                    scrollEditorIntoSafeZone(field, smooth && index > 0 ? "smooth" : "auto");
+                }, delay));
+            });
+        }
+
+        function scrollEditorIntoSafeZone(field, behavior = "smooth") {
+            if (!isTextField(field)) return;
+
+            const box = field.closest(".field") || field;
+            const rect = box.getBoundingClientRect();
+            const contentBottom = getEditorContentBottom(box, rect.bottom);
+            const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            const topSafe = Math.max((topBar?.getBoundingClientRect().bottom || 0) + 10, 12);
+            const bottomSafe = viewportHeight - getBottomBlockerHeight() - 10;
+
+            if (bottomSafe <= topSafe + 40) return;
+
+            const desiredTop = Math.min(topSafe + 18, bottomSafe - 44);
+            const tooHigh = rect.top < topSafe;
+            const tooLow = contentBottom > bottomSafe;
+            const tooFarDown = rect.top > desiredTop + 8;
+
+            if (!tooHigh && !tooLow && !tooFarDown) return;
+
+            let delta = 0;
+            if (tooHigh || tooFarDown) {
+                delta = rect.top - desiredTop;
+            }
+            if (tooLow) {
+                delta = Math.max(delta, contentBottom - bottomSafe);
+            }
+
+            if (Math.abs(delta) > 4) {
+                window.scrollBy({ top: delta, behavior });
+            }
+        }
+
+        function getEditorContentBottom(box, fallbackBottom) {
+            if (
+                activeHintKey &&
+                activeHintAnchor === box &&
+                !hintSheet.classList.contains("hidden")
+            ) {
+                return Math.max(fallbackBottom, hintSheet.getBoundingClientRect().bottom);
+            }
+
+            return fallbackBottom;
+        }
+
+        function getBottomBlockerHeight() {
+            let total = 0;
+
+            if (navBar && getComputedStyle(navBar).display !== "none") {
+                total += navBar.getBoundingClientRect().height + 8;
+            }
+
+            return total;
         }
 
         function dismissGuide(stepIndex, shouldPersist = true) {
@@ -829,6 +1033,9 @@
             autoAdvanceTimer = setTimeout(() => {
                 if (state.step >= stepIndex) return;
                 activeHintKey = null;
+                activeHintAnchor = null;
+                activeEditor = null;
+                clearEditorScrollTimers();
                 state.step = stepIndex;
                 persist();
                 render();
@@ -837,6 +1044,9 @@
         }
 
         function isStepComplete(stepIndex) {
+            if (stepIndex === 0) {
+                return Boolean(state.topic || state.customTheme.trim());
+            }
             if (stepIndex === 1) {
                 return Boolean(state.moment.trim() && state.place.trim() && state.mainEvent.trim());
             }
@@ -850,15 +1060,35 @@
             return state.customTheme.trim() || topicLabels[state.topic] || "기억에 남는 날";
         }
 
-        function openHint(key) {
+        function openHint(key, source) {
             if (!key || !hints[key]) return;
             activeHintKey = key;
+            activeHintAnchor = resolveHintAnchor(source);
             renderHint();
         }
 
         function closeHint() {
             activeHintKey = null;
+            activeHintAnchor = null;
             renderHint();
+        }
+
+        function resolveHintAnchor(source) {
+            if (!source) return null;
+
+            if (source.closest(".field")) {
+                return source.closest(".field");
+            }
+
+            if (source.closest(".draft-tools")) {
+                return source.closest(".draft-tools");
+            }
+
+            if (source.closest(".choice-grid")) {
+                return source.closest(".choice-grid");
+            }
+
+            return source;
         }
 
         function renderHint() {
@@ -868,6 +1098,9 @@
             }
 
             const hint = hints[activeHintKey];
+            if (activeHintAnchor && activeHintAnchor.isConnected) {
+                activeHintAnchor.insertAdjacentElement("afterend", hintSheet);
+            }
             hintTitle.textContent = hint.title;
             hintVocab.textContent = hint.vocab;
             hintExpr.textContent = hint.expr;
@@ -876,6 +1109,7 @@
         }
 
         function render() {
+            const nextReady = isStepComplete(state.step);
             steps.forEach((step, index) => {
                 step.classList.toggle("active", index === state.step);
             });
@@ -886,6 +1120,10 @@
 
             prevButton.classList.toggle("hidden", state.step === 0);
             nextButton.classList.toggle("hidden", state.step === steps.length - 1);
+            nextButton.disabled = !nextReady;
+            nextButton.classList.toggle("ready", nextReady);
+            nextButton.classList.toggle("pending", !nextReady);
+            nextButton.textContent = nextReady ? "다음" : state.step === 0 ? "먼저 고르기" : "먼저 쓰기";
 
             summaryBox.innerHTML =
                 `<strong>주제</strong> ${escapeHtml(themeLabel())}<br>` +
