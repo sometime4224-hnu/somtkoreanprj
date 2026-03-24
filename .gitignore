@@ -4,3 +4,5 @@ backup/
 **/node_modules/
 **/dist/
 *.log
+assets/*/audio/*.mp3
+!assets/*/audio/.gitkeep
