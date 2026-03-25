@@ -984,25 +984,29 @@ app.addEventListener('click', (event) => {
   const target = event.target.closest('[data-action]');
   if (!target) return;
   const { action } = target.dataset;
+  let shouldRender = true;
 
   if (action === 'select-choice') selectChoice(target.dataset.optionId);
-  if (action === 'check-step1') checkStep1();
-  if (action === 'activate-slot') activateSlot(target.dataset.slot);
-  if (action === 'use-word') placeChoice(target.dataset.choiceId);
-  if (action === 'check-step2') checkStep2();
-  if (action === 'reset-step2') resetStep2();
-  if (action === 'pick-order') pickOrder(target.dataset.orderId);
-  if (action === 'remove-order') removeOrder(target.dataset.orderId);
-  if (action === 'check-step3') checkStep3();
-  if (action === 'reset-step3') resetStep3();
-  if (action === 'check-step4') checkStep4();
-  if (action === 'check-step5') checkStep5();
-  if (action === 'prev') goPrev();
-  if (action === 'next') goNext();
-  if (action === 'restart') restartAll();
-  if (action === 'review-cut') reviewCut(target.dataset.cutIndex);
+  else if (action === 'check-step1') checkStep1();
+  else if (action === 'activate-slot') activateSlot(target.dataset.slot);
+  else if (action === 'use-word') placeChoice(target.dataset.choiceId);
+  else if (action === 'check-step2') checkStep2();
+  else if (action === 'reset-step2') resetStep2();
+  else if (action === 'pick-order') pickOrder(target.dataset.orderId);
+  else if (action === 'remove-order') removeOrder(target.dataset.orderId);
+  else if (action === 'check-step3') checkStep3();
+  else if (action === 'reset-step3') resetStep3();
+  else if (action === 'check-step4') checkStep4();
+  else if (action === 'check-step5') checkStep5();
+  else if (action === 'prev') goPrev();
+  else if (action === 'next') goNext();
+  else if (action === 'restart') restartAll();
+  else if (action === 'review-cut') reviewCut(target.dataset.cutIndex);
+  else shouldRender = false;
 
-  renderApp();
+  if (shouldRender) {
+    renderApp();
+  }
 });
 
 app.addEventListener('input', (event) => {
