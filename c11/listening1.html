@@ -72,8 +72,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             kicker: "Chapter 11 Listening Lab",
             title: "11과 듣기 1",
             titleVi: "Luyện nghe bài 11 - Nghe 1",
-            description: "아웃도어 매장 첫 출근 상황을 바탕으로 지시 표현과 작업 순서를 익히는 듣기 워크북입니다. 장면 예측, 단계별 자막, 문장 반복, 딕토글로스, 노트 정리, 확인 퀴즈까지 한 흐름으로 연습할 수 있습니다.",
-            descriptionVi: "Day la workbook nghe ve tinh huong ngay dau di lam o cua hang outdoor. Em se luyen du doan tinh huong, nghe theo tung buoc, lap lai tung cau, dictogloss, ghi chu va lam bai kiem tra hieu noi dung.",
+            description: "아웃도어 매장 첫 출근 상황을 바탕으로 지시 표현과 작업 순서를 익히는 듣기 워크북입니다. 핵심어 보기, 순서 배열, 이해 점검 중심으로 간결하게 연습할 수 있습니다.",
+            descriptionVi: "Day la workbook nghe ve tinh huong ngay dau di lam o cua hang outdoor. Em se hoc gon hon voi xem tu khoa, sap xep thu tu cong viec va kiem tra hieu noi dung.",
+            layoutVariant: "audio-in-pre",
+            sampleCompact: {
+                enabled: true,
+                defaults: {
+                    hideSceneCard: true,
+                    hideCorePointStage: true,
+                    hideNoteSection: true,
+                    hideOralFeaturesSection: true,
+                    hideSpeakingSection: true,
+                    moveBackgroundPromptIntoPrediction: true,
+                    relocateQuizBelowSubtitle: true,
+                    quizStartsCollapsed: true
+                }
+            },
             instructionLanguage: {
                 enabled: true,
                 default: "ko"
@@ -86,24 +100,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 pageBackground: "linear-gradient(180deg, #fff9f2 0%, #fffdf8 42%, #f7faf8 100%)"
             },
             featureList: [
-                "장면 예측",
+                "상황 예측",
                 "단계별 자막",
-                "문장 반복과 shadowing",
-                "딕토글로스",
-                "노트 정리",
+                "핵심어 보기",
+                "순서 배열",
                 "이해 점검"
             ],
             featureListVi: [
                 "Du doan tinh huong",
                 "Phu de theo tung buoc",
-                "Lap lai tung cau va shadowing",
-                "Dictogloss",
-                "Ghi chu",
+                "Xem tu khoa",
+                "Sap xep thu tu",
                 "Kiem tra muc do hieu"
             ],
             lessons: [
                 {
                     id: "track19",
+                    compactSample: {
+                        removeDictoglossSection: true
+                    },
                     label: "Track 19",
                     title: "듣기 1: 아웃도어 매장 첫날",
                     titleVi: "Nghe 1: Ngay dau o cua hang outdoor",

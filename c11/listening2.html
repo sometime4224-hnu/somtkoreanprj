@@ -72,8 +72,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             kicker: "Chapter 11 Listening Lab",
             title: "11과 듣기 2",
             titleVi: "Luyện nghe bài 11 - Nghe 2",
-            description: "이직을 고민하는 직장인의 대화를 바탕으로 이유 설명, 가정, 양보 표현을 듣고 핵심 장단점을 정리하는 듣기 워크북입니다. 단계별 자막과 문장 훈련, 딕토글로스, 노트, 확인 퀴즈가 한 페이지에 묶여 있습니다.",
-            descriptionVi: "Day la workbook nghe ve cuoc tro chuyen cua mot nhan vien dang can nhac chuyen viec. Em se nghe ly do, gia dinh neu, cach nhuong bo va sap xep lai uu diem, nhoc diem cua cong viec hien tai qua phu de tung buoc, luyen tung cau, dictogloss, ghi chu va bai kiem tra.",
+            description: "이직을 고민하는 직장인의 대화를 바탕으로 이유 설명과 장단점 비교를 정리하는 듣기 워크북입니다. 핵심어 보기, 이유 비교 카드, 이해 점검 중심으로 더 간결하게 구성했습니다.",
+            descriptionVi: "Day la workbook nghe ve cuoc tro chuyen cua mot nhan vien dang can nhac chuyen viec. Trang nay duoc rut gon voi xem tu khoa, the so sanh ly do va phan kiem tra hieu noi dung.",
+            layoutVariant: "audio-in-pre",
+            sampleCompact: {
+                enabled: true,
+                defaults: {
+                    hideSceneCard: true,
+                    hideCorePointStage: true,
+                    hideNoteSection: true,
+                    hideOralFeaturesSection: true,
+                    hideSpeakingSection: true,
+                    moveBackgroundPromptIntoPrediction: true,
+                    relocateQuizBelowSubtitle: true,
+                    quizStartsCollapsed: true
+                }
+            },
             instructionLanguage: {
                 enabled: true,
                 default: "ko"
@@ -88,22 +102,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             featureList: [
                 "상황 예측",
                 "단계별 자막",
-                "문장 반복과 shadowing",
-                "딕토글로스",
-                "좋은 점과 고민 정리",
+                "핵심어 보기",
+                "이직 이유 비교",
                 "이해 점검"
             ],
             featureListVi: [
                 "Du doan tinh huong",
                 "Phu de theo tung buoc",
-                "Lap lai tung cau va shadowing",
-                "Dictogloss",
-                "Sap xep diem tot va dieu dang do du",
+                "Xem tu khoa",
+                "So sanh ly do chuyen viec",
                 "Kiem tra muc do hieu"
             ],
             lessons: [
                 {
                     id: "track20",
+                    compactSample: {
+                        replacementActivity: {
+                            title: "이직 이유 비교 카드",
+                            titleVi: "The so sanh ly do chuyen viec",
+                            prompt: "긴 재구성 대신 남자의 고민을 세 칸으로 비교해 보세요.",
+                            promptVi: "Thay vi viet lai dai, hay so sanh noi boi roi cua nguoi nam trong ba o.",
+                            keywords: ["옮기고 싶은 이유", "망설이는 이유", "현재 판단"],
+                            keywordsVi: ["Ly do muon chuyen viec", "Ly do con do du", "Danh gia hien tai"],
+                            fields: [
+                                {
+                                    label: "왜 옮기고 싶나요?",
+                                    labelVi: "Vi sao muon chuyen viec?",
+                                    helper: "불만이나 힘든 점 적기",
+                                    helperVi: "Ghi ngan gon dieu bat man hay kho khan",
+                                    placeholder: "예: 일이 너무 바쁘고 야근이 많아서 생활이 없어요.",
+                                    placeholderVi: "Vi du: Cong viec qua ban va tang ca nhieu nen khong co cuoc song rieng."
+                                },
+                                {
+                                    label: "왜 망설이나요?",
+                                    labelVi: "Vi sao van do du?",
+                                    helper: "현재 회사의 좋은 점 적기",
+                                    helperVi: "Ghi ngan gon diem tot cua cong ty hien tai",
+                                    placeholder: "예: 집에서 가깝고 동료와 상사가 좋아요.",
+                                    placeholderVi: "Vi du: Cong ty gan nha va dong nghiep, cap tren deu tot."
+                                },
+                                {
+                                    label: "지금은 어떤 판단에 가까운가요?",
+                                    labelVi: "Luc nay nghieng ve quyet dinh nao?",
+                                    helper: "대화 끝의 마음을 짧게 정리하기",
+                                    helperVi: "Tom tat ngan gon suy nghi cuoi doan hoi thoai",
+                                    placeholder: "예: 당장 옮기기보다 지금 회사의 장점을 다시 생각해 보려고 해요.",
+                                    placeholderVi: "Vi du: Co le se nghi lai ve diem tot cua cong ty hien tai truoc khi quyet dinh."
+                                }
+                            ],
+                            footnote: "핵심어 보기 카드의 표현을 골라 짧게 옮기면 비교가 더 쉬워집니다.",
+                            footnoteVi: "Neu lay lai cac bieu hien trong the tu khoa thi viec so sanh se de hon."
+                        }
+                    },
                     label: "Track 20",
                     title: "듣기 2: 이직을 고민하는 직장인",
                     titleVi: "Nghe 2: Nhan vien dang can nhac chuyen viec",

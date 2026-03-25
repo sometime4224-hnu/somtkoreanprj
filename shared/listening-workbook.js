@@ -829,6 +829,70 @@
         return chooseLocalizedText(source[key], source[`${key}Vi`], fallback);
     }
 
+    function getPageCompactConfig(config = pageConfig) {
+        if (!config) return null;
+        const compactConfig = config.compactLayout || config.sampleCompact;
+        if (!compactConfig || compactConfig.enabled === false) return null;
+        return compactConfig;
+    }
+
+    function isCompactModeEnabled(config = pageConfig) {
+        return Boolean(getPageCompactConfig(config));
+    }
+
+    function getLessonCompactSettings(lesson, config = pageConfig) {
+        const compactConfig = getPageCompactConfig(config);
+        const lessonConfig = lesson && (lesson.compactLayout || lesson.compactSample);
+        return {
+            ...((compactConfig && compactConfig.defaults) || {}),
+            ...(lessonConfig || {})
+        };
+    }
+
+    function shouldHideCorePointStage(lesson) {
+        const settings = getLessonCompactSettings(lesson);
+        return Boolean(settings.hideCorePointStage && !lessonHasTranscript(lesson));
+    }
+
+    function isQuizFoldEnabled(lesson) {
+        if (!lesson || !isCompactModeEnabled()) return false;
+        const settings = getLessonCompactSettings(lesson);
+        return settings.relocateQuizBelowSubtitle !== false;
+    }
+
+    function quizFoldStorageKey(lessonId) {
+        return storageKey(lessonId, "quiz-fold-open");
+    }
+
+    function readQuizFoldState(lesson) {
+        if (!lesson) return true;
+        const settings = getLessonCompactSettings(lesson);
+        const defaultOpen = settings.quizStartsCollapsed === false;
+        return Boolean(readStorage(quizFoldStorageKey(lesson.id), defaultOpen));
+    }
+
+    function writeQuizFoldState(lessonId, isOpen) {
+        return writeStorage(quizFoldStorageKey(lessonId), Boolean(isOpen));
+    }
+
+    function getQuizFoldText(isOpen) {
+        return chooseLocalizedText(
+            isOpen ? "접기" : "펼치기",
+            isOpen ? "Thu gon" : "Mo ra"
+        );
+    }
+
+    function getQuizFoldHint(isOpen) {
+        return chooseLocalizedText(
+            isOpen
+                ? "필요하면 다시 접어서 듣기 흐름을 간단하게 유지할 수 있습니다."
+                : "이해 점검이 접혀 있습니다. 오른쪽 버튼을 눌러 펼쳐 보세요.",
+            isOpen
+                ? "Khi can, em co the thu gon lai de giu dong chay bai nghe ngan gon."
+                : "Phan kiem tra dang duoc thu gon. Bam nut ben phai de mo ra."
+        );
+    }
+
     function getLocalizedNotePrompt(lesson, key, fallback) {
         if (getInstructionLanguage() === "vi" && lesson.notePromptsVi && lesson.notePromptsVi[key]) {
             return lesson.notePromptsVi[key];
@@ -960,6 +1024,126 @@
 
     function hasProsConsTable(lesson) {
         return Boolean(lesson && lesson.prosConsTable);
+    }
+
+    function getCompactReplacementActivity(lesson) {
+        if (!lesson || !isCompactModeEnabled()) return null;
+
+        const settings = getLessonCompactSettings(lesson);
+        if (settings.removeDictoglossSection || hasSequenceTask(lesson)) return null;
+        if (settings.replacementActivity) return settings.replacementActivity;
+
+        const summary = getLocalizedField(lesson, "summary", "");
+        const keywordPrompt = getLocalizedNotePrompt(lesson, "keywords", "");
+        const detailPrompt = getLocalizedNotePrompt(lesson, "details", "");
+        const questionPrompt = getLocalizedNotePrompt(lesson, "questions", "");
+        const cuePrompt = getLocalizedNotePrompt(lesson, "cue", "");
+        const defaultTitle = chooseLocalizedText("핵심 정리 카드", "The tom tat nhanh");
+        const defaultPrompt = chooseLocalizedText(
+            "길게 다시 구성하지 말고, 아래 칸에 핵심만 짧게 정리해 보세요.",
+            "Dung viet lai dai; hay ghi ngan gon tung diem chinh vao cac o ben duoi."
+        );
+        const defaultFootnote = chooseLocalizedText(
+            "핵심어 보기 카드의 표현을 골라 짧게 메모해도 됩니다.",
+            "Em co the lay lai cac bieu hien trong the xem tu khoa de ghi ngan gon."
+        );
+        const keywords = Array.isArray(lesson.dictogloss && lesson.dictogloss.keywords)
+            ? lesson.dictogloss.keywords.slice(0, 5)
+            : [];
+
+        if (hasProsConsTable(lesson)) {
+            return {
+                title: defaultTitle,
+                titleVi: "The tom tat nhanh",
+                prompt: defaultPrompt,
+                promptVi: "Dung viet lai dai; hay ghi ngan gon tung diem chinh vao cac o ben duoi.",
+                keywords,
+                fields: [
+                    {
+                        label: chooseLocalizedText("전체 흐름", "Dong chay noi dung"),
+                        labelVi: "Dong chay noi dung",
+                        helper: summary || keywordPrompt || "",
+                        helperVi: summary || keywordPrompt || "",
+                        placeholder: summary || cuePrompt || keywordPrompt || ""
+                    },
+                    {
+                        label: getLocalizedField(lesson.prosConsTable, "prosLabel", chooseLocalizedText("좋은 점", "Diem tot")),
+                        labelVi: getLocalizedField(lesson.prosConsTable, "prosLabelVi", chooseLocalizedText("좋은 점", "Diem tot")),
+                        helper: getLocalizedField(
+                            lesson.prosConsTable,
+                            "guide",
+                            chooseLocalizedText(
+                                "현재 회사에서 유지하고 싶은 점을 짧게 적어 보세요.",
+                                "Hay ghi ngan gon nhung diem em muon giu lai o cong ty hien tai."
+                            )
+                        ),
+                        helperVi: getLocalizedField(
+                            lesson.prosConsTable,
+                            "guideVi",
+                            chooseLocalizedText(
+                                "현재 회사에서 유지하고 싶은 점을 짧게 적어 보세요.",
+                                "Hay ghi ngan gon nhung diem em muon giu lai o cong ty hien tai."
+                            )
+                        ),
+                        placeholder: getLocalizedField(lesson.prosConsTable, "prosPlaceholder", "")
+                    },
+                    {
+                        label: getLocalizedField(lesson.prosConsTable, "consLabel", chooseLocalizedText("고민되는 점", "Dieu dang do du")),
+                        labelVi: getLocalizedField(lesson.prosConsTable, "consLabelVi", chooseLocalizedText("고민되는 점", "Dieu dang do du")),
+                        helper: chooseLocalizedText(
+                            "바꾸고 싶은 조건이나 아직 망설이는 이유를 적어 보세요.",
+                            "Hay viet dieu kien muon thay doi hoac ly do em con do du."
+                        ),
+                        helperVi: chooseLocalizedText(
+                            "바꾸고 싶은 조건이나 아직 망설이는 이유를 적어 보세요.",
+                            "Hay viet dieu kien muon thay doi hoac ly do em con do du."
+                        ),
+                        placeholder: getLocalizedField(lesson.prosConsTable, "consPlaceholder", "")
+                    }
+                ],
+                footnote: defaultFootnote,
+                footnoteVi: "Em co the lay lai cac bieu hien trong the xem tu khoa de ghi ngan gon."
+            };
+        }
+
+        return {
+            title: defaultTitle,
+            titleVi: "The tom tat nhanh",
+            prompt: defaultPrompt,
+            promptVi: "Dung viet lai dai; hay ghi ngan gon tung diem chinh vao cac o ben duoi.",
+            keywords,
+            fields: [
+                {
+                    label: chooseLocalizedText("핵심 상황", "Tinh huong chinh"),
+                    labelVi: "Tinh huong chinh",
+                    helper: summary || keywordPrompt || "",
+                    helperVi: summary || keywordPrompt || "",
+                    placeholder: keywordPrompt || summary || ""
+                },
+                {
+                    label: chooseLocalizedText("들은 정보", "Thong tin da nghe"),
+                    labelVi: "Thong tin da nghe",
+                    helper: detailPrompt || cuePrompt || "",
+                    helperVi: detailPrompt || cuePrompt || "",
+                    placeholder: detailPrompt || cuePrompt || ""
+                },
+                {
+                    label: chooseLocalizedText("한 줄 정리", "Tom tat mot cau"),
+                    labelVi: "Tom tat mot cau",
+                    helper: questionPrompt || chooseLocalizedText(
+                        "마지막에 남는 생각이나 결론을 짧게 적어 보세요.",
+                        "Hay viet ngan gon dieu em rut ra o cuoi bai nghe."
+                    ),
+                    helperVi: questionPrompt || chooseLocalizedText(
+                        "마지막에 남는 생각이나 결론을 짧게 적어 보세요.",
+                        "Hay viet ngan gon dieu em rut ra o cuoi bai nghe."
+                    ),
+                    placeholder: questionPrompt || cuePrompt || summary || ""
+                }
+            ],
+            footnote: defaultFootnote,
+            footnoteVi: "Em co the lay lai cac bieu hien trong the xem tu khoa de ghi ngan gon."
+        };
     }
 
     function getSequenceTaskState(lessonId) {
@@ -1279,7 +1463,7 @@
     }
 
     function getLessonProgressSteps(lesson) {
-        return [
+        const stages = [
             {
                 id: "pre",
                 label: chooseLocalizedText("듣기 전", "Truoc khi nghe"),
@@ -1332,6 +1516,9 @@
                 ].filter(Boolean)
             }
         ];
+        return shouldHideCorePointStage(lesson)
+            ? stages.filter((stage) => stage.id !== 2)
+            : stages;
     }
 
     function buildLessonProgress(lesson) {
@@ -1503,8 +1690,51 @@
         `;
     }
 
+    function buildCompactActivity(lesson, activity) {
+        const noteTitle = chooseLocalizedText("사용 메모", "Goi y");
+        const tags = getInstructionLanguage() === "vi" && Array.isArray(activity.keywordsVi) && activity.keywordsVi.length
+            ? activity.keywordsVi
+            : (activity.keywords || []);
+
+        return `
+            <section class="lw-section lw-progress-target lw-compact-activity" id="dictogloss-section-${escapeHtml(lesson.id)}">
+                <h3>${escapeHtml(getLocalizedField(activity, "title", chooseLocalizedText("핵심 정리 카드", "The tom tat nhanh")))}</h3>
+                <p class="lw-section-copy">${escapeHtml(getLocalizedField(activity, "prompt", chooseLocalizedText(
+                    "길게 다시 구성하지 말고, 아래 칸에 핵심만 짧게 정리해 보세요.",
+                    "Dung viet lai dai; hay ghi ngan gon tung diem chinh vao cac o ben duoi."
+                )))}</p>
+                ${tags.length ? `
+                    <div class="lw-compact-tag-list">
+                        ${tags.map((keyword) => `<span>${escapeHtml(keyword)}</span>`).join("")}
+                    </div>
+                ` : ""}
+                <div class="lw-compact-activity-grid">
+                    ${(activity.fields || []).map((field, index) => `
+                        <label class="lw-compact-field">
+                            <strong>${escapeHtml(getLocalizedField(field, "label", `${chooseLocalizedText("정리", "Muc")} ${index + 1}`))}</strong>
+                            ${getLocalizedField(field, "helper", "") ? `<p>${escapeHtml(getLocalizedField(field, "helper", ""))}</p>` : ""}
+                            <textarea
+                                class="lw-textarea"
+                                data-storage-key="${escapeHtml(storageKey(lesson.id, `compact-activity-${index}`))}"
+                                placeholder="${escapeHtml(getLocalizedField(field, "placeholder", ""))}"
+                            ></textarea>
+                        </label>
+                    `).join("")}
+                </div>
+                ${getLocalizedField(activity, "footnote", "") ? `
+                    <div class="lw-summary-block">
+                        <strong>${escapeHtml(noteTitle)}</strong>
+                        <div style="font-size: 13px; line-height: 1.6; color: #475569;">${escapeHtml(getLocalizedField(activity, "footnote", ""))}</div>
+                    </div>
+                ` : ""}
+            </section>
+        `;
+    }
+
     function buildPreListening(lesson) {
         const uiText = getInstructionText();
+        const compactMode = isCompactModeEnabled();
+        const settings = getLessonCompactSettings(lesson);
         const vocabTitle = chooseLocalizedText("핵심 어휘", "Tu vung chinh");
         const vocabCopy = chooseLocalizedText(
             "카드를 뒤집으며 표현의 뜻과 문맥 힌트를 먼저 정리해 보세요.",
@@ -1515,21 +1745,29 @@
             "화자 관계와 담화 유형을 고르고, 왜 그렇게 생각했는지 짧게 정리해 보세요.",
             "Hay chon quan he giua nguoi noi va loai hoi thoai, sau do ghi ngan gon vi sao em du doan nhu vay."
         );
+        const hideSceneCard = compactMode && settings.hideSceneCard;
+        const moveBackgroundPrompt = compactMode && settings.moveBackgroundPromptIntoPrediction;
+        const backgroundPromptMarkup = `
+            <div class="lw-summary-block lw-pre-summary${moveBackgroundPrompt ? " lw-pre-summary--inline" : ""}">
+                <strong>${escapeHtml(getLocalizedField(lesson.preListening, "backgroundPromptTitle", uiText.backgroundPromptTitle))}</strong>
+                <textarea class="lw-textarea" data-storage-key="${escapeHtml(storageKey(lesson.id, "background-note"))}" placeholder="${escapeHtml(getLocalizedField(lesson.preListening, "backgroundPrompt", "???곹솴?먯꽌 媛??癒쇱? ?섏삱 ?댁슜?대굹 吏덈Ц???쒕몢 臾몄옣?쇰줈 ?곸뼱 蹂댁꽭??"))}"></textarea>
+            </div>
+        `;
         const topClusterMarkup = usesAudioInPreLayout()
             ? `
-                <div class="lw-pre-top-grid">
-                    ${buildScene(lesson.scene || {})}
+                <div class="lw-pre-top-grid${hideSceneCard ? " lw-pre-top-grid--single" : ""}">
+                    ${hideSceneCard ? "" : buildScene(lesson.scene || {})}
                     ${buildEmbeddedAudioSection(lesson)}
                 </div>
             `
-            : buildScene(lesson.scene || {});
+            : (hideSceneCard ? "" : buildScene(lesson.scene || {}));
         return `
-            <section class="lw-section lw-progress-target lw-pre-section" id="pre-section-${escapeHtml(lesson.id)}">
+            <section class="lw-section lw-progress-target lw-pre-section" id="pre-section-${escapeHtml(lesson.id)}"${moveBackgroundPrompt ? ' data-inline-background="true"' : ""}>
                 <h3>${escapeHtml(uiText.preListeningTitle)}</h3>
                 <p class="lw-section-copy">${escapeHtml(uiText.preListeningCopy)}</p>
                 ${topClusterMarkup}
 
-                <div class="lw-pre-layout">
+                <div class="lw-pre-layout${compactMode ? " lw-pre-layout--compact" : ""}">
                     <div class="lw-pre-card">
                         <div class="lw-pre-card__header">
                             <span class="lw-pre-card__eyebrow">${escapeHtml(vocabTitle)}</span>
@@ -1551,6 +1789,7 @@
                             <button type="button" class="lw-button" data-action="check-prediction" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.predictionCheck)}</button>
                         </div>
                         <div id="prediction-feedback-${escapeHtml(lesson.id)}" class="lw-status" data-tone="info">${escapeHtml(uiText.predictionFeedbackInitial)}</div>
+                        ${moveBackgroundPrompt ? backgroundPromptMarkup : ""}
                     </div>
                 </div>
 
@@ -1802,6 +2041,7 @@
     }
 
     function buildNoteSection(lesson) {
+        if (isCompactModeEnabled() && getLessonCompactSettings(lesson).hideNoteSection) return "";
         const uiText = getInstructionText();
         const notePrintButton = chooseLocalizedText("인쇄용 노트 열기", "Mo ban in ghi chu");
         const notePrintHelp = chooseLocalizedText(
@@ -1905,6 +2145,8 @@
     }
 
     function buildOralFeatures(lesson) {
+        if (isCompactModeEnabled() && getLessonCompactSettings(lesson).hideOralFeaturesSection) return "";
+        if (!Array.isArray(lesson.oralFeatures) || !lesson.oralFeatures.length) return "";
         const uiText = getInstructionText();
         return `
             <section class="lw-section">
@@ -1927,40 +2169,74 @@
         const state = getState(lesson.id);
         const language = getQuizLanguage(state);
         const uiText = getQuizText(language);
+        const foldable = isQuizFoldEnabled(lesson);
+        const isOpen = foldable ? readQuizFoldState(lesson) : true;
+        const foldBodyId = `quiz-fold-body-${lesson.id}`;
+        const titleMarkup = `<h3 id="quiz-title-${escapeHtml(lesson.id)}">${escapeHtml(getLessonQuizTitle(lesson, language))}</h3>`;
+        const foldHeaderMarkup = foldable
+            ? `
+                <div class="lw-compact-fold__bar">
+                    ${titleMarkup}
+                    <button
+                        type="button"
+                        class="lw-compact-fold__toggle"
+                        data-action="toggle-quiz-fold"
+                        data-lesson-id="${escapeHtml(lesson.id)}"
+                        aria-expanded="${String(isOpen)}"
+                        aria-controls="${escapeHtml(foldBodyId)}"
+                    >
+                        <span class="lw-compact-fold__label">${escapeHtml(getQuizFoldText(isOpen))}</span>
+                        <span class="lw-compact-fold__wave" aria-hidden="true">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </button>
+                </div>
+                <p class="lw-compact-fold__hint">${escapeHtml(getQuizFoldHint(isOpen))}</p>
+            `
+            : titleMarkup;
+        const quizInnerMarkup = `
+            <div class="lw-summary-block" style="margin-bottom: 12px;">
+                <strong id="quiz-guide-title-${escapeHtml(lesson.id)}">${escapeHtml(uiText.guideTitle)}</strong>
+                <div id="quiz-guide-${escapeHtml(lesson.id)}" style="font-size: 14px; line-height: 1.8; color: #475569;">${escapeHtml(getLessonQuizGuide(lesson, language))}</div>
+            </div>
+            <div class="lw-quiz-language-bar">
+                <strong>${escapeHtml(uiText.languageLabel)}</strong>
+                <button type="button" class="lw-note-tab${language === "ko" ? " is-active" : ""}" data-action="set-quiz-language" data-lesson-id="${escapeHtml(lesson.id)}" data-quiz-language="ko">${escapeHtml(uiText.languageKo)}</button>
+                <button type="button" class="lw-note-tab${language === "vi" ? " is-active" : ""}" data-action="set-quiz-language" data-lesson-id="${escapeHtml(lesson.id)}" data-quiz-language="vi">${escapeHtml(uiText.languageVi)}</button>
+                <div class="lw-quiz-language-help" id="quiz-language-help-${escapeHtml(lesson.id)}">${escapeHtml(uiText.languageHelp)}</div>
+            </div>
+            <div class="lw-grid">
+                ${(lesson.questions || []).map((question, index) => `
+                    <article class="lw-quiz-card" id="quiz-card-${escapeHtml(lesson.id)}-${index}">
+                        <strong id="quiz-prompt-${escapeHtml(lesson.id)}-${index}">${index + 1}. ${escapeHtml(getQuestionPrompt(question, language))}</strong>
+                        <div class="lw-quiz-options">
+                            ${question.options.map((option, optionIndex) => `
+                                <label>
+                                    <input type="radio" name="quiz-${escapeHtml(lesson.id)}-${index}" value="${escapeHtml(option.value)}">
+                                    <span id="quiz-option-${escapeHtml(lesson.id)}-${index}-${optionIndex}">${escapeHtml(getOptionLabel(option, language))}</span>
+                                </label>
+                            `).join("")}
+                        </div>
+                        <div class="lw-quiz-feedback" id="quiz-feedback-${escapeHtml(lesson.id)}-${index}">${escapeHtml(getQuestionExplanation(question, language))}</div>
+                    </article>
+                `).join("")}
+            </div>
+            <div class="lw-quiz-actions" style="margin-top: 14px;">
+                <button type="button" class="lw-quiz-submit" id="quiz-submit-${escapeHtml(lesson.id)}" data-action="submit-quiz" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.submit)}</button>
+                <button type="button" class="lw-quiz-reset" id="quiz-reset-${escapeHtml(lesson.id)}" data-action="reset-quiz" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.reset)}</button>
+            </div>
+            <div id="quiz-status-${escapeHtml(lesson.id)}" class="lw-status" data-tone="info">${escapeHtml(uiText.statusInitial)}</div>
+        `;
         return `
-            <section class="lw-section lw-progress-target" id="quiz-section-${escapeHtml(lesson.id)}">
-                <h3 id="quiz-title-${escapeHtml(lesson.id)}">${escapeHtml(getLessonQuizTitle(lesson, language))}</h3>
-                <div class="lw-summary-block" style="margin-bottom: 12px;">
-                    <strong id="quiz-guide-title-${escapeHtml(lesson.id)}">${escapeHtml(uiText.guideTitle)}</strong>
-                    <div id="quiz-guide-${escapeHtml(lesson.id)}" style="font-size: 14px; line-height: 1.8; color: #475569;">${escapeHtml(getLessonQuizGuide(lesson, language))}</div>
-                </div>
-                <div class="lw-quiz-language-bar">
-                    <strong>${escapeHtml(uiText.languageLabel)}</strong>
-                    <button type="button" class="lw-note-tab${language === "ko" ? " is-active" : ""}" data-action="set-quiz-language" data-lesson-id="${escapeHtml(lesson.id)}" data-quiz-language="ko">${escapeHtml(uiText.languageKo)}</button>
-                    <button type="button" class="lw-note-tab${language === "vi" ? " is-active" : ""}" data-action="set-quiz-language" data-lesson-id="${escapeHtml(lesson.id)}" data-quiz-language="vi">${escapeHtml(uiText.languageVi)}</button>
-                    <div class="lw-quiz-language-help" id="quiz-language-help-${escapeHtml(lesson.id)}">${escapeHtml(uiText.languageHelp)}</div>
-                </div>
-                <div class="lw-grid">
-                    ${(lesson.questions || []).map((question, index) => `
-                        <article class="lw-quiz-card" id="quiz-card-${escapeHtml(lesson.id)}-${index}">
-                            <strong id="quiz-prompt-${escapeHtml(lesson.id)}-${index}">${index + 1}. ${escapeHtml(getQuestionPrompt(question, language))}</strong>
-                            <div class="lw-quiz-options">
-                                ${question.options.map((option, optionIndex) => `
-                                    <label>
-                                        <input type="radio" name="quiz-${escapeHtml(lesson.id)}-${index}" value="${escapeHtml(option.value)}">
-                                        <span id="quiz-option-${escapeHtml(lesson.id)}-${index}-${optionIndex}">${escapeHtml(getOptionLabel(option, language))}</span>
-                                    </label>
-                                `).join("")}
-                            </div>
-                            <div class="lw-quiz-feedback" id="quiz-feedback-${escapeHtml(lesson.id)}-${index}">${escapeHtml(getQuestionExplanation(question, language))}</div>
-                        </article>
-                    `).join("")}
-                </div>
-                <div class="lw-quiz-actions" style="margin-top: 14px;">
-                    <button type="button" class="lw-quiz-submit" id="quiz-submit-${escapeHtml(lesson.id)}" data-action="submit-quiz" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.submit)}</button>
-                    <button type="button" class="lw-quiz-reset" id="quiz-reset-${escapeHtml(lesson.id)}" data-action="reset-quiz" data-lesson-id="${escapeHtml(lesson.id)}">${escapeHtml(uiText.reset)}</button>
-                </div>
-                <div id="quiz-status-${escapeHtml(lesson.id)}" class="lw-status" data-tone="info">${escapeHtml(uiText.statusInitial)}</div>
+            <section class="lw-section lw-progress-target${foldable ? " lw-quiz-section--foldable" : ""}${foldable && !isOpen ? " is-collapsed" : ""}" id="quiz-section-${escapeHtml(lesson.id)}">
+                ${foldHeaderMarkup}
+                ${foldable
+                    ? `<div class="lw-compact-fold__body" id="${escapeHtml(foldBodyId)}">${quizInnerMarkup}</div>`
+                    : quizInnerMarkup}
             </section>
         `;
     }
@@ -2020,6 +2296,7 @@
 
     function buildSpeakingSection(lesson) {
         if (!lesson.speakingTask) return "";
+        if (isCompactModeEnabled() && getLessonCompactSettings(lesson).hideSpeakingSection) return "";
 
         const title = getLocalizedField(
             lesson.speakingTask,
@@ -2167,22 +2444,35 @@
     }
 
     function buildAnalysisPractice(lesson) {
+        const sequenceMarkup = hasSequenceTask(lesson) ? buildSequenceTask(lesson) : "";
+        const dictoglossMarkup = buildDictogloss(lesson);
+        const noteMarkup = buildNoteSection(lesson);
+
         if (hasSequenceTask(lesson)) {
-            return `
-                <div class="lw-grid-2" style="margin-top: 18px;">
-                    ${buildSequenceTask(lesson)}
-                    ${buildDictogloss(lesson)}
-                </div>
-                <div class="lw-grid" style="margin-top: 18px;">
-                    ${buildNoteSection(lesson)}
-                </div>
-            `;
+            const primarySections = [sequenceMarkup, dictoglossMarkup].filter(Boolean);
+            const primaryMarkup = primarySections.length
+                ? `
+                    <div class="${primarySections.length === 1 ? "lw-grid" : "lw-grid-2"}" style="margin-top: 18px;">
+                        ${primarySections.join("")}
+                    </div>
+                `
+                : "";
+            const noteSectionMarkup = noteMarkup
+                ? `
+                    <div class="lw-grid" style="margin-top: 18px;">
+                        ${noteMarkup}
+                    </div>
+                `
+                : "";
+            return `${primaryMarkup}${noteSectionMarkup}`;
         }
 
+        const sections = [dictoglossMarkup, noteMarkup].filter(Boolean);
+        if (!sections.length) return "";
+
         return `
-            <div class="lw-grid-2" style="margin-top: 18px;">
-                ${buildDictogloss(lesson)}
-                ${buildNoteSection(lesson)}
+            <div class="${sections.length === 1 ? "lw-grid" : "lw-grid-2"}" style="margin-top: 18px;">
+                ${sections.join("")}
             </div>
         `;
     }
@@ -2224,6 +2514,7 @@
 
     function buildLesson(lesson, index) {
         const state = getState(lesson.id);
+        const settings = getLessonCompactSettings(lesson);
         syncState(lesson.id);
         const introMarkup = usesAudioInPreLayout()
             ? buildPreListening(lesson)
@@ -2233,6 +2524,12 @@
                     ${buildAudioSection(lesson)}
                 </div>
             `;
+        const relocateQuiz = isCompactModeEnabled() && settings.relocateQuizBelowSubtitle !== false;
+        const sentenceMarkup = buildSentenceTrainer(lesson);
+        const coreSections = [buildSubtitleSection(lesson)];
+        if (relocateQuiz) coreSections.push(buildQuizSection(lesson));
+        if (sentenceMarkup) coreSections.push(sentenceMarkup);
+        const clarificationSections = [buildClarificationSection(lesson), buildOralFeatures(lesson)].filter(Boolean);
         return `
             <section class="lw-lesson" id="lesson-${escapeHtml(lesson.id)}">
                 <div class="lw-lesson-header">
@@ -2248,18 +2545,24 @@
                 ${buildLessonVisual(lesson)}
                 ${introMarkup}
                 <div class="lw-grid" style="margin-top: 18px;">
-                    ${buildSubtitleSection(lesson)}
-                    ${buildSentenceTrainer(lesson)}
+                    ${coreSections.join("")}
                 </div>
                 ${buildAnalysisPractice(lesson)}
-                <div class="lw-grid-2" style="margin-top: 18px;">
-                    ${buildClarificationSection(lesson)}
-                    ${buildOralFeatures(lesson)}
-                </div>
+                ${clarificationSections.length
+                    ? `
+                        <div class="${clarificationSections.length === 1 ? "lw-grid" : "lw-grid-2"}" style="margin-top: 18px;">
+                            ${clarificationSections.join("")}
+                        </div>
+                    `
+                    : ""}
                 ${buildPracticeExtensions(lesson)}
-                <div class="lw-grid" style="margin-top: 18px;">
-                    ${buildQuizSection(lesson)}
-                </div>
+                ${relocateQuiz
+                    ? ""
+                    : `
+                        <div class="lw-grid" style="margin-top: 18px;">
+                            ${buildQuizSection(lesson)}
+                        </div>
+                    `}
             </section>
         `;
     }
@@ -3532,6 +3835,25 @@
         updateQuizUI(lessonId);
     }
 
+    function toggleQuizFold(lessonId) {
+        const lesson = lessonMap.get(lessonId);
+        if (!lesson || !isQuizFoldEnabled(lesson)) return;
+
+        const section = document.getElementById(`quiz-section-${lessonId}`);
+        if (!section) return;
+
+        const nextOpen = section.classList.contains("is-collapsed");
+        const button = section.querySelector(".lw-compact-fold__toggle");
+        const label = section.querySelector(".lw-compact-fold__label");
+        const hint = section.querySelector(".lw-compact-fold__hint");
+
+        section.classList.toggle("is-collapsed", !nextOpen);
+        if (button) button.setAttribute("aria-expanded", String(nextOpen));
+        if (label) label.textContent = getQuizFoldText(nextOpen);
+        if (hint) hint.textContent = getQuizFoldHint(nextOpen);
+        writeQuizFoldState(lessonId, nextOpen);
+    }
+
     function getLessonQuizState(lessonId) {
         if (!quizState.has(lessonId)) {
             quizState.set(lessonId, { submitted: false, score: null });
@@ -4223,6 +4545,7 @@
         const root = document.getElementById("listening-workbook-app");
         if (!root) return;
         const runtimeSnapshot = options.preserveRuntime ? captureRuntimeState() : null;
+        document.body.classList.toggle("lw-compact-mode", isCompactModeEnabled(config));
 
         lessonMap.clear();
         lessonState.clear();
@@ -4307,6 +4630,7 @@
         if (action === "print-note-sheet") return void printNoteSheet(lessonId);
         if (action === "set-note-tab") return void setNoteTab(lessonId, button.dataset.noteTab);
         if (action === "set-quiz-language") return void setQuizLanguage(lessonId, button.dataset.quizLanguage);
+        if (action === "toggle-quiz-fold") return void toggleQuizFold(lessonId);
         if (action === "append-expression") return void appendExpression(lessonId, button.dataset.expression || "");
         if (action === "speak-expression") return void speakExpression(lessonId, button.dataset.expression || "");
         if (action === "submit-cloze") return void submitCloze(lessonId);
@@ -4419,11 +4743,14 @@
 
     function getLessonStages(lesson) {
         if (lessonHasTranscript(lesson)) return STAGES;
-        return [
+        const stages = [
             { id: 0, label: "듣기만", labelVi: "Chi nghe", unlock: 0 },
             { id: 1, label: "핵심어", labelVi: "Tu khoa", unlock: 1 },
             { id: 2, label: "핵심 포인트", labelVi: "Y chinh", unlock: 2 }
         ];
+        return shouldHideCorePointStage(lesson)
+            ? stages.filter((stage) => stage.id !== 2)
+            : stages;
     }
 
     function getLessonUnlockedStage(lesson, listens) {
@@ -4539,14 +4866,18 @@
     }
 
     function getLessonProgressSteps(lesson) {
+        const settings = getLessonCompactSettings(lesson);
         const subtitleLabel = lessonHasTranscript(lesson)
             ? chooseLocalizedText("자막", "Phu de")
             : chooseLocalizedText("핵심어", "Tu khoa");
         const sentenceLabel = lessonHasTranscript(lesson)
             ? chooseLocalizedText("문장 연습", "Luyen tung cau")
             : chooseLocalizedText("핵심 포인트", "Diem chinh");
+        const showSentenceStep = !shouldHideCorePointStage(lesson);
+        const showNoteStep = !(isCompactModeEnabled() && settings.hideNoteSection);
+        const quizAfterSubtitle = isCompactModeEnabled() && settings.relocateQuizBelowSubtitle !== false;
 
-        return [
+        const steps = [
             {
                 id: "pre",
                 label: chooseLocalizedText("듣기 전", "Truoc khi nghe"),
@@ -4599,6 +4930,24 @@
                 ].filter(Boolean)
             }
         ];
+        const filteredSteps = steps.filter((step) => {
+            if (step.id === "sentence" && !showSentenceStep) return false;
+            if (step.id === "note" && !showNoteStep) return false;
+            return true;
+        });
+        const quizStep = filteredSteps.find((step) => step.id === "quiz");
+        if (quizStep && quizAfterSubtitle) {
+            quizStep.label = chooseLocalizedText("이해 점검", "Kiem tra hieu");
+            quizStep.anchorId = `quiz-section-${lesson.id}`;
+            quizStep.targetIds = [`quiz-section-${lesson.id}`];
+            const quizIndex = filteredSteps.indexOf(quizStep);
+            if (quizIndex > -1) {
+                filteredSteps.splice(quizIndex, 1);
+            }
+            const subtitleIndex = filteredSteps.findIndex((step) => step.id === "subtitle");
+            filteredSteps.splice(subtitleIndex + 1, 0, quizStep);
+        }
+        return filteredSteps;
     }
 
     function syncState(lessonId) {
@@ -4722,6 +5071,7 @@
 
     function buildSentenceTrainer(lesson) {
         const uiText = getInstructionText();
+        if (shouldHideCorePointStage(lesson)) return "";
         if (lessonHasTranscript(lesson)) {
             return `
                 <section class="lw-section lw-progress-target" id="sentence-section-${escapeHtml(lesson.id)}">
@@ -4774,6 +5124,14 @@
 
     function buildDictogloss(lesson) {
         const uiText = getInstructionText();
+        const compactSettings = getLessonCompactSettings(lesson);
+        if (isCompactModeEnabled() && (compactSettings.removeDictoglossSection || hasSequenceTask(lesson))) {
+            return "";
+        }
+        const compactActivity = getCompactReplacementActivity(lesson);
+        if (compactActivity) {
+            return buildCompactActivity(lesson, compactActivity);
+        }
         const transcriptAvailable = lessonHasTranscript(lesson);
         const publicPrompt = chooseLocalizedText(
             "핵심어와 핵심 포인트를 바탕으로 3~5문장 요약을 작성해 보세요.",

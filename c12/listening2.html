@@ -72,9 +72,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             kicker: "Chapter 12 Listening Lab",
             title: "12과 듣기 2",
             titleVi: "Luyện nghe bài 12 - Nghe 2",
-            description: "운동 성과를 확인하고 복근 만들기 방법을 상담하는 대화를 바탕으로 운동 효과, 조언, 금지 표현을 정리하는 듣기 워크북입니다. 단계별 자막, 문장 반복, 딕토글로스, 습관 비교 메모, 확인 퀴즈까지 한 페이지에 묶었습니다.",
-            descriptionVi: "Đây là workbook nghe dựa trên cuộc trò chuyện kiểm tra kết quả tập luyện và hỏi cách tạo cơ bụng. Em sẽ sắp xếp tác dụng của vận động, lời khuyên và biểu hiện cấm đoán thông qua phụ đề theo từng bước, luyện từng câu, dictogloss, bảng so sánh thói quen và bài kiểm tra.",
+            description: "운동 성과를 확인하고 복근 만들기 방법을 상담하는 대화를 바탕으로 운동 효과와 조언을 정리하는 듣기 워크북입니다. 핵심어 보기, 핵심 정리 카드, 이해 점검 중심으로 한 페이지를 더 간결하게 묶었습니다.",
+            descriptionVi: "Day la workbook nghe ve cuoc tro chuyen kiem tra ket qua tap luyen va hoi cach tao co bung. Trang nay duoc rut gon voi xem tu khoa, the tom tat chinh va phan kiem tra hieu noi dung.",
             layoutVariant: "audio-in-pre",
+            sampleCompact: {
+                enabled: true,
+                defaults: {
+                    hideSceneCard: true,
+                    hideCorePointStage: true,
+                    hideNoteSection: true,
+                    hideOralFeaturesSection: true,
+                    hideSpeakingSection: true,
+                    moveBackgroundPromptIntoPrediction: true,
+                    relocateQuizBelowSubtitle: true,
+                    quizStartsCollapsed: true
+                }
+            },
             instructionLanguage: {
                 enabled: true,
                 default: "ko"
@@ -89,24 +102,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             featureList: [
                 "상황 예측",
                 "단계별 자막",
-                "문장 반복과 shadowing",
-                "딕토글로스",
-                "도움 되는 습관 정리",
-                "말하기 연습",
+                "핵심어 보기",
+                "핵심 정리 카드",
                 "이해 점검"
             ],
             featureListVi: [
-                "Dự đoán tình huống",
-                "Phụ đề theo từng bước",
-                "Lặp lại từng câu và shadowing",
-                "Dictogloss",
-                "Sắp xếp thói quen có lợi",
-                "Luyện nói",
-                "Kiểm tra mức độ hiểu"
+                "Du doan tinh huong",
+                "Phu de theo tung buoc",
+                "Xem tu khoa",
+                "The tom tat nhanh",
+                "Kiem tra muc do hieu"
             ],
             lessons: [
                 {
                     id: "track31",
+                    compactSample: {
+                        replacementActivity: {
+                            title: "핵심 정리 카드",
+                            titleVi: "The tom tat nhanh",
+                            prompt: "긴 재구성 대신 세 칸만 채워서 듣기 내용을 정리해 보세요.",
+                            promptVi: "Thay vi viet lai dai, hay chi dien ba o de sap xep noi dung bai nghe.",
+                            keywords: ["운동 변화", "다음 목표", "습관 조절"],
+                            keywordsVi: ["Thay doi khi tap", "Muc tieu tiep theo", "Dieu chinh thoi quen"],
+                            fields: [
+                                {
+                                    label: "운동 뒤 변화",
+                                    labelVi: "Thay doi sau khi tap",
+                                    helper: "몸 상태가 어떻게 달라졌는지 짧게 적기",
+                                    helperVi: "Ghi ngan gon co the da thay doi the nao",
+                                    placeholder: "예: 몸이 훨씬 가벼워졌고 회사에서도 덜 피곤해졌어요.",
+                                    placeholderVi: "Vi du: Co the nhe hon va o cong ty cung do met hon."
+                                },
+                                {
+                                    label: "다음 목표",
+                                    labelVi: "Muc tieu tiep theo",
+                                    helper: "앞으로 만들고 싶은 몸 상태나 운동 목표",
+                                    helperVi: "Tinh trang co the hay muc tieu tap luyen muon dat tiep theo",
+                                    placeholder: "예: 다음에는 복근을 만들고 싶어요.",
+                                    placeholderVi: "Vi du: Lan toi toi muon tao co bung."
+                                },
+                                {
+                                    label: "조절할 습관",
+                                    labelVi: "Thoi quen can dieu chinh",
+                                    helper: "줄이거나 함께 바꿔야 할 생활 습관",
+                                    helperVi: "Thoi quen sinh hoat can giam bot hoac thay doi cung luc",
+                                    placeholder: "예: 야식과 회사 술자리를 줄여야 해요.",
+                                    placeholderVi: "Vi du: Can giam an dem va cac bua uong o cong ty."
+                                }
+                            ],
+                            footnote: "핵심어 보기 카드에서 본 표현을 그대로 가져와 짧게 정리해도 됩니다.",
+                            footnoteVi: "Em co the lay lai cac bieu hien trong the xem tu khoa de tom tat ngan gon."
+                        }
+                    },
                     label: "Track 31",
                     title: "듣기 2: 복근 만들기와 운동 습관",
                     titleVi: "Nghe 2: Tạo cơ bụng và thói quen tập luyện",

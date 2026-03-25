@@ -64,8 +64,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             kicker: "Chapter 10 Listening Lab",
             title: "10과 듣기 학습",
             titleVi: "Luyện nghe bài 10",
-            description: "두 개의 본문을 듣기 전 예측, 단계적 자막, 문장 반복, 딕토글로스, 노트 필기, 쉐도잉까지 한 흐름으로 다시 설계했습니다. 베트남어 지원은 마지막 단계에서만 열리도록 조정했습니다.",
-            descriptionVi: "Trang này sắp xếp lại hai bài nghe theo một dòng học liền mạch: dự đoán trước khi nghe, phụ đề theo từng bước, lặp lại câu, dictogloss, ghi chú và shadowing. Khi cần, em có thể đổi riêng phần hướng dẫn sang tiếng Việt bằng nút ở trên.",
+            description: "두 개의 본문을 듣기 전 예측, 단계적 자막, 핵심 정리 카드, 이해 점검 중심으로 다시 정리했습니다. 불필요한 활동을 줄여 더 짧은 흐름으로 확인할 수 있습니다.",
+            descriptionVi: "Trang nay duoc rut gon thanh mot dong hoc ngan hon, tap trung vao du doan truoc khi nghe, phu de theo tung buoc, the tom tat va phan kiem tra hieu. Cac hoat dong khong can thiet da duoc bot de em hoc gon hon.",
+            layoutVariant: "audio-in-pre",
+            sampleCompact: {
+                enabled: true,
+                defaults: {
+                    hideSceneCard: true,
+                    hideCorePointStage: true,
+                    hideNoteSection: true,
+                    hideOralFeaturesSection: true,
+                    hideSpeakingSection: true,
+                    moveBackgroundPromptIntoPrediction: true,
+                    relocateQuizBelowSubtitle: true,
+                    quizStartsCollapsed: true
+                }
+            },
             instructionLanguage: {
                 enabled: true,
                 default: "ko"
@@ -80,6 +94,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             lessons: [
                 {
                     id: "track09",
+                    compactSample: {
+                        replacementActivity: {
+                            title: "인터뷰 핵심 정리 카드",
+                            titleVi: "The tom tat phong van",
+                            prompt: "긴 인터뷰 재구성 대신 세 칸만 채워 결혼 소식을 정리해 보세요.",
+                            promptVi: "Thay vi viet lai dai, hay dien ba o de tom tat tin ket hon.",
+                            keywords: ["결혼 시기", "상대 정보", "결혼 이유"],
+                            keywordsVi: ["Thoi diem ket hon", "Thong tin doi phuong", "Ly do ket hon"],
+                            fields: [
+                                {
+                                    label: "언제 결혼하나요?",
+                                    labelVi: "Khi nao ket hon?",
+                                    helper: "결혼 시기를 짧게 적기",
+                                    helperVi: "Ghi ngan gon thoi diem ket hon",
+                                    placeholder: "예: 내년 1월에 결혼할 예정이에요.",
+                                    placeholderVi: "Vi du: Du dinh ket hon vao thang 1 nam sau."
+                                },
+                                {
+                                    label: "상대는 어떤 사람인가요?",
+                                    labelVi: "Doi phuong la nguoi nhu the nao?",
+                                    helper: "직업, 성격, 만난 계기 중 하나 이상 쓰기",
+                                    helperVi: "Viet ngan gon nghe nghiep, tinh cach hay cach quen nhau",
+                                    placeholder: "예: 조용하고 마음이 착한 분이고 소개로 만났어요.",
+                                    placeholderVi: "Vi du: Co ay hien va nhe nhang, hai nguoi quen nhau qua gioi thieu."
+                                },
+                                {
+                                    label: "왜 결혼을 결심했나요?",
+                                    labelVi: "Vi sao quyet dinh ket hon?",
+                                    helper: "결심한 이유를 짧게 정리하기",
+                                    helperVi: "Tom tat ngan gon ly do da quyet dinh",
+                                    placeholder: "예: 선수 생활을 이해해 주고 성격이 잘 맞아요.",
+                                    placeholderVi: "Vi du: Co ay hieu cuoc song van dong vien va hop tinh cach."
+                                }
+                            ],
+                            footnote: "핵심어 보기에서 본 표현을 그대로 가져와 짧게 적어도 됩니다.",
+                            footnoteVi: "Co the lay lai cac bieu hien trong the tu khoa va ghi ngan gon."
+                        }
+                    },
                     label: "Track 09",
                     title: "듣기 1: 인터뷰",
                     titleVi: "Nghe 1: Phỏng vấn",
@@ -277,6 +329,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 },
                 {
                     id: "track10",
+                    compactSample: {
+                        replacementActivity: {
+                            title: "사연 흐름 정리 카드",
+                            titleVi: "The sap xep cau chuyen",
+                            prompt: "긴 사연 쓰기 대신 만남부터 앞으로의 계획까지 세 칸으로 정리해 보세요.",
+                            promptVi: "Thay vi viet lai dai, hay tom tat cau chuyen tu luc gap nhau den ke hoach sau nay trong ba o.",
+                            keywords: ["만남 계기", "결혼 과정", "앞으로 계획"],
+                            keywordsVi: ["Co duyen gap nhau", "Qua trinh ket hon", "Ke hoach sau nay"],
+                            fields: [
+                                {
+                                    label: "어떻게 만났나요?",
+                                    labelVi: "Hai nguoi gap nhau nhu the nao?",
+                                    helper: "처음 만난 계기 적기",
+                                    helperVi: "Ghi ngan gon co duyen quen nhau",
+                                    placeholder: "예: 일본에서 공부할 때 알게 되었어요.",
+                                    placeholderVi: "Vi du: Hai nguoi quen nhau khi hoc o Nhat."
+                                },
+                                {
+                                    label: "결혼까지 어떤 일이 있었나요?",
+                                    labelVi: "Da co nhung viec gi truoc khi ket hon?",
+                                    helper: "사건 순서를 짧게 연결하기",
+                                    helperVi: "Noi ngan gon cac su kien theo thu tu",
+                                    placeholder: "예: 교통사고 뒤 병원에서 간호해 주면서 더 가까워졌어요.",
+                                    placeholderVi: "Vi du: Sau tai nan, co ay cham soc o benh vien nen hai nguoi gan hon."
+                                },
+                                {
+                                    label: "앞으로 어떤 계획이 있나요?",
+                                    labelVi: "Sau nay co ke hoach gi?",
+                                    helper: "결혼 후 하고 싶은 일을 적기",
+                                    helperVi: "Ghi ngan gon viec muon lam sau khi ket hon",
+                                    placeholder: "예: 나중에 같이 빵집을 열고 싶어요.",
+                                    placeholderVi: "Vi du: Sau nay muon mo tiem banh cung nhau."
+                                }
+                            ],
+                            footnote: "시간 순서가 보이도록 짧은 표현만 적어도 충분합니다.",
+                            footnoteVi: "Chi can viet ngan gon de nhin ra trinh tu thoi gian."
+                        }
+                    },
                     label: "Track 10",
                     title: "듣기 2: 사랑 이야기",
                     titleVi: "Nghe 2: Câu chuyện tình yêu",

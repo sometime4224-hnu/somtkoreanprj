@@ -64,8 +64,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             kicker: "Listening Assessment",
             title: "듣기 2 심화 평가",
             titleVi: "Đánh giá nghe 2 nâng cao",
-            description: "사랑 이야기 본문을 다시 들으면서, 단계적 자막과 문장 반복을 유지한 채 OX 판단과 근거 찾기에 집중하도록 재구성했습니다.",
-            descriptionVi: "Trang này cho em nghe lại bài 'Câu chuyện tình yêu' và tập trung vào việc phán đoán Đúng/Sai cùng tìm câu làm căn cứ, trong khi vẫn giữ phụ đề theo từng bước và luyện lặp lại câu.",
+            description: "사랑 이야기 본문을 다시 들으면서 핵심어 보기, OX 판단, 근거 확인에 집중하도록 더 간결하게 재구성했습니다.",
+            descriptionVi: "Trang nay duoc rut gon de em nghe lai bai 'Cau chuyen tinh yeu' va tap trung vao xem tu khoa, phan doan Dung/Sai va tim can cu.",
+            layoutVariant: "audio-in-pre",
+            sampleCompact: {
+                enabled: true,
+                defaults: {
+                    hideSceneCard: true,
+                    hideCorePointStage: true,
+                    hideNoteSection: true,
+                    hideOralFeaturesSection: true,
+                    hideSpeakingSection: true,
+                    moveBackgroundPromptIntoPrediction: true,
+                    relocateQuizBelowSubtitle: true,
+                    quizStartsCollapsed: true
+                }
+            },
             instructionLanguage: {
                 enabled: true,
                 default: "ko"
@@ -80,6 +94,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             lessons: [
                 {
                     id: "track10-eval",
+                    compactSample: {
+                        replacementActivity: {
+                            title: "OX 근거 준비 카드",
+                            titleVi: "The chuan bi can cu OX",
+                            prompt: "OX 문제에 들어가기 전에 세 칸으로 사건과 근거를 먼저 정리해 보세요.",
+                            promptVi: "Truoc khi lam bai OX, hay dung ba o de sap xep su kien va can cu.",
+                            keywords: ["핵심 사건", "근거 표현", "확인할 판단"],
+                            keywordsVi: ["Su kien chinh", "Bieu hien lam can cu", "Nhan dinh can kiem tra"],
+                            fields: [
+                                {
+                                    label: "핵심 사건 한 줄",
+                                    labelVi: "Mot dong su kien chinh",
+                                    helper: "누가 언제 무엇을 했는지 적기",
+                                    helperVi: "Ghi ngan gon ai, khi nao, da lam gi",
+                                    placeholder: "예: 일본에서 공부하던 두 사람이 다시 만나 결혼을 준비했어요.",
+                                    placeholderVi: "Vi du: Hai nguoi tung hoc o Nhat gap lai nhau va chuan bi ket hon."
+                                },
+                                {
+                                    label: "근거가 되는 표현",
+                                    labelVi: "Bieu hien lam can cu",
+                                    helper: "OX를 판단할 때 다시 볼 말을 적기",
+                                    helperVi: "Ghi lai cach noi muon xem lai khi lam OX",
+                                    placeholder: "예: 퇴원하던 날 청혼했어요.",
+                                    placeholderVi: "Vi du: Da cau hon vao ngay xuat vien."
+                                },
+                                {
+                                    label: "다시 확인할 판단",
+                                    labelVi: "Nhan dinh muon kiem tra lai",
+                                    helper: "헷갈리는 OX 내용을 적기",
+                                    helperVi: "Ghi mot nhan dinh OX con thay de nham",
+                                    placeholder: "예: 부모님이 처음부터 모두 찬성했는지 다시 확인하고 싶어요.",
+                                    placeholderVi: "Vi du: Muon kiem tra lai xem bo me hai ben co dong y ngay tu dau khong."
+                                }
+                            ],
+                            footnote: "핵심어 보기 카드와 OX 문항을 오가며 짧게 적어도 충분합니다.",
+                            footnoteVi: "Chi can viet ngan gon trong khi doi chieu giua the tu khoa va cau hoi OX."
+                        }
+                    },
                     label: "Track 10 Review",
                     title: "사랑 이야기 OX 평가",
                     titleVi: "Đánh giá Đúng/Sai: Câu chuyện tình yêu",
