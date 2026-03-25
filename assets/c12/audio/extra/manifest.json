@@ -1,0 +1,72 @@
+{
+  "generated_at_epoch": 1774446702,
+  "generator": "scripts/generate_c12_extra_audio.py",
+  "default_rate": "-8%",
+  "sample_rate": 24000,
+  "silence_seconds_between_segments": 0.48,
+  "voices": {
+    "male": "ko-KR-HyunsuNeural",
+    "female": "en-US-AvaMultilingualNeural",
+    "narrator_m": "ko-KR-HyunsuNeural",
+    "narrator_f": "en-US-AvaMultilingualNeural"
+  },
+  "tracks": [
+    {
+      "slug": "c12_extra_01_short_dialogue_01",
+      "title": "짧은 남녀 대화 1",
+      "file": "c12_extra_01_short_dialogue_01.mp3",
+      "duration_seconds": 19.1,
+      "segment_count": 4
+    },
+    {
+      "slug": "c12_extra_02_short_dialogue_02",
+      "title": "짧은 남녀 대화 2",
+      "file": "c12_extra_02_short_dialogue_02.mp3",
+      "duration_seconds": 18.5,
+      "segment_count": 4
+    },
+    {
+      "slug": "c12_extra_03_short_dialogue_03",
+      "title": "짧은 남녀 대화 3",
+      "file": "c12_extra_03_short_dialogue_03.mp3",
+      "duration_seconds": 16.42,
+      "segment_count": 4
+    },
+    {
+      "slug": "c12_extra_04_short_dialogue_04",
+      "title": "짧은 남녀 대화 4",
+      "file": "c12_extra_04_short_dialogue_04.mp3",
+      "duration_seconds": 21.05,
+      "segment_count": 4
+    },
+    {
+      "slug": "c12_extra_05_short_dialogue_05",
+      "title": "짧은 남녀 대화 5",
+      "file": "c12_extra_05_short_dialogue_05.mp3",
+      "duration_seconds": 19.58,
+      "segment_count": 4
+    },
+    {
+      "slug": "c12_extra_06_radio_broadcast",
+      "title": "라디오 방송 듣기",
+      "file": "c12_extra_06_radio_broadcast.mp3",
+      "duration_seconds": 46.54,
+      "segment_count": 1
+    },
+    {
+      "slug": "c12_extra_07_column",
+      "title": "칼럼 듣기",
+      "file": "c12_extra_07_column.mp3",
+      "duration_seconds": 37.06,
+      "segment_count": 1
+    },
+    {
+      "slug": "c12_extra_08_long_dialogue",
+      "title": "남녀 긴 대화",
+      "file": "c12_extra_08_long_dialogue.mp3",
+      "duration_seconds": 64.34,
+      "segment_count": 8
+    }
+  ],
+  "elapsed_seconds": 39.96
+}
