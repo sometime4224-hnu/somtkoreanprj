@@ -9,7 +9,7 @@
     })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>문법 3+4 인생 목표 RPG</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -114,6 +114,245 @@
             0% { transform: scale(0.97); }
             100% { transform: scale(1); }
         }
+        html { scroll-behavior: smooth; }
+        body {
+            color: #14233d;
+            background:
+                radial-gradient(circle at 10% 12%, rgba(14, 165, 233, 0.18), transparent 24%),
+                radial-gradient(circle at 92% 10%, rgba(249, 115, 22, 0.18), transparent 24%),
+                radial-gradient(circle at 82% 82%, rgba(250, 204, 21, 0.18), transparent 26%),
+                linear-gradient(180deg, #fffaf2 0%, #ffefda 46%, #fff8ee 100%);
+            overflow-x: hidden;
+        }
+        .global-nav {
+            background: rgba(255, 255, 255, 0.72);
+            border-bottom-color: rgba(15, 23, 42, 0.08);
+            min-height: 58px;
+            height: auto;
+            padding: 10px 14px;
+        }
+        .global-nav a { color: #1d4ed8; font-weight: 900; }
+        .global-nav .divider { color: #94a3b8; }
+        .game-shell { max-width: 960px; margin: 18px auto 32px; padding: 14px; }
+        .panel {
+            background: rgba(255, 255, 255, 0.82);
+            border-color: rgba(15, 23, 42, 0.08);
+            box-shadow: 0 28px 70px -34px rgba(15, 23, 42, 0.28);
+            backdrop-filter: blur(14px);
+        }
+        .mode-btn {
+            min-height: 150px;
+            border-color: rgba(148, 163, 184, 0.28);
+            background: rgba(255, 255, 255, 0.78);
+            color: #14233d;
+            box-shadow: 0 20px 36px -30px rgba(15, 23, 42, 0.38);
+        }
+        .mode-btn.active {
+            border-color: rgba(37, 99, 235, 0.28);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(255, 255, 255, 0.94));
+            box-shadow: 0 24px 42px -30px rgba(37, 99, 235, 0.38);
+        }
+        .choice-btn {
+            border-radius: 18px;
+            padding: 15px 16px;
+            border-color: rgba(148, 163, 184, 0.24);
+            background: rgba(255, 255, 255, 0.9);
+            color: #14233d;
+            min-height: 70px;
+            font-weight: 800;
+            box-shadow: 0 18px 30px -28px rgba(15, 23, 42, 0.35);
+            animation: choicein 0.38s ease both;
+        }
+        .choice-btn:hover:not([disabled]) {
+            border-color: rgba(37, 99, 235, 0.28);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 24px 40px -28px rgba(37, 99, 235, 0.34);
+        }
+        .choice-btn.correct {
+            border-color: rgba(16, 185, 129, 0.26);
+            background: linear-gradient(135deg, rgba(209, 250, 229, 0.92), rgba(255, 255, 255, 0.98));
+        }
+        .choice-btn.wrong {
+            border-color: rgba(251, 113, 133, 0.28);
+            background: linear-gradient(135deg, rgba(255, 228, 230, 0.92), rgba(255, 255, 255, 0.98));
+        }
+        .progress-track { background: rgba(148, 163, 184, 0.18); height: 14px; }
+        .progress-fill { box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.34); }
+        .step-guide {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 18px;
+        }
+        .step-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            background: rgba(255, 255, 255, 0.74);
+            color: #52627e;
+            font-size: 0.9rem;
+            font-weight: 800;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        }
+        .step-pill.active {
+            color: #fff;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            border-color: transparent;
+            box-shadow: 0 22px 40px -24px rgba(37, 99, 235, 0.45);
+            transform: translateY(-2px);
+        }
+        .step-pill.done {
+            color: #047857;
+            background: rgba(209, 250, 229, 0.82);
+            border-color: rgba(16, 185, 129, 0.18);
+        }
+        .step-no {
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            color: #0f172a;
+            font-size: 0.8rem;
+            font-weight: 900;
+            flex: 0 0 auto;
+        }
+        .focus-beacon {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(249, 115, 22, 0.16);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 247, 237, 0.96));
+        }
+        .focus-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: #f97316;
+            box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.35);
+            animation: beaconpulse 1.8s infinite;
+            flex: 0 0 auto;
+        }
+        .focus-title {
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #f97316;
+            font-weight: 900;
+        }
+        .focus-text {
+            margin-top: 4px;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #14233d;
+        }
+        .welcome-guide {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+        .welcome-card {
+            min-height: 116px;
+            padding: 16px;
+            border-radius: 22px;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            background: rgba(255, 255, 255, 0.86);
+            box-shadow: 0 20px 34px -30px rgba(15, 23, 42, 0.3);
+        }
+        .welcome-card.hot {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(255, 255, 255, 0.96));
+            transform: translateY(-4px);
+        }
+        .welcome-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            margin-bottom: 12px;
+        }
+        .welcome-card:nth-child(2) .welcome-icon { background: linear-gradient(135deg, #10b981, #14b8a6); }
+        .welcome-card:nth-child(3) .welcome-icon { background: linear-gradient(135deg, #fb7185, #f97316); }
+        .welcome-card p {
+            margin: 0;
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: #52627e;
+            letter-spacing: 0.04em;
+        }
+        .welcome-card strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 1rem;
+            line-height: 1.35;
+            color: #14233d;
+        }
+        .launch-pad {
+            margin-top: 22px;
+            padding: 24px;
+            border-radius: 26px;
+            border: 1px solid rgba(250, 204, 21, 0.2);
+            background: linear-gradient(135deg, rgba(254, 240, 138, 0.32), rgba(255, 255, 255, 0.94));
+            display: flex;
+            justify-content: center;
+        }
+        .pulse-cta { animation: guidepulse 1.85s ease-in-out infinite; }
+        .spotlight-ring {
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), 0 24px 40px -28px rgba(37, 99, 235, 0.35) !important;
+            transform: translateY(-2px);
+        }
+        .question-card {
+            border-radius: 24px;
+            border: 1px solid rgba(37, 99, 235, 0.12);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.54);
+        }
+        .action-stick {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        @keyframes beaconpulse {
+            0% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.35); }
+            70% { box-shadow: 0 0 0 12px rgba(249, 115, 22, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+        }
+        @keyframes guidepulse {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-2px) scale(1.02); }
+        }
+        @keyframes choicein {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 860px) {
+            .step-guide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 640px) {
+            .global-nav { gap: 8px; flex-wrap: wrap; }
+            .game-shell { padding: 12px 12px 26px; }
+            .welcome-guide { grid-template-columns: 1fr; }
+            .action-stick {
+                position: sticky;
+                bottom: 10px;
+                padding: 10px;
+                border-radius: 22px;
+                background: rgba(255, 250, 245, 0.94);
+                border: 1px solid rgba(15, 23, 42, 0.06);
+                backdrop-filter: blur(12px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -129,56 +368,71 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <main class="game-shell">
         <section class="panel p-5 sm:p-7">
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <p class="text-xs font-bold uppercase tracking-wider text-cyan-300">Grammar Quest</p>
-                    <h1 class="text-2xl sm:text-3xl font-black text-slate-100 mt-1">문법 3+4 인생 목표 RPG</h1>
-                    <p class="text-sm text-slate-300 mt-2">계획을 말하고, 현실을 점검하면서 목표를 완성하세요.</p>
+                    <p class="text-xs font-black uppercase tracking-[0.2em] text-sky-600">Grammar Quest</p>
+                    <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1 tracking-tight">문법 3+4 인생 목표 RPG</h1>
+                    <p class="text-sm text-slate-600 mt-2 leading-relaxed">학생이 멈추지 않도록, 모드 선택부터 다음 문제 이동까지 화면이 먼저 길을 보여줍니다.</p>
                 </div>
-                <div class="text-xs text-slate-300 bg-slate-900/45 border border-slate-600/40 rounded-xl px-3 py-2">
-                    <p>문법 3: <b class="text-emerald-300">V-(으)ㄹ 생각/계획/예정이다</b></p>
-                    <p class="mt-1">문법 4: <b class="text-amber-300">V-(으)려면 멀었다</b></p>
+                <div class="text-xs text-slate-700 bg-white/80 border border-slate-200 rounded-2xl px-4 py-3 shadow-sm">
+                    <p>문법 3: <b class="text-emerald-600">V-(으)ㄹ 생각/계획/예정이다</b></p>
+                    <p class="mt-1">문법 4: <b class="text-orange-500">V-(으)려면 멀었다</b></p>
                 </div>
+            </div>
+            <div class="step-guide" aria-label="진행 단계">
+                <div class="step-pill" data-step="mode"><span class="step-no">1</span><span>모드</span></div>
+                <div class="step-pill" data-step="start"><span class="step-no">2</span><span>시작</span></div>
+                <div class="step-pill" data-step="answer"><span class="step-no">3</span><span>선택</span></div>
+                <div class="step-pill" data-step="finish"><span class="step-no">4</span><span>결과</span></div>
             </div>
         </section>
 
         <section class="panel p-5 sm:p-6 mt-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button id="mode-story" type="button" class="mode-btn active text-left rounded-xl border border-slate-500/60 bg-slate-800/60 p-4 transition">
-                    <p class="text-xs font-bold text-emerald-300">STORY MODE</p>
-                    <p class="text-lg font-black mt-1">인생 목표 모드</p>
-                    <p class="text-sm text-slate-300 mt-1">5개 미션을 차례로 클리어</p>
+                <button id="mode-story" type="button" class="mode-btn active text-left rounded-2xl p-4 transition">
+                    <p class="text-xs font-black tracking-[0.14em] text-sky-600">STORY MODE</p>
+                    <p class="text-xl font-black mt-1">인생 목표 모드</p>
+                    <p class="text-sm text-slate-600 mt-1">5개 미션을 차례로 클리어</p>
+                    <p class="text-xs font-black text-emerald-600 mt-3">정답을 고르면 다음 단계가 자동으로 열립니다</p>
                 </button>
-                <button id="mode-speed" type="button" class="mode-btn text-left rounded-xl border border-slate-500/60 bg-slate-800/60 p-4 transition">
-                    <p class="text-xs font-bold text-amber-300">SPEED MODE</p>
-                    <p class="text-lg font-black mt-1">60초 챌린지</p>
-                    <p class="text-sm text-slate-300 mt-1">제한 시간 내 최대 점수 도전</p>
+                <button id="mode-speed" type="button" class="mode-btn text-left rounded-2xl p-4 transition">
+                    <p class="text-xs font-black tracking-[0.14em] text-rose-500">SPEED MODE</p>
+                    <p class="text-xl font-black mt-1">60초 챌린지</p>
+                    <p class="text-sm text-slate-600 mt-1">제한 시간 내 최대 점수 도전</p>
+                    <p class="text-xs font-black text-orange-500 mt-3">멈춤 없이 연속 문제로 바로 이어집니다</p>
                 </button>
+            </div>
+            <div class="focus-beacon" aria-live="polite">
+                <span class="focus-dot"></span>
+                <div>
+                    <p class="focus-title">지금 포커스</p>
+                    <p id="focus-text" class="focus-text">시작 버튼</p>
+                </div>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 text-sm">
-                <div class="rounded-xl border border-emerald-400/35 bg-emerald-950/35 p-3">
-                    <p class="text-xs text-emerald-300 font-bold">계획 포인트</p>
+                <div class="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-3">
+                    <p class="text-xs text-emerald-600 font-black tracking-wide">계획 포인트</p>
                     <p id="plan-score" class="text-2xl font-black mt-1">0</p>
                 </div>
-                <div class="rounded-xl border border-amber-400/35 bg-amber-950/35 p-3">
-                    <p class="text-xs text-amber-300 font-bold">현실 포인트</p>
+                <div class="rounded-2xl border border-orange-200 bg-orange-50/80 p-3">
+                    <p class="text-xs text-orange-500 font-black tracking-wide">현실 포인트</p>
                     <p id="reality-score" class="text-2xl font-black mt-1">0</p>
                 </div>
-                <div class="rounded-xl border border-sky-400/35 bg-sky-950/30 p-3">
-                    <p class="text-xs text-sky-300 font-bold">남은 기회</p>
+                <div class="rounded-2xl border border-sky-200 bg-sky-50/80 p-3">
+                    <p class="text-xs text-sky-600 font-black tracking-wide">남은 기회</p>
                     <p id="life-text" class="text-2xl font-black mt-1">♥♥♥</p>
                 </div>
-                <div class="rounded-xl border border-violet-400/35 bg-violet-950/30 p-3">
-                    <p class="text-xs text-violet-300 font-bold">타이머/기록</p>
+                <div class="rounded-2xl border border-violet-200 bg-violet-50/80 p-3">
+                    <p id="timer-label" class="text-xs text-violet-600 font-black tracking-wide">타이머/기록</p>
                     <p id="timer-text" class="text-2xl font-black mt-1">--</p>
                 </div>
             </div>
 
             <div class="mt-4">
                 <div class="flex items-center justify-between text-xs mb-1">
-                    <p id="progress-label" class="text-slate-300 font-semibold">진행률 0%</p>
-                    <p id="stage-label" class="text-cyan-300 font-bold">준비</p>
+                    <p id="progress-label" class="text-slate-600 font-bold">진행률 0%</p>
+                    <p id="stage-label" class="text-sky-600 font-black">준비</p>
                 </div>
                 <div class="progress-track">
                     <div id="progress-fill" class="progress-fill"></div>
@@ -188,46 +442,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <section class="panel p-5 sm:p-6 mt-4" id="game-card">
             <div id="welcome-screen" class="fade-in">
-                <h2 class="text-xl font-black">게임 시작 준비 완료</h2>
-                <p class="text-slate-300 mt-2 text-sm leading-relaxed">
-                    스토리 모드는 문법 3과 문법 4를 한 미션 안에서 함께 연습합니다.
-                    스피드 모드는 60초 동안 빠르게 정답을 고르며 최고 점수에 도전합니다.
-                </p>
-                <div class="mt-4 text-sm text-slate-300 space-y-1">
-                    <p><span class="text-emerald-300 font-bold">문법 3:</span> 미래 계획/예정 표현</p>
-                    <p><span class="text-amber-300 font-bold">문법 4:</span> 아직 시간이 많이 남은 상태 표현</p>
-                    <p><span class="text-cyan-300 font-bold">보너스:</span> ㄹ 받침 함정 문항 포함</p>
+                <h2 class="text-2xl font-black text-slate-900">게임 시작 준비 완료</h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">밝게 강조되는 버튼부터 누르면 자연스럽게 다음 단계로 넘어갑니다.</p>
+                <div class="welcome-guide">
+                    <div class="welcome-card hot">
+                        <div class="welcome-icon"><i class="fa-solid fa-hand-pointer"></i></div>
+                        <p>STEP 1</p>
+                        <strong>모드 선택</strong>
+                    </div>
+                    <div class="welcome-card">
+                        <div class="welcome-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <p>STEP 2</p>
+                        <strong>정답 선택</strong>
+                    </div>
+                    <div class="welcome-card">
+                        <div class="welcome-icon"><i class="fa-solid fa-flag-checkered"></i></div>
+                        <p>STEP 3</p>
+                        <strong>자동 진행</strong>
+                    </div>
                 </div>
-                <button id="start-btn" type="button" class="mt-5 rounded-xl px-5 py-3 text-sm font-extrabold bg-cyan-500 text-slate-950 hover:bg-cyan-400 transition">
-                    <i class="fa-solid fa-play mr-1"></i> 시작하기
-                </button>
+                <div class="launch-pad">
+                    <button id="start-btn" type="button" class="pulse-cta rounded-2xl px-6 py-4 text-base font-black bg-sky-500 text-white hover:bg-sky-400 transition shadow-lg shadow-sky-300/40">
+                        <i class="fa-solid fa-play mr-1"></i> 바로 시작하기
+                    </button>
+                </div>
             </div>
 
             <div id="question-screen" class="hidden fade-in">
-                <div class="text-xs font-bold tracking-wide text-cyan-300" id="question-type">MISSION</div>
-                <h2 id="question-title" class="text-xl sm:text-2xl font-black mt-1">미션 제목</h2>
-                <p id="question-goal" class="text-sm text-slate-300 mt-2">목표 설명</p>
+                <div class="flex flex-wrap items-center gap-2">
+                    <div class="text-xs font-black tracking-[0.14em] text-sky-600" id="question-type">MISSION</div>
+                    <div id="phase-chip" class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-black tracking-[0.14em] text-emerald-700">계획 포인트</div>
+                </div>
+                <h2 id="question-title" class="text-2xl sm:text-3xl font-black mt-2 text-slate-900">미션 제목</h2>
+                <p id="question-goal" class="text-sm text-slate-600 mt-2">목표 설명</p>
 
-                <div class="rounded-2xl border border-slate-600/50 bg-slate-900/55 p-4 mt-4">
-                    <p class="text-xs font-bold text-slate-400" id="prompt-grammar">문법 포인트</p>
-                    <p class="text-lg sm:text-xl font-bold mt-2 leading-relaxed" id="question-text">문항이 여기에 표시됩니다.</p>
+                <div id="question-card" class="question-card p-4 mt-4">
+                    <p class="text-xs font-black text-sky-600 tracking-[0.12em]" id="prompt-grammar">문법 포인트</p>
+                    <p class="text-xl sm:text-2xl font-black mt-2 leading-relaxed text-slate-900" id="question-text">문항이 여기에 표시됩니다.</p>
                 </div>
 
                 <div id="choice-list" class="grid grid-cols-1 gap-2 mt-4"></div>
 
                 <div id="feedback-box" class="hidden mt-4 rounded-xl border p-3 text-sm"></div>
 
-                <div class="mt-4 flex items-center gap-2">
-                    <button id="next-btn" type="button" class="hidden rounded-lg px-4 py-2 text-sm font-bold bg-slate-100 text-slate-900 hover:bg-white transition">다음</button>
-                    <button id="reset-btn" type="button" class="rounded-lg px-4 py-2 text-sm font-bold bg-slate-700 text-slate-100 hover:bg-slate-600 transition">처음부터</button>
+                <div class="action-stick">
+                    <button id="next-btn" type="button" class="hidden rounded-xl px-5 py-3 text-sm font-black bg-sky-500 text-white hover:bg-sky-400 transition">다음</button>
+                    <button id="reset-btn" type="button" class="rounded-xl px-5 py-3 text-sm font-black bg-white text-slate-900 border border-slate-200 hover:bg-slate-50 transition">처음부터</button>
                 </div>
             </div>
 
             <div id="result-screen" class="hidden fade-in">
-                <h2 id="result-title" class="text-2xl font-black">결과</h2>
-                <p id="result-summary" class="text-sm text-slate-300 mt-2"></p>
-                <div id="result-details" class="mt-4 text-sm text-slate-200 space-y-1"></div>
-                <button id="restart-btn" type="button" class="mt-5 rounded-xl px-5 py-3 text-sm font-extrabold bg-cyan-500 text-slate-950 hover:bg-cyan-400 transition">다시 도전하기</button>
+                <h2 id="result-title" class="text-2xl sm:text-3xl font-black text-slate-900">결과</h2>
+                <p id="result-summary" class="text-sm text-slate-600 mt-2"></p>
+                <div id="result-details" class="mt-4 text-sm text-slate-700 space-y-2"></div>
+                <button id="restart-btn" type="button" class="mt-5 pulse-cta rounded-2xl px-6 py-4 text-sm font-black bg-sky-500 text-white hover:bg-sky-400 transition">다시 도전하기</button>
             </div>
         </section>
     </main>
@@ -432,6 +700,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const el = {
             modeStory: document.getElementById("mode-story"),
             modeSpeed: document.getElementById("mode-speed"),
+            focusText: document.getElementById("focus-text"),
+            stepPills: Array.from(document.querySelectorAll("[data-step]")),
             startBtn: document.getElementById("start-btn"),
             resetBtn: document.getElementById("reset-btn"),
             restartBtn: document.getElementById("restart-btn"),
@@ -440,8 +710,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             questionScreen: document.getElementById("question-screen"),
             resultScreen: document.getElementById("result-screen"),
             questionType: document.getElementById("question-type"),
+            phaseChip: document.getElementById("phase-chip"),
             questionTitle: document.getElementById("question-title"),
             questionGoal: document.getElementById("question-goal"),
+            questionCard: document.getElementById("question-card"),
             promptGrammar: document.getElementById("prompt-grammar"),
             questionText: document.getElementById("question-text"),
             choiceList: document.getElementById("choice-list"),
@@ -452,6 +724,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             planScore: document.getElementById("plan-score"),
             realityScore: document.getElementById("reality-score"),
             lifeText: document.getElementById("life-text"),
+            timerLabel: document.getElementById("timer-label"),
             timerText: document.getElementById("timer-text"),
             resultTitle: document.getElementById("result-title"),
             resultSummary: document.getElementById("result-summary"),
@@ -468,6 +741,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             answered: false,
             timerLeft: 60,
             timerId: null,
+            autoNextId: null,
             speedQueue: [],
             speedIndex: 0
         };
@@ -490,21 +764,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
         }
 
+        function clearAutoNext() {
+            if (state.autoNextId) {
+                clearTimeout(state.autoNextId);
+                state.autoNextId = null;
+            }
+            el.nextBtn.classList.remove("spotlight-ring", "pulse-cta");
+        }
+
+        function smoothFocus(target, block = "center") {
+            if (!target) return;
+            target.scrollIntoView({ behavior: "smooth", block, inline: "nearest" });
+        }
+
+        function updateGuide(step, text, highlight = "") {
+            const order = ["mode", "start", "answer", "finish"];
+            const activeIndex = order.indexOf(step);
+            el.stepPills.forEach((pill) => {
+                const index = order.indexOf(pill.dataset.step);
+                pill.classList.toggle("active", index === activeIndex);
+                pill.classList.toggle("done", index < activeIndex);
+            });
+
+            if (el.focusText) {
+                el.focusText.textContent = text;
+            }
+
+            [el.startBtn, el.nextBtn, el.restartBtn, el.questionCard].forEach((node) => {
+                node.classList.remove("spotlight-ring", "pulse-cta");
+            });
+
+            if (highlight === "start") {
+                el.startBtn.classList.add("spotlight-ring", "pulse-cta");
+            } else if (highlight === "answer") {
+                el.questionCard.classList.add("spotlight-ring");
+            } else if (highlight === "next") {
+                el.nextBtn.classList.add("spotlight-ring", "pulse-cta");
+            } else if (highlight === "finish") {
+                el.restartBtn.classList.add("spotlight-ring", "pulse-cta");
+            }
+        }
+
         function updateHud() {
             el.planScore.textContent = String(state.planScore);
             el.realityScore.textContent = String(state.realityScore);
-            el.lifeText.textContent = "♥".repeat(Math.max(0, state.life)) || "0";
             if (state.mode === "speed") {
+                el.lifeText.textContent = "∞";
+                if (el.timerLabel) {
+                    el.timerLabel.textContent = !el.questionScreen.classList.contains("hidden") ? "남은 시간" : "제한 시간";
+                }
                 el.timerText.textContent = `${state.timerLeft}s`;
             } else {
+                el.lifeText.textContent = "♥".repeat(Math.max(0, state.life)) || "0";
+                if (el.timerLabel) {
+                    el.timerLabel.textContent = "최고 기록";
+                }
                 const best = Number(localStorage.getItem("korean3b.g34.story.best") || "0");
                 el.timerText.textContent = `${best}점`;
             }
         }
-        function updateProgress(done, total) {
+        function updateProgress(done, total, label = "진행률") {
             const ratio = total === 0 ? 0 : Math.round((done / total) * 100);
             el.progressFill.style.width = `${ratio}%`;
-            el.progressLabel.textContent = `진행률 ${ratio}%`;
+            el.progressLabel.textContent = `${label} ${ratio}%`;
         }
 
         function hideFeedback() {
@@ -517,11 +839,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             el.feedback.classList.remove("hidden");
             el.feedback.className = "mt-4 rounded-xl border p-3 text-sm bounce";
             if (isCorrect) {
-                el.feedback.classList.add("border-emerald-400/60", "bg-emerald-950/45", "text-emerald-100");
+                el.feedback.classList.add("border-emerald-200", "bg-emerald-50", "text-emerald-950");
                 el.feedback.innerHTML = `<b>정답!</b> ${message}`;
             } else {
-                el.feedback.classList.add("border-rose-400/60", "bg-rose-950/35", "text-rose-100");
-                el.feedback.innerHTML = `<b>아쉬워요.</b> ${message}`;
+                el.feedback.classList.add("border-rose-200", "bg-rose-50", "text-rose-950");
+                el.feedback.innerHTML = `<b>다시 한 번!</b> ${message}`;
             }
         }
 
@@ -536,6 +858,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             state.speedQueue = [];
             state.speedIndex = 0;
             clearTimer();
+            clearAutoNext();
             updateHud();
             updateProgress(0, 1);
             el.stageLabel.textContent = "준비";
@@ -548,7 +871,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             el.questionScreen.classList.add("hidden");
             el.resultScreen.classList.add("hidden");
             el.welcome.classList.remove("hidden");
-            el.timerText.textContent = state.mode === "speed" ? "60s" : "기록";
+            el.stageLabel.textContent = state.mode === "speed" ? "스피드 준비" : "스토리 준비";
+            updateProgress(0, state.mode === "speed" ? 60 : storyMissions.length * 2, state.mode === "speed" ? "타이머" : "진행률");
+            updateHud();
+            updateGuide("start", "시작 버튼", "start");
         }
 
         function setMode(mode) {
@@ -556,6 +882,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             el.modeStory.classList.toggle("active", mode === "story");
             el.modeSpeed.classList.toggle("active", mode === "speed");
             resetToWelcome();
+            setTimeout(() => smoothFocus(el.startBtn), 120);
         }
 
         function lockChoices() {
@@ -577,10 +904,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
 
         function showQuestion(payload) {
+            clearAutoNext();
             el.welcome.classList.add("hidden");
             el.resultScreen.classList.add("hidden");
             el.questionScreen.classList.remove("hidden");
             el.questionType.textContent = payload.typeText;
+            el.phaseChip.textContent = payload.type === "plan" ? "계획 포인트" : "현실 포인트";
+            el.phaseChip.className = payload.type === "plan"
+                ? "inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-black tracking-[0.14em] text-emerald-700"
+                : "inline-flex items-center rounded-full bg-orange-100 px-3 py-1 text-[11px] font-black tracking-[0.14em] text-orange-600";
             el.questionTitle.textContent = payload.title;
             el.questionGoal.textContent = payload.goal;
             el.promptGrammar.textContent = payload.grammar;
@@ -594,14 +926,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 const btn = document.createElement("button");
                 btn.type = "button";
                 btn.className = "choice-btn";
-                btn.textContent = `${idx + 1}. ${optionText}`;
+                btn.style.animationDelay = `${idx * 80}ms`;
+                btn.innerHTML = `<span class="choice-index">${String(idx + 1).padStart(2, "0")}</span><span class="choice-copy">${optionText}</span>`;
                 btn.addEventListener("click", () => handleAnswer(idx, payload));
                 el.choiceList.appendChild(btn);
             });
+            updateGuide("answer", "반짝이는 답 고르기", "answer");
+            requestAnimationFrame(() => smoothFocus(el.questionCard, "start"));
         }
 
         function finishGame(title, summary) {
             clearTimer();
+            clearAutoNext();
             el.welcome.classList.add("hidden");
             el.questionScreen.classList.add("hidden");
             el.resultScreen.classList.remove("hidden");
@@ -613,12 +949,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             el.resultTitle.textContent = title;
             el.resultSummary.textContent = summary;
             el.resultDetails.innerHTML = `
-                <p>총점: <b>${total}점</b></p>
-                <p>계획 포인트(문법3): <b>${state.planScore}점</b></p>
-                <p>현실 포인트(문법4): <b>${state.realityScore}점</b></p>
-                <p>스토리 최고 기록: <b>${storyBest}점</b> | 스피드 최고 기록: <b>${speedBest}점</b></p>
+                <p class="rounded-2xl border border-slate-200 bg-white/80 px-4 py-3">총점: <b>${total}점</b></p>
+                <p class="rounded-2xl border border-emerald-200 bg-emerald-50/80 px-4 py-3">계획 포인트(문법3): <b>${state.planScore}점</b></p>
+                <p class="rounded-2xl border border-orange-200 bg-orange-50/80 px-4 py-3">현실 포인트(문법4): <b>${state.realityScore}점</b></p>
+                <p class="rounded-2xl border border-violet-200 bg-violet-50/80 px-4 py-3">스토리 최고 기록: <b>${storyBest}점</b> | 스피드 최고 기록: <b>${speedBest}점</b></p>
             `;
             el.stageLabel.textContent = "결과";
+            updateGuide("finish", "다시 도전하기", "finish");
+            requestAnimationFrame(() => smoothFocus(el.resultTitle, "start"));
         }
 
         function currentStoryPayload() {
@@ -627,7 +965,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const type = state.phase === "plan" ? "plan" : "reality";
             return {
                 type,
-                typeText: state.phase === "plan" ? "MISSION | 계획 선택" : "MISSION | 현실 점검",
+                typeText: "MISSION",
                 title: mission.title,
                 goal: mission.goal,
                 grammar: block.grammar,
@@ -652,8 +990,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 return;
             }
             const done = state.storyIndex * 2 + (state.phase === "reality" ? 1 : 0);
-            updateProgress(done, storyMissions.length * 2);
-            el.stageLabel.textContent = `스토리 ${state.storyIndex + 1}/${storyMissions.length}`;
+            updateProgress(done, storyMissions.length * 2, "진행률");
+            el.stageLabel.textContent = `스토리 ${state.storyIndex + 1}/${storyMissions.length} · ${state.phase === "plan" ? "계획" : "현실"}`;
             showQuestion(currentStoryPayload());
         }
 
@@ -674,7 +1012,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             el.stageLabel.textContent = `스피드 ${state.speedIndex}번`;
             showQuestion({
                 type: q.type,
-                typeText: q.type === "plan" ? "SPEED | 계획 포인트" : "SPEED | 현실 포인트",
+                typeText: "SPEED",
                 title: q.title,
                 goal: q.goal,
                 grammar: q.grammar,
@@ -702,13 +1040,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             showFeedback(isCorrect, payload.explain);
 
             if (state.mode === "speed") {
-                setTimeout(goNext, 520);
+                updateGuide("answer", "자동으로 다음 문제 이동", "answer");
+                state.autoNextId = setTimeout(goNext, 650);
             } else {
                 el.nextBtn.classList.remove("hidden");
+                updateGuide("answer", "다음 단계 자동 이동", "next");
+                state.autoNextId = setTimeout(goNext, 1800);
+                requestAnimationFrame(() => smoothFocus(el.nextBtn, "nearest"));
             }
         }
 
         function goNext() {
+            clearAutoNext();
             if (state.mode === "speed") {
                 renderSpeedQuestion();
                 return;
@@ -725,7 +1068,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         function startStory() {
             resetCore();
             el.stageLabel.textContent = "스토리 1/5";
-            updateProgress(0, storyMissions.length * 2);
+            updateProgress(0, storyMissions.length * 2, "진행률");
             renderStoryQuestion();
         }
 
@@ -736,12 +1079,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             state.speedIndex = 0;
             updateHud();
             el.stageLabel.textContent = "스피드 시작";
-            updateProgress(0, 60);
+            updateProgress(0, 60, "타이머");
 
             state.timerId = setInterval(() => {
                 state.timerLeft -= 1;
                 updateHud();
-                updateProgress(60 - state.timerLeft, 60);
+                updateProgress(60 - state.timerLeft, 60, "타이머");
                 if (state.timerLeft <= 0) {
                     clearTimer();
                     renderSpeedQuestion();
