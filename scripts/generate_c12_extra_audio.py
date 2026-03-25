@@ -16,23 +16,85 @@ MANIFEST_PATH = OUTPUT_DIR / "manifest.json"
 FFMPEG = shutil.which("ffmpeg") or "ffmpeg"
 FFPROBE = shutil.which("ffprobe") or "ffprobe"
 SAMPLE_RATE = 24000
-SILENCE_SECONDS = 0.48
-DEFAULT_RATE = "-8%"
+OUTPUT_BITRATE = "160k"
 
-
-VOICES = {
-    "male": "ko-KR-HyunsuNeural",
-    # A stable multilingual female neural voice that can read Korean well in this environment.
-    "female": "en-US-AvaMultilingualNeural",
-    "narrator_m": "ko-KR-HyunsuNeural",
-    "narrator_f": "en-US-AvaMultilingualNeural",
+MASTER_FILTERS = {
+    "dialogue": (
+        "highpass=f=55,"
+        "lowpass=f=9200,"
+        "acompressor=threshold=-18dB:ratio=2.2:attack=10:release=110:makeup=1.6,"
+        "loudnorm=I=-16:LRA=7:TP=-1.5"
+    ),
+    "narration": (
+        "highpass=f=60,"
+        "lowpass=f=9000,"
+        "acompressor=threshold=-19dB:ratio=1.8:attack=12:release=150:makeup=1.3,"
+        "loudnorm=I=-16:LRA=6:TP=-1.5"
+    ),
 }
+
+VOICE_PRESETS = {
+    "male": {
+        "candidates": ["ko-KR-HyunsuNeural", "ko-KR-HyunsuMultilingualNeural"],
+        "rate": "-4%",
+        "pitch": "-2Hz",
+        "volume": "+1%",
+    },
+    "female": {
+        "candidates": ["en-US-AvaMultilingualNeural"],
+        "rate": "-5%",
+        "pitch": "+0Hz",
+        "volume": "+2%",
+    },
+    "narrator_m": {
+        "candidates": ["ko-KR-HyunsuNeural", "ko-KR-HyunsuMultilingualNeural"],
+        "rate": "-8%",
+        "pitch": "-3Hz",
+        "volume": "+3%",
+    },
+    "narrator_f": {
+        "candidates": ["en-US-AvaMultilingualNeural"],
+        "rate": "-7%",
+        "pitch": "+0Hz",
+        "volume": "+3%",
+    },
+}
+
+TRACK_PROFILES = {
+    "short_dialogue": {
+        "gap_seconds": 0.38,
+        "master_filter": MASTER_FILTERS["dialogue"],
+        "rate_shift": "+1%",
+        "volume_shift": "+0%",
+    },
+    "radio": {
+        "gap_seconds": 0.0,
+        "master_filter": MASTER_FILTERS["narration"],
+        "rate_shift": "-1%",
+        "volume_shift": "+1%",
+    },
+    "column": {
+        "gap_seconds": 0.0,
+        "master_filter": MASTER_FILTERS["narration"],
+        "rate_shift": "+0%",
+        "volume_shift": "+1%",
+    },
+    "long_dialogue": {
+        "gap_seconds": 0.44,
+        "master_filter": MASTER_FILTERS["dialogue"],
+        "rate_shift": "+0%",
+        "volume_shift": "+0%",
+    },
+}
+
+VOICE_SELECTION_CACHE = {}
 
 
 TRACKS = [
     {
         "slug": "c12_extra_01_short_dialogue_01",
         "title": "짧은 남녀 대화 1",
+        "profile": "short_dialogue",
         "segments": [
             {"speaker": "남", "voice": "male", "text": "수아 씨, 요즘 자세가 좋아졌어요."},
             {"speaker": "여", "voice": "female", "text": "네, 아침마다 목을 천천히 돌리고 가슴을 폈더니 몸이 가벼워졌어요."},
@@ -43,6 +105,7 @@ TRACKS = [
     {
         "slug": "c12_extra_02_short_dialogue_02",
         "title": "짧은 남녀 대화 2",
+        "profile": "short_dialogue",
         "segments": [
             {"speaker": "여", "voice": "female", "text": "민호 씨, 왜 숨이 차요?"},
             {"speaker": "남", "voice": "male", "text": "계단을 빨리 올라왔어요. 요즘은 조금만 뛰어도 금방 힘들어요."},
@@ -53,6 +116,7 @@ TRACKS = [
     {
         "slug": "c12_extra_03_short_dialogue_03",
         "title": "짧은 남녀 대화 3",
+        "profile": "short_dialogue",
         "segments": [
             {"speaker": "남", "voice": "male", "text": "지연 씨, 오늘은 왜 천천히 걸어요?"},
             {"speaker": "여", "voice": "female", "text": "어제 오래 걸었더니 다리에 쥐가 났어요."},
@@ -63,6 +127,7 @@ TRACKS = [
     {
         "slug": "c12_extra_04_short_dialogue_04",
         "title": "짧은 남녀 대화 4",
+        "profile": "short_dialogue",
         "segments": [
             {"speaker": "여", "voice": "female", "text": "선생님, 저는 요즘 운동을 시작했어요."},
             {"speaker": "남", "voice": "male", "text": "그래요? 몸이 좀 달라졌어요?"},
@@ -73,6 +138,7 @@ TRACKS = [
     {
         "slug": "c12_extra_05_short_dialogue_05",
         "title": "짧은 남녀 대화 5",
+        "profile": "short_dialogue",
         "segments": [
             {"speaker": "남", "voice": "male", "text": "선생님, 오래 앉아 있으면 몸이 무거워요."},
             {"speaker": "여", "voice": "female", "text": "그럼 쉬는 시간마다 일어나야 해요. 손을 허리에 대고 옆구리를 굽혀 보세요."},
@@ -83,6 +149,7 @@ TRACKS = [
     {
         "slug": "c12_extra_06_radio_broadcast",
         "title": "라디오 방송 듣기",
+        "profile": "radio",
         "segments": [
             {
                 "speaker": "진행",
@@ -94,6 +161,7 @@ TRACKS = [
     {
         "slug": "c12_extra_07_column",
         "title": "칼럼 듣기",
+        "profile": "column",
         "segments": [
             {
                 "speaker": "필자",
@@ -105,6 +173,7 @@ TRACKS = [
     {
         "slug": "c12_extra_08_long_dialogue",
         "title": "남녀 긴 대화",
+        "profile": "long_dialogue",
         "segments": [
             {"speaker": "남", "voice": "male", "text": "선생님, 요즘 몸이 무겁고 숨이 자주 차요. 지난달부터 운동을 안 했더니 살도 조금 쪘어요."},
             {"speaker": "여", "voice": "female", "text": "얼굴을 보니까 많이 지친 모양이에요. 하루에 많이 걸어요?"},
@@ -140,21 +209,65 @@ def ensure_tools():
         raise RuntimeError("ffprobe is required but was not found in PATH.")
 
 
-async def synthesize_with_retry(text, voice_name, output_path, rate=DEFAULT_RATE, retries=4):
+def parse_signed_value(value, suffix):
+    clean = str(value).strip()
+    if not clean.endswith(suffix):
+        raise ValueError(f"Expected value ending with {suffix}: {value}")
+    return float(clean[: -len(suffix)] or 0)
+
+
+def combine_signed_values(base, delta, suffix):
+    result = parse_signed_value(base, suffix) + parse_signed_value(delta, suffix)
+    if suffix == "%":
+        return f"{result:+.0f}%"
+    if suffix == "Hz":
+        return f"{result:+.0f}Hz"
+    raise ValueError(f"Unsupported suffix: {suffix}")
+
+
+def ordered_candidates(preset_key):
+    cached = VOICE_SELECTION_CACHE.get(preset_key)
+    candidates = VOICE_PRESETS[preset_key]["candidates"]
+    if cached and cached in candidates:
+        return [cached] + [candidate for candidate in candidates if candidate != cached]
+    return list(candidates)
+
+
+async def synthesize_with_retry(text, preset_key, output_path, track_profile, retries_per_voice=2):
+    preset = VOICE_PRESETS[preset_key]
+    rate = combine_signed_values(preset["rate"], track_profile["rate_shift"], "%")
+    volume = combine_signed_values(preset["volume"], track_profile["volume_shift"], "%")
+    pitch = preset["pitch"]
     last_error = None
-    for attempt in range(1, retries + 1):
-        try:
-            communicate = edge_tts.Communicate(text=text, voice=voice_name, rate=rate)
-            await communicate.save(str(output_path))
-            if output_path.exists() and output_path.stat().st_size > 0:
-                return
-        except Exception as exc:  # noqa: BLE001
-            last_error = exc
-            await asyncio.sleep(min(2 * attempt, 8))
-    raise RuntimeError(f"Failed to synthesize with voice {voice_name}: {last_error}")
+
+    for candidate in ordered_candidates(preset_key):
+        for attempt in range(1, retries_per_voice + 1):
+            try:
+                communicate = edge_tts.Communicate(
+                    text=text,
+                    voice=candidate,
+                    rate=rate,
+                    volume=volume,
+                    pitch=pitch,
+                    boundary="SentenceBoundary",
+                )
+                await communicate.save(str(output_path))
+                if output_path.exists() and output_path.stat().st_size > 0:
+                    VOICE_SELECTION_CACHE[preset_key] = candidate
+                    return {
+                        "voice": candidate,
+                        "rate": rate,
+                        "volume": volume,
+                        "pitch": pitch,
+                    }
+            except Exception as exc:  # noqa: BLE001
+                last_error = exc
+                await asyncio.sleep(min(1.5 * attempt, 4))
+
+    raise RuntimeError(f"Failed to synthesize with preset {preset_key}: {last_error}")
 
 
-def make_silence_wav(path):
+def make_silence_wav(path, seconds):
     run(
         [
             FFMPEG,
@@ -164,7 +277,7 @@ def make_silence_wav(path):
             "-i",
             f"anullsrc=channel_layout=mono:sample_rate={SAMPLE_RATE}",
             "-t",
-            str(SILENCE_SECONDS),
+            str(seconds),
             "-c:a",
             "pcm_s16le",
             str(path),
@@ -190,17 +303,14 @@ def convert_to_wav(src, dest):
     )
 
 
-def concat_wavs(parts, output_mp3):
+def concat_wavs(parts, output_mp3, master_filter):
     with tempfile.TemporaryDirectory() as tmpdir:
         concat_file = Path(tmpdir) / "concat.txt"
         lines = []
         for part in parts:
             escaped = str(part).replace("'", r"'\''")
             lines.append(f"file '{escaped}'")
-        concat_file.write_text(
-            "\n".join(lines),
-            encoding="utf-8",
-        )
+        concat_file.write_text("\n".join(lines), encoding="utf-8")
         run(
             [
                 FFMPEG,
@@ -212,11 +322,11 @@ def concat_wavs(parts, output_mp3):
                 "-i",
                 str(concat_file),
                 "-af",
-                "loudnorm=I=-16:LRA=11:TP=-1.5",
+                master_filter,
                 "-c:a",
                 "libmp3lame",
                 "-b:a",
-                "128k",
+                OUTPUT_BITRATE,
                 str(output_mp3),
             ]
         )
@@ -242,28 +352,50 @@ def probe_duration(path):
 
 
 async def generate_track(track, workdir):
+    track_profile = TRACK_PROFILES[track["profile"]]
+    gap_seconds = track_profile["gap_seconds"]
     wav_parts = []
-    silence_wav = workdir / "silence.wav"
-    make_silence_wav(silence_wav)
+    voices_used = {}
+    segment_settings = []
+    silence_wav = None
+
+    if gap_seconds > 0 and len(track["segments"]) > 1:
+        silence_wav = workdir / f"silence_{str(gap_seconds).replace('.', '_')}.wav"
+        make_silence_wav(silence_wav, gap_seconds)
 
     for index, segment in enumerate(track["segments"], start=1):
         segment_mp3 = workdir / f"{track['slug']}_{index:02d}.mp3"
         segment_wav = workdir / f"{track['slug']}_{index:02d}.wav"
-        voice_name = VOICES[segment["voice"]]
-        await synthesize_with_retry(segment["text"], voice_name, segment_mp3)
+        synthesis_info = await synthesize_with_retry(segment["text"], segment["voice"], segment_mp3, track_profile)
         convert_to_wav(segment_mp3, segment_wav)
         wav_parts.append(segment_wav)
-        if index != len(track["segments"]):
+        voices_used[segment["voice"]] = synthesis_info["voice"]
+        segment_settings.append(
+            {
+                "speaker": segment["speaker"],
+                "voice_preset": segment["voice"],
+                "voice_used": synthesis_info["voice"],
+                "rate": synthesis_info["rate"],
+                "pitch": synthesis_info["pitch"],
+                "volume": synthesis_info["volume"],
+            }
+        )
+        if silence_wav and index != len(track["segments"]):
             wav_parts.append(silence_wav)
 
     output_mp3 = OUTPUT_DIR / f"{track['slug']}.mp3"
-    concat_wavs(wav_parts, output_mp3)
+    concat_wavs(wav_parts, output_mp3, track_profile["master_filter"])
     return {
         "slug": track["slug"],
         "title": track["title"],
+        "profile": track["profile"],
         "file": output_mp3.name,
         "duration_seconds": probe_duration(output_mp3),
         "segment_count": len(track["segments"]),
+        "gap_seconds": gap_seconds,
+        "master_filter": track_profile["master_filter"],
+        "voices_used": voices_used,
+        "segment_settings": segment_settings,
     }
 
 
@@ -286,10 +418,10 @@ async def main():
     manifest = {
         "generated_at_epoch": int(time.time()),
         "generator": "scripts/generate_c12_extra_audio.py",
-        "default_rate": DEFAULT_RATE,
         "sample_rate": SAMPLE_RATE,
-        "silence_seconds_between_segments": SILENCE_SECONDS,
-        "voices": VOICES,
+        "output_bitrate": OUTPUT_BITRATE,
+        "voice_presets": VOICE_PRESETS,
+        "track_profiles": TRACK_PROFILES,
         "tracks": results,
         "elapsed_seconds": round(time.time() - started, 2),
     }

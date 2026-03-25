@@ -15,7 +15,7 @@ window.C12ListenExtraData = {
       title: "짧은 남녀 대화 1",
       shortLabel: "짧은 대화 1",
       kind: "짧은 대화",
-      durationSeconds: 19.1,
+      durationSeconds: 17.72,
       audioSrc: "../assets/c12/audio/extra/c12_extra_01_short_dialogue_01.mp3",
       segments: [
         { speaker: "남", text: "수아 씨, 요즘 자세가 좋아졌어요." },
@@ -29,7 +29,7 @@ window.C12ListenExtraData = {
       title: "짧은 남녀 대화 2",
       shortLabel: "짧은 대화 2",
       kind: "짧은 대화",
-      durationSeconds: 18.5,
+      durationSeconds: 17.29,
       audioSrc: "../assets/c12/audio/extra/c12_extra_02_short_dialogue_02.mp3",
       segments: [
         { speaker: "여", text: "민호 씨, 왜 숨이 차요?" },
@@ -43,7 +43,7 @@ window.C12ListenExtraData = {
       title: "짧은 남녀 대화 3",
       shortLabel: "짧은 대화 3",
       kind: "짧은 대화",
-      durationSeconds: 16.42,
+      durationSeconds: 15.25,
       audioSrc: "../assets/c12/audio/extra/c12_extra_03_short_dialogue_03.mp3",
       segments: [
         { speaker: "남", text: "지연 씨, 오늘은 왜 천천히 걸어요?" },
@@ -57,7 +57,7 @@ window.C12ListenExtraData = {
       title: "짧은 남녀 대화 4",
       shortLabel: "짧은 대화 4",
       kind: "짧은 대화",
-      durationSeconds: 21.05,
+      durationSeconds: 19.76,
       audioSrc: "../assets/c12/audio/extra/c12_extra_04_short_dialogue_04.mp3",
       segments: [
         { speaker: "여", text: "선생님, 저는 요즘 운동을 시작했어요." },
@@ -71,7 +71,7 @@ window.C12ListenExtraData = {
       title: "짧은 남녀 대화 5",
       shortLabel: "짧은 대화 5",
       kind: "짧은 대화",
-      durationSeconds: 19.58,
+      durationSeconds: 18.59,
       audioSrc: "../assets/c12/audio/extra/c12_extra_05_short_dialogue_05.mp3",
       segments: [
         { speaker: "남", text: "선생님, 오래 앉아 있으면 몸이 무거워요." },
@@ -85,7 +85,7 @@ window.C12ListenExtraData = {
       title: "라디오 방송 듣기",
       shortLabel: "라디오",
       kind: "라디오 방송",
-      durationSeconds: 46.54,
+      durationSeconds: 47.04,
       audioSrc: "../assets/c12/audio/extra/c12_extra_06_radio_broadcast.mp3",
       segments: [
         { speaker: "진행", text: "안녕하세요. 아침 건강 시간입니다." },
@@ -100,7 +100,7 @@ window.C12ListenExtraData = {
       title: "칼럼 듣기",
       shortLabel: "칼럼",
       kind: "칼럼 듣기",
-      durationSeconds: 37.06,
+      durationSeconds: 36.91,
       audioSrc: "../assets/c12/audio/extra/c12_extra_07_column.mp3",
       segments: [
         { speaker: "필자", text: "안녕하세요. 저는 학교 보건실에서 일하는 김소라입니다." },
@@ -114,7 +114,7 @@ window.C12ListenExtraData = {
       title: "남녀 긴 대화",
       shortLabel: "긴 대화",
       kind: "남녀 긴 대화",
-      durationSeconds: 64.34,
+      durationSeconds: 62.14,
       audioSrc: "../assets/c12/audio/extra/c12_extra_08_long_dialogue.mp3",
       segments: [
         { speaker: "남", text: "선생님, 요즘 몸이 무겁고 숨이 자주 차요. 지난달부터 운동을 안 했더니 살도 조금 쪘어요." },
