@@ -16,7 +16,7 @@ window.C12ListenExtraData = {
       shortLabel: "짧은 대화 1",
       kind: "짧은 대화",
       durationSeconds: 17.72,
-      audioSrc: "../assets/c12/audio/extra/c12_extra_01_short_dialogue_01.mp3",
+      audioSrc: "../assets/c12/listening/audio/extra/c12_extra_01_short_dialogue_01.mp3",
       segments: [
         { speaker: "남", text: "수아 씨, 요즘 자세가 좋아졌어요." },
         { speaker: "여", text: "네, 아침마다 목을 천천히 돌리고 가슴을 폈더니 몸이 가벼워졌어요." },
@@ -30,7 +30,7 @@ window.C12ListenExtraData = {
       shortLabel: "짧은 대화 2",
       kind: "짧은 대화",
       durationSeconds: 17.29,
-      audioSrc: "../assets/c12/audio/extra/c12_extra_02_short_dialogue_02.mp3",
+      audioSrc: "../assets/c12/listening/audio/extra/c12_extra_02_short_dialogue_02.mp3",
       segments: [
         { speaker: "여", text: "민호 씨, 왜 숨이 차요?" },
         { speaker: "남", text: "계단을 빨리 올라왔어요. 요즘은 조금만 뛰어도 금방 힘들어요." },
@@ -44,7 +44,7 @@ window.C12ListenExtraData = {
       shortLabel: "짧은 대화 3",
       kind: "짧은 대화",
       durationSeconds: 15.25,
-      audioSrc: "../assets/c12/audio/extra/c12_extra_03_short_dialogue_03.mp3",
+      audioSrc: "../assets/c12/listening/audio/extra/c12_extra_03_short_dialogue_03.mp3",
       segments: [
         { speaker: "남", text: "지연 씨, 오늘은 왜 천천히 걸어요?" },
         { speaker: "여", text: "어제 오래 걸었더니 다리에 쥐가 났어요." },
@@ -58,7 +58,7 @@ window.C12ListenExtraData = {
       shortLabel: "짧은 대화 4",
       kind: "짧은 대화",
       durationSeconds: 19.76,
-      audioSrc: "../assets/c12/audio/extra/c12_extra_04_short_dialogue_04.mp3",
+      audioSrc: "../assets/c12/listening/audio/extra/c12_extra_04_short_dialogue_04.mp3",
       segments: [
         { speaker: "여", text: "선생님, 저는 요즘 운동을 시작했어요." },
         { speaker: "남", text: "그래요? 몸이 좀 달라졌어요?" },
@@ -72,7 +72,7 @@ window.C12ListenExtraData = {
       shortLabel: "짧은 대화 5",
       kind: "짧은 대화",
       durationSeconds: 18.59,
-      audioSrc: "../assets/c12/audio/extra/c12_extra_05_short_dialogue_05.mp3",
+      audioSrc: "../assets/c12/listening/audio/extra/c12_extra_05_short_dialogue_05.mp3",
       segments: [
         { speaker: "남", text: "선생님, 오래 앉아 있으면 몸이 무거워요." },
         { speaker: "여", text: "그럼 쉬는 시간마다 일어나야 해요. 손을 허리에 대고 옆구리를 굽혀 보세요." },
@@ -86,7 +86,7 @@ window.C12ListenExtraData = {
       shortLabel: "라디오",
       kind: "라디오 방송",
       durationSeconds: 47.04,
-      audioSrc: "../assets/c12/audio/extra/c12_extra_06_radio_broadcast.mp3",
+      audioSrc: "../assets/c12/listening/audio/extra/c12_extra_06_radio_broadcast.mp3",
       segments: [
         { speaker: "진행", text: "안녕하세요. 아침 건강 시간입니다." },
         { speaker: "진행", text: "요즘 학교나 회사에서 오래 앉아 있는 사람이 많습니다. 그래서 목이 아프고 몸이 무겁다고 말하는 사람이 많아요." },
@@ -101,7 +101,7 @@ window.C12ListenExtraData = {
       shortLabel: "칼럼",
       kind: "칼럼 듣기",
       durationSeconds: 36.91,
-      audioSrc: "../assets/c12/audio/extra/c12_extra_07_column.mp3",
+      audioSrc: "../assets/c12/listening/audio/extra/c12_extra_07_column.mp3",
       segments: [
         { speaker: "필자", text: "안녕하세요. 저는 학교 보건실에서 일하는 김소라입니다." },
         { speaker: "필자", text: "요즘 목이 아프다고 말하는 학생이 많습니다. 고개를 숙이고 휴대폰을 오래 보면 목이 아플 수 있습니다. 오늘도 복도에서도 고개를 숙이고 휴대폰을 하고 있는 학생을 많이 봤습니다. 이런 자세는 목에 좋지 않습니다." },
@@ -115,7 +115,7 @@ window.C12ListenExtraData = {
       shortLabel: "긴 대화",
       kind: "남녀 긴 대화",
       durationSeconds: 62.14,
-      audioSrc: "../assets/c12/audio/extra/c12_extra_08_long_dialogue.mp3",
+      audioSrc: "../assets/c12/listening/audio/extra/c12_extra_08_long_dialogue.mp3",
       segments: [
         { speaker: "남", text: "선생님, 요즘 몸이 무겁고 숨이 자주 차요. 지난달부터 운동을 안 했더니 살도 조금 쪘어요." },
         { speaker: "여", text: "얼굴을 보니까 많이 지친 모양이에요. 하루에 많이 걸어요?" },
