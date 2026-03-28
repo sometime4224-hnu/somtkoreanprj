@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>중간고사 준비 허브</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-start: #fffaf0;
+            --bg-end: #eef7ff;
+            --ink: #1f2937;
+            --muted: #64748b;
+            --panel: rgba(255, 255, 255, 0.9);
+            --line: rgba(148, 163, 184, 0.24);
+            --shadow: 0 24px 54px rgba(15, 23, 42, 0.08);
+            --accent: #dc2626;
+            --accent-soft: rgba(220, 38, 38, 0.1);
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(251, 191, 36, 0.18), transparent 28%),
+                radial-gradient(circle at 88% 12%, rgba(59, 130, 246, 0.14), transparent 30%),
+                radial-gradient(circle at 82% 84%, rgba(236, 72, 153, 0.12), transparent 26%),
+                linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 999px;
+            filter: blur(18px);
+            opacity: 0.52;
+            pointer-events: none;
+        }
+
+        body::before {
+            inset: 120px auto auto -60px;
+            width: 220px;
+            height: 220px;
+            background: rgba(251, 146, 60, 0.22);
+        }
+
+        body::after {
+            inset: auto -44px 84px auto;
+            width: 260px;
+            height: 260px;
+            background: rgba(96, 165, 250, 0.18);
+        }
+
+        .shell {
+            width: min(1140px, calc(100% - 32px));
+            margin: 28px auto 60px;
+        }
+
+        .topbar,
+        .hero,
+        .section,
+        .note {
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, 0.76);
+            box-shadow: var(--shadow);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 18px;
+            border-radius: 24px;
+        }
+
+        .topbar a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #b45309;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            padding: 30px;
+            border-radius: 34px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 237, 213, 0.88) 40%, rgba(239, 246, 255, 0.92) 100%);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -56px -98px auto;
+            width: 300px;
+            height: 300px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(239, 68, 68, 0.18) 0%, rgba(239, 68, 68, 0) 72%);
+        }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.84);
+            color: var(--accent);
+            font-weight: 900;
+            letter-spacing: 0.03em;
+        }
+
+        .hero h1 {
+            margin: 16px 0 10px;
+            font-size: clamp(2.1rem, 4.5vw, 4rem);
+            line-height: 1.08;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 760px;
+            color: var(--muted);
+            line-height: 1.75;
+            font-size: 1.02rem;
+        }
+
+        .hero__chips,
+        .section__nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero__chips {
+            margin-top: 22px;
+        }
+
+        .chip,
+        .section__nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.8);
+            color: #334155;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .section__nav {
+            margin-top: 18px;
+        }
+
+        .section__nav a:hover {
+            border-color: rgba(220, 38, 38, 0.24);
+            color: var(--accent);
+        }
+
+        .note,
+        .section {
+            margin-top: 24px;
+            padding: 24px 26px;
+            border-radius: 30px;
+        }
+
+        .note {
+            background: rgba(255, 255, 255, 0.84);
+        }
+
+        .note h2,
+        .section h2 {
+            margin: 0;
+            font-size: 1.55rem;
+        }
+
+        .note p,
+        .section__desc {
+            margin: 10px 0 0;
+            color: var(--muted);
+            line-height: 1.72;
+        }
+
+        .section {
+            scroll-margin-top: 24px;
+        }
+
+        .section__head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .section__eyebrow {
+            margin: 0 0 8px;
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .button-groups {
+            display: grid;
+            gap: 18px;
+        }
+
+        .button-group {
+            padding: 18px;
+            border-radius: 24px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: rgba(255, 255, 255, 0.78);
+        }
+
+        .button-group h3 {
+            margin: 0 0 14px;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #475569;
+        }
+
+        .button-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .button-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 14px;
+            border-radius: 999px;
+            background: #fff7ed;
+            border: 1px solid rgba(251, 146, 60, 0.24);
+            color: #7c2d12;
+            text-decoration: none;
+            font-weight: 800;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .button-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 24px rgba(251, 146, 60, 0.12);
+        }
+
+        .button-link--soft {
+            background: #eff6ff;
+            border-color: rgba(59, 130, 246, 0.18);
+            color: #1d4ed8;
+        }
+
+        .button-link--priority {
+            background: linear-gradient(135deg, #fff1f2 0%, #fff7ed 100%);
+            border-color: rgba(244, 63, 94, 0.24);
+            color: #be123c;
+            box-shadow: 0 12px 24px rgba(244, 63, 94, 0.12);
+        }
+
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .focus-card {
+            padding: 22px;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: 0 20px 36px rgba(15, 23, 42, 0.08);
+        }
+
+        .focus-card--review {
+            background: linear-gradient(135deg, rgba(255, 245, 247, 0.96) 0%, rgba(255, 237, 213, 0.94) 100%);
+        }
+
+        .focus-card--cut {
+            background: linear-gradient(135deg, rgba(255, 247, 237, 0.96) 0%, rgba(254, 249, 195, 0.9) 100%);
+        }
+
+        .focus-card--exam {
+            background: linear-gradient(135deg, rgba(239, 246, 255, 0.96) 0%, rgba(224, 231, 255, 0.94) 100%);
+        }
+
+        .focus-card__eyebrow {
+            margin: 0 0 10px;
+            color: #be123c;
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .focus-card h3 {
+            margin: 0 0 16px;
+            font-size: 1.3rem;
+        }
+
+        .focus-links {
+            display: grid;
+            gap: 10px;
+        }
+
+        .focus-link {
+            display: block;
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            color: inherit;
+            text-decoration: none;
+            font-weight: 900;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .focus-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 220px;
+            padding: 22px;
+            border-radius: 26px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: #ffffff;
+            box-shadow: 0 16px 32px rgba(15, 23, 42, 0.06);
+        }
+
+        .card--soft {
+            background: linear-gradient(180deg, #ffffff 0%, #fffaf5 100%);
+        }
+
+        .card--disabled {
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            opacity: 0.9;
+        }
+
+        .card__pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.77rem;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            margin: 8px 0 0;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .link-list {
+            display: grid;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .link-list a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            text-decoration: none;
+            color: inherit;
+            background: #fff7ed;
+            border: 1px solid rgba(251, 146, 60, 0.2);
+            font-weight: 700;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .link-list a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 24px rgba(251, 146, 60, 0.12);
+        }
+
+        .link-list a.alt {
+            background: #eff6ff;
+            border-color: rgba(59, 130, 246, 0.18);
+        }
+
+        .link-list a.soft {
+            background: #f8fafc;
+            border-color: rgba(148, 163, 184, 0.2);
+        }
+
+        .draft-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            color: #7c2d12;
+            font-weight: 700;
+        }
+
+        @media (max-width: 720px) {
+            .shell {
+                width: min(100% - 20px, 100%);
+                margin: 20px auto 40px;
+            }
+
+            .topbar,
+            .hero,
+            .note,
+            .section {
+                border-radius: 24px;
+                padding: 20px;
+            }
+
+            .topbar,
+            .section__head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .card {
+                min-height: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <main class="shell">
+        <div class="topbar">
+            <a href="../index.html">
+                <span>메인으로</span>
+            </a>
+            <strong>중간고사 준비 허브</strong>
+        </div>
+
+        <section class="hero">
+            <div class="hero__badge">
+                <i class="fa-solid fa-pen-ruler"></i>
+                <span>Draft 0.1</span>
+            </div>
+            <h1>중간고사 준비 허브</h1>
+            <div class="hero__chips">
+                <span class="chip"><i class="fa-solid fa-book-open"></i> 범위: c10~c13</span>
+                <span class="chip"><i class="fa-solid fa-layer-group"></i> 보강: review4</span>
+                <span class="chip"><i class="fa-solid fa-list-check"></i> 영역: 어휘 / 문법 / 읽기 / 쓰기</span>
+            </div>
+            <nav class="section__nav" aria-label="영역 바로가기">
+                <a href="#vocabulary"><i class="fa-solid fa-tags"></i> 어휘</a>
+                <a href="#grammar"><i class="fa-solid fa-puzzle-piece"></i> 문법</a>
+                <a href="#reading"><i class="fa-solid fa-book"></i> 읽기</a>
+                <a href="#writing"><i class="fa-solid fa-pen"></i> 쓰기</a>
+            </nav>
+        </section>
+
+        <section class="section" id="priority">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Priority</p>
+                    <h2>핵심 대비</h2>
+                </div>
+            </div>
+            <div class="focus-grid">
+                <article class="focus-card focus-card--review">
+                    <p class="focus-card__eyebrow">Review 4</p>
+                    <h3>Review 4 집중</h3>
+                    <div class="focus-links">
+                        <a href="../review/review4-html/confirm.html" class="focus-link">확인하기</a>
+                        <a href="../review/review4-html/evaluate.html" class="focus-link">평가하기</a>
+                        <a href="../review/review4-html/reading-writing.html" class="focus-link">읽기와 쓰기</a>
+                    </div>
+                </article>
+
+                <article class="focus-card focus-card--cut">
+                    <p class="focus-card__eyebrow">Cut Writing</p>
+                    <h3>컷 쓰기 집중</h3>
+                    <div class="focus-links">
+                        <a href="../c10/writing-cut.html" class="focus-link">10과 컷 쓰기</a>
+                        <a href="../c11/writing-cut.html" class="focus-link">11과 컷 쓰기</a>
+                        <a href="../c12/writing-cut.html" class="focus-link">12과 컷 쓰기</a>
+                    </div>
+                </article>
+
+                <article class="focus-card focus-card--exam">
+                    <p class="focus-card__eyebrow">Exam Writing</p>
+                    <h3>중간고사형 쓰기</h3>
+                    <div class="focus-links">
+                        <a href="../apps/standalone-pages/memorable-day-writing.html" class="focus-link">기억에 남는 날 쓰기</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="vocabulary">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Vocabulary</p>
+                    <h2>어휘</h2>
+                </div>
+            </div>
+            <div class="button-groups">
+                <div class="button-group">
+                    <h3>어휘 카드</h3>
+                    <div class="button-list">
+                        <a href="../c10/vocabulary.html" class="button-link">10과</a>
+                        <a href="../c11/vocabulary.html" class="button-link">11과</a>
+                        <a href="../c12/vocabulary.html" class="button-link">12과</a>
+                        <a href="../c13/vocabulary.html" class="button-link">13과</a>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <h3>퀴즈</h3>
+                    <div class="button-list">
+                        <a href="../c10/review-quiz.html" class="button-link button-link--soft">10과 복습 퀴즈</a>
+                        <a href="../c12/vocabulary-card-game.html" class="button-link button-link--soft">12과 카드 게임</a>
+                        <a href="../review/review-quiz-10-12.html" class="button-link button-link--soft">10~12과 통합 어휘</a>
+                        <a href="../review/review4-html/confirm.html" class="button-link button-link--soft">Review 4 확인하기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="grammar">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Grammar</p>
+                    <h2>문법</h2>
+                </div>
+            </div>
+            <div class="button-groups">
+                <div class="button-group">
+                    <h3>문법 기본학습</h3>
+                    <div class="button-list">
+                        <a href="../c10/grammar1.html" class="button-link">10과 -던</a>
+                        <a href="../c10/grammar2.html" class="button-link">10과 -잖아요</a>
+                        <a href="../c10/grammar3.html" class="button-link">10과 -(으)ㄹ 생각/계획/예정이다</a>
+                        <a href="../c10/grammar4.html" class="button-link">10과 -(으)려면 멀었다</a>
+                        <a href="../c11/grammar1.html" class="button-link">11과 사동사</a>
+                        <a href="../c11/grammar2.html" class="button-link">11과 -(ㄴ/는)다면</a>
+                        <a href="../c11/grammar3.html" class="button-link">11과 -든지/-도</a>
+                        <a href="../c13/grammar1.html" class="button-link">13과 -(으)ㄹ까 봐</a>
+                        <a href="../c13/grammar2.html" class="button-link">13과 -고 있다</a>
+                        <a href="../c13/grammar3.html" class="button-link">13과 -았/었어야 했는데</a>
+                        <a href="../c13/grammar4.html" class="button-link">13과 -도록</a>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <h3>퀴즈</h3>
+                    <div class="button-list">
+                        <a href="../c10/grammar12-quiz-menu.html" class="button-link button-link--soft">10과 퀴즈 (-던·-잖아요)</a>
+                        <a href="../c11/grammar-review.html" class="button-link button-link--soft">11과 통합 퀴즈 (사동사·-다면·-든지/-도)</a>
+                        <a href="../c11/grammar3-drill1.html" class="button-link button-link--soft">11과 의문사 + 든지/도</a>
+                        <a href="../c11/grammar3-drill2.html" class="button-link button-link--soft">11과 명사 + (이)든지/도</a>
+                        <a href="../review/review4-html/evaluate.html" class="button-link button-link--soft">Review 4 평가하기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="reading">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Reading</p>
+                    <h2>읽기</h2>
+                </div>
+            </div>
+            <div class="button-group">
+                <div class="button-list">
+                    <a href="../c10/reading.html" class="button-link">10과 읽기</a>
+                    <a href="../c11/reading.html" class="button-link">11과 읽기</a>
+                    <a href="../c12/reading.html" class="button-link">12과 읽기</a>
+                    <a href="../review/review4-html/reading-writing.html" class="button-link button-link--priority">Review 4 읽기와 쓰기</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="writing">
+            <div class="section__head">
+                <div>
+                    <p class="section__eyebrow">Writing</p>
+                    <h2>쓰기</h2>
+                </div>
+            </div>
+            <div class="button-group">
+                <div class="button-list">
+                    <a href="../c10/writing-cut.html" class="button-link button-link--priority">10과 컷 쓰기</a>
+                    <a href="../c11/writing-cut.html" class="button-link button-link--priority">11과 컷 쓰기</a>
+                    <a href="../c12/writing-cut.html" class="button-link button-link--priority">12과 컷 쓰기</a>
+                    <a href="../apps/standalone-pages/memorable-day-writing.html" class="button-link button-link--priority">중간고사형 쓰기</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
