@@ -11,1376 +11,751 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>목 건강 읽기 - 컷 쓰기 활동</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts: Noto Sans KR -->
+  <title>c12 「여러분의 목 건강은 어떠십니까?」 컷 쓰기</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --orange: #f97316;
-      --orange-light: #fff7ed;
-      --orange-mid: #fed7aa;
-      --orange-dark: #ea580c;
-      --green: #16a34a;
-      --green-light: #dcfce7;
-      --red: #dc2626;
-      --red-light: #fee2e2;
+      --bg: #f6f7ef;
+      --surface: #ffffff;
+      --line: #d9ddcf;
+      --text: #1f2937;
+      --muted: #667085;
+      --accent: #c97b12;
+      --accent-soft: #fff1d8;
+      --accent-strong: #8f4f08;
+      --mint: #0f766e;
+      --mint-soft: #dff7f1;
+      --success: #166534;
+      --success-soft: #dcfce7;
+      --warn: #9a6700;
+      --warn-soft: #fff4ce;
+      --wrong: #b42318;
+      --wrong-soft: #fee4e2;
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+      --radius-lg: 28px;
+      --radius-sm: 14px;
     }
 
     * { box-sizing: border-box; }
-
     body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: #f8fafc;
       margin: 0;
-      padding: 0;
-      color: #1e293b;
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(251, 191, 36, 0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(45, 212, 191, 0.12), transparent 26%),
+        linear-gradient(180deg, #fbfcf8 0%, var(--bg) 100%);
     }
 
-    /* ── Global Nav ── */
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; border: 0; }
+    img { max-width: 100%; display: block; }
+
     .global-nav {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: white;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 10px 16px;
+      z-index: 40;
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-    .global-nav a {
-      font-size: 0.82rem;
-      color: #64748b;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      border-radius: 8px;
-      transition: background 0.15s;
-    }
-    .global-nav a:hover { background: #f1f5f9; color: var(--orange); }
-    .global-nav .nav-sep { color: #cbd5e1; font-size: 0.9rem; }
-
-    /* ── Page Header ── */
-    .page-header {
-      background: linear-gradient(135deg, var(--orange) 0%, #fb923c 100%);
-      color: white;
-      padding: 20px 16px 24px;
-      text-align: center;
-    }
-    .page-header .badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.25);
-      border-radius: 20px;
-      padding: 3px 12px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-    .page-header h1 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin: 0 0 4px;
-      line-height: 1.4;
-    }
-    .page-header p {
-      font-size: 0.82rem;
-      margin: 0;
-      opacity: 0.88;
-    }
-
-    /* ── Phase Indicator ── */
-    .phase-indicator {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      padding: 16px;
-      background: white;
-      border-bottom: 1px solid #f1f5f9;
-    }
-    .phase-dot {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      border: 2px solid #e2e8f0;
-      color: #94a3b8;
-      background: white;
-      transition: all 0.3s;
-    }
-    .phase-dot.active {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: white;
-      box-shadow: 0 2px 8px rgba(249,115,22,0.4);
-    }
-    .phase-dot.done {
-      background: var(--orange-mid);
-      border-color: var(--orange);
-      color: var(--orange-dark);
-    }
-    .phase-line {
-      flex: 1;
-      max-width: 32px;
-      height: 2px;
-      background: #e2e8f0;
-    }
-    .phase-line.done { background: var(--orange-mid); }
-
-    /* ── Main Content ── */
-    .main-content {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 16px;
-    }
-
-    /* ── Phase Card ── */
-    .phase-card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 1px 12px rgba(0,0,0,0.06);
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-    .phase-card-header {
-      background: var(--orange-light);
-      border-bottom: 1px solid var(--orange-mid);
+      gap: 10px;
       padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(217, 221, 207, 0.92);
     }
-    .phase-card-header h2 {
-      font-size: 0.95rem;
+
+    .global-nav a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.9rem;
       font-weight: 700;
-      color: var(--orange-dark);
-      margin: 0;
-    }
-    .cut-progress {
-      font-size: 0.78rem;
-      color: var(--orange);
-      font-weight: 600;
-      background: white;
-      padding: 3px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--orange-mid);
-    }
-    .phase-card-body { padding: 16px; }
-
-    /* ── Cut Image ── */
-    .cut-image-wrap {
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 14px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-    }
-    .cut-image-wrap img {
-      width: 100%;
-      display: block;
-      aspect-ratio: 4/3;
-      object-fit: cover;
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: 0.18s ease;
     }
 
-    /* ── Placeholder Cut ── */
-    .placeholder-cut {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: var(--orange-light);
-      border: 2px dashed var(--orange);
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 16px;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-    .placeholder-icon { font-size: 2.5rem; }
-    .placeholder-label {
-      font-size: 0.75rem;
-      color: var(--orange);
-      font-weight: 600;
-    }
-    .placeholder-desc {
-      font-size: 0.72rem;
-      color: #92400e;
-      line-height: 1.5;
-      max-width: 260px;
-    }
-
-    /* ── Textarea ── */
-    .writing-area {
-      width: 100%;
-      min-height: 90px;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 12px;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.7;
-      resize: vertical;
-      transition: border-color 0.2s;
-      background: #fafafa;
-    }
-    .writing-area:focus {
+    .global-nav a:hover,
+    .global-nav a:focus-visible,
+    .global-nav a[aria-current="page"] {
+      color: var(--accent-strong);
+      background: var(--accent-soft);
       outline: none;
-      border-color: var(--orange);
-      background: white;
     }
 
-    /* ── Save indicator ── */
-    .save-indicator {
-      font-size: 0.72rem;
-      color: var(--green);
-      opacity: 0;
-      transition: opacity 0.3s;
-      text-align: right;
-      margin-top: 4px;
-      min-height: 18px;
-    }
-    .save-indicator.show { opacity: 1; }
+    .page-header { padding: 22px 16px 18px; }
 
-    /* ── Hint ── */
-    .hint-section { margin: 10px 0; }
-    .hint-toggle-btn {
+    .header-card {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+      border-radius: 34px;
+      border: 1px solid rgba(201, 123, 18, 0.18);
+      background:
+        linear-gradient(135deg, rgba(255, 247, 221, 0.98), rgba(255, 255, 255, 0.98)),
+        linear-gradient(120deg, rgba(255, 255, 255, 0.4), rgba(223, 247, 241, 0.3));
+      box-shadow: var(--shadow);
+    }
+
+    .header-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: none;
-      border: 1.5px solid var(--orange-mid);
-      color: var(--orange);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      padding: 6px 14px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent-soft), var(--mint-soft));
+      color: var(--accent-strong);
+      font-weight: 800;
+      font-size: 0.84rem;
     }
-    .hint-toggle-btn:hover { background: var(--orange-light); }
-    .hint-pills {
+
+    .header-card h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(1.95rem, 4vw, 3rem);
+      line-height: 1.1;
+    }
+
+    .header-card p {
+      margin: 0;
+      max-width: 760px;
+      color: #475467;
+      line-height: 1.7;
+    }
+
+    .page-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 16px 42px;
+    }
+
+    .app-root { min-height: 65vh; }
+
+    .progress-card,
+    .panel,
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .progress-card { padding: 22px; margin-bottom: 18px; }
+    .panel, .summary-card { padding: 20px; }
+
+    .progress-top, .panel-head, .actions {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .progress-top { margin-bottom: 16px; }
+    .panel-head { margin-bottom: 16px; }
+
+    .eyebrow, .header-badge, .highlight-tag, .focus-chip, .support-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .eyebrow {
+      color: var(--accent-strong);
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .progress-title { margin: 8px 0 6px; font-size: clamp(1.25rem, 3vw, 1.75rem); }
+    .progress-desc, .panel-head p, .image-caption, .summary-item p { color: var(--muted); line-height: 1.6; }
+    .panel-head h3 { margin: 0; font-size: 1.14rem; }
+    .panel-head p, .summary-item p { margin: 6px 0 0; }
+
+    .focus-chip {
+      flex-shrink: 0;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 800;
+      box-shadow: 0 12px 24px rgba(217, 119, 6, 0.22);
+    }
+
+    .top-tools {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-    .hint-pill {
-      background: var(--orange-light);
-      border: 1px solid var(--orange-mid);
-      color: var(--orange-dark);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.82rem;
-      font-weight: 500;
+      justify-content: flex-end;
+      gap: 10px;
     }
 
-    /* ── Model Answer ── */
-    .model-answer-box {
-      background: var(--green-light);
-      border: 1.5px solid #86efac;
-      border-radius: 10px;
-      padding: 12px 14px;
-      margin-top: 10px;
-    }
-    .model-answer-box .label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--green);
-      margin-bottom: 4px;
-    }
-    .model-answer-box .sentence {
-      font-size: 0.95rem;
-      color: #14532d;
-      font-weight: 500;
-      line-height: 1.6;
-    }
-
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 600;
-      padding: 10px 18px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-orange {
-      background: var(--orange);
-      color: white;
-    }
-    .btn-orange:hover:not(:disabled) { background: var(--orange-dark); }
-    .btn-outline {
+    .passage-open-btn {
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid #d4d8cb;
       background: white;
-      border: 1.5px solid #e2e8f0;
-      color: #475569;
+      color: var(--mint);
+      font-weight: 800;
+      box-shadow: 0 10px 20px rgba(15, 118, 110, 0.08);
     }
-    .btn-outline:hover:not(:disabled) { border-color: var(--orange); color: var(--orange); background: var(--orange-light); }
-    .btn-green {
-      background: var(--green);
-      color: white;
-    }
-    .btn-green:hover:not(:disabled) { background: #15803d; }
-    .btn-full { width: 100%; }
 
-    /* ── Nav row ── */
-    .nav-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 14px;
-      gap: 8px;
+    .highlight-tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-weight: 800;
+      font-size: 0.82rem;
     }
-    .nav-row .btn { flex: 1; }
 
-    /* ── Phase 2: Grid ── */
-    .cuts-grid {
+    .step-pills, .cut-pills, .summary-metrics, .fill-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .cut-grid-item {
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fafafa;
-    }
-    .cut-grid-item .cut-num {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: white;
-      background: var(--orange);
-      padding: 3px 8px;
-      text-align: center;
-    }
-    .cut-grid-item .cut-thumb {
-      width: 100%;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-      display: block;
-    }
-    .cut-grid-item .placeholder-cut-small {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: var(--orange-light);
-      border-bottom: 1px dashed var(--orange);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-    .cut-grid-item .student-sentence {
-      padding: 8px 10px;
-      font-size: 0.78rem;
-      line-height: 1.6;
-      color: #1e293b;
-      border-top: 1px solid #f1f5f9;
-    }
-    .cut-grid-item .student-sentence.empty {
-      color: #94a3b8;
-      font-style: italic;
+      gap: 10px;
     }
 
-    /* ── Phase 3: Thumbnail Row ── */
-    .phase3-title {
-      font-size: 0.92rem;
+    .step-pills, .summary-metrics { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .cut-pills { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 12px; }
+    .fill-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 14px; }
+
+    .step-pill, .cut-pill {
+      padding: 11px 10px;
+      border-radius: 18px;
+      border: 1px solid #e6e8de;
+      background: #fbfcf8;
+      text-align: center;
+      color: var(--muted);
       font-weight: 700;
-      color: #1e293b;
-      margin-bottom: 12px;
+      font-size: 0.86rem;
     }
-    .thumb-row {
+
+    .step-pill.done, .cut-pill.done {
+      color: var(--success);
+      border-color: #a7f3d0;
+      background: #f0fdf9;
+    }
+
+    .step-pill.active, .cut-pill.active {
+      color: var(--accent-strong);
+      border-color: #f7c36d;
+      background: linear-gradient(180deg, #fff8ea 0%, #ffe6bf 100%);
+      box-shadow: 0 12px 24px rgba(201, 123, 18, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.08fr);
+      gap: 18px;
+    }
+
+    .activity-layout {
       display: flex;
-      gap: 6px;
-      margin-bottom: 16px;
-      overflow-x: auto;
-      padding-bottom: 4px;
+      flex-direction: column;
+      gap: 18px;
     }
-    .thumb-item {
-      flex: 0 0 calc(16.66% - 5px);
-      min-width: 56px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 2px solid #e2e8f0;
-      position: relative;
-    }
-    .thumb-item.blank-slot {
-      border: 2px dashed var(--orange);
-      background: var(--orange-light);
-      display: flex;
+
+    .floating-image-preview {
+      position: fixed;
+      top: calc(68px + env(safe-area-inset-top, 0px));
+      left: 50%;
+      z-index: 45;
+      display: none;
       align-items: center;
-      justify-content: center;
+      gap: 10px;
+      width: min(260px, calc(100vw - 24px));
+      padding: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(201, 123, 18, 0.24);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 18px 32px rgba(15, 23, 42, 0.16);
+      transform: translate(-50%, -12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      text-align: left;
     }
-    .thumb-item img {
-      width: 100%;
-      aspect-ratio: 4/3;
+
+    .floating-image-preview.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
+    }
+
+    .floating-image-preview img {
+      width: 78px;
+      height: 52px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      border: 1px solid rgba(217, 221, 207, 0.92);
       object-fit: cover;
-      display: block;
+      background: #f9faf7;
     }
-    .thumb-item .thumb-placeholder {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: var(--orange-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
+
+    .floating-image-preview__copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
     }
-    .blank-q {
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: var(--orange);
+
+    .floating-image-preview__copy strong {
+      color: var(--accent-strong);
+      font-size: 0.88rem;
+      line-height: 1.2;
     }
-    .thumb-index {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      background: rgba(249,115,22,0.85);
-      color: white;
-      font-size: 0.55rem;
-      font-weight: 700;
-      padding: 1px 4px;
-      border-radius: 4px;
+
+    .floating-image-preview__copy span {
+      color: var(--muted);
+      font-size: 0.78rem;
       line-height: 1.4;
     }
 
-    /* ── Phase 3: Choices ── */
-    .choices-label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-    }
-    .image-choices-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-    .image-choice-btn {
-      border: 2.5px solid #e2e8f0;
-      border-radius: 12px;
+    .image-wrap {
       overflow: hidden;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: white;
+      border-radius: 20px;
+      border: 1px solid #ebe6d8;
+      background: #f9faf7;
+    }
+
+    .image-wrap img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    .support-row, .choice-list, .word-bank, .order-row, .action-group, .summary-list { display: flex; gap: 10px; }
+    .support-row, .word-bank, .order-row, .action-group { flex-wrap: wrap; }
+    .choice-list, .summary-list { flex-direction: column; }
+    .support-row { margin-top: 14px; }
+
+    .support-chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--mint-soft);
+      color: var(--mint);
+      font-weight: 700;
+      font-size: 0.84rem;
+    }
+
+    .instruction-card, .guide-zone, .template-box, .arranged-box, .fill-preview {
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .instruction-card {
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, rgba(255, 247, 221, 0.62), rgba(255, 255, 255, 0.98));
+      border: 1px solid rgba(201, 123, 18, 0.16);
+    }
+
+    .instruction-card strong { display: block; margin-bottom: 4px; color: var(--accent-strong); }
+    .instruction-card span { color: #475467; line-height: 1.55; }
+
+    .guide-zone {
       position: relative;
+      margin-top: 14px;
     }
-    .image-choice-btn:hover { border-color: var(--orange); }
-    .image-choice-btn.selected {
-      border-color: var(--orange);
-      box-shadow: 0 0 0 3px rgba(249,115,22,0.2);
-    }
-    .image-choice-btn.correct { border-color: var(--green); box-shadow: 0 0 0 3px rgba(22,163,74,0.2); }
-    .image-choice-btn.wrong { border-color: var(--red); box-shadow: 0 0 0 3px rgba(220,38,38,0.2); }
-    .image-choice-btn img {
+
+    .guide-zone.compact {
+      margin-top: 0;
       width: 100%;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-      display: block;
+      max-width: 320px;
     }
-    .image-choice-label {
-      padding: 5px 8px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #374151;
-      text-align: center;
-      background: #f8fafc;
-      border-top: 1px solid #f1f5f9;
+
+    .guide-zone.compact .guide-callout {
+      margin-left: 6px;
     }
-    .choice-badge {
+
+    .guide-zone.compact .nav-btn,
+    .guide-zone.compact .ghost-btn {
+      width: 100%;
+    }
+
+    .guide-zone > :not(.guide-callout) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .guide-zone.primary::before,
+    .guide-zone.primary::after,
+    .guide-zone.success::before,
+    .guide-zone.success::after {
+      content: '';
       position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
+      inset: -8px;
+      border-radius: 24px;
+      pointer-events: none;
+      z-index: 1;
     }
-    .choice-badge.show { display: flex; }
-    .choice-badge.correct { background: var(--green); color: white; }
-    .choice-badge.wrong { background: var(--red); color: white; }
 
-    /* ── Phase 4: Sentence Choices ── */
-    .sentence-choices { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
-    .sentence-choice-btn {
-      width: 100%;
-      text-align: left;
-      padding: 12px 14px;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      background: white;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.88rem;
-      line-height: 1.6;
-      color: #1e293b;
-      cursor: pointer;
-      transition: all 0.2s;
+    .guide-zone.primary::before,
+    .guide-zone.primary::after {
+      border: 3px solid rgba(245, 158, 11, 0.72);
+      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.26);
     }
-    .sentence-choice-btn:hover { border-color: var(--orange); background: var(--orange-light); }
-    .sentence-choice-btn.selected { border-color: var(--orange); background: var(--orange-light); }
-    .sentence-choice-btn.correct { border-color: var(--green); background: var(--green-light); color: #14532d; font-weight: 600; }
-    .sentence-choice-btn.wrong { border-color: var(--red); background: var(--red-light); color: #7f1d1d; }
 
-    /* ── Feedback ── */
-    .feedback-box {
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: none;
-      margin-bottom: 10px;
+    .guide-zone.success::before,
+    .guide-zone.success::after {
+      border: 3px solid rgba(34, 197, 94, 0.7);
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.24);
+    }
+
+    .guide-zone.primary::before,
+    .guide-zone.success::before {
+      animation: guideWave 1.9s ease-out infinite;
+    }
+
+    .guide-zone.primary::after,
+    .guide-zone.success::after {
+      animation: guideWave 1.9s ease-out 0.95s infinite;
+    }
+
+    .guide-callout {
+      position: relative;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
+      margin: 0 0 10px 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: white;
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      z-index: 3;
+      animation: guideFloat 1.6s ease-in-out infinite;
+      box-shadow: 0 14px 24px rgba(15, 23, 42, 0.18);
     }
-    .feedback-box.show { display: flex; }
-    .feedback-box.correct { background: var(--green-light); color: var(--green); border: 1.5px solid #86efac; }
-    .feedback-box.wrong { background: var(--red-light); color: var(--red); border: 1.5px solid #fca5a5; }
 
-    /* ── Phase 4 big image ── */
-    .phase4-image-wrap {
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 16px;
-      border: 2px solid var(--orange-mid);
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
+    .guide-callout::after {
+      content: '';
+      position: absolute;
+      left: 22px;
+      bottom: -6px;
+      width: 12px;
+      height: 12px;
+      transform: rotate(45deg);
+      border-radius: 3px;
+      background: inherit;
     }
-    .phase4-image-wrap img {
+
+    .guide-callout.primary {
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+    }
+
+    .guide-callout.success {
+      background: linear-gradient(135deg, #22c55e, #15803d);
+    }
+
+    .template-box, .arranged-box, .fill-preview {
+      border: 1px dashed #d0d5c6;
+      background: #fcfdf9;
+    }
+
+    .template-line, .arranged-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .choice-btn, .drop-slot, .word-chip, .order-chip, .ghost-btn, .reset-btn, .nav-btn {
+      transition: 0.18s ease;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .choice-btn {
       width: 100%;
-      display: block;
-    }
-
-    /* ── Congrats ── */
-    .congrats-box {
-      text-align: center;
-      padding: 24px 16px;
-    }
-    .congrats-emoji { font-size: 3rem; margin-bottom: 10px; }
-    .congrats-title {
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: var(--orange-dark);
-      margin-bottom: 6px;
-    }
-    .congrats-sub {
-      font-size: 0.88rem;
-      color: #64748b;
-      margin-bottom: 16px;
+      padding: 14px 15px;
+      border: 1px solid #d9ddcf;
+      background: white;
+      text-align: left;
+      color: var(--text);
       line-height: 1.6;
     }
-    .score-badge {
-      display: inline-block;
-      background: var(--orange);
-      color: white;
-      font-size: 1.2rem;
-      font-weight: 900;
-      padding: 10px 28px;
-      border-radius: 50px;
-      margin-bottom: 16px;
+
+    .choice-btn.selected { border-color: #f3b34b; background: #fff8ea; }
+    .choice-btn.correct { border-color: #86efac; background: #f0fdf4; color: var(--success); }
+    .choice-btn.wrong { border-color: #fda29b; background: #fff1f0; color: var(--wrong); }
+
+    .drop-slot, .word-chip, .order-chip {
+      min-height: 44px;
+      padding: 10px 14px;
+      border: 1px solid #d4d8cb;
+      background: white;
+      color: var(--text);
     }
 
-    /* ── Animation ── */
-    .fade-in { animation: fadeIn 0.35s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .drop-slot.active { border-color: #f3b34b; background: #fff8ea; }
+    .drop-slot.filled { border-color: #a7f3d0; background: #f0fdf9; color: var(--success); }
+    .word-chip.used { opacity: 0.45; cursor: not-allowed; }
 
-    /* ── Hidden utility ── */
-    .hidden { display: none !important; }
+    .blank-inline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 88px;
+      min-height: 38px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+
+    .fill-field label, .fullwrite-box label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .fill-field input, .fullwrite-box textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 1px solid #cfd4c3;
+      background: white;
+      color: var(--text);
+    }
+
+    .fullwrite-box textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+
+    .feedback {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    .feedback strong { display: block; margin-bottom: 10px; }
+    .feedback-body,
+    .feedback-extra {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .feedback-body + .feedback-body,
+    .feedback-body + .feedback-extra,
+    .feedback-extra + .feedback-extra {
+      margin-top: 10px;
+    }
+
+    .feedback-label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.77rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      opacity: 0.82;
+    }
+
+    .feedback-body--vi {
+      font-size: 0.92rem;
+    }
+
+    .feedback.correct { border: 1px solid #86efac; background: var(--success-soft); color: var(--success); }
+    .feedback.warn { border: 1px solid #facc15; background: var(--warn-soft); color: var(--warn); }
+    .feedback.wrong { border: 1px solid #fda29b; background: var(--wrong-soft); color: var(--wrong); }
+
+    .actions { flex-wrap: wrap; margin-top: 18px; }
+    .ghost-btn, .reset-btn, .nav-btn { min-height: 48px; padding: 0 18px; }
+    .ghost-btn, .reset-btn { border: 1px solid #d4d8cb; background: white; color: #475467; }
+    .nav-btn { background: linear-gradient(135deg, #d97706, #ea580c); color: white; box-shadow: 0 14px 28px rgba(217, 119, 6, 0.18); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+    .metric {
+      padding: 16px;
+      border-radius: 20px;
+      background: white;
+      border: 1px solid #e8ebdf;
+      box-shadow: var(--shadow);
+    }
+
+    .metric strong { display: block; font-size: 1.5rem; margin-bottom: 6px; }
+    .metric span { color: var(--muted); font-size: 0.9rem; }
+
+    .summary-item {
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid #e6e8de;
+      background: white;
+    }
+
+    .summary-item strong { display: block; margin-bottom: 6px; }
+
+    .passage-modal {
+      position: fixed;
+      inset: 50% auto auto 50%;
+      z-index: 60;
+      width: min(760px, calc(100vw - 32px));
+      max-height: min(82vh, 860px);
+      transform: translate(-50%, -50%);
+      border-radius: 28px;
+      border: 1px solid rgba(217, 221, 207, 0.96);
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.22);
+      overflow: hidden;
+    }
+
+    .passage-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 55;
+      background: rgba(15, 23, 42, 0.38);
+      backdrop-filter: blur(4px);
+    }
+
+    .passage-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px 22px 14px;
+      border-bottom: 1px solid #ebe6d8;
+      background: linear-gradient(135deg, rgba(255, 247, 221, 0.92), rgba(223, 247, 241, 0.72));
+    }
+
+    .passage-title {
+      margin: 6px 0 0;
+      font-size: clamp(1.2rem, 3vw, 1.65rem);
+    }
+
+    .passage-subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .passage-body {
+      padding: 18px 22px 22px;
+      overflow: auto;
+      max-height: calc(min(82vh, 860px) - 92px);
+    }
+
+    .passage-card {
+      padding: 16px 18px;
+      border-radius: 22px;
+      border: 1px solid #ebe6d8;
+      background: #fffdfa;
+    }
+
+    .passage-overview {
+      background: linear-gradient(180deg, rgba(255, 249, 237, 0.96), rgba(255, 255, 255, 0.98));
+      border-color: rgba(201, 123, 18, 0.2);
+    }
+
+    .passage-card + .passage-card {
+      margin-top: 12px;
+    }
+
+    .passage-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-strong);
+      font-size: 1rem;
+    }
+
+    .passage-card p {
+      margin: 0;
+      color: #344054;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .passage-copy + .passage-copy {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed #e7dcc6;
+    }
+
+    .passage-section-label {
+      margin: 18px 0 10px;
+    }
+
+    @keyframes guideWave {
+      0% {
+        opacity: 0.95;
+        transform: scale(0.99);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.24);
+      }
+      70% {
+        opacity: 0.2;
+        transform: scale(1.015);
+        box-shadow: 0 0 0 18px rgba(245, 158, 11, 0);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.03);
+        box-shadow: 0 0 0 24px rgba(245, 158, 11, 0);
+      }
+    }
+
+    @keyframes guideFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    @media (max-width: 960px) {
+      .activity-primary {
+        order: 1;
+      }
+
+      .activity-secondary {
+        order: 2;
+      }
+
+      .workspace, .summary-metrics { grid-template-columns: 1fr; }
+
+      .floating-image-preview { display: flex; }
+    }
+
+    @media (max-width: 720px) {
+      .global-nav { overflow-x: auto; white-space: nowrap; }
+      .header-card, .progress-card, .panel, .summary-card { border-radius: 24px; }
+      .progress-top, .panel-head, .actions { flex-direction: column; }
+      .step-pills, .cut-pills { grid-template-columns: repeat(5, minmax(88px, 1fr)); overflow-x: auto; }
+      .fill-grid { grid-template-columns: 1fr; }
+      .top-tools { justify-content: flex-start; }
+      .passage-modal { width: calc(100vw - 20px); }
+      .passage-head, .passage-body { padding-left: 16px; padding-right: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .guide-zone.primary::before,
+      .guide-zone.primary::after,
+      .guide-zone.success::before,
+      .guide-zone.success::after,
+      .guide-callout {
+        animation: none;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+  <nav class="global-nav" aria-label="페이지 이동">
+    <a href="./index.html">12과 홈</a>
+    <a href="./reading.html">읽기</a>
+    <a href="./writing-cut.html" aria-current="page">컷 쓰기</a>
+  </nav>
 
-<!-- ── Global Nav ── -->
-<nav class="global-nav">
-  <a href="../index.html"><i class="fas fa-home"></i> 메인으로</a>
-  <span class="nav-sep">›</span>
-  <a href="index.html"><i class="fas fa-book-open"></i> 단원 홈</a>
-</nav>
-
-<!-- ── Page Header ── -->
-<div class="page-header">
-  <div class="badge">12과 · 목 건강</div>
-  <h1>목 건강 읽기 - 컷 쓰기 활동</h1>
-  <p>그림을 보고 한국어 문장을 써 보세요 ✏️</p>
-</div>
-
-<!-- ── Phase Indicator ── -->
-<div class="phase-indicator" id="phaseIndicator">
-  <div class="phase-dot active" id="dot1">1</div>
-  <div class="phase-line" id="line1"></div>
-  <div class="phase-dot" id="dot2">2</div>
-  <div class="phase-line" id="line2"></div>
-  <div class="phase-dot" id="dot3">3</div>
-  <div class="phase-line" id="line3"></div>
-  <div class="phase-dot" id="dot4">4</div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     PHASE 1: Write sentences
-════════════════════════════════════════════ -->
-<div class="main-content" id="phase1">
-
-  <div class="phase-card fade-in">
-    <div class="phase-card-header">
-      <h2>✏️ 문장 쓰기</h2>
-      <span class="cut-progress" id="cutProgress">컷 1 / 6</span>
+  <header class="page-header">
+    <div class="header-card">
+      <span class="header-badge">12과 읽기 컷 쓰기</span>
+      <h1>「여러분의 목 건강은 어떠십니까?」를 컷으로 다시 쓰기</h1>
+      <p>읽기 지문의 흐름을 18컷 그림으로 다시 정리하면서, 문장 선택부터 전체 문장 쓰기까지 단계적으로 연습합니다. 거북목 증후군의 증상, 운동, 스트레칭 방법을 그림과 함께 다시 연결해 보세요.</p>
     </div>
-    <div class="phase-card-body">
+  </header>
 
-      <!-- Image area -->
-      <div id="cutImageArea"></div>
+  <main class="page-shell">
+    <div id="app" class="app-root"></div>
+  </main>
 
-      <!-- Textarea -->
-      <textarea
-        class="writing-area"
-        id="writingTextarea"
-        placeholder="이 그림을 한국어 문장으로 써 보세요..."
-        rows="3"
-      ></textarea>
-      <div class="save-indicator" id="saveIndicator">저장됨 ✓</div>
-
-      <!-- Hint -->
-      <div class="hint-section">
-        <button class="hint-toggle-btn" id="hintToggleBtn" onclick="toggleHint()">
-          <i class="fas fa-lightbulb"></i> 힌트 보기
-        </button>
-        <div class="hint-pills hidden" id="hintPills"></div>
-      </div>
-
-      <!-- Check button -->
-      <button class="btn btn-orange btn-full" style="margin-top:10px;" onclick="checkAnswer()">
-        <i class="fas fa-check-circle"></i> 확인
-      </button>
-
-      <!-- Model answer -->
-      <div class="model-answer-box hidden" id="modelAnswerBox">
-        <div class="label"><i class="fas fa-star"></i> 모범 답안</div>
-        <div class="sentence" id="modelAnswerText"></div>
-      </div>
-
-      <!-- Navigation -->
-      <div class="nav-row">
-        <button class="btn btn-outline" id="prevBtn" onclick="prevCut()">
-          <i class="fas fa-chevron-left"></i> 이전
-        </button>
-        <button class="btn btn-orange" id="nextBtn" onclick="nextCut()">
-          다음 <i class="fas fa-chevron-right"></i>
-        </button>
-      </div>
-
-      <!-- After all 6 done -->
-      <div class="hidden" id="resultBtnWrap" style="margin-top:10px;">
-        <button class="btn btn-green btn-full" onclick="goToPhase2()">
-          내 결과 보기 <i class="fas fa-arrow-right"></i>
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<!-- ══════════════════════════════════════════
-     PHASE 2: Review all cuts
-════════════════════════════════════════════ -->
-<div class="main-content hidden" id="phase2">
-
-  <div class="phase-card fade-in">
-    <div class="phase-card-header">
-      <h2>✏️ 내가 쓴 문장</h2>
-    </div>
-    <div class="phase-card-body">
-      <div class="cuts-grid" id="cutsGrid"></div>
-      <div style="margin-top:16px;">
-        <button class="btn btn-orange btn-full" onclick="goToPhase3()">
-          빈칸 그림 찾기 <i class="fas fa-arrow-right"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ══════════════════════════════════════════
-     PHASE 3: Find the blank image
-════════════════════════════════════════════ -->
-<div class="main-content hidden" id="phase3">
-
-  <div class="phase-card fade-in">
-    <div class="phase-card-header">
-      <h2>🔍 빈칸 그림 찾기</h2>
-    </div>
-    <div class="phase-card-body">
-      <p class="phase3-title">빈칸에 알맞은 그림을 찾아보세요</p>
-
-      <!-- Thumbnail row -->
-      <div class="thumb-row" id="thumbRow"></div>
-
-      <!-- Choices -->
-      <div class="choices-label">보기</div>
-      <div class="image-choices-grid" id="imageChoicesGrid"></div>
-
-      <!-- Feedback -->
-      <div class="feedback-box" id="p3Feedback"></div>
-
-      <!-- Buttons -->
-      <button class="btn btn-orange btn-full" id="p3CheckBtn" onclick="checkPhase3()">
-        <i class="fas fa-check-circle"></i> 확인
-      </button>
-      <div style="margin-top:8px;">
-        <button class="btn btn-green btn-full hidden" id="p3NextBtn" onclick="goToPhase4()">
-          다음 <i class="fas fa-arrow-right"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ══════════════════════════════════════════
-     PHASE 4: Find the blank sentence
-════════════════════════════════════════════ -->
-<div class="main-content hidden" id="phase4">
-
-  <div class="phase-card fade-in">
-    <div class="phase-card-header">
-      <h2>📝 빈칸 문장 고르기</h2>
-    </div>
-    <div class="phase-card-body">
-      <p class="phase3-title">빈칸에 알맞은 문장을 골라 보세요</p>
-
-      <!-- Big image of the blank cut -->
-      <div class="phase4-image-wrap">
-        <img src="../assets/c12/misc/images/split-variants-35/full/n13.webp" alt="고개를 천천히 돌리는 사람">
-      </div>
-
-      <!-- Sentence choices -->
-      <div class="sentence-choices" id="sentenceChoices"></div>
-
-      <!-- Feedback -->
-      <div class="feedback-box" id="p4Feedback"></div>
-
-      <!-- Buttons -->
-      <button class="btn btn-orange btn-full" id="p4CheckBtn" onclick="checkPhase4()">
-        <i class="fas fa-check-circle"></i> 확인
-      </button>
-      <div style="margin-top:8px;">
-        <button class="btn btn-orange btn-full hidden" id="p4DoneBtn" onclick="showCongrats()">
-          🎉 완료!
-        </button>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- ══════════════════════════════════════════
-     CONGRATS
-════════════════════════════════════════════ -->
-<div class="main-content hidden" id="congratsSection">
-
-  <div class="phase-card fade-in">
-    <div class="phase-card-body">
-      <div class="congrats-box">
-        <div class="congrats-emoji">🎉</div>
-        <div class="congrats-title">활동 완료!</div>
-        <div class="congrats-sub">
-          모든 단계를 마쳤습니다. 수고했어요!<br>
-          목 건강에 관한 표현을 잘 익혔나요?
-        </div>
-        <div class="score-badge" id="scoreDisplay">2 / 2 정답</div>
-        <div style="display:flex;flex-direction:column;gap:8px;max-width:280px;margin:0 auto;">
-          <button class="btn btn-orange btn-full" onclick="restartAll()">
-            <i class="fas fa-redo"></i> 다시 하기
-          </button>
-          <a href="index.html" class="btn btn-outline btn-full">
-            <i class="fas fa-book-open"></i> 단원 홈으로
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- spacer -->
-<div style="height:40px;"></div>
-
-<script src="../shared/site-copyright.js"></script>
-
-<script>
-// ══════════════════════════════════════════
-//  DATA
-// ══════════════════════════════════════════
-const IMG_BASE = '../assets/c12/misc/images/split-variants-35/full/';
-const LS_KEY = 'writing_cut_c12_v1';
-
-const cuts = [
-  {
-    imgFile: null,
-    placeholderLabel: '컴퓨터를 보며 거북목 자세를 하는 사람 [img: c12-cut01.webp]',
-    alt: null,
-    sentence: '거북처럼 목을 앞으로 빼고 컴퓨터를 봅니다.',
-    hints: ['거북처럼', '목', '컴퓨터']
-  },
-  {
-    imgFile: null,
-    placeholderLabel: '목과 어깨가 아픈 사람 [img: c12-cut02.webp]',
-    alt: null,
-    sentence: '목과 어깨가 아프고 두통이 생길 수 있습니다.',
-    hints: ['목', '어깨', '두통']
-  },
-  {
-    imgFile: 'n31.webp',
-    alt: '걷기 운동을 하는 사람',
-    sentence: '걷기 운동을 하면 자세를 교정하는 데 도움이 됩니다.',
-    hints: ['걷기 운동', '자세', '교정']
-  },
-  {
-    imgFile: null,
-    placeholderLabel: '두 손을 허리에 대고 뒤로 젖히는 사람 [img: c12-cut04.webp]',
-    alt: null,
-    sentence: '먼저, 두 손을 허리에 대고 몸을 뒤로 젖힙니다.',
-    hints: ['먼저', '허리', '뒤로 젖히다']
-  },
-  {
-    imgFile: null,
-    placeholderLabel: '오른손을 왼쪽 귀에 대고 누르는 사람 [img: c12-cut05.webp]',
-    alt: null,
-    sentence: '그다음에, 오른손을 왼쪽 귀에 대고 눌러 줍니다.',
-    hints: ['그다음에', '귀', '눌러 주다']
-  },
-  {
-    imgFile: 'n13.webp',
-    alt: '고개를 천천히 돌리는 사람',
-    sentence: '마지막으로, 고개를 천천히 돌립니다.',
-    hints: ['마지막으로', '고개', '돌리다']
-  }
-];
-
-// Phase 3 choices (blank = index 5)
-const BLANK_CUT_INDEX = 5;
-const phase3Choices = [
-  { imgFile: 'n13.webp', label: '고개 돌리기', isCorrect: true },
-  { imgFile: 'n31.webp', label: '걷기 운동', isCorrect: false },
-  { imgFile: 'n24.webp', label: '스트레칭', isCorrect: false },
-  { imgFile: 'n25.webp', label: '운동하기', isCorrect: false }
-];
-
-// Phase 4 sentence choices
-const phase4Sentences = [
-  { text: '마지막으로, 고개를 천천히 돌립니다.', isCorrect: true },
-  { text: '그다음에, 오른손을 왼쪽 귀에 대고 눌러 줍니다.', isCorrect: false },
-  { text: '먼저, 두 손을 허리에 대고 몸을 뒤로 젖힙니다.', isCorrect: false },
-  { text: '걷기 운동을 하면 자세를 교정하는 데 도움이 됩니다.', isCorrect: false }
-];
-
-// ══════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════
-let currentCut = 0;
-let hintVisible = false;
-let answerRevealed = false;
-let allChecked = false; // whether user has clicked check on all cuts
-let p3Selected = null;
-let p4Selected = null;
-let p3Correct = false;
-let p4Correct = false;
-
-// Load saved sentences
-function loadSaved() {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch(e) { return {}; }
-}
-function saveSentences(data) {
-  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch(e) {}
-}
-
-let savedSentences = loadSaved(); // { 0: "text", 1: "text", ... }
-
-// ══════════════════════════════════════════
-//  PHASE INDICATOR
-// ══════════════════════════════════════════
-function updatePhaseIndicator(phase) {
-  for (let i = 1; i <= 4; i++) {
-    const dot = document.getElementById('dot' + i);
-    dot.classList.remove('active', 'done');
-    if (i < phase) dot.classList.add('done');
-    else if (i === phase) dot.classList.add('active');
-  }
-  for (let i = 1; i <= 3; i++) {
-    const line = document.getElementById('line' + i);
-    line.classList.toggle('done', i < phase);
-  }
-}
-
-// ══════════════════════════════════════════
-//  RENDER CUT IMAGE
-// ══════════════════════════════════════════
-function renderCutImage(cut, container) {
-  container.innerHTML = '';
-  if (cut.imgFile) {
-    const wrap = document.createElement('div');
-    wrap.className = 'cut-image-wrap';
-    const img = document.createElement('img');
-    img.src = IMG_BASE + cut.imgFile;
-    img.alt = cut.alt || '';
-    img.onerror = function() {
-      // fallback to placeholder if image fails
-      wrap.replaceWith(buildPlaceholder(cut.imgFile + ' (로드 오류)'));
-    };
-    wrap.appendChild(img);
-    container.appendChild(wrap);
-  } else {
-    container.appendChild(buildPlaceholder(cut.placeholderLabel));
-  }
-}
-
-function buildPlaceholder(desc) {
-  const div = document.createElement('div');
-  div.className = 'placeholder-cut';
-  div.innerHTML = `
-    <div class="placeholder-icon">🖼️</div>
-    <div class="placeholder-label">[준비 중] 이미지를 추후 첨부해 주세요</div>
-    <div class="placeholder-desc">${desc}</div>
-  `;
-  return div;
-}
-
-// ══════════════════════════════════════════
-//  PHASE 1 LOGIC
-// ══════════════════════════════════════════
-let saveTimer = null;
-
-function renderCut(index) {
-  currentCut = index;
-  const cut = cuts[index];
-
-  // Progress
-  document.getElementById('cutProgress').textContent = `컷 ${index + 1} / 6`;
-
-  // Image
-  const imageArea = document.getElementById('cutImageArea');
-  renderCutImage(cut, imageArea);
-
-  // Textarea
-  const ta = document.getElementById('writingTextarea');
-  ta.value = savedSentences[index] || '';
-
-  // Reset hint
-  hintVisible = false;
-  const hintPills = document.getElementById('hintPills');
-  hintPills.classList.add('hidden');
-  document.getElementById('hintToggleBtn').innerHTML = '<i class="fas fa-lightbulb"></i> 힌트 보기';
-
-  // Reset answer
-  answerRevealed = false;
-  document.getElementById('modelAnswerBox').classList.add('hidden');
-
-  // Save indicator
-  document.getElementById('saveIndicator').classList.remove('show');
-
-  // Nav buttons
-  document.getElementById('prevBtn').disabled = (index === 0);
-  const nextBtn = document.getElementById('nextBtn');
-  if (index === cuts.length - 1) {
-    nextBtn.classList.add('hidden');
-  } else {
-    nextBtn.classList.remove('hidden');
-  }
-
-  // Result button
-  checkAllWritten();
-}
-
-function checkAllWritten() {
-  // Show result button if all cuts visited (has answer or checked)
-  const resultWrap = document.getElementById('resultBtnWrap');
-  // Show after all 6 have been visited at least once (checked or written)
-  const doneAll = Object.keys(savedSentences).length >= 6 || allChecked;
-  resultWrap.classList.toggle('hidden', !doneAll);
-}
-
-// Textarea input
-document.getElementById('writingTextarea').addEventListener('input', function() {
-  savedSentences[currentCut] = this.value;
-  saveSentences(savedSentences);
-  const indicator = document.getElementById('saveIndicator');
-  indicator.classList.add('show');
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => indicator.classList.remove('show'), 1500);
-  checkAllWritten();
-});
-
-function toggleHint() {
-  hintVisible = !hintVisible;
-  const pills = document.getElementById('hintPills');
-  const btn = document.getElementById('hintToggleBtn');
-  if (hintVisible) {
-    pills.classList.remove('hidden');
-    btn.innerHTML = '<i class="fas fa-lightbulb"></i> 힌트 숨기기';
-    // Render pills
-    const cut = cuts[currentCut];
-    pills.innerHTML = cut.hints.map(h => `<span class="hint-pill">${h}</span>`).join('');
-  } else {
-    pills.classList.add('hidden');
-    btn.innerHTML = '<i class="fas fa-lightbulb"></i> 힌트 보기';
-  }
-}
-
-function checkAnswer() {
-  answerRevealed = true;
-  const box = document.getElementById('modelAnswerBox');
-  box.classList.remove('hidden');
-  document.getElementById('modelAnswerText').textContent = cuts[currentCut].sentence;
-  // Mark this cut as checked
-  if (!savedSentences[currentCut]) {
-    savedSentences[currentCut] = '';
-    saveSentences(savedSentences);
-  }
-  allChecked = (Object.keys(savedSentences).length >= 6);
-  checkAllWritten();
-}
-
-function prevCut() {
-  if (currentCut > 0) renderCut(currentCut - 1);
-}
-
-function nextCut() {
-  if (currentCut < cuts.length - 1) renderCut(currentCut + 1);
-}
-
-function goToPhase2() {
-  document.getElementById('phase1').classList.add('hidden');
-  document.getElementById('phase2').classList.remove('hidden');
-  updatePhaseIndicator(2);
-  buildPhase2();
-  window.scrollTo(0, 0);
-}
-
-// ══════════════════════════════════════════
-//  PHASE 2 LOGIC
-// ══════════════════════════════════════════
-function buildPhase2() {
-  const grid = document.getElementById('cutsGrid');
-  grid.innerHTML = '';
-  cuts.forEach((cut, i) => {
-    const item = document.createElement('div');
-    item.className = 'cut-grid-item';
-
-    const numDiv = document.createElement('div');
-    numDiv.className = 'cut-num';
-    numDiv.textContent = `컷 ${i + 1}`;
-
-    let mediaEl;
-    if (cut.imgFile) {
-      const img = document.createElement('img');
-      img.src = IMG_BASE + cut.imgFile;
-      img.alt = cut.alt || '';
-      img.className = 'cut-thumb';
-      mediaEl = img;
-    } else {
-      const ph = document.createElement('div');
-      ph.className = 'cut-grid-item placeholder-cut-small';
-      ph.innerHTML = '🖼️';
-      mediaEl = ph;
-    }
-
-    const sentDiv = document.createElement('div');
-    const written = savedSentences[i];
-    if (written && written.trim()) {
-      sentDiv.className = 'student-sentence';
-      sentDiv.textContent = written.trim();
-    } else {
-      sentDiv.className = 'student-sentence empty';
-      sentDiv.textContent = '(작성 안 함)';
-    }
-
-    item.appendChild(numDiv);
-    item.appendChild(mediaEl);
-    item.appendChild(sentDiv);
-    grid.appendChild(item);
-  });
-}
-
-// ══════════════════════════════════════════
-//  PHASE 3 LOGIC
-// ══════════════════════════════════════════
-function goToPhase3() {
-  document.getElementById('phase2').classList.add('hidden');
-  document.getElementById('phase3').classList.remove('hidden');
-  updatePhaseIndicator(3);
-  buildPhase3();
-  window.scrollTo(0, 0);
-}
-
-function buildPhase3() {
-  // Thumbnail row
-  const thumbRow = document.getElementById('thumbRow');
-  thumbRow.innerHTML = '';
-  cuts.forEach((cut, i) => {
-    const item = document.createElement('div');
-    item.className = 'thumb-item' + (i === BLANK_CUT_INDEX ? ' blank-slot' : '');
-
-    const idxBadge = document.createElement('div');
-    idxBadge.className = 'thumb-index';
-    idxBadge.textContent = i + 1;
-
-    if (i === BLANK_CUT_INDEX) {
-      const q = document.createElement('div');
-      q.className = 'blank-q';
-      q.textContent = '?';
-      item.appendChild(q);
-    } else if (cut.imgFile) {
-      const img = document.createElement('img');
-      img.src = IMG_BASE + cut.imgFile;
-      img.alt = cut.alt || '';
-      item.appendChild(img);
-      item.appendChild(idxBadge);
-    } else {
-      const ph = document.createElement('div');
-      ph.className = 'thumb-placeholder';
-      ph.innerHTML = '🖼️';
-      item.appendChild(ph);
-      item.appendChild(idxBadge);
-    }
-
-    thumbRow.appendChild(item);
-  });
-
-  // Shuffle choices
-  const shuffled = [...phase3Choices].sort(() => Math.random() - 0.5);
-
-  const grid = document.getElementById('imageChoicesGrid');
-  grid.innerHTML = '';
-  shuffled.forEach((choice, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'image-choice-btn';
-    btn.dataset.idx = i;
-    btn.dataset.correct = choice.isCorrect ? 'true' : 'false';
-    btn.onclick = () => selectImageChoice(btn);
-
-    const img = document.createElement('img');
-    img.src = IMG_BASE + choice.imgFile;
-    img.alt = choice.label;
-
-    const label = document.createElement('div');
-    label.className = 'image-choice-label';
-    label.textContent = choice.label;
-
-    const badge = document.createElement('div');
-    badge.className = 'choice-badge';
-
-    btn.appendChild(img);
-    btn.appendChild(label);
-    btn.appendChild(badge);
-    grid.appendChild(btn);
-  });
-
-  p3Selected = null;
-  p3Correct = false;
-  document.getElementById('p3Feedback').className = 'feedback-box';
-  document.getElementById('p3Feedback').innerHTML = '';
-  document.getElementById('p3CheckBtn').classList.remove('hidden');
-  document.getElementById('p3NextBtn').classList.add('hidden');
-}
-
-function selectImageChoice(btn) {
-  // Deselect all
-  document.querySelectorAll('#imageChoicesGrid .image-choice-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  p3Selected = btn;
-}
-
-function checkPhase3() {
-  if (!p3Selected) {
-    alert('그림을 선택해 주세요.');
-    return;
-  }
-  const isCorrect = p3Selected.dataset.correct === 'true';
-  p3Correct = isCorrect;
-
-  document.querySelectorAll('#imageChoicesGrid .image-choice-btn').forEach(btn => {
-    const badge = btn.querySelector('.choice-badge');
-    if (btn.dataset.correct === 'true') {
-      btn.classList.add('correct');
-      badge.classList.add('show', 'correct');
-      badge.innerHTML = '<i class="fas fa-check"></i>';
-    } else if (btn === p3Selected && !isCorrect) {
-      btn.classList.add('wrong');
-      badge.classList.add('show', 'wrong');
-      badge.innerHTML = '<i class="fas fa-times"></i>';
-    }
-  });
-
-  const feedback = document.getElementById('p3Feedback');
-  feedback.className = 'feedback-box show ' + (isCorrect ? 'correct' : 'wrong');
-  feedback.innerHTML = isCorrect
-    ? '<i class="fas fa-check-circle"></i> 정답이에요! 잘했어요! 👏'
-    : '<i class="fas fa-times-circle"></i> 다시 생각해 보세요. 정답을 확인했어요!';
-
-  document.getElementById('p3CheckBtn').classList.add('hidden');
-  document.getElementById('p3NextBtn').classList.remove('hidden');
-}
-
-// ══════════════════════════════════════════
-//  PHASE 4 LOGIC
-// ══════════════════════════════════════════
-function goToPhase4() {
-  document.getElementById('phase3').classList.add('hidden');
-  document.getElementById('phase4').classList.remove('hidden');
-  updatePhaseIndicator(4);
-  buildPhase4();
-  window.scrollTo(0, 0);
-}
-
-function buildPhase4() {
-  const shuffled = [...phase4Sentences].sort(() => Math.random() - 0.5);
-  const container = document.getElementById('sentenceChoices');
-  container.innerHTML = '';
-  shuffled.forEach((s, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'sentence-choice-btn';
-    btn.dataset.correct = s.isCorrect ? 'true' : 'false';
-    btn.textContent = s.text;
-    btn.onclick = () => selectSentenceChoice(btn);
-    container.appendChild(btn);
-  });
-
-  p4Selected = null;
-  p4Correct = false;
-  document.getElementById('p4Feedback').className = 'feedback-box';
-  document.getElementById('p4Feedback').innerHTML = '';
-  document.getElementById('p4CheckBtn').classList.remove('hidden');
-  document.getElementById('p4DoneBtn').classList.add('hidden');
-}
-
-function selectSentenceChoice(btn) {
-  document.querySelectorAll('#sentenceChoices .sentence-choice-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  p4Selected = btn;
-}
-
-function checkPhase4() {
-  if (!p4Selected) {
-    alert('문장을 선택해 주세요.');
-    return;
-  }
-  const isCorrect = p4Selected.dataset.correct === 'true';
-  p4Correct = isCorrect;
-
-  document.querySelectorAll('#sentenceChoices .sentence-choice-btn').forEach(btn => {
-    if (btn.dataset.correct === 'true') {
-      btn.classList.remove('selected');
-      btn.classList.add('correct');
-    } else if (btn === p4Selected && !isCorrect) {
-      btn.classList.remove('selected');
-      btn.classList.add('wrong');
-    }
-    btn.disabled = true;
-  });
-
-  const feedback = document.getElementById('p4Feedback');
-  feedback.className = 'feedback-box show ' + (isCorrect ? 'correct' : 'wrong');
-  feedback.innerHTML = isCorrect
-    ? '<i class="fas fa-check-circle"></i> 정답이에요! 아주 잘했어요! 🎉'
-    : '<i class="fas fa-times-circle"></i> 틀렸어요. 정답을 확인해 보세요!';
-
-  document.getElementById('p4CheckBtn').classList.add('hidden');
-  document.getElementById('p4DoneBtn').classList.remove('hidden');
-}
-
-// ══════════════════════════════════════════
-//  CONGRATS
-// ══════════════════════════════════════════
-function showCongrats() {
-  document.getElementById('phase4').classList.add('hidden');
-  document.getElementById('congratsSection').classList.remove('hidden');
-  updatePhaseIndicator(5); // all done
-
-  // Score: phase 3 + phase 4
-  const score = (p3Correct ? 1 : 0) + (p4Correct ? 1 : 0);
-  document.getElementById('scoreDisplay').textContent = `${score} / 2 정답`;
-  window.scrollTo(0, 0);
-}
-
-function restartAll() {
-  savedSentences = {};
-  saveSentences(savedSentences);
-  allChecked = false;
-  p3Selected = null;
-  p4Selected = null;
-  p3Correct = false;
-  p4Correct = false;
-
-  // Hide all phases, show phase 1
-  document.getElementById('congratsSection').classList.add('hidden');
-  document.getElementById('phase4').classList.add('hidden');
-  document.getElementById('phase3').classList.add('hidden');
-  document.getElementById('phase2').classList.add('hidden');
-  document.getElementById('phase1').classList.remove('hidden');
-
-  updatePhaseIndicator(1);
-  renderCut(0);
-  window.scrollTo(0, 0);
-}
-
-// ══════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════
-updatePhaseIndicator(1);
-renderCut(0);
-</script>
-
-<!-- 📋 이미지 추후 첨부 목록
-==============================================
-다음 이미지 파일들이 아직 준비되지 않았습니다.
-경로: ../assets/c12/misc/images/split-variants-35/full/
-
-1. c12-cut01.webp — 컴퓨터를 보며 거북목 자세를 하는 사람
-2. c12-cut02.webp — 목과 어깨가 아픈 사람
-3. c12-cut04.webp — 두 손을 허리에 대고 뒤로 젖히는 사람
-4. c12-cut05.webp — 오른손을 왼쪽 귀에 대고 누르는 사람
-
-이미지 규격 권장: 4:3 비율, 최소 480×360px, WebP 포맷
-파일을 준비한 후 cuts 배열의 imgFile 값을 null 에서 파일명으로 수정해 주세요.
-==============================================
--->
-
+  <script src="./writing-cut.js"></script>
 </body>
 </html>
