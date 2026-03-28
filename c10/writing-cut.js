@@ -929,6 +929,8 @@ const cuts = RAW_CUTS.map((cut) => ({
 }));
 
 const app = document.getElementById('app');
+let floatingPreviewObserver = null;
+const floatingPreviewMedia = window.matchMedia('(max-width: 860px)');
 
 function shuffle(items) {
   const next = [...items];
@@ -1273,7 +1275,7 @@ function renderPassageModal() {
 
 function renderImagePanel(cut) {
   return `
-    <section class="panel">
+    <section class="panel" data-image-panel>
       <div class="panel-head">
         <div>
           <h3>컷 ${state.currentCut + 1}</h3>
@@ -1282,13 +1284,31 @@ function renderImagePanel(cut) {
         <span class="highlight-tag">그림 보기</span>
       </div>
       <div class="image-wrap">
-        <img src="${IMG_BASE}${cut.imgFile}" alt="${escapeHtml(cut.alt)}">
+        <img src="${IMG_BASE}${cut.imgFile}" alt="${escapeHtml(cut.alt)}" data-primary-image>
       </div>
       <div class="image-caption">그림 속 인물, 행동, 분위기를 먼저 보고 아래 키워드로 상황을 추측해 보세요.</div>
       <div class="support-row">
         ${cut.hints.map((hint) => `<span class="support-chip">${escapeHtml(hint)}</span>`).join('')}
       </div>
     </section>
+  `;
+}
+
+function renderFloatingPreview(cut) {
+  return `
+    <button
+      type="button"
+      class="floating-image-preview"
+      data-action="scroll-to-image"
+      data-floating-preview
+      aria-label="현재 그림으로 다시 이동하기"
+    >
+      <img src="${IMG_BASE}${cut.imgFile}" alt="">
+      <span class="floating-image-preview__copy">
+        <strong>현재 그림</strong>
+        <span>컷 ${state.currentCut + 1} 다시 보려면 누르세요</span>
+      </span>
+    </button>
   `;
 }
 
@@ -1632,7 +1652,9 @@ function renderActivity() {
   const cut = getCurrentCut();
   const response = getCurrentResponse();
   return `
-    <div class="progress-card">
+    <div class="activity-layout">
+      <div class="activity-secondary">
+        <div class="progress-card">
       <div class="progress-top">
         <div>
           <div class="eyebrow">${state.currentStep + 1}단계 / ${STEP_LABELS.length}단계</div>
@@ -1643,16 +1665,68 @@ function renderActivity() {
       </div>
       <div class="step-pills">${renderStepPills()}</div>
       <div class="cut-pills">${renderCutPills()}</div>
-    </div>
-    <div class="workspace">
+        </div>
+      </div>
+      <div class="activity-primary">
+        <div class="workspace">
       ${renderImagePanel(cut)}
       ${renderStepPanel(cut, response)}
+        </div>
+      </div>
     </div>
+    ${renderFloatingPreview(cut)}
   `;
 }
 
 function renderApp() {
   app.innerHTML = `${state.view === 'summary' ? renderSummary() : renderActivity()}${renderPassageModal()}`;
+  setupFloatingPreview();
+}
+
+function teardownFloatingPreview() {
+  if (floatingPreviewObserver) {
+    floatingPreviewObserver.disconnect();
+    floatingPreviewObserver = null;
+  }
+}
+
+function setFloatingPreviewVisible(visible) {
+  const preview = app.querySelector('[data-floating-preview]');
+  if (preview) preview.classList.toggle('is-visible', visible);
+}
+
+function setupFloatingPreview() {
+  teardownFloatingPreview();
+  setFloatingPreviewVisible(false);
+
+  if (state.view !== 'activity' || !floatingPreviewMedia.matches || typeof IntersectionObserver !== 'function') {
+    return;
+  }
+
+  const imagePanel = app.querySelector('[data-image-panel]');
+  const preview = app.querySelector('[data-floating-preview]');
+  if (!imagePanel || !preview) return;
+
+  floatingPreviewObserver = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0];
+      const shouldShow = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+      preview.classList.toggle('is-visible', shouldShow);
+    },
+    {
+      threshold: [0, 0.18, 0.45, 1],
+      rootMargin: '-76px 0px 0px 0px'
+    }
+  );
+
+  floatingPreviewObserver.observe(imagePanel);
+}
+
+function scrollToImagePanel() {
+  const imagePanel = app.querySelector('[data-image-panel]');
+  if (!imagePanel) return;
+  setFloatingPreviewVisible(false);
+  imagePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function resetStepFeedback() {
@@ -1884,6 +1958,10 @@ app.addEventListener('click', (event) => {
   else if (action === 'next') goNext();
   else if (action === 'restart') restartAll();
   else if (action === 'review-cut') reviewCut(target.dataset.cutIndex);
+  else if (action === 'scroll-to-image') {
+    scrollToImagePanel();
+    shouldRender = false;
+  }
   else if (action === 'open-passage') openPassage();
   else if (action === 'close-passage' || action === 'close-passage-backdrop') closePassage();
   else if (action === 'passage-panel') shouldRender = false;
@@ -1934,5 +2012,11 @@ window.addEventListener('keydown', (event) => {
     renderApp();
   }
 });
+
+if (typeof floatingPreviewMedia.addEventListener === 'function') {
+  floatingPreviewMedia.addEventListener('change', setupFloatingPreview);
+} else if (typeof floatingPreviewMedia.addListener === 'function') {
+  floatingPreviewMedia.addListener(setupFloatingPreview);
+}
 
 renderApp();
