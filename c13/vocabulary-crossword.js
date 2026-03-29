@@ -119,6 +119,9 @@
         activeClueVi: document.getElementById("active-clue-vi"),
         activeImage: document.getElementById("active-clue-image"),
         bankSelection: document.getElementById("bank-selection"),
+        wordTrack: document.getElementById("word-track"),
+        wordTrackLabel: document.getElementById("word-track-label"),
+        wordTrackHint: document.getElementById("word-track-hint"),
         letterBank: document.getElementById("letter-bank"),
         mobileOverlay: document.getElementById("mobile-overlay"),
         mobileClueToggle: document.getElementById("mobile-clue-toggle"),
@@ -127,7 +130,12 @@
         mobileBankMeta: document.getElementById("mobile-bank-meta"),
         mobileClueClose: document.getElementById("mobile-clue-close"),
         mobileBankClose: document.getElementById("mobile-bank-close"),
-        manualInput: document.getElementById("manual-letter-input")
+        manualInput: {
+            addEventListener() {},
+            blur() {},
+            focus() {},
+            value: ""
+        }
     };
 
     const mobileQuery = window.matchMedia("(max-width: 640px)");
@@ -136,7 +144,7 @@
         currentSetIndex: 0,
         imageMode: "normal",
         selectedTileId: "",
-        manualTargetKey: "",
+        wordCursorIndex: -1,
         openSheet: "",
         touchDrag: null,
         ignoreNextTileClick: false
@@ -166,19 +174,7 @@
         return getTileById(currentSet(), state.selectedTileId);
     }
 
-    function clearManualTarget() {
-        state.manualTargetKey = "";
-        if (document.activeElement === dom.manualInput) {
-            dom.manualInput.blur();
-        }
-    }
-
-    function focusManualInput() {
-        window.setTimeout(() => {
-            dom.manualInput.value = "";
-            dom.manualInput.focus();
-        }, 0);
-    }
+    function clearManualTarget() {}
 
     function modeFolder() {
         return state.imageMode === "easy" ? "/initials/" : "/masked/";
@@ -194,6 +190,62 @@
 
     function setWordValue(set, word) {
         return word.cells.map(({ row, col }) => set.cells[row][col].value || "").join("");
+    }
+
+    function wordCellState(set, word, index) {
+        const { row, col } = word.cells[index];
+        const cell = set.cells[row][col];
+        return {
+            index,
+            row,
+            col,
+            cell,
+            value: cell.value,
+            solution: word.answer[index],
+            isCorrect: cell.value === word.answer[index]
+        };
+    }
+
+    function findFirstMismatchIndex(set, word) {
+        for (let index = 0; index < word.cells.length; index += 1) {
+            if (!wordCellState(set, word, index).isCorrect) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    function syncWordCursor() {
+        const set = currentSet();
+        const word = activeWord();
+        if (!word) {
+            state.wordCursorIndex = -1;
+            return -1;
+        }
+
+        const mismatchIndex = findFirstMismatchIndex(set, word);
+        const preferredIndex = state.wordCursorIndex;
+        const hasPreferred = preferredIndex >= 0 && preferredIndex < word.cells.length;
+
+        if (hasPreferred) {
+            if (mismatchIndex === -1) {
+                return preferredIndex;
+            }
+
+            const preferredCell = wordCellState(set, word, preferredIndex);
+            if (!preferredCell.isCorrect) {
+                return preferredIndex;
+            }
+        }
+
+        state.wordCursorIndex = mismatchIndex;
+        return state.wordCursorIndex;
+    }
+
+    function remainingSlotCount(set, word) {
+        return word.cells.reduce((count, _, index) => {
+            return count + (wordCellState(set, word, index).isCorrect ? 0 : 1);
+        }, 0);
     }
 
     function createLetterBank(setId, cells) {
@@ -336,6 +388,15 @@
         flashElement(cell, className);
     }
 
+    function flashWordSlot(index, className, duration = 360) {
+        const slot = dom.wordTrack.querySelector(`[data-word-index="${index}"]`);
+        flashElement(slot, className, duration);
+    }
+
+    function flashWordTrack(className, duration = 560) {
+        flashElement(dom.wordTrack, className, duration);
+    }
+
     function updateMobileDock() {
         const word = activeWord();
         const tile = selectedTile();
@@ -426,7 +487,6 @@
                 wrapper.className = [
                     "grid-cell",
                     activeCoords.has(cellKey(row, col)) ? "is-active" : "",
-                    state.manualTargetKey === cellKey(row, col) ? "is-manual-target" : "",
                     cell.entries.length > 1 ? "is-cross" : "",
                     cell.value ? "is-filled" : "",
                     cell.entries.every((entry) => set.solvedWords.has(entry.wordId)) ? "is-solved" : ""
@@ -742,6 +802,229 @@
         renderBoard();
     }
 
+    function renderWordTrack() {
+        const set = currentSet();
+        const word = activeWord();
+        if (!word) {
+            dom.wordTrack.innerHTML = "";
+            return;
+        }
+
+        const cursorIndex = syncWordCursor();
+        const solved = set.solvedWords.has(word.id);
+        dom.wordTrack.innerHTML = word.cells.map((_, index) => {
+            const info = wordCellState(set, word, index);
+            return `
+                <button
+                    class="word-track__slot ${info.value ? "is-filled" : ""} ${info.isCorrect ? "is-correct" : ""} ${solved ? "is-solved" : ""} ${index === cursorIndex ? "is-active" : ""}"
+                    type="button"
+                    data-word-index="${index}"
+                    aria-label="${index + 1}번째 글자"
+                >${info.value || ""}</button>
+            `;
+        }).join("");
+    }
+
+    function syncWordTrackUI() {
+        renderWordTrack();
+        updateBankSelection();
+    }
+
+    function updateMobileDock() {
+        const word = activeWord();
+        const tile = selectedTile();
+        dom.mobileClueMeta.textContent = word ? wordLabel(word) : "현재 낱말 보기";
+
+        if (!word) {
+            dom.mobileBankMeta.textContent = "글자 고르기";
+            return;
+        }
+
+        if (tile) {
+            dom.mobileBankMeta.textContent = `끌기: ${tile.letter}`;
+            return;
+        }
+
+        const remaining = remainingSlotCount(currentSet(), word);
+        dom.mobileBankMeta.textContent = remaining ? `남은 칸 ${remaining}` : "완성";
+    }
+
+    function updateBankSelection() {
+        const set = currentSet();
+        const word = activeWord();
+        if (!word) {
+            dom.wordTrackLabel.textContent = "";
+            dom.wordTrackHint.textContent = "";
+            updateMobileDock();
+            return;
+        }
+
+        const remaining = remainingSlotCount(set, word);
+        const cursorIndex = syncWordCursor();
+        dom.wordTrackLabel.textContent = `${wordLabel(word)} 입력`;
+
+        if (!remaining) {
+            dom.wordTrackHint.textContent = "완성했어요. 다른 낱말도 골라 보세요.";
+        } else if (cursorIndex >= 0) {
+            dom.wordTrackHint.textContent = `${cursorIndex + 1}번째 칸부터 이어서 눌러 보세요.`;
+        } else {
+            dom.wordTrackHint.textContent = "글자를 이어서 눌러 채워 보세요.";
+        }
+
+        updateMobileDock();
+    }
+
+    function refreshSolvedWords(set) {
+        set.solvedWords.clear();
+
+        set.words.forEach((word) => {
+            if (setWordValue(set, word) === word.answer) {
+                set.solvedWords.add(word.id);
+            }
+        });
+
+        if (!set.activeWordId) {
+            set.activeWordId = set.words[0].id;
+        }
+    }
+
+    function cleanupTouchDrag() {
+        clearTouchDropTarget();
+        if (state.touchDrag && state.touchDrag.ghost) {
+            state.touchDrag.ghost.remove();
+        }
+        dom.body.classList.remove("is-dragging-letter");
+        state.touchDrag = null;
+        setSelectedTile("");
+    }
+
+    function celebrateSolvedWord(word) {
+        if (!word) {
+            return;
+        }
+
+        flashWordTrack("is-complete");
+        word.cells.forEach(({ row, col }) => {
+            flashCell(row, col, "is-filled-flash");
+        });
+    }
+
+    function placeTileAt(row, col, tileId, options = {}) {
+        const { keepSheetOpen = false, source = "board" } = options;
+        const set = currentSet();
+        const cell = set.cells[row][col];
+        const tile = getTileById(set, tileId);
+        if (!cell || !tile || tile.used) {
+            return false;
+        }
+
+        const activeWordId = set.activeWordId;
+        const wasSolved = activeWordId ? set.solvedWords.has(activeWordId) : false;
+        const activeEntry = cell.entries.find((entry) => entry.wordId === activeWordId) || null;
+
+        if (cell.tileId) {
+            releaseTile(cell.tileId);
+        }
+
+        cell.tileId = tile.id;
+        cell.value = tile.letter;
+        tile.used = true;
+        tile.cellKey = cellKey(row, col);
+        setSelectedTile("");
+
+        if (activeEntry) {
+            state.wordCursorIndex = activeEntry.index + 1;
+        }
+
+        refreshSolvedWords(set);
+        renderBoard();
+        renderLetterBank();
+        syncSelectedTileState();
+        updateActiveClue();
+        syncWordTrackUI();
+        flashCell(row, col, "is-filled-flash");
+        flashTile(tile.id, source === "bank-sequence" ? "is-correct-flash" : "is-place-flash");
+
+        if (activeEntry && source === "bank-sequence") {
+            flashWordSlot(activeEntry.index, "is-correct-flash");
+        }
+
+        if (activeWordId && set.solvedWords.has(activeWordId) && !wasSolved) {
+            celebrateSolvedWord(set.wordsById.get(activeWordId));
+        }
+
+        if (!keepSheetOpen) {
+            closeMobileSheet();
+        }
+
+        return true;
+    }
+
+    function selectWord(wordId, cursorIndex = -1) {
+        const set = currentSet();
+        set.activeWordId = wordId;
+        state.wordCursorIndex = cursorIndex;
+        updateActiveClue();
+        renderBoard();
+        syncWordTrackUI();
+    }
+
+    function handleCellActivate(row, col, event) {
+        const set = currentSet();
+        const cell = set.cells[row][col];
+        if (!cell) {
+            return;
+        }
+
+        const candidate = cell.entries.find((entry) => entry.wordId === set.activeWordId) || cell.entries[0];
+        event.preventDefault();
+        selectWord(candidate.wordId, candidate.index);
+
+        if (isMobileLayout()) {
+            openMobileSheet("bank");
+        }
+    }
+
+    function attemptActiveWordTile(tileId) {
+        const set = currentSet();
+        const word = activeWord();
+        const tile = getTileById(set, tileId);
+
+        if (!word || !tile || tile.used) {
+            return false;
+        }
+
+        const targetIndex = syncWordCursor();
+        if (targetIndex < 0) {
+            flashWordTrack("is-complete");
+            return false;
+        }
+
+        const target = wordCellState(set, word, targetIndex);
+        if (tile.letter !== target.solution) {
+            flashTile(tile.id, "is-wrong-flash");
+            flashWordSlot(target.index, "is-wrong-flash");
+            flashCell(target.row, target.col, "is-cleared-flash");
+            return false;
+        }
+
+        return placeTileAt(target.row, target.col, tile.id, {
+            keepSheetOpen: isMobileLayout() && state.openSheet === "bank",
+            source: "bank-sequence"
+        });
+    }
+
+    function renderSet() {
+        state.wordCursorIndex = -1;
+        renderTabs();
+        renderModeButtons();
+        renderLetterBank();
+        updateActiveClue();
+        renderBoard();
+        syncWordTrackUI();
+        syncSelectedTileState();
+    }
+
     dom.setTabs.addEventListener("click", (event) => {
         const button = event.target.closest("[data-set-index]");
         if (!button) {
@@ -861,6 +1144,60 @@
         cleanupTouchDrag();
     });
 
+    dom.wordTrack.addEventListener("click", (event) => {
+        const slot = event.target.closest("[data-word-index]");
+        if (!slot) {
+            return;
+        }
+
+        state.wordCursorIndex = Number(slot.dataset.wordIndex);
+        syncWordTrackUI();
+
+        if (isMobileLayout()) {
+            openMobileSheet("bank");
+        }
+    });
+
+    dom.letterBank.addEventListener("click", (event) => {
+        const tileButton = event.target.closest("[data-tile-id]");
+        if (!tileButton || tileButton.disabled) {
+            return;
+        }
+
+        if (state.ignoreNextTileClick) {
+            state.ignoreNextTileClick = false;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            return;
+        }
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        attemptActiveWordTile(tileButton.dataset.tileId);
+    }, true);
+
+    dom.letterBank.addEventListener("touchend", (event) => {
+        if (!state.touchDrag || state.touchDrag.started) {
+            return;
+        }
+
+        const tileButton = event.target.closest("[data-tile-id]");
+        if (!tileButton || tileButton.disabled) {
+            return;
+        }
+
+        const tileId = state.touchDrag.tileId || tileButton.dataset.tileId;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        cleanupTouchDrag();
+        state.ignoreNextTileClick = false;
+        attemptActiveWordTile(tileId);
+    }, { capture: true, passive: false });
+
+    dom.letterBank.addEventListener("dragend", () => {
+        setSelectedTile("");
+    });
+
     dom.mobileClueToggle.addEventListener("click", () => {
         toggleMobileSheet("clue");
     });
@@ -872,17 +1209,6 @@
     dom.mobileOverlay.addEventListener("click", closeMobileSheet);
     dom.mobileClueClose.addEventListener("click", closeMobileSheet);
     dom.mobileBankClose.addEventListener("click", closeMobileSheet);
-
-    dom.manualInput.addEventListener("input", () => {
-        const raw = dom.manualInput.value.trim();
-        if (!raw) {
-            return;
-        }
-
-        const finalChar = Array.from(raw).slice(-1)[0];
-        dom.manualInput.value = "";
-        tryManualLetter(finalChar);
-    });
 
     const handleViewportChange = () => {
         if (!isMobileLayout()) {
