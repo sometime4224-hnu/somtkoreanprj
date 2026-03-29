@@ -114,12 +114,10 @@
         setTabs: document.getElementById("set-tabs"),
         modeButtons: Array.from(document.querySelectorAll(".mode-btn")),
         grid: document.getElementById("crossword-grid"),
-        activeCard: document.getElementById("active-clue-card"),
         activeMeta: document.getElementById("active-clue-meta"),
         activeText: document.getElementById("active-clue-text"),
         activeClueVi: document.getElementById("active-clue-vi"),
         activeImage: document.getElementById("active-clue-image"),
-        bankPanel: document.getElementById("bank-panel"),
         bankSelection: document.getElementById("bank-selection"),
         letterBank: document.getElementById("letter-bank"),
         mobileOverlay: document.getElementById("mobile-overlay"),
@@ -136,36 +134,80 @@
     const state = {
         currentSetIndex: 0,
         imageMode: "normal",
-        selectedLetter: "",
-        openSheet: ""
+        selectedTileId: "",
+        openSheet: "",
+        touchDrag: null,
+        ignoreNextTileClick: false
     };
 
-    function shuffle(list) {
-        const copy = [...list];
-        for (let index = copy.length - 1; index > 0; index -= 1) {
-            const swapIndex = Math.floor(Math.random() * (index + 1));
-            [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
-        }
-        return copy;
+    function currentSet() {
+        return preparedSets[state.currentSetIndex];
     }
 
-    function buildLetterBank(words) {
+    function activeWord() {
+        return currentSet().wordsById.get(currentSet().activeWordId);
+    }
+
+    function isMobileLayout() {
+        return mobileQuery.matches;
+    }
+
+    function cellKey(row, col) {
+        return `${row}-${col}`;
+    }
+
+    function getTileById(set, tileId) {
+        return set.letterBank.find((tile) => tile.id === tileId) || null;
+    }
+
+    function selectedTile() {
+        return getTileById(currentSet(), state.selectedTileId);
+    }
+
+    function modeFolder() {
+        return state.imageMode === "easy" ? "/initials/" : "/masked/";
+    }
+
+    function clueImageFor(word) {
+        return imageMap[word.answer].replace("/full/", modeFolder());
+    }
+
+    function wordLabel(word) {
+        return `${word.dir === "across" ? "가로" : "세로"} ${word.number}번`;
+    }
+
+    function setWordValue(set, word) {
+        return word.cells.map(({ row, col }) => set.cells[row][col].value || "").join("");
+    }
+
+    function createLetterBank(setId, cells) {
         const counts = new Map();
-        words.forEach((word) => {
-            Array.from(word.answer).forEach((letter) => {
-                counts.set(letter, (counts.get(letter) || 0) + 1);
+        cells.forEach((row) => {
+            row.forEach((cell) => {
+                if (!cell) {
+                    return;
+                }
+                counts.set(cell.solution, (counts.get(cell.solution) || 0) + 1);
             });
         });
 
-        const bank = [];
-        counts.forEach((count, letter) => {
-            const total = Math.min(count + 2, 5);
-            for (let index = 0; index < total; index += 1) {
-                bank.push(letter);
+        const letters = Array.from(counts.keys()).sort((left, right) => left.localeCompare(right, "ko"));
+        const tiles = [];
+        let index = 1;
+
+        letters.forEach((letter) => {
+            for (let repeat = 0; repeat < counts.get(letter); repeat += 1) {
+                tiles.push({
+                    id: `${setId}-tile-${index}`,
+                    letter,
+                    used: false,
+                    cellKey: ""
+                });
+                index += 1;
             }
         });
 
-        return shuffle(bank);
+        return tiles;
     }
 
     function createSetState(set) {
@@ -184,6 +226,7 @@
                         col,
                         solution,
                         value: "",
+                        tileId: "",
                         entries: []
                     };
                 }
@@ -216,55 +259,22 @@
             cells,
             wordsById: new Map(set.words.map((word) => [word.id, word])),
             solvedWords: new Set(),
-            inputs: new Map(),
-            letterBank: buildLetterBank(set.words),
+            letterBank: createLetterBank(set.id, cells),
             activeWordId: set.words[0].id
         };
     }
 
     const preparedSets = sets.map(createSetState);
 
-    function currentSet() {
-        return preparedSets[state.currentSetIndex];
-    }
-
-    function activeWord() {
-        return currentSet().wordsById.get(currentSet().activeWordId);
-    }
-
-    function isMobileLayout() {
-        return mobileQuery.matches;
-    }
-
-    function modeFolder() {
-        return state.imageMode === "easy" ? "/initials/" : "/masked/";
-    }
-
-    function clueImageFor(word) {
-        return imageMap[word.answer].replace("/full/", modeFolder());
-    }
-
-    function wordLabel(word) {
-        return `${word.dir === "across" ? "가로" : "세로"} ${word.number}번`;
-    }
-
-    function setWordValue(set, word) {
-        return word.cells.map(({ row, col }) => set.cells[row][col].value || "").join("");
-    }
-
-    function isWordSolved(set, word) {
-        return setWordValue(set, word) === word.answer;
-    }
-
     function syncBodySheetState() {
-        const isClueOpen = state.openSheet === "clue" && isMobileLayout();
-        const isBankOpen = state.openSheet === "bank" && isMobileLayout();
-        const isSheetOpen = isClueOpen || isBankOpen;
+        const clueOpen = state.openSheet === "clue" && isMobileLayout();
+        const bankOpen = state.openSheet === "bank" && isMobileLayout();
+        const anyOpen = clueOpen || bankOpen;
 
-        dom.body.classList.toggle("is-clue-open", isClueOpen);
-        dom.body.classList.toggle("is-bank-open", isBankOpen);
-        dom.body.classList.toggle("is-sheet-open", isSheetOpen);
-        dom.mobileOverlay.setAttribute("aria-hidden", isSheetOpen ? "false" : "true");
+        dom.body.classList.toggle("is-clue-open", clueOpen);
+        dom.body.classList.toggle("is-bank-open", bankOpen);
+        dom.body.classList.toggle("is-sheet-open", anyOpen);
+        dom.mobileOverlay.setAttribute("aria-hidden", anyOpen ? "false" : "true");
     }
 
     function closeMobileSheet() {
@@ -288,41 +298,60 @@
         syncBodySheetState();
     }
 
+    function flashElement(element, className, duration = 320) {
+        if (!element) {
+            return;
+        }
+        element.classList.remove(className);
+        void element.offsetWidth;
+        element.classList.add(className);
+        window.setTimeout(() => {
+            element.classList.remove(className);
+        }, duration);
+    }
+
+    function flashTile(tileId, className) {
+        const tile = dom.letterBank.querySelector(`[data-tile-id="${tileId}"]`);
+        flashElement(tile, className);
+    }
+
+    function flashCell(row, col, className) {
+        const cell = dom.grid.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+        flashElement(cell, className);
+    }
+
     function updateMobileDock() {
         const word = activeWord();
+        const tile = selectedTile();
         dom.mobileClueMeta.textContent = word ? wordLabel(word) : "현재 낱말 보기";
-        dom.mobileBankMeta.textContent = state.selectedLetter ? `선택: ${state.selectedLetter}` : "선택한 글자 없음";
+        dom.mobileBankMeta.textContent = tile ? `선택: ${tile.letter}` : "선택한 글자 없음";
     }
 
     function updateBankSelection() {
-        if (!state.selectedLetter) {
-            dom.bankSelection.textContent = "선택한 글자 없음 · 글자를 누른 뒤 퍼즐 칸을 눌러 넣어 보세요.";
+        const tile = selectedTile();
+        if (!tile) {
+            dom.bankSelection.textContent = "선택한 글자 없음 · 글자를 누른 뒤 퍼즐 칸을 눌러 넣어 보세요. 칸을 다시 누르면 글자가 돌아옵니다.";
             updateMobileDock();
             return;
         }
 
-        dom.bankSelection.textContent = `선택한 글자: ${state.selectedLetter} · 퍼즐 칸을 누르거나 끌어다 놓아 보세요.`;
+        dom.bankSelection.textContent = `선택한 글자: ${tile.letter} · 퍼즐 칸을 누르거나 끌어다 놓아 보세요.`;
         updateMobileDock();
     }
 
-    function renderLetterBank() {
-        const set = currentSet();
-        dom.letterBank.innerHTML = set.letterBank.map((letter, index) => `
-            <button
-                class="letter-tile ${state.selectedLetter === letter ? "is-selected" : ""}"
-                type="button"
-                data-letter="${letter}"
-                data-bank-index="${index}"
-                draggable="true"
-                aria-label="${letter} 글자"
-            >${letter}</button>
-        `).join("");
+    function syncSelectedTileState() {
+        dom.letterBank.querySelectorAll("[data-tile-id]").forEach((tileButton) => {
+            tileButton.classList.toggle("is-selected", tileButton.dataset.tileId === state.selectedTileId);
+        });
+        updateBankSelection();
     }
 
-    function syncSelectedLetterTiles() {
-        dom.letterBank.querySelectorAll("[data-letter]").forEach((tile) => {
-            tile.classList.toggle("is-selected", tile.dataset.letter === state.selectedLetter);
-        });
+    function setSelectedTile(tileId, animate = false) {
+        state.selectedTileId = tileId || "";
+        syncSelectedTileState();
+        if (animate && state.selectedTileId) {
+            flashTile(state.selectedTileId, "is-pick-flash");
+        }
     }
 
     function renderTabs() {
@@ -339,23 +368,26 @@
         });
     }
 
-    function updateActiveClue() {
-        const word = activeWord();
-        const hint = hintCopyMap[word.answer];
-        dom.activeMeta.textContent = `${wordLabel(word)} · ${state.imageMode === "easy" ? "초성" : "마스킹"}`;
-        dom.activeText.textContent = `한글: ${hint.ko}`;
-        dom.activeClueVi.textContent = `Tiếng Việt: ${hint.vi}`;
-        dom.activeImage.src = clueImageFor(word);
-        dom.activeImage.alt = `${hint.ko} 단서 그림`;
-        updateMobileDock();
+    function renderLetterBank() {
+        const set = currentSet();
+        dom.letterBank.innerHTML = set.letterBank.map((tile) => `
+            <button
+                class="letter-tile ${tile.used ? "is-used" : ""} ${tile.id === state.selectedTileId ? "is-selected" : ""}"
+                type="button"
+                data-tile-id="${tile.id}"
+                data-letter="${tile.letter}"
+                draggable="${tile.used ? "false" : "true"}"
+                ${tile.used ? "disabled" : ""}
+                aria-label="${tile.letter} 글자"
+            >${tile.letter}</button>
+        `).join("");
     }
 
     function renderBoard() {
         const set = currentSet();
         const word = activeWord();
-        const activeCoords = new Set(word.cells.map((cell) => `${cell.row}-${cell.col}`));
+        const activeCoords = new Set(word.cells.map((cell) => cellKey(cell.row, cell.col)));
 
-        set.inputs = new Map();
         dom.grid.style.gridTemplateColumns = `repeat(${set.cols}, minmax(0, 1fr))`;
         dom.grid.innerHTML = "";
 
@@ -370,22 +402,18 @@
                     continue;
                 }
 
-                const wrapper = document.createElement("label");
-                const classes = ["grid-cell"];
-                const fullySolved = cell.entries.every((entry) => set.solvedWords.has(entry.wordId));
-                if (activeCoords.has(`${row}-${col}`)) {
-                    classes.push("is-active");
-                }
-                if (cell.entries.length > 1) {
-                    classes.push("is-cross");
-                }
-                if (fullySolved) {
-                    classes.push("is-solved");
-                }
-
-                wrapper.className = classes.join(" ");
+                const wrapper = document.createElement("button");
+                wrapper.type = "button";
+                wrapper.className = [
+                    "grid-cell",
+                    activeCoords.has(cellKey(row, col)) ? "is-active" : "",
+                    cell.entries.length > 1 ? "is-cross" : "",
+                    cell.value ? "is-filled" : "",
+                    cell.entries.every((entry) => set.solvedWords.has(entry.wordId)) ? "is-solved" : ""
+                ].filter(Boolean).join(" ");
                 wrapper.dataset.row = String(row);
                 wrapper.dataset.col = String(col);
+                wrapper.setAttribute("aria-label", `${row + 1}행 ${col + 1}열`);
 
                 const starter = set.words.find((item) => item.row === row && item.col === col);
                 if (starter) {
@@ -395,39 +423,13 @@
                     wrapper.appendChild(number);
                 }
 
-                const input = document.createElement("input");
-                input.type = "text";
-                input.maxLength = 1;
-                input.autocomplete = "off";
-                input.spellcheck = false;
-                input.inputMode = "text";
-                input.value = cell.value;
-                input.dataset.row = String(row);
-                input.dataset.col = String(col);
-                input.setAttribute("aria-label", `${row + 1}행 ${col + 1}열`);
-                wrapper.appendChild(input);
-                set.inputs.set(`${row}-${col}`, input);
+                const value = document.createElement("span");
+                value.className = "grid-cell__value";
+                value.textContent = cell.value;
+                wrapper.appendChild(value);
 
                 wrapper.addEventListener("click", (event) => {
-                    const candidate = cell.entries.find((entry) => entry.wordId === set.activeWordId) || cell.entries[0];
-                    selectWord(candidate.wordId, false);
-
-                    if (state.selectedLetter) {
-                        event.preventDefault();
-                        placeLetter(row, col, state.selectedLetter);
-                        return;
-                    }
-
-                    if (isMobileLayout()) {
-                        event.preventDefault();
-                        openMobileSheet("bank");
-                        return;
-                    }
-
-                    window.setTimeout(() => {
-                        input.focus();
-                        input.select();
-                    }, 0);
+                    handleCellActivate(row, col, event);
                 });
 
                 wrapper.addEventListener("dragover", (event) => {
@@ -442,35 +444,14 @@
                 wrapper.addEventListener("drop", (event) => {
                     event.preventDefault();
                     wrapper.classList.remove("is-drop");
-                    const letter = event.dataTransfer ? event.dataTransfer.getData("text/plain") : "";
-                    if (!letter) {
+                    const tileId =
+                        event.dataTransfer?.getData("application/x-crossword-tile") ||
+                        event.dataTransfer?.getData("text/plain") ||
+                        "";
+                    if (!tileId) {
                         return;
                     }
-
-                    const candidate = cell.entries.find((entry) => entry.wordId === set.activeWordId) || cell.entries[0];
-                    selectWord(candidate.wordId, false);
-                    placeLetter(row, col, letter);
-                });
-
-                input.addEventListener("focus", () => {
-                    const candidate = cell.entries.find((entry) => entry.wordId === set.activeWordId) || cell.entries[0];
-                    selectWord(candidate.wordId, false);
-                });
-
-                input.addEventListener("input", (event) => {
-                    const raw = event.target.value.trim();
-                    const finalChar = raw ? Array.from(raw).slice(-1)[0] : "";
-                    cell.value = finalChar;
-                    event.target.value = finalChar;
-                    renderBoard();
-                    autoAdvance(row, col);
-                    maybeSolveActiveWord();
-                });
-
-                input.addEventListener("keydown", (event) => {
-                    if (event.key === "Backspace" && !cell.value) {
-                        moveToPreviousCell();
-                    }
+                    placeTileAt(row, col, tileId);
                 });
 
                 dom.grid.appendChild(wrapper);
@@ -478,116 +459,231 @@
         }
     }
 
-    function placeLetter(row, col, letter) {
+    function updateActiveClue() {
+        const word = activeWord();
+        const hint = hintCopyMap[word.answer];
+        dom.activeMeta.textContent = `${wordLabel(word)} · ${state.imageMode === "easy" ? "초성" : "마스킹"}`;
+        dom.activeText.textContent = `한글: ${hint.ko}`;
+        dom.activeClueVi.textContent = `Tiếng Việt: ${hint.vi}`;
+        dom.activeImage.src = clueImageFor(word);
+        dom.activeImage.alt = `${hint.ko} 단서 그림`;
+        updateMobileDock();
+    }
+
+    function refreshSolvedWords(set, activeBefore) {
+        const wasActiveSolved = set.solvedWords.has(activeBefore);
+        set.solvedWords.clear();
+
+        set.words.forEach((word) => {
+            if (setWordValue(set, word) === word.answer) {
+                set.solvedWords.add(word.id);
+            }
+        });
+
+        if (!set.activeWordId) {
+            set.activeWordId = set.words[0].id;
+            return;
+        }
+
+        if (set.solvedWords.has(activeBefore) && !wasActiveSolved) {
+            const nextWord = set.words.find((word) => !set.solvedWords.has(word.id));
+            if (nextWord) {
+                set.activeWordId = nextWord.id;
+            }
+        }
+    }
+
+    function releaseTile(tileId) {
+        const set = currentSet();
+        const tile = getTileById(set, tileId);
+        if (!tile) {
+            return;
+        }
+        tile.used = false;
+        tile.cellKey = "";
+    }
+
+    function clearCell(row, col) {
+        const set = currentSet();
+        const cell = set.cells[row][col];
+        if (!cell || !cell.tileId) {
+            return;
+        }
+
+        const activeBefore = set.activeWordId;
+        const releasedTileId = cell.tileId;
+        releaseTile(releasedTileId);
+        cell.tileId = "";
+        cell.value = "";
+        refreshSolvedWords(set, activeBefore);
+        renderBoard();
+        renderLetterBank();
+        syncSelectedTileState();
+        updateActiveClue();
+        flashCell(row, col, "is-cleared-flash");
+        flashTile(releasedTileId, "is-pick-flash");
+    }
+
+    function placeTileAt(row, col, tileId) {
+        const set = currentSet();
+        const cell = set.cells[row][col];
+        const tile = getTileById(set, tileId);
+        if (!cell || !tile || tile.used) {
+            return;
+        }
+
+        const activeBefore = set.activeWordId;
+        if (cell.tileId) {
+            releaseTile(cell.tileId);
+        }
+
+        cell.tileId = tile.id;
+        cell.value = tile.letter;
+        tile.used = true;
+        tile.cellKey = cellKey(row, col);
+        setSelectedTile("");
+        refreshSolvedWords(set, activeBefore);
+        renderBoard();
+        renderLetterBank();
+        syncSelectedTileState();
+        updateActiveClue();
+        flashCell(row, col, "is-filled-flash");
+        flashTile(tile.id, "is-place-flash");
+        closeMobileSheet();
+    }
+
+    function selectWord(wordId) {
+        const set = currentSet();
+        set.activeWordId = wordId;
+        updateActiveClue();
+        renderBoard();
+    }
+
+    function handleCellActivate(row, col, event) {
         const set = currentSet();
         const cell = set.cells[row][col];
         if (!cell) {
             return;
         }
 
-        cell.value = letter;
-        renderBoard();
-        autoAdvance(row, col);
-        maybeSolveActiveWord();
-    }
+        const candidate = cell.entries.find((entry) => entry.wordId === set.activeWordId) || cell.entries[0];
+        selectWord(candidate.wordId);
 
-    function selectWord(wordId, focus = true) {
-        const set = currentSet();
-        set.activeWordId = wordId;
-        updateActiveClue();
-        renderBoard();
-
-        if (!focus || isMobileLayout()) {
+        if (state.selectedTileId) {
+            event.preventDefault();
+            placeTileAt(row, col, state.selectedTileId);
             return;
         }
 
-        const word = activeWord();
-        const nextCell = word.cells.find(({ row, col }) => !set.cells[row][col].value) || word.cells[0];
-        const input = set.inputs.get(`${nextCell.row}-${nextCell.col}`);
-        if (input) {
-            input.focus();
-            input.select();
+        if (cell.tileId) {
+            event.preventDefault();
+            clearCell(row, col);
+            return;
         }
-    }
 
-    function autoAdvance(row, col) {
         if (isMobileLayout()) {
-            return;
-        }
-
-        const set = currentSet();
-        const word = activeWord();
-        const index = word.cells.findIndex((cell) => cell.row === row && cell.col === col);
-        if (index === -1 || index >= word.cells.length - 1) {
-            return;
-        }
-
-        const next = word.cells[index + 1];
-        const input = set.inputs.get(`${next.row}-${next.col}`);
-        if (input) {
-            input.focus();
-            input.select();
-        }
-    }
-
-    function moveToPreviousCell() {
-        const set = currentSet();
-        const word = activeWord();
-        const activeElement = document.activeElement;
-
-        if (!(activeElement instanceof HTMLInputElement)) {
-            return;
-        }
-
-        const row = Number(activeElement.dataset.row);
-        const col = Number(activeElement.dataset.col);
-        const index = word.cells.findIndex((cell) => cell.row === row && cell.col === col);
-        if (index <= 0) {
-            return;
-        }
-
-        const previous = word.cells[index - 1];
-        const input = set.inputs.get(`${previous.row}-${previous.col}`);
-        if (input) {
-            input.focus();
-            input.select();
-        }
-    }
-
-    function maybeSolveActiveWord() {
-        const set = currentSet();
-        const word = activeWord();
-
-        if (setWordValue(set, word).length !== word.answer.length) {
-            return;
-        }
-
-        if (!isWordSolved(set, word)) {
-            return;
-        }
-
-        set.solvedWords.add(word.id);
-        const nextWord = set.words.find((item) => !set.solvedWords.has(item.id));
-        if (nextWord) {
-            set.activeWordId = nextWord.id;
-        }
-
-        updateActiveClue();
-        renderBoard();
-
-        if (isMobileLayout() && !state.selectedLetter) {
+            event.preventDefault();
             openMobileSheet("bank");
         }
     }
 
+    function findGridCellAt(x, y) {
+        const element = document.elementFromPoint(x, y);
+        if (!element) {
+            return null;
+        }
+        return element.closest(".grid-cell:not(.is-block)");
+    }
+
+    function clearTouchDropTarget() {
+        if (!state.touchDrag || !state.touchDrag.dropTarget) {
+            return;
+        }
+        state.touchDrag.dropTarget.classList.remove("is-drop");
+        state.touchDrag.dropTarget = null;
+    }
+
+    function ensureTouchGhost(letter) {
+        const ghost = document.createElement("div");
+        ghost.className = "letter-drag-ghost";
+        ghost.textContent = letter;
+        document.body.appendChild(ghost);
+        return ghost;
+    }
+
+    function beginTouchTileDrag(tileId, x, y) {
+        if (!state.touchDrag) {
+            return;
+        }
+
+        const tile = getTileById(currentSet(), tileId);
+        if (!tile || tile.used) {
+            return;
+        }
+
+        state.touchDrag.started = true;
+        state.touchDrag.ghost = ensureTouchGhost(tile.letter);
+        setSelectedTile(tileId, false);
+        dom.body.classList.add("is-dragging-letter");
+        moveTouchTileDrag(x, y);
+    }
+
+    function moveTouchTileDrag(x, y) {
+        if (!state.touchDrag || !state.touchDrag.started || !state.touchDrag.ghost) {
+            return;
+        }
+
+        state.touchDrag.ghost.style.left = `${x}px`;
+        state.touchDrag.ghost.style.top = `${y}px`;
+
+        const target = findGridCellAt(x, y);
+        if (target === state.touchDrag.dropTarget) {
+            return;
+        }
+
+        clearTouchDropTarget();
+        if (target) {
+            target.classList.add("is-drop");
+            state.touchDrag.dropTarget = target;
+        }
+    }
+
+    function cleanupTouchDrag() {
+        clearTouchDropTarget();
+        if (state.touchDrag && state.touchDrag.ghost) {
+            state.touchDrag.ghost.remove();
+        }
+        dom.body.classList.remove("is-dragging-letter");
+        state.touchDrag = null;
+    }
+
+    function finishTouchTileDrag(x, y) {
+        if (!state.touchDrag || !state.touchDrag.started) {
+            cleanupTouchDrag();
+            return false;
+        }
+
+        moveTouchTileDrag(x, y);
+        const target = state.touchDrag.dropTarget;
+        const tileId = state.touchDrag.tileId;
+        cleanupTouchDrag();
+
+        if (!target) {
+            return false;
+        }
+
+        const row = Number(target.dataset.row);
+        const col = Number(target.dataset.col);
+        placeTileAt(row, col, tileId);
+        return true;
+    }
+
     function renderSet() {
-        const set = currentSet();
-        set.activeWordId = set.words[0].id;
         renderTabs();
         renderModeButtons();
-        updateActiveClue();
         renderLetterBank();
-        updateBankSelection();
+        syncSelectedTileState();
+        updateActiveClue();
         renderBoard();
     }
 
@@ -598,7 +694,7 @@
         }
 
         state.currentSetIndex = Number(button.dataset.setIndex);
-        state.selectedLetter = "";
+        state.selectedTileId = "";
         closeMobileSheet();
         renderSet();
     });
@@ -615,31 +711,99 @@
     });
 
     dom.letterBank.addEventListener("click", (event) => {
-        const tile = event.target.closest("[data-letter]");
-        if (!tile) {
+        const tileButton = event.target.closest("[data-tile-id]");
+        if (!tileButton || tileButton.disabled) {
             return;
         }
 
-        state.selectedLetter = state.selectedLetter === tile.dataset.letter ? "" : tile.dataset.letter;
-        syncSelectedLetterTiles();
-        updateBankSelection();
+        if (state.ignoreNextTileClick) {
+            state.ignoreNextTileClick = false;
+            return;
+        }
 
-        if (isMobileLayout() && state.selectedLetter) {
+        const tileId = tileButton.dataset.tileId;
+        const nextTileId = state.selectedTileId === tileId ? "" : tileId;
+        setSelectedTile(nextTileId, Boolean(nextTileId));
+
+        if (isMobileLayout() && nextTileId) {
             closeMobileSheet();
         }
     });
 
     dom.letterBank.addEventListener("dragstart", (event) => {
-        const tile = event.target.closest("[data-letter]");
-        if (!tile || !event.dataTransfer) {
+        const tileButton = event.target.closest("[data-tile-id]");
+        if (!tileButton || tileButton.disabled || !event.dataTransfer) {
             return;
         }
 
-        state.selectedLetter = tile.dataset.letter;
-        syncSelectedLetterTiles();
-        updateBankSelection();
+        const tileId = tileButton.dataset.tileId;
+        setSelectedTile(tileId, true);
         event.dataTransfer.effectAllowed = "copy";
-        event.dataTransfer.setData("text/plain", tile.dataset.letter);
+        event.dataTransfer.setData("application/x-crossword-tile", tileId);
+        event.dataTransfer.setData("text/plain", tileId);
+    });
+
+    dom.letterBank.addEventListener("touchstart", (event) => {
+        const tileButton = event.target.closest("[data-tile-id]");
+        if (!tileButton || tileButton.disabled || event.touches.length !== 1) {
+            return;
+        }
+
+        state.ignoreNextTileClick = true;
+        const touch = event.touches[0];
+        state.touchDrag = {
+            tileId: tileButton.dataset.tileId,
+            startX: touch.clientX,
+            startY: touch.clientY,
+            started: false,
+            ghost: null,
+            dropTarget: null
+        };
+    }, { passive: true });
+
+    dom.letterBank.addEventListener("touchmove", (event) => {
+        if (!state.touchDrag || event.touches.length !== 1) {
+            return;
+        }
+
+        const touch = event.touches[0];
+        const dx = touch.clientX - state.touchDrag.startX;
+        const dy = touch.clientY - state.touchDrag.startY;
+        if (!state.touchDrag.started && Math.hypot(dx, dy) < 8) {
+            return;
+        }
+
+        event.preventDefault();
+        if (!state.touchDrag.started) {
+            beginTouchTileDrag(state.touchDrag.tileId, touch.clientX, touch.clientY);
+        } else {
+            moveTouchTileDrag(touch.clientX, touch.clientY);
+        }
+    }, { passive: false });
+
+    dom.letterBank.addEventListener("touchend", (event) => {
+        if (!state.touchDrag) {
+            return;
+        }
+
+        const touch = event.changedTouches[0];
+        if (state.touchDrag.started) {
+            event.preventDefault();
+            finishTouchTileDrag(touch.clientX, touch.clientY);
+            return;
+        }
+
+        const tileId = state.touchDrag.tileId;
+        cleanupTouchDrag();
+        const nextTileId = state.selectedTileId === tileId ? "" : tileId;
+        setSelectedTile(nextTileId, Boolean(nextTileId));
+        if (isMobileLayout() && nextTileId) {
+            closeMobileSheet();
+        }
+    }, { passive: false });
+
+    dom.letterBank.addEventListener("touchcancel", () => {
+        cleanupTouchDrag();
     });
 
     dom.mobileClueToggle.addEventListener("click", () => {
@@ -654,7 +818,7 @@
     dom.mobileClueClose.addEventListener("click", closeMobileSheet);
     dom.mobileBankClose.addEventListener("click", closeMobileSheet);
 
-    const mobileQueryListener = () => {
+    const handleViewportChange = () => {
         if (!isMobileLayout()) {
             closeMobileSheet();
         }
@@ -662,9 +826,9 @@
     };
 
     if (typeof mobileQuery.addEventListener === "function") {
-        mobileQuery.addEventListener("change", mobileQueryListener);
+        mobileQuery.addEventListener("change", handleViewportChange);
     } else if (typeof mobileQuery.addListener === "function") {
-        mobileQuery.addListener(mobileQueryListener);
+        mobileQuery.addListener(handleViewportChange);
     }
 
     renderSet();

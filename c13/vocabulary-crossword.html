@@ -127,11 +127,17 @@
 
         .grid-cell {
             position: relative;
+            display: grid;
+            place-items: center;
             width: 48px;
             height: 48px;
+            padding: 0;
+            appearance: none;
+            -webkit-appearance: none;
             border-radius: 14px;
             border: 1px solid #d4deea;
             background: #fff;
+            cursor: pointer;
             overflow: hidden;
             transition: border-color 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
         }
@@ -158,6 +164,26 @@
         .grid-cell.is-drop {
             border-color: rgba(15, 118, 110, 0.55);
             box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
+        }
+
+        .grid-cell.is-filled-flash {
+            animation: cellFillPop 0.34s ease;
+        }
+
+        .grid-cell.is-cleared-flash {
+            animation: cellClearFlash 0.28s ease;
+        }
+
+        .grid-cell__value {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 100%;
+            font-size: 1.18rem;
+            font-weight: 900;
+            color: var(--text);
+            user-select: none;
+            pointer-events: none;
         }
 
         .grid-cell input {
@@ -287,6 +313,8 @@
             font-size: 1.05rem;
             font-weight: 900;
             cursor: grab;
+            user-select: none;
+            touch-action: none;
             transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
         }
 
@@ -299,6 +327,90 @@
             background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
             color: #115e59;
             box-shadow: 0 14px 28px rgba(15, 118, 110, 0.12);
+        }
+
+        .letter-tile.is-used,
+        .letter-tile:disabled {
+            opacity: 0.34;
+            cursor: default;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .letter-tile.is-pick-flash {
+            animation: tilePickPop 0.28s ease;
+        }
+
+        .letter-tile.is-place-flash {
+            animation: tilePlaceFade 0.36s ease;
+        }
+
+        .letter-drag-ghost {
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            border: 1px solid rgba(15, 118, 110, 0.28);
+            border-radius: 16px;
+            background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
+            color: #115e59;
+            font-size: 1.05rem;
+            font-weight: 900;
+            box-shadow: 0 18px 28px rgba(15, 23, 42, 0.16);
+            pointer-events: none;
+            z-index: 80;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes tilePickPop {
+            0% {
+                transform: scale(1);
+            }
+            45% {
+                transform: scale(1.08);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes tilePlaceFade {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.94);
+                opacity: 0.34;
+            }
+        }
+
+        @keyframes cellFillPop {
+            0% {
+                transform: scale(0.92);
+                background: #ffffff;
+            }
+            60% {
+                transform: scale(1.06);
+                background: #dcfff5;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes cellClearFlash {
+            0% {
+                transform: scale(1);
+                background: #fff7ef;
+            }
+            100% {
+                transform: scale(1);
+                background: #ffffff;
+            }
         }
 
         .mobile-overlay,
@@ -426,6 +538,11 @@
             body.is-bank-open .mobile-overlay {
                 opacity: 1;
                 pointer-events: auto;
+            }
+
+            body.is-dragging-letter .mobile-overlay {
+                opacity: 0;
+                pointer-events: none;
             }
 
             body.is-clue-open .active-clue,
