@@ -715,6 +715,11 @@
         unitFilters: document.getElementById('unitFilters'),
         filterCaption: document.getElementById('filterCaption'),
         questionList: document.getElementById('questionList'),
+        mobileQuestionNav: document.getElementById('mobileQuestionNav'),
+        mobilePrevQuestionBtn: document.getElementById('mobilePrevQuestionBtn'),
+        mobileNextQuestionBtn: document.getElementById('mobileNextQuestionBtn'),
+        mobileQuestionOverviewBtn: document.getElementById('mobileQuestionOverviewBtn'),
+        mobileQuestionStatus: document.getElementById('mobileQuestionStatus'),
         questionTitle: document.getElementById('questionTitle'),
         questionMeta: document.getElementById('questionMeta'),
         questionLead: document.getElementById('questionLead'),
@@ -819,6 +824,7 @@
         refs.expressionChips.addEventListener('click', handleExpressionInsert);
         refs.frameList.addEventListener('click', handleFrameInsert);
         refs.attemptList.addEventListener('click', handleAttemptAction);
+        refs.popupBody.addEventListener('click', handlePopupAction);
         refs.langKoBtn.addEventListener('click', () => setExplanationLanguage('ko'));
         refs.langViBtn.addEventListener('click', () => setExplanationLanguage('vi'));
         refs.pageIntroBtn.addEventListener('click', () => openPopup('pageIntro'));
@@ -829,6 +835,15 @@
         refs.questionGrammarBtn.addEventListener('click', () => openPopup('questionGrammar'));
         refs.questionChecklistBtn.addEventListener('click', () => openPopup('questionChecklist'));
         refs.questionSampleBtn.addEventListener('click', () => openPopup('questionSample'));
+        if (refs.mobilePrevQuestionBtn) {
+            refs.mobilePrevQuestionBtn.addEventListener('click', () => navigateVisibleQuestion(-1));
+        }
+        if (refs.mobileNextQuestionBtn) {
+            refs.mobileNextQuestionBtn.addEventListener('click', () => navigateVisibleQuestion(1));
+        }
+        if (refs.mobileQuestionOverviewBtn) {
+            refs.mobileQuestionOverviewBtn.addEventListener('click', () => openPopup('questionPicker'));
+        }
         refs.draftHelpBtn.addEventListener('click', () => openPopup('draftHelp'));
         refs.revisionHelpBtn.addEventListener('click', () => openPopup('revisionHelp'));
         refs.speechHelpBtn.addEventListener('click', () => openPopup('speechHelp'));
@@ -873,6 +888,7 @@
         renderDashboard();
         renderFilterControls();
         renderQuestionList();
+        renderQuestionNavigation();
         renderQuestionDetail();
         renderSpeechState();
     }
@@ -919,6 +935,28 @@
 
         ensureSelectedQuestionVisible();
         refs.questionList.innerHTML = visibleQuestions.map(renderQuestionButton).join('');
+    }
+
+    function renderQuestionNavigation() {
+        if (!refs.mobileQuestionNav || !refs.mobileQuestionStatus) {
+            return;
+        }
+
+        const visibleQuestions = getVisibleQuestions();
+        if (!visibleQuestions.length) {
+            refs.mobileQuestionNav.classList.add('sb-hidden');
+            refs.mobileQuestionStatus.textContent = '문항이 없습니다.';
+            return;
+        }
+
+        const selectedIndex = Math.max(visibleQuestions.findIndex((question) => question.id === state.store.selectedId), 0);
+        const selectedQuestion = visibleQuestions[selectedIndex];
+
+        refs.mobileQuestionNav.classList.remove('sb-hidden');
+        refs.mobileQuestionStatus.textContent = `${selectedIndex + 1} / ${visibleQuestions.length} · ${selectedQuestion.title}`;
+        refs.mobilePrevQuestionBtn.disabled = selectedIndex <= 0;
+        refs.mobileNextQuestionBtn.disabled = selectedIndex >= visibleQuestions.length - 1;
+        refs.mobileQuestionOverviewBtn.disabled = false;
     }
 
     function renderQuestionButton(question) {
@@ -1127,6 +1165,14 @@
         }
 
         switch (kind) {
+            case 'questionPicker': {
+                const visibleQuestions = getVisibleQuestions();
+                return {
+                    title: lang === 'ko' ? '문항 모두 보기' : 'Xem tat ca cau hoi',
+                    tag: buildFilterCaption(),
+                    html: buildQuestionPickerHtml(visibleQuestions, lang)
+                };
+            }
             case 'questionOverview':
                 return {
                     title: `${String(question.number).padStart(2, '0')}. ${question.title}`,
@@ -1196,11 +1242,16 @@
             return;
         }
 
-        flushCurrentInputs();
-        state.store.selectedId = button.dataset.questionId;
-        persistStore();
-        stopSpeechRecognition();
-        renderAll();
+        selectQuestion(button.dataset.questionId);
+    }
+
+    function handlePopupAction(event) {
+        const button = event.target.closest('[data-popup-question-id]');
+        if (!button) {
+            return;
+        }
+
+        selectQuestion(button.dataset.popupQuestionId, { closePopup: true });
     }
 
     function handleExpressionInsert(event) {
@@ -1434,14 +1485,41 @@
     }
 
     function pickRandomQuestion() {
-        flushCurrentInputs();
         const visibleQuestions = getVisibleQuestions();
         if (!visibleQuestions.length) {
             return;
         }
         const candidates = visibleQuestions.filter((question) => question.id !== state.store.selectedId);
         const next = (candidates.length ? candidates : visibleQuestions)[Math.floor(Math.random() * (candidates.length ? candidates : visibleQuestions).length)];
-        state.store.selectedId = next.id;
+        selectQuestion(next.id);
+    }
+
+    function navigateVisibleQuestion(direction) {
+        const visibleQuestions = getVisibleQuestions();
+        if (!visibleQuestions.length) {
+            return;
+        }
+
+        const currentIndex = visibleQuestions.findIndex((question) => question.id === state.store.selectedId);
+        const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+        const nextIndex = safeIndex + direction;
+        if (nextIndex < 0 || nextIndex >= visibleQuestions.length) {
+            return;
+        }
+
+        selectQuestion(visibleQuestions[nextIndex].id);
+    }
+
+    function selectQuestion(questionId, options = {}) {
+        if (!QUESTION_BANK.some((question) => question.id === questionId)) {
+            return;
+        }
+
+        flushCurrentInputs();
+        if (options.closePopup && state.currentPopupKind) {
+            closePopup();
+        }
+        state.store.selectedId = questionId;
         persistStore();
         stopSpeechRecognition();
         renderAll();
@@ -1689,6 +1767,39 @@
         return lang === 'vi'
             ? ['Dùng ngữ pháp 1 lần.', 'Thêm chuyện của bạn.', 'Nói 1-2 câu ngắn.']
             : ['문법 한 번 넣기', '내 이야기 넣기', '1~2문장으로 말하기'];
+    }
+
+    function buildQuestionPickerHtml(questions, lang) {
+        if (!questions.length) {
+            return `<div class="sb-empty">${lang === 'ko' ? '조건에 맞는 문항이 없습니다.' : 'Khong co cau hoi phu hop.'}</div>`;
+        }
+
+        return `<div class="sb-popup-question-list">${questions.map((question) => {
+            const entry = getEntry(question.id);
+            const metaPills = [
+                `<span class="sb-pill sb-pill--unit">${question.unit}과</span>`,
+                `<span class="sb-pill sb-pill--part">${question.part === 'grammar' ? '문법' : '자유 말하기'}</span>`
+            ];
+
+            if (hasSavedContent(entry)) {
+                metaPills.push('<span class="sb-pill sb-pill--saved">저장</span>');
+            }
+            if (entry.done) {
+                metaPills.push('<span class="sb-pill sb-pill--done">완료</span>');
+            }
+
+            return `
+                <button type="button" class="sb-popup-question-btn${state.store.selectedId === question.id ? ' is-active' : ''}" data-popup-question-id="${question.id}">
+                    <span class="sb-popup-question-btn__number">${String(question.number).padStart(2, '0')}</span>
+                    <span class="sb-popup-question-btn__body">
+                        <span class="sb-popup-question-btn__meta">${metaPills.join('')}</span>
+                        <strong>${escapeHtml(question.title)}</strong>
+                        <span>${escapeHtml(question.grammar)}</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </button>
+            `;
+        }).join('')}</div>`;
     }
 
     function buildCoachFeedback(question, entry) {
