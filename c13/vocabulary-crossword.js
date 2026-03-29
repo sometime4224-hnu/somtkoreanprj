@@ -126,7 +126,8 @@
         mobileBankToggle: document.getElementById("mobile-bank-toggle"),
         mobileBankMeta: document.getElementById("mobile-bank-meta"),
         mobileClueClose: document.getElementById("mobile-clue-close"),
-        mobileBankClose: document.getElementById("mobile-bank-close")
+        mobileBankClose: document.getElementById("mobile-bank-close"),
+        manualInput: document.getElementById("manual-letter-input")
     };
 
     const mobileQuery = window.matchMedia("(max-width: 640px)");
@@ -135,6 +136,7 @@
         currentSetIndex: 0,
         imageMode: "normal",
         selectedTileId: "",
+        manualTargetKey: "",
         openSheet: "",
         touchDrag: null,
         ignoreNextTileClick: false
@@ -162,6 +164,20 @@
 
     function selectedTile() {
         return getTileById(currentSet(), state.selectedTileId);
+    }
+
+    function clearManualTarget() {
+        state.manualTargetKey = "";
+        if (document.activeElement === dom.manualInput) {
+            dom.manualInput.blur();
+        }
+    }
+
+    function focusManualInput() {
+        window.setTimeout(() => {
+            dom.manualInput.value = "";
+            dom.manualInput.focus();
+        }, 0);
     }
 
     function modeFolder() {
@@ -330,7 +346,7 @@
     function updateBankSelection() {
         const tile = selectedTile();
         if (!tile) {
-            dom.bankSelection.textContent = "선택한 글자 없음 · 글자를 누른 뒤 퍼즐 칸을 눌러 넣어 보세요. 칸을 다시 누르면 글자가 돌아옵니다.";
+            dom.bankSelection.textContent = "선택한 글자 없음 · 글자를 누르거나 빈칸을 눌러 직접 입력해 보세요. 칸을 다시 누르면 글자가 돌아옵니다.";
             updateMobileDock();
             return;
         }
@@ -348,6 +364,9 @@
 
     function setSelectedTile(tileId, animate = false) {
         state.selectedTileId = tileId || "";
+        if (state.selectedTileId) {
+            clearManualTarget();
+        }
         syncSelectedTileState();
         if (animate && state.selectedTileId) {
             flashTile(state.selectedTileId, "is-pick-flash");
@@ -407,6 +426,7 @@
                 wrapper.className = [
                     "grid-cell",
                     activeCoords.has(cellKey(row, col)) ? "is-active" : "",
+                    state.manualTargetKey === cellKey(row, col) ? "is-manual-target" : "",
                     cell.entries.length > 1 ? "is-cross" : "",
                     cell.value ? "is-filled" : "",
                     cell.entries.every((entry) => set.solvedWords.has(entry.wordId)) ? "is-solved" : ""
@@ -493,6 +513,40 @@
         }
     }
 
+    function findAvailableTileId(letter) {
+        const set = currentSet();
+        const tile = set.letterBank.find((item) => !item.used && item.letter === letter);
+        return tile ? tile.id : "";
+    }
+
+    function openManualInput(row, col) {
+        state.manualTargetKey = cellKey(row, col);
+        renderBoard();
+        closeMobileSheet();
+        focusManualInput();
+    }
+
+    function tryManualLetter(char) {
+        const trimmed = (char || "").trim();
+        if (!trimmed || !state.manualTargetKey) {
+            return;
+        }
+
+        const [rowText, colText] = state.manualTargetKey.split("-");
+        const row = Number(rowText);
+        const col = Number(colText);
+        const tileId = findAvailableTileId(trimmed);
+
+        if (!tileId) {
+            flashCell(row, col, "is-cleared-flash");
+            focusManualInput();
+            return;
+        }
+
+        placeTileAt(row, col, tileId);
+        dom.manualInput.value = "";
+    }
+
     function releaseTile(tileId) {
         const set = currentSet();
         const tile = getTileById(set, tileId);
@@ -512,6 +566,7 @@
 
         const activeBefore = set.activeWordId;
         const releasedTileId = cell.tileId;
+        clearManualTarget();
         releaseTile(releasedTileId);
         cell.tileId = "";
         cell.value = "";
@@ -533,6 +588,7 @@
         }
 
         const activeBefore = set.activeWordId;
+        clearManualTarget();
         if (cell.tileId) {
             releaseTile(cell.tileId);
         }
@@ -581,10 +637,8 @@
             return;
         }
 
-        if (isMobileLayout()) {
-            event.preventDefault();
-            openMobileSheet("bank");
-        }
+        event.preventDefault();
+        openManualInput(row, col);
     }
 
     function findGridCellAt(x, y) {
@@ -679,6 +733,7 @@
     }
 
     function renderSet() {
+        clearManualTarget();
         renderTabs();
         renderModeButtons();
         renderLetterBank();
@@ -817,6 +872,17 @@
     dom.mobileOverlay.addEventListener("click", closeMobileSheet);
     dom.mobileClueClose.addEventListener("click", closeMobileSheet);
     dom.mobileBankClose.addEventListener("click", closeMobileSheet);
+
+    dom.manualInput.addEventListener("input", () => {
+        const raw = dom.manualInput.value.trim();
+        if (!raw) {
+            return;
+        }
+
+        const finalChar = Array.from(raw).slice(-1)[0];
+        dom.manualInput.value = "";
+        tryManualLetter(finalChar);
+    });
 
     const handleViewportChange = () => {
         if (!isMobileLayout()) {

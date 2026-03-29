@@ -152,6 +152,12 @@
             box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
         }
 
+        .grid-cell.is-manual-target {
+            border-color: rgba(249, 115, 22, 0.48);
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.14);
+            background: #fff8f2;
+        }
+
         .grid-cell.is-cross {
             background: #f5fffd;
         }
@@ -365,6 +371,16 @@
             transform: translate(-50%, -50%);
         }
 
+        .manual-letter-input {
+            position: fixed;
+            left: -9999px;
+            bottom: 0;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
         @keyframes tilePickPop {
             0% {
                 transform: scale(1);
@@ -526,6 +542,19 @@
                 box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
             }
 
+            .mobile-dock__label {
+                display: inline-flex;
+                align-items: baseline;
+                gap: 6px;
+                justify-content: center;
+            }
+
+            .mobile-dock__sub {
+                font-size: 0.72rem;
+                color: #6f8096;
+                font-weight: 700;
+            }
+
             .mobile-dock__meta {
                 display: block;
                 margin-top: 3px;
@@ -561,6 +590,11 @@
             body.is-clue-open .active-clue {
                 grid-template-columns: 1fr;
                 padding-top: 54px;
+            }
+
+            body.is-clue-open .active-clue__media {
+                max-width: 120px;
+                margin: 0 auto;
             }
 
             body.is-bank-open .bank-panel {
@@ -630,14 +664,16 @@
     <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true"></div>
     <div class="mobile-dock" aria-label="모바일 퍼즐 도구">
         <button id="mobile-clue-toggle" class="mobile-dock__btn mobile-dock__btn--clue" type="button">
-            단서
+            <span class="mobile-dock__label">단서 <span class="mobile-dock__sub">gợi ý</span></span>
             <span id="mobile-clue-meta" class="mobile-dock__meta">현재 낱말 보기</span>
         </button>
         <button id="mobile-bank-toggle" class="mobile-dock__btn mobile-dock__btn--bank mobile-dock__btn--accent" type="button">
-            글자
+            <span class="mobile-dock__label">글자 <span class="mobile-dock__sub">chữ</span></span>
             <span id="mobile-bank-meta" class="mobile-dock__meta">선택한 글자 없음</span>
         </button>
     </div>
+
+    <input id="manual-letter-input" class="manual-letter-input" type="text" inputmode="text" autocomplete="off" maxlength="1" aria-hidden="true">
 
     <script src="vocabulary-crossword.js"></script>
 </body>
