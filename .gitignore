@@ -7,5 +7,7 @@ shared/*.teacher.css
 **/node_modules/
 **/dist/
 *.log
+playwright-report/
+test-results/
 assets/*/audio/*.mp3
 !assets/*/audio/.gitkeep

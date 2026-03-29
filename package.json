@@ -1,0 +1,13 @@
+{
+  "name": "korean3bimprove",
+  "private": true,
+  "scripts": {
+    "serve:test": "node scripts/static-server.js",
+    "playwright:install": "playwright install chromium",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}

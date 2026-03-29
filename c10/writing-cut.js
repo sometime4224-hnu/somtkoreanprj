@@ -1729,6 +1729,15 @@ function scrollToImagePanel() {
   imagePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+function scheduleImagePanelScroll() {
+  if (state.view !== 'activity' || typeof window.requestAnimationFrame !== 'function') return;
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      scrollToImagePanel();
+    });
+  });
+}
+
 function resetStepFeedback() {
   const feedback = document.getElementById('step-feedback');
   if (feedback) feedback.remove();
@@ -1891,19 +1900,20 @@ function goPrev() {
 }
 
 function goNext() {
-  if (!canGoNext()) return;
+  if (!canGoNext()) return false;
   if (state.currentCut < cuts.length - 1) {
     state.currentCut += 1;
     state.activeSlot = 0;
-    return;
+    return true;
   }
   if (state.currentStep < STEP_LABELS.length - 1) {
     state.currentStep += 1;
     state.currentCut = 0;
     state.activeSlot = 0;
-    return;
+    return true;
   }
   state.view = 'summary';
+  return false;
 }
 
 function restartAll() {
@@ -1941,6 +1951,7 @@ app.addEventListener('click', (event) => {
   if (!target) return;
   const { action } = target.dataset;
   let shouldRender = true;
+  let shouldScrollToImagePanel = false;
 
   if (action === 'select-choice') selectChoice(target.dataset.optionId);
   else if (action === 'check-step1') checkStep1();
@@ -1955,7 +1966,7 @@ app.addEventListener('click', (event) => {
   else if (action === 'check-step4') checkStep4();
   else if (action === 'check-step5') checkStep5();
   else if (action === 'prev') goPrev();
-  else if (action === 'next') goNext();
+  else if (action === 'next') shouldScrollToImagePanel = goNext();
   else if (action === 'restart') restartAll();
   else if (action === 'review-cut') reviewCut(target.dataset.cutIndex);
   else if (action === 'scroll-to-image') {
@@ -1969,6 +1980,9 @@ app.addEventListener('click', (event) => {
 
   if (shouldRender) {
     renderApp();
+    if (shouldScrollToImagePanel) {
+      scheduleImagePanelScroll();
+    }
   }
 });
 
