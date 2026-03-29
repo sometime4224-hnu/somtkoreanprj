@@ -40,6 +40,26 @@ async function getImagePanelTop(page) {
   return page.locator('[data-image-panel]').evaluate((element) => element.getBoundingClientRect().top);
 }
 
+async function expectRangeVisible(page, startSelector, endSelector) {
+  await page.waitForFunction(
+    ({ startSelector: start, endSelector: end }) => {
+      const startElement = document.querySelector(start);
+      const endElement = document.querySelector(end);
+      if (!startElement || !endElement) return false;
+
+      const topPadding = 84;
+      const bottomPadding = 28;
+      const startRect = startElement.getBoundingClientRect();
+      const endRect = endElement.getBoundingClientRect();
+      const rangeTop = Math.min(startRect.top, endRect.top);
+      const rangeBottom = Math.max(startRect.bottom, endRect.bottom);
+
+      return rangeTop >= topPadding && rangeBottom <= window.innerHeight - bottomPadding;
+    },
+    { startSelector, endSelector }
+  );
+}
+
 async function expectImagePanelNearTop(page) {
   await page.waitForFunction(() => {
     const imagePanel = document.querySelector('[data-image-panel]');
@@ -130,6 +150,20 @@ test.describe('mobile viewport', () => {
   });
 
   for (const pagePath of writingCutPages) {
+    test(`keeps the choice list and check button in view through step 1 interactions on mobile for ${pagePath}`, async ({ page }) => {
+      await openWritingCutPage(page, pagePath);
+
+      const lastChoice = page.locator('[data-action="select-choice"]').last();
+      await lastChoice.scrollIntoViewIfNeeded();
+      await lastChoice.click();
+
+      await expectRangeVisible(page, '[data-step1-choice-list]', '[data-action="check-step1"]');
+      await page.waitForTimeout(250);
+
+      await page.locator('[data-action="check-step1"]').click();
+      await expectRangeVisible(page, '[data-action="check-step1"]', '[data-action="next"]');
+    });
+
     test(`auto-scrolls back to the image panel after moving to the next cut on mobile for ${pagePath}`, async ({ page }) => {
       await openWritingCutPage(page, pagePath);
 

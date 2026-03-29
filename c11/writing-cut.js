@@ -531,7 +531,7 @@ function renderStep1(cut, response) {
   const needsSelection = response.step1.selected === null;
   const needsCheck = response.step1.selected !== null && !response.step1.checked;
   const choicesBlock = `
-    <div class="choice-list">
+    <div class="choice-list" data-step1-choice-list>
       ${response.step1.optionOrder.map((option) => {
         const classNames = ['choice-btn'];
         if (response.step1.selected === option.id) classNames.push('selected');
@@ -960,6 +960,51 @@ function scheduleImagePanelScroll() {
   });
 }
 
+function scrollRangeIntoView(startElement, endElement) {
+  if (!startElement || !endElement) return;
+  const topPadding = 92;
+  const bottomPadding = 28;
+  const startRect = startElement.getBoundingClientRect();
+  const endRect = endElement.getBoundingClientRect();
+  const rangeTop = Math.min(startRect.top, endRect.top);
+  const rangeBottom = Math.max(startRect.bottom, endRect.bottom);
+  const viewportTop = topPadding;
+  const viewportBottom = window.innerHeight - bottomPadding;
+
+  if (rangeTop >= viewportTop && rangeBottom <= viewportBottom) return;
+
+  window.scrollTo({
+    top: Math.max(window.scrollY + rangeTop - topPadding, 0),
+    behavior: 'smooth'
+  });
+}
+
+function scheduleRangeScroll(getElements) {
+  if (state.view !== 'activity' || typeof window.requestAnimationFrame !== 'function') return;
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      const { startElement, endElement } = getElements();
+      scrollRangeIntoView(startElement, endElement);
+    });
+  });
+}
+
+function scheduleStep1SelectionScroll() {
+  if (state.currentStep !== 0) return;
+  scheduleRangeScroll(() => ({
+    startElement: app.querySelector('[data-step1-choice-list]'),
+    endElement: app.querySelector('[data-action="check-step1"]')
+  }));
+}
+
+function scheduleStep1CheckScroll() {
+  if (state.currentStep !== 0) return;
+  scheduleRangeScroll(() => ({
+    startElement: app.querySelector('[data-action="check-step1"]'),
+    endElement: app.querySelector('[data-action="next"]')
+  }));
+}
+
 function refreshLiveButtons() {
   const step4Button = app.querySelector('[data-action="check-step4"]');
   if (step4Button && state.view === 'activity' && state.currentStep === 3) {
@@ -1175,9 +1220,17 @@ app.addEventListener('click', (event) => {
   const { action } = target.dataset;
   let shouldRender = true;
   let shouldScrollToImagePanel = false;
+  let shouldScrollStep1Selection = false;
+  let shouldScrollStep1Check = false;
 
-  if (action === 'select-choice') selectChoice(target.dataset.optionId);
-  else if (action === 'check-step1') checkStep1();
+  if (action === 'select-choice') {
+    selectChoice(target.dataset.optionId);
+    shouldScrollStep1Selection = true;
+  }
+  else if (action === 'check-step1') {
+    checkStep1();
+    shouldScrollStep1Check = true;
+  }
   else if (action === 'activate-slot') activateSlot(target.dataset.slot);
   else if (action === 'use-word') placeChoice(target.dataset.choiceId);
   else if (action === 'check-step2') checkStep2();
@@ -1202,6 +1255,12 @@ app.addEventListener('click', (event) => {
 
   if (shouldRender) {
     renderApp();
+    if (shouldScrollStep1Selection) {
+      scheduleStep1SelectionScroll();
+    }
+    if (shouldScrollStep1Check) {
+      scheduleStep1CheckScroll();
+    }
     if (shouldScrollToImagePanel) {
       scheduleImagePanelScroll();
     }
