@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>13과 어휘 | 가로세로 낱말퍼즐</title>
+    <style>
+        :root {
+            --bg: #f4f6fa;
+            --panel: #ffffff;
+            --line: #d8e0ea;
+            --text: #132133;
+            --muted: #5d6d83;
+            --accent: #0f766e;
+            --accent-soft: #d9f3ef;
+            --warm: #fff0e3;
+            --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 28%),
+                linear-gradient(180deg, #fbfcfe 0%, var(--bg) 100%);
+        }
+
+        body.is-sheet-open {
+            overflow: hidden;
+        }
+
+        .shell {
+            width: min(1080px, calc(100% - 24px));
+            margin: 20px auto 28px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .controls,
+        .workspace {
+            display: grid;
+            gap: 16px;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(216, 224, 234, 0.94);
+            border-radius: 24px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .set-tabs,
+        .mode-switch {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .set-tab,
+        .mode-btn,
+        .mobile-dock__btn,
+        .sheet-close {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 11px 14px;
+            background: #fff;
+            color: #41546c;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+        }
+
+        .set-tab:hover,
+        .mode-btn:hover,
+        .mobile-dock__btn:hover,
+        .sheet-close:hover {
+            transform: translateY(-1px);
+        }
+
+        .set-tab.is-active,
+        .mode-btn.is-active,
+        .mobile-dock__btn.is-active,
+        .mobile-dock__btn--accent {
+            border-color: rgba(15, 118, 110, 0.42);
+            background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
+            color: #115e59;
+            box-shadow: 0 12px 24px rgba(15, 118, 110, 0.12);
+        }
+
+        .workspace {
+            grid-template-columns: minmax(0, 1fr) 320px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid rgba(216, 224, 234, 0.94);
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+        }
+
+        .board-panel {
+            padding: 18px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .crossword-grid {
+            display: grid;
+            gap: 4px;
+            width: fit-content;
+            max-width: 100%;
+            padding: 16px;
+            margin: 0 auto;
+            border-radius: 22px;
+            background: linear-gradient(180deg, #ffffff 0%, #f5f8fb 100%);
+            border: 1px solid rgba(216, 224, 234, 0.92);
+        }
+
+        .grid-cell {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            border: 1px solid #d4deea;
+            background: #fff;
+            overflow: hidden;
+            transition: border-color 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
+        }
+
+        .grid-cell.is-block {
+            background: linear-gradient(180deg, #d4dde8 0%, #c1ccdb 100%);
+            border-color: #c7d2df;
+        }
+
+        .grid-cell.is-active {
+            border-color: rgba(15, 118, 110, 0.54);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+        }
+
+        .grid-cell.is-cross {
+            background: #f5fffd;
+        }
+
+        .grid-cell.is-solved {
+            background: #edfdf7;
+            border-color: rgba(22, 163, 74, 0.4);
+        }
+
+        .grid-cell.is-drop {
+            border-color: rgba(15, 118, 110, 0.55);
+            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
+        }
+
+        .grid-cell input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            text-align: center;
+            font: inherit;
+            font-size: 1.18rem;
+            font-weight: 900;
+            color: var(--text);
+        }
+
+        .grid-cell__number {
+            position: absolute;
+            top: 5px;
+            left: 7px;
+            font-size: 0.62rem;
+            font-weight: 900;
+            color: #7a8ba3;
+            pointer-events: none;
+        }
+
+        .active-clue {
+            position: relative;
+            display: grid;
+            grid-template-columns: 108px 1fr;
+            gap: 14px;
+            padding: 16px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,239,227,0.84) 100%);
+            border: 1px solid rgba(255, 210, 180, 0.6);
+        }
+
+        .active-clue__media {
+            aspect-ratio: 1 / 1;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #f2f5f8;
+        }
+
+        .active-clue__media img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .active-clue__body {
+            display: grid;
+            gap: 8px;
+            align-content: start;
+        }
+
+        .active-clue__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            padding: 6px 11px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.88);
+            color: #8a4a17;
+            font-size: 0.78rem;
+            font-weight: 900;
+        }
+
+        .active-clue p {
+            margin: 0;
+            color: #6d5b4b;
+            line-height: 1.65;
+        }
+
+        .active-clue__vi {
+            color: var(--accent) !important;
+            font-weight: 700;
+        }
+
+        .bank-panel {
+            position: relative;
+            padding: 18px;
+            display: grid;
+            gap: 14px;
+            align-content: start;
+        }
+
+        .sheet-head {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .sheet-head strong {
+            font-size: 1rem;
+        }
+
+        .sheet-close {
+            padding: 9px 12px;
+        }
+
+        .bank-selection {
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(217,243,239,0.9) 100%);
+            border: 1px solid rgba(15, 118, 110, 0.18);
+            color: #285b56;
+            line-height: 1.6;
+            font-weight: 800;
+        }
+
+        .letter-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .letter-tile {
+            min-width: 48px;
+            min-height: 48px;
+            border: 1px solid rgba(216, 224, 234, 0.94);
+            border-radius: 16px;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            font-size: 1.05rem;
+            font-weight: 900;
+            cursor: grab;
+            transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .letter-tile:hover {
+            transform: translateY(-1px);
+        }
+
+        .letter-tile.is-selected {
+            border-color: rgba(15, 118, 110, 0.42);
+            background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
+            color: #115e59;
+            box-shadow: 0 14px 28px rgba(15, 118, 110, 0.12);
+        }
+
+        .mobile-overlay,
+        .mobile-dock {
+            display: none;
+        }
+
+        @media (max-width: 920px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding-bottom: calc(82px + env(safe-area-inset-bottom));
+            }
+
+            .shell {
+                width: min(100%, calc(100% - 14px));
+                margin: 8px auto 18px;
+                gap: 10px;
+            }
+
+            .controls {
+                position: sticky;
+                top: 8px;
+                z-index: 20;
+                padding: 10px;
+                gap: 10px;
+                border-radius: 20px;
+            }
+
+            .set-tabs,
+            .mode-switch {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                padding-bottom: 2px;
+            }
+
+            .set-tabs::-webkit-scrollbar,
+            .mode-switch::-webkit-scrollbar {
+                display: none;
+            }
+
+            .set-tab,
+            .mode-btn {
+                flex: 0 0 auto;
+                padding: 9px 12px;
+                border-radius: 14px;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+
+            .board-panel {
+                padding: 10px;
+                border-radius: 22px;
+            }
+
+            .crossword-grid {
+                padding: 10px;
+                border-radius: 18px;
+            }
+
+            .grid-cell {
+                width: 38px;
+                height: 38px;
+                border-radius: 12px;
+            }
+
+            .grid-cell input {
+                font-size: 1rem;
+            }
+
+            .grid-cell__number {
+                top: 4px;
+                left: 5px;
+                font-size: 0.54rem;
+            }
+
+            .active-clue,
+            .bank-panel {
+                display: none;
+            }
+
+            .mobile-overlay {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(15, 23, 42, 0.28);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.18s ease;
+                z-index: 30;
+            }
+
+            .mobile-dock {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                position: fixed;
+                left: 10px;
+                right: 10px;
+                bottom: calc(10px + env(safe-area-inset-bottom));
+                z-index: 40;
+            }
+
+            .mobile-dock__btn {
+                min-height: 52px;
+                border-radius: 18px;
+                box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+            }
+
+            .mobile-dock__meta {
+                display: block;
+                margin-top: 3px;
+                font-size: 0.76rem;
+                color: var(--muted);
+                font-weight: 700;
+            }
+
+            body.is-clue-open .mobile-overlay,
+            body.is-bank-open .mobile-overlay {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            body.is-clue-open .active-clue,
+            body.is-bank-open .bank-panel {
+                display: grid;
+                position: fixed;
+                left: 10px;
+                right: 10px;
+                bottom: calc(74px + env(safe-area-inset-bottom));
+                z-index: 50;
+                max-height: min(64vh, 420px);
+                overflow: auto;
+                box-shadow: 0 22px 44px rgba(15, 23, 42, 0.18);
+            }
+
+            body.is-clue-open .active-clue {
+                grid-template-columns: 1fr;
+                padding-top: 54px;
+            }
+
+            body.is-bank-open .bank-panel {
+                padding-top: 54px;
+            }
+
+            body.is-clue-open .mobile-dock__btn--clue,
+            body.is-bank-open .mobile-dock__btn--bank {
+                border-color: rgba(15, 118, 110, 0.42);
+                background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
+                color: #115e59;
+            }
+
+            .sheet-head {
+                display: flex;
+                position: sticky;
+                top: 0;
+                z-index: 1;
+                padding-bottom: 6px;
+                background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.84) 100%);
+                backdrop-filter: blur(12px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <section class="controls">
+            <div id="set-tabs" class="set-tabs" aria-label="퍼즐 세트 선택"></div>
+            <div class="mode-switch" aria-label="단서 그림 난이도">
+                <button class="mode-btn" type="button" data-mode="easy">쉬움 · 초성 그림</button>
+                <button class="mode-btn is-active" type="button" data-mode="normal">보통 · 마스킹 그림</button>
+            </div>
+        </section>
+
+        <section class="workspace">
+            <section class="panel board-panel">
+                <div id="crossword-grid" class="crossword-grid" aria-label="가로세로 낱말퍼즐"></div>
+
+                <section id="active-clue-card" class="active-clue">
+                    <div class="sheet-head">
+                        <strong>단서</strong>
+                        <button id="mobile-clue-close" class="sheet-close" type="button">닫기</button>
+                    </div>
+                    <div class="active-clue__media">
+                        <img id="active-clue-image" alt="현재 단서 그림" src="">
+                    </div>
+                    <div class="active-clue__body">
+                        <span id="active-clue-meta" class="active-clue__eyebrow">가로 1번</span>
+                        <p id="active-clue-text">보드 칸을 누르면 그림과 짧은 설명이 여기에 나타납니다.</p>
+                        <p id="active-clue-vi" class="active-clue__vi">Tiếng Việt: </p>
+                    </div>
+                </section>
+            </section>
+
+            <aside id="bank-panel" class="panel bank-panel">
+                <div class="sheet-head">
+                    <strong>글자 은행</strong>
+                    <button id="mobile-bank-close" class="sheet-close" type="button">닫기</button>
+                </div>
+                <div id="bank-selection" class="bank-selection">선택한 글자 없음 · 글자를 누른 뒤 퍼즐 칸을 눌러 넣어 보세요.</div>
+                <div id="letter-bank" class="letter-bank" aria-label="글자 은행"></div>
+            </aside>
+        </section>
+    </main>
+
+    <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true"></div>
+    <div class="mobile-dock" aria-label="모바일 퍼즐 도구">
+        <button id="mobile-clue-toggle" class="mobile-dock__btn mobile-dock__btn--clue" type="button">
+            단서
+            <span id="mobile-clue-meta" class="mobile-dock__meta">현재 낱말 보기</span>
+        </button>
+        <button id="mobile-bank-toggle" class="mobile-dock__btn mobile-dock__btn--bank mobile-dock__btn--accent" type="button">
+            글자
+            <span id="mobile-bank-meta" class="mobile-dock__meta">선택한 글자 없음</span>
+        </button>
+    </div>
+
+    <script src="vocabulary-crossword.js"></script>
+</body>
+</html>
