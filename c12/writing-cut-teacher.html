@@ -11,7 +11,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>c11 직장에서 성공하는 법 컷 쓰기</title>
+  <title>c12 「여러분의 목 건강은 어떠십니까?」 컷 쓰기 [교사용]</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -772,6 +772,31 @@
         animation: none;
       }
     }
+
+    /* ── 교사용 추가 스타일 ── */
+    .teacher-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #1e3a5f, #1d4ed8);
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    .teacher-banner span { opacity: 0.85; font-weight: 400; }
+    .step-pill, .cut-pill { cursor: pointer; transition: 0.15s ease; font: inherit; }
+    .step-pill:hover:not(.active), .cut-pill:hover:not(.active) {
+      border-color: #93c5fd; background: #eff6ff; color: #1d4ed8;
+    }
+    .show-answer-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      min-height: 40px; padding: 0 16px; border-radius: 999px;
+      border: 1px solid #1d4ed8; background: #eff6ff; color: #1d4ed8;
+      font: inherit; font-weight: 800; font-size: 0.88rem;
+      cursor: pointer; transition: 0.15s ease;
+    }
+    .show-answer-btn:hover { background: #dbeafe; }
   </style>
 </head>
 <body>
@@ -780,17 +805,22 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
+  <div class="teacher-banner">
+    🎓 교사용 버전 <span>— 모든 단계·컷에 자유롭게 접근 가능 / 정답 즉시 확인 가능</span>
+  </div>
+
   <nav class="global-nav" aria-label="페이지 이동">
-    <a href="./index.html">11과 홈</a>
+    <a href="./index.html">12과 홈</a>
     <a href="./reading.html">읽기</a>
-    <a href="./writing-cut.html" aria-current="page">컷 쓰기</a>
+    <a href="./writing-cut.html">컷 쓰기 (학생용)</a>
+    <a href="./writing-cut-teacher.html" aria-current="page">컷 쓰기 (교사용)</a>
   </nav>
 
   <header class="page-header">
     <div class="header-card">
-      <span class="header-badge">11과 읽기 컷 쓰기</span>
-      <h1>직장에서 성공하는 법을 컷으로 다시 쓰기</h1>
-      <p>읽기 지문의 흐름을 15컷 그림으로 다시 정리하면서, 문장 선택부터 전체 문장 쓰기까지 단계적으로 연습합니다. 친절과 독서라는 두 핵심 내용을 그림과 함께 다시 연결해 보세요.</p>
+      <span class="header-badge">12과 읽기 컷 쓰기 · 교사용</span>
+      <h1>「여러분의 목 건강은 어떠십니까?」를 컷으로 다시 쓰기 <small style="font-size:0.55em;color:#1d4ed8;">[교사용]</small></h1>
+      <p>교사용 버전입니다. 단계와 컷을 자유롭게 이동하고, 각 단계에서 정답을 즉시 확인할 수 있습니다. 수업 시연 및 답안 확인에 활용하세요.</p>
     </div>
   </header>
 
@@ -798,6 +828,6 @@
     <div id="app" class="app-root"></div>
   </main>
 
-  <script src="./writing-cut.js"></script>
+  <script src="./writing-cut-teacher.js"></script>
 </body>
 </html>

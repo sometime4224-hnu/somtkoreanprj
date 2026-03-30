@@ -73,6 +73,13 @@ async function expectImagePanelNearTop(page) {
   expect(topAfterScroll).toBeLessThanOrEqual(96);
 }
 
+async function expectBodyPassageState(page, isOpen) {
+  await page.waitForFunction(
+    (expected) => document.body.classList.contains('passage-open') === expected,
+    isOpen
+  );
+}
+
 async function scrollNextButtonAndConfirmImagePanelMovedOffscreen(page) {
   await page.locator('[data-action="next"]').scrollIntoViewIfNeeded();
   const topBeforeNext = await getImagePanelTop(page);
@@ -109,6 +116,19 @@ async function advanceToLastCutOfStepOne(page) {
 
     await page.locator('[data-action="next"]').click();
     await page.locator('[data-action="check-step1"]').waitFor();
+  }
+}
+
+async function enterStepTwo(page) {
+  await advanceToLastCutOfStepOne(page);
+  await page.locator('[data-action="next"]').click();
+  await page.locator('[data-action="activate-slot"]').first().waitFor();
+}
+
+async function fillStepTwo(page) {
+  while (await page.locator('[data-action="check-step2"]').isDisabled()) {
+    const availableChoices = page.locator('[data-action="use-word"]:not([disabled])');
+    await availableChoices.first().click();
   }
 }
 
@@ -150,6 +170,31 @@ test.describe('mobile viewport', () => {
   });
 
   for (const pagePath of writingCutPages) {
+    test(`opens and closes the full passage view without breaking focus flow on mobile for ${pagePath}`, async ({ page }) => {
+      await openWritingCutPage(page, pagePath);
+
+      const openButton = page.locator('[data-action="open-passage"]');
+      await expect(openButton).toBeVisible();
+      await expect(openButton).toHaveAttribute('aria-haspopup', 'dialog');
+      await expect(openButton).toHaveAttribute('aria-controls', 'passage-dialog');
+
+      const openButtonWidth = await openButton.evaluate((element) => element.getBoundingClientRect().width);
+      expect(openButtonWidth).toBeGreaterThan(260);
+
+      await openButton.click();
+      await expectBodyPassageState(page, true);
+      await expect(page.locator('#passage-dialog')).toBeVisible();
+      await expect(page.locator('[data-passage-close-button]')).toBeFocused();
+
+      await page.locator('[data-passage-close-button]').click();
+      await expectBodyPassageState(page, false);
+      await expect(page.locator('#passage-dialog')).toHaveCount(0);
+      await expect(openButton).toBeFocused();
+
+      await page.locator('[data-action="select-choice"]').last().click();
+      await expectRangeVisible(page, '[data-step1-choice-list]', '[data-action="check-step1"]');
+    });
+
     test(`keeps the choice list and check button in view through step 1 interactions on mobile for ${pagePath}`, async ({ page }) => {
       await openWritingCutPage(page, pagePath);
 
@@ -162,6 +207,15 @@ test.describe('mobile viewport', () => {
 
       await page.locator('[data-action="check-step1"]').click();
       await expectRangeVisible(page, '[data-action="check-step1"]', '[data-action="next"]');
+    });
+
+    test(`keeps the step 2 check button and next button in view after checking on mobile for ${pagePath}`, async ({ page }) => {
+      await openWritingCutPage(page, pagePath);
+      await enterStepTwo(page);
+      await fillStepTwo(page);
+
+      await page.locator('[data-action="check-step2"]').click();
+      await expectRangeVisible(page, '[data-action="check-step2"]', '[data-action="next"]');
     });
 
     test(`auto-scrolls back to the image panel after moving to the next cut on mobile for ${pagePath}`, async ({ page }) => {
