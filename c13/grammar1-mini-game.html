@@ -67,8 +67,11 @@
     </main>
 
     <script>
+        const IMAGE_BASE = '../assets/c13/grammar/images/grammar1-mini';
         const QUESTIONS = [
             {
+                image: `${IMAGE_BASE}/g1_q01.webp`,
+                title: '우산을 챙기는 장면',
                 situation: '아직 비는 안 오지만 하늘이 흐려요.',
                 choices: [
                     '비가 올까 봐 우산을 챙겼어요.',
@@ -79,6 +82,8 @@
                 explain: '아직 일어나지 않은 일을 걱정하면서 미리 준비한 행동이므로 `올까 봐`가 가장 자연스러워요.'
             },
             {
+                image: `${IMAGE_BASE}/g1_q02.webp`,
+                title: '서둘러 출발하는 장면',
                 situation: '지하철이 늦을 수도 있어서 약속 시간이 걱정돼요.',
                 choices: [
                     '지하철이 늦을까 봐 일찍 출발했어요.',
@@ -89,6 +94,8 @@
                 explain: '미리 걱정해서 먼저 행동한 경우이므로 `늦을까 봐`를 써야 해요.'
             },
             {
+                image: `${IMAGE_BASE}/g1_q03.webp`,
+                title: '골목길로 가는 장면',
                 situation: '퇴근 시간이라 큰길이 많이 막힐 것 같아요.',
                 choices: [
                     '길이 막힐까 봐 골목길로 갔어요.',
@@ -99,6 +106,8 @@
                 explain: '실제로 막히기 전에 걱정하고 다른 길을 선택했기 때문에 `막힐까 봐`가 맞아요.'
             },
             {
+                image: `${IMAGE_BASE}/g1_q04.webp`,
+                title: '코트를 챙겨 입는 장면',
                 situation: '밤에는 기온이 많이 내려간다고 들었어요.',
                 choices: [
                     '추울까 봐 코트를 입고 나왔어요.',
@@ -109,16 +118,20 @@
                 explain: '앞으로 추워질 가능성을 걱정하며 준비한 행동이라 `추울까 봐`가 자연스러워요.'
             },
             {
-                situation: '발표할 때 내용을 잊을까 봐 조금 불안해요.',
+                image: `${IMAGE_BASE}/g1_q05.webp`,
+                title: '발표 메모를 보는 장면',
+                situation: '발표할 내용을 잊을까 봐 조금 불안해요.',
                 choices: [
-                    '실수할까 봐 메모를 준비했어요.',
-                    '실수해서 메모를 준비했어요.',
-                    '실수하고 있어서 메모를 준비했어요.'
+                    '내용을 잊을까 봐 메모를 준비했어요.',
+                    '내용을 잊어서 메모를 준비했어요.',
+                    '내용을 잊고 있어서 메모를 준비했어요.'
                 ],
-                answer: '실수할까 봐 메모를 준비했어요.',
-                explain: '발표 전에 실수를 걱정하며 대비했으니 `실수할까 봐`를 쓰는 문장이 가장 잘 맞아요.'
+                answer: '내용을 잊을까 봐 메모를 준비했어요.',
+                explain: '발표 전에 내용을 잊을 가능성을 걱정하며 준비한 행동이라 `잊을까 봐`가 자연스러워요.'
             },
             {
+                image: `${IMAGE_BASE}/g1_q06.webp`,
+                title: '손님맞이 음식을 준비하는 장면',
                 situation: '주말 행사에 손님이 많이 올 것 같아요.',
                 choices: [
                     '손님이 많을까 봐 음식을 넉넉하게 준비했어요.',
@@ -129,6 +142,8 @@
                 explain: '아직 오지 않은 손님 수를 예상하고 미리 준비한 것이므로 `많을까 봐`가 가장 자연스러워요.'
             },
             {
+                image: `${IMAGE_BASE}/g1_q07.webp`,
+                title: '아이가 넘어질까 봐 손을 잡는 장면',
                 situation: '길이 미끄러워서 아이가 넘어질지도 몰라요.',
                 choices: [
                     '아이가 넘어질까 봐 손을 잡았어요.',
@@ -139,6 +154,8 @@
                 explain: '넘어지기 전에 걱정하며 보호한 행동이기 때문에 `넘어질까 봐`를 써야 해요.'
             },
             {
+                image: `${IMAGE_BASE}/g1_q08.webp`,
+                title: '보조 배터리를 챙기는 장면',
                 situation: '휴대전화 배터리가 빨리 닳는 편이에요.',
                 choices: [
                     '배터리가 없을까 봐 보조 배터리를 가져왔어요.',
@@ -195,6 +212,12 @@
                     <div class="text-right">
                         <p class="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Current Score</p>
                         <p class="mt-1 text-lg font-black text-orange-600">${state.score}</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50">
+                    <div class="aspect-[11/12] bg-white">
+                        <img src="${escapeHtml(question.image)}" alt="${escapeHtml(question.title)}" class="block h-full w-full object-contain" loading="lazy" decoding="async" />
                     </div>
                 </div>
 
