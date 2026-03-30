@@ -56,7 +56,7 @@
                     <p class="mt-2 text-sm leading-7 text-slate-600">그림을 보고 `V-고 있다`가 들어가는 가장 자연스러운 표현을 고르세요.</p>
                 </div>
                 <div class="flex flex-wrap gap-2 text-xs font-black text-slate-700">
-                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">8문제</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">10문제</span>
                     <span class="rounded-full border border-slate-200 bg-white px-3 py-2">3지선다</span>
                     <span class="rounded-full border border-slate-200 bg-white px-3 py-2">확인 후 다음</span>
                 </div>
@@ -67,71 +67,87 @@
     </main>
 
     <script>
-        const IMAGE_BASE = '../assets/c13/vocabulary/images/split-variants/full';
+        const IMAGE_BASE = '../assets/c13/grammar/images/grammar2-mini';
         const QUESTIONS = [
             {
-                image: `${IMAGE_BASE}/s05_bl_n19.webp`,
-                title: '새로 온 손님',
-                sentence: '가방을 ____ 사람이 새로 온 손님이에요.',
+                image: `${IMAGE_BASE}/g2_q01.webp`,
+                title: '버스를 기다리는 장면',
+                sentence: '우산을 ____ 사람이 버스를 기다리고 있어요.',
                 choices: ['들고 있는', '들까 봐', '들었더니'],
                 answer: '들고 있는',
-                explain: '손에 가방을 든 현재 모습을 설명하므로 `들고 있는`이 맞아요.'
+                explain: '비 오는 날 우산을 든 현재 모습을 설명하므로 `들고 있는`이 맞아요.'
             },
             {
-                image: `${IMAGE_BASE}/s01_bl_n15.webp`,
-                title: '넥타이를 한 사람',
-                sentence: '넥타이를 ____ 사람이 민수 씨예요.',
-                choices: ['매고 있는', '맬까 봐', '맸더니'],
-                answer: '매고 있는',
-                explain: '넥타이를 한 현재 상태를 말하므로 `매고 있는`이 가장 자연스러워요.'
+                image: `${IMAGE_BASE}/g2_q02.webp`,
+                title: '카페에서 과제를 하는 장면',
+                sentence: '카페에서 과제를 ____ 학생이 민지예요.',
+                choices: ['하고 있는', '할까 봐', '했더니'],
+                answer: '하고 있는',
+                explain: '지금 과제를 하는 진행 중인 행동을 말하므로 `하고 있는`이 자연스러워요.'
             },
             {
-                image: `${IMAGE_BASE}/s01_br_n16.webp`,
-                title: '반지를 한 친구',
-                sentence: '반지를 ____ 친구가 유나예요.',
-                choices: ['끼고 있는', '낄까 봐', '꼈더니'],
-                answer: '끼고 있는',
-                explain: '장신구를 하고 있는 모습을 설명할 때 `끼고 있는`을 써요.'
+                image: `${IMAGE_BASE}/g2_q03.webp`,
+                title: '부엌에서 요리하는 장면',
+                sentence: '부엌에서 찌개를 ____ 사람이 형이에요.',
+                choices: ['끓이고 있는', '끓일까 봐', '끓였더니'],
+                answer: '끓이고 있는',
+                explain: '냄비 앞에서 요리하는 현재 행동을 설명하므로 `끓이고 있는`이 맞아요.'
             },
             {
-                image: `${IMAGE_BASE}/s01_tr_n14.webp`,
-                title: '차려입은 사람',
-                sentence: '정장을 ____ 사람이 오늘 사회자예요.',
-                choices: ['차려입고 있는', '차려입을까 봐', '차려입었더니'],
-                answer: '차려입고 있는',
-                explain: '특별히 차려입은 현재 모습을 설명하는 문장이에요.'
+                image: `${IMAGE_BASE}/g2_q04.webp`,
+                title: '도서관에서 책을 읽는 장면',
+                sentence: '도서관에서 책을 ____ 사람이 수진 씨예요.',
+                choices: ['읽고 있는', '읽을까 봐', '읽었더니'],
+                answer: '읽고 있는',
+                explain: '도서관에서 책을 읽는 현재 행동이 보이므로 `읽고 있는`이 가장 자연스러워요.'
             },
             {
-                image: `${IMAGE_BASE}/s02_tl_n09.webp`,
-                title: '손님을 맞는 장면',
-                sentence: '지금 손님을 ____ 분이 우리 이모예요.',
-                choices: ['대접하고 있는', '대접할까 봐', '대접했더니'],
-                answer: '대접하고 있는',
-                explain: '지금 진행 중인 행동이므로 `대접하고 있는`이 맞아요.'
+                image: `${IMAGE_BASE}/g2_q05.webp`,
+                title: '공원에서 산책하는 장면',
+                sentence: '공원에서 강아지와 ____ 사람이 제 친구예요.',
+                choices: ['산책하고 있는', '산책할까 봐', '산책했더니'],
+                answer: '산책하고 있는',
+                explain: '강아지와 함께 걷는 진행 중인 행동을 말하므로 `산책하고 있는`이 맞아요.'
             },
             {
-                image: `${IMAGE_BASE}/s03_bl_n07.webp`,
-                title: '상을 준비하는 장면',
-                sentence: '상을 ____ 사람이 아버지예요.',
-                choices: ['차리고 있는', '차릴까 봐', '차렸더니'],
-                answer: '차리고 있는',
-                explain: '상을 준비하는 현재 행동을 설명하고 있으니 `차리고 있는`이 자연스러워요.'
+                image: `${IMAGE_BASE}/g2_q06.webp`,
+                title: '회의실에서 발표하는 장면',
+                sentence: '회의실에서 발표를 ____ 분이 팀장님이에요.',
+                choices: ['하고 있는', '할까 봐', '했더니'],
+                answer: '하고 있는',
+                explain: '사람들 앞에서 발표하는 진행 중인 행동이므로 `하고 있는`이 자연스러워요.'
             },
             {
-                image: `${IMAGE_BASE}/s03_br_n08.webp`,
-                title: '선물을 준비하는 장면',
-                sentence: '선물을 ____ 사람이 지수예요.',
-                choices: ['마련하고 있는', '마련할까 봐', '마련했더니'],
-                answer: '마련하고 있는',
-                explain: '선물을 준비하는 진행 중인 행동이 보일 때 쓰는 표현이에요.'
+                image: `${IMAGE_BASE}/g2_q07.webp`,
+                title: '길거리에서 통화하는 장면',
+                sentence: '길거리에서 휴대전화로 ____ 사람이 유나예요.',
+                choices: ['통화하고 있는', '통화할까 봐', '통화했더니'],
+                answer: '통화하고 있는',
+                explain: '휴대전화로 이야기하는 현재 행동을 말하므로 `통화하고 있는`이 맞아요.'
             },
             {
-                image: `${IMAGE_BASE}/s04_tr_n02.webp`,
-                title: '오늘의 주인공',
-                sentence: '한복을 ____ 아이가 오늘의 주인공이에요.',
-                choices: ['차려입고 있는', '차려입을까 봐', '차려입었더니'],
-                answer: '차려입고 있는',
-                explain: '한복을 입은 현재 모습을 설명하는 문장이므로 `차려입고 있는`이 맞아요.'
+                image: `${IMAGE_BASE}/g2_q08.webp`,
+                title: '친구들의 사진을 찍는 장면',
+                sentence: '친구들의 사진을 ____ 사람이 지수예요.',
+                choices: ['찍고 있는', '찍을까 봐', '찍었더니'],
+                answer: '찍고 있는',
+                explain: '휴대전화로 사진을 찍는 진행 중인 행동이 보이므로 `찍고 있는`이 맞아요.'
+            },
+            {
+                image: `${IMAGE_BASE}/g2_q09.webp`,
+                title: '겨울 코트를 입은 장면',
+                sentence: '겨울 거리에서 두꺼운 코트를 ____ 사람이 민호예요.',
+                choices: ['입고 있는', '입을까 봐', '입었더니'],
+                answer: '입고 있는',
+                explain: '코트를 입은 현재 상태를 설명하므로 `입고 있는`이 가장 자연스러워요.'
+            },
+            {
+                image: `${IMAGE_BASE}/g2_q10.webp`,
+                title: '교실에서 안경을 쓴 장면',
+                sentence: '교실에서 안경을 ____ 학생이 준호예요.',
+                choices: ['쓰고 있는', '쓸까 봐', '썼더니'],
+                answer: '쓰고 있는',
+                explain: '안경을 쓴 현재 상태를 나타내는 문장이므로 `쓰고 있는`이 맞아요.'
             }
         ];
 
@@ -184,9 +200,14 @@
                 </div>
 
                 <div class="mt-4 overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50">
-                    <div class="aspect-[4/3] bg-white">
+                    <div class="aspect-[11/8] bg-white">
                         <img src="${escapeHtml(question.image)}" alt="${escapeHtml(question.title)}" class="block h-full w-full object-contain" loading="lazy" decoding="async" />
                     </div>
+                </div>
+
+                <div class="mt-3 flex items-center gap-2">
+                    <span class="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-emerald-700">Scene</span>
+                    <p class="text-sm font-bold text-slate-600">${escapeHtml(question.title)}</p>
                 </div>
 
                 <div class="mt-4 rounded-[24px] border border-emerald-200 bg-emerald-50 px-4 py-4">
