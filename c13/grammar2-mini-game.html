@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>13과 문법 2 미니 게임 | 지금 누구예요?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(52, 211, 153, .14), transparent 26%),
+                radial-gradient(circle at top right, rgba(59, 130, 246, .12), transparent 28%),
+                linear-gradient(180deg, #f0fdf4 0%, #f8fafc 100%);
+            color: #0f172a;
+        }
+        .panel {
+            background: rgba(255, 255, 255, .94);
+            border: 1px solid rgba(255, 255, 255, .8);
+            box-shadow: 0 20px 46px rgba(15, 23, 42, .08);
+        }
+        .option-btn, .ui-btn {
+            transition: transform .15s ease, border-color .15s ease, background .15s ease;
+        }
+        .option-btn:hover:not(:disabled), .ui-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-white/70 bg-white/82 px-4 py-3 backdrop-blur">
+        <a href="index.html" class="inline-flex items-center gap-2 text-sm font-extrabold text-emerald-700">
+            <i class="fa-solid fa-arrow-left"></i><span>13과 허브</span>
+        </a>
+        <span class="text-sm font-extrabold text-slate-600">문법 2 미니 게임</span>
+    </nav>
+
+    <main class="mx-auto w-[min(760px,calc(100%-20px))] py-4 pb-12">
+        <section class="panel rounded-[28px] p-5 sm:p-6">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-700">Mini Game</p>
+                    <h1 class="mt-1 text-2xl font-black leading-tight text-slate-900 sm:text-3xl">지금 누구예요?</h1>
+                    <p class="mt-2 text-sm leading-7 text-slate-600">그림을 보고 `V-고 있다`가 들어가는 가장 자연스러운 표현을 고르세요.</p>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs font-black text-slate-700">
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">8문제</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">3지선다</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">확인 후 다음</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="gameCard" class="panel mt-3 rounded-[28px] p-5 sm:p-6"></section>
+    </main>
+
+    <script>
+        const IMAGE_BASE = '../assets/c13/vocabulary/images/split-variants/full';
+        const QUESTIONS = [
+            {
+                image: `${IMAGE_BASE}/s05_bl_n19.webp`,
+                title: '새로 온 손님',
+                sentence: '가방을 ____ 사람이 새로 온 손님이에요.',
+                choices: ['들고 있는', '들까 봐', '들었더니'],
+                answer: '들고 있는',
+                explain: '손에 가방을 든 현재 모습을 설명하므로 `들고 있는`이 맞아요.'
+            },
+            {
+                image: `${IMAGE_BASE}/s01_bl_n15.webp`,
+                title: '넥타이를 한 사람',
+                sentence: '넥타이를 ____ 사람이 민수 씨예요.',
+                choices: ['매고 있는', '맬까 봐', '맸더니'],
+                answer: '매고 있는',
+                explain: '넥타이를 한 현재 상태를 말하므로 `매고 있는`이 가장 자연스러워요.'
+            },
+            {
+                image: `${IMAGE_BASE}/s01_br_n16.webp`,
+                title: '반지를 한 친구',
+                sentence: '반지를 ____ 친구가 유나예요.',
+                choices: ['끼고 있는', '낄까 봐', '꼈더니'],
+                answer: '끼고 있는',
+                explain: '장신구를 하고 있는 모습을 설명할 때 `끼고 있는`을 써요.'
+            },
+            {
+                image: `${IMAGE_BASE}/s01_tr_n14.webp`,
+                title: '차려입은 사람',
+                sentence: '정장을 ____ 사람이 오늘 사회자예요.',
+                choices: ['차려입고 있는', '차려입을까 봐', '차려입었더니'],
+                answer: '차려입고 있는',
+                explain: '특별히 차려입은 현재 모습을 설명하는 문장이에요.'
+            },
+            {
+                image: `${IMAGE_BASE}/s02_tl_n09.webp`,
+                title: '손님을 맞는 장면',
+                sentence: '지금 손님을 ____ 분이 우리 이모예요.',
+                choices: ['대접하고 있는', '대접할까 봐', '대접했더니'],
+                answer: '대접하고 있는',
+                explain: '지금 진행 중인 행동이므로 `대접하고 있는`이 맞아요.'
+            },
+            {
+                image: `${IMAGE_BASE}/s03_bl_n07.webp`,
+                title: '상을 준비하는 장면',
+                sentence: '상을 ____ 사람이 아버지예요.',
+                choices: ['차리고 있는', '차릴까 봐', '차렸더니'],
+                answer: '차리고 있는',
+                explain: '상을 준비하는 현재 행동을 설명하고 있으니 `차리고 있는`이 자연스러워요.'
+            },
+            {
+                image: `${IMAGE_BASE}/s03_br_n08.webp`,
+                title: '선물을 준비하는 장면',
+                sentence: '선물을 ____ 사람이 지수예요.',
+                choices: ['마련하고 있는', '마련할까 봐', '마련했더니'],
+                answer: '마련하고 있는',
+                explain: '선물을 준비하는 진행 중인 행동이 보일 때 쓰는 표현이에요.'
+            },
+            {
+                image: `${IMAGE_BASE}/s04_tr_n02.webp`,
+                title: '오늘의 주인공',
+                sentence: '한복을 ____ 아이가 오늘의 주인공이에요.',
+                choices: ['차려입고 있는', '차려입을까 봐', '차려입었더니'],
+                answer: '차려입고 있는',
+                explain: '한복을 입은 현재 모습을 설명하는 문장이므로 `차려입고 있는`이 맞아요.'
+            }
+        ];
+
+        const state = {
+            questions: [],
+            index: 0,
+            score: 0,
+            streak: 0,
+            bestStreak: 0,
+            selected: null,
+            answered: false
+        };
+
+        const gameCard = document.getElementById('gameCard');
+
+        init();
+
+        function init() {
+            resetGame();
+        }
+
+        function resetGame() {
+            state.questions = QUESTIONS.map((question) => ({
+                ...question,
+                shuffledChoices: shuffle([...question.choices])
+            }));
+            state.index = 0;
+            state.score = 0;
+            state.streak = 0;
+            state.bestStreak = 0;
+            state.selected = null;
+            state.answered = false;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const question = state.questions[state.index];
+            const progress = `${state.index + 1} / ${state.questions.length}`;
+
+            gameCard.innerHTML = `
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Question</p>
+                        <p class="mt-1 text-lg font-black text-slate-900">${progress}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Current Score</p>
+                        <p class="mt-1 text-lg font-black text-emerald-600">${state.score}</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50">
+                    <div class="aspect-[4/3] bg-white">
+                        <img src="${escapeHtml(question.image)}" alt="${escapeHtml(question.title)}" class="block h-full w-full object-contain" loading="lazy" decoding="async" />
+                    </div>
+                </div>
+
+                <div class="mt-4 rounded-[24px] border border-emerald-200 bg-emerald-50 px-4 py-4">
+                    <p class="text-xs font-black uppercase tracking-[0.16em] text-emerald-700">Sentence</p>
+                    <p class="mt-2 text-lg font-black leading-9 text-slate-900">${highlightBlank(question.sentence)}</p>
+                </div>
+
+                <div class="mt-4 grid gap-2">
+                    ${question.shuffledChoices.map((choice, index) => {
+                        const selected = state.selected === index;
+                        const baseClass = selected
+                            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+                            : 'border-slate-200 bg-white text-slate-700';
+                        return `
+                            <button type="button" class="option-btn rounded-2xl border px-4 py-4 text-left text-base font-black ${baseClass}" data-choice="${index}">
+                                ${escapeHtml(choice)}
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
+
+                <div id="feedbackBox" class="mt-4 ${state.answered ? '' : 'hidden'}"></div>
+
+                <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                    <button type="button" id="confirmBtn" class="ui-btn rounded-2xl border border-emerald-600 bg-emerald-600 px-4 py-3 text-sm font-black text-white ${state.answered ? 'opacity-40' : ''}" ${state.answered ? 'disabled' : ''}>확인</button>
+                    <button type="button" id="nextBtn" class="ui-btn rounded-2xl border border-slate-900 bg-slate-900 px-4 py-3 text-sm font-black text-white ${state.answered ? '' : 'opacity-40'}" ${state.answered ? '' : 'disabled'}>${state.index === state.questions.length - 1 ? '결과 보기' : '다음'}</button>
+                </div>
+            `;
+
+            bindQuestionEvents();
+        }
+
+        function bindQuestionEvents() {
+            document.querySelectorAll('[data-choice]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (state.answered) return;
+                    state.selected = Number(button.dataset.choice);
+                    renderQuestion();
+                });
+            });
+
+            document.getElementById('confirmBtn').addEventListener('click', checkAnswer);
+            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        }
+
+        function checkAnswer() {
+            if (state.selected === null || state.answered) return;
+
+            const question = state.questions[state.index];
+            const selectedText = question.shuffledChoices[state.selected];
+            const correct = selectedText === question.answer;
+            state.answered = true;
+
+            if (correct) {
+                state.score += 1;
+                state.streak += 1;
+                state.bestStreak = Math.max(state.bestStreak, state.streak);
+            } else {
+                state.bestStreak = Math.max(state.bestStreak, state.streak);
+                state.streak = 0;
+            }
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.className = `mt-4 rounded-[22px] border px-4 py-4 ${correct ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'}`;
+            feedbackBox.innerHTML = `
+                <p class="text-sm font-black ${correct ? 'text-emerald-700' : 'text-rose-700'}">${correct ? '정답입니다.' : '다시 확인해 보세요.'}</p>
+                <p class="mt-2 text-sm leading-7 text-slate-700"><b>정답:</b> ${escapeHtml(question.answer)}</p>
+                <p class="mt-1 text-sm leading-7 text-slate-700">${escapeHtml(question.explain)}</p>
+            `;
+
+            document.getElementById('confirmBtn').disabled = true;
+            document.getElementById('confirmBtn').classList.add('opacity-40');
+            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('nextBtn').classList.remove('opacity-40');
+
+            document.querySelectorAll('[data-choice]').forEach((button) => {
+                const choice = question.shuffledChoices[Number(button.dataset.choice)];
+                if (choice === question.answer) {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black border-emerald-500 bg-emerald-50 text-emerald-700';
+                } else if (Number(button.dataset.choice) === state.selected) {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black border-rose-300 bg-rose-50 text-rose-700';
+                } else {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black border-slate-200 bg-white text-slate-400';
+                }
+            });
+        }
+
+        function nextQuestion() {
+            if (!state.answered) return;
+            if (state.index === state.questions.length - 1) {
+                renderResult();
+                return;
+            }
+            state.index += 1;
+            state.selected = null;
+            state.answered = false;
+            renderQuestion();
+        }
+
+        function renderResult() {
+            const percent = Math.round((state.score / state.questions.length) * 100);
+            gameCard.innerHTML = `
+                <div class="rounded-[24px] border border-emerald-200 bg-emerald-50 p-5 text-center">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Game Result</p>
+                    <h2 class="mt-2 text-3xl font-black text-slate-900">${state.score} / ${state.questions.length}</h2>
+                    <p class="mt-2 text-sm leading-7 text-slate-600">정답률 ${percent}% · 최고 연속 정답 ${state.bestStreak}문제</p>
+                </div>
+
+                <div class="mt-4 grid gap-3 sm:grid-cols-3">
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">총 문제</span>
+                        <strong class="mt-2 block text-2xl font-black text-slate-900">${state.questions.length}</strong>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">맞힌 문제</span>
+                        <strong class="mt-2 block text-2xl font-black text-emerald-600">${state.score}</strong>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">최고 연속</span>
+                        <strong class="mt-2 block text-2xl font-black text-blue-600">${state.bestStreak}</strong>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                    <button type="button" id="restartBtn" class="ui-btn rounded-2xl border border-emerald-600 bg-emerald-600 px-4 py-3 text-sm font-black text-white">다시 하기</button>
+                    <a href="grammar2.html" class="ui-btn inline-flex items-center justify-center rounded-2xl border border-slate-900 bg-slate-900 px-4 py-3 text-sm font-black text-white no-underline">문법 2로 돌아가기</a>
+                </div>
+            `;
+
+            document.getElementById('restartBtn').addEventListener('click', resetGame);
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function highlightBlank(sentence) {
+            return escapeHtml(sentence).replace('____', '<span class="rounded-full bg-white px-3 py-1 text-emerald-700 ring-2 ring-emerald-200">____</span>');
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
