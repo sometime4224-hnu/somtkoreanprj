@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>13과 문법 1 미니 게임 | 왜 미리 준비했어요?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(251, 146, 60, .18), transparent 24%),
+                radial-gradient(circle at top right, rgba(245, 158, 11, .14), transparent 26%),
+                linear-gradient(180deg, #fff7ed 0%, #f8fafc 100%);
+            color: #0f172a;
+        }
+        .panel {
+            background: rgba(255, 255, 255, .94);
+            border: 1px solid rgba(255, 255, 255, .82);
+            box-shadow: 0 20px 46px rgba(15, 23, 42, .08);
+        }
+        .option-btn, .ui-btn {
+            transition: transform .15s ease, border-color .15s ease, background .15s ease;
+        }
+        .option-btn:hover:not(:disabled), .ui-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-white/70 bg-white/82 px-4 py-3 backdrop-blur">
+        <a href="index.html" class="inline-flex items-center gap-2 text-sm font-extrabold text-orange-700">
+            <i class="fa-solid fa-arrow-left"></i><span>13과 허브</span>
+        </a>
+        <span class="text-sm font-extrabold text-slate-600">문법 1 미니 게임</span>
+    </nav>
+
+    <main class="mx-auto w-[min(760px,calc(100%-20px))] py-4 pb-12">
+        <section class="panel rounded-[28px] p-5 sm:p-6">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-[0.18em] text-orange-700">Mini Game</p>
+                    <h1 class="mt-1 text-2xl font-black leading-tight text-slate-900 sm:text-3xl">왜 미리 준비했어요?</h1>
+                    <p class="mt-2 text-sm leading-7 text-slate-600">상황을 보고 `-(으)ㄹ까 봐`가 들어간 가장 자연스러운 문장을 고르세요.</p>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs font-black text-slate-700">
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">8문제</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">3지선다</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">확인 후 다음</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="gameCard" class="panel mt-3 rounded-[28px] p-5 sm:p-6"></section>
+    </main>
+
+    <script>
+        const QUESTIONS = [
+            {
+                situation: '아직 비는 안 오지만 하늘이 흐려요.',
+                choices: [
+                    '비가 올까 봐 우산을 챙겼어요.',
+                    '비가 와서 우산을 챙겼어요.',
+                    '비가 오고 있어서 우산을 챙겼어요.'
+                ],
+                answer: '비가 올까 봐 우산을 챙겼어요.',
+                explain: '아직 일어나지 않은 일을 걱정하면서 미리 준비한 행동이므로 `올까 봐`가 가장 자연스러워요.'
+            },
+            {
+                situation: '지하철이 늦을 수도 있어서 약속 시간이 걱정돼요.',
+                choices: [
+                    '지하철이 늦을까 봐 일찍 출발했어요.',
+                    '지하철이 늦어서 일찍 출발했어요.',
+                    '지하철이 늦고 있어서 일찍 출발했어요.'
+                ],
+                answer: '지하철이 늦을까 봐 일찍 출발했어요.',
+                explain: '미리 걱정해서 먼저 행동한 경우이므로 `늦을까 봐`를 써야 해요.'
+            },
+            {
+                situation: '퇴근 시간이라 큰길이 많이 막힐 것 같아요.',
+                choices: [
+                    '길이 막힐까 봐 골목길로 갔어요.',
+                    '길이 막혀서 골목길로 갔어요.',
+                    '길이 막히고 있어서 골목길로 갔어요.'
+                ],
+                answer: '길이 막힐까 봐 골목길로 갔어요.',
+                explain: '실제로 막히기 전에 걱정하고 다른 길을 선택했기 때문에 `막힐까 봐`가 맞아요.'
+            },
+            {
+                situation: '밤에는 기온이 많이 내려간다고 들었어요.',
+                choices: [
+                    '추울까 봐 코트를 입고 나왔어요.',
+                    '추워서 코트를 입고 나왔어요.',
+                    '추우면 코트를 입고 나왔어요.'
+                ],
+                answer: '추울까 봐 코트를 입고 나왔어요.',
+                explain: '앞으로 추워질 가능성을 걱정하며 준비한 행동이라 `추울까 봐`가 자연스러워요.'
+            },
+            {
+                situation: '발표할 때 내용을 잊을까 봐 조금 불안해요.',
+                choices: [
+                    '실수할까 봐 메모를 준비했어요.',
+                    '실수해서 메모를 준비했어요.',
+                    '실수하고 있어서 메모를 준비했어요.'
+                ],
+                answer: '실수할까 봐 메모를 준비했어요.',
+                explain: '발표 전에 실수를 걱정하며 대비했으니 `실수할까 봐`를 쓰는 문장이 가장 잘 맞아요.'
+            },
+            {
+                situation: '주말 행사에 손님이 많이 올 것 같아요.',
+                choices: [
+                    '손님이 많을까 봐 음식을 넉넉하게 준비했어요.',
+                    '손님이 많아서 음식을 넉넉하게 준비했어요.',
+                    '손님이 많고 있어서 음식을 넉넉하게 준비했어요.'
+                ],
+                answer: '손님이 많을까 봐 음식을 넉넉하게 준비했어요.',
+                explain: '아직 오지 않은 손님 수를 예상하고 미리 준비한 것이므로 `많을까 봐`가 가장 자연스러워요.'
+            },
+            {
+                situation: '길이 미끄러워서 아이가 넘어질지도 몰라요.',
+                choices: [
+                    '아이가 넘어질까 봐 손을 잡았어요.',
+                    '아이가 넘어져서 손을 잡았어요.',
+                    '아이가 넘어지고 있어서 손을 잡았어요.'
+                ],
+                answer: '아이가 넘어질까 봐 손을 잡았어요.',
+                explain: '넘어지기 전에 걱정하며 보호한 행동이기 때문에 `넘어질까 봐`를 써야 해요.'
+            },
+            {
+                situation: '휴대전화 배터리가 빨리 닳는 편이에요.',
+                choices: [
+                    '배터리가 없을까 봐 보조 배터리를 가져왔어요.',
+                    '배터리가 없어서 보조 배터리를 가져왔어요.',
+                    '배터리가 없고 있어서 보조 배터리를 가져왔어요.'
+                ],
+                answer: '배터리가 없을까 봐 보조 배터리를 가져왔어요.',
+                explain: '나중에 배터리가 없을 가능성을 걱정하고 미리 준비한 경우라 `없을까 봐`가 맞아요.'
+            }
+        ];
+
+        const state = {
+            questions: [],
+            index: 0,
+            score: 0,
+            streak: 0,
+            bestStreak: 0,
+            selected: null,
+            answered: false
+        };
+
+        const gameCard = document.getElementById('gameCard');
+
+        init();
+
+        function init() {
+            resetGame();
+        }
+
+        function resetGame() {
+            state.questions = QUESTIONS.map((question) => ({
+                ...question,
+                shuffledChoices: shuffle([...question.choices])
+            }));
+            state.index = 0;
+            state.score = 0;
+            state.streak = 0;
+            state.bestStreak = 0;
+            state.selected = null;
+            state.answered = false;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const question = state.questions[state.index];
+            const progress = `${state.index + 1} / ${state.questions.length}`;
+
+            gameCard.innerHTML = `
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Question</p>
+                        <p class="mt-1 text-lg font-black text-slate-900">${progress}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Current Score</p>
+                        <p class="mt-1 text-lg font-black text-orange-600">${state.score}</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 rounded-[24px] border border-orange-200 bg-orange-50 px-4 py-4">
+                    <p class="text-xs font-black uppercase tracking-[0.16em] text-orange-700">Situation</p>
+                    <p class="mt-2 text-lg font-black leading-9 text-slate-900">${escapeHtml(question.situation)}</p>
+                </div>
+
+                <div class="mt-4 grid gap-2">
+                    ${question.shuffledChoices.map((choice, index) => {
+                        const selected = state.selected === index;
+                        const baseClass = selected
+                            ? 'border-orange-500 bg-orange-50 text-orange-700'
+                            : 'border-slate-200 bg-white text-slate-700';
+                        return `
+                            <button type="button" class="option-btn rounded-2xl border px-4 py-4 text-left text-base font-black leading-7 ${baseClass}" data-choice="${index}">
+                                ${escapeHtml(choice)}
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
+
+                <div id="feedbackBox" class="mt-4 ${state.answered ? '' : 'hidden'}"></div>
+
+                <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                    <button type="button" id="confirmBtn" class="ui-btn rounded-2xl border border-orange-600 bg-orange-600 px-4 py-3 text-sm font-black text-white ${state.answered ? 'opacity-40' : ''}" ${state.answered ? 'disabled' : ''}>확인</button>
+                    <button type="button" id="nextBtn" class="ui-btn rounded-2xl border border-slate-900 bg-slate-900 px-4 py-3 text-sm font-black text-white ${state.answered ? '' : 'opacity-40'}" ${state.answered ? '' : 'disabled'}>${state.index === state.questions.length - 1 ? '결과 보기' : '다음'}</button>
+                </div>
+            `;
+
+            bindQuestionEvents();
+        }
+
+        function bindQuestionEvents() {
+            document.querySelectorAll('[data-choice]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (state.answered) return;
+                    state.selected = Number(button.dataset.choice);
+                    renderQuestion();
+                });
+            });
+
+            document.getElementById('confirmBtn').addEventListener('click', checkAnswer);
+            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        }
+
+        function checkAnswer() {
+            if (state.selected === null || state.answered) return;
+
+            const question = state.questions[state.index];
+            const selectedText = question.shuffledChoices[state.selected];
+            const correct = selectedText === question.answer;
+            state.answered = true;
+
+            if (correct) {
+                state.score += 1;
+                state.streak += 1;
+                state.bestStreak = Math.max(state.bestStreak, state.streak);
+            } else {
+                state.bestStreak = Math.max(state.bestStreak, state.streak);
+                state.streak = 0;
+            }
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.className = `mt-4 rounded-[22px] border px-4 py-4 ${correct ? 'border-orange-200 bg-orange-50' : 'border-rose-200 bg-rose-50'}`;
+            feedbackBox.innerHTML = `
+                <p class="text-sm font-black ${correct ? 'text-orange-700' : 'text-rose-700'}">${correct ? '정답입니다.' : '다시 확인해 보세요.'}</p>
+                <p class="mt-2 text-sm leading-7 text-slate-700"><b>정답:</b> ${escapeHtml(question.answer)}</p>
+                <p class="mt-1 text-sm leading-7 text-slate-700">${escapeHtml(question.explain)}</p>
+            `;
+
+            document.getElementById('confirmBtn').disabled = true;
+            document.getElementById('confirmBtn').classList.add('opacity-40');
+            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('nextBtn').classList.remove('opacity-40');
+
+            document.querySelectorAll('[data-choice]').forEach((button) => {
+                const choice = question.shuffledChoices[Number(button.dataset.choice)];
+                if (choice === question.answer) {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black leading-7 border-orange-500 bg-orange-50 text-orange-700';
+                } else if (Number(button.dataset.choice) === state.selected) {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black leading-7 border-rose-300 bg-rose-50 text-rose-700';
+                } else {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black leading-7 border-slate-200 bg-white text-slate-400';
+                }
+            });
+        }
+
+        function nextQuestion() {
+            if (!state.answered) return;
+            if (state.index === state.questions.length - 1) {
+                renderResult();
+                return;
+            }
+            state.index += 1;
+            state.selected = null;
+            state.answered = false;
+            renderQuestion();
+        }
+
+        function renderResult() {
+            const percent = Math.round((state.score / state.questions.length) * 100);
+            gameCard.innerHTML = `
+                <div class="rounded-[24px] border border-orange-200 bg-orange-50 p-5 text-center">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-orange-700">Game Result</p>
+                    <h2 class="mt-2 text-3xl font-black text-slate-900">${state.score} / ${state.questions.length}</h2>
+                    <p class="mt-2 text-sm leading-7 text-slate-600">정답률 ${percent}% · 최고 연속 정답 ${state.bestStreak}문제</p>
+                </div>
+
+                <div class="mt-4 grid gap-3 sm:grid-cols-3">
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">총 문제</span>
+                        <strong class="mt-2 block text-2xl font-black text-slate-900">${state.questions.length}</strong>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">맞힌 문제</span>
+                        <strong class="mt-2 block text-2xl font-black text-orange-600">${state.score}</strong>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">최고 연속</span>
+                        <strong class="mt-2 block text-2xl font-black text-sky-600">${state.bestStreak}</strong>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                    <button type="button" id="restartBtn" class="ui-btn rounded-2xl border border-orange-600 bg-orange-600 px-4 py-3 text-sm font-black text-white">다시 하기</button>
+                    <a href="grammar1.html" class="ui-btn inline-flex items-center justify-center rounded-2xl border border-slate-900 bg-slate-900 px-4 py-3 text-sm font-black text-white no-underline">문법 1로 돌아가기</a>
+                </div>
+            `;
+
+            document.getElementById('restartBtn').addEventListener('click', resetGame);
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
