@@ -1,4 +1,4 @@
-﻿const IMG_BASE = '../assets/c12/reading-writing/images/writing-cut/';
+const IMG_BASE = '../assets/c12/reading-writing/images/writing-cut/';
 const LS_KEY = 'writing_cut_c12_modern_v1';
 const STEP_LABELS = ['문장 고르기', '어휘 넣기', '순서 배열', '빈칸 쓰기', '전체 문장 쓰기'];
 const STEP_GUIDES = [
@@ -95,6 +95,8 @@ const cuts = RAW_CUTS.map(({ distractors, fillBlankAnswers, ...cut }, index) => 
 const app = document.getElementById('app');
 let floatingPreviewObserver = null;
 const floatingPreviewMedia = window.matchMedia('(max-width: 960px)');
+let shouldFocusPassageClose = false;
+let shouldRestorePassageTrigger = false;
 
 function shuffle(items) {
   const next = [...items];
@@ -466,7 +468,7 @@ function renderCutPills() {
 function renderTopTools(label) {
   return `
     <div class="top-tools">
-      <button type="button" class="passage-open-btn" data-action="open-passage">전체 지문 팝업 보기</button>
+      <button type="button" class="passage-open-btn" data-action="open-passage" aria-haspopup="dialog" aria-controls="passage-dialog" aria-expanded="${state.passageOpen ? 'true' : 'false'}">전체 지문 팝업 보기</button>
       <span class="focus-chip">${label}</span>
     </div>
   `;
@@ -475,14 +477,14 @@ function renderTopTools(label) {
 function renderPassageModal() {
   return `
     <div class="passage-backdrop" data-action="close-passage"></div>
-    <section class="passage-modal" role="dialog" aria-modal="true" aria-labelledby="passage-title">
+    <section id="passage-dialog" class="passage-modal" role="dialog" aria-modal="true" aria-labelledby="passage-title" tabindex="-1">
       <div class="passage-head">
         <div>
           <div class="eyebrow">12과 읽기 지문</div>
           <h2 id="passage-title" class="passage-title">여러분의 목 건강은 어떠십니까?</h2>
           <p class="passage-subtitle">처음부터 끝까지 이어서 읽고 싶을 때 한 번에 볼 수 있는 팝업입니다.</p>
         </div>
-        <button type="button" class="ghost-btn" data-action="close-passage">닫기</button>
+        <button type="button" class="ghost-btn" data-action="close-passage" data-passage-close-button>닫기</button>
       </div>
       <div class="passage-body">
         <div class="passage-card passage-overview">
@@ -917,7 +919,57 @@ function renderApp() {
   app.innerHTML = `${mainView}${state.passageOpen ? renderPassageModal() : ''}`;
   setupFloatingPreview();
   refreshLiveButtons();
+  syncPassageUi();
   saveState();
+}
+
+function focusAfterRender(selector) {
+  requestAnimationFrame(() => {
+    const element = document.querySelector(selector);
+    if (element) element.focus({ preventScroll: true });
+  });
+}
+
+function syncPassageUi() {
+  document.body.classList.toggle('passage-open', state.passageOpen);
+
+  if (shouldFocusPassageClose) {
+    focusAfterRender('[data-passage-close-button]');
+  } else if (shouldRestorePassageTrigger) {
+    focusAfterRender('[data-action="open-passage"]');
+  }
+
+  shouldFocusPassageClose = false;
+  shouldRestorePassageTrigger = false;
+}
+
+function handlePassageTabKey(event) {
+  if (!state.passageOpen || event.key !== 'Tab') return;
+
+  const dialog = document.getElementById('passage-dialog');
+  if (!dialog) return;
+
+  const focusableElements = [...dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+    .filter((element) => !element.disabled && element.offsetParent !== null);
+
+  if (!focusableElements.length) return;
+
+  const firstElement = focusableElements[0];
+  const lastElement = focusableElements[focusableElements.length - 1];
+
+  if (focusableElements.length === 1) {
+    event.preventDefault();
+    firstElement.focus();
+    return;
+  }
+
+  if (event.shiftKey && document.activeElement === firstElement) {
+    event.preventDefault();
+    lastElement.focus();
+  } else if (!event.shiftKey && document.activeElement === lastElement) {
+    event.preventDefault();
+    firstElement.focus();
+  }
 }
 
 function teardownFloatingPreview() {
@@ -1012,10 +1064,9 @@ function scheduleStep1SelectionScroll() {
   }));
 }
 
-function scheduleStep1CheckScroll() {
-  if (state.currentStep !== 0) return;
+function scheduleCheckActionToNextScroll(checkAction) {
   scheduleRangeScroll(() => ({
-    startElement: app.querySelector('[data-action="check-step1"]'),
+    startElement: app.querySelector(`[data-action="${checkAction}"]`),
     endElement: app.querySelector('[data-action="next"]')
   }));
 }
@@ -1223,10 +1274,14 @@ function reviewCut(index) {
 
 function openPassage() {
   state.passageOpen = true;
+  shouldFocusPassageClose = true;
+  shouldRestorePassageTrigger = false;
 }
 
 function closePassage() {
   state.passageOpen = false;
+  shouldRestorePassageTrigger = true;
+  shouldFocusPassageClose = false;
 }
 
 app.addEventListener('click', (event) => {
@@ -1236,7 +1291,7 @@ app.addEventListener('click', (event) => {
   let shouldRender = true;
   let shouldScrollToImagePanel = false;
   let shouldScrollStep1Selection = false;
-  let shouldScrollStep1Check = false;
+  let checkActionToScroll = '';
 
   if (action === 'select-choice') {
     selectChoice(target.dataset.optionId);
@@ -1244,18 +1299,30 @@ app.addEventListener('click', (event) => {
   }
   else if (action === 'check-step1') {
     checkStep1();
-    shouldScrollStep1Check = true;
+    checkActionToScroll = action;
   }
   else if (action === 'activate-slot') activateSlot(target.dataset.slot);
   else if (action === 'use-word') placeChoice(target.dataset.choiceId);
-  else if (action === 'check-step2') checkStep2();
+  else if (action === 'check-step2') {
+    checkStep2();
+    checkActionToScroll = action;
+  }
   else if (action === 'reset-step2') resetStep2();
   else if (action === 'pick-order') pickOrder(target.dataset.orderId);
   else if (action === 'remove-order') removeOrder(target.dataset.orderId);
-  else if (action === 'check-step3') checkStep3();
+  else if (action === 'check-step3') {
+    checkStep3();
+    checkActionToScroll = action;
+  }
   else if (action === 'reset-step3') resetStep3();
-  else if (action === 'check-step4') checkStep4();
-  else if (action === 'check-step5') checkStep5();
+  else if (action === 'check-step4') {
+    checkStep4();
+    checkActionToScroll = action;
+  }
+  else if (action === 'check-step5') {
+    checkStep5();
+    checkActionToScroll = action;
+  }
   else if (action === 'prev') goPrev();
   else if (action === 'next') shouldScrollToImagePanel = goNext();
   else if (action === 'restart') restartAll();
@@ -1273,8 +1340,8 @@ app.addEventListener('click', (event) => {
     if (shouldScrollStep1Selection) {
       scheduleStep1SelectionScroll();
     }
-    if (shouldScrollStep1Check) {
-      scheduleStep1CheckScroll();
+    if (checkActionToScroll) {
+      scheduleCheckActionToNextScroll(checkActionToScroll);
     }
     if (shouldScrollToImagePanel) {
       scheduleImagePanelScroll();
@@ -1318,6 +1385,7 @@ app.addEventListener('drop', (event) => {
 });
 
 document.addEventListener('keydown', (event) => {
+  handlePassageTabKey(event);
   if (event.key === 'Escape' && state.passageOpen) {
     closePassage();
     renderApp();

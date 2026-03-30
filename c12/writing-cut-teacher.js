@@ -1,936 +1,100 @@
-const IMG_BASE = '../assets/c10/reading-writing/images/writing-cut/';
-const STEP_LABELS = ["객관식", "어휘 넣기", "순서 배열", "빈칸 쓰기", "전체 문장 쓰기"];
+const IMG_BASE = '../assets/c12/reading-writing/images/writing-cut/';
+const LS_KEY = 'writing_cut_c12_teacher_v1';
+const STEP_LABELS = ['문장 고르기', '어휘 넣기', '순서 배열', '빈칸 쓰기', '전체 문장 쓰기'];
 const STEP_GUIDES = [
-  "그림에 맞는 문장을 먼저 골라 보세요.",
-  "알맞은 말을 빈칸에 넣어 문장을 완성해 보세요.",
-  "주어진 어절을 순서대로 눌러 배열해 보세요.",
-  "이제 빈칸에 들어갈 말을 직접 써 보세요.",
-  "마지막으로 도움 없이 전체 문장을 완성해 보세요."
+  '그림에 맞는 문장을 먼저 찾아 보세요.',
+  '핵심 어휘 두 개를 문장에 넣어 보세요.',
+  '어절을 순서대로 눌러 문장을 완성해 보세요.',
+  '이제 빈칸 두 곳에 들어갈 말을 직접 써 보세요.',
+  '마지막으로 도움 없이 전체 문장을 직접 써 보세요.'
 ];
 
-const RAW_CUTS = [
+const PASSAGE_FULL_PARAGRAPHS = [
+  "여러분, '거북목 증후군'에 대해 들어 본 적이 있습니까? 많은 사람들이 거북처럼 목을 앞으로 길게 빼고 컴퓨터를 봅니다. 이런 자세로 오래 있으면 목뼈의 모양이 변해서 건강에 이상이 생깁니다.",
+  '이 병에 걸리면 쉽게 피곤해지고 목과 어깨가 아픕니다. 그리고 두통으로 고생할 수도 있습니다. 그럼 목 건강을 위해서 어떻게 해야 할까요?',
+  '가장 좋은 방법은 운동입니다. 맑은 공기를 마시며 걷기 운동을 하면 자세를 교정하는 데에 큰 도움이 됩니다. 자세가 좋아야 건강을 지킬 수 있습니다. 하지만 바쁜 업무 시간에 밖에 나가서 산책하는 일이 쉽지는 않을 겁니다. 그래서 어디서든지 할 수 있는 쉽고 간단한 스트레칭 방법을 알려 드리겠습니다.',
+  '먼저 두 손을 허리에 대고 몸을 뒤로 젖힙니다. 그다음에 오른손을 왼쪽 귀에 대고 눌러 줍니다. 반대쪽도 같은 방법으로 하면 됩니다. 마지막으로 고개를 천천히 돌립니다.',
+  '시간이 있을 때마다 여러 번 반복하는 것이 중요합니다. 직장인 여러분, 건강을 지키는 일은 어렵지 않습니다. 하루에 5분만 스트레칭을 해도 몸이 좋아지는 것을 느끼실 수 있을 겁니다.'
+];
+
+const PASSAGE_SECTIONS = [
   {
-    "id": "cut01",
-    "imgFile": "01_love_feels_forever.webp",
-    "alt": "벚꽃길에서 서로 안으며 사랑이 영원할 거라고 믿는 연인들",
-    "sentence": "사랑에 빠진 연인들은 서로의 사랑이 영원할 거라고 생각합니다.",
-    "distractors": [
-      4,
-      9,
-      12
-    ],
-    "dropSegments": [
-      "",
-      " 연인들은 서로의 사랑이 ",
-      " 거라고 생각합니다."
-    ],
-    "dropAnswers": [
-      "사랑에 빠진",
-      "영원할"
-    ],
-    "dropChoices": [
-      "사랑에 빠진",
-      "영원할",
-      "비교하지",
-      "헤어지는"
-    ],
-    "orderTokens": [
-      "사랑에 빠진",
-      "연인들은",
-      "서로의 사랑이",
-      "영원할 거라고",
-      "생각합니다."
-    ],
-    "fillPrompt": "[1] 연인들은 서로의 사랑이 [2] 거라고 생각합니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "사랑에 빠진"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "영원할"
-        ]
-      }
-    ],
-    "hints": [
-      "연인",
-      "벚꽃길",
-      "영원"
-    ],
-    "requiredKeywords": [
-      "사랑",
-      "연인",
-      "영원"
-    ],
-    "acceptedPatterns": [
-      "사랑에 빠진 연인들은 서로의 사랑이 영원하다고 생각합니다."
-    ]
+    title: '도입',
+    body: PASSAGE_FULL_PARAGRAPHS[0]
   },
   {
-    "id": "cut02",
-    "imgFile": "02_love_has_expiration_date.webp",
-    "alt": "사랑에도 유통 기한이 있다는 비유를 달력과 상자로 보여 주는 장면",
-    "sentence": "하지만 사랑에도 유통 기한이 있다고 합니다.",
-    "distractors": [
-      5,
-      8,
-      13
-    ],
-    "dropSegments": [
-      "하지만 사랑에도 ",
-      " ",
-      "이 있다고 합니다."
-    ],
-    "dropAnswers": [
-      "유통",
-      "기한"
-    ],
-    "dropChoices": [
-      "유통",
-      "기한",
-      "노력",
-      "표현"
-    ],
-    "orderTokens": [
-      "하지만",
-      "사랑에도",
-      "유통 기한이",
-      "있다고 합니다."
-    ],
-    "fillPrompt": "하지만 사랑에도 [1] [2]이 있다고 합니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "유통"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "기한"
-        ]
-      }
-    ],
-    "hints": [
-      "유통 기한",
-      "달력",
-      "비유"
-    ],
-    "requiredKeywords": [
-      "사랑",
-      "유통",
-      "기한"
-    ],
-    "acceptedPatterns": []
+    title: '증상',
+    body: PASSAGE_FULL_PARAGRAPHS[1]
   },
   {
-    "id": "cut03",
-    "imgFile": "03_no_more_heart_pounding.webp",
-    "alt": "벤치에 앉아 손을 잡고 있어도 예전처럼 설레지 않는 커플",
-    "sentence": "뜨겁게 연애를 하던 사람들도 18개월에서 30개월이 지나면 더 이상 손을 잡거나 팔짱을 껴도 가슴이 두근거리지 않는다고 합니다.",
-    "distractors": [
-      2,
-      10,
-      14
-    ],
-    "dropSegments": [
-      "뜨겁게 연애를 하던 사람들도 ",
-      "이 지나면 더 이상 손을 잡거나 팔짱을 껴도 가슴이 ",
-      " 않는다고 합니다."
-    ],
-    "dropAnswers": [
-      "18개월에서 30개월",
-      "두근거리지"
-    ],
-    "dropChoices": [
-      "18개월에서 30개월",
-      "두근거리지",
-      "영원할",
-      "이해해"
-    ],
-    "orderTokens": [
-      "뜨겁게 연애를 하던 사람들도",
-      "18개월에서 30개월이 지나면",
-      "더 이상",
-      "손을 잡거나 팔짱을 껴도",
-      "가슴이",
-      "두근거리지 않는다고 합니다."
-    ],
-    "fillPrompt": "뜨겁게 연애를 하던 사람들도 [1]이 지나면 가슴이 [2] 않는다고 합니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "18개월에서 30개월"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "두근거리지"
-        ]
-      }
-    ],
-    "hints": [
-      "벤치",
-      "시간 경과",
-      "설렘 감소"
-    ],
-    "requiredKeywords": [
-      "18개월",
-      "30개월",
-      "두근거리지"
-    ],
-    "acceptedPatterns": [
-      "18개월에서 30개월이 지나면 더 이상 손을 잡아도 가슴이 두근거리지 않는다고 합니다.",
-      "18개월에서 30개월이 지나면 더 이상 가슴이 두근거리지 않습니다."
-    ]
+    title: '운동과 자세',
+    body: PASSAGE_FULL_PARAGRAPHS[2]
   },
   {
-    "id": "cut04",
-    "imgFile": "04_break_up_after_love_cools.webp",
-    "alt": "비 오는 날 사랑이 식었다고 말하며 멀어지는 두 사람",
-    "sentence": "이 때문에 사랑이 식었다고 생각해서 헤어지는 연인들이 많습니다.",
-    "distractors": [
-      1,
-      6,
-      11
-    ],
-    "dropSegments": [
-      "이 때문에 사랑이 ",
-      " 생각해서 ",
-      " 연인들이 많습니다."
-    ],
-    "dropAnswers": [
-      "식었다고",
-      "헤어지는"
-    ],
-    "dropChoices": [
-      "식었다고",
-      "헤어지는",
-      "함께할",
-      "소개"
-    ],
-    "orderTokens": [
-      "이 때문에",
-      "사랑이 식었다고",
-      "생각해서",
-      "헤어지는",
-      "연인들이 많습니다."
-    ],
-    "fillPrompt": "이 때문에 사랑이 [1] 생각해서 [2] 연인들이 많습니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "식었다고"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "헤어지는"
-        ]
-      }
-    ],
-    "hints": [
-      "비",
-      "이별",
-      "사랑이 식음"
-    ],
-    "requiredKeywords": [
-      "사랑",
-      "식었다",
-      "헤어지는"
-    ],
-    "acceptedPatterns": [
-      "사랑이 식었다고 생각해서 헤어지는 연인들이 많습니다."
-    ]
+    title: '스트레칭 방법',
+    body: PASSAGE_FULL_PARAGRAPHS[3]
   },
   {
-    "id": "cut05",
-    "imgFile": "05_love_has_many_stages.webp",
-    "alt": "만남부터 이별까지 사랑의 여러 단계를 아이콘과 화살표로 보여 주는 장면",
-    "sentence": "그러나 이런 변화는 사랑의 여러 가지 단계 중의 하나입니다.",
-    "distractors": [
-      2,
-      7,
-      15
-    ],
-    "dropSegments": [
-      "그러나 이런 변화는 사랑의 ",
-      " 단계 중의 ",
-      "입니다."
-    ],
-    "dropAnswers": [
-      "여러 가지",
-      "하나"
-    ],
-    "dropChoices": [
-      "여러 가지",
-      "하나",
-      "오랫동안",
-      "비교하지"
-    ],
-    "orderTokens": [
-      "그러나",
-      "이런 변화는",
-      "사랑의 여러 가지",
-      "단계 중의",
-      "하나입니다."
-    ],
-    "fillPrompt": "그러나 이런 변화는 사랑의 [1] 단계 중의 [2]입니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "여러 가지"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "하나"
-        ]
-      }
-    ],
-    "hints": [
-      "단계",
-      "변화",
-      "연애 흐름"
-    ],
-    "requiredKeywords": [
-      "변화",
-      "단계",
-      "하나"
-    ],
-    "acceptedPatterns": []
-  },
-  {
-    "id": "cut06",
-    "imgFile": "06_love_grows_with_effort.webp",
-    "alt": "두 사람이 함께 하트 화분을 가꾸며 사랑을 키우는 장면",
-    "sentence": "서로의 노력으로 사랑은 더 커질 수 있습니다.",
-    "distractors": [
-      4,
-      8,
-      12
-    ],
-    "dropSegments": [
-      "서로의 ",
-      " 사랑은 더 ",
-      " 수 있습니다."
-    ],
-    "dropAnswers": [
-      "노력으로",
-      "커질"
-    ],
-    "dropChoices": [
-      "노력으로",
-      "커질",
-      "표현",
-      "기한"
-    ],
-    "orderTokens": [
-      "서로의",
-      "노력으로",
-      "사랑은",
-      "더 커질 수",
-      "있습니다."
-    ],
-    "fillPrompt": "서로의 [1] 사랑은 더 [2] 수 있습니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "노력으로"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "커질"
-        ]
-      }
-    ],
-    "hints": [
-      "노력",
-      "하트 화분",
-      "함께 키움"
-    ],
-    "requiredKeywords": [
-      "노력",
-      "사랑",
-      "커질"
-    ],
-    "acceptedPatterns": [
-      "서로 노력하면 사랑은 더 커질 수 있습니다."
-    ]
-  },
-  {
-    "id": "cut07",
-    "imgFile": "07_think_about_lifelong_together.webp",
-    "alt": "침대에 누워 평생 함께할 미래를 고민하는 사람의 생각 풍선",
-    "sentence": "지금 곁에 있는 사람과 평생을 함께할 생각입니까?",
-    "distractors": [
-      3,
-      9,
-      14
-    ],
-    "dropSegments": [
-      "지금 ",
-      " 사람과 ",
-      " 함께할 생각입니까?"
-    ],
-    "dropAnswers": [
-      "곁에 있는",
-      "평생을"
-    ],
-    "dropChoices": [
-      "곁에 있는",
-      "평생을",
-      "다른 사람과",
-      "유통"
-    ],
-    "orderTokens": [
-      "지금",
-      "곁에 있는",
-      "사람과",
-      "평생을 함께할",
-      "생각입니까?"
-    ],
-    "fillPrompt": "지금 [1] 사람과 [2] 함께할 생각입니까?",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "곁에 있는"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "평생을"
-        ]
-      }
-    ],
-    "hints": [
-      "밤",
-      "미래",
-      "결혼"
-    ],
-    "requiredKeywords": [
-      "곁",
-      "사람",
-      "평생"
-    ],
-    "acceptedPatterns": [
-      "지금 곁에 있는 사람과 평생 함께할 생각입니까?"
-    ]
-  },
-  {
-    "id": "cut08",
-    "imgFile": "08_introducing_ways_to_keep_love.webp",
-    "alt": "칠판 앞에서 오래 사랑하는 방법을 소개하는 발표자",
-    "sentence": "오랫동안 사랑을 지킬 수 있는 방법 몇 가지를 소개하겠습니다.",
-    "distractors": [
-      2,
-      6,
-      15
-    ],
-    "dropSegments": [
-      "오랫동안 사랑을 ",
-      " 방법 몇 가지를 ",
-      "하겠습니다."
-    ],
-    "dropAnswers": [
-      "지킬 수 있는",
-      "소개"
-    ],
-    "dropChoices": [
-      "지킬 수 있는",
-      "소개",
-      "비교하지",
-      "이해해"
-    ],
-    "orderTokens": [
-      "오랫동안",
-      "사랑을 지킬 수 있는",
-      "방법 몇 가지를",
-      "소개하겠습니다."
-    ],
-    "fillPrompt": "오랫동안 사랑을 [1] 방법 몇 가지를 [2]하겠습니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "지킬 수 있는"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "소개"
-        ]
-      }
-    ],
-    "hints": [
-      "방법",
-      "칠판",
-      "소개"
-    ],
-    "requiredKeywords": [
-      "오랫동안",
-      "방법",
-      "소개"
-    ],
-    "acceptedPatterns": [
-      "오랫동안 사랑을 지키는 방법 몇 가지를 소개하겠습니다."
-    ]
-  },
-  {
-    "id": "cut09",
-    "imgFile": "09_understand_as_they_are.webp",
-    "alt": "실수한 상대를 다독이며 있는 그대로 이해해 주는 장면",
-    "sentence": "첫째, 서로를 있는 그대로 이해해 줍니다.",
-    "distractors": [
-      10,
-      11,
-      13
-    ],
-    "dropSegments": [
-      "첫째, 서로를 ",
-      " ",
-      " 줍니다."
-    ],
-    "dropAnswers": [
-      "있는 그대로",
-      "이해해"
-    ],
-    "dropChoices": [
-      "있는 그대로",
-      "이해해",
-      "비교하지",
-      "식었다고"
-    ],
-    "orderTokens": [
-      "첫째,",
-      "서로를",
-      "있는 그대로",
-      "이해해",
-      "줍니다."
-    ],
-    "fillPrompt": "첫째, 서로를 [1] [2] 줍니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "있는 그대로"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "이해해"
-        ]
-      }
-    ],
-    "hints": [
-      "첫째",
-      "다독임",
-      "있는 그대로"
-    ],
-    "requiredKeywords": [
-      "첫째",
-      "있는 그대로",
-      "이해"
-    ],
-    "acceptedPatterns": [
-      "첫째, 서로를 있는 그대로 이해합니다."
-    ]
-  },
-  {
-    "id": "cut10",
-    "imgFile": "10_express_love_often.webp",
-    "alt": "도시락을 건네며 사랑하는 마음을 자주 표현하는 장면",
-    "sentence": "둘째, 사랑하는 마음을 자주 표현합니다.",
-    "distractors": [
-      9,
-      11,
-      12
-    ],
-    "dropSegments": [
-      "둘째, 사랑하는 ",
-      "을 자주 ",
-      "합니다."
-    ],
-    "dropAnswers": [
-      "마음",
-      "표현"
-    ],
-    "dropChoices": [
-      "마음",
-      "표현",
-      "기한",
-      "소개"
-    ],
-    "orderTokens": [
-      "둘째,",
-      "사랑하는 마음을",
-      "자주",
-      "표현합니다."
-    ],
-    "fillPrompt": "둘째, 사랑하는 [1]을 자주 [2]합니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "마음"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "표현"
-        ]
-      }
-    ],
-    "hints": [
-      "둘째",
-      "도시락",
-      "사랑해"
-    ],
-    "requiredKeywords": [
-      "둘째",
-      "마음",
-      "표현"
-    ],
-    "acceptedPatterns": [
-      "둘째, 사랑하는 마음을 자주 표현해요."
-    ]
-  },
-  {
-    "id": "cut11",
-    "imgFile": "11_do_not_tell_lies.webp",
-    "alt": "거짓말을 고민하다가 결국 솔직하게 말하는 장면",
-    "sentence": "셋째, 거짓말을 하면 안 됩니다.",
-    "distractors": [
-      4,
-      10,
-      13
-    ],
-    "dropSegments": [
-      "셋째, ",
-      " 하면 ",
-      " 됩니다."
-    ],
-    "dropAnswers": [
-      "거짓말을",
-      "안"
-    ],
-    "dropChoices": [
-      "거짓말을",
-      "안",
-      "오래",
-      "함께"
-    ],
-    "orderTokens": [
-      "셋째,",
-      "거짓말을",
-      "하면",
-      "안 됩니다."
-    ],
-    "fillPrompt": "셋째, [1] 하면 [2] 됩니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "거짓말을",
-          "거짓말"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "안"
-        ]
-      }
-    ],
-    "hints": [
-      "셋째",
-      "솔직함",
-      "거짓말 금지"
-    ],
-    "requiredKeywords": [
-      "셋째",
-      "거짓말",
-      "안"
-    ],
-    "acceptedPatterns": [
-      "셋째, 거짓말하면 안 됩니다.",
-      "셋째, 거짓말을 하면 안 돼요."
-    ]
-  },
-  {
-    "id": "cut12",
-    "imgFile": "12_make_a_shared_hobby.webp",
-    "alt": "함께 요리를 하며 공유할 취미를 만드는 커플",
-    "sentence": "넷째, 함께 할 수 있는 취미를 만듭니다.",
-    "distractors": [
-      6,
-      10,
-      13
-    ],
-    "dropSegments": [
-      "넷째, ",
-      " ",
-      " 만듭니다."
-    ],
-    "dropAnswers": [
-      "함께 할 수 있는",
-      "취미를"
-    ],
-    "dropChoices": [
-      "함께 할 수 있는",
-      "취미를",
-      "유통 기한을",
-      "오해를"
-    ],
-    "orderTokens": [
-      "넷째,",
-      "함께 할 수 있는",
-      "취미를",
-      "만듭니다."
-    ],
-    "fillPrompt": "넷째, [1] [2] 만듭니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "함께 할 수 있는",
-          "같이 할 수 있는"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "취미를",
-          "취미"
-        ]
-      }
-    ],
-    "hints": [
-      "넷째",
-      "쿠킹 클래스",
-      "함께 하는 취미"
-    ],
-    "requiredKeywords": [
-      "넷째",
-      "함께",
-      "취미"
-    ],
-    "acceptedPatterns": [
-      "넷째, 같이 할 수 있는 취미를 만듭니다."
-    ]
-  },
-  {
-    "id": "cut13",
-    "imgFile": "13_do_not_compare_with_others.webp",
-    "alt": "휴대폰 속 다른 커플과 비교하지 않고 우리 관계에 집중하는 장면",
-    "sentence": "다섯째, 다른 사람과 비교하지 않습니다.",
-    "distractors": [
-      2,
-      9,
-      12
-    ],
-    "dropSegments": [
-      "다섯째, ",
-      " ",
-      " 않습니다."
-    ],
-    "dropAnswers": [
-      "다른 사람과",
-      "비교하지"
-    ],
-    "dropChoices": [
-      "다른 사람과",
-      "비교하지",
-      "지킬 수 있는",
-      "두근거리지"
-    ],
-    "orderTokens": [
-      "다섯째,",
-      "다른 사람과",
-      "비교하지",
-      "않습니다."
-    ],
-    "fillPrompt": "다섯째, [1] [2] 않습니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "다른 사람과"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "비교하지"
-        ]
-      }
-    ],
-    "hints": [
-      "다섯째",
-      "휴대폰",
-      "비교하지 않기"
-    ],
-    "requiredKeywords": [
-      "다섯째",
-      "다른 사람",
-      "비교"
-    ],
-    "acceptedPatterns": [
-      "다섯째, 다른 사람과 비교하면 안 됩니다."
-    ]
-  },
-  {
-    "id": "cut14",
-    "imgFile": "14_changed_heart_or_bad_match.webp",
-    "alt": "여자는 마음이 변했다고 느끼고 남자는 성격이 안 맞는다고 느끼는 대비 장면",
-    "sentence": "여자는 남자의 마음이 변했다고 느낄 때 헤어질 생각을 하고, 남자는 여자와 성격이 안 맞을 때 이별을 생각한다고 합니다.",
-    "distractors": [
-      3,
-      7,
-      15
-    ],
-    "dropSegments": [
-      "여자는 남자의 ",
-      " 느낄 때 헤어질 생각을 하고, 남자는 여자와 ",
-      " 때 이별을 생각한다고 합니다."
-    ],
-    "dropAnswers": [
-      "마음이 변했다고",
-      "성격이 안 맞을"
-    ],
-    "dropChoices": [
-      "마음이 변했다고",
-      "성격이 안 맞을",
-      "영원할",
-      "비교하지"
-    ],
-    "orderTokens": [
-      "여자는",
-      "남자의 마음이 변했다고",
-      "느낄 때 헤어질 생각을 하고,",
-      "남자는",
-      "여자와 성격이 안 맞을 때",
-      "이별을 생각한다고 합니다."
-    ],
-    "fillPrompt": "여자는 남자의 [1] 느낄 때 헤어질 생각을 하고, 남자는 여자와 [2] 때 이별을 생각한다고 합니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "마음이 변했다고"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "성격이 안 맞을"
-        ]
-      }
-    ],
-    "hints": [
-      "마음이 변함",
-      "성격 차이",
-      "이별 생각"
-    ],
-    "requiredKeywords": [
-      "마음이 변했다",
-      "성격",
-      "이별"
-    ],
-    "acceptedPatterns": [
-      "여자는 남자의 마음이 변했다고 느낄 때 헤어질 생각을 하고 남자는 여자와 성격이 안 맞을 때 이별을 생각한다고 합니다."
-    ]
-  },
-  {
-    "id": "cut15",
-    "imgFile": "15_stay_together_longer.webp",
-    "alt": "가을길을 함께 걸으며 오래 함께할 수 있음을 보여 주는 커플",
-    "sentence": "위의 방법대로 하면 사랑하는 사람과 오래 함께할 수 있을 겁니다.",
-    "distractors": [
-      5,
-      8,
-      14
-    ],
-    "dropSegments": [
-      "위의 방법대로 하면 사랑하는 사람과 ",
-      " ",
-      " 수 있을 겁니다."
-    ],
-    "dropAnswers": [
-      "오래",
-      "함께할"
-    ],
-    "dropChoices": [
-      "오래",
-      "함께할",
-      "소개",
-      "변했다고"
-    ],
-    "orderTokens": [
-      "위의 방법대로 하면",
-      "사랑하는 사람과",
-      "오래",
-      "함께할 수 있을",
-      "겁니다."
-    ],
-    "fillPrompt": "위의 방법대로 하면 사랑하는 사람과 [1] [2] 수 있을 겁니다.",
-    "fillBlanks": [
-      {
-        "label": "빈칸 1",
-        "answers": [
-          "오래"
-        ]
-      },
-      {
-        "label": "빈칸 2",
-        "answers": [
-          "함께할"
-        ]
-      }
-    ],
-    "hints": [
-      "가을길",
-      "함께 걷기",
-      "오래 함께"
-    ],
-    "requiredKeywords": [
-      "방법",
-      "오래",
-      "함께"
-    ],
-    "acceptedPatterns": [
-      "위의 방법대로 하면 사랑하는 사람과 오래 함께할 수 있습니다."
-    ]
+    title: '마무리',
+    body: PASSAGE_FULL_PARAGRAPHS[4]
   }
 ];
 
-const cuts = RAW_CUTS.map((cut) => ({
-  ...cut,
-  mcqOptions: [cut.sentence, ...cut.distractors.map((index) => RAW_CUTS[index - 1].sentence)]
+const SENTENCES = [
+  '여러분, 거북목 증후군에 대해 들어 보셨나요?',
+  '많은 사람들이 목을 앞으로 길게 빼고 컴퓨터를 봅니다.',
+  '이런 자세로 오래 있으면 목뼈의 모양이 변합니다.',
+  '이 병에 걸리면 쉽게 피곤하고 목과 어깨가 아픕니다.',
+  '그리고 두통으로 고생할 수도 있습니다.',
+  '그럼 목 건강을 위해서 어떻게 해야 할까요?',
+  '가장 좋은 방법은 역시 운동입니다.',
+  '맑은 공기를 마시며 걷기 운동을 해 보세요.',
+  '바른 자세가 건강을 지켜 줍니다.',
+  '하지만 바쁘면 밖에 나가 산책하기가 어렵습니다.',
+  '그래서 간단한 스트레칭을 소개합니다.',
+  '먼저, 두 손을 허리에 대고 몸을 뒤로 젖힙니다.',
+  '두 손을 허리에 대고 고개를 뒤로 젖힙니다.',
+  '오른손을 왼쪽 귀에 대고 고개를 젖힙니다.',
+  '반대쪽도 같은 방법으로 합니다.',
+  '마지막으로 고개를 천천히 돌립니다.',
+  '반대 방향으로도 고개를 천천히 돌립니다.',
+  '시간이 날 때마다 여러 번 반복하는 것이 중요합니다.'
+];
+
+const RAW_CUTS = [
+  { imgFile: 'c12-cut01.webp', alt: '거북목 증후군에 대해 묻는 직장인', distractors: [1, 5, 6], dropSegments: ['여러분, ', '에 대해 ', '?'], dropAnswers: ['거북목 증후군', '들어 보셨나요'], dropChoices: ['거북목 증후군', '들어 보셨나요', '걷기 운동을', '반복하는 것이'], orderTokens: ['여러분,', '거북목 증후군에 대해', '들어 보셨나요?'], fillBlankAnswers: [['거북목 증후군'], ['들어 보셨나요', '들어보셨나요']], fillPrompt: '여러분, [1]에 대해 [2]?', hints: ['거북목 증후군', '들어 보다', '질문'], requiredKeywords: ['거북목 증후군', '들어', '질문'], acceptedPatterns: ["여러분, '거북목 증후군'에 대해 들어 본 적이 있습니까?", '여러분, 거북목 증후군에 대해 들어 본 적이 있습니까?'] },
+  { imgFile: 'c12-cut02.webp', alt: '목을 앞으로 내밀고 컴퓨터를 보는 사람들', distractors: [0, 9, 13], dropSegments: ['많은 사람들이 ', ' 빼고 ', ' 봅니다.'], dropAnswers: ['목을 앞으로 길게', '컴퓨터를'], dropChoices: ['목을 앞으로 길게', '컴퓨터를', '왼쪽 귀에', '바른 자세가'], orderTokens: ['많은 사람들이', '목을 앞으로 길게 빼고', '컴퓨터를 봅니다.'], fillBlankAnswers: [['목을 앞으로 길게', '목을 앞으로길게'], ['컴퓨터를', '컴퓨터']], fillPrompt: '많은 사람들이 [1] 빼고 [2] 봅니다.', hints: ['앞으로', '컴퓨터', '자세'], requiredKeywords: ['목', '앞으로', '컴퓨터'], acceptedPatterns: ['많은 사람들이 거북처럼 목을 앞으로 길게 빼고 컴퓨터를 봅니다.', '많은 사람들이 목을 앞으로 길게 빼고 컴퓨터를 봅니다.'] },
+  { imgFile: 'c12-cut03.webp', alt: '나쁜 자세 때문에 목뼈 모양이 변하는 설명 그림', distractors: [1, 4, 8], dropSegments: ['이런 자세로 오래 있으면 ', '의 모양이 ', '.'], dropAnswers: ['목뼈', '변합니다'], dropChoices: ['목뼈', '변합니다', '중요합니다', '소개합니다'], orderTokens: ['이런 자세로 오래 있으면', '목뼈의 모양이', '변합니다.'], fillBlankAnswers: [['목뼈'], ['변합니다', '변해요']], fillPrompt: '이런 자세로 오래 있으면 [1]의 모양이 [2].', hints: ['목뼈', '변형', '나쁜 자세'], requiredKeywords: ['자세', '목뼈', '변'], acceptedPatterns: ['이런 자세로 오래 있으면 목뼈의 모양이 변해서 건강에 이상이 생깁니다.', '이런 자세로 오래 있으면 목뼈의 모양이 변합니다.'] },
+  { imgFile: 'c12-cut04.webp', alt: '쉽게 피곤하고 목과 어깨가 아픈 직장인', distractors: [2, 7, 17], dropSegments: ['이 병에 걸리면 쉽게 ', ' 목과 어깨가 ', '.'], dropAnswers: ['피곤하고', '아픕니다'], dropChoices: ['피곤하고', '아픕니다', '운동입니다', '반복합니다'], orderTokens: ['이 병에 걸리면', '쉽게 피곤하고', '목과 어깨가 아픕니다.'], fillBlankAnswers: [['피곤하고'], ['아픕니다', '아파요']], fillPrompt: '이 병에 걸리면 쉽게 [1] 목과 어깨가 [2].', hints: ['피곤하다', '목', '어깨'], requiredKeywords: ['피곤', '목', '어깨'], acceptedPatterns: ['이 병에 걸리면 쉽게 피곤해지고 목과 어깨가 아픕니다.', '이 병에 걸리면 쉽게 피곤하고 목과 어깨가 아픕니다.'] },
+  { imgFile: 'c12-cut05.webp', alt: '두통으로 고생하는 장면', distractors: [3, 6, 17], dropSegments: ['그리고 ', '으로 ', '.'], dropAnswers: ['두통', '고생할 수도 있습니다'], dropChoices: ['두통', '고생할 수도 있습니다', '목뼈', '교정할 수 있습니다'], orderTokens: ['그리고', '두통으로', '고생할 수도 있습니다.'], fillBlankAnswers: [['두통'], ['고생할 수도 있습니다', '고생할수도있습니다']], fillPrompt: '그리고 [1]으로 [2].', hints: ['두통', '아프다', '증상'], requiredKeywords: ['두통', '고생', '증상'], acceptedPatterns: ['그리고 두통으로 고생할 수도 있습니다.'] },
+  { imgFile: 'c12-cut06.webp', alt: '목 건강을 위해 무엇을 해야 하는지 고민하는 장면', distractors: [0, 6, 10], dropSegments: ['그럼 목 건강을 위해서 ', ' ', '?'], dropAnswers: ['어떻게', '해야 할까요'], dropChoices: ['어떻게', '해야 할까요', '어느 쪽', '돌려 볼까요'], orderTokens: ['그럼 목 건강을 위해서', '어떻게', '해야 할까요?'], fillBlankAnswers: [['어떻게'], ['해야 할까요', '해야할까요']], fillPrompt: '그럼 목 건강을 위해서 [1] [2]?', hints: ['목 건강', '방법', '질문'], requiredKeywords: ['목 건강', '어떻게', '해야'], acceptedPatterns: ['그럼 목 건강을 위해서 어떻게 해야 할까요?'] },
+  { imgFile: 'c12-cut07.webp', alt: '가장 좋은 방법은 운동이라고 강조하는 제목 카드', distractors: [5, 7, 16], dropSegments: ['가장 좋은 방법은 ', ' ', '입니다.'], dropAnswers: ['역시', '운동'], dropChoices: ['역시', '운동', '스트레칭', '건강'], orderTokens: ['가장 좋은 방법은', '역시', '운동입니다.'], fillBlankAnswers: [['역시'], ['운동']], fillPrompt: '가장 좋은 방법은 [1] [2]입니다.', hints: ['가장 좋은 방법', '운동', '강조'], requiredKeywords: ['가장 좋은 방법', '운동', '역시'], acceptedPatterns: ['가장 좋은 방법은 운동입니다.', '가장 좋은 방법은 역시 운동입니다.'] },
+  { imgFile: 'c12-cut08.webp', alt: '맑은 공기를 마시며 걷기 운동을 하는 장면', distractors: [6, 8, 17], dropSegments: ['맑은 공기를 마시며 ', ' 운동을 ', '.'], dropAnswers: ['걷기', '해 보세요'], dropChoices: ['걷기', '해 보세요', '반복하기', '소개하기'], orderTokens: ['맑은 공기를 마시며', '걷기 운동을', '해 보세요.'], fillBlankAnswers: [['걷기'], ['해 보세요', '해보세요']], fillPrompt: '맑은 공기를 마시며 [1] 운동을 [2].', hints: ['맑은 공기', '걷기 운동', '운동'], requiredKeywords: ['맑은 공기', '걷기 운동', '도움'], acceptedPatterns: ['맑은 공기를 마시며 걷기 운동을 하면 자세를 교정하는 데에 큰 도움이 됩니다.', '맑은 공기를 마시며 걷기 운동을 해 보세요.'] },
+  { imgFile: 'c12-cut09.webp', alt: '바른 자세가 건강을 지킨다는 비교 그림', distractors: [2, 7, 10], dropSegments: ['', '가 건강을 ', '.'], dropAnswers: ['바른 자세', '지켜 줍니다'], dropChoices: ['바른 자세', '지켜 줍니다', '늘려 줍니다', '도와줍니다'], orderTokens: ['바른 자세가', '건강을 지켜 줍니다.'], fillBlankAnswers: [['바른 자세'], ['지켜 줍니다', '지켜줍니다']], fillPrompt: '[1]가 건강을 [2].', hints: ['바른 자세', '건강', '교정'], requiredKeywords: ['자세', '건강', '지키'], acceptedPatterns: ['자세가 좋아야 건강을 지킬 수 있습니다.', '바른 자세가 건강을 지켜 줍니다.'] },
+  { imgFile: 'c12-cut10.webp', alt: '바빠서 산책하기 어려운 직장인', distractors: [7, 8, 17], dropSegments: ['하지만 바쁘면 ', ' 나가 ', '.'], dropAnswers: ['밖에', '산책하기가 어렵습니다'], dropChoices: ['밖에', '산책하기가 어렵습니다', '운동하기가 쉽습니다', '고개를 돌립니다'], orderTokens: ['하지만 바쁘면', '밖에 나가', '산책하기가 어렵습니다.'], fillBlankAnswers: [['밖에'], ['산책하기가 어렵습니다', '산책하기가어렵습니다']], fillPrompt: '하지만 바쁘면 [1] 나가 [2].', hints: ['바쁘다', '밖에 나가다', '산책'], requiredKeywords: ['바쁘', '밖에', '산책'], acceptedPatterns: ['하지만 바쁜 업무 시간에 밖에 나가서 산책하는 일이 쉽지는 않을 겁니다.', '하지만 바쁘면 밖에 나가 산책하기가 어렵습니다.'] },
+  { imgFile: 'c12-cut11.webp', alt: '간단한 스트레칭을 소개하는 장면', distractors: [9, 11, 15], dropSegments: ['그래서 간단한 ', '을 ', '.'], dropAnswers: ['스트레칭', '소개합니다'], dropChoices: ['스트레칭', '소개합니다', '운동', '반복합니다'], orderTokens: ['그래서', '간단한 스트레칭을', '소개합니다.'], fillBlankAnswers: [['스트레칭'], ['소개합니다', '소개해요']], fillPrompt: '그래서 간단한 [1]을 [2].', hints: ['간단한', '스트레칭', '소개'], requiredKeywords: ['간단한', '스트레칭', '소개'], acceptedPatterns: ['그래서 어디서든지 할 수 있는 쉽고 간단한 스트레칭 방법을 알려 드리겠습니다.', '그래서 간단한 스트레칭을 소개합니다.'] },
+  { imgFile: 'c12-cut12.webp', alt: '두 손을 허리에 대고 몸을 뒤로 젖히는 동작', distractors: [10, 13, 15], dropSegments: ['먼저, 두 손을 ', ' 대고 몸을 ', '.'], dropAnswers: ['허리에', '뒤로 젖힙니다'], dropChoices: ['허리에', '뒤로 젖힙니다', '왼쪽 귀에', '천천히 돌립니다'], orderTokens: ['먼저,', '두 손을 허리에 대고', '몸을 뒤로 젖힙니다.'], fillBlankAnswers: [['허리에'], ['뒤로 젖힙니다', '뒤로젖힙니다']], fillPrompt: '먼저, 두 손을 [1] 대고 몸을 [2].', hints: ['먼저', '허리', '뒤로'], requiredKeywords: ['허리', '몸', '뒤로'], acceptedPatterns: ['먼저 두 손을 허리에 대고 몸을 뒤로 젖힙니다.'] },
+  { imgFile: 'c12-cut13.webp', alt: '두 손을 허리에 대고 고개를 뒤로 젖히는 동작', distractors: [11, 13, 15], dropSegments: ['두 손을 ', ' 대고 ', '.'], dropAnswers: ['허리에', '고개를 뒤로 젖힙니다'], dropChoices: ['허리에', '고개를 뒤로 젖힙니다', '반대쪽도', '눌러 줍니다'], orderTokens: ['두 손을 허리에 대고', '고개를 뒤로 젖힙니다.'], fillBlankAnswers: [['허리에'], ['고개를 뒤로 젖힙니다', '고개를뒤로젖힙니다', '고개를 젖힙니다']], fillPrompt: '두 손을 [1] 대고 [2].', hints: ['허리', '고개', '뒤로'], requiredKeywords: ['허리', '고개', '뒤로'], acceptedPatterns: ['두 손을 허리에 대고 고개를 뒤로 젖힙니다.', '두 손을 허리에 대고 고개를 젖힙니다.'] },
+  { imgFile: 'c12-cut14.webp', alt: '오른손을 왼쪽 귀에 대고 고개를 젖히는 동작', distractors: [11, 12, 15], dropSegments: ['오른손을 ', ' 대고 고개를 ', '.'], dropAnswers: ['왼쪽 귀에', '젖힙니다'], dropChoices: ['왼쪽 귀에', '젖힙니다', '허리에', '반복합니다'], orderTokens: ['오른손을', '왼쪽 귀에 대고', '고개를 젖힙니다.'], fillBlankAnswers: [['왼쪽 귀에', '왼쪽귀에'], ['젖힙니다']], fillPrompt: '오른손을 [1] 대고 고개를 [2].', hints: ['오른손', '왼쪽 귀', '고개'], requiredKeywords: ['오른손', '왼쪽 귀', '고개'], acceptedPatterns: ['그다음에 오른손을 왼쪽 귀에 대고 눌러 줍니다.', '오른손을 왼쪽 귀에 대고 고개를 젖힙니다.'] },
+  { imgFile: 'c12-cut15.webp', alt: '반대쪽도 같은 방법으로 하는 동작', distractors: [12, 13, 16], dropSegments: ['', '도 같은 방법으로 ', '.'], dropAnswers: ['반대쪽', '합니다'], dropChoices: ['반대쪽', '합니다', '스트레칭', '지켜 줍니다'], orderTokens: ['반대쪽도', '같은 방법으로', '합니다.'], fillBlankAnswers: [['반대쪽'], ['합니다', '하면 됩니다']], fillPrompt: '[1]도 같은 방법으로 [2].', hints: ['반대쪽', '같은 방법', '양쪽'], requiredKeywords: ['반대쪽', '같은 방법', '양쪽'], acceptedPatterns: ['반대쪽도 같은 방법으로 하면 됩니다.', '반대쪽도 같은 방법으로 합니다.'] },
+  { imgFile: 'c12-cut16.webp', alt: '마지막으로 고개를 천천히 돌리는 동작', distractors: [10, 14, 17], dropSegments: ['마지막으로 ', '를 ', '.'], dropAnswers: ['고개', '천천히 돌립니다'], dropChoices: ['고개', '천천히 돌립니다', '몸을', '뒤로 젖힙니다'], orderTokens: ['마지막으로', '고개를', '천천히 돌립니다.'], fillBlankAnswers: [['고개'], ['천천히 돌립니다', '천천히돌립니다']], fillPrompt: '마지막으로 [1]를 [2].', hints: ['마지막으로', '고개', '천천히'], requiredKeywords: ['마지막', '고개', '천천히'], acceptedPatterns: ['마지막으로 고개를 천천히 돌립니다.'] },
+  { imgFile: 'c12-cut17.webp', alt: '반대 방향으로도 고개를 천천히 돌리는 동작', distractors: [14, 15, 17], dropSegments: ['', '으로도 고개를 ', '.'], dropAnswers: ['반대 방향', '천천히 돌립니다'], dropChoices: ['반대 방향', '천천히 돌립니다', '같은 사람', '반복합니다'], orderTokens: ['반대 방향으로도', '고개를', '천천히 돌립니다.'], fillBlankAnswers: [['반대 방향', '반대방향'], ['천천히 돌립니다', '천천히돌립니다']], fillPrompt: '[1]으로도 고개를 [2].', hints: ['반대 방향', '고개', '천천히'], requiredKeywords: ['반대 방향', '고개', '천천히'], acceptedPatterns: ['반대 방향으로도 고개를 천천히 돌립니다.'] },
+  { imgFile: 'c12-cut18.webp', alt: '시간이 날 때마다 여러 번 반복하라고 말하는 장면', distractors: [7, 9, 15], dropSegments: ['시간이 날 때마다 ', ' 반복하는 것이 ', '.'], dropAnswers: ['여러 번', '중요합니다'], dropChoices: ['여러 번', '중요합니다', '소개합니다', '아픕니다'], orderTokens: ['시간이 날 때마다', '여러 번 반복하는 것이', '중요합니다.'], fillBlankAnswers: [['여러 번', '여러번'], ['중요합니다']], fillPrompt: '시간이 날 때마다 [1] 반복하는 것이 [2].', hints: ['여러 번', '반복', '중요'], requiredKeywords: ['여러 번', '반복', '중요'], acceptedPatterns: ['시간이 있을 때마다 여러 번 반복하는 것이 중요합니다.', '시간이 날 때마다 여러 번 반복하는 것이 중요합니다.'] }
+];
+const cuts = RAW_CUTS.map(({ distractors, fillBlankAnswers, ...cut }, index) => ({
+  id: `cut${String(index + 1).padStart(2, '0')}`,
+  sentence: SENTENCES[index],
+  mcqOptions: [SENTENCES[index], ...distractors.map((choiceIndex) => SENTENCES[choiceIndex])],
+  fillBlanks: fillBlankAnswers.map((answers, answerIndex) => ({
+    label: `빈칸 ${answerIndex + 1}`,
+    answers
+  })),
+  ...cut
 }));
 
 const app = document.getElementById('app');
 let floatingPreviewObserver = null;
-const floatingPreviewMedia = window.matchMedia('(max-width: 860px)');
+const floatingPreviewMedia = window.matchMedia('(max-width: 960px)');
 let shouldFocusPassageClose = false;
 let shouldRestorePassageTrigger = false;
 
@@ -948,9 +112,9 @@ function buildInitialState() {
     view: 'activity',
     currentCut: 0,
     currentStep: 0,
+    passageOpen: false,
     activeSlot: 0,
     dragChoiceId: null,
-    isPassageOpen: false,
     responses: cuts.map((cut) => ({
       step1: {
         selected: null,
@@ -985,7 +149,39 @@ function buildInitialState() {
   };
 }
 
-let state = buildInitialState();
+function isUsableSavedState(candidate) {
+  return Boolean(
+    candidate &&
+    Array.isArray(candidate.responses) &&
+    candidate.responses.length === cuts.length &&
+    typeof candidate.currentCut === 'number' &&
+    typeof candidate.currentStep === 'number'
+  );
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return buildInitialState();
+    const parsed = JSON.parse(raw);
+    return isUsableSavedState(parsed) ? parsed : buildInitialState();
+  } catch {
+    return buildInitialState();
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(state));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+let state = loadState();
+if (typeof state.passageOpen !== 'boolean') {
+  state.passageOpen = false;
+}
 
 function normalizeText(text) {
   return (text || '')
@@ -1071,30 +267,38 @@ function evaluateSentence(text, cut) {
   };
 }
 
-function feedbackBlock(type, title, body, extra = '') {
+function feedbackBlock(type, title, koBody, viBody, extra = '') {
   return `
     <div id="step-feedback" class="feedback ${type}">
       <strong>${title}</strong>
-      <div class="feedback-body">${body}</div>
+      <div class="feedback-body">
+        <span class="feedback-label">한국어</span>
+        <div>${koBody}</div>
+      </div>
+      <div class="feedback-body feedback-body--vi">
+        <span class="feedback-label">Tiếng Việt</span>
+        <div>${viBody}</div>
+      </div>
       ${extra}
     </div>
   `;
 }
 
-function feedbackLine(ko, vi) {
+function feedbackSentenceExtra(sentence) {
   return `
-    <div class="feedback-line">
-      ${escapeHtml(ko)}
-      <div class="feedback-vi">${escapeHtml(vi)}</div>
+    <div class="feedback-extra">
+      <span class="feedback-label">모범 문장 / Câu mẫu</span>
+      <div>${escapeHtml(sentence)}</div>
     </div>
   `;
 }
 
-function feedbackModelSentence(sentence) {
+function feedbackKeywordExtra(keywords) {
+  if (!keywords || !keywords.length) return '';
   return `
-    <div class="feedback-model">
-      <span>모범 문장 / Câu mẫu</span>
-      ${escapeHtml(sentence)}
+    <div class="feedback-extra">
+      <span class="feedback-label">넣어 보면 좋은 말 / Từ nên thêm</span>
+      <div>${escapeHtml(keywords.join(', '))}</div>
     </div>
   `;
 }
@@ -1113,14 +317,18 @@ function getStep1Feedback(cut, response) {
   if (response.step1.correct) {
     return feedbackBlock(
       'correct',
-      '맞아요. / Đúng rồi.',
-      `${feedbackLine('그림과 같은 문장을 골랐어요.', 'Bạn đã chọn đúng câu khớp với tranh.')}${feedbackModelSentence(cut.sentence)}`
+      '잘 골랐어요.',
+      '그림과 맞는 문장을 잘 찾았어요.',
+      'Bạn đã chọn đúng câu phù hợp với bức tranh.',
+      feedbackSentenceExtra(cut.sentence)
     );
   }
   return feedbackBlock(
     'wrong',
-    '아직 아니에요. / Chưa đúng.',
-    `${feedbackLine('그림에 더 잘 맞는 문장을 다시 봐요.', 'Hãy xem lại câu phù hợp hơn với bức tranh.')}${feedbackModelSentence(cut.sentence)}`
+    '다시 한 번 볼까요?',
+    '그림에 맞는 문장은 이 문장이에요.',
+    'Hãy xem lại nhé. Câu đúng là câu này.',
+    feedbackSentenceExtra(cut.sentence)
   );
 }
 
@@ -1129,14 +337,18 @@ function getStep2Feedback(cut, response) {
   if (response.step2.correct) {
     return feedbackBlock(
       'correct',
-      '좋아요. / Tốt lắm.',
-      `${feedbackLine('두 낱말이 모두 맞아요.', 'Cả hai từ đều đúng.')}${feedbackModelSentence(cut.sentence)}`
+      '좋아요. 알맞게 넣었어요.',
+      '두 낱말을 맞는 자리에 잘 넣었어요.',
+      'Tốt lắm. Bạn đã đặt đúng hai từ vào chỗ trống.',
+      feedbackSentenceExtra(cut.sentence)
     );
   }
   return feedbackBlock(
     'warn',
-    '조금만 더. / Thêm một chút nữa.',
-    `${feedbackLine('두 칸의 말을 다시 바꿔 넣어 보세요.', 'Hãy thử đổi lại hai từ vào ô trống.')}${feedbackModelSentence(cut.sentence)}`
+    '자리만 다시 보면 돼요.',
+    '단어가 들어갈 자리를 다시 맞춰 보세요.',
+    'Chỉ cần xem lại vị trí của từ và thử lại.',
+    feedbackSentenceExtra(cut.sentence)
   );
 }
 
@@ -1145,14 +357,18 @@ function getStep3Feedback(cut, response) {
   if (response.step3.correct) {
     return feedbackBlock(
       'correct',
-      '순서가 맞아요. / Đúng thứ tự rồi.',
-      feedbackLine('문장이 자연스럽게 이어져요.', 'Câu đã nối lại tự nhiên rồi.')
+      '순서가 맞아요.',
+      '말의 순서가 자연스럽게 잘 이어져요.',
+      'Thứ tự các cụm từ đã đúng và nghe rất tự nhiên.',
+      feedbackSentenceExtra(cut.sentence)
     );
   }
   return feedbackBlock(
     'warn',
-    '순서를 다시 봐요. / Xem lại thứ tự nhé.',
-    `${feedbackLine('처음부터 천천히 다시 놓아 보세요.', 'Hãy sắp xếp lại từ đầu, chậm thôi.')}${feedbackModelSentence(cut.sentence)}`
+    '순서를 다시 맞춰 볼까요?',
+    '문장이 자연스럽게 이어지도록 다시 배열해 보세요.',
+    'Hãy sắp xếp lại để câu nối với nhau tự nhiên hơn.',
+    feedbackSentenceExtra(cut.sentence)
   );
 }
 
@@ -1161,24 +377,27 @@ function getStep4Feedback(cut, response) {
   if (response.step4.correct) {
     return feedbackBlock(
       'correct',
-      '잘 썼어요. / Viết tốt lắm.',
-      `${feedbackLine('빈칸 두 곳이 모두 맞아요.', 'Cả hai ô trống đều đúng.')}${feedbackModelSentence(cut.sentence)}`
+      '빈칸을 다 맞혔어요.',
+      '두 빈칸이 모두 맞아요.',
+      'Bạn đã điền đúng cả hai chỗ trống.',
+      feedbackSentenceExtra(cut.sentence)
     );
   }
   if (response.step4.correctCount > 0) {
     return feedbackBlock(
       'warn',
-      '한 칸은 맞아요. / Một ô đúng rồi.',
-      `${feedbackLine(
-        `${response.step4.correctCount}개는 맞고, 나머지 하나를 다시 보면 돼요.`,
-        `${response.step4.correctCount} ô đúng, bạn chỉ cần xem lại ô còn lại.`
-      )}${feedbackModelSentence(cut.sentence)}`
+      response.step4.correctCount === 1 ? '한 칸은 맞았어요.' : '조금만 더 하면 돼요.',
+      `맞은 빈칸은 ${response.step4.correctCount}개예요. 틀린 칸만 다시 보면 돼요.`,
+      `Bạn đã đúng ${response.step4.correctCount}/${cut.fillBlanks.length} chỗ trống. Chỉ cần sửa ô còn sai thôi.`,
+      feedbackSentenceExtra(cut.sentence)
     );
   }
   return feedbackBlock(
     'wrong',
-    '다시 써 볼까요? / Thử viết lại nhé?',
-    `${feedbackLine('핵심 낱말을 다시 보고 써 보세요.', 'Hãy nhìn lại từ khóa chính rồi viết lại nhé.')}${feedbackModelSentence(cut.sentence)}`
+    '힌트를 보고 다시 써 볼까요?',
+    '그림과 힌트를 다시 보고 빈칸을 채워 보세요.',
+    'Hãy nhìn lại tranh và gợi ý rồi điền lại chỗ trống.',
+    feedbackSentenceExtra(cut.sentence)
   );
 }
 
@@ -1188,32 +407,42 @@ function getStep5Feedback(cut, response) {
   if (result.level === 'exact') {
     return feedbackBlock(
       'correct',
-      '아주 좋아요. / Rất tốt.',
-      `${feedbackLine('문장이 거의 똑같아요.', 'Câu của bạn gần như giống hệt câu mẫu.')}${feedbackModelSentence(cut.sentence)}`
+      '아주 잘 썼어요.',
+      '모범 문장과 거의 같아요.',
+      'Bạn viết rất chính xác, gần như giống câu mẫu.',
+      feedbackSentenceExtra(cut.sentence)
     );
   }
   if (result.level === 'accepted' || result.level === 'strong') {
     return feedbackBlock(
       'correct',
-      '의미가 맞아요. / Đúng ý rồi.',
-      `${feedbackLine('표현이 조금 달라도 괜찮아요.', 'Diễn đạt hơi khác cũng không sao.')}${feedbackModelSentence(cut.sentence)}`
+      '뜻이 잘 전달됐어요.',
+      '표현이 조금 달라도 핵심 뜻은 잘 들어갔어요.',
+      'Dù cách diễn đạt hơi khác, ý chính vẫn được truyền đạt rất tốt.',
+      feedbackSentenceExtra(cut.sentence)
     );
   }
   if (result.level === 'partial') {
-    const missingKo = result.missingKeywords.length ? `빠진 말: ${result.missingKeywords.join(', ')}` : '핵심 말을 한 번 더 넣어 보세요.';
-    const missingVi = result.missingKeywords.length
-      ? `Từ còn thiếu: ${result.missingKeywords.join(', ')}`
-      : 'Hãy thử thêm lại từ khóa chính.';
+    const koBody = result.missingKeywords.length
+      ? '이 말을 더 넣으면 문장이 더 좋아져요.'
+      : '핵심 말을 한 번 더 확인해 보세요.';
+    const viBody = result.missingKeywords.length
+      ? 'Nếu thêm những từ này thì câu sẽ đầy đủ và tự nhiên hơn.'
+      : 'Hãy kiểm tra lại các từ khóa chính nhé.';
     return feedbackBlock(
       'warn',
-      '조금만 더 쓰면 돼요. / Chỉ cần thêm một chút nữa.',
-      `${feedbackLine(missingKo, missingVi)}${feedbackModelSentence(cut.sentence)}`
+      '조금만 더 보태면 돼요.',
+      koBody,
+      viBody,
+      feedbackKeywordExtra(result.missingKeywords) + feedbackSentenceExtra(cut.sentence)
     );
   }
   return feedbackBlock(
     'wrong',
-    '핵심어를 더 넣어 보세요. / Hãy thêm từ chính.',
-    `${feedbackLine('그림의 핵심 말을 넣어 다시 써 보세요.', 'Hãy thêm từ khóa chính của bức tranh rồi viết lại.')}${feedbackModelSentence(cut.sentence)}`
+    '핵심 말을 넣어 다시 써 볼까요?',
+    '그림의 핵심 말을 넣어서 다시 써 보세요.',
+    'Hãy viết lại và thêm những từ khóa quan trọng của bức tranh.',
+    feedbackKeywordExtra(result.missingKeywords) + feedbackSentenceExtra(cut.sentence)
   );
 }
 
@@ -1235,40 +464,41 @@ function renderCutPills() {
   }).join('');
 }
 
-function renderProgressActions(chipLabel) {
+function renderTopTools(label) {
   return `
-    <div class="progress-actions">
-      <button type="button" class="passage-btn" data-action="open-passage" aria-haspopup="dialog" aria-controls="passage-dialog" aria-expanded="${state.isPassageOpen ? 'true' : 'false'}">
-        전체 지문 보기
-        <span>Xem toàn bộ bài đọc</span>
-      </button>
-      <span class="focus-chip">${chipLabel}</span>
+    <div class="top-tools">
+      <button type="button" class="passage-open-btn" data-action="open-passage" aria-haspopup="dialog" aria-controls="passage-dialog" aria-expanded="${state.passageOpen ? 'true' : 'false'}">전체 지문 팝업 보기</button>
+      <span class="focus-chip">${label}</span>
     </div>
   `;
 }
 
 function renderPassageModal() {
-  if (!state.isPassageOpen) return '';
-  const activeIndex = state.view === 'activity' ? state.currentCut : -1;
   return `
-    <section class="passage-modal" data-action="close-passage-backdrop" aria-label="전체 지문 팝업">
-      <div id="passage-dialog" class="passage-dialog" role="dialog" aria-modal="true" aria-labelledby="passage-title" data-action="passage-panel" tabindex="-1">
-        <div class="passage-head">
-          <div>
-            <h3 id="passage-title">전체 읽기 지문</h3>
-            <p>문장 흐름을 한 번에 읽어 보세요.<br>Hãy đọc toàn bộ bài để nắm mạch nội dung.</p>
-          </div>
-          <button type="button" class="passage-close" data-action="close-passage" data-passage-close-button>닫기</button>
+    <div class="passage-backdrop" data-action="close-passage"></div>
+    <section id="passage-dialog" class="passage-modal" role="dialog" aria-modal="true" aria-labelledby="passage-title" tabindex="-1">
+      <div class="passage-head">
+        <div>
+          <div class="eyebrow">12과 읽기 지문</div>
+          <h2 id="passage-title" class="passage-title">여러분의 목 건강은 어떠십니까?</h2>
+          <p class="passage-subtitle">처음부터 끝까지 이어서 읽고 싶을 때 한 번에 볼 수 있는 팝업입니다.</p>
         </div>
-        <div class="passage-body">
-          ${cuts.map((cut, index) => `
-            <article class="passage-item ${activeIndex === index ? 'active' : ''}">
-              <strong>컷 ${index + 1}${activeIndex === index ? ' · 지금 보는 컷' : ''}</strong>
-              <p>${escapeHtml(cut.sentence)}</p>
-              <div class="passage-vi">Hãy đọc to câu này và kiểm tra mạch nội dung.</div>
-            </article>
+        <button type="button" class="ghost-btn" data-action="close-passage" data-passage-close-button>닫기</button>
+      </div>
+      <div class="passage-body">
+        <div class="passage-card passage-overview">
+          <strong>전체 지문</strong>
+          ${PASSAGE_FULL_PARAGRAPHS.map((paragraph) => `
+            <p class="passage-copy">${escapeHtml(paragraph)}</p>
           `).join('')}
         </div>
+        <div class="eyebrow passage-section-label">문단별로 다시 보기</div>
+        ${PASSAGE_SECTIONS.map((section) => `
+          <div class="passage-card">
+            <strong>${escapeHtml(section.title)}</strong>
+            <p>${escapeHtml(section.body)}</p>
+          </div>
+        `).join('')}
       </div>
     </section>
   `;
@@ -1280,14 +510,14 @@ function renderImagePanel(cut) {
       <div class="panel-head">
         <div>
           <h3>컷 ${state.currentCut + 1}</h3>
-          <p>그림을 먼저 보고, 표정과 행동에서 핵심 단서를 찾으세요.</p>
+          <p>그림을 먼저 보고, 인물과 행동, 핵심 장면을 떠올려 보세요.</p>
         </div>
         <span class="highlight-tag">그림 보기</span>
       </div>
       <div class="image-wrap">
         <img src="${IMG_BASE}${cut.imgFile}" alt="${escapeHtml(cut.alt)}" data-primary-image>
       </div>
-      <div class="image-caption">그림 속 인물, 행동, 분위기를 먼저 보고 아래 키워드로 상황을 추측해 보세요.</div>
+      <div class="image-caption">그림 속 장면을 먼저 읽고, 아래 힌트로 어떤 문장이 어울리는지 추측해 보세요.</div>
       <div class="support-row">
         ${cut.hints.map((hint) => `<span class="support-chip">${escapeHtml(hint)}</span>`).join('')}
       </div>
@@ -1339,10 +569,10 @@ function renderStep1(cut, response) {
   return `
     <div class="instruction-card">
       <strong>지금 할 활동</strong>
-      <span>그림에 맞는 문장 하나를 고르세요.</span>
+      <span>그림에 맞는 문장을 하나 고르세요.</span>
     </div>
-    ${needsSelection ? renderGuideZone(choicesBlock, '먼저 맞는 문장을 하나 누르세요') : choicesBlock}
-    ${needsCheck ? renderGuideZone(actionsBlock, '선택했으면 정답 확인을 누르세요') : actionsBlock}
+    ${needsSelection ? renderGuideZone(choicesBlock, '먼저 맞는 문장을 하나 눌러 보세요') : choicesBlock}
+    ${needsCheck ? renderGuideZone(actionsBlock, '선택했으면 정답 확인을 눌러 보세요') : actionsBlock}
     ${getStep1Feedback(cut, response)}
   `;
 }
@@ -1395,10 +625,10 @@ function renderStep2(cut, response) {
   return `
     <div class="instruction-card">
       <strong>지금 할 활동</strong>
-      <span>알맞은 어휘를 끌어 놓거나 눌러서 빈칸에 넣으세요. 채워진 칸을 누르면 다시 비워집니다.</span>
+      <span>알맞은 어휘를 눌러서 빈칸에 넣으세요. 채워진 칸을 누르면 다시 비울 수 있습니다.</span>
     </div>
-    ${needsPlacement ? renderGuideZone(workBlock, `빈칸 ${emptySlotIndex + 1}에 들어갈 말을 넣으세요`) : workBlock}
-    ${!needsPlacement && !response.step2.checked ? renderGuideZone(actionsBlock, '모두 넣었으면 확인을 누르세요') : actionsBlock}
+    ${needsPlacement ? renderGuideZone(workBlock, `빈칸 ${emptySlotIndex + 1}에 들어갈 말을 넣어 보세요`) : workBlock}
+    ${!needsPlacement && !response.step2.checked ? renderGuideZone(actionsBlock, '다 넣었으면 확인을 눌러 보세요') : actionsBlock}
     ${getStep2Feedback(cut, response)}
   `;
 }
@@ -1408,8 +638,8 @@ function renderStep3(cut, response) {
   const bankItems = response.step3.bankOrder.filter((item) => !response.step3.arranged.includes(item.id));
   const needsOrdering = response.step3.arranged.length < cut.orderTokens.length;
   const orderLabel = response.step3.arranged.length === 0
-    ? '아래 어절부터 눌러 위에 올리세요'
-    : '남은 어절을 계속 눌러 문장을 완성하세요';
+    ? '아래 어절부터 순서대로 눌러 보세요'
+    : '남은 어절을 이어서 눌러 문장을 완성해 보세요';
   const workBlock = `
     <div class="arranged-box">
       <div class="arranged-line">
@@ -1438,7 +668,7 @@ function renderStep3(cut, response) {
       <span>어절을 순서대로 눌러 문장을 만드세요. 위에 올라간 어절을 누르면 다시 아래로 돌아갑니다.</span>
     </div>
     ${needsOrdering ? renderGuideZone(workBlock, orderLabel) : workBlock}
-    ${!needsOrdering && !response.step3.checked ? renderGuideZone(actionsBlock, '문장이 완성되면 순서 확인을 누르세요') : actionsBlock}
+    ${!needsOrdering && !response.step3.checked ? renderGuideZone(actionsBlock, '문장이 완성되면 순서 확인을 눌러 보세요') : actionsBlock}
     ${getStep3Feedback(cut, response)}
   `;
 }
@@ -1472,8 +702,8 @@ function renderStep4(cut, response) {
       <strong>지금 할 활동</strong>
       <span>이제 빈칸 두 곳에 들어갈 말을 직접 써 보세요.</span>
     </div>
-    ${needsWriting ? renderGuideZone(workBlock, '빈칸 두 곳에 들어갈 말을 직접 쓰세요') : workBlock}
-    ${!needsWriting && !response.step4.checked ? renderGuideZone(actionsBlock, '다 썼으면 빈칸 확인을 누르세요') : actionsBlock}
+    ${needsWriting ? renderGuideZone(workBlock, '두 빈칸에 들어갈 말을 직접 써 보세요') : workBlock}
+    ${!needsWriting && !response.step4.checked ? renderGuideZone(actionsBlock, '다 썼으면 빈칸 확인을 눌러 보세요') : actionsBlock}
     ${getStep4Feedback(cut, response)}
   `;
 }
@@ -1500,7 +730,7 @@ function renderStep5(cut, response) {
       <span>도움 없이 전체 문장을 직접 써 보세요. 표현이 조금 달라도 핵심 의미가 맞으면 인정합니다.</span>
     </div>
     ${needsSentenceWrite ? renderGuideZone(workBlock, '전체 문장을 직접 써 보세요') : workBlock}
-    ${!needsSentenceWrite && !response.step5.checked ? renderGuideZone(actionsBlock, '문장을 다 썼으면 확인을 누르세요') : actionsBlock}
+    ${!needsSentenceWrite && !response.step5.checked ? renderGuideZone(actionsBlock, '문장을 다 썼으면 확인을 눌러 보세요') : actionsBlock}
     ${getStep5Feedback(cut, response)}
   `;
 }
@@ -1525,7 +755,7 @@ function renderStepPanel(cut, response) {
       <div class="panel-head">
         <div>
           <h3>${state.currentStep + 1}단계 · ${STEP_LABELS[state.currentStep]}</h3>
-          <p>${STEP_GUIDES[state.currentStep]} 지금은 이 단계로 모든 컷을 차례대로 돌고 있습니다.</p>
+          <p>${STEP_GUIDES[state.currentStep]} 지금은 이 단계로 모든 컷을 차례대로 연습하는 중입니다.</p>
         </div>
         <span class="highlight-tag" style="background:#dbeafe;color:#1e40af;">교사용</span>
       </div>
@@ -1555,8 +785,8 @@ function getSentenceSuccessCount() {
 
 function getSentenceLabel(result) {
   if (result.level === 'exact') return '매우 정확';
-  if (result.level === 'accepted' || result.level === 'strong') return '의미 맞음';
-  if (result.level === 'partial') return '부분 성공';
+  if (result.level === 'accepted' || result.level === 'strong') return '의미 전달 성공';
+  if (result.level === 'partial') return '조금 더 보완';
   if (result.level === 'empty') return '미작성';
   return '다시 보기';
 }
@@ -1575,16 +805,16 @@ function renderSummary() {
       <div class="progress-top">
         <div>
           <div class="eyebrow">종합 피드백</div>
-          <h2 class="progress-title">컷 문장 쓰기 결과를 확인해 보세요</h2>
-          <p class="progress-desc">어떤 단계가 쉬웠는지, 어느 컷을 다시 보면 좋은지 한눈에 볼 수 있습니다.</p>
+          <h2 class="progress-title">컷 문장 쓰기 결과를 확인해 보세요.</h2>
+          <p class="progress-desc">어느 단계가 쉬웠는지, 어느 컷을 다시 보면 좋을지 한눈에 볼 수 있습니다.</p>
         </div>
-        ${renderProgressActions('마무리')}
+        ${renderTopTools('마무리')}
       </div>
     </div>
 
     <section class="summary-layout">
       <div class="summary-metrics">
-        <div class="metric"><strong>${getStepMetricValue(0)} / ${cuts.length}</strong><span>객관식</span></div>
+        <div class="metric"><strong>${getStepMetricValue(0)} / ${cuts.length}</strong><span>문장 고르기</span></div>
         <div class="metric"><strong>${getStepMetricValue(1)} / ${cuts.length}</strong><span>어휘 넣기</span></div>
         <div class="metric"><strong>${getStepMetricValue(2)} / ${cuts.length}</strong><span>순서 배열</span></div>
         <div class="metric"><strong>${getStepMetricValue(3)} / ${cuts.length}</strong><span>빈칸 쓰기</span></div>
@@ -1595,7 +825,7 @@ function renderSummary() {
         <div class="panel-head">
           <div>
             <h3>컷별 확인</h3>
-            <p>학생 문장과 모범 문장을 같이 보면서 다시 볼 컷을 고르세요.</p>
+            <p>내 문장과 모범 문장을 비교하면서 다시 보고 싶은 컷을 골라 보세요.</p>
           </div>
           <span class="highlight-tag">다시 보기</span>
         </div>
@@ -1609,7 +839,7 @@ function renderSummary() {
             return `
               <div class="summary-item">
                 <strong>컷 ${index + 1} · ${getSentenceLabel(result)}</strong>
-                <p>내 문장: ${response.step5.text.trim() ? escapeHtml(response.step5.text.trim()) : '아직 쓰지 않았어요.'}</p>
+                <p>내 문장: ${response.step5.text.trim() ? escapeHtml(response.step5.text.trim()) : '아직 쓰지 않았습니다.'}</p>
                 <p>모범 문장: ${escapeHtml(cut.sentence)}</p>
                 <p>${helper}</p>
                 <div class="actions">
@@ -1626,7 +856,7 @@ function renderSummary() {
           <div class="panel-head">
             <div>
               <h3>우선 다시 보면 좋은 컷</h3>
-              <p>핵심어가 빠진 컷부터 다시 보면 학습 효과가 큽니다.</p>
+              <p>핵심어가 비어 있는 컷부터 복습하면 훨씬 빠르게 정리됩니다.</p>
             </div>
           </div>
           <div class="summary-list">
@@ -1658,9 +888,9 @@ function renderActivity() {
         <div>
           <div class="eyebrow">${state.currentStep + 1}단계 / ${STEP_LABELS.length}단계</div>
           <h2 class="progress-title">${STEP_LABELS[state.currentStep]}</h2>
-          <p class="progress-desc">현재 단계에서 컷 ${state.currentCut + 1} / ${cuts.length}를 진행 중입니다. 이번 단계를 모든 컷에 적용한 뒤 다음 단계로 넘어갑니다.</p>
+          <p class="progress-desc">현재 단계에서 컷 ${state.currentCut + 1} / ${cuts.length}을 연습하고 있습니다. 이 단계가 끝나면 다음 단계로 넘어갑니다.</p>
         </div>
-        ${renderProgressActions(`컷 ${state.currentCut + 1}`)}
+        ${renderTopTools(`컷 ${state.currentCut + 1}`)}
       </div>
       <div class="step-pills">${renderStepPills()}</div>
       <div class="cut-pills">${renderCutPills()}</div>
@@ -1678,9 +908,12 @@ function renderActivity() {
 }
 
 function renderApp() {
-  app.innerHTML = `${state.view === 'summary' ? renderSummary() : renderActivity()}${renderPassageModal()}`;
+  const mainView = state.view === 'summary' ? renderSummary() : renderActivity();
+  app.innerHTML = `${mainView}${state.passageOpen ? renderPassageModal() : ''}`;
   setupFloatingPreview();
+  refreshLiveButtons();
   syncPassageUi();
+  saveState();
 }
 
 function focusAfterRender(selector) {
@@ -1691,7 +924,7 @@ function focusAfterRender(selector) {
 }
 
 function syncPassageUi() {
-  document.body.classList.toggle('passage-open', state.isPassageOpen);
+  document.body.classList.toggle('passage-open', state.passageOpen);
 
   if (shouldFocusPassageClose) {
     focusAfterRender('[data-passage-close-button]');
@@ -1704,7 +937,7 @@ function syncPassageUi() {
 }
 
 function handlePassageTabKey(event) {
-  if (!state.isPassageOpen || event.key !== 'Tab') return;
+  if (!state.passageOpen || event.key !== 'Tab') return;
 
   const dialog = document.getElementById('passage-dialog');
   if (!dialog) return;
@@ -1832,13 +1065,6 @@ function scheduleStep1CheckScroll() {
   }));
 }
 
-function resetStepFeedback() {
-  const feedback = document.getElementById('step-feedback');
-  if (feedback) feedback.remove();
-  const nextButton = app.querySelector('[data-action="next"]');
-  if (nextButton) nextButton.disabled = true;
-}
-
 function refreshLiveButtons() {
   const step4Button = app.querySelector('[data-action="check-step4"]');
   if (step4Button && state.view === 'activity' && state.currentStep === 3) {
@@ -1851,6 +1077,13 @@ function refreshLiveButtons() {
     const response = getCurrentResponse();
     step5Button.disabled = !response.step5.text.trim();
   }
+}
+
+function resetStepFeedback() {
+  const feedback = document.getElementById('step-feedback');
+  if (feedback) feedback.remove();
+  const nextButton = app.querySelector('[data-action="next"]');
+  if (nextButton) nextButton.disabled = true;
 }
 
 function setStepUnchecked(stepData) {
@@ -2011,6 +1244,7 @@ function goNext() {
 }
 
 function restartAll() {
+  localStorage.removeItem(LS_KEY);
   state = buildInitialState();
 }
 
@@ -2074,13 +1308,13 @@ function reviewCut(index) {
 }
 
 function openPassage() {
-  state.isPassageOpen = true;
+  state.passageOpen = true;
   shouldFocusPassageClose = true;
   shouldRestorePassageTrigger = false;
 }
 
 function closePassage() {
-  state.isPassageOpen = false;
+  state.passageOpen = false;
   shouldRestorePassageTrigger = true;
   shouldFocusPassageClose = false;
 }
@@ -2124,8 +1358,7 @@ app.addEventListener('click', (event) => {
     shouldRender = false;
   }
   else if (action === 'open-passage') openPassage();
-  else if (action === 'close-passage' || action === 'close-passage-backdrop') closePassage();
-  else if (action === 'passage-panel') shouldRender = false;
+  else if (action === 'close-passage') closePassage();
   else shouldRender = false;
 
   if (shouldRender) {
@@ -2151,6 +1384,7 @@ app.addEventListener('input', (event) => {
     updateFullText(target.value);
   }
   refreshLiveButtons();
+  saveState();
 });
 
 app.addEventListener('dragstart', (event) => {
@@ -2176,9 +1410,9 @@ app.addEventListener('drop', (event) => {
   renderApp();
 });
 
-window.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', (event) => {
   handlePassageTabKey(event);
-  if (event.key === 'Escape' && state.isPassageOpen) {
+  if (event.key === 'Escape' && state.passageOpen) {
     closePassage();
     renderApp();
   }
@@ -2191,3 +1425,4 @@ if (typeof floatingPreviewMedia.addEventListener === 'function') {
 }
 
 renderApp();
+

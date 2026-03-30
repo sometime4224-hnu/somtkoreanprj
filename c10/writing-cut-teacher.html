@@ -48,6 +48,10 @@
       font-family: 'Noto Sans KR', sans-serif;
     }
 
+    body.passage-open {
+      overflow: hidden;
+    }
+
     a { color: inherit; }
 
     .global-nav {
@@ -196,20 +200,34 @@
       display: inline-flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 2px;
-      padding: 10px 14px;
+      justify-content: center;
+      gap: 4px;
+      min-height: 52px;
+      padding: 12px 16px;
       border-radius: 18px;
       border: 1px solid #fdba74;
-      background: #fff7ed;
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
       color: var(--accent-strong);
       font-weight: 800;
-      box-shadow: 0 12px 24px rgba(245, 158, 11, 0.14);
+      box-shadow: 0 14px 28px rgba(245, 158, 11, 0.18);
     }
 
-    .passage-btn span {
-      font-size: 0.78rem;
+    .passage-btn:focus-visible {
+      outline: 3px solid rgba(245, 158, 11, 0.34);
+      outline-offset: 3px;
+    }
+
+    .passage-btn-label {
+      font-size: 0.98rem;
+      line-height: 1.2;
+    }
+
+    .passage-btn span,
+    .passage-btn-hint {
+      font-size: 0.8rem;
       font-weight: 700;
       color: #c2410c;
+      line-height: 1.35;
     }
 
     .step-pills {
@@ -981,6 +999,7 @@
       display: grid;
       gap: 12px;
       background: #fffdf8;
+      overscroll-behavior: contain;
     }
 
     .passage-item {
@@ -1065,6 +1084,8 @@
 
       .passage-btn {
         width: 100%;
+        min-height: 56px;
+        border-radius: 20px;
       }
 
       .focus-chip,
@@ -1087,13 +1108,24 @@
       }
 
       .passage-modal {
-        padding: 12px;
+        padding: 0;
+        place-items: end stretch;
+      }
+
+      .passage-dialog {
+        width: 100%;
+        max-height: min(84vh, 820px);
+        border-radius: 28px 28px 0 0;
       }
 
       .passage-head,
       .passage-body {
         padding-left: 16px;
         padding-right: 16px;
+      }
+
+      .passage-body {
+        padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
       }
     }
     /* ── 교사용 추가 스타일 ── */
