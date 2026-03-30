@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>13과 문법 1·2 융합 미니 게임 | 지금 장면에 맞는 문장은?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(251, 146, 60, .16), transparent 24%),
+                radial-gradient(circle at top right, rgba(52, 211, 153, .14), transparent 26%),
+                linear-gradient(180deg, #fff7ed 0%, #ecfeff 100%);
+            color: #0f172a;
+        }
+        .panel {
+            background: rgba(255, 255, 255, .94);
+            border: 1px solid rgba(255, 255, 255, .82);
+            box-shadow: 0 20px 46px rgba(15, 23, 42, .08);
+        }
+        .option-btn, .ui-btn {
+            transition: transform .15s ease, border-color .15s ease, background .15s ease;
+        }
+        .option-btn:hover:not(:disabled), .ui-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sticky top-0 z-50 flex items-center justify-between gap-3 border-b border-white/70 bg-white/82 px-4 py-3 backdrop-blur">
+        <a href="index.html" class="inline-flex items-center gap-2 text-sm font-extrabold text-cyan-700">
+            <i class="fa-solid fa-arrow-left"></i><span>13과 허브</span>
+        </a>
+        <span class="text-sm font-extrabold text-slate-600">문법 1·2 융합 미니 게임</span>
+    </nav>
+
+    <main class="mx-auto w-[min(780px,calc(100%-20px))] py-4 pb-12">
+        <section class="panel rounded-[28px] p-5 sm:p-6">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-[0.18em] text-cyan-700">Fusion Mini Game</p>
+                    <h1 class="mt-1 text-2xl font-black leading-tight text-slate-900 sm:text-3xl">지금 장면에 맞는 문장은?</h1>
+                    <p class="mt-2 text-sm leading-7 text-slate-600">같은 장면을 보고도 질문에 따라 `-(으)ㄹ까 봐`와 `-고 있다` 중 더 자연스러운 문장을 골라 보세요.</p>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs font-black text-slate-700">
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">15문제</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">4지선다</span>
+                    <span class="rounded-full border border-slate-200 bg-white px-3 py-2">문법1·2 혼합</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="gameCard" class="panel mt-3 rounded-[28px] p-5 sm:p-6"></section>
+    </main>
+
+    <script>
+        const GRAMMAR1_BASE = '../assets/c13/grammar/images/grammar1-mini';
+        const GRAMMAR2_BASE = '../assets/c13/grammar/images/grammar2-mini';
+
+        const QUESTIONS = [
+            {
+                type: 'grammar1',
+                image: `${GRAMMAR1_BASE}/g1_q01.webp`,
+                title: '우산을 미리 챙긴 장면',
+                prompt: '아직 비는 안 와요. 이 사람은 왜 우산을 챙겼어요?',
+                choices: [
+                    '비가 올까 봐 우산을 챙겼어요.',
+                    '우산을 들고 있어요.',
+                    '우산을 챙겼어요.',
+                    '우산을 챙기려고 해요.'
+                ],
+                answer: '비가 올까 봐 우산을 챙겼어요.',
+                explain: '아직 일어나지 않은 일을 걱정한 이유를 묻고 있으므로 `-(으)ㄹ까 봐` 문장이 가장 자연스러워요.'
+            },
+            {
+                type: 'grammar2',
+                image: `${GRAMMAR2_BASE}/g2_q01.webp`,
+                title: '버스를 기다리는 장면',
+                prompt: '지금 이 사람은 뭐 하고 있어요?',
+                choices: [
+                    '늦을까 봐 일찍 나왔어요.',
+                    '버스를 기다리고 있어요.',
+                    '버스를 기다렸어요.',
+                    '버스를 기다리려고 해요.'
+                ],
+                answer: '버스를 기다리고 있어요.',
+                explain: '질문이 지금 보이는 행동을 묻고 있으므로 현재 진행을 나타내는 `-고 있다`가 맞아요.'
+            },
+            {
+                type: 'grammar1',
+                image: `${GRAMMAR1_BASE}/g1_q02.webp`,
+                title: '서둘러 출발한 장면',
+                prompt: '약속에 늦을지도 몰라요. 이 사람은 왜 서둘러 가요?',
+                choices: [
+                    '지하철이 늦을까 봐 일찍 출발했어요.',
+                    '서둘러 가고 있어요.',
+                    '일찍 출발했어요.',
+                    '일찍 출발하려고 해요.'
+                ],
+                answer: '지하철이 늦을까 봐 일찍 출발했어요.',
+                explain: '걱정 때문에 미리 취한 행동을 설명해야 하므로 `늦을까 봐`가 들어간 문장이 가장 자연스러워요.'
+            },
+            {
+                type: 'grammar2',
+                image: `${GRAMMAR2_BASE}/g2_q03.webp`,
+                title: '부엌에서 요리하는 장면',
+                prompt: '부엌에서 이 사람은 지금 뭐 하고 있어요?',
+                choices: [
+                    '배가 고플까 봐 요리했어요.',
+                    '찌개를 끓이고 있어요.',
+                    '찌개를 끓였어요.',
+                    '찌개를 끓이려고 해요.'
+                ],
+                answer: '찌개를 끓이고 있어요.',
+                explain: '지금 보이는 요리 장면을 설명하므로 `찌개를 끓이고 있어요`가 가장 잘 맞아요.'
+            },
+            {
+                type: 'grammar1',
+                image: `${GRAMMAR1_BASE}/g1_q04.webp`,
+                title: '코트를 미리 입은 장면',
+                prompt: '밤에 추워질 것 같아요. 이 사람은 왜 코트를 입었어요?',
+                choices: [
+                    '추울까 봐 코트를 입고 나왔어요.',
+                    '코트를 입고 있어요.',
+                    '코트를 입었어요.',
+                    '코트를 입으려고 해요.'
+                ],
+                answer: '추울까 봐 코트를 입고 나왔어요.',
+                explain: '앞으로 추워질 가능성을 걱정한 이유를 말하므로 `추울까 봐`가 가장 자연스러워요.'
+            },
+            {
+                type: 'grammar2',
+                image: `${GRAMMAR2_BASE}/g2_q02.webp`,
+                title: '카페에서 과제를 하는 장면',
+                prompt: '카페에서 이 학생은 지금 뭐 하고 있어요?',
+                choices: [
+                    '과제가 많을까 봐 일찍 왔어요.',
+                    '과제를 하고 있어요.',
+                    '과제를 했어요.',
+                    '과제를 하려고 해요.'
+                ],
+                answer: '과제를 하고 있어요.',
+                explain: '지금 보이는 행동을 그대로 말해야 하므로 `과제를 하고 있어요`가 가장 자연스러워요.'
+            },
+            {
+                type: 'grammar2',
+                image: `${GRAMMAR2_BASE}/g2_q10.webp`,
+                title: '교실에서 안경을 쓴 장면',
+                prompt: '교실에서 이 학생은 어떤 모습이에요?',
+                choices: [
+                    '칠판이 안 보일까 봐 안경을 썼어요.',
+                    '안경을 쓰고 있어요.',
+                    '안경을 썼어요.',
+                    '안경을 쓰려고 해요.'
+                ],
+                answer: '안경을 쓰고 있어요.',
+                explain: '현재 상태를 묻고 있으므로 `안경을 쓰고 있어요`처럼 `-고 있다`를 써서 말하는 것이 맞아요.'
+            },
+            {
+                type: 'grammar1',
+                image: `${GRAMMAR1_BASE}/g1_q03.webp`,
+                title: '골목길로 돌아가는 장면',
+                prompt: '큰길이 많이 막힐 것 같아요. 왜 이 길로 갔어요?',
+                choices: [
+                    '길이 막힐까 봐 골목길로 갔어요.',
+                    '골목길로 가고 있어요.',
+                    '골목길로 갔어요.',
+                    '골목길로 가려고 해요.'
+                ],
+                answer: '길이 막힐까 봐 골목길로 갔어요.',
+                explain: '앞으로 생길 상황을 걱정하며 다른 길을 선택했으므로 `막힐까 봐`가 가장 자연스러워요.'
+            },
+            {
+                type: 'grammar1',
+                image: `${GRAMMAR1_BASE}/g1_q06.webp`,
+                title: '손님맞이 음식을 넉넉히 준비한 장면',
+                prompt: '손님이 많이 올 것 같아요. 왜 음식을 많이 준비했어요?',
+                choices: [
+                    '손님이 많을까 봐 음식을 넉넉하게 준비했어요.',
+                    '음식을 준비하고 있어요.',
+                    '음식을 준비했어요.',
+                    '음식을 준비하려고 해요.'
+                ],
+                answer: '손님이 많을까 봐 음식을 넉넉하게 준비했어요.',
+                explain: '아직 오지 않은 상황을 걱정하며 대비한 행동이므로 `많을까 봐`가 들어간 문장이 가장 알맞아요.'
+            },
+            {
+                type: 'grammar2',
+                image: `${GRAMMAR2_BASE}/g2_q07.webp`,
+                title: '길거리에서 통화하는 장면',
+                prompt: '길거리에서 이 사람은 지금 뭐 하고 있어요?',
+                choices: [
+                    '연락이 늦을까 봐 먼저 전화했어요.',
+                    '휴대전화로 통화하고 있어요.',
+                    '휴대전화로 통화했어요.',
+                    '휴대전화로 통화하려고 해요.'
+                ],
+                answer: '휴대전화로 통화하고 있어요.',
+                explain: '현재 보이는 장면을 말해야 하므로 `통화하고 있어요`가 가장 자연스러워요.'
+            },
+            {
+                type: 'grammar1',
+                image: `${GRAMMAR1_BASE}/g1_q05.webp`,
+                title: '발표 메모를 확인하는 장면',
+                prompt: '발표할 내용을 잊을지도 몰라요. 왜 메모를 준비했어요?',
+                choices: [
+                    '내용을 잊을까 봐 메모를 준비했어요.',
+                    '메모를 보고 있어요.',
+                    '메모를 준비했어요.',
+                    '메모를 준비하려고 해요.'
+                ],
+                answer: '내용을 잊을까 봐 메모를 준비했어요.',
+                explain: '발표 전에 잊을 가능성을 걱정하며 대비한 행동이라 `잊을까 봐` 문장이 가장 자연스러워요.'
+            },
+            {
+                type: 'grammar1',
+                image: `${GRAMMAR1_BASE}/g1_q07.webp`,
+                title: '아이가 넘어질까 봐 손을 잡은 장면',
+                prompt: '길이 미끄러워요. 왜 아이의 손을 잡았어요?',
+                choices: [
+                    '아이가 넘어질까 봐 손을 잡았어요.',
+                    '아이의 손을 잡고 있어요.',
+                    '아이의 손을 잡았어요.',
+                    '아이의 손을 잡으려고 해요.'
+                ],
+                answer: '아이가 넘어질까 봐 손을 잡았어요.',
+                explain: '질문이 이유를 묻고 있고 아직 일어나지 않은 일을 걱정하는 상황이므로 `넘어질까 봐`가 맞아요.'
+            },
+            {
+                type: 'grammar2',
+                image: `${GRAMMAR2_BASE}/g2_q08.webp`,
+                title: '친구들의 사진을 찍는 장면',
+                prompt: '친구들 앞에서 이 사람은 지금 뭐 하고 있어요?',
+                choices: [
+                    '사진이 흔들릴까 봐 가까이 갔어요.',
+                    '친구들의 사진을 찍고 있어요.',
+                    '친구들의 사진을 찍었어요.',
+                    '친구들의 사진을 찍으려고 해요.'
+                ],
+                answer: '친구들의 사진을 찍고 있어요.',
+                explain: '사진을 찍는 현재 행동을 묻고 있으므로 `찍고 있어요`가 가장 잘 맞아요.'
+            },
+            {
+                type: 'grammar2',
+                image: `${GRAMMAR2_BASE}/g2_q04.webp`,
+                title: '도서관에서 책을 읽는 장면',
+                prompt: '도서관에서 이 사람은 지금 뭐 하고 있어요?',
+                choices: [
+                    '시험이 걱정될까 봐 일찍 왔어요.',
+                    '책을 읽고 있어요.',
+                    '책을 읽었어요.',
+                    '책을 읽으려고 해요.'
+                ],
+                answer: '책을 읽고 있어요.',
+                explain: '현재 보이는 행동을 말하는 질문이므로 `책을 읽고 있어요`가 가장 자연스러워요.'
+            },
+            {
+                type: 'grammar1',
+                image: `${GRAMMAR1_BASE}/g1_q08.webp`,
+                title: '보조 배터리를 챙기는 장면',
+                prompt: '휴대전화 배터리가 빨리 닳아요. 왜 보조 배터리를 챙겼어요?',
+                choices: [
+                    '배터리가 없을까 봐 보조 배터리를 가져왔어요.',
+                    '보조 배터리를 넣고 있어요.',
+                    '보조 배터리를 가져왔어요.',
+                    '보조 배터리를 가져오려고 해요.'
+                ],
+                answer: '배터리가 없을까 봐 보조 배터리를 가져왔어요.',
+                explain: '나중에 배터리가 없을 상황을 걱정하며 미리 준비한 행동이므로 `없을까 봐`가 가장 잘 맞아요.'
+            }
+        ];
+
+        const TOTAL_GRAMMAR1 = QUESTIONS.filter((question) => question.type === 'grammar1').length;
+        const TOTAL_GRAMMAR2 = QUESTIONS.filter((question) => question.type === 'grammar2').length;
+
+        const state = {
+            questions: [],
+            index: 0,
+            score: 0,
+            streak: 0,
+            bestStreak: 0,
+            grammar1Score: 0,
+            grammar2Score: 0,
+            selected: null,
+            answered: false
+        };
+
+        const gameCard = document.getElementById('gameCard');
+
+        init();
+
+        function init() {
+            resetGame();
+        }
+
+        function resetGame() {
+            state.questions = QUESTIONS.map((question) => ({
+                ...question,
+                shuffledChoices: shuffle([...question.choices])
+            }));
+            state.index = 0;
+            state.score = 0;
+            state.streak = 0;
+            state.bestStreak = 0;
+            state.grammar1Score = 0;
+            state.grammar2Score = 0;
+            state.selected = null;
+            state.answered = false;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const question = state.questions[state.index];
+            const progress = `${state.index + 1} / ${state.questions.length}`;
+            const promptBadge = question.type === 'grammar1'
+                ? '왜 그렇게 했어요?'
+                : '지금 뭐 하고 있어요?';
+
+            gameCard.innerHTML = `
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Question</p>
+                        <p class="mt-1 text-lg font-black text-slate-900">${progress}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Current Score</p>
+                        <p class="mt-1 text-lg font-black text-cyan-600">${state.score}</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50">
+                    <div class="aspect-[11/8] bg-white">
+                        <img src="${escapeHtml(question.image)}" alt="${escapeHtml(question.title)}" class="block h-full w-full object-contain" loading="lazy" decoding="async" />
+                    </div>
+                </div>
+
+                <div class="mt-3 flex items-center gap-2">
+                    <span class="rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1 text-[11px] font-black uppercase tracking-[0.14em] text-cyan-700">Prompt</span>
+                    <p class="text-sm font-bold text-slate-600">${escapeHtml(promptBadge)}</p>
+                </div>
+
+                <div class="mt-4 rounded-[24px] border border-cyan-200 bg-cyan-50 px-4 py-4">
+                    <p class="text-xs font-black uppercase tracking-[0.16em] text-cyan-700">Question</p>
+                    <p class="mt-2 text-lg font-black leading-9 text-slate-900">${escapeHtml(question.prompt)}</p>
+                </div>
+
+                <div class="mt-4 grid gap-2">
+                    ${question.shuffledChoices.map((choice, index) => {
+                        const selected = state.selected === index;
+                        const baseClass = selected
+                            ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
+                            : 'border-slate-200 bg-white text-slate-700';
+                        return `
+                            <button type="button" class="option-btn rounded-2xl border px-4 py-4 text-left text-base font-black leading-7 ${baseClass}" data-choice="${index}">
+                                ${escapeHtml(choice)}
+                            </button>
+                        `;
+                    }).join('')}
+                </div>
+
+                <div id="feedbackBox" class="mt-4 ${state.answered ? '' : 'hidden'}"></div>
+
+                <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                    <button type="button" id="confirmBtn" class="ui-btn rounded-2xl border border-cyan-600 bg-cyan-600 px-4 py-3 text-sm font-black text-white ${state.answered ? 'opacity-40' : ''}" ${state.answered ? 'disabled' : ''}>확인</button>
+                    <button type="button" id="nextBtn" class="ui-btn rounded-2xl border border-slate-900 bg-slate-900 px-4 py-3 text-sm font-black text-white ${state.answered ? '' : 'opacity-40'}" ${state.answered ? '' : 'disabled'}>${state.index === state.questions.length - 1 ? '결과 보기' : '다음'}</button>
+                </div>
+            `;
+
+            bindQuestionEvents();
+        }
+
+        function bindQuestionEvents() {
+            document.querySelectorAll('[data-choice]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (state.answered) return;
+                    state.selected = Number(button.dataset.choice);
+                    renderQuestion();
+                });
+            });
+
+            document.getElementById('confirmBtn').addEventListener('click', checkAnswer);
+            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        }
+
+        function checkAnswer() {
+            if (state.selected === null || state.answered) return;
+
+            const question = state.questions[state.index];
+            const selectedText = question.shuffledChoices[state.selected];
+            const correct = selectedText === question.answer;
+            state.answered = true;
+
+            if (correct) {
+                state.score += 1;
+                state.streak += 1;
+                state.bestStreak = Math.max(state.bestStreak, state.streak);
+                if (question.type === 'grammar1') {
+                    state.grammar1Score += 1;
+                } else {
+                    state.grammar2Score += 1;
+                }
+            } else {
+                state.bestStreak = Math.max(state.bestStreak, state.streak);
+                state.streak = 0;
+            }
+
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.className = `mt-4 rounded-[22px] border px-4 py-4 ${correct ? 'border-cyan-200 bg-cyan-50' : 'border-rose-200 bg-rose-50'}`;
+            feedbackBox.innerHTML = `
+                <p class="text-sm font-black ${correct ? 'text-cyan-700' : 'text-rose-700'}">${correct ? '정답입니다.' : '다시 확인해 보세요.'}</p>
+                <p class="mt-2 text-sm leading-7 text-slate-700"><b>정답:</b> ${escapeHtml(question.answer)}</p>
+                <p class="mt-1 text-sm leading-7 text-slate-700">${escapeHtml(question.explain)}</p>
+            `;
+
+            document.getElementById('confirmBtn').disabled = true;
+            document.getElementById('confirmBtn').classList.add('opacity-40');
+            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('nextBtn').classList.remove('opacity-40');
+
+            document.querySelectorAll('[data-choice]').forEach((button) => {
+                const choice = question.shuffledChoices[Number(button.dataset.choice)];
+                if (choice === question.answer) {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black leading-7 border-cyan-500 bg-cyan-50 text-cyan-700';
+                } else if (Number(button.dataset.choice) === state.selected) {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black leading-7 border-rose-300 bg-rose-50 text-rose-700';
+                } else {
+                    button.className = 'option-btn rounded-2xl border px-4 py-4 text-left text-base font-black leading-7 border-slate-200 bg-white text-slate-400';
+                }
+            });
+        }
+
+        function nextQuestion() {
+            if (!state.answered) return;
+            if (state.index === state.questions.length - 1) {
+                renderResult();
+                return;
+            }
+            state.index += 1;
+            state.selected = null;
+            state.answered = false;
+            renderQuestion();
+        }
+
+        function renderResult() {
+            const percent = Math.round((state.score / state.questions.length) * 100);
+            gameCard.innerHTML = `
+                <div class="rounded-[24px] border border-cyan-200 bg-cyan-50 p-5 text-center">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-cyan-700">Fusion Result</p>
+                    <h2 class="mt-2 text-3xl font-black text-slate-900">${state.score} / ${state.questions.length}</h2>
+                    <p class="mt-2 text-sm leading-7 text-slate-600">정답률 ${percent}% · 최고 연속 정답 ${state.bestStreak}문제</p>
+                </div>
+
+                <div class="mt-4 grid gap-3 sm:grid-cols-3">
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">전체 정답</span>
+                        <strong class="mt-2 block text-2xl font-black text-slate-900">${state.score}</strong>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">문법 1</span>
+                        <strong class="mt-2 block text-2xl font-black text-orange-600">${state.grammar1Score} / ${TOTAL_GRAMMAR1}</strong>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                        <span class="block text-xs font-bold text-slate-500">문법 2</span>
+                        <strong class="mt-2 block text-2xl font-black text-emerald-600">${state.grammar2Score} / ${TOTAL_GRAMMAR2}</strong>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                    <button type="button" id="restartBtn" class="ui-btn rounded-2xl border border-cyan-600 bg-cyan-600 px-4 py-3 text-sm font-black text-white">다시 하기</button>
+                    <a href="grammar1-2-speaking.html" class="ui-btn inline-flex items-center justify-center rounded-2xl border border-slate-900 bg-slate-900 px-4 py-3 text-sm font-black text-white no-underline">융합 말하기로 가기</a>
+                </div>
+            `;
+
+            document.getElementById('restartBtn').addEventListener('click', resetGame);
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
