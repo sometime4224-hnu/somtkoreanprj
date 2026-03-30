@@ -173,13 +173,10 @@ test.describe('mobile viewport', () => {
     test(`opens and closes the full passage view without breaking focus flow on mobile for ${pagePath}`, async ({ page }) => {
       await openWritingCutPage(page, pagePath);
 
-      const openButton = page.locator('[data-action="open-passage"]');
+      const openButton = page.locator('[data-nav-open-passage]');
       await expect(openButton).toBeVisible();
       await expect(openButton).toHaveAttribute('aria-haspopup', 'dialog');
       await expect(openButton).toHaveAttribute('aria-controls', 'passage-dialog');
-
-      const openButtonWidth = await openButton.evaluate((element) => element.getBoundingClientRect().width);
-      expect(openButtonWidth).toBeGreaterThan(260);
 
       await openButton.click();
       await expectBodyPassageState(page, true);

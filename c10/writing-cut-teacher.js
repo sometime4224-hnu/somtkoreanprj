@@ -1692,6 +1692,8 @@ function focusAfterRender(selector) {
 
 function syncPassageUi() {
   document.body.classList.toggle('passage-open', state.isPassageOpen);
+  const navTrigger = document.querySelector('[data-nav-open-passage]');
+  if (navTrigger) navTrigger.setAttribute('aria-expanded', state.isPassageOpen ? 'true' : 'false');
 
   if (shouldFocusPassageClose) {
     focusAfterRender('[data-passage-close-button]');
@@ -2182,6 +2184,14 @@ window.addEventListener('keydown', (event) => {
     closePassage();
     renderApp();
   }
+});
+
+document.addEventListener('click', (event) => {
+  const navTrigger = event.target.closest('[data-nav-open-passage]');
+  if (!navTrigger) return;
+  event.preventDefault();
+  openPassage();
+  renderApp();
 });
 
 if (typeof floatingPreviewMedia.addEventListener === 'function') {
