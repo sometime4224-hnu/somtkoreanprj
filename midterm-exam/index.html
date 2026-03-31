@@ -232,6 +232,10 @@
             gap: 18px;
         }
 
+        .button-groups--course {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
         .button-group {
             padding: 18px;
             border-radius: 24px;
@@ -250,6 +254,19 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+        }
+
+        .button-subhead {
+            margin: 0 0 10px;
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #b45309;
+        }
+
+        .button-list + .button-subhead {
+            margin-top: 16px;
         }
 
         .button-link {
@@ -576,35 +593,75 @@
                     <h2>문법</h2>
                 </div>
             </div>
-            <div class="button-groups">
+            <div class="button-groups button-groups--course">
                 <div class="button-group">
-                    <h3>문법 기본학습</h3>
+                    <h3>10과</h3>
+                    <p class="button-subhead">기본학습</p>
                     <div class="button-list">
-                        <a href="../c10/grammar1.html" class="button-link">10과 -던</a>
-                        <a href="../c10/grammar2.html" class="button-link">10과 -잖아요</a>
-                        <a href="../c10/grammar3.html" class="button-link">10과 -(으)ㄹ 생각/계획/예정이다</a>
-                        <a href="../c10/grammar4.html" class="button-link">10과 -(으)려면 멀었다</a>
-                        <a href="../c11/grammar1.html" class="button-link">11과 사동사</a>
-                        <a href="../c11/grammar2.html" class="button-link">11과 -(ㄴ/는)다면</a>
-                        <a href="../c11/grammar3.html" class="button-link">11과 -든지/-도</a>
-                        <a href="../c12/grammar1.html" class="button-link">12과 -았/었더니</a>
-                        <a href="../c12/grammar2.html" class="button-link">12과 얼마나 -(으)ㄴ/는지 모르다</a>
-                        <a href="../c12/grammar3.html" class="button-link">12과 -(으)ㄴ/는 모양이다</a>
-                        <a href="../c12/grammar4.html" class="button-link">12과 -아야/어야</a>
-                        <a href="../c13/grammar1.html" class="button-link">13과 -(으)ㄹ까 봐</a>
-                        <a href="../c13/grammar2.html" class="button-link">13과 -고 있다</a>
-                        <a href="../c13/grammar3.html" class="button-link">13과 -았/었어야 했는데</a>
-                        <a href="../c13/grammar4.html" class="button-link">13과 -도록</a>
+                        <a href="../c10/grammar1.html" class="button-link">문법 1 -던</a>
+                        <a href="../c10/grammar2.html" class="button-link">문법 2 -잖아요</a>
+                        <a href="../c10/grammar3.html" class="button-link">문법 3 계획/예정</a>
+                        <a href="../c10/grammar4.html" class="button-link">문법 4 -(으)려면 멀었다</a>
+                    </div>
+                    <p class="button-subhead">퀴즈·게임</p>
+                    <div class="button-list">
+                        <a href="../c10/grammar1-game-soccer.html" class="button-link button-link--soft">문법 1 축구 게임</a>
+                        <a href="../c10/grammar12-quiz-menu.html" class="button-link button-link--soft">문법 1·2 퀴즈 메뉴</a>
+                        <a href="../c10/grammar12-quiz-warmup.html" class="button-link button-link--soft">문법 1·2 O/X</a>
+                        <a href="../c10/grammar12-quiz.html" class="button-link button-link--soft">문법 1·2 통합 퀴즈</a>
+                        <a href="../c10/grammar34-game-rpg.html" class="button-link button-link--soft">문법 3·4 RPG</a>
                     </div>
                 </div>
                 <div class="button-group">
-                    <h3>퀴즈</h3>
+                    <h3>11과</h3>
+                    <p class="button-subhead">기본학습</p>
                     <div class="button-list">
-                        <a href="../c10/grammar12-quiz-menu.html" class="button-link button-link--soft">10과 퀴즈 (-던·-잖아요)</a>
-                        <a href="../c11/grammar-review.html" class="button-link button-link--soft">11과 통합 퀴즈 (사동사·-다면·-든지/-도)</a>
-                        <a href="../c11/grammar3-drill1.html" class="button-link button-link--soft">11과 의문사 + 든지/도</a>
-                        <a href="../c11/grammar3-drill2.html" class="button-link button-link--soft">11과 명사 + (이)든지/도</a>
-                        <a href="../review/review4-html/evaluate.html" class="button-link button-link--soft">Review 4 평가하기</a>
+                        <a href="../c11/grammar1.html" class="button-link">문법 1 사동사</a>
+                        <a href="../c11/grammar2.html" class="button-link">문법 2 -(ㄴ/는)다면</a>
+                        <a href="../c11/grammar3.html" class="button-link">문법 3 -든지/-도</a>
+                    </div>
+                    <p class="button-subhead">퀴즈·게임</p>
+                    <div class="button-list">
+                        <a href="../c11/grammar-review.html" class="button-link button-link--soft">통합 퀴즈</a>
+                        <a href="../c11/grammar3-drill1.html" class="button-link button-link--soft">의문사 + 든지/도</a>
+                        <a href="../c11/grammar3-drill2.html" class="button-link button-link--soft">명사 + (이)든지/도</a>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <h3>12과</h3>
+                    <p class="button-subhead">기본학습</p>
+                    <div class="button-list">
+                        <a href="../c12/grammar1.html" class="button-link">문법 1 -았/었더니</a>
+                        <a href="../c12/grammar2.html" class="button-link">문법 2 얼마나 -(으)ㄴ/는지</a>
+                        <a href="../c12/grammar3.html" class="button-link">문법 3 -(으)ㄴ/는 모양이다</a>
+                        <a href="../c12/grammar4.html" class="button-link">문법 4 -아야/어야</a>
+                    </div>
+                    <p class="button-subhead">퀴즈·게임</p>
+                    <div class="button-list">
+                        <a href="../c12/grammar1-card-game.html" class="button-link button-link--soft">문법 카드 게임</a>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <h3>13과</h3>
+                    <p class="button-subhead">기본학습</p>
+                    <div class="button-list">
+                        <a href="../c13/grammar1.html" class="button-link">문법 1 -(으)ㄹ까 봐</a>
+                        <a href="../c13/grammar2.html" class="button-link">문법 2 -고 있다</a>
+                        <a href="../c13/grammar3.html" class="button-link">문법 3 -았/었어야 했는데</a>
+                        <a href="../c13/grammar4.html" class="button-link">문법 4 -도록</a>
+                    </div>
+                    <p class="button-subhead">퀴즈·게임</p>
+                    <div class="button-list">
+                        <a href="../c13/grammar1-mini-game.html" class="button-link button-link--soft">문법 1 미니 게임</a>
+                        <a href="../c13/grammar2-mini-game.html" class="button-link button-link--soft">문법 2 미니 게임</a>
+                        <a href="../c13/grammar1-2-mini-game.html" class="button-link button-link--soft">문법 1·2 융합 게임</a>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <h3>Review 4</h3>
+                    <p class="button-subhead">평가</p>
+                    <div class="button-list">
+                        <a href="../review/review4-html/evaluate.html" class="button-link button-link--soft">평가하기</a>
                     </div>
                 </div>
             </div>
