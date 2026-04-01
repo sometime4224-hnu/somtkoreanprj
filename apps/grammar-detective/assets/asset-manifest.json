@@ -1,0 +1,149 @@
+{
+  "app": "grammar-detective",
+  "version": 1,
+  "output_rule": "assets/<chapter>/grammar/images/grammar-detective/<slot_id>.webp",
+  "stages": [
+    {
+      "id": "gd-c13-s1",
+      "chapter": "c13",
+      "title": "분수대 앞 이름 맞히기",
+      "background": {
+        "slot_id": "gd-c13-s1__background",
+        "output_path": "assets/c13/grammar/images/grammar-detective/gd-c13-s1__background.webp",
+        "label": "점심시간 중앙 정원"
+      },
+      "props": [
+        {
+          "slot_id": "gd-c13-s1__prop__fountain",
+          "output_path": "assets/c13/grammar/images/grammar-detective/gd-c13-s1__prop__fountain.webp",
+          "label": "분수대"
+        },
+        {
+          "slot_id": "gd-c13-s1__prop__bench",
+          "output_path": "assets/c13/grammar/images/grammar-detective/gd-c13-s1__prop__bench.webp",
+          "label": "벤치"
+        },
+        {
+          "slot_id": "gd-c13-s1__prop__flower-bed",
+          "output_path": "assets/c13/grammar/images/grammar-detective/gd-c13-s1__prop__flower-bed.webp",
+          "label": "화단"
+        }
+      ],
+      "cast": [
+        {
+          "slot_id": "gd-c13-s1__cast__yuri",
+          "output_path": "assets/c13/grammar/images/grammar-detective/gd-c13-s1__cast__yuri.webp",
+          "label": "유리"
+        },
+        {
+          "slot_id": "gd-c13-s1__cast__minho",
+          "output_path": "assets/c13/grammar/images/grammar-detective/gd-c13-s1__cast__minho.webp",
+          "label": "민호"
+        },
+        {
+          "slot_id": "gd-c13-s1__cast__daeun",
+          "output_path": "assets/c13/grammar/images/grammar-detective/gd-c13-s1__cast__daeun.webp",
+          "label": "다은"
+        }
+      ]
+    },
+    {
+      "id": "gd-c10-s2",
+      "chapter": "c10",
+      "title": "조금 전 복도에서 누구였을까",
+      "background": {
+        "slot_id": "gd-c10-s2__background",
+        "output_path": "assets/c10/grammar/images/grammar-detective/gd-c10-s2__background.webp",
+        "label": "수업 전 교실 복도"
+      },
+      "props": [
+        {
+          "slot_id": "gd-c10-s2__prop__locker",
+          "output_path": "assets/c10/grammar/images/grammar-detective/gd-c10-s2__prop__locker.webp",
+          "label": "사물함"
+        },
+        {
+          "slot_id": "gd-c10-s2__prop__vending-machine",
+          "output_path": "assets/c10/grammar/images/grammar-detective/gd-c10-s2__prop__vending-machine.webp",
+          "label": "자판기"
+        },
+        {
+          "slot_id": "gd-c10-s2__prop__stair-sign",
+          "output_path": "assets/c10/grammar/images/grammar-detective/gd-c10-s2__prop__stair-sign.webp",
+          "label": "계단 안내판"
+        }
+      ],
+      "cast": [
+        {
+          "slot_id": "gd-c10-s2__cast__yuri",
+          "output_path": "assets/c10/grammar/images/grammar-detective/gd-c10-s2__cast__yuri.webp",
+          "label": "유리"
+        },
+        {
+          "slot_id": "gd-c10-s2__cast__minho",
+          "output_path": "assets/c10/grammar/images/grammar-detective/gd-c10-s2__cast__minho.webp",
+          "label": "민호"
+        },
+        {
+          "slot_id": "gd-c10-s2__cast__jiu",
+          "output_path": "assets/c10/grammar/images/grammar-detective/gd-c10-s2__cast__jiu.webp",
+          "label": "지우"
+        },
+        {
+          "slot_id": "gd-c10-s2__cast__daeun",
+          "output_path": "assets/c10/grammar/images/grammar-detective/gd-c10-s2__cast__daeun.webp",
+          "label": "다은"
+        }
+      ]
+    },
+    {
+      "id": "gd-c12-s3",
+      "chapter": "c12",
+      "title": "미술실 열쇠 사건",
+      "background": {
+        "slot_id": "gd-c12-s3__background",
+        "output_path": "assets/c12/grammar/images/grammar-detective/gd-c12-s3__background.webp",
+        "label": "미술실 앞 복도"
+      },
+      "props": [
+        {
+          "slot_id": "gd-c12-s3__prop__storage-door",
+          "output_path": "assets/c12/grammar/images/grammar-detective/gd-c12-s3__prop__storage-door.webp",
+          "label": "창고 문"
+        },
+        {
+          "slot_id": "gd-c12-s3__prop__display-board",
+          "output_path": "assets/c12/grammar/images/grammar-detective/gd-c12-s3__prop__display-board.webp",
+          "label": "작품 게시판"
+        },
+        {
+          "slot_id": "gd-c12-s3__prop__supply-box",
+          "output_path": "assets/c12/grammar/images/grammar-detective/gd-c12-s3__prop__supply-box.webp",
+          "label": "준비물 상자"
+        }
+      ],
+      "cast": [
+        {
+          "slot_id": "gd-c12-s3__cast__yuri",
+          "output_path": "assets/c12/grammar/images/grammar-detective/gd-c12-s3__cast__yuri.webp",
+          "label": "유리"
+        },
+        {
+          "slot_id": "gd-c12-s3__cast__minho",
+          "output_path": "assets/c12/grammar/images/grammar-detective/gd-c12-s3__cast__minho.webp",
+          "label": "민호"
+        },
+        {
+          "slot_id": "gd-c12-s3__cast__jiu",
+          "output_path": "assets/c12/grammar/images/grammar-detective/gd-c12-s3__cast__jiu.webp",
+          "label": "지우"
+        },
+        {
+          "slot_id": "gd-c12-s3__cast__daeun",
+          "output_path": "assets/c12/grammar/images/grammar-detective/gd-c12-s3__cast__daeun.webp",
+          "label": "다은"
+        }
+      ]
+    }
+  ]
+}
