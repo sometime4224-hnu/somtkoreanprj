@@ -102,6 +102,39 @@
             font-weight: 800;
         }
 
+        .topbar__actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar__title {
+            color: var(--ink);
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .topbar__pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(220, 38, 38, 0.14);
+            background: rgba(220, 38, 38, 0.08);
+            color: #b91c1c;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 900;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        .topbar__pdf:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(220, 38, 38, 0.12);
+            background: rgba(220, 38, 38, 0.12);
+        }
+
         .hero {
             position: relative;
             overflow: hidden;
@@ -482,6 +515,12 @@
                 align-items: flex-start;
             }
 
+            .topbar__actions {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
             .card {
                 min-height: unset;
             }
@@ -497,7 +536,13 @@
             <a href="../index.html">
                 <span>메인으로</span>
             </a>
-            <strong>중간고사 준비 허브</strong>
+            <div class="topbar__actions">
+                <strong class="topbar__title">중간고사 준비 허브</strong>
+                <a class="topbar__pdf" href="./student-guide-vi.pdf" target="_blank" rel="noopener">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>설명서 PDF 보기</span>
+                </a>
+            </div>
         </div>
 
         <section class="hero">
