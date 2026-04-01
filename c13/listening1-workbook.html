@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13과 듣기 1 워크북</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/listening-workbook.css?v=20260324-audiosync">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Noto Sans KR", sans-serif;
+            background: linear-gradient(180deg, #fff6fb 0%, #fffdf8 44%, #f8fafc 100%);
+        }
+        .injected-global-nav {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #f9d5e5;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            z-index: 999999;
+            box-sizing: border-box;
+            gap: 15px;
+        }
+        .injected-global-nav a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #db2777;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .injected-global-nav a:hover {
+            color: #9d174d;
+        }
+        .injected-global-nav .divider {
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <nav id="injected-global-nav" class="injected-global-nav">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인으로</a>
+        <span class="divider">|</span>
+        <a href="index.html"><i class="fa-solid fa-folder-open"></i> 13과 목록</a>
+    </nav>
+
+    <div id="listening-workbook-app"></div>
+
+    <script>
+        window.LISTENING_WORKBOOK_CONFIG = {
+            kicker: "Chapter 13 Listening Lab",
+            title: "13과 듣기 1",
+            titleVi: "Luyện nghe bài 13 - Nghe 1",
+            description: "체육 대회가 늦게 끝난 뒤 결혼식에 간 딸과 엄마의 대화를 바탕으로 옷차림, 상황 설명, 후회의 표현을 정리하는 듣기 워크북입니다. 핵심어 보기, 사건 순서 배열, 이해 점검까지 한 흐름으로 따라가 보세요.",
+            descriptionVi: "Đây là workbook nghe dựa trên cuộc trò chuyện giữa người mẹ và cô con gái đi đám cưới ngay sau khi hội thao công ty kết thúc muộn. Em sẽ luyện cách nói về trang phục, giải thích tình huống và biểu hiện tiếc nuối.",
+            layoutVariant: "audio-in-pre",
+            sampleCompact: {
+                enabled: true,
+                defaults: {
+                    hideSceneCard: true,
+                    hideCorePointStage: true,
+                    hideNoteSection: true,
+                    hideOralFeaturesSection: true,
+                    hideSpeakingSection: true,
+                    moveBackgroundPromptIntoPrediction: true,
+                    relocateQuizBelowSubtitle: true,
+                    quizStartsCollapsed: true
+                }
+            },
+            instructionLanguage: {
+                enabled: true,
+                default: "ko"
+            },
+            theme: {
+                accent: "#db2777",
+                accentDark: "#9d174d",
+                soft: "#fce7f3",
+                surface: "rgba(255,255,255,0.94)",
+                pageBackground: "linear-gradient(180deg, #fff6fb 0%, #fffdf8 44%, #f8fafc 100%)"
+            },
+            featureList: [
+                "상황 예측",
+                "단계별 단서",
+                "핵심어 보기",
+                "사건 순서 배열",
+                "이해 점검"
+            ],
+            featureListVi: [
+                "Dự đoán tình huống",
+                "Gợi ý theo từng bước",
+                "Xem từ khóa",
+                "Sắp xếp diễn biến",
+                "Kiểm tra mức độ hiểu"
+            ],
+            lessons: [
+                {
+                    id: "track41",
+                    compactSample: {
+                        removeDictoglossSection: true
+                    },
+                    label: "Track 41",
+                    title: "듣기 1: 체육 대회 뒤 결혼식에 간 딸",
+                    titleVi: "Nghe 1: Cô con gái đi đám cưới ngay sau hội thao công ty",
+                    summary: "딸이 청바지와 티셔츠 차림으로 결혼식에 가게 된 이유, 대신 부케를 받게 된 사정, 엄마의 반응과 마지막 후회까지 차례로 듣고 핵심 정보를 정리하는 활동입니다.",
+                    summaryVi: "Em sẽ nghe theo trình tự lý do cô con gái phải đến đám cưới với quần jean và áo phông, vì sao cô ấy nhận bó hoa cưới thay bạn, phản ứng của mẹ và sự tiếc nuối ở cuối cuộc trò chuyện.",
+                    grammarLink: {
+                        href: "grammar3.html",
+                        title: "문법 연결",
+                        titleVi: "Liên kết ngữ pháp",
+                        label: "A/V-았/었어야 했는데",
+                        labelVi: "A/V-았/었어야 했는데",
+                        description: "결혼식 전에 미리 준비하지 못해 아쉬워하는 마음을 후회 표현과 연결해 다시 정리해 보세요.",
+                        descriptionVi: "Hãy nối nội dung này với ngữ pháp diễn tả sự tiếc nuối vì đã không chuẩn bị trước khi đi đám cưới."
+                    },
+                    activityImage: {
+                        src: "../assets/c13/listening/images/listen1pic.webp",
+                        alt: "결혼식장에 급히 도착한 딸이 엄마와 이야기하는 장면",
+                        altVi: "Cảnh cô con gái đến đám cưới vội vàng rồi nói chuyện với mẹ",
+                        pendingLabel: "듣기 1 그림은 아직 준비 중입니다.",
+                        pendingLabelVi: "Hình minh họa cho bài nghe 1 đang được chuẩn bị.",
+                        pendingHint: "assets/c13/listening/images/listen1pic.webp 파일을 추가하면 이 자리에 바로 표시됩니다.",
+                        pendingHintVi: "Khi thêm file assets/c13/listening/images/listen1pic.webp, hình sẽ hiện ngay tại đây.",
+                        caption: "참고 그림: 체육 대회 뒤 바로 결혼식에 가서 옷차림 때문에 민망했던 상황을 떠올려 보세요.",
+                        captionVi: "Hình gợi ý: hãy hình dung tình huống cô ấy thấy ngại vì trang phục khi phải đi thẳng từ hội thao đến đám cưới."
+                    },
+                    audioSrc: null,
+                    scene: {
+                        emoji: "💐",
+                        title: "상황 그림: 급하게 결혼식에 간 딸과 걱정 많은 엄마의 대화",
+                        titleVi: "Tình huống: cuộc trò chuyện giữa cô con gái đi đám cưới gấp và người mẹ đang lo lắng",
+                        caption: "옷을 갈아입을 시간이 없었던 이유, 친구 대신 부케를 받게 된 상황, 엄마가 꺼내는 결혼 이야기가 차례로 이어지는 장면입니다.",
+                        captionVi: "Tình huống này lần lượt xuất hiện lý do không kịp thay đồ, việc nhận bó hoa cưới thay bạn và câu chuyện mẹ nhắc đến chuyện kết hôn.",
+                        tags: ["결혼식", "옷차림", "부케", "후회"]
+                    },
+                    preListening: {
+                        vocab: [
+                            { ko: "부케", vi: "bó hoa cưới", hint: "결혼식에서 신부가 던지는 꽃다발" },
+                            { ko: "체육 대회", vi: "hội thao", hint: "회사나 학교에서 하는 운동 행사" },
+                            { ko: "갈아입다", vi: "thay đồ", hint: "입고 있는 옷을 벗고 다른 옷으로 바꾸다" },
+                            { ko: "청바지", vi: "quần jean", hint: "데님으로 만든 바지" },
+                            { ko: "창피하다", vi: "xấu hổ, ngại", hint: "남들 앞에서 민망하고 부끄럽다" }
+                        ],
+                        relationshipOptions: [
+                            { value: "mother-daughter", label: "엄마와 딸" },
+                            { value: "friends", label: "친구 사이" },
+                            { value: "bride-guest", label: "신부와 하객" }
+                        ],
+                        relationshipAnswer: "mother-daughter",
+                        genreOptions: [
+                            { value: "family-conversation", label: "가족 대화" },
+                            { value: "event-report", label: "행사 설명" },
+                            { value: "shopping", label: "옷 구매 대화" }
+                        ],
+                        genreAnswer: "family-conversation",
+                        predictionNote: "딸이 왜 그렇게 입고 결혼식에 가게 되었는지 설명하고, 엄마가 그 일에 반응하며 결혼 이야기까지 꺼내는 대화입니다. 이유와 감정을 중심으로 들어 보세요.",
+                        predictionNoteVi: "Đây là cuộc trò chuyện trong đó cô con gái giải thích vì sao lại phải đến đám cưới với trang phục như vậy, còn người mẹ phản ứng rồi nhắc cả chuyện kết hôn. Hãy nghe tập trung vào lý do và cảm xúc.",
+                        backgroundPrompt: "결혼식 같은 모임에 급하게 가야 할 때 무엇을 먼저 준비해야 할지 두세 가지 적어 보세요.",
+                        backgroundPromptVi: "Nếu phải đi gấp đến một buổi gặp mặt như đám cưới, theo em nên chuẩn bị trước những gì? Hãy viết ra hai hoặc ba ý."
+                    },
+                    transcript: [],
+                    publicCues: [
+                        {
+                            speaker: "딸",
+                            start: 6.98,
+                            end: 15.84,
+                            keywords: ["체육 대회", "늦게 끝나다", "결혼식"],
+                            extraKeywords: ["일정 겹침", "도착 배경"]
+                        },
+                        {
+                            speaker: "엄마",
+                            start: 15.84,
+                            end: 24.91,
+                            keywords: ["청바지", "티셔츠", "왜 그렇게"],
+                            extraKeywords: ["옷차림", "첫 반응"]
+                        },
+                        {
+                            speaker: "딸",
+                            start: 24.91,
+                            end: 34.72,
+                            keywords: ["갈아입을 시간", "없었다", "창피했다"],
+                            extraKeywords: ["이유 설명", "민망함"]
+                        },
+                        {
+                            speaker: "엄마",
+                            start: 34.72,
+                            end: 42.95,
+                            keywords: ["부케", "네가 받았어?", "놀람"],
+                            extraKeywords: ["예상 밖 사건", "질문"]
+                        },
+                        {
+                            speaker: "딸",
+                            start: 42.95,
+                            end: 52.68,
+                            keywords: ["친구 못 오다", "대신", "부케 받다"],
+                            extraKeywords: ["상황 변화", "결혼식장"]
+                        },
+                        {
+                            speaker: "엄마",
+                            start: 52.68,
+                            end: 61.37,
+                            keywords: ["6개월 안", "결혼", "빨리"],
+                            extraKeywords: ["속설", "잔소리"]
+                        },
+                        {
+                            speaker: "딸",
+                            start: 61.37,
+                            end: 69.98,
+                            keywords: ["그런 말", "듣기 싫다", "속상하다"],
+                            extraKeywords: ["부담", "감정"]
+                        },
+                        {
+                            speaker: "엄마",
+                            start: 69.98,
+                            end: 78.36,
+                            keywords: ["좋은 사람", "만나면", "괜찮다"],
+                            extraKeywords: ["엄마 마음", "조언"]
+                        },
+                        {
+                            speaker: "딸",
+                            start: 78.36,
+                            end: 86.24,
+                            keywords: ["미리 준비", "했어야", "다음에는"],
+                            extraKeywords: ["후회", "다짐"]
+                        }
+                    ],
+                    dictogloss: {
+                        prompt: "체육 대회가 늦게 끝난 일부터 부케를 받게 된 이유, 마지막 다짐까지 핵심어만 보고 다시 정리해 보세요.",
+                        promptVi: "Hãy nhìn từ khóa rồi sắp xếp lại từ việc hội thao kết thúc muộn, lý do nhận bó hoa cưới, đến quyết tâm ở cuối đoạn hội thoại.",
+                        keywords: ["체육 대회", "청바지", "티셔츠", "갈아입을 시간", "대신", "부케", "6개월", "속상하다", "다음에는"],
+                        placeholder: "상황 설명, 부케 이야기, 마지막 감정을 모두 넣어 4~5문장으로 정리해 보세요.",
+                        placeholderVi: "Hãy tóm tắt thành 4 đến 5 câu, bao gồm hoàn cảnh, chuyện bó hoa cưới và cảm xúc ở cuối."
+                    },
+                    sequenceTask: {
+                        title: "사건 순서 배열",
+                        titleVi: "Sắp xếp diễn biến",
+                        guide: "대화에 나온 일을 먼저 들린 순서대로 다시 배열해 보세요.",
+                        guideVi: "Hãy sắp xếp lại các sự việc theo đúng thứ tự xuất hiện trong hội thoại.",
+                        checkLabel: "순서 확인",
+                        checkLabelVi: "Kiểm tra thứ tự",
+                        resetLabel: "처음 순서로",
+                        resetLabelVi: "Về thứ tự đầu",
+                        items: [
+                            { id: "bouquet", label: "못 온 친구 대신 부케를 받다", labelVi: "Nhận bó hoa cưới thay người bạn không đến được" },
+                            { id: "sports", label: "회사 체육 대회가 늦게 끝나다", labelVi: "Hội thao công ty kết thúc muộn" },
+                            { id: "wedding", label: "청바지와 티셔츠 차림으로 결혼식에 가다", labelVi: "Đi đám cưới với quần jean và áo phông" },
+                            { id: "marriage", label: "엄마가 빨리 결혼하라고 말하다", labelVi: "Mẹ bảo nên kết hôn sớm" },
+                            { id: "resolve", label: "다음에는 미리 준비했어야 했다고 생각하다", labelVi: "Nghĩ rằng lần sau đáng lẽ phải chuẩn bị trước" }
+                        ],
+                        answerOrder: ["sports", "wedding", "bouquet", "marriage", "resolve"]
+                    },
+                    notePrompts: {
+                        keywords: "늦게 끝난 이유, 옷차림, 부케, 엄마 반응",
+                        details: "딸의 설명과 엄마의 반응을 나누어 적기",
+                        questions: "딸이 가장 속상했던 이유가 무엇인지 표시하기",
+                        cue: "체육 대회 / 청바지 / 부케 / 6개월 / 다음에는",
+                        notes: "사건이 바뀌는 지점을 짧게 메모하기",
+                        summary: "딸이 왜 후회했는지 한두 문장으로 정리하기"
+                    },
+                    notePromptsVi: {
+                        keywords: "Lý do đến muộn, trang phục, bó hoa cưới, phản ứng của mẹ",
+                        details: "Chia riêng phần giải thích của con gái và phản ứng của mẹ",
+                        questions: "Đánh dấu lý do khiến cô con gái buồn nhất",
+                        cue: "Hội thao / quần jean / bó hoa / 6 tháng / lần sau",
+                        notes: "Ghi ngắn gọn những chỗ diễn biến thay đổi",
+                        summary: "Tóm tắt trong một hai câu vì sao cô ấy thấy tiếc nuối"
+                    },
+                    clozeSection: {
+                        title: "문법 집중 빈칸",
+                        titleVi: "Điền vào chỗ trống với ngữ pháp",
+                        guide: "후회, 옷차림, 이유 설명 표현을 채워 보세요.",
+                        guideVi: "Hãy điền các biểu hiện tiếc nuối, miêu tả trang phục và giải thích lý do."
+                    },
+                    clozeItems: [
+                        {
+                            sentence: "결혼식에 가기 전에 옷을 좀 더 미리 준비_____ 했는데 시간이 없었어요.",
+                            sentenceVi: "Trước khi đi đám cưới, đáng lẽ tôi phải chuẩn bị quần áo trước _____ nhưng lại không có thời gian.",
+                            blank: "했어야",
+                            hint: "-았/었어야 했는데",
+                            hintVi: "Ngữ pháp diễn tả điều đáng lẽ phải làm",
+                            explanation: "과거에 준비하지 못한 일을 아쉬워할 때 쓰는 표현입니다.",
+                            explanationVi: "Dùng khi tiếc nuối vì đã không chuẩn bị được việc gì đó trong quá khứ."
+                        },
+                        {
+                            sentence: "다른 사람들은 정장을 입고 _____ 저는 청바지와 티셔츠 차림이었어요.",
+                            sentenceVi: "Mọi người khác đều đang mặc lễ phục _____ còn tôi lại mặc quần jean và áo phông.",
+                            blank: "있는데",
+                            hint: "V-고 있다",
+                            hintVi: "Biểu hiện trạng thái đang mặc",
+                            explanation: "입고 있는 상태를 묘사하며 비교할 때 자연스럽게 쓸 수 있습니다.",
+                            explanationVi: "Có thể dùng tự nhiên khi miêu tả trạng thái đang mặc và so sánh với người khác."
+                        },
+                        {
+                            sentence: "체육 대회가 늦게 끝나_____ 옷을 갈아입을 시간이 없었어요.",
+                            sentenceVi: "Vì hội thao kết thúc muộn _____ nên tôi không có thời gian thay đồ.",
+                            blank: "서",
+                            hint: "이유 연결",
+                            hintVi: "Nối nguyên nhân",
+                            explanation: "앞의 상황이 뒤 결과의 이유가 됨을 보여 줍니다.",
+                            explanationVi: "Cho thấy sự việc phía trước là nguyên nhân dẫn đến kết quả phía sau."
+                        },
+                        {
+                            sentence: "친구가 못 와서 제가 대신 부케를 받_____ 됐어요.",
+                            sentenceVi: "Vì bạn tôi không đến được nên cuối cùng tôi đã _____ nhận bó hoa cưới thay bạn.",
+                            blank: "게",
+                            hint: "상황 변화",
+                            hintVi: "Biểu hiện thành ra như vậy",
+                            explanation: "예상하지 못한 상황 때문에 어떤 일이 그렇게 되었다고 말할 때 씁니다.",
+                            explanationVi: "Dùng khi nói rằng vì tình huống không ngờ nên sự việc đã thành ra như vậy."
+                        }
+                    ],
+                    speakingTask: {
+                        title: "말하기 출력",
+                        titleVi: "Đầu ra nói",
+                        prompt: "친구가 중요한 모임에 급하게 가느라 옷차림 때문에 속상해했다고 할 때, 무엇을 미리 준비했어야 하고 다음에는 어떤 옷을 입으면 좋을지 조언해 보세요.",
+                        promptVi: "Khi một người bạn buồn vì trang phục do phải đi gấp đến một buổi gặp mặt quan trọng, hãy đưa lời khuyên xem đáng lẽ bạn ấy nên chuẩn bị gì trước và lần sau nên mặc gì.",
+                        placeholder: "예: 결혼식에 바로 가야 했다면 갈아입을 옷을 미리 챙겼어야 했어. 다음에는 정장이나 단정한 옷을 입고 가는 게 좋겠어.",
+                        placeholderVi: "Ví dụ: Nếu phải đi thẳng đến đám cưới thì đáng lẽ cậu nên chuẩn bị sẵn đồ để thay. Lần sau mặc đồ trang trọng hoặc gọn gàng sẽ tốt hơn.",
+                        tips: ["준비했어야 했어", "갈아입을 시간이 없었어", "대신 받게 됐어", "다음에는"],
+                        tipsVi: ["Đáng lẽ phải chuẩn bị", "Không có thời gian thay đồ", "Đã nhận thay", "Lần sau thì"]
+                    },
+                    clarifications: [
+                        {
+                            ko: "다시 한 번 말씀해 주세요.",
+                            vi: "Xin nói lại một lần nữa.",
+                            use: "전체 상황을 처음부터 다시 듣고 싶을 때 가장 기본적으로 쓰는 표현입니다.",
+                            useVi: "Đây là cách nói cơ bản nhất khi em muốn nghe lại toàn bộ tình huống từ đầu."
+                        },
+                        {
+                            ko: "즉, 체육 대회가 늦게 끝나서 옷을 못 갈아입었다는 말이죠?",
+                            vi: "Tức là vì hội thao kết thúc muộn nên chị không kịp thay đồ, đúng không ạ?",
+                            use: "상황의 원인을 한 문장으로 다시 확인할 때 좋습니다.",
+                            useVi: "Rất hợp khi em muốn xác nhận lại nguyên nhân của sự việc bằng một câu."
+                        },
+                        {
+                            ko: "친구가 못 와서 대신 부케를 받게 됐다는 말씀이군요.",
+                            vi: "Ý là vì bạn không đến được nên chị đã phải nhận bó hoa cưới thay, đúng không ạ?",
+                            use: "예상 밖 사건이 어떻게 일어났는지 정리할 때 자연스럽습니다.",
+                            useVi: "Dùng tự nhiên khi em muốn sắp xếp lại việc bất ngờ đã xảy ra như thế nào."
+                        },
+                        {
+                            ko: "다음에는 미리 준비했어야 했다고 생각하는 거죠?",
+                            vi: "Tức là chị nghĩ rằng lần sau đáng lẽ phải chuẩn bị trước, đúng không ạ?",
+                            use: "대화 마지막의 후회와 다짐을 확인할 때 쓰기 좋습니다.",
+                            useVi: "Rất phù hợp khi em muốn xác nhận sự tiếc nuối và quyết tâm ở cuối cuộc trò chuyện."
+                        }
+                    ],
+                    clarificationPrompt: "이유 설명과 후회의 마음을 다시 확인하는 표현을 골라 연습해 보세요.",
+                    clarificationPromptVi: "Hãy luyện các cách xác nhận lại lý do và cảm giác tiếc nuối trong cuộc trò chuyện.",
+                    clarifyScenario: "예: '즉, 결혼식인 줄 알았으면 갈아입을 옷을 챙겼어야 했다는 말씀이죠?'처럼 핵심 후회를 확인하는 문장을 만들어 보세요.",
+                    clarifyScenarioVi: "Ví dụ: hãy tạo một câu xác nhận ý tiếc nuối chính như 'Tức là nếu biết là phải đi đám cưới thì đáng lẽ chị nên mang theo đồ để thay, đúng không ạ?'.",
+                    oralFeatures: [
+                        {
+                            term: "늦게 끝나서",
+                            type: "이유 설명",
+                            typeVi: "Giải thích lý do",
+                            note: "앞의 일이 뒤 결과를 만들었다는 이유를 짧고 자연스럽게 말하는 표현입니다.",
+                            noteVi: "Đây là cách nói ngắn gọn và tự nhiên để nêu nguyên nhân dẫn đến kết quả phía sau."
+                        },
+                        {
+                            term: "대신",
+                            type: "대체 상황",
+                            typeVi: "Tình huống thay thế",
+                            note: "원래 해야 할 사람이 못 할 때 다른 사람이 그 역할을 대신함을 보여 줍니다.",
+                            noteVi: "Cho thấy khi người lẽ ra phải làm không thể làm thì người khác sẽ thay vào vai trò đó."
+                        },
+                        {
+                            term: "받게 됐어",
+                            type: "상황 변화",
+                            typeVi: "Diễn biến bất ngờ",
+                            note: "예상하지 않았지만 어떤 흐름 때문에 결국 그렇게 되었다는 뜻을 담습니다.",
+                            noteVi: "Mang ý rằng ban đầu không dự tính nhưng cuối cùng vì diễn biến nào đó mà sự việc trở thành như vậy."
+                        },
+                        {
+                            term: "했어야 했는데",
+                            type: "후회 표현",
+                            typeVi: "Biểu hiện tiếc nuối",
+                            note: "과거에 하지 못한 일에 대한 아쉬움을 직접적으로 드러내는 표현입니다.",
+                            noteVi: "Đây là cách nói bộc lộ trực tiếp sự tiếc nuối về điều đã không làm được trong quá khứ."
+                        },
+                        {
+                            term: "속상했어",
+                            type: "감정 드러내기",
+                            typeVi: "Bộc lộ cảm xúc",
+                            note: "당시 기분이 좋지 않았고 답답했다는 마음을 회화체로 전달합니다.",
+                            noteVi: "Cách nói này truyền đạt trong khẩu ngữ cảm giác buồn, bực và không thoải mái lúc đó."
+                        }
+                    ],
+                    tfSection: {
+                        title: "빠른 확인",
+                        titleVi: "Kiểm tra nhanh",
+                        guide: "객관식 문제 전에 핵심 사실을 O/X로 먼저 점검해 보세요.",
+                        guideVi: "Trước bài trắc nghiệm, hãy kiểm tra nhanh các thông tin chính bằng O/X."
+                    },
+                    tfQuestions: [
+                        {
+                            statement: "딸은 회사 체육 대회가 끝난 뒤 결혼식에 갔다.",
+                            statementVi: "Cô con gái đã đi đám cưới sau khi hội thao công ty kết thúc.",
+                            answer: true,
+                            explanation: "대화의 시작에서 체육 대회가 늦게 끝난 뒤 결혼식에 갔다고 설명합니다.",
+                            explanationVi: "Ngay đầu cuộc trò chuyện, cô ấy giải thích rằng mình đã đi đám cưới sau khi hội thao kết thúc muộn."
+                        },
+                        {
+                            statement: "딸은 원래 부케를 받기로 미리 약속되어 있었다.",
+                            statementVi: "Cô con gái vốn đã hẹn trước là sẽ nhận bó hoa cưới.",
+                            answer: false,
+                            explanation: "못 온 친구 대신 부케를 받게 되었다고 말합니다.",
+                            explanationVi: "Cô ấy nói mình nhận bó hoa cưới thay cho người bạn không đến được."
+                        },
+                        {
+                            statement: "엄마는 부케 이야기를 하면서 딸에게 빨리 결혼하라고 말한다.",
+                            statementVi: "Người mẹ nhắc đến bó hoa cưới rồi bảo con gái nên kết hôn sớm.",
+                            answer: true,
+                            explanation: "엄마가 부케 속설을 꺼내며 결혼 이야기를 이어 갑니다.",
+                            explanationVi: "Người mẹ nhắc đến lời truyền miệng về bó hoa cưới rồi tiếp tục nói sang chuyện kết hôn."
+                        }
+                    ],
+                    quizTitle: "이해 점검",
+                    quizTitleVi: "Kiểm tra mức độ hiểu",
+                    quizGuideKo: "옷차림의 이유, 부케를 받게 된 사정, 마지막 감정을 구분하면서 답해 보세요.",
+                    quizGuideVi: "Hãy trả lời trong khi phân biệt rõ lý do về trang phục, hoàn cảnh nhận bó hoa cưới và cảm xúc ở cuối cuộc trò chuyện.",
+                    questions: [
+                        {
+                            prompt: "딸은 왜 결혼식에 청바지와 티셔츠를 입고 갔습니까?",
+                            promptVi: "Vì sao cô con gái lại đi đám cưới với quần jean và áo phông?",
+                            answer: "3",
+                            explanation: "회사 체육 대회가 늦게 끝나서 갈아입을 시간이 없었다고 말합니다.",
+                            explanationVi: "Cô ấy nói rằng hội thao công ty kết thúc muộn nên không có thời gian thay đồ.",
+                            options: [
+                                { value: "1", label: "결혼식에 갈 생각이 없어서", labelVi: "Vì không định đi đám cưới" },
+                                { value: "2", label: "편한 옷을 좋아해서", labelVi: "Vì thích mặc đồ thoải mái" },
+                                { value: "3", label: "회사 체육 대회가 늦게 끝나서 옷을 갈아입을 시간이 없었어요", labelVi: "Vì hội thao công ty kết thúc muộn nên không có thời gian thay đồ" },
+                                { value: "4", label: "친구와 같은 옷을 입기로 해서", labelVi: "Vì đã hẹn mặc giống bạn" }
+                            ]
+                        },
+                        {
+                            prompt: "딸은 왜 결혼식에서 부케를 받았습니까?",
+                            promptVi: "Vì sao cô con gái lại nhận bó hoa cưới ở đám cưới?",
+                            answer: "2",
+                            explanation: "원래 받기로 한 친구가 못 와서 대신 받았다고 설명합니다.",
+                            explanationVi: "Cô ấy giải thích rằng người bạn vốn sẽ nhận bó hoa không đến được nên cô phải nhận thay.",
+                            options: [
+                                { value: "1", label: "원래 부케를 받기로 약속해서", labelVi: "Vì vốn đã hẹn trước sẽ nhận bó hoa" },
+                                { value: "2", label: "부케를 받기로 한 친구가 못 와서 대신 받았어요", labelVi: "Vì người bạn vốn nhận bó hoa không đến được nên cô ấy nhận thay" },
+                                { value: "3", label: "딸이 결혼하고 싶어서", labelVi: "Vì cô ấy muốn kết hôn" },
+                                { value: "4", label: "신부가 딸에게 일부러 주고 싶어 해서", labelVi: "Vì cô dâu muốn đưa riêng cho cô ấy" }
+                            ]
+                        },
+                        {
+                            prompt: "들은 내용과 다른 것을 고르십시오.",
+                            promptVi: "Hãy chọn nội dung khác với cuộc hội thoại.",
+                            answer: "3",
+                            explanation: "엄마는 딸이 부케를 받아서 기뻐한 것이 아니라 그 일을 계기로 결혼 이야기를 꺼냈습니다.",
+                            explanationVi: "Người mẹ không vui mừng vì cô con gái nhận bó hoa cưới, mà nhân đó nhắc sang chuyện kết hôn.",
+                            options: [
+                                { value: "1", label: "딸은 회사 체육 대회 다음에 결혼식에 갔다.", labelVi: "Cô con gái đã đi đám cưới sau hội thao công ty." },
+                                { value: "2", label: "딸은 옷차림 때문에 결혼식장에서 창피했다.", labelVi: "Cô con gái thấy ngại ở đám cưới vì trang phục." },
+                                { value: "3", label: "엄마는 딸이 부케를 받아서 아주 기뻐했다.", labelVi: "Người mẹ rất vui vì cô con gái nhận bó hoa cưới." },
+                                { value: "4", label: "부케를 받을 다른 미혼 친구가 오지 못했다.", labelVi: "Người bạn độc thân vốn nhận bó hoa đã không thể đến." }
+                            ]
+                        },
+                        {
+                            prompt: "엄마는 왜 딸에게 빨리 결혼하라고 했습니까?",
+                            promptVi: "Vì sao người mẹ lại bảo con gái nên kết hôn sớm?",
+                            answer: "4",
+                            explanation: "부케를 받으면 6개월 안에 결혼해야 한다는 이야기를 꺼냈기 때문입니다.",
+                            explanationVi: "Vì người mẹ nhắc đến câu chuyện rằng ai nhận bó hoa cưới thì sẽ kết hôn trong vòng 6 tháng.",
+                            options: [
+                                { value: "1", label: "딸의 나이가 많아서", labelVi: "Vì con gái đã lớn tuổi" },
+                                { value: "2", label: "좋은 남자가 생겨서", labelVi: "Vì đã có người đàn ông tốt xuất hiện" },
+                                { value: "3", label: "딸이 일만 해서 결혼 생각이 없어서", labelVi: "Vì con gái chỉ lo công việc nên không nghĩ đến kết hôn" },
+                                { value: "4", label: "부케를 받으면 6개월 안에 결혼해야 한다는 이야기 때문에", labelVi: "Vì câu chuyện nói rằng ai nhận bó hoa cưới thì nên kết hôn trong vòng 6 tháng" }
+                            ]
+                        },
+                        {
+                            prompt: "대화 마지막에 딸의 마음으로 가장 알맞은 것은 무엇입니까?",
+                            promptVi: "Điều nào phù hợp nhất với tâm trạng của cô con gái ở cuối cuộc trò chuyện?",
+                            answer: "3",
+                            explanation: "딸은 옷차림과 엄마의 말 때문에 속상하고 답답한 마음을 보입니다.",
+                            explanationVi: "Cô con gái bộc lộ cảm giác buồn và bức bối vì chuyện trang phục cùng lời nói của mẹ.",
+                            options: [
+                                { value: "1", label: "기쁘고 설렌다", labelVi: "Vui và hồi hộp" },
+                                { value: "2", label: "미안하고 후회된다", labelVi: "Thấy có lỗi và hối hận" },
+                                { value: "3", label: "속상하고 답답하다", labelVi: "Buồn và bức bối" },
+                                { value: "4", label: "관심 없고 포기했다", labelVi: "Không quan tâm và đã buông bỏ" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+    </script>
+    <script src="../shared/listening-workbook.js?v=20260324-audiosync"></script>
+    <script src="../shared/learning-enhancements.js?v=20260319-c13-listening"></script>
+    <script src="../shared/pc-mode.js"></script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
