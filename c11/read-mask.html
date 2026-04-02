@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>어절 마스킹 읽기 연습</title>
+  <style>
+    body {
+      font-family: "Noto Sans KR", Arial, sans-serif;
+      line-height: 1.9;
+      margin: 0;
+      background: #f7f7f7;
+      color: #222;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin: 0 0 16px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      position: sticky;
+      top: 0;
+      background: #f7f7f7;
+      padding: 12px 0;
+      z-index: 10;
+    }
+
+    button {
+      border: none;
+      background: #222;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .info {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 16px;
+    }
+
+    .passage {
+      background: white;
+      padding: 22px 18px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      font-size: 1.08rem;
+      word-break: keep-all;
+    }
+
+    .paragraph {
+      margin-bottom: 18px;
+    }
+
+    .word {
+      display: inline-block;
+      padding: 1px 3px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .word:hover {
+      background: #f0f0f0;
+    }
+
+    .masked {
+      background: #222;
+      color: transparent;
+      user-select: none;
+      min-width: 1em;
+    }
+
+    .masked:hover {
+      background: #444;
+    }
+
+    .highlight-sentence {
+      background: #fff8dc;
+      border-radius: 8px;
+      padding: 2px 0;
+    }
+
+    .legend {
+      margin-top: 14px;
+      font-size: 0.92rem;
+      color: #666;
+    }
+
+    @media (max-width: 640px) {
+      .passage {
+        font-size: 1rem;
+        padding: 18px 14px;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .controls {
+        display: block;
+      }
+
+      .controls button {
+        display: block;
+        margin-bottom: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>어절 마스킹 읽기 연습</h1>
+
+    <div class="controls">
+      <button id="toggleAllBtn">전체 해제</button>
+      <button id="randomMaskBtn">무작위 문장 1-2어절 마스킹</button>
+      <button id="resetBtn">전체 다시 마스킹</button>
+    </div>
+
+    <div class="info">
+      마스킹된 어절을 클릭하면 해당 어절이 보입니다.
+    </div>
+
+    <div id="passage" class="passage"></div>
+
+    <div class="legend">
+      현재 기본 상태는 전체 마스킹입니다.
+    </div>
+  </div>
+
+  <script>
+    const text = `직장인이라면 누구든지 회사에서 꼭 필요한 사람이 되고 싶을 것이다. 그런 사람이 되려면 어떤 노력을 해야 할까? 만약 회사에서 성공하고 싶다면 항상 '친절'과 '독서'를 실천해야 한다.
+
+I. 친절한 사람이 성공한다.
+회사에는 일을 맡기면 다른 사람보다 빨리 잘 해결하는 사람이 있다. 그 사람은 어려운 일이 생겼을 때도 누군가의 도움을 받아 문제를 쉽게 해결한다. 사람들은 그가 운이 좋다고 말한다. 그런데 왜 그 사람에게는 그런 운 좋은 일이 자주 일어날까? 그것은 그가 평소에 한 작은 친절 때문이다.
+
+복사기가 고장 났을 때 함께 걱정하고 수리 기사를 불러 주거나, 혼자서 많은 서류를 옮겨야 할 때 함께 들어 주는 일, 갑자기 소나기가 내릴 때 우산을 빌려주는 것은 아주 작은 일이다. 하지만 사람들은 이런 작은 친절을 생각보다 오래 기억하며, 그 사람이 어려울 때 도와주게 된다. 그렇기 때문에 친절한 사람이 그렇지 않은 사람보다 성공할 가능성이 훨씬 높은 것이다.
+
+II. 독서 하는 사람이 성공한다.
+한국의 직장인들은 1년에 평균 16권의 책을 읽는다고 한다. 가장 많이 읽는 책의 종류는 경제 경영 서적과 소설이다. 경제 경영 서적을 읽으면……`;
+
+    const passageEl = document.getElementById("passage");
+    const toggleAllBtn = document.getElementById("toggleAllBtn");
+    const randomMaskBtn = document.getElementById("randomMaskBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let allMasked = true;
+    let sentenceWordMap = [];
+
+    function escapeHtml(str) {
+      return str
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function splitParagraphToSentences(paragraph) {
+      const matches = paragraph.match(/.*?(?:[.!?]|…+|……|$)/g) || [];
+      return matches.map(s => s.trim()).filter(Boolean);
+    }
+
+    function createWordSpan(word, sentenceIndex) {
+      const span = document.createElement("span");
+      span.className = "word masked";
+      span.dataset.sentenceIndex = sentenceIndex;
+      span.textContent = word;
+      span.addEventListener("click", () => {
+        span.classList.remove("masked");
+      });
+      return span;
+    }
+
+    function renderText() {
+      passageEl.innerHTML = "";
+      sentenceWordMap = [];
+      let sentenceIndex = 0;
+
+      const paragraphs = text.split(/\n\s*\n/);
+
+      paragraphs.forEach(paragraphText => {
+        const p = document.createElement("div");
+        p.className = "paragraph";
+
+        const sentences = splitParagraphToSentences(paragraphText);
+
+        if (sentences.length === 0) {
+          p.textContent = paragraphText;
+          passageEl.appendChild(p);
+          return;
+        }
+
+        sentences.forEach((sentence, sIdx) => {
+          const sentenceWrap = document.createElement("span");
+          sentenceWrap.className = "sentence";
+          sentenceWrap.dataset.sentenceIndex = sentenceIndex;
+
+          const words = sentence.split(/\s+/).filter(Boolean);
+          sentenceWordMap[sentenceIndex] = [];
+
+          words.forEach((word, wIdx) => {
+            const wordSpan = createWordSpan(word, sentenceIndex);
+            sentenceWrap.appendChild(wordSpan);
+            sentenceWordMap[sentenceIndex].push(wordSpan);
+
+            if (wIdx < words.length - 1) {
+              sentenceWrap.appendChild(document.createTextNode(" "));
+            }
+          });
+
+          p.appendChild(sentenceWrap);
+
+          if (sIdx < sentences.length - 1) {
+            p.appendChild(document.createTextNode(" "));
+          }
+
+          sentenceIndex++;
+        });
+
+        passageEl.appendChild(p);
+      });
+    }
+
+    function setAllMasked(masked) {
+      document.querySelectorAll(".word").forEach(word => {
+        if (masked) {
+          word.classList.add("masked");
+        } else {
+          word.classList.remove("masked");
+        }
+      });
+      allMasked = masked;
+      toggleAllBtn.textContent = masked ? "전체 해제" : "전체 마스킹";
+      clearSentenceHighlight();
+    }
+
+    function clearSentenceHighlight() {
+      document.querySelectorAll(".sentence").forEach(el => {
+        el.classList.remove("highlight-sentence");
+      });
+    }
+
+    function toggleAllMask() {
+      setAllMasked(!allMasked);
+    }
+
+    function randomMaskInSentence() {
+      clearSentenceHighlight();
+
+      document.querySelectorAll(".word").forEach(word => {
+        word.classList.remove("masked");
+      });
+
+      const availableSentenceIndexes = sentenceWordMap
+        .map((arr, idx) => ({ arr, idx }))
+        .filter(item => item.arr && item.arr.length >= 2);
+
+      if (availableSentenceIndexes.length === 0) {
+        return;
+      }
+
+      const pickedSentence = availableSentenceIndexes[
+        Math.floor(Math.random() * availableSentenceIndexes.length)
+      ];
+
+      const words = pickedSentence.arr;
+      const maskLength = Math.random() < 0.5 ? 1 : 2;
+      const actualMaskLength = Math.min(maskLength, words.length);
+      const startIndex = Math.floor(Math.random() * (words.length - actualMaskLength + 1));
+
+      for (let i = startIndex; i < startIndex + actualMaskLength; i++) {
+        words[i].classList.add("masked");
+      }
+
+      const sentenceEl = document.querySelector(`.sentence[data-sentence-index="${pickedSentence.idx}"]`);
+      if (sentenceEl) {
+        sentenceEl.classList.add("highlight-sentence");
+        sentenceEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      allMasked = false;
+      toggleAllBtn.textContent = "전체 마스킹";
+    }
+
+    toggleAllBtn.addEventListener("click", toggleAllMask);
+    randomMaskBtn.addEventListener("click", randomMaskInSentence);
+    resetBtn.addEventListener("click", () => setAllMasked(true));
+
+    renderText();
+    setAllMasked(true);
+  </script>
+</body>
+</html>
