@@ -136,7 +136,7 @@
     </div>
 
     <div class="info">
-      마스킹된 어절을 클릭하면 해당 어절이 보입니다.
+      어절을 클릭하면 마스킹/해제가 바뀝니다.
     </div>
 
     <div id="passage" class="passage"></div>
@@ -165,15 +165,6 @@ II. 독서 하는 사람이 성공한다.
     let allMasked = true;
     let sentenceWordMap = [];
 
-    function escapeHtml(str) {
-      return str
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-    }
-
     function splitParagraphToSentences(paragraph) {
       const matches = paragraph.match(/.*?(?:[.!?]|…+|……|$)/g) || [];
       return matches.map(s => s.trim()).filter(Boolean);
@@ -184,9 +175,11 @@ II. 독서 하는 사람이 성공한다.
       span.className = "word masked";
       span.dataset.sentenceIndex = sentenceIndex;
       span.textContent = word;
+
       span.addEventListener("click", () => {
-        span.classList.remove("masked");
+        span.classList.toggle("masked");
       });
+
       return span;
     }
 
