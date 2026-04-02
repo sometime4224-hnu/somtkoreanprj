@@ -102,6 +102,39 @@
             font-weight: 800;
         }
 
+        .topbar__actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar__title {
+            color: var(--ink);
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .topbar__pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(220, 38, 38, 0.14);
+            background: rgba(220, 38, 38, 0.08);
+            color: #b91c1c;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 900;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        .topbar__pdf:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(220, 38, 38, 0.12);
+            background: rgba(220, 38, 38, 0.12);
+        }
+
         .hero {
             position: relative;
             overflow: hidden;
@@ -482,6 +515,12 @@
                 align-items: flex-start;
             }
 
+            .topbar__actions {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
             .card {
                 min-height: unset;
             }
@@ -497,7 +536,13 @@
             <a href="../index.html">
                 <span>메인으로</span>
             </a>
-            <strong>중간고사 준비 허브</strong>
+            <div class="topbar__actions">
+                <strong class="topbar__title">중간고사 준비 허브</strong>
+                <a class="topbar__pdf" href="./student-guide-vi.pdf" target="_blank" rel="noopener">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>설명서 PDF 보기</span>
+                </a>
+            </div>
         </div>
 
         <section class="hero">
@@ -533,6 +578,7 @@
                     <div class="focus-links">
                         <a href="../review/review4-html/confirm.html" class="focus-link">확인하기</a>
                         <a href="../review/review4-html/evaluate.html" class="focus-link">평가하기</a>
+                        <a href="../review/review4-html/listening.html" class="focus-link">듣기</a>
                         <a href="../review/review4-html/reading-writing.html" class="focus-link">읽기와 쓰기</a>
                     </div>
                 </article>
@@ -580,6 +626,7 @@
                     <div class="button-list">
                         <a href="../c10/review-quiz.html" class="button-link button-link--soft">10과 복습 퀴즈</a>
                         <a href="../c12/vocabulary-card-game.html" class="button-link button-link--soft">12과 카드 게임</a>
+                        <a href="../c13/vocabulary-crossword.html" class="button-link button-link--soft">13과 어휘 퀴즈</a>
                         <a href="../review/review-quiz-10-12.html" class="button-link button-link--soft">10~12과 통합 어휘</a>
                         <a href="../review/review4-html/confirm.html" class="button-link button-link--soft">Review 4 확인하기</a>
                     </div>
@@ -676,6 +723,7 @@
                     <a href="../c10/reading.html" class="button-link">10과 읽기</a>
                     <a href="../c11/reading.html" class="button-link">11과 읽기</a>
                     <a href="../c12/reading.html" class="button-link">12과 읽기</a>
+                    <a href="../c13/reading.html" class="button-link">13과 읽기</a>
                     <a href="../review/review4-html/reading-writing.html" class="button-link button-link--priority">Review 4 읽기와 쓰기</a>
                 </div>
             </div>
