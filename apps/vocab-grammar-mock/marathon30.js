@@ -39,6 +39,7 @@
     window.renderQuiz = function renderMarathonQuiz(quiz) {
         window.__marathonQuiz = quiz;
         baseRenderQuiz(quiz);
+        trimLeadCards(quiz);
         syncQuestionMetadata();
         primeCoachSummary();
     };
@@ -157,18 +158,30 @@
         const body = panel?.querySelector(".coach-card__body");
         if (!panel || !body) return;
 
-        panel.hidden = false;
-        body.innerHTML = `
-            <div class="coach-band">
-                <div class="coach-band__label">채점 전 안내</div>
-                <div class="coach-band__score">30문항을 끝까지 푼 뒤 채점하세요.</div>
-                <div class="coach-band__guide">채점이 끝나면 여기에서 섹션별 점수, 약한 유형, 다시 볼 문항 순서를 바로 보여 줍니다.</div>
-            </div>
-        `;
+        panel.hidden = true;
+        body.innerHTML = "";
     }
 
     function hideCoachSummary() {
         primeCoachSummary();
+    }
+
+    function trimLeadCards(quiz) {
+        const intro = document.getElementById("quizIntro");
+        const focusCard = document.getElementById("focusCard");
+        const focusList = document.getElementById("focusList");
+
+        if (intro) {
+            intro.innerHTML = `<h2>${window.escapeHtml(quiz.title)}</h2>`;
+        }
+
+        if (focusCard) {
+            focusCard.hidden = true;
+        }
+
+        if (focusList) {
+            focusList.innerHTML = "";
+        }
     }
 
     function enrichResult(result) {
