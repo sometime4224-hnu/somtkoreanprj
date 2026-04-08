@@ -158,6 +158,7 @@
         const body = panel?.querySelector(".coach-card__body");
         if (!panel || !body) return;
 
+        panel.classList.remove("is-ready");
         panel.hidden = true;
         body.innerHTML = "";
     }
@@ -259,6 +260,7 @@
             </div>
         `;
 
+        panel.classList.add("is-ready");
         panel.hidden = false;
     }
 
