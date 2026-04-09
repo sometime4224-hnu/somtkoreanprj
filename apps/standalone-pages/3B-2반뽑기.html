@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3B-2반뽑기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-start: #fff8ef;
+            --bg-end: #eef7ff;
+            --panel: rgba(255, 255, 255, 0.88);
+            --line: rgba(15, 23, 42, 0.08);
+            --ink: #162033;
+            --button-start: #ff7a59;
+            --button-end: #ff4d6d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(circle at 14% 16%, rgba(255, 122, 89, 0.22), transparent 24%),
+                radial-gradient(circle at 84% 18%, rgba(59, 130, 246, 0.18), transparent 24%),
+                radial-gradient(circle at 50% 88%, rgba(244, 114, 182, 0.16), transparent 28%),
+                linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            font-family: "Noto Sans KR", sans-serif;
+            color: var(--ink);
+            padding: 20px;
+        }
+
+        main {
+            width: min(920px, 100%);
+            display: grid;
+            gap: 24px;
+        }
+
+        .result-board {
+            min-height: min(58vh, 460px);
+            display: grid;
+            place-items: center;
+            padding: 28px;
+            border-radius: 40px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            box-shadow:
+                0 28px 60px rgba(15, 23, 42, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.75);
+            overflow: hidden;
+        }
+
+        .result-name {
+            margin: 0;
+            width: 100%;
+            text-align: center;
+            font-family: "Do Hyeon", sans-serif;
+            font-size: clamp(3.4rem, 10vw, 7.8rem);
+            line-height: 1.08;
+            letter-spacing: 0.01em;
+            word-break: keep-all;
+            transform-origin: center;
+        }
+
+        .result-name.is-empty {
+            opacity: 0;
+            user-select: none;
+        }
+
+        .result-name.pop {
+            animation: pop-in 540ms cubic-bezier(0.18, 0.88, 0.2, 1.2);
+        }
+
+        .controls {
+            position: fixed;
+            top: 50%;
+            right: 24px;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .draw-button {
+            appearance: none;
+            border: 0;
+            border-radius: 999px;
+            padding: 18px 52px;
+            min-width: 180px;
+            font: 800 clamp(1.1rem, 2.4vw, 1.35rem) / 1 "Noto Sans KR", sans-serif;
+            color: #fff;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--button-start) 0%, var(--button-end) 100%);
+            box-shadow: 0 20px 36px rgba(255, 77, 109, 0.28);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+        }
+
+        .draw-button:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 24px 40px rgba(255, 77, 109, 0.34);
+            filter: saturate(1.05);
+        }
+
+        .draw-button:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 12px 20px rgba(255, 77, 109, 0.2);
+        }
+
+        @keyframes pop-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.24);
+            }
+            55% {
+                opacity: 1;
+                transform: scale(1.18);
+            }
+            76% {
+                transform: scale(0.93);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 16px;
+            }
+
+            main {
+                gap: 18px;
+            }
+
+            .result-board {
+                min-height: 52vh;
+                padding: 20px;
+                border-radius: 28px;
+            }
+
+            .draw-button {
+                padding: 17px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="result-board" aria-live="polite" aria-atomic="true">
+            <h1 class="result-name is-empty" id="result">&nbsp;</h1>
+        </section>
+        <div class="controls">
+            <button class="draw-button" id="drawButton" type="button">뽑기</button>
+        </div>
+    </main>
+
+    <script>
+        const students = [
+            "쿠엇반탕",
+            "응우엔 똑 만",
+            "팜티아잉",
+            "응웬 꾸옥 중",
+            "찐 황 아인 휘",
+            "판 티 끼에우 비",
+            "팜 티 투 니",
+            "응웬 티 응웬 응아",
+            "응웬 티 냐 하",
+            "응웬 타잉 프엉 응아",
+            "응웬 티 타오",
+            "루 득 아잉",
+            "응우엔 응옥 뜨",
+            "황 티 끼에우 와잉",
+            "형 광 루안",
+            "응웬 티 이엔 니",
+            "도 응우엔 토 니",
+            "호 티 김 느",
+            "레 떠엔 중",
+            "응엔 중 드",
+            "응웬 티 누 이",
+            "휜 꾸옥 응이아",
+            "보 꽁 넛 호앙",
+            "하 반 쯩",
+            "응웬 꾸옥 간",
+            "판 티 미 협",
+            "응웬 티 느 꾸잉"
+        ];
+
+        const result = document.getElementById("result");
+        const drawButton = document.getElementById("drawButton");
+
+        let remainingStudents = [];
+
+        function shuffle(list) {
+            const copy = [...list];
+            for (let index = copy.length - 1; index > 0; index -= 1) {
+                const swapIndex = Math.floor(Math.random() * (index + 1));
+                [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+            }
+            return copy;
+        }
+
+        function drawStudent() {
+            if (remainingStudents.length === 0) {
+                remainingStudents = shuffle(students);
+            }
+
+            const pickedStudent = remainingStudents.pop();
+            result.textContent = pickedStudent;
+            result.classList.remove("is-empty", "pop");
+            void result.offsetWidth;
+            result.classList.add("pop");
+        }
+
+        drawButton.addEventListener("click", drawStudent);
+    </script>
+</body>
+</html>
