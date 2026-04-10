@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>14과 문법 3 | A-아/어하다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(180deg, #f5f3ff 0%, #f8fafc 100%); }
+        .global-nav {
+            position: sticky; top: 0; z-index: 1000; height: 58px; width: 100%;
+            display: flex; align-items: center; gap: 12px; padding: 0 16px; box-sizing: border-box;
+            background: rgba(255,255,255,0.92); border-bottom: 1px solid #ddd6fe; backdrop-filter: blur(8px);
+        }
+        .global-nav a { color: #7c3aed; text-decoration: none; font-weight: 700; font-size: 14px; }
+        .nav-divider { color: #cbd5e1; font-weight: 700; }
+        .safe { word-break: keep-all; overflow-wrap: break-word; }
+        .tab-btn.active { background: #ede9fe; color: #4c1d95; border-color: #c4b5fd; }
+        .vi-text { display: none; }
+        .vi-on .vi-text { display: block; }
+        .choice-btn { min-height: 52px; }
+        .next-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 9999px;
+            border: 1px solid #ddd6fe; background: rgba(255,255,255,0.9);
+            color: #4c1d95; text-decoration: none; font-size: 13px; font-weight: 700;
+            box-shadow: 0 4px 12px rgba(124,58,237,0.10);
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .next-link:hover { background: #f5f3ff; border-color: #a78bfa; transform: translateY(-1px); }
+        .prev-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 9999px;
+            border: 1px solid #cbd5e1; background: rgba(255,255,255,0.9);
+            color: #475569; text-decoration: none; font-size: 13px; font-weight: 700;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .prev-link:hover { background: #f8fafc; transform: translateY(-1px); }
+        .tag {
+            display: inline-block; padding: 2px 8px; border-radius: 9999px;
+            font-size: 11px; font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">14과 목록</a>
+    </nav>
+
+    <main id="page" class="w-full max-w-5xl mx-auto space-y-4">
+    <section class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm">
+        <div class="flex items-start justify-between gap-2">
+            <div>
+                <p class="text-xs font-bold text-indigo-600">14과 문법 3</p>
+                <h1 class="text-2xl font-black text-slate-800 mt-1">A-아/어하다</h1>
+                <p class="text-sm text-slate-600 mt-1 safe">다른 사람이 느끼는 감정이나 상태를 말할 때 주로 쓰는 표현입니다.</p>
+                <p class="vi-text text-xs text-indigo-700 mt-1 safe">Dùng chủ yếu để nói về cảm xúc hoặc trạng thái của người khác.</p>
+            </div>
+            <button id="viToggle" class="shrink-0 px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 whitespace-nowrap">Tiếng Việt OFF</button>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-4">
+            <button id="tabLearn" class="tab-btn active border rounded-xl py-2.5 text-sm font-bold border-indigo-200" type="button">학습</button>
+            <button id="tabPractice" class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">연습</button>
+        </div>
+    </section>
+    <section id="learnPanel" class="mt-4 space-y-3">
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">핵심 개념</h2>
+            <div class="text-slate-700 mt-2 text-sm safe space-y-2">
+                <p>보통 내가 직접 느끼는 감정보다 <strong>다른 사람의 감정</strong>을 말할 때 자주 씁니다.</p>
+                <p class="mt-2 bg-indigo-50 border border-indigo-100 rounded-xl px-3 py-2">대학원 수업이 어려워서 줄리앙 씨가 <span class="font-bold text-violet-700">힘들어해요</span>.</p>
+            </div>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Mẫu này thường dùng để nói cảm xúc của người khác hơn là của bản thân mình.</div>
+        </article>
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">자주 나오는 표현</h2>
+            <div class="mt-3 space-y-2 text-sm text-slate-700 safe">
+                <p class="bg-slate-50 rounded-xl px-3 py-2">심심해하다 / 힘들어하다 / 추워하다</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">그리워하다 / 좋아하다 / 싫어하다</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">-고 싶어하다도 비슷한 흐름으로 자주 함께 배웁니다.</p>
+            </div>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Các dạng như 심심해하다, 힘들어하다, 추워하다 xuất hiện thường xuyên.</div>
+        </article>
+        <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">주의할 점</h2>
+            <div class="text-sm text-slate-700 safe space-y-2 mt-2">
+                <p>나 자신의 감정은 보통 <strong>심심해요, 힘들어요</strong>처럼 말하고, 다른 사람의 감정은 <strong>심심해해요, 힘들어해요</strong>처럼 말합니다.</p>
+                <p>다만 좋아하다, 싫어하다처럼 굳어진 형태도 함께 익혀 두면 좋습니다.</p>
+            </div>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Với bản thân, thường nói trực tiếp bằng tính từ. Với người khác, dùng dạng -아/어하다.</div>
+        </article>
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">교재형 예문</h2>
+            <ul class="mt-3 space-y-3 text-sm text-slate-700">
+                <li class="safe">조카가 <strong class="text-violet-700">심심해해서</strong> 함께 놀아 줬어요.</li>
+                <li class="safe">여자 친구가 <strong class="text-violet-700">추워해</strong>서 제 코트를 벗어 줬어요.</li>
+                <li class="safe">마리코 씨가 김치를 담그고 싶어해서 같이 만들었어요.</li>
+            </ul>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Các ví dụ này cho thấy cảm xúc hoặc mong muốn của người khác.</div>
+        </article>
+    </section>
+    <section id="practicePanel" class="mt-4 hidden">
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="flex items-center justify-between text-xs">
+                <span id="progress" class="font-bold text-indigo-600"></span>
+                <span class="text-slate-500">연습 문제</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+                <div id="progressBar" class="bg-indigo-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+            </div>
+            <p id="qGrammar" class="mt-3 text-[11px] font-bold text-violet-600 uppercase tracking-wide"></p>
+            <p id="qText" class="mt-1 text-base font-bold text-slate-800 safe"></p>
+            <p id="qHintKo" class="mt-1 text-xs text-slate-500 safe"></p>
+            <p id="qHintVi" class="vi-text text-xs text-indigo-600 mt-0.5 safe"></p>
+            <div id="choices" class="mt-3 space-y-2"></div>
+            <div id="shortWrap" class="mt-3 hidden">
+                <input id="shortInput" type="text" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-400" placeholder="답을 쓰고 아래 버튼을 누르세요" />
+                <button id="checkShortBtn" class="mt-2 w-full bg-violet-600 text-white py-3 rounded-xl text-sm font-bold" type="button">답 확인</button>
+            </div>
+            <div id="feedbackBox" class="hidden mt-3 rounded-xl border p-3"></div>
+            <button id="nextBtn" class="hidden mt-3 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">다음 문제</button>
+        </article>
+        <article id="resultPanel" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+    </section>
+    <div class="mt-5 flex items-center justify-between gap-3">
+        <a href="grammar2.html" class="prev-link" aria-label="문법 2로 이동"><span aria-hidden="true">←</span><span>이전: 문법 2</span></a>
+        <a href="grammar4.html" class="next-link" aria-label="문법 4로 이동"><span>다음: 문법 4</span><span aria-hidden="true">→</span></a>
+    </div>
+</main>
+
+    <script src="../shared/grammar-bilingual-layout.js"></script>
+    <script>
+        const page          = document.getElementById('page');
+        const viToggle      = document.getElementById('viToggle');
+        const tabLearn      = document.getElementById('tabLearn');
+        const tabPractice   = document.getElementById('tabPractice');
+        const learnPanel    = document.getElementById('learnPanel');
+        const practicePanel = document.getElementById('practicePanel');
+        const progressEl    = document.getElementById('progress');
+        const progressBar   = document.getElementById('progressBar');
+        const qGrammar      = document.getElementById('qGrammar');
+        const qText         = document.getElementById('qText');
+        const qHintKo       = document.getElementById('qHintKo');
+        const qHintVi       = document.getElementById('qHintVi');
+        const choices       = document.getElementById('choices');
+        const shortWrap     = document.getElementById('shortWrap');
+        const shortInput    = document.getElementById('shortInput');
+        const checkShortBtn = document.getElementById('checkShortBtn');
+        const feedbackBox   = document.getElementById('feedbackBox');
+        const nextBtn       = document.getElementById('nextBtn');
+        const resultPanel   = document.getElementById('resultPanel');
+
+        let viOn = false;
+        viToggle.addEventListener('click', function () {
+            viOn = !viOn;
+            page.classList.toggle('vi-on', viOn);
+            viToggle.textContent = viOn ? 'Tiếng Việt ON' : 'Tiếng Việt OFF';
+        });
+
+        function showTab(name) {
+            const learn = name === 'learn';
+            learnPanel.classList.toggle('hidden', !learn);
+            practicePanel.classList.toggle('hidden', learn);
+            tabLearn.classList.toggle('active', learn);
+            tabPractice.classList.toggle('active', !learn);
+            tabLearn.classList.toggle('text-slate-600', !learn);
+            tabPractice.classList.toggle('text-slate-600', learn);
+            if (!learn && !state.started) { state.started = true; renderQuestion(); }
+        }
+        tabLearn.addEventListener('click',    function () { showTab('learn'); });
+        tabPractice.addEventListener('click', function () { showTab('practice'); });
+
+        const quiz = [
+            {
+                        "type": "mcq",
+                        "grammar": "A-아/어하다",
+                        "q": "다른 사람의 상태를 가장 자연스럽게 말한 문장을 고르세요.",
+                        "hintKo": "“다른 사람”의 감정을 표현하는 문장입니다.",
+                        "hintVi": "Hãy chọn câu nói về cảm xúc của người khác.",
+                        "options": [
+                                    "줄리앙 씨가 힘들어해요.",
+                                    "저는 힘들어해요.",
+                                    "줄리앙 씨가 힘들었던 사람이에요.",
+                                    "줄리앙 씨가 힘들수록 해요."
+                        ],
+                        "answer": "줄리앙 씨가 힘들어해요.",
+                        "explainKo": "다른 사람의 감정을 간접적으로 말할 때는 -아/어하다가 자연스럽습니다.",
+                        "explainVi": "Khi nói cảm xúc của người khác, dùng -아/어하다 là tự nhiên nhất."
+            },
+            {
+                        "type": "mcq",
+                        "grammar": "표현 고르기",
+                        "q": "“조카가 ____ 함께 놀아 줬어요.”에 알맞은 것을 고르세요.",
+                        "hintKo": "교재 예문을 떠올려 보세요.",
+                        "hintVi": "Hãy nhớ ví dụ trong giáo trình.",
+                        "options": [
+                                    "심심해해서",
+                                    "심심했어서",
+                                    "심심했던",
+                                    "심심할수록"
+                        ],
+                        "answer": "심심해해서",
+                        "explainKo": "조카의 상태를 보고 그 이유로 함께 놀아 준 상황을 나타냅니다.",
+                        "explainVi": "Câu này cho thấy trạng thái của đứa cháu và hành động phía sau."
+            },
+            {
+                        "type": "short",
+                        "grammar": "문장 만들기",
+                        "q": "“친구 + 고향을 그리워하다”를 사용해 문장을 완성하세요.",
+                        "hintKo": "다른 사람의 마음을 말해 보세요.",
+                        "hintVi": "Hãy nói về cảm xúc của người khác.",
+                        "answers": [
+                                    "제 친구는 고향을 그리워해요."
+                        ],
+                        "explainKo": "다른 사람이 느끼는 그리움의 감정을 자연스럽게 나타낸 문장입니다.",
+                        "explainVi": "Đây là câu tự nhiên để nói nỗi nhớ quê của người khác."
+            },
+            {
+                        "type": "mcq",
+                        "grammar": "의미 이해",
+                        "q": "“여자 친구가 추워해서 제 코트를 벗어 줬어요.”의 뜻으로 가장 알맞은 것은?",
+                        "hintKo": "여자 친구의 상태 때문에 행동이 이어집니다.",
+                        "hintVi": "Hành động xảy ra vì trạng thái của bạn gái.",
+                        "options": [
+                                    "여자 친구가 코트를 사고 싶어한다.",
+                                    "여자 친구가 추워하는 것을 보고 코트를 벗어 주었다.",
+                                    "여자 친구가 제 코트를 잃어버렸다.",
+                                    "제가 추워서 제 코트를 벗었다."
+                        ],
+                        "answer": "여자 친구가 추워하는 것을 보고 코트를 벗어 주었다.",
+                        "explainKo": "다른 사람의 감정을 보고 그에 맞는 행동을 한 상황입니다.",
+                        "explainVi": "Đây là tình huống nhìn thấy cảm xúc của người khác rồi hành động theo."
+            },
+            {
+                        "type": "mcq",
+                        "grammar": "문장 완성",
+                        "q": "“마리코 씨가 김치를 담그고 싶어해서 같이 ____.”에 알맞은 것을 고르세요.",
+                        "hintKo": "교재 예문과 같은 흐름입니다.",
+                        "hintVi": "Đây là cùng một mạch với ví dụ trong bài.",
+                        "options": [
+                                    "만들었어요",
+                                    "만났던",
+                                    "만들수록",
+                                    "만들어해요"
+                        ],
+                        "answer": "만들었어요",
+                        "explainKo": "다른 사람의 바람 때문에 함께 행동한 결과를 자연스럽게 이어 줍니다.",
+                        "explainVi": "Kết quả phía sau nối tự nhiên với mong muốn của người khác."
+            },
+            {
+                        "type": "short",
+                        "grammar": "자유 응용",
+                        "q": "“아버지 + 고향 + 그리워하다”를 사용해 문장을 만드세요.",
+                        "hintKo": "14과 주제와 연결해 보세요.",
+                        "hintVi": "Hãy nối với chủ đề của bài 14.",
+                        "answers": [
+                                    "아버지는 고향을 그리워하세요."
+                        ],
+                        "explainKo": "14과의 주제인 고향에 대한 마음을 다른 사람의 감정으로 표현한 문장입니다.",
+                        "explainVi": "Đây là câu diễn tả nỗi nhớ quê của người khác trong bài 14."
+            }
+];
+
+        const state = { idx: 0, answered: false, score: 0, logs: [], started: false };
+
+        function esc(t) {
+            return String(t == null ? '' : t)
+                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+        }
+        function normalize(t) { return String(t||'').replace(/\s/g,''); }
+
+        function shuffleQuiz() {
+            for (var i = quiz.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = quiz[i]; quiz[i] = quiz[j]; quiz[j] = tmp;
+            }
+        }
+        shuffleQuiz();
+
+        function lockInputs(q, user) {
+            if (q.type === 'mcq') {
+                Array.from(choices.querySelectorAll('button')).forEach(function (btn) {
+                    btn.disabled = true;
+                    if (btn.textContent === q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-violet-400 bg-violet-50 text-violet-800';
+                    } else if (btn.textContent === user && btn.textContent !== q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-rose-400 bg-rose-50 text-rose-800';
+                    } else {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-slate-200 bg-slate-50 text-slate-400';
+                    }
+                });
+            } else {
+                shortInput.disabled = true;
+                checkShortBtn.disabled = true;
+                checkShortBtn.className = 'mt-2 w-full bg-slate-400 text-white py-3 rounded-xl text-sm font-bold cursor-not-allowed';
+            }
+        }
+
+        function feedbackHtml(ok, user, correct, q) {
+            return '<p class="text-sm font-bold ' + (ok ? 'text-violet-700' : 'text-rose-700') + '">'
+                + (ok ? '정답입니다.' : '오답입니다.')
+                + ' <span class="text-xs font-normal">(' + (ok ? 'Đúng' : 'Sai') + ')</span></p>'
+                + '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(user || '(무응답)') + '</p>'
+                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>'
+                + '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(q.explainKo) + '</p>'
+                + '<p class="text-xs text-violet-700 mt-1 safe"><b>VI:</b> ' + esc(q.explainVi) + '</p>';
+        }
+
+        function answerQuestion(user) {
+            if (state.answered) return;
+            const q = quiz[state.idx];
+            const correct = q.type === 'mcq' ? q.answer : q.answers[0];
+            let ok;
+            if (q.type === 'mcq') {
+                ok = user === q.answer;
+            } else {
+                const n = normalize(user);
+                ok = q.answers.some(function (a) { return normalize(a) === n; });
+            }
+            state.answered = true;
+            if (ok) state.score += 1;
+            state.logs.push({ ok: ok, user: user, correct: correct, q: q.q, explainKo: q.explainKo, explainVi: q.explainVi });
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-violet-50 border-violet-200' : 'bg-rose-50 border-rose-200');
+            feedbackBox.innerHTML = feedbackHtml(ok, user, correct, q);
+            nextBtn.classList.remove('hidden');
+            lockInputs(q, user);
+        }
+
+        function renderQuestion() {
+            if (state.idx >= quiz.length) { renderResult(); return; }
+            const q = quiz[state.idx];
+            state.answered = false;
+            progressEl.textContent = (state.idx + 1) + ' / ' + quiz.length;
+            progressBar.style.width = (state.idx / quiz.length * 100) + '%';
+            qGrammar.textContent = q.grammar;
+            qText.textContent = q.q;
+            qHintKo.textContent = '힌트: ' + q.hintKo;
+            qHintVi.textContent = 'Gợi ý: ' + q.hintVi;
+            choices.innerHTML = '';
+            feedbackBox.classList.add('hidden');
+            feedbackBox.innerHTML = '';
+            nextBtn.classList.add('hidden');
+            shortWrap.classList.add('hidden');
+            shortInput.value = '';
+            shortInput.disabled = false;
+            checkShortBtn.disabled = false;
+            checkShortBtn.className = 'mt-2 w-full bg-violet-600 text-white py-3 rounded-xl text-sm font-bold';
+            if (q.type === 'mcq') {
+                q.options.forEach(function (opt) {
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn w-full border border-slate-300 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-800';
+                    btn.textContent = opt;
+                    btn.addEventListener('click', function () { answerQuestion(opt); });
+                    choices.appendChild(btn);
+                });
+            } else {
+                shortWrap.classList.remove('hidden');
+                shortInput.focus();
+            }
+        }
+
+        shortInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { answerQuestion(shortInput.value.trim()); }
+        });
+        checkShortBtn.addEventListener('click', function () { answerQuestion(shortInput.value.trim()); });
+        nextBtn.addEventListener('click', function () {
+            state.idx += 1;
+            renderQuestion();
+        });
+
+        function renderResult() {
+            practicePanel.querySelector('article:first-child').classList.add('hidden');
+            resultPanel.classList.remove('hidden');
+            const total = quiz.length;
+            const pct = Math.round(state.score / total * 100);
+            const wrongItems = state.logs.filter(function (l) { return !l.ok; });
+            let html = '<p class="text-lg font-black text-slate-800">결과: ' + state.score + ' / ' + total
+                + ' <span class="text-violet-600">(' + pct + '%)</span></p>'
+                + '<p class="text-xs text-slate-500 mt-1">Kết quả: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
+            if (pct >= 80) {
+                html += '<p class="text-sm text-violet-700 font-bold mt-2">훌륭해요! 문법을 잘 이해했어요.</p>'
+                    + '<p class="text-xs text-violet-600">Xuất sắc! Bạn đã nắm tốt ngữ pháp này.</p>';
+            } else {
+                html += '<p class="text-sm text-amber-700 font-bold mt-2">조금 더 연습해 봐요!</p>'
+                    + '<p class="text-xs text-amber-600">Hãy luyện thêm một chút nhé!</p>';
+            }
+            if (wrongItems.length > 0) {
+                html += '<div class="mt-3 border-t pt-3"><p class="text-xs font-bold text-slate-700 mb-2">틀린 문제 복습 / Ôn lại câu sai:</p>';
+                wrongItems.forEach(function (l) {
+                    html += '<div class="mb-2 bg-rose-50 border border-rose-100 rounded-xl px-3 py-2">'
+                        + '<p class="text-xs text-slate-700 font-semibold safe">' + esc(l.q) + '</p>'
+                        + '<p class="text-xs text-rose-700 mt-1">내 답: ' + esc(l.user || '(무응답)') + '</p>'
+                        + '<p class="text-xs text-violet-700">정답: ' + esc(l.correct) + '</p>'
+                        + '<p class="text-xs text-slate-600 mt-1 safe">' + esc(l.explainKo) + '</p>'
+                        + '</div>';
+                });
+                html += '</div>';
+            }
+            html += '<button id="retryBtn" class="mt-4 w-full bg-violet-600 text-white py-3 rounded-xl text-sm font-bold" type="button">다시 풀기 / Làm lại</button>';
+            resultPanel.innerHTML = html;
+            document.getElementById('retryBtn').addEventListener('click', function () {
+                state.idx = 0; state.score = 0; state.logs = []; state.answered = false;
+                shuffleQuiz();
+                resultPanel.classList.add('hidden');
+                practicePanel.querySelector('article:first-child').classList.remove('hidden');
+                renderQuestion();
+            });
+        }
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
