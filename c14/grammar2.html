@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>14과 문법 2 | A/V-았던/었던</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(180deg, #ecfdf5 0%, #f8fafc 100%); }
+        .global-nav {
+            position: sticky; top: 0; z-index: 1000; height: 58px; width: 100%;
+            display: flex; align-items: center; gap: 12px; padding: 0 16px; box-sizing: border-box;
+            background: rgba(255,255,255,0.92); border-bottom: 1px solid #a7f3d0; backdrop-filter: blur(8px);
+        }
+        .global-nav a { color: #059669; text-decoration: none; font-weight: 700; font-size: 14px; }
+        .nav-divider { color: #cbd5e1; font-weight: 700; }
+        .safe { word-break: keep-all; overflow-wrap: break-word; }
+        .tab-btn.active { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+        .vi-text { display: none; }
+        .vi-on .vi-text { display: block; }
+        .choice-btn { min-height: 52px; }
+        .next-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 9999px;
+            border: 1px solid #a7f3d0; background: rgba(255,255,255,0.9);
+            color: #065f46; text-decoration: none; font-size: 13px; font-weight: 700;
+            box-shadow: 0 4px 12px rgba(5,150,105,0.10);
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .next-link:hover { background: #ecfdf5; border-color: #34d399; transform: translateY(-1px); }
+        .prev-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 9999px;
+            border: 1px solid #cbd5e1; background: rgba(255,255,255,0.9);
+            color: #475569; text-decoration: none; font-size: 13px; font-weight: 700;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .prev-link:hover { background: #f8fafc; transform: translateY(-1px); }
+        .tag {
+            display: inline-block; padding: 2px 8px; border-radius: 9999px;
+            font-size: 11px; font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">14과 목록</a>
+    </nav>
+
+    <main id="page" class="w-full max-w-5xl mx-auto space-y-4">
+    <section class="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm">
+        <div class="flex items-start justify-between gap-2">
+            <div>
+                <p class="text-xs font-bold text-indigo-600">14과 문법 2</p>
+                <h1 class="text-2xl font-black text-slate-800 mt-1">A/V-았던/었던</h1>
+                <p class="text-sm text-slate-600 mt-1 safe">과거의 경험이나 기억 속 대상을 떠올리며 명사를 꾸밀 때 씁니다.</p>
+                <p class="vi-text text-xs text-indigo-700 mt-1 safe">Dùng để bổ nghĩa cho danh từ khi gợi lại trải nghiệm hay ký ức trong quá khứ.</p>
+            </div>
+            <button id="viToggle" class="shrink-0 px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 whitespace-nowrap">Tiếng Việt OFF</button>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-4">
+            <button id="tabLearn" class="tab-btn active border rounded-xl py-2.5 text-sm font-bold border-indigo-200" type="button">학습</button>
+            <button id="tabPractice" class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">연습</button>
+        </div>
+    </section>
+    <section id="learnPanel" class="mt-4 space-y-3">
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">핵심 개념</h2>
+            <div class="text-slate-700 mt-2 text-sm safe space-y-2">
+                <p>과거에 있었던 경험, 기억, 상태를 떠올리며 뒤의 명사를 설명합니다.</p>
+                <p class="mt-2 bg-indigo-50 border border-indigo-100 rounded-xl px-3 py-2">옛날에 엄마하고 처음 <span class="font-bold text-indigo-700">만났던 곳</span>이 이 근처라고 하셨지요?</p>
+            </div>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Mẫu này dùng khi nhắc lại người, nơi chốn, vật hay tình huống trong ký ức.</div>
+        </article>
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">만드는 법</h2>
+            <div class="mt-3 space-y-2 text-sm text-slate-700 safe">
+                <p class="bg-slate-50 rounded-xl px-3 py-2"><strong>동사/형용사 + -았던/었던 + 명사</strong></p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">지금은 끝났거나 지나간 경험을 떠올릴 때 자연스럽습니다.</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">뒤에는 사람, 곳, 사진, 옷 같은 명사가 자주 옵니다.</p>
+            </div>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Dạng cơ bản là động từ/tính từ + -았던/었던 + danh từ.</div>
+        </article>
+        <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">자주 쓰는 묶음</h2>
+            <div class="mt-3 space-y-2 text-sm text-slate-700 safe">
+                <p class="bg-slate-50 rounded-xl px-3 py-2">처음 만났던 곳</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">어렸을 때 친했던 친구</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">졸업 여행 갔을 때 찍었던 사진</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">아침에 입고 왔던 스웨터</p>
+            </div>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Những cụm này xuất hiện rất tự nhiên trong bài 14.</div>
+        </article>
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">교재형 예문</h2>
+            <ul class="mt-3 space-y-3 text-sm text-slate-700">
+                <li class="safe">어렸을 때 <strong class="text-indigo-700">친했던 친구</strong>와 다시 연락하게 됐어요.</li>
+                <li class="safe">한국에 올 때 비행기에서 <strong class="text-indigo-700">만났던 사람</strong>과 아직도 연락하고 있어요.</li>
+                <li class="safe">졸업 여행 갔을 때 <strong class="text-indigo-700">찍었던 사진</strong>을 보니까 옛날 생각이 많이 나요.</li>
+            </ul>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Các ví dụ này đều dùng để gợi lại ký ức trong quá khứ.</div>
+        </article>
+    </section>
+    <section id="practicePanel" class="mt-4 hidden">
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <div class="flex items-center justify-between text-xs">
+                <span id="progress" class="font-bold text-indigo-600"></span>
+                <span class="text-slate-500">연습 문제</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+                <div id="progressBar" class="bg-indigo-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+            </div>
+            <p id="qGrammar" class="mt-3 text-[11px] font-bold text-emerald-600 uppercase tracking-wide"></p>
+            <p id="qText" class="mt-1 text-base font-bold text-slate-800 safe"></p>
+            <p id="qHintKo" class="mt-1 text-xs text-slate-500 safe"></p>
+            <p id="qHintVi" class="vi-text text-xs text-indigo-600 mt-0.5 safe"></p>
+            <div id="choices" class="mt-3 space-y-2"></div>
+            <div id="shortWrap" class="mt-3 hidden">
+                <input id="shortInput" type="text" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-400" placeholder="답을 쓰고 아래 버튼을 누르세요" />
+                <button id="checkShortBtn" class="mt-2 w-full bg-emerald-600 text-white py-3 rounded-xl text-sm font-bold" type="button">답 확인</button>
+            </div>
+            <div id="feedbackBox" class="hidden mt-3 rounded-xl border p-3"></div>
+            <button id="nextBtn" class="hidden mt-3 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">다음 문제</button>
+        </article>
+        <article id="resultPanel" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+    </section>
+    <div class="mt-5 flex items-center justify-between gap-3">
+        <a href="grammar1.html" class="prev-link" aria-label="문법 1로 이동"><span aria-hidden="true">←</span><span>이전: 문법 1</span></a>
+        <a href="grammar3.html" class="next-link" aria-label="문법 3로 이동"><span>다음: 문법 3</span><span aria-hidden="true">→</span></a>
+    </div>
+</main>
+
+    <script src="../shared/grammar-bilingual-layout.js"></script>
+    <script>
+        const page          = document.getElementById('page');
+        const viToggle      = document.getElementById('viToggle');
+        const tabLearn      = document.getElementById('tabLearn');
+        const tabPractice   = document.getElementById('tabPractice');
+        const learnPanel    = document.getElementById('learnPanel');
+        const practicePanel = document.getElementById('practicePanel');
+        const progressEl    = document.getElementById('progress');
+        const progressBar   = document.getElementById('progressBar');
+        const qGrammar      = document.getElementById('qGrammar');
+        const qText         = document.getElementById('qText');
+        const qHintKo       = document.getElementById('qHintKo');
+        const qHintVi       = document.getElementById('qHintVi');
+        const choices       = document.getElementById('choices');
+        const shortWrap     = document.getElementById('shortWrap');
+        const shortInput    = document.getElementById('shortInput');
+        const checkShortBtn = document.getElementById('checkShortBtn');
+        const feedbackBox   = document.getElementById('feedbackBox');
+        const nextBtn       = document.getElementById('nextBtn');
+        const resultPanel   = document.getElementById('resultPanel');
+
+        let viOn = false;
+        viToggle.addEventListener('click', function () {
+            viOn = !viOn;
+            page.classList.toggle('vi-on', viOn);
+            viToggle.textContent = viOn ? 'Tiếng Việt ON' : 'Tiếng Việt OFF';
+        });
+
+        function showTab(name) {
+            const learn = name === 'learn';
+            learnPanel.classList.toggle('hidden', !learn);
+            practicePanel.classList.toggle('hidden', learn);
+            tabLearn.classList.toggle('active', learn);
+            tabPractice.classList.toggle('active', !learn);
+            tabLearn.classList.toggle('text-slate-600', !learn);
+            tabPractice.classList.toggle('text-slate-600', learn);
+            if (!learn && !state.started) { state.started = true; renderQuestion(); }
+        }
+        tabLearn.addEventListener('click',    function () { showTab('learn'); });
+        tabPractice.addEventListener('click', function () { showTab('practice'); });
+
+        const quiz = [
+            {
+                        "type": "mcq",
+                        "grammar": "A/V-았던/었던",
+                        "q": "추억이 담긴 사진을 설명할 때 가장 자연스러운 문장을 고르세요.",
+                        "hintKo": "과거 경험 속 장소를 떠올려 보세요.",
+                        "hintVi": "Hãy nghĩ đến một nơi trong ký ức quá khứ.",
+                        "options": [
+                                    "여기는 제가 작년 겨울에 가족들과 여행 갔던 바다입니다.",
+                                    "여기는 제가 여행 가고 있는 바다입니다.",
+                                    "여기는 제가 여행 갈수록 바다입니다.",
+                                    "여기는 제가 여행 가고 싶어하는 바다입니다."
+                        ],
+                        "answer": "여기는 제가 작년 겨울에 가족들과 여행 갔던 바다입니다.",
+                        "explainKo": "과거에 다녀온 경험을 떠올리며 바다를 설명하므로 이 문장이 가장 알맞습니다.",
+                        "explainVi": "Câu này diễn tả đúng trải nghiệm đã xảy ra trong quá khứ."
+            },
+            {
+                        "type": "mcq",
+                        "grammar": "표현 고르기",
+                        "q": "“졸업 여행 갔을 때 ____ 사진을 보니까 옛날 생각이 많이 나요.”에 알맞은 것을 고르세요.",
+                        "hintKo": "사진은 과거에 찍은 것입니다.",
+                        "hintVi": "Bức ảnh là thứ đã chụp trong quá khứ.",
+                        "options": [
+                                    "찍었던",
+                                    "찍고 있는",
+                                    "찍어하는",
+                                    "찍을수록"
+                        ],
+                        "answer": "찍었던",
+                        "explainKo": "과거에 찍은 사진을 떠올릴 때 -었던을 쓰는 것이 자연스럽습니다.",
+                        "explainVi": "Dùng -었던 là tự nhiên khi nói về bức ảnh đã chụp trước đây."
+            },
+            {
+                        "type": "short",
+                        "grammar": "문장 만들기",
+                        "q": "“어렸을 때 + 친하다 + 친구”를 사용해 문장을 완성하세요.",
+                        "hintKo": "교재 예문처럼 말해 보세요.",
+                        "hintVi": "Hãy nói giống ví dụ trong giáo trình.",
+                        "answers": [
+                                    "어렸을 때 친했던 친구와 다시 연락하게 됐어요."
+                        ],
+                        "explainKo": "과거에 친했던 친구를 현재 시점에서 떠올리는 형태입니다.",
+                        "explainVi": "Đây là cách nhắc lại một người bạn thân trong quá khứ."
+            },
+            {
+                        "type": "mcq",
+                        "grammar": "의미 이해",
+                        "q": "“처음 만났던 곳”의 뜻으로 가장 알맞은 것은?",
+                        "hintKo": "과거의 첫 만남을 떠올리는 표현입니다.",
+                        "hintVi": "Đây là cách nhắc lại nơi gặp nhau lần đầu.",
+                        "options": [
+                                    "지금 자주 만나는 곳",
+                                    "예전에 처음 만난 장소",
+                                    "앞으로 가고 싶은 곳",
+                                    "사라질 것 같은 장소"
+                        ],
+                        "answer": "예전에 처음 만난 장소",
+                        "explainKo": "과거의 특정 기억 속 장소를 꾸미는 표현입니다.",
+                        "explainVi": "Cụm này bổ nghĩa cho địa điểm trong ký ức quá khứ."
+            },
+            {
+                        "type": "mcq",
+                        "grammar": "문장 완성",
+                        "q": "“날씨가 더워서 아침에 ____ 스웨터를 벗었어요.”에 알맞은 것을 고르세요.",
+                        "hintKo": "이미 입고 왔던 옷입니다.",
+                        "hintVi": "Đó là chiếc áo đã mặc từ trước.",
+                        "options": [
+                                    "입고 왔던",
+                                    "입고 있는",
+                                    "입고 싶던",
+                                    "입을수록"
+                        ],
+                        "answer": "입고 왔던",
+                        "explainKo": "과거에 입고 온 상태를 떠올려 스웨터를 설명한 문장입니다.",
+                        "explainVi": "Cụm này gợi lại chiếc áo đã mặc khi đến đây."
+            },
+            {
+                        "type": "short",
+                        "grammar": "자유 응용",
+                        "q": "“비행기에서 + 만나다 + 사람”을 사용해 문장을 만드세요.",
+                        "hintKo": "과거 경험 속 사람을 떠올려 보세요.",
+                        "hintVi": "Hãy nhắc lại người đã gặp trong quá khứ.",
+                        "answers": [
+                                    "한국에 올 때 비행기에서 만났던 사람과 아직도 연락하고 있어요."
+                        ],
+                        "explainKo": "과거에 만난 사람을 현재 시점에서 설명하는 대표적인 예문입니다.",
+                        "explainVi": "Đây là ví dụ điển hình nói về người đã gặp trong quá khứ."
+            }
+];
+
+        const state = { idx: 0, answered: false, score: 0, logs: [], started: false };
+
+        function esc(t) {
+            return String(t == null ? '' : t)
+                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+        }
+        function normalize(t) { return String(t||'').replace(/\s/g,''); }
+
+        function shuffleQuiz() {
+            for (var i = quiz.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = quiz[i]; quiz[i] = quiz[j]; quiz[j] = tmp;
+            }
+        }
+        shuffleQuiz();
+
+        function lockInputs(q, user) {
+            if (q.type === 'mcq') {
+                Array.from(choices.querySelectorAll('button')).forEach(function (btn) {
+                    btn.disabled = true;
+                    if (btn.textContent === q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-emerald-400 bg-emerald-50 text-emerald-800';
+                    } else if (btn.textContent === user && btn.textContent !== q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-rose-400 bg-rose-50 text-rose-800';
+                    } else {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-slate-200 bg-slate-50 text-slate-400';
+                    }
+                });
+            } else {
+                shortInput.disabled = true;
+                checkShortBtn.disabled = true;
+                checkShortBtn.className = 'mt-2 w-full bg-slate-400 text-white py-3 rounded-xl text-sm font-bold cursor-not-allowed';
+            }
+        }
+
+        function feedbackHtml(ok, user, correct, q) {
+            return '<p class="text-sm font-bold ' + (ok ? 'text-emerald-700' : 'text-rose-700') + '">'
+                + (ok ? '정답입니다.' : '오답입니다.')
+                + ' <span class="text-xs font-normal">(' + (ok ? 'Đúng' : 'Sai') + ')</span></p>'
+                + '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(user || '(무응답)') + '</p>'
+                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>'
+                + '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(q.explainKo) + '</p>'
+                + '<p class="text-xs text-emerald-700 mt-1 safe"><b>VI:</b> ' + esc(q.explainVi) + '</p>';
+        }
+
+        function answerQuestion(user) {
+            if (state.answered) return;
+            const q = quiz[state.idx];
+            const correct = q.type === 'mcq' ? q.answer : q.answers[0];
+            let ok;
+            if (q.type === 'mcq') {
+                ok = user === q.answer;
+            } else {
+                const n = normalize(user);
+                ok = q.answers.some(function (a) { return normalize(a) === n; });
+            }
+            state.answered = true;
+            if (ok) state.score += 1;
+            state.logs.push({ ok: ok, user: user, correct: correct, q: q.q, explainKo: q.explainKo, explainVi: q.explainVi });
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200');
+            feedbackBox.innerHTML = feedbackHtml(ok, user, correct, q);
+            nextBtn.classList.remove('hidden');
+            lockInputs(q, user);
+        }
+
+        function renderQuestion() {
+            if (state.idx >= quiz.length) { renderResult(); return; }
+            const q = quiz[state.idx];
+            state.answered = false;
+            progressEl.textContent = (state.idx + 1) + ' / ' + quiz.length;
+            progressBar.style.width = (state.idx / quiz.length * 100) + '%';
+            qGrammar.textContent = q.grammar;
+            qText.textContent = q.q;
+            qHintKo.textContent = '힌트: ' + q.hintKo;
+            qHintVi.textContent = 'Gợi ý: ' + q.hintVi;
+            choices.innerHTML = '';
+            feedbackBox.classList.add('hidden');
+            feedbackBox.innerHTML = '';
+            nextBtn.classList.add('hidden');
+            shortWrap.classList.add('hidden');
+            shortInput.value = '';
+            shortInput.disabled = false;
+            checkShortBtn.disabled = false;
+            checkShortBtn.className = 'mt-2 w-full bg-emerald-600 text-white py-3 rounded-xl text-sm font-bold';
+            if (q.type === 'mcq') {
+                q.options.forEach(function (opt) {
+                    var btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn w-full border border-slate-300 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-800';
+                    btn.textContent = opt;
+                    btn.addEventListener('click', function () { answerQuestion(opt); });
+                    choices.appendChild(btn);
+                });
+            } else {
+                shortWrap.classList.remove('hidden');
+                shortInput.focus();
+            }
+            resultPanel.classList.add('hidden');
+        }
+
+        function renderResult() {
+            const pct = Math.round(state.score / quiz.length * 100);
+            const rows = state.logs.map(function (w, i) {
+                var cls = w.ok ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50';
+                var label = w.ok
+                    ? '<span class="text-xs font-bold text-emerald-700">정답 ' + (i+1) + '</span>'
+                    : '<span class="text-xs font-bold text-rose-700">오답 ' + (i+1) + '</span>';
+                return '<article class="rounded-xl border p-3 ' + cls + '">'
+                    + label
+                    + '<p class="text-sm text-slate-800 mt-1 safe">' + esc(w.q) + '</p>'
+                    + (w.ok ? '' : '<p class="text-xs text-slate-600 mt-1"><b>내 답:</b> ' + esc(w.user || '(무응답)') + '</p>')
+                    + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(w.correct) + '</p>'
+                    + '<p class="text-xs text-slate-700 mt-1 safe"><b>설명:</b> ' + esc(w.explainKo) + '</p>'
+                    + '<p class="text-xs text-emerald-700 mt-0.5 safe vi-text"><b>VI:</b> ' + esc(w.explainVi) + '</p>'
+                    + '</article>';
+            }).join('');
+            resultPanel.innerHTML =
+                '<div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center">'
+                + '<p class="text-xs text-emerald-600 font-bold">연습 완료 · Hoàn thành</p>'
+                + '<h3 class="text-3xl font-black text-slate-800 mt-1">' + state.score + ' <span class="text-xl text-slate-500">/ ' + quiz.length + '</span></h3>'
+                + '<p class="text-sm text-slate-600 mt-1">정답률 ' + pct + '%</p>'
+                + '<button id="restartBtn" class="mt-3 px-5 py-2 rounded-xl bg-slate-800 text-white text-sm font-bold" type="button">다시 풀기</button>'
+                + '</div>'
+                + '<div class="mt-3 space-y-2">' + rows + '</div>';
+            progressBar.style.width = '100%';
+            resultPanel.classList.remove('hidden');
+            document.getElementById('restartBtn').addEventListener('click', function () {
+                state.idx = 0; state.score = 0; state.logs = [];
+                shuffleQuiz(); renderQuestion();
+            });
+        }
+
+        checkShortBtn.addEventListener('click', function () {
+            var val = shortInput.value.trim();
+            if (!val) return;
+            answerQuestion(val);
+        });
+        shortInput.addEventListener('keydown', function (e) {
+            if (e.isComposing) return;
+            if (e.key === 'Enter' && !state.answered) { e.preventDefault(); checkShortBtn.click(); }
+        });
+        nextBtn.addEventListener('click', function () {
+            state.idx += 1; renderQuestion();
+        });
+
+        showTab('learn');
+    </script>
+    <script src="../shared/learning-enhancements.js"></script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
