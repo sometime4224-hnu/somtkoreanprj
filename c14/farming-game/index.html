@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>흙냄새 마을</title>
+    <title>소담한 마을</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -12,7 +12,7 @@
         <div class="hero-compact">
           <div>
             <p class="eyebrow">Narrative farming stroll</p>
-            <h1>흙냄새 마을</h1>
+            <h1>소담한 마을</h1>
           </div>
           <div class="hero-actions">
             <button id="heroToggle" class="mini-button">안내 펼치기</button>
@@ -22,9 +22,9 @@
         </div>
         <div id="heroDetails" class="hero-details hidden">
           <p class="lead">
-            주말농장에 내려온 주인공이 작은 시골 동네를 돌아다니며 정원, 잔디, 밭,
-            외양간, 연못을 돌보는 짧은 어드벤처입니다. 퀴즈 대신 움직임과 행동,
-            대사, 분위기로 표현이 스며들도록 구성했습니다.
+            주말농장에 내려온 주인공이 작은 시골 동네를 걸어 다니며 정원, 잔디, 밭, 외양간,
+            연못과 관련된 표현을 장면처럼 익히는 산책형 게임입니다. 퀴즈보다 직접 움직이고
+            손으로 만지는 감각이 먼저 오도록 구성했습니다.
           </p>
         </div>
       </header>
@@ -38,7 +38,7 @@
               <div class="hud-topbar">
                 <button id="storyToggle" class="mini-button hud-toggle">
                   <span class="hud-toggle-tag">현재 부탁</span>
-                  <strong id="storyToggleLabel">첫 할 일</strong>
+                  <strong id="storyToggleLabel">첫 부탁</strong>
                 </button>
                 <button id="statsToggle" class="mini-button hud-toggle">
                   <span class="hud-toggle-tag">현황</span>
@@ -52,7 +52,7 @@
 
               <div id="storyPanel" class="hud-card hud-card-story hidden">
                 <p class="card-tag">Today</p>
-                <h2 id="storyTitle">첫 할 일</h2>
+                <h2 id="storyTitle">첫 부탁</h2>
                 <p id="storyBody" class="hud-copy"></p>
                 <div class="story-progress-row">
                   <div class="story-progress-shell">
@@ -62,7 +62,7 @@
                 </div>
               </div>
 
-                <div id="statsPanel" class="hud-card hud-card-stats hidden">
+              <div id="statsPanel" class="hud-card hud-card-stats hidden">
                 <div class="stat-block time-block">
                   <p class="card-tag">Time Flow</p>
                   <strong id="timeOfDayValue" class="stat-value stat-value-time">아침</strong>
@@ -89,15 +89,14 @@
 
             <div id="startCard" class="floating-card">
               <p class="card-tag">첫날 아침</p>
-              <h2>버스에서 내리자 흙냄새가 먼저 반깁니다</h2>
+              <h2>버스에서 내리면 시골 하루가 바로 시작됩니다</h2>
               <p>
-                작은 일들을 도우며 마을을 한 바퀴 돌아보세요. 가까이 가면 행동
-                안내가 뜨고, <code>E</code> 또는 화면의 <code>행동</code> 버튼으로
-                상호작용할 수 있습니다.
+                마을 이곳저곳을 걸으며 오늘의 부탁을 따라가 보세요. 가까이 가면 활동 안내가 뜨고,
+                <code>E</code> 또는 화면의 <code>행동</code> 버튼으로 상호작용할 수 있습니다.
               </p>
               <p id="saveSummary" class="save-summary hidden"></p>
               <div class="start-actions">
-                <button id="startButton" class="primary-button">새 하루 시작</button>
+                <button id="startButton" class="primary-button">하루 시작</button>
                 <button id="continueButton" class="secondary-button hidden">이어서 걷기</button>
               </div>
             </div>
@@ -122,12 +121,7 @@
               <p id="miniGameInstruction" class="mini-game-instruction"></p>
               <div class="activity-layout">
                 <div class="activity-stage">
-                  <canvas
-                    id="activityCanvas"
-                    width="640"
-                    height="360"
-                    aria-label="작업 활동 화면"
-                  ></canvas>
+                  <canvas id="activityCanvas" width="640" height="360" aria-label="작업 활동 화면"></canvas>
                 </div>
                 <div class="activity-sidebar">
                   <div id="activityObjectives" class="activity-objectives"></div>
@@ -137,10 +131,10 @@
             </div>
 
             <div id="endingCard" class="floating-card ending-card hidden">
-              <p class="card-tag">노을 무렵</p>
-              <h2 id="endingTitle">오늘의 마을 일이 끝났습니다</h2>
+              <p class="card-tag">하루의 끝</p>
+              <h2 id="endingTitle">오늘의 마을 일이 익어갑니다</h2>
               <p id="endingBody">
-                시골 동네의 일들이 장면처럼 이어지며 표현들이 자연스럽게 남았습니다.
+                시골 동네의 일들은 장면처럼 이어지며, 표현도 자연스럽게 몸에 남습니다.
               </p>
               <div class="ending-stats">
                 <div>
@@ -168,17 +162,15 @@
             <div class="control-strip-items">
               <span><strong>이동</strong> WASD / 방향키</span>
               <span><strong>상호작용</strong> E / Space</span>
-              <span><strong>접기</strong> Esc</span>
+              <span><strong>닫기</strong> Esc</span>
             </div>
           </details>
 
           <div class="touch-controls" aria-label="모바일 조작 버튼">
-            <div class="touch-pad">
-              <button class="touch-button" data-key="ArrowUp">↑</button>
-              <div class="touch-row">
-                <button class="touch-button" data-key="ArrowLeft">←</button>
-                <button class="touch-button" data-key="ArrowDown">↓</button>
-                <button class="touch-button" data-key="ArrowRight">→</button>
+            <div id="touchJoystick" class="touch-joystick" aria-label="걷기 조이스틱">
+              <div class="touch-joystick-base">
+                <div class="touch-joystick-ring"></div>
+                <div id="touchStickKnob" class="touch-joystick-knob"></div>
               </div>
             </div>
             <button id="touchAction" class="touch-action">행동</button>
@@ -239,7 +231,7 @@
           <section class="journal-section">
             <div class="section-heading">
               <p class="section-tag">Listening</p>
-              <h2>대사에서 들은 표현</h2>
+              <h2>대사에서 함께 보는 표현</h2>
             </div>
             <ul id="listeningList" class="progress-list"></ul>
           </section>
