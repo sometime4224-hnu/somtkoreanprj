@@ -122,9 +122,9 @@ const DEVICE_PROFILES = {
     activitySpeedMultiplier: 1.06,
     effectDensity: 0.8,
     prefersCompactHud: true,
-    touchButtonSize: 74,
-    touchActionWidth: 144,
-    touchActionHeight: 82
+    touchButtonSize: 58,
+    touchActionWidth: 118,
+    touchActionHeight: 64
   },
   "phone-low": {
     worldWidth: 760,
@@ -138,11 +138,55 @@ const DEVICE_PROFILES = {
     activitySpeedMultiplier: 1.08,
     effectDensity: 0.66,
     prefersCompactHud: true,
-    touchButtonSize: 78,
-    touchActionWidth: 148,
-    touchActionHeight: 86
+    touchButtonSize: 62,
+    touchActionWidth: 124,
+    touchActionHeight: 68
   }
 };
+
+function getPortraitProfileOverrides(id, isTouch, isPortrait) {
+  if (!isTouch || !isPortrait) {
+    return {};
+  }
+
+  switch (id) {
+    case "tablet":
+      return {
+        worldWidth: 840,
+        worldHeight: 1120,
+        activityWidth: 620,
+        activityHeight: 820,
+        miniMapSize: 140,
+        touchButtonSize: 60,
+        touchActionWidth: 118,
+        touchActionHeight: 64
+      };
+    case "phone-high":
+      return {
+        worldWidth: 720,
+        worldHeight: 960,
+        activityWidth: 560,
+        activityHeight: 746,
+        miniMapSize: 132,
+        touchButtonSize: 54,
+        touchActionWidth: 108,
+        touchActionHeight: 58
+      };
+    case "phone-low":
+      return {
+        worldWidth: 660,
+        worldHeight: 880,
+        activityWidth: 520,
+        activityHeight: 694,
+        miniMapSize: 118,
+        touchButtonSize: 56,
+        touchActionWidth: 112,
+        touchActionHeight: 60
+      };
+    default:
+      return {};
+  }
+}
 
 function detectDeviceProfile() {
   const viewportWidth = window.innerWidth || document.documentElement.clientWidth || WORLD_CANVAS_BASE.width;
@@ -165,6 +209,8 @@ function detectDeviceProfile() {
     id = "tablet";
   }
 
+  const portraitOverrides = getPortraitProfileOverrides(id, isTouch, isPortrait);
+
   return {
     id,
     isTouch,
@@ -172,7 +218,8 @@ function detectDeviceProfile() {
     viewportWidth,
     viewportHeight,
     pixelRatio,
-    ...DEVICE_PROFILES[id]
+    ...DEVICE_PROFILES[id],
+    ...portraitOverrides
   };
 }
 
@@ -1055,6 +1102,8 @@ function applyDeviceCss(profile) {
   document.documentElement.dataset.inputMode = profile.isTouch ? "touch" : "mouse";
   document.documentElement.dataset.orientation = profile.isPortrait ? "portrait" : "landscape";
   document.documentElement.style.setProperty("--mini-map-size", `${profile.miniMapSize}px`);
+  document.documentElement.style.setProperty("--world-aspect", `${profile.worldWidth} / ${profile.worldHeight}`);
+  document.documentElement.style.setProperty("--activity-aspect", `${profile.activityWidth} / ${profile.activityHeight}`);
   document.documentElement.style.setProperty("--touch-button-size", `${profile.touchButtonSize}px`);
   document.documentElement.style.setProperty("--touch-action-width", `${profile.touchActionWidth}px`);
   document.documentElement.style.setProperty("--touch-action-height", `${profile.touchActionHeight}px`);
@@ -1091,6 +1140,7 @@ function syncDeviceProfile(options = {}) {
   state.device = nextProfile;
   applyDeviceCss(nextProfile);
   applyResponsiveCanvasProfile();
+  updateVoiceButton();
 
   if (nextProfile.prefersCompactHud) {
     state.uiPanels.heroExpanded = false;
@@ -1125,6 +1175,22 @@ function getInteractionAssist(kind = "default") {
     default:
       return profile.touchAssist * 0.72;
   }
+}
+
+function syncMobileViewportMode() {
+  const isPhoneProfile = /^phone/.test(state.device?.id ?? "");
+  const hasOverlay =
+    state.uiPanels.heroExpanded ||
+    state.uiPanels.storyOpen ||
+    state.uiPanels.statsOpen ||
+    state.uiPanels.journalOpen ||
+    !ui.startCard.classList.contains("hidden") ||
+    !ui.dialogueBox.classList.contains("hidden") ||
+    !ui.miniGame.classList.contains("hidden") ||
+    !ui.endingCard.classList.contains("hidden");
+
+  document.body.classList.toggle("is-mobile-playing", isPhoneProfile && state.started && !hasOverlay);
+  document.body.classList.toggle("is-mobile-overlay-active", isPhoneProfile && hasOverlay);
 }
 
 function getEffectDensity() {
@@ -1442,12 +1508,21 @@ function syncUiPanels() {
   ui.statsPanel.classList.toggle("hidden", !state.uiPanels.statsOpen);
   ui.journalDrawer.classList.toggle("hidden", !state.uiPanels.journalOpen);
   ui.journalBackdrop.classList.toggle("hidden", !state.uiPanels.journalOpen);
+  ui.heroPanel.classList.toggle("is-expanded", state.uiPanels.heroExpanded);
 
-  ui.heroToggle.textContent = state.uiPanels.heroExpanded ? "안내 접기" : "안내 펼치기";
+  const isPhoneProfile = /^phone/.test(state.device?.id ?? "");
+  ui.heroToggle.textContent = state.uiPanels.heroExpanded
+    ? isPhoneProfile
+      ? "안내 닫기"
+      : "안내 접기"
+    : isPhoneProfile
+      ? "안내"
+      : "안내 펼치기";
   document.body.classList.toggle("is-compact-hud", Boolean(state.device?.prefersCompactHud));
   ui.storyToggle.classList.toggle("is-active", state.uiPanels.storyOpen);
   ui.statsToggle.classList.toggle("is-active", state.uiPanels.statsOpen);
   ui.journalToggle.classList.toggle("is-active", state.uiPanels.journalOpen);
+  syncMobileViewportMode();
 }
 
 function closeOptionalPanels() {
@@ -1644,6 +1719,11 @@ function maybeUnlockListening(ids = []) {
 }
 
 function updateVoiceButton() {
+  const isPhoneProfile = /^phone/.test(state.device?.id ?? "");
+  if (isPhoneProfile) {
+    ui.voiceToggle.textContent = state.voiceEnabled ? "오디오 켬" : "오디오 끔";
+    return;
+  }
   ui.voiceToggle.textContent = state.voiceEnabled ? "오디오 재생 켜짐" : "오디오 재생 꺼짐";
 }
 
@@ -1849,6 +1929,7 @@ function showEndingCard() {
   ui.endingWarmth.textContent = `${state.warmth}`;
   ui.endingBasket.textContent = `${state.basket.length}`;
   ui.endingCard.classList.remove("hidden");
+  syncMobileViewportMode();
 }
 
 function advanceStoryProgress() {
@@ -4246,6 +4327,7 @@ function openDialogue(zone) {
   }
   advanceStoryProgress();
   renderSidebar();
+  syncMobileViewportMode();
   if (firstTalkWithAunt || firstTalkWithChild || firstVisitThisDialogue) {
     persistGame("대화");
   }
@@ -4255,6 +4337,7 @@ function openDialogue(zone) {
 function closeDialogue() {
   state.activeDialogue = null;
   ui.dialogueBox.classList.add("hidden");
+  syncMobileViewportMode();
   stopDialogueAudio();
   playSfx("uiClick", {
     volume: 0.24,
@@ -5024,6 +5107,7 @@ function startMiniGame(zone) {
   setPrompt("");
   state.activeMiniGame = createActivityState(zone);
   ui.miniGame.classList.remove("hidden");
+  syncMobileViewportMode();
   updateMiniGameUi();
   renderActivityScene();
 }
@@ -5032,6 +5116,7 @@ function closeMiniGame() {
   state.activeMiniGame = null;
   ui.miniGame.classList.add("hidden");
   ui.miniGame.classList.remove("is-touch-activity");
+  syncMobileViewportMode();
   activityCtx.clearRect(0, 0, ui.activityCanvas.width, ui.activityCanvas.height);
   updateTouchActionLabel();
 }
