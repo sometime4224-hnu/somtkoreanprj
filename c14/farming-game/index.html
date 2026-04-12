@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>흙냄새 마을</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header id="heroPanel" class="hero-panel">
+        <div class="hero-compact">
+          <div>
+            <p class="eyebrow">Narrative farming stroll</p>
+            <h1>흙냄새 마을</h1>
+          </div>
+          <div class="hero-actions">
+            <button id="heroToggle" class="mini-button">안내 펼치기</button>
+            <button id="resetButton" class="secondary-button">하루 다시 시작</button>
+            <button id="voiceToggle" class="secondary-button">오디오 재생 켜짐</button>
+          </div>
+        </div>
+        <div id="heroDetails" class="hero-details hidden">
+          <p class="lead">
+            주말농장에 내려온 주인공이 작은 시골 동네를 돌아다니며 정원, 잔디, 밭,
+            외양간, 연못을 돌보는 짧은 어드벤처입니다. 퀴즈 대신 움직임과 행동,
+            대사, 분위기로 표현이 스며들도록 구성했습니다.
+          </p>
+        </div>
+      </header>
+
+      <main class="main-layout">
+        <section class="play-panel">
+          <div class="canvas-frame">
+            <canvas id="game" width="960" height="640" aria-label="시골 마을 게임 화면"></canvas>
+
+            <div class="hud-overlay">
+              <div class="hud-topbar">
+                <button id="storyToggle" class="mini-button hud-toggle">
+                  <span class="hud-toggle-tag">현재 부탁</span>
+                  <strong id="storyToggleLabel">첫 할 일</strong>
+                </button>
+                <button id="statsToggle" class="mini-button hud-toggle">
+                  <span class="hud-toggle-tag">현황</span>
+                  <strong id="statsToggleLabel">온기 0 · 바구니 0</strong>
+                </button>
+                <button id="journalToggle" class="mini-button hud-toggle">
+                  <span class="hud-toggle-tag">기록장</span>
+                  <strong id="journalToggleLabel">표현 펼치기</strong>
+                </button>
+              </div>
+
+              <div id="storyPanel" class="hud-card hud-card-story hidden">
+                <p class="card-tag">Today</p>
+                <h2 id="storyTitle">첫 할 일</h2>
+                <p id="storyBody" class="hud-copy"></p>
+                <div class="story-progress-row">
+                  <div class="story-progress-shell">
+                    <div id="storyProgressFill" class="story-progress-fill"></div>
+                  </div>
+                  <span id="storyProgressLabel" class="story-progress-label"></span>
+                </div>
+              </div>
+
+                <div id="statsPanel" class="hud-card hud-card-stats hidden">
+                <div class="stat-block time-block">
+                  <p class="card-tag">Time Flow</p>
+                  <strong id="timeOfDayValue" class="stat-value stat-value-time">아침</strong>
+                  <p id="timeOfDayDetail" class="time-detail">06:00 · 1일차</p>
+                  <div class="time-track">
+                    <div id="timeProgressFill" class="time-progress-fill"></div>
+                  </div>
+                </div>
+                <div class="stat-block">
+                  <p class="card-tag">Mini Map</p>
+                  <canvas id="miniMap" class="mini-map" width="180" height="180" aria-label="마을 미니맵"></canvas>
+                </div>
+                <div class="stat-block">
+                  <p class="card-tag">Village Warmth</p>
+                  <strong id="warmthValue" class="stat-value">0</strong>
+                </div>
+                <div class="stat-block">
+                  <p class="card-tag">Basket</p>
+                  <div id="basketList" class="basket-list"></div>
+                </div>
+                <p id="saveStatus" class="save-status">저장되지 않음</p>
+              </div>
+            </div>
+
+            <div id="startCard" class="floating-card">
+              <p class="card-tag">첫날 아침</p>
+              <h2>버스에서 내리자 흙냄새가 먼저 반깁니다</h2>
+              <p>
+                작은 일들을 도우며 마을을 한 바퀴 돌아보세요. 가까이 가면 행동
+                안내가 뜨고, <code>E</code> 또는 화면의 <code>행동</code> 버튼으로
+                상호작용할 수 있습니다.
+              </p>
+              <p id="saveSummary" class="save-summary hidden"></p>
+              <div class="start-actions">
+                <button id="startButton" class="primary-button">새 하루 시작</button>
+                <button id="continueButton" class="secondary-button hidden">이어서 걷기</button>
+              </div>
+            </div>
+
+            <div id="promptBubble" class="prompt-bubble hidden"></div>
+            <div id="toast" class="toast hidden"></div>
+
+            <div id="dialogueBox" class="dialogue-box hidden">
+              <div class="dialogue-header">
+                <p id="dialogueSpeaker" class="dialogue-speaker"></p>
+                <button id="dialogueClose" class="mini-button">닫기</button>
+              </div>
+              <p id="dialogueText" class="dialogue-text"></p>
+              <div class="dialogue-actions">
+                <button id="dialogueNext" class="primary-button">다음</button>
+              </div>
+            </div>
+
+            <div id="miniGame" class="mini-game hidden">
+              <p id="miniGameType" class="mini-game-type"></p>
+              <h3 id="miniGameTitle" class="mini-game-title"></h3>
+              <p id="miniGameInstruction" class="mini-game-instruction"></p>
+              <div class="activity-layout">
+                <div class="activity-stage">
+                  <canvas
+                    id="activityCanvas"
+                    width="640"
+                    height="360"
+                    aria-label="작업 활동 화면"
+                  ></canvas>
+                </div>
+                <div class="activity-sidebar">
+                  <div id="activityObjectives" class="activity-objectives"></div>
+                  <p id="activityHint" class="mini-hint"></p>
+                </div>
+              </div>
+            </div>
+
+            <div id="endingCard" class="floating-card ending-card hidden">
+              <p class="card-tag">노을 무렵</p>
+              <h2 id="endingTitle">오늘의 마을 일이 끝났습니다</h2>
+              <p id="endingBody">
+                시골 동네의 일들이 장면처럼 이어지며 표현들이 자연스럽게 남았습니다.
+              </p>
+              <div class="ending-stats">
+                <div>
+                  <span>완료한 부탁</span>
+                  <strong id="endingTasks">0</strong>
+                </div>
+                <div>
+                  <span>마을 온기</span>
+                  <strong id="endingWarmth">0</strong>
+                </div>
+                <div>
+                  <span>바구니</span>
+                  <strong id="endingBasket">0</strong>
+                </div>
+              </div>
+              <div class="ending-actions">
+                <button id="endingRestart" class="primary-button">다시 하루 시작</button>
+                <button id="endingContinue" class="secondary-button">계속 둘러보기</button>
+              </div>
+            </div>
+          </div>
+
+          <details class="control-strip">
+            <summary>조작 보기</summary>
+            <div class="control-strip-items">
+              <span><strong>이동</strong> WASD / 방향키</span>
+              <span><strong>상호작용</strong> E / Space</span>
+              <span><strong>접기</strong> Esc</span>
+            </div>
+          </details>
+
+          <div class="touch-controls" aria-label="모바일 조작 버튼">
+            <div class="touch-pad">
+              <button class="touch-button" data-key="ArrowUp">↑</button>
+              <div class="touch-row">
+                <button class="touch-button" data-key="ArrowLeft">←</button>
+                <button class="touch-button" data-key="ArrowDown">↓</button>
+                <button class="touch-button" data-key="ArrowRight">→</button>
+              </div>
+            </div>
+            <button id="touchAction" class="touch-action">행동</button>
+          </div>
+        </section>
+      </main>
+
+      <button id="journalBackdrop" class="drawer-backdrop hidden" aria-label="기록장 닫기"></button>
+      <aside id="journalDrawer" class="journal-panel journal-drawer hidden">
+        <div class="journal-drawer-head">
+          <div>
+            <p class="section-tag">Village Journal</p>
+            <h2>기록장</h2>
+          </div>
+          <button id="journalClose" class="mini-button">닫기</button>
+        </div>
+        <div class="journal-drawer-scroll">
+          <section class="journal-section">
+            <div class="section-heading">
+              <p class="section-tag">Requests</p>
+              <h2>마을 부탁</h2>
+            </div>
+            <ul id="storyList" class="progress-list"></ul>
+          </section>
+
+          <section class="journal-section">
+            <div class="section-heading">
+              <p class="section-tag">Core</p>
+              <h2>핵심 명사</h2>
+            </div>
+            <div id="nounsList" class="chip-grid"></div>
+          </section>
+
+          <section class="journal-section">
+            <div class="section-heading">
+              <p class="section-tag">Actions</p>
+              <h2>관련 동사</h2>
+            </div>
+            <div id="verbsList" class="chip-grid"></div>
+          </section>
+
+          <section class="journal-section">
+            <div class="section-heading">
+              <p class="section-tag">Collocations</p>
+              <h2>자주 묶어 쓰는 표현</h2>
+            </div>
+            <ul id="taskList" class="progress-list"></ul>
+          </section>
+
+          <section class="journal-section">
+            <div class="section-heading">
+              <p class="section-tag">Mood</p>
+              <h2>전원 생활 표현</h2>
+            </div>
+            <ul id="moodList" class="progress-list"></ul>
+          </section>
+
+          <section class="journal-section">
+            <div class="section-heading">
+              <p class="section-tag">Listening</p>
+              <h2>대사에서 들은 표현</h2>
+            </div>
+            <ul id="listeningList" class="progress-list"></ul>
+          </section>
+        </div>
+      </aside>
+    </div>
+
+    <script src="./game.js"></script>
+  </body>
+</html>
