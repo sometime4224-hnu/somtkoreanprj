@@ -1109,6 +1109,7 @@ function applyDeviceCss(profile) {
   document.documentElement.dataset.deviceProfile = profile.id;
   document.documentElement.dataset.inputMode = profile.isTouch ? "touch" : "mouse";
   document.documentElement.dataset.orientation = profile.isPortrait ? "portrait" : "landscape";
+  document.documentElement.dataset.touchUi = profile.isTouch || profile.id !== "desktop" ? "on" : "off";
   document.documentElement.style.setProperty("--mini-map-size", `${profile.miniMapSize}px`);
   document.documentElement.style.setProperty("--world-aspect", `${profile.worldWidth} / ${profile.worldHeight}`);
   document.documentElement.style.setProperty("--activity-aspect", `${profile.activityWidth} / ${profile.activityHeight}`);

@@ -768,15 +768,15 @@ body::before {
   font-size: 1.02rem;
 }
 
-html[data-input-mode="touch"] .touch-controls {
+html[data-touch-ui="on"] .touch-controls {
   display: flex;
 }
 
-html[data-input-mode="mouse"] .touch-controls {
+html[data-touch-ui="off"] .touch-controls {
   display: none !important;
 }
 
-html[data-input-mode="touch"] .control-strip {
+html[data-touch-ui="on"] .control-strip {
   display: none;
 }
 
@@ -967,7 +967,7 @@ html[data-device-profile^="phone"] .toast {
   font-size: 0.82rem;
 }
 
-html[data-input-mode="touch"] .touch-controls {
+html[data-touch-ui="on"] .touch-controls {
   position: fixed;
   left: calc(var(--safe-left) + 10px);
   right: calc(var(--safe-right) + 10px);
@@ -977,8 +977,8 @@ html[data-input-mode="touch"] .touch-controls {
   pointer-events: none;
 }
 
-html[data-input-mode="touch"] .touch-joystick,
-html[data-input-mode="touch"] .touch-action {
+html[data-touch-ui="on"] .touch-joystick,
+html[data-touch-ui="on"] .touch-action {
   pointer-events: auto;
 }
 
