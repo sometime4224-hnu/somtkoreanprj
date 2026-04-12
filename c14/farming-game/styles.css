@@ -899,7 +899,7 @@ html[data-device-profile^="phone"] .floating-card {
   top: auto;
   left: 12px;
   right: 12px;
-  bottom: calc(var(--safe-bottom) + 88px);
+  bottom: calc(var(--safe-bottom) + 12px);
   width: auto;
   max-width: none;
   padding: 14px 16px;
@@ -950,7 +950,7 @@ html[data-device-profile^="phone"] .ending-actions .secondary-button {
 html[data-device-profile^="phone"] .prompt-bubble {
   left: 12px;
   right: 12px;
-  bottom: calc(var(--safe-bottom) + 92px);
+  bottom: calc(var(--safe-bottom) + var(--touch-ui-reserve) + 8px);
   transform: none;
   padding: 10px 12px;
   border-radius: 16px;
@@ -1000,11 +1000,128 @@ html[data-device-profile^="phone"] .dialogue-box,
 html[data-device-profile^="phone"] .mini-game {
   left: 12px;
   right: 12px;
-  bottom: calc(var(--safe-bottom) + 92px);
+  top: calc(var(--safe-top) + 10px);
   padding: 14px 16px;
   border-radius: 20px;
-  max-height: min(46dvh, 380px);
+  max-height: none;
+  overflow: hidden;
+}
+
+html[data-device-profile^="phone"] .dialogue-box {
+  bottom: calc(var(--safe-bottom) + 10px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+html[data-device-profile^="phone"] .dialogue-text {
+  margin-top: 0;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
+}
+
+html[data-device-profile^="phone"] .dialogue-actions {
+  margin-top: 0;
+}
+
+html[data-device-profile^="phone"] .mini-game {
+  bottom: calc(var(--safe-bottom) + var(--touch-ui-reserve) + 10px);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 8px;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity {
+  padding: 12px 12px 10px;
+  max-height: none;
+  overflow: hidden;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity .mini-game-title {
+  font-size: 1.06rem;
+  line-height: 1.2;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity .mini-game-instruction {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity .activity-layout {
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px;
+  margin-top: 10px;
+  min-height: 0;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity .activity-stage {
+  min-height: 0;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity #activityCanvas {
+  width: auto;
+  max-width: 100%;
+  max-height: min(34dvh, 280px);
+  margin: 0 auto;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity .activity-sidebar {
+  min-height: 0;
+  gap: 8px;
+  align-content: start;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity .activity-objectives {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+  scroll-snap-type: x proximity;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity .activity-goal {
+  min-width: min(74vw, 220px);
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+html[data-device-profile^="phone"] .mini-game.is-touch-activity .mini-hint {
+  margin: 0;
+  padding: 10px 12px;
+  max-height: 5.2em;
+  overflow: auto;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+html[data-device-profile^="phone"] body.is-start-card-open .hero-panel,
+html[data-device-profile^="phone"] body.is-dialogue-open .hero-panel,
+html[data-device-profile^="phone"] body.is-mini-game-open .hero-panel,
+html[data-device-profile^="phone"] body.is-ending-open .hero-panel,
+html[data-device-profile^="phone"] body.is-start-card-open .hud-overlay,
+html[data-device-profile^="phone"] body.is-dialogue-open .hud-overlay,
+html[data-device-profile^="phone"] body.is-mini-game-open .hud-overlay,
+html[data-device-profile^="phone"] body.is-ending-open .hud-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-overlay-active:not(.is-mini-game-open) .touch-controls,
+html[data-device-profile^="phone"] body.is-start-card-open .prompt-bubble,
+html[data-device-profile^="phone"] body.is-dialogue-open .prompt-bubble,
+html[data-device-profile^="phone"] body.is-mini-game-open .prompt-bubble,
+html[data-device-profile^="phone"] body.is-ending-open .prompt-bubble {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
 }
 
 html[data-device-profile^="phone"][data-orientation="portrait"] .page-shell {
@@ -1017,6 +1134,12 @@ html[data-device-profile^="phone"][data-orientation="portrait"] .main-layout,
 html[data-device-profile^="phone"][data-orientation="portrait"] .play-panel,
 html[data-device-profile^="phone"][data-orientation="portrait"] .canvas-frame {
   min-height: calc(100dvh - var(--touch-ui-reserve) - var(--safe-bottom));
+}
+
+html[data-device-profile^="phone"][data-orientation="portrait"] body.is-mobile-overlay-active:not(.is-mini-game-open) .main-layout,
+html[data-device-profile^="phone"][data-orientation="portrait"] body.is-mobile-overlay-active:not(.is-mini-game-open) .play-panel,
+html[data-device-profile^="phone"][data-orientation="portrait"] body.is-mobile-overlay-active:not(.is-mini-game-open) .canvas-frame {
+  min-height: calc(100dvh - var(--safe-bottom));
 }
 
 html[data-device-profile^="phone"][data-orientation="portrait"] .play-panel {
@@ -1099,6 +1222,10 @@ html[data-device-profile^="phone"][data-orientation="portrait"] #game {
   min-width: 100%;
   height: calc(100dvh - var(--touch-ui-reserve) - var(--safe-bottom));
   margin: 0 auto;
+}
+
+html[data-device-profile^="phone"][data-orientation="portrait"] body.is-mobile-overlay-active:not(.is-mini-game-open) #game {
+  height: calc(100dvh - var(--safe-bottom));
 }
 
 .journal-section {
