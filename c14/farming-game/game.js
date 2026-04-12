@@ -107,9 +107,9 @@ const DEVICE_PROFILES = {
     activitySpeedMultiplier: 1.03,
     effectDensity: 0.92,
     prefersCompactHud: true,
-    touchButtonSize: 68,
-    touchActionWidth: 134,
-    touchActionHeight: 76
+    touchButtonSize: 62,
+    touchActionWidth: 124,
+    touchActionHeight: 70
   },
   "phone-high": {
     worldWidth: 840,
@@ -123,9 +123,9 @@ const DEVICE_PROFILES = {
     activitySpeedMultiplier: 1.06,
     effectDensity: 0.8,
     prefersCompactHud: true,
-    touchButtonSize: 58,
-    touchActionWidth: 118,
-    touchActionHeight: 64
+    touchButtonSize: 50,
+    touchActionWidth: 102,
+    touchActionHeight: 56
   },
   "phone-low": {
     worldWidth: 760,
@@ -139,9 +139,9 @@ const DEVICE_PROFILES = {
     activitySpeedMultiplier: 1.08,
     effectDensity: 0.66,
     prefersCompactHud: true,
-    touchButtonSize: 62,
-    touchActionWidth: 124,
-    touchActionHeight: 68
+    touchButtonSize: 54,
+    touchActionWidth: 108,
+    touchActionHeight: 58
   }
 };
 
@@ -158,9 +158,9 @@ function getPortraitProfileOverrides(id, isTouch, isPortrait) {
         activityWidth: 620,
         activityHeight: 820,
         miniMapSize: 140,
-        touchButtonSize: 60,
-        touchActionWidth: 118,
-        touchActionHeight: 64
+        touchButtonSize: 56,
+        touchActionWidth: 112,
+        touchActionHeight: 60
       };
     case "phone-high":
       return {
@@ -169,9 +169,9 @@ function getPortraitProfileOverrides(id, isTouch, isPortrait) {
         activityWidth: 560,
         activityHeight: 746,
         miniMapSize: 132,
-        touchButtonSize: 54,
-        touchActionWidth: 108,
-        touchActionHeight: 58
+        touchButtonSize: 44,
+        touchActionWidth: 92,
+        touchActionHeight: 48
       };
     case "phone-low":
       return {
@@ -180,9 +180,9 @@ function getPortraitProfileOverrides(id, isTouch, isPortrait) {
         activityWidth: 520,
         activityHeight: 694,
         miniMapSize: 118,
-        touchButtonSize: 56,
-        touchActionWidth: 112,
-        touchActionHeight: 60
+        touchButtonSize: 46,
+        touchActionWidth: 96,
+        touchActionHeight: 50
       };
     default:
       return {};
@@ -1110,12 +1110,16 @@ function applyDeviceCss(profile) {
   document.documentElement.dataset.inputMode = profile.isTouch ? "touch" : "mouse";
   document.documentElement.dataset.orientation = profile.isPortrait ? "portrait" : "landscape";
   document.documentElement.dataset.touchUi = profile.isTouch || profile.id !== "desktop" ? "on" : "off";
+  const touchUiReserve = profile.isTouch
+    ? Math.round(Math.max(profile.touchActionHeight, profile.touchButtonSize * 2.2) + 18)
+    : 0;
   document.documentElement.style.setProperty("--mini-map-size", `${profile.miniMapSize}px`);
   document.documentElement.style.setProperty("--world-aspect", `${profile.worldWidth} / ${profile.worldHeight}`);
   document.documentElement.style.setProperty("--activity-aspect", `${profile.activityWidth} / ${profile.activityHeight}`);
   document.documentElement.style.setProperty("--touch-button-size", `${profile.touchButtonSize}px`);
   document.documentElement.style.setProperty("--touch-action-width", `${profile.touchActionWidth}px`);
   document.documentElement.style.setProperty("--touch-action-height", `${profile.touchActionHeight}px`);
+  document.documentElement.style.setProperty("--touch-ui-reserve", `${touchUiReserve}px`);
 }
 
 function applyResponsiveCanvasProfile() {
