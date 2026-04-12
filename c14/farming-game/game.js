@@ -62,7 +62,8 @@ const ui = {
   endingRestart: document.getElementById("endingRestart"),
   endingContinue: document.getElementById("endingContinue"),
   touchAction: document.getElementById("touchAction"),
-  touchButtons: Array.from(document.querySelectorAll(".touch-button"))
+  touchJoystick: document.getElementById("touchJoystick"),
+  touchStickKnob: document.getElementById("touchStickKnob")
 };
 
 const miniMapCtx = ui.miniMap.getContext("2d");
@@ -731,6 +732,13 @@ const state = {
   },
   keys: new Set(),
   touchKeys: new Set(),
+  touchStick: {
+    active: false,
+    pointerId: null,
+    x: 0,
+    y: 0,
+    magnitude: 0
+  },
   interactQueued: false,
   player: { x: 245, y: 1110, r: 16, speed: 232, facing: "down", step: 0 },
   camera: { x: 0, y: 0, targetX: 0, targetY: 0 },
@@ -1138,9 +1146,13 @@ function syncDeviceProfile(options = {}) {
   }
 
   state.device = nextProfile;
+  if (!nextProfile.isTouch) {
+    resetTouchJoystick();
+  }
   applyDeviceCss(nextProfile);
   applyResponsiveCanvasProfile();
   updateVoiceButton();
+  updateTouchJoystickVisual();
 
   if (nextProfile.prefersCompactHud) {
     state.uiPanels.heroExpanded = false;
@@ -1175,6 +1187,91 @@ function getInteractionAssist(kind = "default") {
     default:
       return profile.touchAssist * 0.72;
   }
+}
+
+function updateTouchJoystickVisual() {
+  if (!ui.touchStickKnob || !ui.touchJoystick) {
+    return;
+  }
+
+  const joystickSize = ui.touchJoystick.clientWidth || (state.device?.touchButtonSize ?? 60) * 2.55;
+  const knobSize = (state.device?.touchButtonSize ?? 60) * 1.02;
+  const maxOffset = Math.max(12, (joystickSize - knobSize) * 0.34);
+
+  document.documentElement.style.setProperty("--joy-offset-x", `${(state.touchStick.x * maxOffset).toFixed(1)}px`);
+  document.documentElement.style.setProperty("--joy-offset-y", `${(state.touchStick.y * maxOffset).toFixed(1)}px`);
+  ui.touchJoystick.classList.toggle("is-active", state.touchStick.active || state.touchStick.magnitude > 0.04);
+}
+
+function resetTouchJoystick() {
+  state.touchStick.active = false;
+  state.touchStick.pointerId = null;
+  state.touchStick.x = 0;
+  state.touchStick.y = 0;
+  state.touchStick.magnitude = 0;
+  updateTouchJoystickVisual();
+}
+
+function updateTouchJoystickInput(clientX, clientY) {
+  if (!ui.touchJoystick) {
+    return;
+  }
+
+  const rect = ui.touchJoystick.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  const maxDistance = Math.max(24, rect.width * 0.32);
+  let dx = clientX - centerX;
+  let dy = clientY - centerY;
+  const distance = Math.hypot(dx, dy);
+
+  if (distance > maxDistance) {
+    const scale = maxDistance / distance;
+    dx *= scale;
+    dy *= scale;
+  }
+
+  state.touchStick.x = dx / maxDistance;
+  state.touchStick.y = dy / maxDistance;
+  state.touchStick.magnitude = Math.min(1, Math.hypot(state.touchStick.x, state.touchStick.y));
+  updateTouchJoystickVisual();
+}
+
+function getDigitalAxis(negativeCodes = [], positiveCodes = []) {
+  let axis = 0;
+  if (negativeCodes.some((code) => state.keys.has(code))) {
+    axis -= 1;
+  }
+  if (positiveCodes.some((code) => state.keys.has(code))) {
+    axis += 1;
+  }
+  return axis;
+}
+
+function getMovementIntent() {
+  let dx = getDigitalAxis(["ArrowLeft", "KeyA"], ["ArrowRight", "KeyD"]);
+  let dy = getDigitalAxis(["ArrowUp", "KeyW"], ["ArrowDown", "KeyS"]);
+
+  if (state.device?.isTouch) {
+    dx += state.touchStick.x;
+    dy += state.touchStick.y;
+  }
+
+  const rawLength = Math.hypot(dx, dy);
+  if (rawLength < 0.001) {
+    return { dx: 0, dy: 0, magnitude: 0 };
+  }
+
+  const clampScale = rawLength > 1 ? 1 / rawLength : 1;
+  return {
+    dx: dx * clampScale,
+    dy: dy * clampScale,
+    magnitude: Math.min(1, rawLength)
+  };
+}
+
+function hasMovementInput(threshold = 0.12) {
+  return getMovementIntent().magnitude > threshold;
 }
 
 function syncMobileViewportMode() {
@@ -1671,6 +1768,7 @@ function applySavedGame(data) {
   state.hoveredZone = null;
   state.hoveredPractice = null;
   state.toastTimer = 0;
+  resetTouchJoystick();
   state.uiFrame.miniMapLastRender = -Infinity;
   state.ambient = createAmbientState();
   state.worldPractice = createWorldPracticeState();
@@ -2171,6 +2269,7 @@ function resetState(options = {}) {
   state.voiceEnabled = true;
   state.keys.clear();
   state.touchKeys.clear();
+  resetTouchJoystick();
   state.interactQueued = false;
   state.player.x = 245;
   state.player.y = 1110;
@@ -4229,26 +4328,11 @@ function collidesWithObstacle(x, y) {
 }
 
 function movePlayer(dt) {
-  let dx = 0;
-  let dy = 0;
-  if (state.keys.has("ArrowUp") || state.keys.has("KeyW") || state.touchKeys.has("ArrowUp")) {
-    dy -= 1;
-  }
-  if (state.keys.has("ArrowDown") || state.keys.has("KeyS") || state.touchKeys.has("ArrowDown")) {
-    dy += 1;
-  }
-  if (state.keys.has("ArrowLeft") || state.keys.has("KeyA") || state.touchKeys.has("ArrowLeft")) {
-    dx -= 1;
-  }
-  if (state.keys.has("ArrowRight") || state.keys.has("KeyD") || state.touchKeys.has("ArrowRight")) {
-    dx += 1;
-  }
-  const length = Math.hypot(dx, dy);
-  if (length === 0) {
+  const movement = getMovementIntent();
+  if (movement.magnitude === 0) {
     return;
   }
-  dx /= length;
-  dy /= length;
+  const { dx, dy } = movement;
 
   if (Math.abs(dx) > Math.abs(dy)) {
     state.player.facing = dx > 0 ? "right" : "left";
@@ -4258,6 +4342,9 @@ function movePlayer(dt) {
   state.player.step += dt * 8;
 
   let speed = state.player.speed * (state.device?.moveSpeedMultiplier ?? 1);
+  if (state.device?.isTouch) {
+    speed *= 0.34 + movement.magnitude * 0.66;
+  }
   if (isSlowZone(state.player.x, state.player.y)) {
     speed *= 0.62;
     if (!state.flags.has("mudNotice")) {
@@ -5427,28 +5514,12 @@ function moveActivityPlayer(dt) {
   player.prevX = player.x;
   player.prevY = player.y;
 
-  let dx = 0;
-  let dy = 0;
-  if (state.keys.has("ArrowUp") || state.keys.has("KeyW") || state.touchKeys.has("ArrowUp")) {
-    dy -= 1;
-  }
-  if (state.keys.has("ArrowDown") || state.keys.has("KeyS") || state.touchKeys.has("ArrowDown")) {
-    dy += 1;
-  }
-  if (state.keys.has("ArrowLeft") || state.keys.has("KeyA") || state.touchKeys.has("ArrowLeft")) {
-    dx -= 1;
-  }
-  if (state.keys.has("ArrowRight") || state.keys.has("KeyD") || state.touchKeys.has("ArrowRight")) {
-    dx += 1;
-  }
-
-  const length = Math.hypot(dx, dy);
-  if (length === 0) {
+  const movement = getMovementIntent();
+  if (movement.magnitude === 0) {
     return;
   }
 
-  dx /= length;
-  dy /= length;
+  const { dx, dy } = movement;
 
   if (Math.abs(dx) > Math.abs(dy)) {
     player.facing = dx > 0 ? "right" : "left";
@@ -5457,6 +5528,9 @@ function moveActivityPlayer(dt) {
   }
 
   let speed = player.speed;
+  if (state.device?.isTouch) {
+    speed *= 0.4 + movement.magnitude * 0.6;
+  }
   if (game.kind === "lawnTrim" && game.mower.attached) {
     speed *= state.device?.isTouch ? 0.88 : 0.82;
   }
@@ -7062,19 +7136,7 @@ function updateWorldPractice(dt) {
     }
   });
 
-  const movementInput =
-    state.keys.has("ArrowUp") ||
-    state.keys.has("ArrowDown") ||
-    state.keys.has("ArrowLeft") ||
-    state.keys.has("ArrowRight") ||
-    state.keys.has("KeyW") ||
-    state.keys.has("KeyA") ||
-    state.keys.has("KeyS") ||
-    state.keys.has("KeyD") ||
-    state.touchKeys.has("ArrowUp") ||
-    state.touchKeys.has("ArrowDown") ||
-    state.touchKeys.has("ArrowLeft") ||
-    state.touchKeys.has("ArrowRight");
+  const movementInput = hasMovementInput();
 
   if (practice.carriedTool === "mower") {
     const pose = getWorldPracticeToolPose();
@@ -7519,19 +7581,7 @@ function updateInteractiveNature(dt, movementInput) {
 
 function updateAmbientLife(dt) {
   const now = performance.now() / 1000;
-  const movementInput =
-    state.keys.has("ArrowUp") ||
-    state.keys.has("ArrowDown") ||
-    state.keys.has("ArrowLeft") ||
-    state.keys.has("ArrowRight") ||
-    state.keys.has("KeyW") ||
-    state.keys.has("KeyA") ||
-    state.keys.has("KeyS") ||
-    state.keys.has("KeyD") ||
-    state.touchKeys.has("ArrowUp") ||
-    state.touchKeys.has("ArrowDown") ||
-    state.touchKeys.has("ArrowLeft") ||
-    state.touchKeys.has("ArrowRight");
+  const movementInput = hasMovementInput();
   const dayProfile = getDayProfile();
 
   updateAmbientParticles(dt);
@@ -10931,6 +10981,8 @@ function setupInput() {
     window.setTimeout(() => syncDeviceProfile({ force: true }), 120);
   });
 
+  window.addEventListener("blur", resetTouchJoystick);
+
   window.addEventListener("keydown", (event) => {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space", "KeyW", "KeyA", "KeyS", "KeyD", "KeyE", "Escape"].includes(event.code)) {
       event.preventDefault();
@@ -10972,21 +11024,41 @@ function setupInput() {
     }
   });
 
-  ui.touchButtons.forEach((button) => {
-    const key = button.dataset.key;
-    const press = (event) => {
-      event.preventDefault();
-      state.touchKeys.add(key);
-    };
-    const release = (event) => {
-      event.preventDefault();
-      state.touchKeys.delete(key);
-    };
-    button.addEventListener("pointerdown", press);
-    button.addEventListener("pointerup", release);
-    button.addEventListener("pointerleave", release);
-    button.addEventListener("pointercancel", release);
-  });
+  const startJoystick = (event) => {
+    if (!state.device?.isTouch) {
+      return;
+    }
+    event.preventDefault();
+    state.touchStick.active = true;
+    state.touchStick.pointerId = event.pointerId;
+    ui.touchJoystick?.setPointerCapture?.(event.pointerId);
+    updateTouchJoystickInput(event.clientX, event.clientY);
+  };
+
+  const moveJoystick = (event) => {
+    if (!state.touchStick.active || state.touchStick.pointerId !== event.pointerId) {
+      return;
+    }
+    event.preventDefault();
+    updateTouchJoystickInput(event.clientX, event.clientY);
+  };
+
+  const stopJoystick = (event) => {
+    if (!state.touchStick.active || state.touchStick.pointerId !== event.pointerId) {
+      return;
+    }
+    event.preventDefault();
+    try {
+      ui.touchJoystick?.releasePointerCapture?.(event.pointerId);
+    } catch {}
+    resetTouchJoystick();
+  };
+
+  ui.touchJoystick.addEventListener("pointerdown", startJoystick);
+  ui.touchJoystick.addEventListener("pointermove", moveJoystick);
+  ui.touchJoystick.addEventListener("pointerup", stopJoystick);
+  ui.touchJoystick.addEventListener("pointerleave", stopJoystick);
+  ui.touchJoystick.addEventListener("pointercancel", stopJoystick);
 
   const pressAction = (event) => {
     event.preventDefault();
