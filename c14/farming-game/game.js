@@ -73,6 +73,111 @@ const world = {
   height: 1400
 };
 
+const WORLD_CANVAS_BASE = { width: 960, height: 640 };
+const ACTIVITY_CANVAS_BASE = { width: 640, height: 360 };
+const MINIMAP_BASE_SIZE = 180;
+
+const DEVICE_PROFILES = {
+  desktop: {
+    worldWidth: 960,
+    worldHeight: 640,
+    activityWidth: 640,
+    activityHeight: 360,
+    miniMapSize: 180,
+    touchAssist: 0,
+    activityAssist: 0,
+    moveSpeedMultiplier: 1,
+    activitySpeedMultiplier: 1,
+    effectDensity: 1,
+    prefersCompactHud: false,
+    touchButtonSize: 62,
+    touchActionWidth: 124,
+    touchActionHeight: 72
+  },
+  tablet: {
+    worldWidth: 900,
+    worldHeight: 600,
+    activityWidth: 620,
+    activityHeight: 349,
+    miniMapSize: 164,
+    touchAssist: 16,
+    activityAssist: 10,
+    moveSpeedMultiplier: 1.02,
+    activitySpeedMultiplier: 1.03,
+    effectDensity: 0.92,
+    prefersCompactHud: true,
+    touchButtonSize: 68,
+    touchActionWidth: 134,
+    touchActionHeight: 76
+  },
+  "phone-high": {
+    worldWidth: 840,
+    worldHeight: 560,
+    activityWidth: 600,
+    activityHeight: 338,
+    miniMapSize: 144,
+    touchAssist: 28,
+    activityAssist: 16,
+    moveSpeedMultiplier: 1.06,
+    activitySpeedMultiplier: 1.06,
+    effectDensity: 0.8,
+    prefersCompactHud: true,
+    touchButtonSize: 74,
+    touchActionWidth: 144,
+    touchActionHeight: 82
+  },
+  "phone-low": {
+    worldWidth: 760,
+    worldHeight: 507,
+    activityWidth: 560,
+    activityHeight: 315,
+    miniMapSize: 128,
+    touchAssist: 34,
+    activityAssist: 20,
+    moveSpeedMultiplier: 1.08,
+    activitySpeedMultiplier: 1.08,
+    effectDensity: 0.66,
+    prefersCompactHud: true,
+    touchButtonSize: 78,
+    touchActionWidth: 148,
+    touchActionHeight: 86
+  }
+};
+
+function detectDeviceProfile() {
+  const viewportWidth = window.innerWidth || document.documentElement.clientWidth || WORLD_CANVAS_BASE.width;
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight || WORLD_CANVAS_BASE.height;
+  const shortestSide = Math.min(viewportWidth, viewportHeight);
+  const longestSide = Math.max(viewportWidth, viewportHeight);
+  const pixelRatio = window.devicePixelRatio || 1;
+  const hasTouchPoints = navigator.maxTouchPoints > 0;
+  const coarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches ?? false;
+  const isTouch = coarsePointer || hasTouchPoints;
+  const isPortrait = viewportHeight >= viewportWidth;
+  const deviceMemory = navigator.deviceMemory ?? 6;
+
+  let id = "desktop";
+  if (isTouch && shortestSide <= 480) {
+    id = shortestSide <= 390 || deviceMemory <= 4 ? "phone-low" : "phone-high";
+  } else if (isTouch && (shortestSide <= 900 || longestSide <= 1366)) {
+    id = "tablet";
+  } else if (!isTouch && viewportWidth <= 980) {
+    id = "tablet";
+  }
+
+  return {
+    id,
+    isTouch,
+    isPortrait,
+    viewportWidth,
+    viewportHeight,
+    pixelRatio,
+    ...DEVICE_PROFILES[id]
+  };
+}
+
+const initialDeviceProfile = detectDeviceProfile();
+
 const SAVE_KEY = "soil-village-save-v3";
 const DAY_STAGE_LABELS = ["아침", "점심", "낮", "저녁", "밤"];
 const DAY_STAGE_HINTS = [
@@ -573,6 +678,10 @@ const slowZones = [{ x: 560, y: 860, w: 270, h: 170 }];
 const state = {
   started: false,
   voiceEnabled: true,
+  device: initialDeviceProfile,
+  uiFrame: {
+    miniMapLastRender: -Infinity
+  },
   keys: new Set(),
   touchKeys: new Set(),
   interactQueued: false,
@@ -922,6 +1031,278 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
+function setCanvasResolution(targetCanvas, width, height) {
+  if (!targetCanvas) {
+    return;
+  }
+  if (targetCanvas.width !== width) {
+    targetCanvas.width = width;
+  }
+  if (targetCanvas.height !== height) {
+    targetCanvas.height = height;
+  }
+}
+
+function clampCameraToViewport() {
+  state.camera.x = clamp(state.camera.x, 0, Math.max(0, world.width - canvas.width));
+  state.camera.y = clamp(state.camera.y, 0, Math.max(0, world.height - canvas.height));
+  state.camera.targetX = clamp(state.camera.targetX, 0, Math.max(0, world.width - canvas.width));
+  state.camera.targetY = clamp(state.camera.targetY, 0, Math.max(0, world.height - canvas.height));
+}
+
+function applyDeviceCss(profile) {
+  document.documentElement.dataset.deviceProfile = profile.id;
+  document.documentElement.dataset.inputMode = profile.isTouch ? "touch" : "mouse";
+  document.documentElement.dataset.orientation = profile.isPortrait ? "portrait" : "landscape";
+  document.documentElement.style.setProperty("--mini-map-size", `${profile.miniMapSize}px`);
+  document.documentElement.style.setProperty("--touch-button-size", `${profile.touchButtonSize}px`);
+  document.documentElement.style.setProperty("--touch-action-width", `${profile.touchActionWidth}px`);
+  document.documentElement.style.setProperty("--touch-action-height", `${profile.touchActionHeight}px`);
+}
+
+function applyResponsiveCanvasProfile() {
+  const profile = state.device;
+  setCanvasResolution(canvas, profile.worldWidth, profile.worldHeight);
+  setCanvasResolution(ui.miniMap, profile.miniMapSize, profile.miniMapSize);
+  setCanvasResolution(ui.activityCanvas, profile.activityWidth, profile.activityHeight);
+  if (state.activeMiniGame) {
+    rebuildActiveMiniGameState();
+  }
+  state.uiFrame.miniMapLastRender = -Infinity;
+  clampCameraToViewport();
+}
+
+function syncDeviceProfile(options = {}) {
+  const { force = false } = options;
+  const nextProfile = detectDeviceProfile();
+  const current = state.device;
+  const changed =
+    force ||
+    !current ||
+    current.id !== nextProfile.id ||
+    current.isPortrait !== nextProfile.isPortrait ||
+    current.viewportWidth !== nextProfile.viewportWidth ||
+    current.viewportHeight !== nextProfile.viewportHeight;
+
+  if (!changed) {
+    return;
+  }
+
+  state.device = nextProfile;
+  applyDeviceCss(nextProfile);
+  applyResponsiveCanvasProfile();
+
+  if (nextProfile.prefersCompactHud) {
+    state.uiPanels.heroExpanded = false;
+    if (!state.uiPanels.journalOpen) {
+      state.uiPanels.storyOpen = false;
+      state.uiPanels.statsOpen = false;
+    }
+  }
+
+  syncUiPanels();
+}
+
+function getInteractionAssist(kind = "default") {
+  const profile = state.device ?? initialDeviceProfile;
+  if (!profile.isTouch) {
+    return 0;
+  }
+
+  switch (kind) {
+    case "zone":
+      return profile.touchAssist * 0.86;
+    case "tool":
+      return profile.touchAssist;
+    case "station":
+      return profile.touchAssist * 0.78;
+    case "nature":
+      return Math.max(8, profile.touchAssist * 0.3);
+    case "activity":
+      return profile.activityAssist;
+    case "toolTip":
+      return profile.activityAssist * 0.72;
+    default:
+      return profile.touchAssist * 0.72;
+  }
+}
+
+function getEffectDensity() {
+  return clamp(state.device?.effectDensity ?? 1, 0.45, 1);
+}
+
+function scaleEffectCount(count, minimum = 1) {
+  return Math.max(minimum, Math.round(count * getEffectDensity()));
+}
+
+function shouldEmitEffect(chance = 1) {
+  return Math.random() < chance * getEffectDensity();
+}
+
+function getAmbientParticleLimit() {
+  return Math.round(56 + getEffectDensity() * 64);
+}
+
+function shouldRenderAmbientSlot(index, denseThreshold = 0.72) {
+  const density = getEffectDensity();
+  if (density >= 0.92) {
+    return true;
+  }
+  if (density >= denseThreshold) {
+    return index % 2 === 0;
+  }
+  return index % 3 === 0;
+}
+
+function getMiniMapRefreshInterval() {
+  const density = getEffectDensity();
+  if (density >= 0.92) {
+    return 0;
+  }
+  if (density >= 0.76) {
+    return 90;
+  }
+  return 160;
+}
+
+function shouldRefreshMiniMap() {
+  const interval = getMiniMapRefreshInterval();
+  if (interval <= 0) {
+    state.uiFrame.miniMapLastRender = performance.now();
+    return true;
+  }
+  const now = performance.now();
+  if (now - state.uiFrame.miniMapLastRender >= interval) {
+    state.uiFrame.miniMapLastRender = now;
+    return true;
+  }
+  return false;
+}
+
+function snapshotActivityState(game) {
+  if (!game) {
+    return null;
+  }
+
+  return {
+    kind: game.kind,
+    player: {
+      xRatio: game.player.x / Math.max(game.width, 1),
+      yRatio: game.player.y / Math.max(game.height, 1),
+      carrying: game.player.carrying,
+      carryingCatch: game.player.carryingCatch,
+      facing: game.player.facing,
+      step: game.player.step
+    },
+    feedback: game.feedback,
+    feedbackTimer: game.feedbackTimer,
+    expressionAlpha: game.expressionAlpha,
+    expressionPulse: game.expressionPulse,
+    sweatSpawnTimer: game.sweatSpawnTimer,
+    actionPose: game.actionPose,
+    shrubs: game.shrubs?.map((entry) => ({ trimmed: entry.trimmed, trimProgress: entry.trimProgress, shake: entry.shake })),
+    mower: game.mower ? { attached: game.mower.attached, tilt: game.mower.tilt } : null,
+    lanes: game.lanes?.map((entry) => ({ cut: entry.cut, reaction: entry.reaction, cells: [...entry.cells] })),
+    tray: game.tray ? { taken: game.tray.taken, seedlings: game.tray.seedlings } : null,
+    plots: game.plots?.map((entry) => ({ planted: entry.planted, pop: entry.pop })),
+    bucket: game.bucket
+      ? { taken: game.bucket.taken, water: game.bucket.water, capacity: game.bucket.capacity, filledTrips: game.bucket.filledTrips }
+      : null,
+    plants: game.plants?.map((entry) => ({ watered: entry.watered, bounce: entry.bounce, droop: entry.droop })),
+    rows: game.rows?.map((entry) => ({ progress: entry.progress, ripple: entry.ripple, cells: [...entry.cells] })),
+    feedBag: game.feedBag ? { taken: game.feedBag.taken, servings: game.feedBag.servings } : null,
+    troughs: game.troughs?.map((entry) => ({ filled: entry.filled, fillLevel: entry.fillLevel, reaction: entry.reaction })),
+    animals: game.animals?.map((entry) => ({ interest: entry.interest, step: entry.step })),
+    net: game.net ? { taken: game.net.taken } : null,
+    basket: game.basket ? { stored: game.basket.stored } : null,
+    fish: game.fish?.map((entry) => ({ caught: entry.caught, panic: entry.panic, vx: entry.vx, vy: entry.vy }))
+  };
+}
+
+function restoreActivityState(snapshot, nextGame) {
+  if (!snapshot || !nextGame || snapshot.kind !== nextGame.kind) {
+    return nextGame;
+  }
+
+  nextGame.player.x = clamp((snapshot.player?.xRatio ?? 0.14) * nextGame.width, 36, nextGame.width - 36);
+  nextGame.player.y = clamp((snapshot.player?.yRatio ?? 0.82) * nextGame.height, 48, nextGame.height - 36);
+  nextGame.player.prevX = nextGame.player.x;
+  nextGame.player.prevY = nextGame.player.y;
+  nextGame.player.carrying = snapshot.player?.carrying ?? nextGame.player.carrying;
+  nextGame.player.carryingCatch = snapshot.player?.carryingCatch ?? nextGame.player.carryingCatch;
+  nextGame.player.facing = snapshot.player?.facing ?? nextGame.player.facing;
+  nextGame.player.step = snapshot.player?.step ?? nextGame.player.step;
+  nextGame.feedback = snapshot.feedback ?? "";
+  nextGame.feedbackTimer = snapshot.feedbackTimer ?? 0;
+  nextGame.expressionAlpha = snapshot.expressionAlpha ?? nextGame.expressionAlpha;
+  nextGame.expressionPulse = snapshot.expressionPulse ?? nextGame.expressionPulse;
+  nextGame.sweatSpawnTimer = snapshot.sweatSpawnTimer ?? nextGame.sweatSpawnTimer;
+  nextGame.actionPose = snapshot.actionPose ?? 0;
+
+  snapshot.shrubs?.forEach((entry, index) => Object.assign(nextGame.shrubs?.[index] ?? {}, entry));
+  if (snapshot.mower && nextGame.mower) {
+    Object.assign(nextGame.mower, snapshot.mower);
+  }
+  snapshot.lanes?.forEach((entry, index) => {
+    if (!nextGame.lanes?.[index]) {
+      return;
+    }
+    nextGame.lanes[index].cut = entry.cut;
+    nextGame.lanes[index].reaction = entry.reaction;
+    nextGame.lanes[index].cells = [...entry.cells];
+  });
+  if (snapshot.tray && nextGame.tray) {
+    Object.assign(nextGame.tray, snapshot.tray);
+  }
+  snapshot.plots?.forEach((entry, index) => Object.assign(nextGame.plots?.[index] ?? {}, entry));
+  if (snapshot.bucket && nextGame.bucket) {
+    Object.assign(nextGame.bucket, snapshot.bucket);
+  }
+  snapshot.plants?.forEach((entry, index) => Object.assign(nextGame.plants?.[index] ?? {}, entry));
+  snapshot.rows?.forEach((entry, index) => {
+    if (!nextGame.rows?.[index]) {
+      return;
+    }
+    nextGame.rows[index].progress = entry.progress;
+    nextGame.rows[index].ripple = entry.ripple;
+    nextGame.rows[index].cells = [...entry.cells];
+  });
+  if (snapshot.feedBag && nextGame.feedBag) {
+    Object.assign(nextGame.feedBag, snapshot.feedBag);
+  }
+  snapshot.troughs?.forEach((entry, index) => Object.assign(nextGame.troughs?.[index] ?? {}, entry));
+  snapshot.animals?.forEach((entry, index) => {
+    if (!nextGame.animals?.[index]) {
+      return;
+    }
+    nextGame.animals[index].interest = entry.interest;
+    nextGame.animals[index].step = entry.step;
+  });
+  if (snapshot.net && nextGame.net) {
+    Object.assign(nextGame.net, snapshot.net);
+  }
+  if (snapshot.basket && nextGame.basket) {
+    Object.assign(nextGame.basket, snapshot.basket);
+  }
+  snapshot.fish?.forEach((entry, index) => {
+    if (!nextGame.fish?.[index]) {
+      return;
+    }
+    Object.assign(nextGame.fish[index], entry);
+  });
+
+  return nextGame;
+}
+
+function rebuildActiveMiniGameState() {
+  if (!state.activeMiniGame) {
+    return;
+  }
+  const snapshot = snapshotActivityState(state.activeMiniGame);
+  const rebuilt = createActivityState(state.activeMiniGame.zone);
+  state.activeMiniGame = restoreActivityState(snapshot, rebuilt);
+}
+
 function lerp(start, end, amount) {
   return start + (end - start) * amount;
 }
@@ -1063,6 +1444,7 @@ function syncUiPanels() {
   ui.journalBackdrop.classList.toggle("hidden", !state.uiPanels.journalOpen);
 
   ui.heroToggle.textContent = state.uiPanels.heroExpanded ? "안내 접기" : "안내 펼치기";
+  document.body.classList.toggle("is-compact-hud", Boolean(state.device?.prefersCompactHud));
   ui.storyToggle.classList.toggle("is-active", state.uiPanels.storyOpen);
   ui.statsToggle.classList.toggle("is-active", state.uiPanels.statsOpen);
   ui.journalToggle.classList.toggle("is-active", state.uiPanels.journalOpen);
@@ -1214,6 +1596,7 @@ function applySavedGame(data) {
   state.hoveredZone = null;
   state.hoveredPractice = null;
   state.toastTimer = 0;
+  state.uiFrame.miniMapLastRender = -Infinity;
   state.ambient = createAmbientState();
   state.worldPractice = createWorldPracticeState();
   state.saveMessage = "저장된 산책 불러옴";
@@ -1735,6 +2118,7 @@ function resetState(options = {}) {
   state.uiPanels.statsOpen = false;
   state.uiPanels.journalOpen = false;
   state.toastTimer = 0;
+  state.uiFrame.miniMapLastRender = -Infinity;
   state.ambient = createAmbientState();
   state.worldPractice = createWorldPracticeState();
   state.dayCycle = 0;
@@ -1780,7 +2164,8 @@ function getNearestZone() {
   let bestDistance = Infinity;
   for (const zone of getAvailableZones()) {
     const distance = Math.hypot(state.player.x - zone.x, state.player.y - zone.y);
-    if (distance < zone.radius && distance < bestDistance) {
+    const interactionRadius = zone.radius + getInteractionAssist("zone");
+    if (distance < interactionRadius && distance < bestDistance) {
       bestZone = zone;
       bestDistance = distance;
     }
@@ -2460,6 +2845,8 @@ function buildWorldPracticeTargets() {
   const player = state.player;
   const targets = [];
   const addTarget = (target) => {
+    target.baseRadius = target.radius ?? 40;
+    target.hitRadius = target.baseRadius + getInteractionAssist(target.kind ?? "default");
     target.distance = Math.hypot(player.x - target.x, player.y - target.y);
     targets.push(target);
   };
@@ -2800,7 +3187,7 @@ function getNearestWorldPracticeTarget() {
   let best = null;
   let bestDistance = Infinity;
   targets.forEach((target) => {
-    if (target.distance <= target.radius && target.distance < bestDistance) {
+    if (target.distance <= (target.hitRadius ?? target.radius) && target.distance < bestDistance) {
       best = target;
       bestDistance = target.distance;
     }
@@ -3789,7 +4176,7 @@ function movePlayer(dt) {
   }
   state.player.step += dt * 8;
 
-  let speed = state.player.speed;
+  let speed = state.player.speed * (state.device?.moveSpeedMultiplier ?? 1);
   if (isSlowZone(state.player.x, state.player.y)) {
     speed *= 0.62;
     if (!state.flags.has("mudNotice")) {
@@ -4061,7 +4448,7 @@ function createActivityState(zone) {
       x: 92,
       y: 300,
       r: 14,
-      speed: 165,
+      speed: 165 * (state.device?.activitySpeedMultiplier ?? 1),
       carrying: null,
       carryingCatch: null,
       facing: "right",
@@ -4162,7 +4549,10 @@ function createActivityState(zone) {
 }
 
 function isNearActivityTarget(player, target, extraRadius = 20) {
-  return Math.hypot(player.x - target.x, player.y - target.y) <= player.r + (target.r ?? 16) + extraRadius;
+  return (
+    Math.hypot(player.x - target.x, player.y - target.y) <=
+    player.r + (target.r ?? 16) + extraRadius + getInteractionAssist("activity")
+  );
 }
 
 function setActivityFeedback(message) {
@@ -4174,7 +4564,8 @@ function setActivityFeedback(message) {
 }
 
 function spawnActivitySweat(game, count = 1, intensity = 1) {
-  for (let index = 0; index < count; index += 1) {
+  const scaledCount = scaleEffectCount(count, 1);
+  for (let index = 0; index < scaledCount; index += 1) {
     const side = Math.random() < 0.5 ? -1 : 1;
     const life = 0.42 + Math.random() * 0.34 + intensity * 0.08;
     game.sweatDrops.push({
@@ -4188,8 +4579,9 @@ function spawnActivitySweat(game, count = 1, intensity = 1) {
     });
   }
 
-  if (game.sweatDrops.length > 18) {
-    game.sweatDrops.splice(0, game.sweatDrops.length - 18);
+  const sweatLimit = Math.round(10 + getEffectDensity() * 10);
+  if (game.sweatDrops.length > sweatLimit) {
+    game.sweatDrops.splice(0, game.sweatDrops.length - sweatLimit);
   }
 }
 
@@ -4302,7 +4694,10 @@ function getActivityToolPose(game) {
 }
 
 function isToolTouchingCircle(toolPose, target, radius = 0) {
-  return Math.hypot(toolPose.tipX - target.x, toolPose.tipY - target.y) <= (target.r ?? 16) + radius;
+  return (
+    Math.hypot(toolPose.tipX - target.x, toolPose.tipY - target.y) <=
+    (target.r ?? 16) + radius + getInteractionAssist("toolTip")
+  );
 }
 
 function markCoverageCells(cells, startRatio, endRatio) {
@@ -4325,7 +4720,8 @@ function spawnActivityParticles(
   y,
   { count = 4, palette = ["#ffffff"], kind = "dust", speed = 36, lift = 38, spread = 16, size = 3, life = 0.45 } = {}
 ) {
-  for (let index = 0; index < count; index += 1) {
+  const scaledCount = scaleEffectCount(count, 1);
+  for (let index = 0; index < scaledCount; index += 1) {
     const angle = (-Math.PI / 2) + (Math.random() - 0.5) * 1.3;
     const velocity = speed * (0.6 + Math.random() * 0.8);
     game.particles.push({
@@ -4459,8 +4855,77 @@ function getActivityTargetAnchor(target) {
   return { x: target.x, y: target.y };
 }
 
+function faceActivityPlayerToward(player, x, y) {
+  const dx = x - player.x;
+  const dy = y - player.y;
+  if (Math.abs(dx) > Math.abs(dy)) {
+    player.facing = dx >= 0 ? "right" : "left";
+  } else {
+    player.facing = dy >= 0 ? "down" : "up";
+  }
+}
+
+function getTouchActivityAssistConfig(game, target) {
+  const base = {
+    snapDistance: 132 + getInteractionAssist("activity") * 1.4,
+    snapLerp: 0.78,
+    offsetX: 26,
+    offsetY: 20
+  };
+
+  switch (game.kind) {
+    case "gardenCare":
+      return { ...base, offsetX: 30, offsetY: 18 };
+    case "vegetableGrow":
+      return target === game.well ? { ...base, offsetX: 0, offsetY: 38 } : { ...base, offsetX: 20, offsetY: 20 };
+    case "raiseLivestock":
+      return { ...base, offsetX: 24, offsetY: 22 };
+    case "catchFish":
+      if (target === game.basket) {
+        return { ...base, offsetX: 16, offsetY: 18 };
+      }
+      if (target === game.net) {
+        return { ...base, offsetX: 18, offsetY: 18 };
+      }
+      return { ...base, offsetX: 0, offsetY: 28, snapDistance: 148 + getInteractionAssist("activity") * 1.4 };
+    default:
+      return base;
+  }
+}
+
+function assistTouchActivityAction(game) {
+  if (!state.device?.isTouch) {
+    return null;
+  }
+
+  const target = getNearestActivityTarget(game, 162 + getInteractionAssist("activity"));
+  if (!target || target.requiresAction === false) {
+    return target;
+  }
+
+  const anchor = getActivityTargetAnchor(target);
+  const config = getTouchActivityAssistConfig(game, target);
+  const distance = Math.hypot(anchor.x - game.player.x, anchor.y - game.player.y);
+
+  faceActivityPlayerToward(game.player, anchor.x, anchor.y);
+
+  if (distance <= config.snapDistance) {
+    const side = game.player.x <= anchor.x ? -1 : 1;
+    const desiredX = anchor.x + side * config.offsetX;
+    const desiredY = anchor.y + config.offsetY;
+    game.player.x = clamp(lerp(game.player.x, desiredX, config.snapLerp), 36, game.width - 36);
+    game.player.y = clamp(lerp(game.player.y, desiredY, config.snapLerp), 48, game.height - 36);
+    game.player.prevX = game.player.x;
+    game.player.prevY = game.player.y;
+  }
+
+  game.toolPose = getActivityToolPose(game);
+  return target;
+}
+
 function getNearestActivityTarget(game, maxDistance = 92) {
   const targets = buildActivityTargets(game);
+  const assistedMaxDistance = maxDistance + getInteractionAssist("activity");
   let closest = null;
   let minDistance = Infinity;
 
@@ -4472,7 +4937,56 @@ function getNearestActivityTarget(game, maxDistance = 92) {
     }
   });
 
-  return minDistance <= maxDistance ? closest : null;
+  return minDistance <= assistedMaxDistance ? closest : null;
+}
+
+function getTouchActionLabel() {
+  if (!state.device?.isTouch) {
+    return "행동";
+  }
+
+  if (state.activeDialogue) {
+    return "다음";
+  }
+
+  if (!state.activeMiniGame) {
+    return state.hoveredZone || state.hoveredPractice ? "행동" : "걷기";
+  }
+
+  const game = state.activeMiniGame;
+  const target = getNearestActivityTarget(game, 150);
+  if (!target) {
+    return "행동";
+  }
+
+  switch (game.kind) {
+    case "gardenCare":
+      return game.player.carrying === "shears" ? "다듬기" : "집기";
+    case "lawnTrim":
+      return game.mower.attached ? "밀기" : "붙잡기";
+    case "vegetablePlant":
+      return game.tray.taken ? "심기" : "집기";
+    case "vegetableGrow":
+      if (!game.bucket.taken) {
+        return "집기";
+      }
+      return target === game.well ? "채우기" : "물주기";
+    case "farmWork":
+      return game.player.carrying === "hoe" ? "고르기" : "집기";
+    case "raiseLivestock":
+      return game.feedBag.taken ? "붓기" : "집기";
+    case "catchFish":
+      if (!game.net.taken) {
+        return "집기";
+      }
+      return game.player.carryingCatch ? "담기" : "잡기";
+    default:
+      return "행동";
+  }
+}
+
+function updateTouchActionLabel() {
+  ui.touchAction.textContent = getTouchActionLabel();
 }
 
 function updateMiniGameUi() {
@@ -4480,12 +4994,18 @@ function updateMiniGameUi() {
     return;
   }
   const game = state.activeMiniGame;
+  ui.miniGame.classList.toggle("is-touch-activity", Boolean(state.device?.isTouch));
   const target = getNearestActivityTarget(game);
   const targetHint = target ? `${target.label} · ${target.prompt}` : "주변을 움직여 손에 닿는 대상 앞까지 가 보세요.";
   ui.miniGameType.textContent = "몸으로 하는 일";
+  const resolvedTargetHint = state.device?.isTouch
+    ? target
+      ? `${target.label} 근처에서 행동 버튼`
+      : "가까운 대상으로 움직여 보세요."
+    : targetHint;
   ui.miniGameTitle.textContent = game.title;
   ui.miniGameInstruction.textContent = game.instruction;
-  ui.activityHint.textContent = game.feedback || `${getActivityHint(game)} ${targetHint}`;
+  ui.activityHint.textContent = game.feedback || `${getActivityHint(game)} ${resolvedTargetHint}`;
   ui.activityObjectives.innerHTML = buildActivityObjectives(game)
     .map(
       (goal) => `
@@ -4496,6 +5016,7 @@ function updateMiniGameUi() {
       `
     )
     .join("");
+  updateTouchActionLabel();
 }
 
 function startMiniGame(zone) {
@@ -4510,7 +5031,9 @@ function startMiniGame(zone) {
 function closeMiniGame() {
   state.activeMiniGame = null;
   ui.miniGame.classList.add("hidden");
+  ui.miniGame.classList.remove("is-touch-activity");
   activityCtx.clearRect(0, 0, ui.activityCanvas.width, ui.activityCanvas.height);
+  updateTouchActionLabel();
 }
 
 function completeTask(zone) {
@@ -4547,6 +5070,7 @@ function handleActivityAction() {
   if (!game) {
     return false;
   }
+  const assistedTarget = assistTouchActivityAction(game);
   const player = game.player;
   const toolPose = getActivityToolPose(game);
   let didAction = false;
@@ -4585,7 +5109,7 @@ function handleActivityAction() {
       }
     }
   } else if (game.kind === "lawnTrim") {
-    if (!game.mower.attached && Math.hypot(player.x - game.mower.x, player.y - game.mower.y) < 36) {
+    if (!game.mower.attached && Math.hypot(player.x - game.mower.x, player.y - game.mower.y) < 36 + getInteractionAssist("activity") * 0.4) {
       game.mower.attached = true;
       player.carrying = "mower";
       playSfx("equipTool", {
@@ -4766,7 +5290,8 @@ function handleActivityAction() {
       const fish = game.fish.find(
         (entry) =>
           !entry.caught &&
-          (isToolTouchingCircle(toolPose, entry, 10) || Math.hypot(player.x - entry.x, player.y - entry.y) < 34)
+          (isToolTouchingCircle(toolPose, entry, state.device?.isTouch ? 18 : 10) ||
+            Math.hypot(player.x - entry.x, player.y - entry.y) < (state.device?.isTouch ? 46 : 34))
       );
       if (fish) {
         playSfx("fishHook", {
@@ -4792,7 +5317,7 @@ function handleActivityAction() {
   }
 
   if (!didAction) {
-    const target = getNearestActivityTarget(game, 130);
+    const target = assistedTarget ?? getNearestActivityTarget(game, 130);
     if (target) {
       setActivityFeedback(`${target.label} 쪽으로 더 가까이 가 보세요.`);
     } else {
@@ -4848,17 +5373,47 @@ function moveActivityPlayer(dt) {
 
   let speed = player.speed;
   if (game.kind === "lawnTrim" && game.mower.attached) {
-    speed *= 0.82;
+    speed *= state.device?.isTouch ? 0.88 : 0.82;
   }
   if (["seedlings", "bucket", "feed"].includes(player.carrying)) {
-    speed *= 0.9;
+    speed *= state.device?.isTouch ? 0.95 : 0.9;
   }
   if (player.carryingCatch) {
-    speed *= 0.88;
+    speed *= state.device?.isTouch ? 0.94 : 0.88;
   }
 
   player.x = clamp(player.x + dx * speed * dt, 36, game.width - 36);
   player.y = clamp(player.y + dy * speed * dt, 48, game.height - 36);
+
+  if (state.device?.isTouch && Math.abs(dx) >= Math.abs(dy)) {
+    if (game.kind === "lawnTrim" && game.mower.attached) {
+      const nearestLane = game.lanes.reduce((best, lane) => {
+        if (!best) {
+          return lane;
+        }
+        const laneCenter = lane.y + lane.h / 2 - 8;
+        const bestCenter = best.y + best.h / 2 - 8;
+        return Math.abs(player.y - laneCenter) < Math.abs(player.y - bestCenter) ? lane : best;
+      }, null);
+      if (nearestLane) {
+        const targetY = nearestLane.y + nearestLane.h / 2 - 8;
+        player.y = clamp(lerp(player.y, targetY, Math.min(dt * 8, 1)), 48, game.height - 36);
+      }
+    }
+
+    if (game.kind === "farmWork" && player.carrying === "hoe") {
+      const nearestRow = game.rows.reduce((best, row) => {
+        if (!best) {
+          return row;
+        }
+        return Math.abs(player.y - row.y) < Math.abs(player.y - best.y) ? row : best;
+      }, null);
+      if (nearestRow) {
+        player.y = clamp(lerp(player.y, nearestRow.y, Math.min(dt * 8.4, 1)), 48, game.height - 36);
+      }
+    }
+  }
+
   player.step += dt * 10;
 }
 
@@ -4897,15 +5452,17 @@ function updateActivityState(dt) {
 
   if (game.kind === "lawnTrim" && game.mower.attached) {
     const mowerDir = getFacingVector(game.player.facing);
+    const mobileBandAssist = state.device?.isTouch ? 10 : 0;
     game.mower.x = game.player.x + mowerDir.x * 28;
     game.mower.y = game.player.y + mowerDir.y * 16 + 8;
     game.mower.tilt = (game.player.x - game.player.prevX) * 0.08;
     game.lanes.forEach((lane) => {
       lane.reaction = Math.max(lane.reaction - dt * 2.8, 0);
-      const withinBand = Math.abs(game.mower.y - (lane.y + lane.h / 2)) < lane.h / 2 + 6;
+      const withinBand = Math.abs(game.mower.y - (lane.y + lane.h / 2)) < lane.h / 2 + 6 + mobileBandAssist;
       if (withinBand && movedHorizontally && movedDistance > 0.9) {
-        const startRatio = (game.mower.x - 22 - lane.x1) / lane.w;
-        const endRatio = (game.mower.x + 18 - lane.x1) / lane.w;
+        const sideAssist = state.device?.isTouch ? 6 : 0;
+        const startRatio = (game.mower.x - 22 - sideAssist - lane.x1) / lane.w;
+        const endRatio = (game.mower.x + 18 + sideAssist - lane.x1) / lane.w;
         markCoverageCells(lane.cells, startRatio, endRatio);
         lane.cut = getCoverageProgress(lane.cells);
         lane.reaction = 1;
@@ -4934,17 +5491,19 @@ function updateActivityState(dt) {
 
   if (game.kind === "farmWork" && game.player.carrying === "hoe") {
     const rowTravel = Math.abs(game.player.x - game.player.prevX);
+    const mobileRowAssist = state.device?.isTouch ? 6 : 0;
     game.rows.forEach((row) => {
       row.ripple = Math.max(row.ripple - dt * 2.4, 0);
       if (
-        Math.abs(game.toolPose.tipY - row.y) < 16 &&
+        Math.abs(game.toolPose.tipY - row.y) < 16 + mobileRowAssist &&
         game.toolPose.tipX > row.x1 &&
         game.toolPose.tipX < row.x2 &&
         movedHorizontally &&
         movedDistance > 0.6
       ) {
-        const startRatio = (game.toolPose.tipX - 12 - row.x1) / (row.x2 - row.x1);
-        const endRatio = (game.toolPose.tipX + 12 - row.x1) / (row.x2 - row.x1);
+        const tipAssist = state.device?.isTouch ? 6 : 0;
+        const startRatio = (game.toolPose.tipX - 12 - tipAssist - row.x1) / (row.x2 - row.x1);
+        const endRatio = (game.toolPose.tipX + 12 + tipAssist - row.x1) / (row.x2 - row.x1);
         markCoverageCells(row.cells, startRatio, endRatio);
         row.progress = getCoverageProgress(row.cells);
         row.ripple = 1;
@@ -4972,6 +5531,9 @@ function updateActivityState(dt) {
   }
 
   if (game.kind === "catchFish") {
+    const threatRadius = state.device?.isTouch ? 88 : 96;
+    const fishSpeedScale = state.device?.isTouch ? 0.84 : 1;
+    const touchCatchAssistRadius = state.device?.isTouch ? 58 : 0;
     game.fish.forEach((fish) => {
       if (fish.caught) {
         return;
@@ -4981,8 +5543,13 @@ function updateActivityState(dt) {
       const dx = fish.x - threatX;
       const dy = fish.y - threatY;
       const distance = Math.hypot(dx, dy);
-      if (distance < 96) {
-        const push = (96 - distance) / 96;
+      if (state.device?.isTouch && game.net.taken && distance < touchCatchAssistRadius) {
+        const pull = (touchCatchAssistRadius - distance) / touchCatchAssistRadius;
+        fish.vx += (-dx / Math.max(distance, 1)) * pull * 64 * dt;
+        fish.vy += (-dy / Math.max(distance, 1)) * pull * 56 * dt;
+        fish.panic = Math.max(fish.panic - dt * 2.6, 0);
+      } else if (distance < threatRadius) {
+        const push = (threatRadius - distance) / threatRadius;
         fish.vx += (dx / Math.max(distance, 1)) * push * 54 * dt;
         fish.vy += (dy / Math.max(distance, 1)) * push * 54 * dt;
         fish.panic = Math.min(fish.panic + dt * 4.2, 1);
@@ -4991,7 +5558,7 @@ function updateActivityState(dt) {
       }
 
       const speed = Math.hypot(fish.vx, fish.vy);
-      const maxSpeed = 64 + fish.panic * 36;
+      const maxSpeed = (64 + fish.panic * 36) * fishSpeedScale;
       if (speed > maxSpeed) {
         fish.vx = (fish.vx / speed) * maxSpeed;
         fish.vy = (fish.vy / speed) * maxSpeed;
@@ -5723,7 +6290,8 @@ function drawActivityEllipseShadow(x, y, rx, ry, alpha = 0.12) {
 function drawActivityGrassTexture(x, y, w, h, density = 36, color = "rgba(103, 141, 78, 0.18)") {
   activityCtx.strokeStyle = color;
   activityCtx.lineWidth = 1.3;
-  for (let index = 0; index < density; index += 1) {
+  const bladeCount = scaleEffectCount(density, 10);
+  for (let index = 0; index < bladeCount; index += 1) {
     const px = x + ((index * 29) % w);
     const py = y + ((index * 47) % h);
     activityCtx.beginPath();
@@ -5734,8 +6302,9 @@ function drawActivityGrassTexture(x, y, w, h, density = 36, color = "rgba(103, 1
 }
 
 function drawActivitySoilTexture(x, y, w, h, rows = 6) {
-  for (let row = 0; row < rows; row += 1) {
-    const rowY = y + 18 + row * ((h - 36) / rows);
+  const rowCount = Math.max(3, Math.round(rows * (0.75 + getEffectDensity() * 0.25)));
+  for (let row = 0; row < rowCount; row += 1) {
+    const rowY = y + 18 + row * ((h - 36) / rowCount);
     activityCtx.strokeStyle = row % 2 === 0 ? "rgba(217, 187, 123, 0.15)" : "rgba(102, 68, 43, 0.18)";
     activityCtx.lineWidth = 3;
     activityCtx.beginPath();
@@ -5789,7 +6358,8 @@ function drawActivityStonePath(x, y, w, h) {
   fillActivityRoundedRect(x, y, w, h, 20, "#ead8ae");
   strokeActivityRoundedRect(x, y, w, h, 20, "rgba(146, 114, 77, 0.18)", 2);
   activityCtx.fillStyle = "rgba(182, 150, 105, 0.18)";
-  for (let index = 0; index < 52; index += 1) {
+  const pebbleCount = scaleEffectCount(52, 18);
+  for (let index = 0; index < pebbleCount; index += 1) {
     const px = x + 18 + ((index * 31) % (w - 36));
     const py = y + 18 + ((index * 27) % (h - 36));
     activityCtx.beginPath();
@@ -5829,7 +6399,8 @@ function drawActivityBackdrop(game, palette = {}) {
   activityCtx.fill();
 
   const cloudTint = palette.cloudTint ?? "rgba(255,255,255,0.34)";
-  for (let index = 0; index < 4; index += 1) {
+  const cloudCount = scaleEffectCount(4, 2);
+  for (let index = 0; index < cloudCount; index += 1) {
     const x = 86 + index * 132;
     const y = 56 + (index % 2) * 22;
     activityCtx.fillStyle = "rgba(255,255,255,0.16)";
@@ -6709,6 +7280,7 @@ function update(dt) {
   if (!state.started || state.activeDialogue || state.endingShown) {
     setPrompt("");
     state.hoveredPractice = null;
+    updateTouchActionLabel();
     updateCamera();
     return;
   }
@@ -6725,6 +7297,7 @@ function update(dt) {
         state.hoveredZone?.prompt ||
         ""
     );
+    updateTouchActionLabel();
 
     if (state.interactQueued) {
       if (!handleWorldPracticeAction()) {
@@ -6744,6 +7317,9 @@ function worldToScreen(x, y) {
 }
 
 function emitAmbientParticle(x, y, options = {}) {
+  if (!shouldEmitEffect(options.spawnChance ?? 1)) {
+    return;
+  }
   const particle = {
     x,
     y,
@@ -6756,7 +7332,8 @@ function emitAmbientParticle(x, y, options = {}) {
     kind: options.kind ?? "dot"
   };
   state.ambient.particles.push(particle);
-  if (state.ambient.particles.length > 120) {
+  const particleLimit = getAmbientParticleLimit();
+  if (state.ambient.particles.length > particleLimit) {
     state.ambient.particles.shift();
   }
 }
@@ -7819,9 +8396,21 @@ function drawReactiveVillageLife(cameraX, cameraY) {
   drawScarecrow(cameraX, cameraY);
   drawSpinner();
   drawCat();
-  state.ambient.butterflies.forEach((butterfly, index) => drawButterfly(butterfly, index));
-  state.ambient.dragonflies.forEach((dragonfly, index) => drawDragonfly(dragonfly, index));
-  state.ambient.fieldBirds.forEach((bird, index) => drawFieldBird(bird, index));
+  state.ambient.butterflies.forEach((butterfly, index) => {
+    if (shouldRenderAmbientSlot(index, 0.78)) {
+      drawButterfly(butterfly, index);
+    }
+  });
+  state.ambient.dragonflies.forEach((dragonfly, index) => {
+    if (shouldRenderAmbientSlot(index, 0.72)) {
+      drawDragonfly(dragonfly, index);
+    }
+  });
+  state.ambient.fieldBirds.forEach((bird, index) => {
+    if (shouldRenderAmbientSlot(index, 0.68)) {
+      drawFieldBird(bird, index);
+    }
+  });
   state.ambient.chickens.forEach((chicken) => drawChicken(chicken));
   state.ambient.frogs.forEach((frog) => drawFrog(frog));
   drawAmbientParticles();
@@ -8193,6 +8782,9 @@ function drawClouds() {
   const body = mixColor(cloudStops[current].body, cloudStops[next].body, blend);
   const topGlow = mixColor(cloudStops[current].top, cloudStops[next].top, blend);
   cloudAnchors.forEach((cloud, index) => {
+    if (!shouldRenderAmbientSlot(index, 0.82)) {
+      return;
+    }
     const drift = ((performance.now() / 1000) * cloud.speed * 18 + index * 90) % (world.width + 220);
     const x = drift - state.camera.x - 110;
     const y = cloud.y - state.camera.y * 0.08;
@@ -10116,6 +10708,9 @@ function drawFireflies(cameraX, cameraY) {
     [610, 470]
   ];
   bugs.forEach(([x, y], index) => {
+    if (!shouldRenderAmbientSlot(index, 0.74)) {
+      return;
+    }
     const sx = x - cameraX + Math.sin(performance.now() / 700 + index) * 6;
     const sy = y - cameraY + Math.cos(performance.now() / 900 + index) * 5;
     ctx.fillStyle = `rgba(248, 239, 174, ${(0.08 + fireflyAmount * 0.18).toFixed(3)})`;
@@ -10213,7 +10808,9 @@ function render() {
   drawZoneHints();
   drawTargetPointers();
   drawWorldPracticeHighlight();
-  renderMiniMap();
+  if (!ui.statsPanel.classList.contains("hidden") && shouldRefreshMiniMap()) {
+    renderMiniMap();
+  }
 }
 
 function loop(timestamp) {
@@ -10225,6 +10822,7 @@ function loop(timestamp) {
 }
 
 function setupInput() {
+  let resizeTimer = null;
   window.addEventListener("beforeunload", () => {
     if (state.started) {
       persistGame("산책");
@@ -10235,6 +10833,17 @@ function setupInput() {
     if (document.hidden && state.started) {
       persistGame("자동");
     }
+  });
+
+  window.addEventListener("resize", () => {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      syncDeviceProfile();
+    }, 80);
+  });
+
+  window.addEventListener("orientationchange", () => {
+    window.setTimeout(() => syncDeviceProfile({ force: true }), 120);
   });
 
   window.addEventListener("keydown", (event) => {
@@ -10417,9 +11026,13 @@ function preloadSfx() {
 }
 
 resetState({ clearSave: false });
+applyDeviceCss(initialDeviceProfile);
+applyResponsiveCanvasProfile();
 preloadDialogueAudio();
 preloadSfx();
 setupInput();
+syncDeviceProfile({ force: true });
 renderSidebar();
+updateTouchActionLabel();
 updateSaveSummary(loadSavedGame());
 requestAnimationFrame(loop);
