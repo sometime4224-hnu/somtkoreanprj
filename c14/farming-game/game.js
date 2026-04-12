@@ -107,9 +107,9 @@ const DEVICE_PROFILES = {
     activitySpeedMultiplier: 1.03,
     effectDensity: 0.92,
     prefersCompactHud: true,
-    touchButtonSize: 68,
-    touchActionWidth: 134,
-    touchActionHeight: 76
+    touchButtonSize: 62,
+    touchActionWidth: 124,
+    touchActionHeight: 70
   },
   "phone-high": {
     worldWidth: 840,
@@ -123,9 +123,9 @@ const DEVICE_PROFILES = {
     activitySpeedMultiplier: 1.06,
     effectDensity: 0.8,
     prefersCompactHud: true,
-    touchButtonSize: 58,
-    touchActionWidth: 118,
-    touchActionHeight: 64
+    touchButtonSize: 50,
+    touchActionWidth: 102,
+    touchActionHeight: 56
   },
   "phone-low": {
     worldWidth: 760,
@@ -139,9 +139,9 @@ const DEVICE_PROFILES = {
     activitySpeedMultiplier: 1.08,
     effectDensity: 0.66,
     prefersCompactHud: true,
-    touchButtonSize: 62,
-    touchActionWidth: 124,
-    touchActionHeight: 68
+    touchButtonSize: 54,
+    touchActionWidth: 108,
+    touchActionHeight: 58
   }
 };
 
@@ -156,33 +156,33 @@ function getPortraitProfileOverrides(id, isTouch, isPortrait) {
         worldWidth: 840,
         worldHeight: 1120,
         activityWidth: 620,
-        activityHeight: 820,
+        activityHeight: 430,
         miniMapSize: 140,
-        touchButtonSize: 60,
-        touchActionWidth: 118,
-        touchActionHeight: 64
+        touchButtonSize: 56,
+        touchActionWidth: 112,
+        touchActionHeight: 60
       };
     case "phone-high":
       return {
         worldWidth: 720,
         worldHeight: 960,
         activityWidth: 560,
-        activityHeight: 746,
+        activityHeight: 380,
         miniMapSize: 132,
-        touchButtonSize: 54,
-        touchActionWidth: 108,
-        touchActionHeight: 58
+        touchButtonSize: 44,
+        touchActionWidth: 92,
+        touchActionHeight: 48
       };
     case "phone-low":
       return {
         worldWidth: 660,
         worldHeight: 880,
         activityWidth: 520,
-        activityHeight: 694,
+        activityHeight: 360,
         miniMapSize: 118,
-        touchButtonSize: 56,
-        touchActionWidth: 112,
-        touchActionHeight: 60
+        touchButtonSize: 46,
+        touchActionWidth: 96,
+        touchActionHeight: 50
       };
     default:
       return {};
@@ -1109,12 +1109,17 @@ function applyDeviceCss(profile) {
   document.documentElement.dataset.deviceProfile = profile.id;
   document.documentElement.dataset.inputMode = profile.isTouch ? "touch" : "mouse";
   document.documentElement.dataset.orientation = profile.isPortrait ? "portrait" : "landscape";
+  document.documentElement.dataset.touchUi = profile.isTouch || profile.id !== "desktop" ? "on" : "off";
+  const touchUiReserve = profile.isTouch
+    ? Math.round(Math.max(profile.touchActionHeight, profile.touchButtonSize * 2.2) + 18)
+    : 0;
   document.documentElement.style.setProperty("--mini-map-size", `${profile.miniMapSize}px`);
   document.documentElement.style.setProperty("--world-aspect", `${profile.worldWidth} / ${profile.worldHeight}`);
   document.documentElement.style.setProperty("--activity-aspect", `${profile.activityWidth} / ${profile.activityHeight}`);
   document.documentElement.style.setProperty("--touch-button-size", `${profile.touchButtonSize}px`);
   document.documentElement.style.setProperty("--touch-action-width", `${profile.touchActionWidth}px`);
   document.documentElement.style.setProperty("--touch-action-height", `${profile.touchActionHeight}px`);
+  document.documentElement.style.setProperty("--touch-ui-reserve", `${touchUiReserve}px`);
 }
 
 function applyResponsiveCanvasProfile() {
@@ -1276,18 +1281,27 @@ function hasMovementInput(threshold = 0.12) {
 
 function syncMobileViewportMode() {
   const isPhoneProfile = /^phone/.test(state.device?.id ?? "");
+  const isStartCardOpen = !ui.startCard.classList.contains("hidden");
+  const isDialogueOpen = !ui.dialogueBox.classList.contains("hidden");
+  const isMiniGameOpen = !ui.miniGame.classList.contains("hidden");
+  const isEndingOpen = !ui.endingCard.classList.contains("hidden");
   const hasOverlay =
     state.uiPanels.heroExpanded ||
     state.uiPanels.storyOpen ||
     state.uiPanels.statsOpen ||
     state.uiPanels.journalOpen ||
-    !ui.startCard.classList.contains("hidden") ||
-    !ui.dialogueBox.classList.contains("hidden") ||
-    !ui.miniGame.classList.contains("hidden") ||
-    !ui.endingCard.classList.contains("hidden");
+    isStartCardOpen ||
+    isDialogueOpen ||
+    isMiniGameOpen ||
+    isEndingOpen;
 
   document.body.classList.toggle("is-mobile-playing", isPhoneProfile && state.started && !hasOverlay);
   document.body.classList.toggle("is-mobile-overlay-active", isPhoneProfile && hasOverlay);
+  document.body.classList.toggle("is-game-started", state.started);
+  document.body.classList.toggle("is-start-card-open", isStartCardOpen);
+  document.body.classList.toggle("is-dialogue-open", isDialogueOpen);
+  document.body.classList.toggle("is-mini-game-open", isMiniGameOpen);
+  document.body.classList.toggle("is-ending-open", isEndingOpen);
 }
 
 function getEffectDensity() {
