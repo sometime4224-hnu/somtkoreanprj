@@ -17,6 +17,10 @@
   --radius-lg: 22px;
   --radius-md: 16px;
   --radius-sm: 12px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
   --mini-map-size: 180px;
   --touch-button-size: 62px;
   --touch-action-width: 124px;
@@ -202,7 +206,7 @@ body::before {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: var(--world-aspect, 3 / 2);
 }
 
 .hud-overlay {
@@ -543,7 +547,7 @@ body::before {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: var(--activity-aspect, 16 / 9);
 }
 
 .activity-sidebar {
@@ -762,6 +766,313 @@ body.is-compact-hud .hud-toggle {
 
 body.is-compact-hud .hud-card-stats {
   min-width: 0;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .hero-panel {
+  position: fixed;
+  top: calc(var(--safe-top) + 8px);
+  left: calc(var(--safe-left) + 8px);
+  right: calc(var(--safe-right) + 8px);
+  margin: 0;
+  padding: 8px 10px;
+  gap: 8px;
+  border-radius: 18px;
+  z-index: 8;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .hero-compact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .eyebrow {
+  display: none;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .hero-panel h1 {
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .hero-actions {
+  gap: 6px;
+  align-items: center;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .hero-actions .secondary-button {
+  display: none;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .hero-panel.is-expanded .hero-actions .secondary-button {
+  display: inline-flex;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .hero-actions .mini-button,
+html[data-device-profile^="phone"] body.is-compact-hud .hero-actions .secondary-button {
+  padding: 9px 12px;
+  font-size: 0.8rem;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .hero-details {
+  padding: 12px 14px;
+  max-height: min(30dvh, 220px);
+  overflow: auto;
+}
+
+html[data-device-profile^="phone"] body.is-compact-hud .lead {
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+html[data-device-profile^="phone"] .hud-overlay {
+  top: calc(var(--safe-top) + 64px);
+  left: 10px;
+  right: 10px;
+  gap: 8px;
+}
+
+html[data-device-profile^="phone"] .hud-topbar {
+  gap: 6px;
+}
+
+html[data-device-profile^="phone"] .hud-toggle {
+  min-width: 0;
+  padding: 9px 10px;
+  border-radius: 16px;
+  flex: 0 0 auto;
+}
+
+html[data-device-profile^="phone"] .hud-toggle-tag {
+  margin-bottom: 0;
+  font-size: 0.63rem;
+  letter-spacing: 0.08em;
+}
+
+html[data-device-profile^="phone"] .hud-toggle strong {
+  display: none;
+}
+
+html[data-device-profile^="phone"] .hud-card {
+  padding: 12px 14px;
+  border-radius: 18px;
+  max-height: min(36dvh, 260px);
+  overflow: auto;
+}
+
+html[data-device-profile^="phone"] .floating-card {
+  top: auto;
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--safe-bottom) + 88px);
+  width: auto;
+  max-width: none;
+  padding: 14px 16px;
+  border-radius: 20px;
+  max-height: min(34dvh, 260px);
+  overflow: auto;
+}
+
+html[data-device-profile^="phone"] .floating-card h2 {
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+html[data-device-profile^="phone"] .floating-card p {
+  margin: 8px 0 12px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+html[data-device-profile^="phone"] #startCard > p:not(.card-tag):not(.save-summary) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+html[data-device-profile^="phone"] .save-summary {
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+html[data-device-profile^="phone"] .start-actions,
+html[data-device-profile^="phone"] .ending-actions {
+  gap: 8px;
+}
+
+html[data-device-profile^="phone"] .start-actions .primary-button,
+html[data-device-profile^="phone"] .start-actions .secondary-button,
+html[data-device-profile^="phone"] .ending-actions .primary-button,
+html[data-device-profile^="phone"] .ending-actions .secondary-button {
+  flex: 1 1 0;
+  justify-content: center;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+}
+
+html[data-device-profile^="phone"] .prompt-bubble {
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--safe-bottom) + 92px);
+  transform: none;
+  padding: 10px 12px;
+  border-radius: 16px;
+  font-size: 0.84rem;
+  text-align: center;
+}
+
+html[data-device-profile^="phone"] .toast {
+  top: calc(var(--safe-top) + 64px);
+  left: 12px;
+  right: 12px;
+  max-width: none;
+  padding: 11px 12px;
+  border-radius: 16px;
+  font-size: 0.82rem;
+}
+
+html[data-input-mode="touch"] .touch-controls {
+  position: fixed;
+  left: calc(var(--safe-left) + 10px);
+  right: calc(var(--safe-right) + 10px);
+  bottom: calc(var(--safe-bottom) + 10px);
+  margin: 0;
+  z-index: 8;
+  pointer-events: none;
+}
+
+html[data-input-mode="touch"] .touch-pad,
+html[data-input-mode="touch"] .touch-action {
+  pointer-events: auto;
+}
+
+html[data-device-profile^="phone"] .touch-controls {
+  gap: 10px;
+}
+
+html[data-device-profile^="phone"] .touch-pad {
+  gap: 8px;
+}
+
+html[data-device-profile^="phone"] .touch-row {
+  gap: 8px;
+}
+
+html[data-device-profile^="phone"] .touch-button,
+html[data-device-profile^="phone"] .touch-action {
+  background: rgba(255, 250, 243, 0.84);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 0 0 1px rgba(68, 89, 62, 0.12),
+    0 10px 20px rgba(38, 47, 26, 0.16);
+}
+
+html[data-device-profile^="phone"] .dialogue-box,
+html[data-device-profile^="phone"] .mini-game {
+  left: 12px;
+  right: 12px;
+  bottom: calc(var(--safe-bottom) + 92px);
+  padding: 14px 16px;
+  border-radius: 20px;
+  max-height: min(46dvh, 380px);
+  overflow: auto;
+}
+
+html[data-device-profile^="phone"][data-orientation="portrait"] .page-shell {
+  max-width: none;
+  min-height: 100dvh;
+  padding: 0;
+}
+
+html[data-device-profile^="phone"][data-orientation="portrait"] .main-layout,
+html[data-device-profile^="phone"][data-orientation="portrait"] .play-panel,
+html[data-device-profile^="phone"][data-orientation="portrait"] .canvas-frame {
+  min-height: 100dvh;
+}
+
+html[data-device-profile^="phone"][data-orientation="portrait"] .play-panel {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-device-profile^="phone"][data-orientation="portrait"] .canvas-frame {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+html[data-device-profile^="phone"][data-orientation="portrait"] body.is-mobile-playing .canvas-frame {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hero-panel:not(.is-expanded) {
+  left: auto;
+  right: calc(var(--safe-right) + 8px);
+  width: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hero-panel:not(.is-expanded) .hero-compact {
+  grid-template-columns: auto;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hero-panel:not(.is-expanded) .hero-compact > div:first-child {
+  display: none;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hero-panel:not(.is-expanded) .hero-actions {
+  gap: 0;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hero-panel:not(.is-expanded) .hero-actions .secondary-button {
+  display: none !important;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hero-panel:not(.is-expanded) .hero-actions .mini-button {
+  padding: 8px 10px;
+  font-size: 0.76rem;
+  background: rgba(255, 250, 243, 0.86);
+  box-shadow:
+    inset 0 0 0 1px rgba(68, 89, 62, 0.12),
+    0 8px 16px rgba(38, 47, 26, 0.14);
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hud-overlay {
+  top: calc(var(--safe-top) + 8px);
+  left: 8px;
+  right: 8px;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hud-topbar {
+  gap: 5px;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hud-toggle {
+  padding: 7px 8px;
+  border-radius: 14px;
+}
+
+html[data-device-profile^="phone"] body.is-mobile-playing .hud-toggle-tag {
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+}
+
+html[data-device-profile^="phone"][data-orientation="portrait"] body.is-mobile-playing #game {
+  width: auto;
+  min-width: 100%;
+  height: 100dvh;
+  margin: 0 auto;
 }
 
 .journal-section {
