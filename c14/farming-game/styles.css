@@ -17,6 +17,10 @@
   --radius-lg: 22px;
   --radius-md: 16px;
   --radius-sm: 12px;
+  --mini-map-size: 180px;
+  --touch-button-size: 62px;
+  --touch-action-width: 124px;
+  --touch-action-height: 72px;
   font-family: "Gowun Dodum", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
   color: var(--ink);
 }
@@ -276,8 +280,8 @@ body::before {
 }
 
 .mini-map {
-  width: 180px;
-  height: 180px;
+  width: var(--mini-map-size);
+  height: var(--mini-map-size);
   border-radius: 18px;
   background: linear-gradient(180deg, rgba(206, 226, 198, 0.82), rgba(244, 236, 216, 0.82));
   box-shadow: inset 0 0 0 1px rgba(67, 90, 58, 0.12);
@@ -547,6 +551,35 @@ body::before {
   gap: 12px;
 }
 
+.mini-game.is-touch-activity {
+  max-height: calc(100dvh - 28px);
+  overflow: auto;
+}
+
+.mini-game.is-touch-activity .activity-layout {
+  gap: 12px;
+}
+
+.mini-game.is-touch-activity .mini-game-instruction,
+.mini-game.is-touch-activity .mini-hint {
+  line-height: 1.5;
+}
+
+.mini-game.is-touch-activity .mini-hint {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(114, 139, 93, 0.09);
+}
+
+.mini-game.is-touch-activity .activity-goal {
+  padding: 10px 12px;
+}
+
+.mini-game.is-touch-activity .activity-goal span {
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
 .activity-objectives {
   display: grid;
   gap: 10px;
@@ -685,17 +718,50 @@ body::before {
 }
 
 .touch-button {
-  width: 62px;
-  height: 62px;
-  border-radius: 20px;
+  width: var(--touch-button-size);
+  height: var(--touch-button-size);
+  border-radius: calc(var(--touch-button-size) * 0.32);
   font-size: 1.3rem;
 }
 
 .touch-action {
-  min-width: 124px;
-  min-height: 72px;
+  min-width: var(--touch-action-width);
+  min-height: var(--touch-action-height);
   border-radius: 24px;
   font-size: 1.02rem;
+}
+
+html[data-input-mode="touch"] .touch-controls {
+  display: flex;
+}
+
+html[data-input-mode="mouse"] .touch-controls {
+  display: none !important;
+}
+
+html[data-input-mode="touch"] .control-strip {
+  display: none;
+}
+
+body.is-compact-hud .hero-panel {
+  margin-bottom: 18px;
+  padding: 12px 14px;
+}
+
+body.is-compact-hud .hero-actions {
+  gap: 8px;
+}
+
+body.is-compact-hud .hud-topbar {
+  gap: 8px;
+}
+
+body.is-compact-hud .hud-toggle {
+  min-width: 0;
+}
+
+body.is-compact-hud .hud-card-stats {
+  min-width: 0;
 }
 
 .journal-section {
@@ -885,6 +951,15 @@ code {
 
   .activity-layout {
     grid-template-columns: 1fr;
+  }
+
+  .mini-game.is-touch-activity {
+    padding: 16px;
+  }
+
+  .mini-game.is-touch-activity .activity-sidebar,
+  .mini-game.is-touch-activity .activity-objectives {
+    gap: 8px;
   }
 
   .ending-card {
