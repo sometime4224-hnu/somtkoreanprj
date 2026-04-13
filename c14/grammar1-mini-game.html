@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>14과 문법 1 미니 퀴즈 | 하도 A/V-아서/어서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", sans-serif;
+            color: #1e293b;
+            background:
+                radial-gradient(circle at top left, rgba(99, 102, 241, 0.14), transparent 24%),
+                radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 26%),
+                linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
+        }
+        .panel {
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(199, 210, 254, 0.9);
+            box-shadow: 0 20px 46px rgba(30, 41, 59, 0.08);
+        }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            padding: 0.55rem 0.9rem;
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+        .safe {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+        .vi-text {
+            display: none;
+        }
+        .vi-on .vi-text {
+            display: block;
+        }
+        .choice-btn,
+        .action-btn {
+            transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+        }
+        .choice-btn:hover:not(:disabled),
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sticky top-0 z-50 border-b border-white/70 bg-white/85 backdrop-blur">
+        <div class="mx-auto flex w-[min(980px,calc(100%-20px))] items-center gap-3 px-1 py-3 text-sm font-bold text-indigo-700">
+            <a href="../index.html" class="hover:text-indigo-900">메인</a>
+            <span class="text-indigo-300">|</span>
+            <a href="index.html" class="hover:text-indigo-900">14과</a>
+            <span class="text-indigo-300">|</span>
+            <a href="grammar1.html" class="hover:text-indigo-900">문법 1</a>
+            <span class="text-indigo-300">|</span>
+            <span class="text-slate-500">미니 퀴즈</span>
+        </div>
+    </nav>
+
+    <main id="page" class="mx-auto w-[min(980px,calc(100%-20px))] py-4 pb-12">
+        <section class="panel rounded-[28px] px-5 py-6 sm:px-6">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-[0.16em] text-indigo-600">Mini Quiz</p>
+                    <h1 class="mt-2 text-3xl font-black leading-tight text-slate-900 sm:text-4xl">하도 얼마나 심해요?</h1>
+                    <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 safe">`하도 A/V-아서/어서`로 심한 정도와 그 결과를 바로 연결하는 감각을 익히는 보조 퀴즈입니다. 맞힌 뒤에는 왜 자연스러운지 바로 확인할 수 있어요.</p>
+                    <p class="vi-text mt-2 max-w-2xl text-xs leading-6 text-indigo-700 safe">Bài quiz phụ này giúp luyện cách nối mức độ rất mạnh và kết quả bằng mẫu `하도 A/V-아서/어서`.</p>
+                </div>
+                <button id="viToggle" class="shrink-0 rounded-2xl border border-slate-300 px-4 py-3 text-xs font-black text-slate-700">Tiếng Việt OFF</button>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <span class="pill bg-indigo-50 text-indigo-700">10문제</span>
+                <span class="pill bg-sky-50 text-sky-700">즉시 피드백</span>
+                <span class="pill bg-amber-50 text-amber-700">하도 vs 다른 표현</span>
+            </div>
+        </section>
+
+        <section id="startPanel" class="panel mt-3 rounded-[28px] p-5 sm:p-6">
+            <div class="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+                <div class="rounded-[24px] border border-indigo-100 bg-indigo-50/70 p-4">
+                    <p class="text-xs font-black uppercase tracking-[0.14em] text-indigo-700">연습 포인트</p>
+                    <div class="mt-3 space-y-3 text-sm leading-7 text-slate-700 safe">
+                        <p><b>1.</b> 정도가 너무 심해서 생긴 결과를 찾습니다.</p>
+                        <p><b>2.</b> `-을까 봐`, `-았던/었던` 같은 다른 표현과 구별합니다.</p>
+                        <p><b>3.</b> 상황에 맞는 자연스러운 문장을 고릅니다.</p>
+                    </div>
+                </div>
+                <div class="rounded-[24px] border border-slate-200 bg-white p-4">
+                    <p class="text-xs font-black uppercase tracking-[0.14em] text-slate-500">How To Play</p>
+                    <div class="mt-3 space-y-3 text-sm leading-7 text-slate-700 safe">
+                        <p>1. 보기 중에서 가장 자연스러운 답을 고릅니다.</p>
+                        <p>2. 확인을 누르면 정답과 해설이 바로 나옵니다.</p>
+                        <p>3. 끝나면 틀린 문제만 다시 훑어볼 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <button id="startBtn" class="action-btn mt-5 w-full rounded-2xl bg-indigo-600 px-5 py-4 text-sm font-black text-white shadow-lg shadow-indigo-200">퀴즈 시작</button>
+        </section>
+
+        <section id="quizPanel" class="hidden">
+            <div class="panel mt-3 rounded-[28px] p-5 sm:p-6">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-black uppercase tracking-[0.14em] text-slate-500">Progress</p>
+                        <p id="progressText" class="mt-1 text-lg font-black text-slate-900">1 / 10</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs font-black">
+                        <span class="rounded-full bg-indigo-50 px-3 py-2 text-indigo-700">점수 <span id="scoreText">0</span></span>
+                        <span class="rounded-full bg-sky-50 px-3 py-2 text-sky-700">연속 정답 <span id="streakText">0</span></span>
+                    </div>
+                </div>
+                <div class="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+                    <div id="progressBar" class="h-full w-0 rounded-full bg-gradient-to-r from-indigo-500 to-sky-500 transition-all duration-300"></div>
+                </div>
+
+                <div class="mt-5 rounded-[24px] border border-indigo-100 bg-indigo-50/70 p-4">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="questionTag" class="pill bg-white text-indigo-700 ring-1 ring-indigo-100"></span>
+                        <span class="pill bg-white text-slate-500 ring-1 ring-slate-200">문법 1 보조 퀴즈</span>
+                    </div>
+                    <p id="questionPrompt" class="mt-3 text-xl font-black leading-9 text-slate-900 safe"></p>
+                    <p id="questionHintKo" class="mt-3 text-sm leading-7 text-slate-600 safe"></p>
+                    <p id="questionHintVi" class="vi-text mt-1 text-xs leading-6 text-indigo-700 safe"></p>
+                </div>
+
+                <div id="choices" class="mt-4 grid gap-3"></div>
+
+                <div id="feedbackBox" class="mt-4 hidden rounded-[24px] border p-4"></div>
+
+                <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                    <button id="confirmBtn" class="action-btn rounded-2xl bg-indigo-600 px-5 py-4 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-40" disabled>정답 확인</button>
+                    <button id="nextBtn" class="action-btn rounded-2xl bg-slate-900 px-5 py-4 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-40" disabled>다음 문제</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="resultPanel" class="panel mt-3 hidden rounded-[28px] p-5 sm:p-6"></section>
+    </main>
+
+    <script>
+        const QUESTIONS = [
+            {
+                tag: "문장 완성",
+                prompt: "“서울이 ______ 처음엔 길을 못 찾았어요.”에 알맞은 표현을 고르세요.",
+                hintKo: "도시가 아주 많이 바뀌어서 생긴 결과를 떠올려 보세요.",
+                hintVi: "Hãy nghĩ đến kết quả xảy ra vì thành phố thay đổi quá nhiều.",
+                options: [
+                    "하도 많이 변해서",
+                    "많이 변할까 봐",
+                    "많이 변하던",
+                    "많이 변하니까"
+                ],
+                answer: "하도 많이 변해서",
+                explainKo: "`하도`는 변화의 정도가 아주 심하다는 느낌을 주고, 뒤에 길을 못 찾았다는 결과가 자연스럽게 이어집니다.",
+                explainVi: "`하도` nhấn mạnh mức độ thay đổi rất lớn và sau đó là kết quả không tìm được đường."
+            },
+            {
+                tag: "상황 고르기",
+                prompt: "“아기가 정말 예쁘네요.”에 이어질 말로 가장 자연스러운 것을 고르세요.",
+                hintKo: "심한 정도 때문에 눈을 뗄 수 없다는 결과가 이어집니다.",
+                hintVi: "Kết quả là không thể rời mắt vì mức độ quá mạnh.",
+                options: [
+                    "하도 귀여워서 눈을 뗄 수가 없어요.",
+                    "귀여울까 봐 조심하고 있어요.",
+                    "귀여웠던 아기예요.",
+                    "귀여워하면서 놀아요."
+                ],
+                answer: "하도 귀여워서 눈을 뗄 수가 없어요.",
+                explainKo: "귀여운 정도가 아주 심해서 생긴 반응을 말하므로 `하도 ...어서`가 가장 알맞습니다.",
+                explainVi: "Vì đây là phản ứng xảy ra do mức độ quá dễ thương nên `하도 ...어서` là tự nhiên nhất."
+            },
+            {
+                tag: "의미 이해",
+                prompt: "“어젯밤에 하도 울어서 눈이 퉁퉁 부었어요.”의 뜻으로 가장 알맞은 것은?",
+                hintKo: "원인과 결과를 한 문장으로 함께 읽어 보세요.",
+                hintVi: "Hãy đọc câu như một mối nối giữa nguyên nhân và kết quả.",
+                options: [
+                    "너무 많이 울어서 눈이 부었어요.",
+                    "울까 봐 눈을 미리 감았어요.",
+                    "예전에 울던 습관이 있어요.",
+                    "울면서도 눈은 괜찮았어요."
+                ],
+                answer: "너무 많이 울어서 눈이 부었어요.",
+                explainKo: "`하도 울어서`는 우는 정도가 심했고, 그 결과로 눈이 부었다는 뜻입니다.",
+                explainVi: "`하도 울어서` có nghĩa là khóc quá nhiều và kết quả là mắt bị sưng."
+            },
+            {
+                tag: "표현 구별",
+                prompt: "다음 중 `하도 A/V-아서/어서`를 쓰기 가장 어려운 문장을 고르세요.",
+                hintKo: "아직 일어나지 않은 일을 걱정하는 표현을 찾아보세요.",
+                hintVi: "Hãy tìm câu nói về nỗi lo đối với việc chưa xảy ra.",
+                options: [
+                    "비가 올까 봐 우산을 챙겼어요.",
+                    "비가 하도 많이 와서 길이 잠겼어요.",
+                    "하도 추워서 창문을 닫았어요.",
+                    "하도 피곤해서 바로 잠들었어요."
+                ],
+                answer: "비가 올까 봐 우산을 챙겼어요.",
+                explainKo: "이 문장은 실제 결과가 아니라 앞으로 비가 올 가능성을 걱정하는 말이어서 `-을까 봐`가 맞습니다.",
+                explainVi: "Câu này diễn tả nỗi lo về khả năng xảy ra trong tương lai nên phải dùng `-을까 봐`."
+            },
+            {
+                tag: "문장 완성",
+                prompt: "“그 선생님은 책을 ______ 질문을 해도 다 아세요.”에 알맞은 것을 고르세요.",
+                hintKo: "읽은 양이 매우 많아서 생긴 결과입니다.",
+                hintVi: "Kết quả xảy ra vì lượng sách đã đọc quá nhiều.",
+                options: [
+                    "하도 많이 읽어서",
+                    "많이 읽을까 봐",
+                    "많이 읽던",
+                    "많이 읽고 싶어서"
+                ],
+                answer: "하도 많이 읽어서",
+                explainKo: "책을 읽은 정도가 매우 심해서 무엇을 물어봐도 안다는 결과가 이어집니다.",
+                explainVi: "Do đọc quá nhiều sách nên kết quả là hỏi gì cũng biết."
+            },
+            {
+                tag: "교정하기",
+                prompt: "다음 중 가장 자연스럽게 고친 문장을 고르세요. “꽃이 하도 예쁘니까 사진을 많이 찍었어요.”",
+                hintKo: "`하도` 뒤에는 보통 `-아서/어서`가 자연스럽게 이어집니다.",
+                hintVi: "Sau `하도`, cách nối tự nhiên nhất thường là `-아서/어서`.",
+                options: [
+                    "꽃이 하도 예뻐서 사진을 많이 찍었어요.",
+                    "꽃이 하도 예쁜데 사진을 많이 찍었어요.",
+                    "꽃이 하도 예뻤던 사진을 많이 찍었어요.",
+                    "꽃이 하도 예쁘려고 사진을 많이 찍었어요."
+                ],
+                answer: "꽃이 하도 예뻐서 사진을 많이 찍었어요.",
+                explainKo: "`하도 + 형용사 + -어서` 구조가 가장 자연스럽고, 뒤에 사진을 많이 찍었다는 결과도 잘 연결됩니다.",
+                explainVi: "Cấu trúc `하도 + tính từ + -어서` là tự nhiên nhất và nối tốt với kết quả phía sau."
+            },
+            {
+                tag: "상황 고르기",
+                prompt: "친구가 왜 이렇게 졸리냐고 물었습니다. 가장 자연스러운 대답을 고르세요.",
+                hintKo: "늦게 잔 정도가 심해서 지금도 졸린 상황입니다.",
+                hintVi: "Tình huống là ngủ quá muộn nên bây giờ vẫn buồn ngủ.",
+                options: [
+                    "어제 하도 늦게 자서 아직도 졸려요.",
+                    "어제 늦게 잘까 봐 아직도 졸려요.",
+                    "어제 늦게 자던 아직도 졸려요.",
+                    "어제 늦게 자면서 아직도 졸려요."
+                ],
+                answer: "어제 하도 늦게 자서 아직도 졸려요.",
+                explainKo: "늦게 잔 정도를 강하게 말하면서 현재의 결과까지 연결하므로 이 문장이 가장 자연스럽습니다.",
+                explainVi: "Câu này nhấn mạnh mức độ ngủ quá muộn và nối với kết quả hiện tại là vẫn buồn ngủ."
+            },
+            {
+                tag: "문장 완성",
+                prompt: "“옆집이 ______ 새벽에 잠을 설쳤어요.”에 알맞은 것을 고르세요.",
+                hintKo: "시끄러운 정도가 매우 심해서 생긴 결과입니다.",
+                hintVi: "Đây là kết quả xảy ra vì mức độ ồn ào quá mạnh.",
+                options: [
+                    "하도 시끄러워서",
+                    "시끄러울까 봐",
+                    "시끄럽던",
+                    "시끄러워할까 봐"
+                ],
+                answer: "하도 시끄러워서",
+                explainKo: "잠을 설쳤다는 결과가 뒤에 오므로 `하도 시끄러워서`가 가장 잘 어울립니다.",
+                explainVi: "Vì phía sau là kết quả mất ngủ nên `하도 시끄러워서` phù hợp nhất."
+            },
+            {
+                tag: "의미 이해",
+                prompt: "“요즘 하도 바빠서 점심도 제대로 못 먹어요.”의 의미로 가장 알맞은 것은?",
+                hintKo: "바쁜 정도가 심해서 생긴 생활상의 결과입니다.",
+                hintVi: "Đây là kết quả trong sinh hoạt do mức độ bận quá lớn.",
+                options: [
+                    "너무 바빠서 식사 시간이 자주 부족해요.",
+                    "앞으로 바쁠 것 같아서 점심을 미리 먹었어요.",
+                    "예전에만 바빴고 지금은 괜찮아요.",
+                    "바쁜 사람을 걱정하고 있어요."
+                ],
+                answer: "너무 바빠서 식사 시간이 자주 부족해요.",
+                explainKo: "바쁜 정도가 심해 점심을 못 먹는다는 결과를 설명하는 문장입니다.",
+                explainVi: "Câu này giải thích rằng vì quá bận nên thường không có đủ thời gian ăn trưa."
+            },
+            {
+                tag: "상황 판단",
+                prompt: "다음 중 `하도 ...어서`가 가장 잘 어울리는 문장을 고르세요.",
+                hintKo: "심한 정도와 그 결과가 함께 보이는 문장을 찾으세요.",
+                hintVi: "Hãy chọn câu thể hiện rõ mức độ mạnh và kết quả đi kèm.",
+                options: [
+                    "도시가 하도 많이 변해서 예전 모습이 안 보여요.",
+                    "시험이 어려울까 봐 일찍 잤어요.",
+                    "친구를 자주 만나던 카페예요.",
+                    "버스를 타면서 집에 갔어요."
+                ],
+                answer: "도시가 하도 많이 변해서 예전 모습이 안 보여요.",
+                explainKo: "변화의 정도가 매우 심하고, 그 결과로 예전 모습이 안 보인다는 흐름이 분명합니다.",
+                explainVi: "Câu này cho thấy rõ mức độ thay đổi rất lớn và kết quả là không còn thấy dáng vẻ cũ."
+            }
+        ];
+
+        const state = {
+            deck: [],
+            idx: 0,
+            score: 0,
+            streak: 0,
+            bestStreak: 0,
+            selected: null,
+            answered: false,
+            logs: []
+        };
+
+        const page = document.getElementById("page");
+        const viToggle = document.getElementById("viToggle");
+        const startPanel = document.getElementById("startPanel");
+        const quizPanel = document.getElementById("quizPanel");
+        const resultPanel = document.getElementById("resultPanel");
+        const startBtn = document.getElementById("startBtn");
+        const progressText = document.getElementById("progressText");
+        const scoreText = document.getElementById("scoreText");
+        const streakText = document.getElementById("streakText");
+        const progressBar = document.getElementById("progressBar");
+        const questionTag = document.getElementById("questionTag");
+        const questionPrompt = document.getElementById("questionPrompt");
+        const questionHintKo = document.getElementById("questionHintKo");
+        const questionHintVi = document.getElementById("questionHintVi");
+        const choices = document.getElementById("choices");
+        const feedbackBox = document.getElementById("feedbackBox");
+        const confirmBtn = document.getElementById("confirmBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        let viOn = false;
+
+        viToggle.addEventListener("click", function () {
+            viOn = !viOn;
+            page.classList.toggle("vi-on", viOn);
+            viToggle.textContent = viOn ? "Tiếng Việt ON" : "Tiếng Việt OFF";
+        });
+
+        startBtn.addEventListener("click", startGame);
+        confirmBtn.addEventListener("click", confirmAnswer);
+        nextBtn.addEventListener("click", nextQuestion);
+
+        function escapeHtml(text) {
+            return String(text == null ? "" : text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function shuffle(items) {
+            const arr = items.slice();
+            for (let i = arr.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+            return arr;
+        }
+
+        function startGame() {
+            state.deck = shuffle(QUESTIONS).map(function (question) {
+                return Object.assign({}, question, { shuffledOptions: shuffle(question.options) });
+            });
+            state.idx = 0;
+            state.score = 0;
+            state.streak = 0;
+            state.bestStreak = 0;
+            state.selected = null;
+            state.answered = false;
+            state.logs = [];
+
+            startPanel.classList.add("hidden");
+            resultPanel.classList.add("hidden");
+            quizPanel.classList.remove("hidden");
+            renderQuestion();
+        }
+
+        function currentQuestion() {
+            return state.deck[state.idx];
+        }
+
+        function renderQuestion() {
+            const question = currentQuestion();
+            state.selected = null;
+            state.answered = false;
+
+            progressText.textContent = (state.idx + 1) + " / " + state.deck.length;
+            scoreText.textContent = state.score;
+            streakText.textContent = state.streak;
+            progressBar.style.width = ((state.idx) / state.deck.length * 100) + "%";
+            questionTag.textContent = question.tag;
+            questionPrompt.textContent = question.prompt;
+            questionHintKo.textContent = question.hintKo;
+            questionHintVi.textContent = question.hintVi;
+            feedbackBox.className = "mt-4 hidden rounded-[24px] border p-4";
+            feedbackBox.innerHTML = "";
+            confirmBtn.disabled = true;
+            nextBtn.disabled = true;
+            nextBtn.textContent = state.idx === state.deck.length - 1 ? "결과 보기" : "다음 문제";
+
+            choices.innerHTML = question.shuffledOptions.map(function (option, index) {
+                return '<button type="button" class="choice-btn w-full rounded-[22px] border border-slate-200 bg-white px-4 py-4 text-left text-sm font-bold leading-7 text-slate-700" data-choice="' + index + '">' + escapeHtml(option) + '</button>';
+            }).join("");
+
+            Array.from(choices.querySelectorAll("[data-choice]")).forEach(function (button) {
+                button.addEventListener("click", function () {
+                    if (state.answered) return;
+                    state.selected = Number(button.dataset.choice);
+                    Array.from(choices.querySelectorAll("[data-choice]")).forEach(function (item) {
+                        item.className = "choice-btn w-full rounded-[22px] border border-slate-200 bg-white px-4 py-4 text-left text-sm font-bold leading-7 text-slate-700";
+                    });
+                    button.className = "choice-btn w-full rounded-[22px] border border-indigo-400 bg-indigo-50 px-4 py-4 text-left text-sm font-bold leading-7 text-indigo-800";
+                    confirmBtn.disabled = false;
+                });
+            });
+        }
+
+        function confirmAnswer() {
+            if (state.selected == null || state.answered) return;
+
+            const question = currentQuestion();
+            const selectedText = question.shuffledOptions[state.selected];
+            const correct = selectedText === question.answer;
+
+            state.answered = true;
+            if (correct) {
+                state.score += 1;
+                state.streak += 1;
+                state.bestStreak = Math.max(state.bestStreak, state.streak);
+            } else {
+                state.streak = 0;
+            }
+
+            state.logs.push({
+                prompt: question.prompt,
+                tag: question.tag,
+                selected: selectedText,
+                answer: question.answer,
+                correct: correct,
+                explainKo: question.explainKo
+            });
+
+            scoreText.textContent = state.score;
+            streakText.textContent = state.streak;
+
+            Array.from(choices.querySelectorAll("[data-choice]")).forEach(function (button) {
+                const text = button.textContent;
+                button.disabled = true;
+                if (text === question.answer) {
+                    button.className = "choice-btn w-full rounded-[22px] border border-emerald-400 bg-emerald-50 px-4 py-4 text-left text-sm font-bold leading-7 text-emerald-800";
+                } else if (text === selectedText) {
+                    button.className = "choice-btn w-full rounded-[22px] border border-rose-400 bg-rose-50 px-4 py-4 text-left text-sm font-bold leading-7 text-rose-800";
+                } else {
+                    button.className = "choice-btn w-full rounded-[22px] border border-slate-200 bg-slate-50 px-4 py-4 text-left text-sm font-bold leading-7 text-slate-400";
+                }
+            });
+
+            feedbackBox.className = "mt-4 rounded-[24px] border p-4 " + (correct ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50");
+            feedbackBox.innerHTML =
+                '<p class="text-sm font-black ' + (correct ? "text-emerald-700" : "text-rose-700") + '">' + (correct ? "정답입니다." : "한 번 더 구별해 봐요.") + '</p>' +
+                '<p class="mt-2 text-sm leading-7 text-slate-700 safe"><b>정답:</b> ' + escapeHtml(question.answer) + '</p>' +
+                '<p class="mt-2 text-sm leading-7 text-slate-700 safe">' + escapeHtml(question.explainKo) + '</p>' +
+                '<p class="vi-text mt-1 text-xs leading-6 text-indigo-700 safe">' + escapeHtml(question.explainVi) + '</p>';
+
+            confirmBtn.disabled = true;
+            nextBtn.disabled = false;
+            progressBar.style.width = (((state.idx + 1) / state.deck.length) * 100) + "%";
+        }
+
+        function nextQuestion() {
+            if (!state.answered) return;
+            state.idx += 1;
+            if (state.idx >= state.deck.length) {
+                renderResult();
+                return;
+            }
+            renderQuestion();
+        }
+
+        function renderResult() {
+            quizPanel.classList.add("hidden");
+            resultPanel.classList.remove("hidden");
+
+            const wrong = state.logs.filter(function (log) { return !log.correct; });
+            const rate = Math.round((state.score / state.deck.length) * 100);
+            const reviewHtml = wrong.length
+                ? wrong.map(function (log) {
+                    return '<article class="rounded-[22px] border border-rose-200 bg-rose-50 p-4">' +
+                        '<span class="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-rose-700">' + escapeHtml(log.tag) + '</span>' +
+                        '<p class="mt-3 text-sm font-black leading-7 text-slate-900 safe">' + escapeHtml(log.prompt) + '</p>' +
+                        '<p class="mt-2 text-sm leading-7 text-slate-700 safe"><b>내 답:</b> ' + escapeHtml(log.selected) + '</p>' +
+                        '<p class="mt-1 text-sm leading-7 text-slate-700 safe"><b>정답:</b> ' + escapeHtml(log.answer) + '</p>' +
+                        '<p class="mt-2 text-sm leading-7 text-slate-700 safe">' + escapeHtml(log.explainKo) + '</p>' +
+                    '</article>';
+                }).join("")
+                : '<article class="rounded-[22px] border border-emerald-200 bg-emerald-50 p-4"><p class="text-sm font-black leading-7 text-emerald-700 safe">모든 문제를 정확하게 골랐어요. 이제 직접 `하도 ...어서` 문장을 만들어 보면서 말하기까지 이어 가면 좋아요.</p></article>';
+
+            resultPanel.innerHTML =
+                '<p class="text-xs font-black uppercase tracking-[0.14em] text-indigo-600">Result</p>' +
+                '<h2 class="mt-3 text-3xl font-black text-slate-900">문법 1 미니 퀴즈 완료</h2>' +
+                '<div class="mt-6 grid gap-3 md:grid-cols-3">' +
+                    '<div class="rounded-[24px] border border-indigo-100 bg-indigo-50 p-4"><p class="text-xs font-black text-indigo-700">점수</p><p class="mt-2 text-3xl font-black text-slate-900">' + state.score + ' / ' + state.deck.length + '</p></div>' +
+                    '<div class="rounded-[24px] border border-sky-100 bg-sky-50 p-4"><p class="text-xs font-black text-sky-700">정답률</p><p class="mt-2 text-3xl font-black text-slate-900">' + rate + '%</p></div>' +
+                    '<div class="rounded-[24px] border border-amber-100 bg-amber-50 p-4"><p class="text-xs font-black text-amber-700">최고 연속 정답</p><p class="mt-2 text-3xl font-black text-slate-900">' + state.bestStreak + '</p></div>' +
+                '</div>' +
+                '<div class="mt-6 flex flex-wrap gap-2">' +
+                    '<a href="grammar1.html" class="action-btn inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-black text-white">문법 1 다시 보기</a>' +
+                    '<a href="index.html" class="action-btn inline-flex items-center rounded-2xl bg-slate-100 px-4 py-3 text-sm font-black text-slate-700">14과 허브로</a>' +
+                    '<button id="restartBtn" class="action-btn rounded-2xl bg-slate-900 px-4 py-3 text-sm font-black text-white" type="button">다시 풀기</button>' +
+                '</div>' +
+                '<div class="mt-6">' +
+                    '<p class="text-xs font-black uppercase tracking-[0.14em] text-slate-500">Review</p>' +
+                    '<div class="mt-3 space-y-3">' + reviewHtml + '</div>' +
+                '</div>';
+
+            document.getElementById("restartBtn").addEventListener("click", startGame);
+        }
+    </script>
+</body>
+</html>
