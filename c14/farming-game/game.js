@@ -25,6 +25,15 @@ const ui = {
   activityCanvas: document.getElementById("activityCanvas"),
   activityObjectives: document.getElementById("activityObjectives"),
   activityHint: document.getElementById("activityHint"),
+  quizCard: document.getElementById("quizCard"),
+  quizType: document.getElementById("quizType"),
+  quizTitle: document.getElementById("quizTitle"),
+  quizPrompt: document.getElementById("quizPrompt"),
+  quizExpression: document.getElementById("quizExpression"),
+  quizAnswerInput: document.getElementById("quizAnswerInput"),
+  quizFeedback: document.getElementById("quizFeedback"),
+  quizSubmit: document.getElementById("quizSubmit"),
+  quizClose: document.getElementById("quizClose"),
   storyTitle: document.getElementById("storyTitle"),
   storyBody: document.getElementById("storyBody"),
   storyProgressFill: document.getElementById("storyProgressFill"),
@@ -714,6 +723,122 @@ const zoneDefinitions = [
   }
 ];
 
+const quizSignDefinitions = [
+  {
+    id: "quiz-gardenCare",
+    taskId: "gardenCare",
+    x: 536,
+    y: 384,
+    radius: 58,
+    label: "정원 팻말",
+    prompt: "E - 팻말 퀴즈 풀기",
+    expression: "정원을 가꾸다",
+    prefix: "정원을",
+    answer: "가꾸다",
+    followerId: "chick"
+  },
+  {
+    id: "quiz-lawnTrim",
+    taskId: "lawnTrim",
+    x: 916,
+    y: 334,
+    radius: 58,
+    label: "잔디 팻말",
+    prompt: "E - 팻말 퀴즈 풀기",
+    expression: "잔디를 깎다",
+    prefix: "잔디를",
+    answer: "깎다",
+    followerId: "bunny"
+  },
+  {
+    id: "quiz-vegetablePlant",
+    taskId: "vegetablePlant",
+    x: 1034,
+    y: 756,
+    radius: 58,
+    label: "모종 팻말",
+    prompt: "E - 팻말 퀴즈 풀기",
+    expression: "채소를 심다",
+    prefix: "채소를",
+    answer: "심다",
+    followerId: "duck"
+  },
+  {
+    id: "quiz-vegetableGrow",
+    taskId: "vegetableGrow",
+    x: 1196,
+    y: 756,
+    radius: 58,
+    label: "물주기 팻말",
+    prompt: "E - 팻말 퀴즈 풀기",
+    expression: "채소를 키우다",
+    prefix: "채소를",
+    answer: "키우다",
+    followerId: "cat"
+  },
+  {
+    id: "quiz-farmWork",
+    taskId: "farmWork",
+    x: 700,
+    y: 1072,
+    radius: 58,
+    label: "밭일 팻말",
+    prompt: "E - 팻말 퀴즈 풀기",
+    expression: "농사를 짓다",
+    prefix: "농사를",
+    answer: "짓다",
+    followerId: "lamb"
+  },
+  {
+    id: "quiz-raiseLivestock",
+    taskId: "raiseLivestock",
+    x: 1412,
+    y: 566,
+    radius: 58,
+    label: "외양간 팻말",
+    prompt: "E - 팻말 퀴즈 풀기",
+    expression: "가축을 키우다",
+    prefix: "가축을",
+    answer: "키우다",
+    followerId: "puppy"
+  },
+  {
+    id: "quiz-catchFish",
+    taskId: "catchFish",
+    x: 1360,
+    y: 1120,
+    radius: 58,
+    label: "연못 팻말",
+    prompt: "E - 팻말 퀴즈 풀기",
+    expression: "물고기를 잡다",
+    prefix: "물고기를",
+    answer: "잡다",
+    followerId: "frog"
+  }
+];
+
+const followerDefinitions = {
+  chick: { label: "병아리", palette: ["#f6e48d", "#f2cf5b", "#e08a45"], shape: "chick" },
+  bunny: { label: "토끼", palette: ["#f7efe6", "#e5d4c4", "#d97f56"], shape: "bunny" },
+  duck: { label: "오리", palette: ["#f7f0b9", "#f1d45f", "#e58f4e"], shape: "duck" },
+  cat: { label: "고양이", palette: ["#f1dac6", "#d6b18b", "#7b6047"], shape: "cat" },
+  lamb: { label: "양", palette: ["#fcf7ef", "#e8ddcf", "#8d765e"], shape: "lamb" },
+  puppy: { label: "강아지", palette: ["#f0dfc3", "#c89d73", "#6f543f"], shape: "puppy" },
+  frog: { label: "개구리", palette: ["#b5dd83", "#78b15a", "#f5f1df"], shape: "frog" }
+};
+
+const followerOrder = quizSignDefinitions.map((entry) => entry.followerId);
+
+const followerFormation = [
+  { back: 26, side: 0 },
+  { back: 40, side: -18 },
+  { back: 40, side: 18 },
+  { back: 56, side: -26 },
+  { back: 56, side: 26 },
+  { back: 72, side: -12 },
+  { back: 72, side: 12 }
+];
+
 const obstacles = [
   { x: 250, y: 140, w: 240, h: 210 },
   { x: 1380, y: 340, w: 230, h: 170 },
@@ -722,6 +847,20 @@ const obstacles = [
 ];
 
 const slowZones = [{ x: 560, y: 860, w: 270, h: 170 }];
+
+function createFollowerState(ids = []) {
+  return ids
+    .filter((id) => followerDefinitions[id])
+    .map((id, index) => ({
+      id,
+      x: 245 - (index + 1) * 18,
+      y: 1138 + index * 6,
+      bob: randomRange(0, Math.PI * 2),
+      step: randomRange(0, Math.PI * 2),
+      blink: randomRange(0, Math.PI * 2),
+      hop: 0
+    }));
+}
 
 const state = {
   started: false,
@@ -747,10 +886,14 @@ const state = {
   activeDialogue: null,
   dialogueIndex: 0,
   activeMiniGame: null,
+  activeQuiz: null,
   storyIndex: 0,
   warmth: 0,
   basket: [],
   completedTasks: new Set(),
+  solvedQuizSigns: new Set(),
+  unlockedFollowers: new Set(),
+  followers: createFollowerState(),
   unlockedNouns: new Set(),
   unlockedVerbs: new Set(),
   unlockedMood: new Set(),
@@ -1284,6 +1427,7 @@ function syncMobileViewportMode() {
   const isStartCardOpen = !ui.startCard.classList.contains("hidden");
   const isDialogueOpen = !ui.dialogueBox.classList.contains("hidden");
   const isMiniGameOpen = !ui.miniGame.classList.contains("hidden");
+  const isQuizOpen = !ui.quizCard.classList.contains("hidden");
   const isEndingOpen = !ui.endingCard.classList.contains("hidden");
   const hasOverlay =
     state.uiPanels.heroExpanded ||
@@ -1293,6 +1437,7 @@ function syncMobileViewportMode() {
     isStartCardOpen ||
     isDialogueOpen ||
     isMiniGameOpen ||
+    isQuizOpen ||
     isEndingOpen;
 
   document.body.classList.toggle("is-mobile-playing", isPhoneProfile && state.started && !hasOverlay);
@@ -1301,6 +1446,7 @@ function syncMobileViewportMode() {
   document.body.classList.toggle("is-start-card-open", isStartCardOpen);
   document.body.classList.toggle("is-dialogue-open", isDialogueOpen);
   document.body.classList.toggle("is-mini-game-open", isMiniGameOpen);
+  document.body.classList.toggle("is-quiz-open", isQuizOpen);
   document.body.classList.toggle("is-ending-open", isEndingOpen);
 }
 
@@ -1661,6 +1807,133 @@ function toggleUiPanel(panelKey) {
   });
 }
 
+function getQuizSignDefinition(id) {
+  return quizSignDefinitions.find((entry) => entry.id === id || entry.taskId === id) ?? null;
+}
+
+function buildQuizBlankMarkup(answer) {
+  return Array.from(answer)
+    .map(() => '<span class="quiz-slot">(   )</span>')
+    .join("");
+}
+
+function normalizeQuizAnswer(text) {
+  return (text ?? "").replace(/\s+/g, "").trim();
+}
+
+function syncFollowerCompanions() {
+  const existing = new Map(state.followers.map((entry) => [entry.id, entry]));
+  state.followers = followerOrder
+    .filter((id) => state.unlockedFollowers.has(id))
+    .map((id, index) => {
+      const previous = existing.get(id);
+      if (previous) {
+        previous.step = previous.step ?? randomRange(0, Math.PI * 2);
+        previous.blink = previous.blink ?? randomRange(0, Math.PI * 2);
+        previous.bob = previous.bob ?? randomRange(0, Math.PI * 2);
+        previous.hop = previous.hop ?? 0;
+        return previous;
+      }
+      return {
+        id,
+        x: state.player.x - 18 - index * 12,
+        y: state.player.y + 26 + index * 6,
+        bob: randomRange(0, Math.PI * 2),
+        step: randomRange(0, Math.PI * 2),
+        blink: randomRange(0, Math.PI * 2),
+        hop: 0
+      };
+    });
+}
+
+function showQuizFeedback(message, status = "error") {
+  ui.quizFeedback.textContent = message;
+  ui.quizFeedback.classList.remove("hidden", "is-error", "is-success");
+  ui.quizFeedback.classList.add(status === "success" ? "is-success" : "is-error");
+}
+
+function openQuiz(quizId) {
+  const quiz = getQuizSignDefinition(quizId);
+  if (!quiz) {
+    return false;
+  }
+  closeOptionalPanels();
+  setPrompt("");
+  state.activeQuiz = quiz;
+  ui.quizCard.classList.remove("hidden");
+  ui.quizType.textContent = state.solvedQuizSigns.has(quiz.id) ? "팻말 다시 읽기" : "팻말 퀴즈";
+  ui.quizTitle.textContent = quiz.expression;
+  ui.quizPrompt.textContent = "팻말에 적힌 활동 표현의 빈칸을 채워 보세요.";
+  ui.quizExpression.innerHTML = `
+    <span class="quiz-prefix">${quiz.prefix}</span>
+    <span class="quiz-slot-strip">${buildQuizBlankMarkup(quiz.answer)}</span>
+  `;
+  ui.quizAnswerInput.value = "";
+  ui.quizAnswerInput.placeholder = `예: ${quiz.answer}`;
+  ui.quizFeedback.classList.add("hidden");
+  ui.quizFeedback.classList.remove("is-error", "is-success");
+  syncMobileViewportMode();
+  updateTouchActionLabel();
+  window.setTimeout(() => {
+    ui.quizAnswerInput?.focus({ preventScroll: true });
+    ui.quizAnswerInput?.select();
+  }, 60);
+  return true;
+}
+
+function closeQuiz() {
+  state.activeQuiz = null;
+  ui.quizCard.classList.add("hidden");
+  ui.quizFeedback.classList.add("hidden");
+  ui.quizFeedback.classList.remove("is-error", "is-success");
+  ui.quizAnswerInput.value = "";
+  syncMobileViewportMode();
+  updateTouchActionLabel();
+}
+
+function submitQuizAnswer() {
+  if (!state.activeQuiz) {
+    return false;
+  }
+  const quiz = state.activeQuiz;
+  const typed = normalizeQuizAnswer(ui.quizAnswerInput.value);
+  if (!typed) {
+    showQuizFeedback("빈칸에 들어갈 동사를 먼저 써 보세요.");
+    playSfx("uiClick", { volume: 0.16, playbackRate: 0.88 });
+    return false;
+  }
+  if (typed !== quiz.answer) {
+    showQuizFeedback(`아직 아니에요. '${quiz.prefix}'에 어울리는 동사를 다시 떠올려 보세요.`);
+    playSfx("uiClick", { volume: 0.16, playbackRate: 0.84 });
+    ui.quizAnswerInput.focus();
+    ui.quizAnswerInput.select();
+    return false;
+  }
+
+  const firstSolved = !state.solvedQuizSigns.has(quiz.id);
+  const follower = followerDefinitions[quiz.followerId];
+  state.solvedQuizSigns.add(quiz.id);
+  let unlockedFollower = null;
+  if (follower && !state.unlockedFollowers.has(quiz.followerId)) {
+    state.unlockedFollowers.add(quiz.followerId);
+    syncFollowerCompanions();
+    unlockedFollower = follower;
+  }
+
+  playSfx("taskComplete", { playbackRate: 1.08, volume: 0.52 });
+  renderSidebar();
+  persistGame("퀴즈");
+  closeQuiz();
+  if (firstSolved && unlockedFollower) {
+    showToast(`${quiz.answer}`, `${unlockedFollower.label}가 캐릭터를 졸졸 따라옵니다.`);
+  } else if (firstSolved) {
+    showToast(`${quiz.answer}`, "팻말 퀴즈를 맞혀 표현이 더 또렷해졌습니다.");
+  } else {
+    showToast(`${quiz.answer}`, "이미 푼 팻말이지만 다시 한 번 정확히 떠올렸습니다.");
+  }
+  return true;
+}
+
 function serializeState() {
   return {
     started: state.started,
@@ -1679,6 +1952,8 @@ function serializeState() {
     warmth: state.warmth,
     basket: [...state.basket],
     completedTasks: [...state.completedTasks],
+    solvedQuizSigns: [...state.solvedQuizSigns],
+    unlockedFollowers: [...state.unlockedFollowers],
     unlockedNouns: [...state.unlockedNouns],
     unlockedVerbs: [...state.unlockedVerbs],
     unlockedMood: [...state.unlockedMood],
@@ -1763,6 +2038,8 @@ function applySavedGame(data) {
   state.warmth = data.warmth ?? 0;
   state.basket = Array.isArray(data.basket) ? [...data.basket] : [];
   state.completedTasks = new Set(data.completedTasks ?? []);
+  state.solvedQuizSigns = new Set(data.solvedQuizSigns ?? []);
+  state.unlockedFollowers = new Set(data.unlockedFollowers ?? []);
   state.unlockedNouns = new Set(data.unlockedNouns ?? []);
   state.unlockedVerbs = new Set(data.unlockedVerbs ?? []);
   state.unlockedMood = new Set(data.unlockedMood ?? []);
@@ -1779,6 +2056,7 @@ function applySavedGame(data) {
   state.activeDialogue = null;
   state.dialogueIndex = 0;
   state.activeMiniGame = null;
+  state.activeQuiz = null;
   state.hoveredZone = null;
   state.hoveredPractice = null;
   state.toastTimer = 0;
@@ -1786,11 +2064,13 @@ function applySavedGame(data) {
   state.uiFrame.miniMapLastRender = -Infinity;
   state.ambient = createAmbientState();
   state.worldPractice = createWorldPracticeState();
+  syncFollowerCompanions();
   state.saveMessage = "저장된 산책 불러옴";
 
   ui.startCard.classList.add("hidden");
   ui.dialogueBox.classList.add("hidden");
   ui.miniGame.classList.add("hidden");
+  ui.quizCard.classList.add("hidden");
   ui.promptBubble.classList.add("hidden");
   ui.endingCard.classList.toggle("hidden", !state.endingShown);
 
@@ -2298,10 +2578,14 @@ function resetState(options = {}) {
   state.activeDialogue = null;
   state.dialogueIndex = 0;
   state.activeMiniGame = null;
+  state.activeQuiz = null;
   state.storyIndex = 0;
   state.warmth = 0;
   state.basket = [];
   state.completedTasks.clear();
+  state.solvedQuizSigns.clear();
+  state.unlockedFollowers.clear();
+  state.followers = createFollowerState();
   state.unlockedNouns.clear();
   state.unlockedVerbs.clear();
   state.unlockedMood.clear();
@@ -2323,6 +2607,7 @@ function resetState(options = {}) {
   ui.startCard.classList.remove("hidden");
   ui.dialogueBox.classList.add("hidden");
   ui.miniGame.classList.add("hidden");
+  ui.quizCard.classList.add("hidden");
   ui.promptBubble.classList.add("hidden");
   ui.endingCard.classList.add("hidden");
   syncUiPanels();
@@ -3044,6 +3329,19 @@ function buildWorldPracticeTargets() {
     target.distance = Math.hypot(player.x - target.x, player.y - target.y);
     targets.push(target);
   };
+
+  quizSignDefinitions.forEach((quiz) => {
+    addTarget({
+      id: quiz.id,
+      x: quiz.x,
+      y: quiz.y,
+      radius: quiz.radius,
+      prompt: state.solvedQuizSigns.has(quiz.id) ? "E - 팻말 다시 풀기" : quiz.prompt,
+      label: quiz.label,
+      kind: "quiz",
+      quizId: quiz.id
+    });
+  });
 
   if (state.completedTasks.has("gardenCare")) {
     addTarget({
@@ -3800,6 +4098,12 @@ function handleWorldPracticeAction() {
     return false;
   }
   practice.actionPose = 0.26;
+
+  if (target.kind === "quiz" && target.quizId) {
+    openQuiz(target.quizId);
+    playSfx("uiClick", { volume: 0.24, playbackRate: 1.06 });
+    return true;
+  }
 
   if (handleNatureInteractionTarget(target)) {
     return true;
@@ -5131,6 +5435,10 @@ function getTouchActionLabel() {
 
   if (state.activeDialogue) {
     return "다음";
+  }
+
+  if (state.activeQuiz) {
+    return "확인";
   }
 
   if (!state.activeMiniGame) {
@@ -7022,6 +7330,9 @@ function handleActionPress() {
     nextDialogue();
     return;
   }
+  if (state.activeQuiz) {
+    return;
+  }
   if (state.activeMiniGame) {
     handleActivityAction();
     return;
@@ -7411,6 +7722,42 @@ function updateMiniGame(dt) {
   }
 }
 
+function getFollowerTargetPosition(index) {
+  const slot = followerFormation[index] ?? {
+    back: 84 + Math.max(0, index - followerFormation.length + 1) * 14,
+    side: index % 2 === 0 ? -16 : 16
+  };
+  const facing = getFacingVector(state.player.facing);
+  const backX = -facing.x;
+  const backY = -facing.y;
+  const sideX = -backY;
+  const sideY = backX;
+  return {
+    x: state.player.x + backX * slot.back + sideX * slot.side,
+    y: state.player.y + 18 + backY * slot.back * 0.34 + sideY * slot.side * 0.86
+  };
+}
+
+function updateFollowerCompanions(dt) {
+  if (!state.followers.length) {
+    return;
+  }
+  const isMoving = hasMovementInput(0.08);
+  state.followers.forEach((entry, index) => {
+    const target = getFollowerTargetPosition(index);
+    const easing = 1 - Math.exp(-dt * (5.8 - Math.min(index, 4) * 0.35));
+    entry.x += (target.x - entry.x) * easing;
+    entry.y += (target.y - entry.y) * easing;
+    entry.step += dt * (3.2 + (isMoving ? 4.1 : 1.1) + index * 0.12);
+    entry.blink += dt * (0.9 + index * 0.04);
+    entry.bob += dt * (2.1 + index * 0.08);
+    entry.hop = Math.max(entry.hop - dt * 1.8, 0);
+    if (isMoving && Math.sin(entry.step) > 0.98) {
+      entry.hop = Math.max(entry.hop, 0.16 + index * 0.01);
+    }
+  });
+}
+
 function updateCamera() {
   const desiredX = clamp(state.player.x - canvas.width / 2, 0, world.width - canvas.width);
   const desiredY = clamp(state.player.y - canvas.height / 2, 0, world.height - canvas.height);
@@ -7428,7 +7775,7 @@ function update(dt) {
     }
   }
 
-  if (state.started && !state.activeDialogue && !state.endingShown) {
+  if (state.started && !state.activeDialogue && !state.activeQuiz && !state.endingShown) {
     advanceDayCycle(dt, { announce: !state.activeMiniGame });
   }
 
@@ -7437,8 +7784,11 @@ function update(dt) {
   if (state.started && !state.activeMiniGame) {
     updateWorldPractice(dt);
   }
+  if (state.started && !state.activeMiniGame) {
+    updateFollowerCompanions(dt);
+  }
 
-  if (!state.started || state.activeDialogue || state.endingShown) {
+  if (!state.started || state.activeDialogue || state.activeQuiz || state.endingShown) {
     setPrompt("");
     state.hoveredPractice = null;
     updateTouchActionLabel();
@@ -9729,6 +10079,15 @@ function getInteractionPalette(kind = "default") {
       text: "#f8fff2"
     };
   }
+  if (kind === "quiz") {
+    return {
+      glow: "rgba(236, 198, 126, 0.24)",
+      ring: "rgba(255, 245, 214, 0.92)",
+      outer: "rgba(133, 96, 48, 0.44)",
+      dot: "#fff8eb",
+      text: "#fff8ef"
+    };
+  }
   return {
     glow: "rgba(255, 220, 172, 0.24)",
     ring: "rgba(255, 242, 218, 0.9)",
@@ -9925,6 +10284,7 @@ function drawWorld() {
   drawField(cameraX, cameraY);
   drawPond(cameraX, cameraY);
   drawWorldPracticeObjects(cameraX, cameraY);
+  drawQuizSigns(cameraX, cameraY);
   drawTrees(cameraX, cameraY);
   drawReactiveVillageLife(cameraX, cameraY);
   drawNoticeBoard(cameraX, cameraY);
@@ -10800,6 +11160,53 @@ function drawDinnerTable(cameraX, cameraY) {
   }
 }
 
+function drawQuizSigns(cameraX, cameraY) {
+  quizSignDefinitions.forEach((quiz, index) => {
+    const x = quiz.x - cameraX;
+    const y = quiz.y - cameraY;
+    if (!isOnScreen(x, y, 96)) {
+      return;
+    }
+    const solved = state.solvedQuizSigns.has(quiz.id);
+    const sway = Math.sin(performance.now() / 620 + index * 0.7) * 0.03;
+    const label = quiz.label.replace(" 팻말", "");
+    drawEllipseShadow(x, y + 28, 22, 6, 0.1);
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(sway);
+    ctx.fillStyle = "#8a613f";
+    ctx.fillRect(-14, 2, 7, 54);
+    ctx.fillRect(7, 2, 7, 54);
+    drawRoundedRect(-30, -34, 60, 38, 10, solved ? "#f3e4ba" : "#f0d7a2");
+    strokeRoundedRect(-30, -34, 60, 38, 10, "rgba(115, 80, 48, 0.24)", 2);
+    ctx.fillStyle = "rgba(255, 248, 233, 0.42)";
+    ctx.fillRect(-24, -26, 48, 8);
+    ctx.fillStyle = "#79512f";
+    ctx.font = '10px "Gowun Dodum", sans-serif';
+    ctx.textAlign = "center";
+    ctx.fillText(label, 0, -11);
+    ctx.fillStyle = solved ? "#7eb067" : "#d97f56";
+    ctx.beginPath();
+    ctx.arc(18, -22, 7, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#fff8eb";
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    if (solved) {
+      ctx.moveTo(14, -22);
+      ctx.lineTo(17, -18);
+      ctx.lineTo(22, -26);
+    } else {
+      ctx.moveTo(18, -26);
+      ctx.lineTo(18, -21);
+      ctx.moveTo(18, -17);
+      ctx.lineTo(18, -16);
+    }
+    ctx.stroke();
+    ctx.restore();
+  });
+}
+
 function drawLanterns(cameraX, cameraY) {
   const glowAmount = getLanternGlowAmount();
   if (glowAmount < 0.12) {
@@ -10890,6 +11297,167 @@ function drawPlayer() {
   drawWorldHeldTool(x, y, bob);
 }
 
+function drawFollowerCompanion(entry) {
+  const definition = followerDefinitions[entry.id];
+  if (!definition) {
+    return;
+  }
+  const { x, y } = worldToScreen(entry.x, entry.y);
+  if (!isOnScreen(x, y, 72)) {
+    return;
+  }
+  const body = definition.palette[0];
+  const accent = definition.palette[1];
+  const detail = definition.palette[2];
+  const bob = Math.sin(entry.bob + performance.now() / 240) * 1.1 + Math.sin(entry.step * 4) * 0.7 - entry.hop * 6;
+  const blink = Math.sin(entry.blink * 2.8) > 0.95;
+
+  drawEllipseShadow(x, y + 12, 14, 4, 0.08);
+  ctx.save();
+  ctx.translate(x, y + bob);
+
+  switch (definition.shape) {
+    case "chick":
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.arc(0, 2, 10, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(6, -6, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = accent;
+      ctx.beginPath();
+      ctx.arc(-4, 1, 3, 0, Math.PI * 2);
+      ctx.arc(3, 3, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = detail;
+      ctx.beginPath();
+      ctx.moveTo(12, -5);
+      ctx.lineTo(19, -2);
+      ctx.lineTo(12, 1);
+      ctx.closePath();
+      ctx.fill();
+      break;
+    case "bunny":
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.ellipse(0, 4, 10, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(6, -4, 7, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = accent;
+      ctx.fillRect(2, -19, 4, 15);
+      ctx.fillRect(10, -18, 4, 14);
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.ellipse(4, -19, 4, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(12, -18, 4, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    case "duck":
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.ellipse(0, 3, 11, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(9, -3, 6, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = accent;
+      ctx.beginPath();
+      ctx.moveTo(14, -3);
+      ctx.lineTo(21, -1);
+      ctx.lineTo(14, 2);
+      ctx.closePath();
+      ctx.fill();
+      break;
+    case "cat":
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.ellipse(0, 4, 11, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(7, -4, 7, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(2, -10);
+      ctx.lineTo(5, -18);
+      ctx.lineTo(8, -10);
+      ctx.moveTo(10, -10);
+      ctx.lineTo(13, -18);
+      ctx.lineTo(16, -10);
+      ctx.fill();
+      ctx.strokeStyle = detail;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(-11, 4);
+      ctx.quadraticCurveTo(-18, -4, -12, -12);
+      ctx.stroke();
+      break;
+    case "lamb":
+      ctx.fillStyle = body;
+      [-5, 2, 8].forEach((offset, fluffyIndex) => {
+        ctx.beginPath();
+        ctx.arc(offset, fluffyIndex === 1 ? 0 : 4, 6.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.beginPath();
+      ctx.arc(10, -3, 6, 0, Math.PI * 2);
+      ctx.fillStyle = accent;
+      ctx.fill();
+      break;
+    case "puppy":
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.ellipse(0, 4, 11, 8, 0, 0, Math.PI * 2);
+      ctx.ellipse(8, -2, 7, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = accent;
+      ctx.beginPath();
+      ctx.ellipse(5, -10, 4, 7, -0.4, 0, Math.PI * 2);
+      ctx.ellipse(12, -9, 4, 7, 0.4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = detail;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(-11, 5);
+      ctx.quadraticCurveTo(-18, -2, -14, -10);
+      ctx.stroke();
+      break;
+    case "frog":
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.ellipse(0, 4, 12, 9, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = accent;
+      ctx.beginPath();
+      ctx.arc(-5, -6, 4.5, 0, Math.PI * 2);
+      ctx.arc(5, -6, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    default:
+      ctx.fillStyle = body;
+      ctx.beginPath();
+      ctx.ellipse(0, 4, 10, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = accent;
+      ctx.beginPath();
+      ctx.arc(7, -4, 6, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+  }
+
+  ctx.fillStyle = detail;
+  if (!blink) {
+    ctx.beginPath();
+    ctx.arc(5, -5, 1.3, 0, Math.PI * 2);
+    ctx.arc(10, -5, 1.3, 0, Math.PI * 2);
+    ctx.fill();
+  } else {
+    ctx.fillRect(4, -5, 3, 1.2);
+    ctx.fillRect(9, -5, 3, 1.2);
+  }
+  ctx.restore();
+}
+
+function drawFollowers() {
+  state.followers.forEach(drawFollowerCompanion);
+}
+
 function drawZoneHints() {
   const targetZoneIds = new Set(getCurrentStoryStep()?.targetZoneIds ?? []);
   getAvailableZones().forEach((zone) => {
@@ -10953,6 +11521,7 @@ function render() {
   drawSkyAndGround();
   drawClouds();
   drawWorld();
+  drawFollowers();
   drawPlayer();
   drawZoneHints();
   drawTargetPointers();
@@ -11016,6 +11585,8 @@ function setupInput() {
     if (event.code === "Escape") {
       if (state.activeDialogue) {
         closeDialogue();
+      } else if (state.activeQuiz) {
+        closeQuiz();
       } else if (state.activeMiniGame) {
         closeMiniGame();
         showToast("작업을 멈추다", "잠깐 밖으로 나와 숨을 골랐습니다.");
@@ -11092,6 +11663,14 @@ function setupInput() {
 
   ui.dialogueNext.addEventListener("click", nextDialogue);
   ui.dialogueClose.addEventListener("click", closeDialogue);
+  ui.quizSubmit.addEventListener("click", submitQuizAnswer);
+  ui.quizClose.addEventListener("click", closeQuiz);
+  ui.quizAnswerInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      submitQuizAnswer();
+    }
+  });
   ui.heroToggle.addEventListener("click", () => {
     state.uiPanels.heroExpanded = !state.uiPanels.heroExpanded;
     syncUiPanels();
