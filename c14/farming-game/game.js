@@ -31,8 +31,10 @@ const ui = {
   quizPrompt: document.getElementById("quizPrompt"),
   quizExpression: document.getElementById("quizExpression"),
   quizAnswerInput: document.getElementById("quizAnswerInput"),
+  quizChoiceBank: document.getElementById("quizChoiceBank"),
   quizFeedback: document.getElementById("quizFeedback"),
   quizSubmit: document.getElementById("quizSubmit"),
+  quizReset: document.getElementById("quizReset"),
   quizClose: document.getElementById("quizClose"),
   storyTitle: document.getElementById("storyTitle"),
   storyBody: document.getElementById("storyBody"),
@@ -735,6 +737,7 @@ const quizSignDefinitions = [
     expression: "정원을 가꾸다",
     prefix: "정원을",
     answer: "가꾸다",
+    choicePool: ["심", "키", "우", "깎", "잡"],
     followerId: "chick"
   },
   {
@@ -748,6 +751,7 @@ const quizSignDefinitions = [
     expression: "잔디를 깎다",
     prefix: "잔디를",
     answer: "깎다",
+    choicePool: ["심", "키", "우", "잡", "짓"],
     followerId: "bunny"
   },
   {
@@ -761,6 +765,7 @@ const quizSignDefinitions = [
     expression: "채소를 심다",
     prefix: "채소를",
     answer: "심다",
+    choicePool: ["가", "꾸", "키", "우", "깎", "잡"],
     followerId: "duck"
   },
   {
@@ -774,6 +779,7 @@ const quizSignDefinitions = [
     expression: "채소를 키우다",
     prefix: "채소를",
     answer: "키우다",
+    choicePool: ["심", "가", "꾸", "깎", "잡"],
     followerId: "cat"
   },
   {
@@ -787,6 +793,7 @@ const quizSignDefinitions = [
     expression: "농사를 짓다",
     prefix: "농사를",
     answer: "짓다",
+    choicePool: ["심", "키", "우", "잡", "깎"],
     followerId: "lamb"
   },
   {
@@ -800,6 +807,7 @@ const quizSignDefinitions = [
     expression: "가축을 키우다",
     prefix: "가축을",
     answer: "키우다",
+    choicePool: ["심", "가", "꾸", "깎", "잡"],
     followerId: "puppy"
   },
   {
@@ -813,6 +821,7 @@ const quizSignDefinitions = [
     expression: "물고기를 잡다",
     prefix: "물고기를",
     answer: "잡다",
+    choicePool: ["심", "키", "우", "깎", "짓"],
     followerId: "frog"
   }
 ];
@@ -862,6 +871,13 @@ function createFollowerState(ids = []) {
     }));
 }
 
+function createQuizAssemblyState(choices = [], selection = []) {
+  return {
+    choices: [...choices],
+    selection: [...selection]
+  };
+}
+
 const state = {
   started: false,
   voiceEnabled: true,
@@ -887,6 +903,7 @@ const state = {
   dialogueIndex: 0,
   activeMiniGame: null,
   activeQuiz: null,
+  quizAssembly: createQuizAssemblyState(),
   storyIndex: 0,
   warmth: 0,
   basket: [],
@@ -1811,14 +1828,123 @@ function getQuizSignDefinition(id) {
   return quizSignDefinitions.find((entry) => entry.id === id || entry.taskId === id) ?? null;
 }
 
+function shuffleArray(list) {
+  const next = [...list];
+  for (let index = next.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [next[index], next[swapIndex]] = [next[swapIndex], next[index]];
+  }
+  return next;
+}
+
+function buildQuizChoiceSet(quiz) {
+  const answerLetters = Array.from(quiz.answer);
+  const distractors = Array.isArray(quiz.choicePool)
+    ? quiz.choicePool.slice(0, Math.max(0, 10 - answerLetters.length))
+    : [];
+  return shuffleArray([...answerLetters, ...distractors].slice(0, 10)).map((text, index) => ({
+    id: `${quiz.id}-${index}-${text}`,
+    text
+  }));
+}
+
 function buildQuizBlankMarkup(answer) {
   return Array.from(answer)
-    .map(() => '<span class="quiz-slot">(   )</span>')
+    .map(() => '<span class="quiz-slot is-empty">(   )</span>')
     .join("");
 }
 
 function normalizeQuizAnswer(text) {
   return (text ?? "").replace(/\s+/g, "").trim();
+}
+
+function getQuizChoiceMap() {
+  return new Map(state.quizAssembly.choices.map((choice) => [choice.id, choice]));
+}
+
+function getCurrentQuizAnswer() {
+  const choiceMap = getQuizChoiceMap();
+  return state.quizAssembly.selection
+    .map((id) => choiceMap.get(id)?.text ?? "")
+    .join("");
+}
+
+function renderQuizExpression() {
+  const quiz = state.activeQuiz;
+  if (!quiz) {
+    ui.quizExpression.innerHTML = "";
+    return;
+  }
+  const choiceMap = getQuizChoiceMap();
+  const answerLength = Array.from(quiz.answer).length;
+  const slots = Array.from({ length: answerLength }, (_, index) => {
+    const choice = choiceMap.get(state.quizAssembly.selection[index]);
+    const text = choice?.text ?? "(   )";
+    const stateClass = choice ? "is-filled" : "is-empty";
+    const label = choice ? `${choice.text} 지우기` : `${index + 1}번째 빈칸`;
+    return `<button type="button" class="quiz-slot ${stateClass}" data-quiz-slot="${index}" aria-label="${label}">${text}</button>`;
+  }).join("");
+  ui.quizExpression.innerHTML = `
+    <span class="quiz-prefix">${quiz.prefix}</span>
+    <span class="quiz-slot-strip">${slots}</span>
+  `;
+}
+
+function renderQuizChoiceBank() {
+  const quiz = state.activeQuiz;
+  if (!quiz) {
+    ui.quizChoiceBank.innerHTML = "";
+    return;
+  }
+  const answerLength = Array.from(quiz.answer).length;
+  const selectionFull = state.quizAssembly.selection.length >= answerLength;
+  ui.quizChoiceBank.innerHTML = state.quizAssembly.choices
+    .map((choice) => {
+      const used = state.quizAssembly.selection.includes(choice.id);
+      const disabled = used || selectionFull;
+      return `<button type="button" class="quiz-choice${used ? " is-used" : ""}" data-quiz-choice="${choice.id}" ${disabled ? "disabled" : ""}>${choice.text}</button>`;
+    })
+    .join("");
+}
+
+function syncQuizBoard() {
+  renderQuizExpression();
+  renderQuizChoiceBank();
+}
+
+function resetQuizSelection(reshuffle = false) {
+  state.quizAssembly.selection = [];
+  if (reshuffle) {
+    state.quizAssembly.choices = shuffleArray(state.quizAssembly.choices);
+  }
+  syncQuizBoard();
+  return;
+  ui.quizType.textContent = state.solvedQuizSigns.has(quiz.id) ? "팻말 다시 읽기" : "팻말 퀴즈";
+  ui.quizPrompt.textContent = "팻말 아래 글자 조각을 눌러 생활 표현을 완성해 보세요.";
+}
+
+function appendQuizChoice(choiceId) {
+  if (!state.activeQuiz) {
+    return false;
+  }
+  const answerLength = Array.from(state.activeQuiz.answer).length;
+  if (state.quizAssembly.selection.length >= answerLength || state.quizAssembly.selection.includes(choiceId)) {
+    return false;
+  }
+  state.quizAssembly.selection.push(choiceId);
+  syncQuizBoard();
+  playSfx("uiClick", { volume: 0.18, playbackRate: 1.08 });
+  return true;
+}
+
+function removeQuizChoice(slotIndex) {
+  if (!state.activeQuiz || slotIndex < 0 || slotIndex >= state.quizAssembly.selection.length) {
+    return false;
+  }
+  state.quizAssembly.selection.splice(slotIndex, 1);
+  syncQuizBoard();
+  playSfx("uiClick", { volume: 0.14, playbackRate: 0.92 });
+  return true;
 }
 
 function syncFollowerCompanions() {
@@ -1860,6 +1986,7 @@ function openQuiz(quizId) {
   closeOptionalPanels();
   setPrompt("");
   state.activeQuiz = quiz;
+  state.quizAssembly = createQuizAssemblyState(buildQuizChoiceSet(quiz), []);
   ui.quizCard.classList.remove("hidden");
   ui.quizType.textContent = state.solvedQuizSigns.has(quiz.id) ? "팻말 다시 읽기" : "팻말 퀴즈";
   ui.quizTitle.textContent = quiz.expression;
@@ -1868,25 +1995,26 @@ function openQuiz(quizId) {
     <span class="quiz-prefix">${quiz.prefix}</span>
     <span class="quiz-slot-strip">${buildQuizBlankMarkup(quiz.answer)}</span>
   `;
-  ui.quizAnswerInput.value = "";
+  syncQuizBoard();
   ui.quizAnswerInput.placeholder = `예: ${quiz.answer}`;
   ui.quizFeedback.classList.add("hidden");
   ui.quizFeedback.classList.remove("is-error", "is-success");
+  ui.quizType.textContent = state.solvedQuizSigns.has(quiz.id) ? "팻말 다시 읽기" : "팻말 퀴즈";
+  ui.quizPrompt.textContent = "팻말 아래 글자 조각을 눌러 생활 표현을 완성해 보세요.";
   syncMobileViewportMode();
   updateTouchActionLabel();
-  window.setTimeout(() => {
-    ui.quizAnswerInput?.focus({ preventScroll: true });
-    ui.quizAnswerInput?.select();
-  }, 60);
   return true;
 }
 
 function closeQuiz() {
   state.activeQuiz = null;
+  state.quizAssembly = createQuizAssemblyState();
   ui.quizCard.classList.add("hidden");
   ui.quizFeedback.classList.add("hidden");
   ui.quizFeedback.classList.remove("is-error", "is-success");
   ui.quizAnswerInput.value = "";
+  ui.quizExpression.innerHTML = "";
+  ui.quizChoiceBank.innerHTML = "";
   syncMobileViewportMode();
   updateTouchActionLabel();
 }
@@ -1896,8 +2024,13 @@ function submitQuizAnswer() {
     return false;
   }
   const quiz = state.activeQuiz;
-  const typed = normalizeQuizAnswer(ui.quizAnswerInput.value);
-  if (!typed) {
+  const answerLength = Array.from(quiz.answer).length;
+  const typed = normalizeQuizAnswer(getCurrentQuizAnswer());
+  ui.quizAnswerInput.value = typed;
+  if (state.quizAssembly.selection.length < answerLength || !typed) {
+    showQuizFeedback("글자를 모두 눌러서 빈칸을 먼저 완성해 보세요.");
+    playSfx("uiClick", { volume: 0.16, playbackRate: 0.88 });
+    return false;
     showQuizFeedback("빈칸에 들어갈 동사를 먼저 써 보세요.");
     playSfx("uiClick", { volume: 0.16, playbackRate: 0.88 });
     return false;
@@ -1905,8 +2038,9 @@ function submitQuizAnswer() {
   if (typed !== quiz.answer) {
     showQuizFeedback(`아직 아니에요. '${quiz.prefix}'에 어울리는 동사를 다시 떠올려 보세요.`);
     playSfx("uiClick", { volume: 0.16, playbackRate: 0.84 });
-    ui.quizAnswerInput.focus();
-    ui.quizAnswerInput.select();
+    return false;
+    showQuizFeedback(`아직 아니에요. '${quiz.prefix}'에 어울리는 동사를 다시 떠올려 보세요.`);
+    playSfx("uiClick", { volume: 0.16, playbackRate: 0.84 });
     return false;
   }
 
@@ -2057,6 +2191,7 @@ function applySavedGame(data) {
   state.dialogueIndex = 0;
   state.activeMiniGame = null;
   state.activeQuiz = null;
+  state.quizAssembly = createQuizAssemblyState();
   state.hoveredZone = null;
   state.hoveredPractice = null;
   state.toastTimer = 0;
@@ -2579,6 +2714,7 @@ function resetState(options = {}) {
   state.dialogueIndex = 0;
   state.activeMiniGame = null;
   state.activeQuiz = null;
+  state.quizAssembly = createQuizAssemblyState();
   state.storyIndex = 0;
   state.warmth = 0;
   state.basket = [];
@@ -7331,6 +7467,7 @@ function handleActionPress() {
     return;
   }
   if (state.activeQuiz) {
+    submitQuizAnswer();
     return;
   }
   if (state.activeMiniGame) {
@@ -11664,12 +11801,21 @@ function setupInput() {
   ui.dialogueNext.addEventListener("click", nextDialogue);
   ui.dialogueClose.addEventListener("click", closeDialogue);
   ui.quizSubmit.addEventListener("click", submitQuizAnswer);
+  ui.quizReset.addEventListener("click", () => resetQuizSelection(true));
   ui.quizClose.addEventListener("click", closeQuiz);
-  ui.quizAnswerInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      submitQuizAnswer();
+  ui.quizChoiceBank.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-quiz-choice]");
+    if (!button) {
+      return;
     }
+    appendQuizChoice(button.dataset.quizChoice);
+  });
+  ui.quizExpression.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-quiz-slot]");
+    if (!button) {
+      return;
+    }
+    removeQuizChoice(Number(button.dataset.quizSlot));
   });
   ui.heroToggle.addEventListener("click", () => {
     state.uiPanels.heroExpanded = !state.uiPanels.heroExpanded;
