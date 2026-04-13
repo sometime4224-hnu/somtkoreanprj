@@ -2,21 +2,12 @@
   "use strict";
 
   const VISITS_KEY = "korean3b.visits.v1";
-  const COMPLETION_KEY = "korean3b.completion.v1";
-
   const TEXT = {
-    doneOnKo: "\uC644\uB8CC\uB428",
-    doneOffKo: "\uC644\uB8CC \uD45C\uC2DC",
-    doneKo: "\uC644\uB8CC",
     visitKo: "\uBC29\uBB38",
     progressTitle: "\uD559\uC2B5 \uC9C4\uD589\uB960",
     navList: "\uBAA9\uB85D",
-    navMain: "\uBA54\uC778",
     quizKo: "\uBB38\uBC95 \uD034\uC988",
     quizVi: "Luyen tap ngu phap",
-    doneOnVi: "\u0110\u00E3 ho\u00E0n th\u00E0nh",
-    doneOffVi: "\u0110\u00E1nh d\u1EA5u ho\u00E0n th\u00E0nh",
-    doneVi: "Ho\u00E0n th\u00E0nh",
     visitVi: "\u0110\u00E3 xem"
   };
 
@@ -87,21 +78,6 @@
     return visits;
   }
 
-  function getCompletionMap() {
-    return storage.get(COMPLETION_KEY, {});
-  }
-
-  function setCompletion(pathname, done) {
-    const completion = getCompletionMap();
-    completion[pathname] = {
-      done: Boolean(done),
-      title: document.title || "Untitled",
-      updatedAt: new Date().toISOString()
-    };
-    storage.set(COMPLETION_KEY, completion);
-    return completion;
-  }
-
   function isIndexPage(pathname) {
     return pathname.toLowerCase().endsWith("/index.html");
   }
@@ -154,10 +130,6 @@
       .le-btn:focus-visible {
         outline: none;
         border-color: rgba(99, 102, 241, 0.7);
-      }
-      .le-btn-done {
-        background: rgba(22, 163, 74, 0.95);
-        border-color: rgba(22, 163, 74, 0.95);
       }
       .le-btn-ko {
         display: block;
@@ -220,10 +192,6 @@
         color: #0f172a;
         background: #e2e8f0;
       }
-      .le-link-badge-done {
-        color: #ecfdf5;
-        background: #16a34a;
-      }
       .le-badge-ko {
         font-size: 11px;
         font-weight: 800;
@@ -282,39 +250,12 @@
     const tools = document.createElement("div");
     tools.className = "le-tools";
 
-    const doneBtn = document.createElement("button");
-    doneBtn.type = "button";
-    doneBtn.className = "le-btn";
-
-    function renderDoneState() {
-      const completion = getCompletionMap();
-      const done = Boolean(completion[pathname] && completion[pathname].done);
-      doneBtn.innerHTML = done
-        ? `<span class="le-btn-ko">${TEXT.doneOnKo}</span><span class="le-btn-vi">${TEXT.doneOnVi}</span>`
-        : `<span class="le-btn-ko">${TEXT.doneOffKo}</span><span class="le-btn-vi">${TEXT.doneOffVi}</span>`;
-      doneBtn.setAttribute("aria-pressed", done ? "true" : "false");
-      doneBtn.classList.toggle("le-btn-done", done);
-    }
-
-    doneBtn.addEventListener("click", () => {
-      const completion = getCompletionMap();
-      const current = Boolean(completion[pathname] && completion[pathname].done);
-      setCompletion(pathname, !current);
-      renderDoneState();
-      annotateLinksAndSummary();
-    });
-    renderDoneState();
-    tools.appendChild(doneBtn);
-
     let navHref = null;
     let navLabel = null;
 
     if (inChapterFolder(pathname) && !isIndexPage(pathname)) {
       navHref = "index.html";
       navLabel = TEXT.navList;
-    } else if (inChapterFolder(pathname) && isIndexPage(pathname)) {
-      navHref = "../index.html";
-      navLabel = TEXT.navMain;
     }
 
     if (navHref && navLabel) {
@@ -338,21 +279,19 @@
       tools.classList.add("le-tools-right");
     }
 
-    document.body.appendChild(tools);
+    if (tools.childElementCount > 0) {
+      document.body.appendChild(tools);
+    }
   }
 
-  function createBadge(done) {
+  function createBadge() {
     const badge = document.createElement("span");
-    badge.className = done
-      ? "le-link-badge le-link-badge-done"
-      : "le-link-badge le-link-badge-visit";
-    badge.innerHTML = done
-      ? `<span class="le-badge-ko">${TEXT.doneKo}</span><span class="le-badge-vi">${TEXT.doneVi}</span>`
-      : `<span class="le-badge-ko">${TEXT.visitKo}</span><span class="le-badge-vi">${TEXT.visitVi}</span>`;
+    badge.className = "le-link-badge le-link-badge-visit";
+    badge.innerHTML = `<span class="le-badge-ko">${TEXT.visitKo}</span><span class="le-badge-vi">${TEXT.visitVi}</span>`;
     return badge;
   }
 
-  function summarizeChapterLinks(pathname, links, completion, visits) {
+  function summarizeChapterLinks(pathname, links, visits) {
     if (!isIndexPage(pathname)) return;
     if (!inChapterFolder(pathname)) return;
 
@@ -363,19 +302,18 @@
     const uniquePaths = Array.from(new Set(lessonPaths));
     if (uniquePaths.length === 0) return;
 
-    const doneCount = uniquePaths.filter((p) => completion[p] && completion[p].done).length;
     const visitedCount = uniquePaths.filter((p) => visits[p] && Number(visits[p].count || 0) > 0).length;
-    const donePercent = Math.round((doneCount / uniquePaths.length) * 100);
+    const visitedPercent = Math.round((visitedCount / uniquePaths.length) * 100);
 
     const summary = document.createElement("section");
     summary.className = "le-index-summary";
     summary.innerHTML = `
       <strong>${TEXT.progressTitle}</strong>
       <div class="le-progress-track"><div class="le-progress-fill"></div></div>
-      <div class="le-progress-text">${TEXT.doneKo} ${doneCount}/${uniquePaths.length}, ${TEXT.visitKo} ${visitedCount}/${uniquePaths.length}</div>
+      <div class="le-progress-text">${TEXT.visitKo} ${visitedCount}/${uniquePaths.length}</div>
     `;
     const fill = summary.querySelector(".le-progress-fill");
-    if (fill) fill.style.width = `${donePercent}%`;
+    if (fill) fill.style.width = `${visitedPercent}%`;
 
     const main = document.querySelector("main");
     if (main) {
@@ -392,8 +330,6 @@
     if (links.length === 0) return;
 
     const visits = storage.get(VISITS_KEY, {});
-    const completion = getCompletionMap();
-
     links.forEach((link) => {
       if (link.closest("nav") || link.closest(".le-tools")) return;
       const existing = link.querySelector(".le-link-badge");
@@ -403,16 +339,15 @@
       const linkPath = linkPathFromHref(href);
       if (!linkPath || linkPath === pathname) return;
 
-      const done = Boolean(completion[linkPath] && completion[linkPath].done);
       const visited = Boolean(visits[linkPath] && Number(visits[linkPath].count || 0) > 0);
-      if (!done && !visited) return;
+      if (!visited) return;
 
-      link.appendChild(createBadge(done));
+      link.appendChild(createBadge());
     });
 
     const existingSummary = document.querySelector(".le-index-summary");
     if (existingSummary) existingSummary.remove();
-    summarizeChapterLinks(pathname, links, completion, visits);
+    summarizeChapterLinks(pathname, links, visits);
   }
 
   function bootstrap() {
