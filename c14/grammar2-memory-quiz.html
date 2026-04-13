@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>14과 문법 2 추억 앨범 퀴즈 | A/V-았던/었던</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", sans-serif;
+            color: #1f2937;
+            background:
+                radial-gradient(circle at top left, rgba(251, 191, 36, 0.16), transparent 25%),
+                radial-gradient(circle at top right, rgba(16, 185, 129, 0.14), transparent 28%),
+                linear-gradient(180deg, #fffaf0 0%, #f8fafc 100%);
+        }
+        .panel {
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(253, 230, 138, 0.55);
+            box-shadow: 0 24px 52px rgba(31, 41, 55, 0.08);
+        }
+        .safe {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+        .vi-text {
+            display: none;
+        }
+        .vi-on .vi-text {
+            display: block;
+        }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            padding: 0.58rem 0.92rem;
+            font-size: 0.74rem;
+            font-weight: 800;
+        }
+        .action-btn,
+        .choice-btn {
+            transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+        }
+        .action-btn:hover:not(:disabled),
+        .choice-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+        .memory-frame {
+            position: relative;
+            border-radius: 26px;
+            background:
+                linear-gradient(160deg, rgba(255, 255, 255, 0.99) 0%, rgba(255, 248, 235, 0.98) 52%, rgba(245, 232, 205, 0.98) 100%);
+            border: 1px solid rgba(180, 118, 46, 0.34);
+            box-shadow:
+                inset 0 1px 0 rgba(255,255,255,0.92),
+                inset 0 0 0 2px rgba(255, 244, 214, 0.9),
+                0 20px 40px rgba(148, 163, 184, 0.18),
+                0 8px 18px rgba(146, 64, 14, 0.12);
+        }
+        .memory-frame::before {
+            content: "";
+            position: absolute;
+            inset: 10px;
+            border-radius: 20px;
+            border: 2px solid rgba(120, 53, 15, 0.12);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.75);
+            pointer-events: none;
+        }
+        .memory-photo {
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 235, 0.98) 46%, rgba(241, 229, 203, 0.98) 100%);
+            border: 1px solid rgba(146, 64, 14, 0.16);
+            box-shadow:
+                inset 0 0 0 10px rgba(255, 251, 240, 0.98),
+                inset 0 0 0 12px rgba(180, 118, 46, 0.22),
+                inset 0 0 18px rgba(120, 53, 15, 0.08),
+                0 18px 28px rgba(15, 23, 42, 0.16);
+        }
+        .memory-photo::after {
+            content: "";
+            position: absolute;
+            inset: 12px;
+            border-radius: 12px;
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.7),
+                inset 0 -22px 28px rgba(15, 23, 42, 0.08);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .memory-photo > .absolute {
+            z-index: 3;
+        }
+        .memory-collage {
+            position: absolute;
+            inset: 14px;
+            display: grid;
+            gap: 10px;
+            padding: 0;
+            z-index: 1;
+        }
+        .memory-collage--single {
+            grid-template-columns: minmax(0, 1fr);
+        }
+        .memory-collage--double {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .memory-tile {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.88);
+            box-shadow:
+                0 12px 22px rgba(15, 23, 42, 0.12),
+                inset 0 0 0 1px rgba(148, 163, 184, 0.22);
+        }
+        .memory-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: 200% 200%;
+        }
+        .memory-tape {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            width: 96px;
+            height: 28px;
+            transform: translateX(-50%) rotate(-4deg);
+            border-radius: 8px;
+            background: rgba(253, 230, 138, 0.42);
+            border: 1px solid rgba(251, 191, 36, 0.28);
+            backdrop-filter: blur(2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sticky top-0 z-50 border-b border-white/70 bg-white/84 backdrop-blur">
+        <div class="mx-auto flex w-[min(980px,calc(100%-20px))] items-center gap-3 px-1 py-3 text-sm font-bold text-amber-700">
+            <a href="../index.html" class="hover:text-amber-900">메인</a>
+            <span class="text-amber-200">|</span>
+            <a href="index.html" class="hover:text-amber-900">14과</a>
+            <span class="text-amber-200">|</span>
+            <a href="grammar2.html" class="hover:text-amber-900">문법 2</a>
+            <span class="text-amber-200">|</span>
+            <span class="text-slate-500">추억 앨범 퀴즈</span>
+        </div>
+    </nav>
+
+    <main id="page" class="mx-auto w-[min(980px,calc(100%-20px))] py-4 pb-12">
+        <section class="panel rounded-[30px] px-5 py-6 sm:px-6">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                    <p class="text-[11px] font-black uppercase tracking-[0.16em] text-amber-700">Memory Album Quiz</p>
+                    <h1 class="mt-2 text-3xl font-black leading-tight text-slate-900 sm:text-4xl">추억 속 장면을 제대로 떠올려 볼까요?</h1>
+                    <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600 safe">`A/V-았던/었던`은 과거의 경험이나 기억 속 대상을 떠올리며 명사를 꾸밀 때 씁니다. 이 퀴즈에서는 `만났던 사람`, `찍었던 사진`, `입고 왔던 스웨터`처럼 자주 쓰는 묶음을 빠르게 구별하고 직접 완성해 봅니다.</p>
+                    <p class="vi-text mt-2 max-w-2xl text-xs leading-6 text-emerald-700 safe">Mẫu `A/V-았던/었던` dùng để gợi lại người, vật, nơi chốn trong ký ức quá khứ. Bài quiz này giúp bạn luyện nhanh các cụm như `người đã gặp`, `bức ảnh đã chụp`, `chiếc áo đã mặc khi đến đây`.</p>
+                </div>
+                <button id="viToggle" class="shrink-0 rounded-2xl border border-slate-300 px-4 py-3 text-xs font-black text-slate-700">Tiếng Việt OFF</button>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <span class="chip bg-amber-50 text-amber-700">15문제</span>
+                <span class="chip bg-emerald-50 text-emerald-700">3라운드</span>
+                <span class="chip bg-sky-50 text-sky-700">선택형 + 짧은 쓰기</span>
+                <span class="chip bg-rose-50 text-rose-700">즉시 피드백</span>
+            </div>
+        </section>
+
+        <section id="startPanel" class="panel mt-3 rounded-[30px] p-5 sm:p-6">
+            <div class="grid gap-4 lg:grid-cols-[1.08fr_0.92fr]">
+                <div class="rounded-[24px] border border-amber-100 bg-amber-50/80 p-4">
+                    <p class="text-xs font-black uppercase tracking-[0.14em] text-amber-700">학습 포인트</p>
+                    <div class="mt-3 space-y-3 text-sm leading-7 text-slate-700 safe">
+                        <p><b>1.</b> 지금 보이는 장면이 아니라 예전에 겪었던 기억을 떠올릴 때 `-았던/었던`을 씁니다.</p>
+                        <p><b>2.</b> `-고 있는`, 현재형 관형사형, 미래형과 헷갈리기 쉬운 부분을 같이 구별합니다.</p>
+                        <p><b>3.</b> 마지막 라운드에서는 짧게 직접 써 보면서 표현을 손에 익힙니다.</p>
+                    </div>
+                </div>
+                <div class="rounded-[24px] border border-slate-200 bg-white p-4">
+                    <p class="text-xs font-black uppercase tracking-[0.14em] text-slate-500">Round Preview</p>
+                    <div class="mt-3 space-y-3 text-sm leading-7 text-slate-700 safe">
+                        <p><b>라운드 1.</b> 장면과 가장 잘 맞는 문장을 고르기</p>
+                        <p><b>라운드 2.</b> 빈칸에 알맞은 관형형 넣기</p>
+                        <p><b>라운드 3.</b> 핵심 표현을 직접 짧게 완성하기</p>
+                    </div>
+                    <p class="vi-text mt-3 text-xs leading-6 text-emerald-700 safe">Bạn sẽ đi từ nhận diện ngữ nghĩa, đến điền chỗ trống, rồi tự hoàn thành cụm mục tiêu.</p>
+                </div>
+            </div>
+            <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                <a href="grammar2.html" class="action-btn rounded-2xl border border-slate-300 bg-white px-5 py-4 text-center text-sm font-black text-slate-700">문법 2 다시 보기</a>
+                <button id="startBtn" class="action-btn rounded-2xl bg-amber-500 px-5 py-4 text-sm font-black text-white shadow-lg shadow-amber-200">퀴즈 시작</button>
+            </div>
+        </section>
+
+        <section id="quizPanel" class="hidden">
+            <div id="quizCard" class="panel mt-3 rounded-[30px] p-5 sm:p-6"></div>
+        </section>
+
+        <section id="resultPanel" class="panel mt-3 hidden rounded-[30px] p-5 sm:p-6"></section>
+    </main>
+
+    <script src="grammar2-memory-quiz.js"></script>
+</body>
+</html>
