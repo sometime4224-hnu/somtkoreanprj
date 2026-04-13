@@ -17,7 +17,8 @@ See [LICENSE.md](LICENSE.md) for the full notice and terms of use.
 
 Keep the repository root focused on deployable pages, chapter folders, shared code, and core project docs.
 
-- Put archival captures and one-off screenshots under `backup/`.
-- Use `tmp/`, `output/`, and `.codex_tmp/` only for local scratch work.
+- Prefer a sibling local archive folder outside the repository for archival captures, screenshots, ZIP exports, and one-off extracts.
+- Use `tmp/`, `output/`, `.codex_tmp/`, and `backup/` only as short-lived staging areas when work is still in progress.
 - Avoid leaving loose debug PNG files at the repository root.
+- Avoid relying on local-only ignore rules in `.git/info/exclude` for files that should simply live outside the repository.
 - Keep generated caches such as `__pycache__/`, test artifacts, and local build output out of Git.
