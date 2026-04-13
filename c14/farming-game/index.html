@@ -136,21 +136,13 @@
                 <h3 id="quizTitle" class="quiz-title">작은 팻말</h3>
                 <p id="quizPrompt" class="quiz-prompt"></p>
                 <div id="quizExpression" class="quiz-expression"></div>
-                <label class="quiz-input-row" for="quizAnswerInput">
-                  <span>빈칸에 들어갈 동사를 써 보세요.</span>
-                  <input
-                    id="quizAnswerInput"
-                    class="quiz-input"
-                    type="text"
-                    inputmode="text"
-                    autocomplete="off"
-                    maxlength="8"
-                    placeholder="예: 깎다"
-                  />
-                </label>
+                <p class="quiz-choice-label">아래 글자를 눌러 동사를 완성해 보세요.</p>
+                <div id="quizChoiceBank" class="quiz-choice-bank" role="group" aria-label="고를 글자"></div>
+                <input id="quizAnswerInput" class="hidden" type="text" tabindex="-1" aria-hidden="true" />
                 <p id="quizFeedback" class="quiz-feedback hidden"></p>
                 <div class="quiz-actions">
                   <button id="quizSubmit" class="primary-button">정답 확인</button>
+                  <button id="quizReset" class="secondary-button">다시 고르기</button>
                   <button id="quizClose" class="secondary-button">닫기</button>
                 </div>
               </div>
