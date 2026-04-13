@@ -12,3 +12,12 @@ This repository is public for viewing and deployment, but it is not open source 
 - If you want to reuse any material beyond normal web viewing, obtain permission from the relevant rights holder first.
 
 See [LICENSE.md](LICENSE.md) for the full notice and terms of use.
+
+## Repository Housekeeping
+
+Keep the repository root focused on deployable pages, chapter folders, shared code, and core project docs.
+
+- Put archival captures and one-off screenshots under `backup/`.
+- Use `tmp/`, `output/`, and `.codex_tmp/` only for local scratch work.
+- Avoid leaving loose debug PNG files at the repository root.
+- Keep generated caches such as `__pycache__/`, test artifacts, and local build output out of Git.
