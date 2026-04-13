@@ -1,0 +1,146 @@
+[
+  {
+    "id": "g1pq-01",
+    "index": 1,
+    "slug": "eat",
+    "word": "먹다",
+    "sheet": 1,
+    "position": "tl",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_01_eat.webp"
+  },
+  {
+    "id": "g1pq-02",
+    "index": 2,
+    "slug": "run",
+    "word": "달리다",
+    "sheet": 1,
+    "position": "tr",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_02_run.webp"
+  },
+  {
+    "id": "g1pq-03",
+    "index": 3,
+    "slug": "cry",
+    "word": "울다",
+    "sheet": 1,
+    "position": "bl",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_03_cry.webp"
+  },
+  {
+    "id": "g1pq-04",
+    "index": 4,
+    "slug": "sleep",
+    "word": "자다",
+    "sheet": 1,
+    "position": "br",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_04_sleep.webp"
+  },
+  {
+    "id": "g1pq-05",
+    "index": 5,
+    "slug": "spicy",
+    "word": "맵다",
+    "sheet": 2,
+    "position": "tl",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_05_spicy.webp"
+  },
+  {
+    "id": "g1pq-06",
+    "index": 6,
+    "slug": "scary",
+    "word": "무섭다",
+    "sheet": 2,
+    "position": "tr",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_06_scary.webp"
+  },
+  {
+    "id": "g1pq-07",
+    "index": 7,
+    "slug": "sweet",
+    "word": "달다",
+    "sheet": 2,
+    "position": "bl",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_07_sweet.webp"
+  },
+  {
+    "id": "g1pq-08",
+    "index": 8,
+    "slug": "bored-phone",
+    "word": "심심하다",
+    "sheet": 2,
+    "position": "br",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_08_bored-phone.webp"
+  },
+  {
+    "id": "g1pq-09",
+    "index": 9,
+    "slug": "cold",
+    "word": "춥다",
+    "sheet": 3,
+    "position": "tl",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_09_cold.webp"
+  },
+  {
+    "id": "g1pq-10",
+    "index": 10,
+    "slug": "hot",
+    "word": "뜨겁다",
+    "sheet": 3,
+    "position": "tr",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_10_hot.webp"
+  },
+  {
+    "id": "g1pq-11",
+    "index": 11,
+    "slug": "tired",
+    "word": "힘들다",
+    "sheet": 3,
+    "position": "bl",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_11_tired.webp"
+  },
+  {
+    "id": "g1pq-12",
+    "index": 12,
+    "slug": "bored-tv",
+    "word": "심심하다",
+    "sheet": 3,
+    "position": "br",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_12_bored-tv.webp"
+  },
+  {
+    "id": "g1pq-13",
+    "index": 13,
+    "slug": "wait",
+    "word": "기다리다",
+    "sheet": 4,
+    "position": "tl",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_13_wait.webp"
+  },
+  {
+    "id": "g1pq-14",
+    "index": 14,
+    "slug": "shop",
+    "word": "쇼핑하다",
+    "sheet": 4,
+    "position": "tr",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_14_shop.webp"
+  },
+  {
+    "id": "g1pq-15",
+    "index": 15,
+    "slug": "work-out",
+    "word": "운동하다",
+    "sheet": 4,
+    "position": "bl",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_15_work-out.webp"
+  },
+  {
+    "id": "g1pq-16",
+    "index": 16,
+    "slug": "travel",
+    "word": "여행하다",
+    "sheet": 4,
+    "position": "br",
+    "src": "../assets/c14/grammar/images/g1-picture-quiz/g1pq_16_travel.webp"
+  }
+]
