@@ -18,11 +18,11 @@
             baseAlt: "가꾸다 장면 배경",
             spawn: { x: [12, 90], y: [58, 86], w: [9, 15], rotate: [-7, 7], scale: [0.78, 1.04] },
             patches: [
-                { src: `${OBJECT_BASE}/care-sunflower.png`, x: 18, y: 76, w: 15, rotate: -3, scale: 1.02 },
-                { src: `${OBJECT_BASE}/care-sunflower-flip.png`, x: 36, y: 70, w: 14, rotate: 4, scale: 0.96 },
-                { src: `${OBJECT_BASE}/care-sunflower.png`, x: 58, y: 77, w: 13, rotate: 5, scale: 0.9 },
-                { src: `${OBJECT_BASE}/care-sunflower-flip.png`, x: 76, y: 73, w: 12, rotate: -4, scale: 0.86 },
-                { src: `${OBJECT_BASE}/care-sunflower.png`, x: 89, y: 79, w: 11, rotate: 6, scale: 0.8 }
+                { src: `${OBJECT_BASE}/care-sunflower.webp`, x: 18, y: 76, w: 15, rotate: -3, scale: 1.02 },
+                { src: `${OBJECT_BASE}/care-sunflower-flip.webp`, x: 36, y: 70, w: 14, rotate: 4, scale: 0.96 },
+                { src: `${OBJECT_BASE}/care-sunflower.webp`, x: 58, y: 77, w: 13, rotate: 5, scale: 0.9 },
+                { src: `${OBJECT_BASE}/care-sunflower-flip.webp`, x: 76, y: 73, w: 12, rotate: -4, scale: 0.86 },
+                { src: `${OBJECT_BASE}/care-sunflower.webp`, x: 89, y: 79, w: 11, rotate: 6, scale: 0.8 }
             ]
         },
         {
@@ -38,11 +38,11 @@
             baseAlt: "심다 장면 배경",
             spawn: { x: [12, 88], y: [58, 88], w: [7, 10], rotate: [-6, 6], scale: [0.76, 1.02] },
             patches: [
-                { src: `${OBJECT_BASE}/farm-seedling.png`, x: 18, y: 82, w: 10, rotate: -2, scale: 1 },
-                { src: `${OBJECT_BASE}/farm-seedling-flip.png`, x: 33, y: 74, w: 9, rotate: 3, scale: 0.96 },
-                { src: `${OBJECT_BASE}/farm-seedling.png`, x: 50, y: 85, w: 10, rotate: -5, scale: 0.92 },
-                { src: `${OBJECT_BASE}/farm-seedling-flip.png`, x: 73, y: 78, w: 9, rotate: 5, scale: 0.88 },
-                { src: `${OBJECT_BASE}/farm-seedling.png`, x: 87, y: 86, w: 10, rotate: -4, scale: 0.84 }
+                { src: `${OBJECT_BASE}/farm-seedling.webp`, x: 18, y: 82, w: 10, rotate: -2, scale: 1 },
+                { src: `${OBJECT_BASE}/farm-seedling-flip.webp`, x: 33, y: 74, w: 9, rotate: 3, scale: 0.96 },
+                { src: `${OBJECT_BASE}/farm-seedling.webp`, x: 50, y: 85, w: 10, rotate: -5, scale: 0.92 },
+                { src: `${OBJECT_BASE}/farm-seedling-flip.webp`, x: 73, y: 78, w: 9, rotate: 5, scale: 0.88 },
+                { src: `${OBJECT_BASE}/farm-seedling.webp`, x: 87, y: 86, w: 10, rotate: -4, scale: 0.84 }
             ]
         },
         {
@@ -58,11 +58,11 @@
             baseAlt: "가축 장면 배경",
             spawn: { x: [14, 88], y: [55, 78], w: [10, 18], rotate: [-5, 5], scale: [0.72, 1] },
             patches: [
-                { src: `${OBJECT_BASE}/livestock-cow.png`, x: 19, y: 66, w: 18, rotate: -2, scale: 1 },
-                { src: `${OBJECT_BASE}/livestock-cow-flip.png`, x: 40, y: 72, w: 16, rotate: 3, scale: 0.94 },
-                { src: `${OBJECT_BASE}/livestock-cow.png`, x: 63, y: 62, w: 14, rotate: 2, scale: 0.88 },
-                { src: `${OBJECT_BASE}/livestock-cow-flip.png`, x: 83, y: 73, w: 13, rotate: -4, scale: 0.82 },
-                { src: `${OBJECT_BASE}/livestock-cow.png`, x: 57, y: 83, w: 12, rotate: 5, scale: 0.76 }
+                { src: `${OBJECT_BASE}/livestock-cow.webp`, x: 19, y: 66, w: 18, rotate: -2, scale: 1 },
+                { src: `${OBJECT_BASE}/livestock-cow-flip.webp`, x: 40, y: 72, w: 16, rotate: 3, scale: 0.94 },
+                { src: `${OBJECT_BASE}/livestock-cow.webp`, x: 63, y: 62, w: 14, rotate: 2, scale: 0.88 },
+                { src: `${OBJECT_BASE}/livestock-cow-flip.webp`, x: 83, y: 73, w: 13, rotate: -4, scale: 0.82 },
+                { src: `${OBJECT_BASE}/livestock-cow.webp`, x: 57, y: 83, w: 12, rotate: 5, scale: 0.76 }
             ]
         },
         {
@@ -78,11 +78,11 @@
             baseAlt: "물고기 장면 배경",
             spawn: { x: [12, 90], y: [54, 82], w: [11, 18], rotate: [-7, 7], scale: [0.74, 1] },
             patches: [
-                { src: `${OBJECT_BASE}/fish-orange.png`, x: 17, y: 74, w: 18, rotate: -4, scale: 1 },
-                { src: `${OBJECT_BASE}/fish-orange-flip.png`, x: 35, y: 66, w: 16, rotate: 5, scale: 0.94 },
-                { src: `${OBJECT_BASE}/fish-orange.png`, x: 54, y: 77, w: 15, rotate: -2, scale: 0.9 },
-                { src: `${OBJECT_BASE}/fish-orange-flip.png`, x: 73, y: 68, w: 14, rotate: 3, scale: 0.84 },
-                { src: `${OBJECT_BASE}/fish-orange.png`, x: 88, y: 76, w: 13, rotate: 6, scale: 0.8 }
+                { src: `${OBJECT_BASE}/fish-orange.webp`, x: 17, y: 74, w: 18, rotate: -4, scale: 1 },
+                { src: `${OBJECT_BASE}/fish-orange-flip.webp`, x: 35, y: 66, w: 16, rotate: 5, scale: 0.94 },
+                { src: `${OBJECT_BASE}/fish-orange.webp`, x: 54, y: 77, w: 15, rotate: -2, scale: 0.9 },
+                { src: `${OBJECT_BASE}/fish-orange-flip.webp`, x: 73, y: 68, w: 14, rotate: 3, scale: 0.84 },
+                { src: `${OBJECT_BASE}/fish-orange.webp`, x: 88, y: 76, w: 13, rotate: 6, scale: 0.8 }
             ]
         },
         {
@@ -98,11 +98,11 @@
             baseAlt: "채소 장면 배경",
             spawn: { x: [14, 88], y: [62, 88], w: [9, 14], rotate: [-7, 7], scale: [0.76, 1] },
             patches: [
-                { src: `${OBJECT_BASE}/vegetable-carrot.png`, x: 17, y: 83, w: 14, rotate: -4, scale: 1 },
-                { src: `${OBJECT_BASE}/vegetable-carrot-flip.png`, x: 34, y: 74, w: 13, rotate: 3, scale: 0.95 },
-                { src: `${OBJECT_BASE}/vegetable-carrot.png`, x: 53, y: 84, w: 12, rotate: -6, scale: 0.9 },
-                { src: `${OBJECT_BASE}/vegetable-carrot-flip.png`, x: 73, y: 76, w: 12, rotate: 4, scale: 0.86 },
-                { src: `${OBJECT_BASE}/vegetable-carrot.png`, x: 88, y: 85, w: 11, rotate: -5, scale: 0.82 }
+                { src: `${OBJECT_BASE}/vegetable-carrot.webp`, x: 17, y: 83, w: 14, rotate: -4, scale: 1 },
+                { src: `${OBJECT_BASE}/vegetable-carrot-flip.webp`, x: 34, y: 74, w: 13, rotate: 3, scale: 0.95 },
+                { src: `${OBJECT_BASE}/vegetable-carrot.webp`, x: 53, y: 84, w: 12, rotate: -6, scale: 0.9 },
+                { src: `${OBJECT_BASE}/vegetable-carrot-flip.webp`, x: 73, y: 76, w: 12, rotate: 4, scale: 0.86 },
+                { src: `${OBJECT_BASE}/vegetable-carrot.webp`, x: 88, y: 85, w: 11, rotate: -5, scale: 0.82 }
             ]
         },
         {
