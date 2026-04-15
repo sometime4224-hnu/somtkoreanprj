@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>14과 공용 에셋 샌드박스 | 농장 만들기</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav class="top-nav" aria-label="상단 이동">
+      <a href="../../index.html">메인</a>
+      <span>|</span>
+      <a href="../index.html">14과 목록</a>
+      <span>|</span>
+      <a href="../farming-game/index.html">파밍 게임</a>
+    </nav>
+
+    <main class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">C14 Living Things Sandbox</p>
+          <h1>농장 만들기</h1>
+        </div>
+        <div class="stats" aria-live="polite">
+          <span id="fieldCount">밭 0</span>
+          <span id="orchardCount">과수원 0</span>
+          <span id="pastureCount">가축농장 0</span>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <aside class="tool-panel" aria-label="생물 배치 도구">
+          <div class="mode-tabs" role="tablist" aria-label="구역 선택">
+            <button class="mode-tab is-active" type="button" data-mode="field">밭</button>
+            <button class="mode-tab" type="button" data-mode="orchard">과수원</button>
+            <button class="mode-tab" type="button" data-mode="pasture">가축농장</button>
+          </div>
+
+          <div class="palette-head">
+            <strong id="paletteTitle">밭 생물</strong>
+            <span id="selectedLabel">당근</span>
+          </div>
+          <div id="palette" class="palette-grid" aria-label="배치할 생물"></div>
+
+          <div class="action-grid">
+            <button id="scatterButton" class="primary-action" type="button">자동 배치</button>
+            <button id="clearModeButton" class="soft-action" type="button">구역 정리</button>
+            <button id="motionButton" class="soft-action" type="button">움직임 켜짐</button>
+            <button id="clearAllButton" class="danger-action" type="button">전체 정리</button>
+          </div>
+
+          <div class="phrase-board" aria-label="연결 표현">
+            <span>심으면 심을수록</span>
+            <span>자라면 자랄수록</span>
+            <span>기르면 기를수록</span>
+            <span>많아져요</span>
+          </div>
+        </aside>
+
+        <section class="stage-panel" aria-label="농장 샌드박스">
+          <div class="canvas-card">
+            <canvas id="sandboxCanvas" width="1200" height="720" aria-label="밭, 과수원, 가축농장 샌드박스"></canvas>
+            <div id="statusPill" class="status-pill">밭 · 당근</div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./sandbox.js"></script>
+  </body>
+</html>

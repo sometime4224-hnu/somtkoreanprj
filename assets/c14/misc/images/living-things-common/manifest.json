@@ -1,0 +1,2299 @@
+{
+  "name": "living-things-common",
+  "description": "Reusable common plant and animal PNG assets split from generated and processed source sheets.",
+  "format": "PNG RGBA",
+  "transparentBackground": true,
+  "root": "assets/c14/misc/images/living-things-common",
+  "itemCount": 176,
+  "groups": [
+    "animals/baby-small",
+    "animals/cartoon-small",
+    "animals/farm-medium",
+    "plants/generated-small",
+    "plants/medium",
+    "plants/produce-fruit",
+    "plants/produce-vegetable",
+    "plants/sheet-small"
+  ],
+  "notes": [
+    "Download sheet (4) was skipped because it duplicates download sheet (1).",
+    "Medium plant labels were removed before splitting.",
+    "Produce vegetable grid and labels were removed before splitting."
+  ],
+  "validation": {
+    "errors": [],
+    "itemsWithTransparentPixels": 176
+  },
+  "items": [
+    {
+      "id": "plant-01-red-flower",
+      "file": "plants/generated-small/plant-01-red-flower.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "red",
+      "species": null
+    },
+    {
+      "id": "plant-02-pink-flower",
+      "file": "plants/generated-small/plant-02-pink-flower.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "pink",
+      "species": null
+    },
+    {
+      "id": "plant-03-yellow-flower",
+      "file": "plants/generated-small/plant-03-yellow-flower.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "yellow",
+      "species": null
+    },
+    {
+      "id": "plant-04-blue-flower",
+      "file": "plants/generated-small/plant-04-blue-flower.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "blue",
+      "species": null
+    },
+    {
+      "id": "plant-05-purple-flower",
+      "file": "plants/generated-small/plant-05-purple-flower.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "purple",
+      "species": null
+    },
+    {
+      "id": "plant-06-white-flower",
+      "file": "plants/generated-small/plant-06-white-flower.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "white",
+      "species": null
+    },
+    {
+      "id": "plant-07-orange-tulip",
+      "file": "plants/generated-small/plant-07-orange-tulip.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "orange",
+      "species": null
+    },
+    {
+      "id": "plant-08-violet-tulip",
+      "file": "plants/generated-small/plant-08-violet-tulip.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "violet",
+      "species": null
+    },
+    {
+      "id": "plant-09-red-poppy",
+      "file": "plants/generated-small/plant-09-red-poppy.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "red",
+      "species": null
+    },
+    {
+      "id": "plant-10-yellow-daisy",
+      "file": "plants/generated-small/plant-10-yellow-daisy.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "yellow",
+      "species": null
+    },
+    {
+      "id": "plant-11-blue-bellflower",
+      "file": "plants/generated-small/plant-11-blue-bellflower.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "blue",
+      "species": null
+    },
+    {
+      "id": "plant-12-pink-cosmos",
+      "file": "plants/generated-small/plant-12-pink-cosmos.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "flower",
+      "color": "pink",
+      "species": null
+    },
+    {
+      "id": "plant-13-lavender-sprig",
+      "file": "plants/generated-small/plant-13-lavender-sprig.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "herb",
+      "color": "lavender",
+      "species": null
+    },
+    {
+      "id": "plant-14-mint-sprout",
+      "file": "plants/generated-small/plant-14-mint-sprout.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "sprout",
+      "color": "mint",
+      "species": null
+    },
+    {
+      "id": "plant-15-emerald-grass",
+      "file": "plants/generated-small/plant-15-emerald-grass.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "grass",
+      "color": "emerald",
+      "species": null
+    },
+    {
+      "id": "plant-16-lime-grass",
+      "file": "plants/generated-small/plant-16-lime-grass.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "grass",
+      "color": "lime",
+      "species": null
+    },
+    {
+      "id": "plant-17-dark-grass",
+      "file": "plants/generated-small/plant-17-dark-grass.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "grass",
+      "color": "dark-green",
+      "species": null
+    },
+    {
+      "id": "plant-18-meadow-grass",
+      "file": "plants/generated-small/plant-18-meadow-grass.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "grass",
+      "color": "mixed-green",
+      "species": null
+    },
+    {
+      "id": "plant-19-tall-reed",
+      "file": "plants/generated-small/plant-19-tall-reed.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "grass",
+      "color": "reed-green",
+      "species": null
+    },
+    {
+      "id": "plant-20-golden-wheatgrass",
+      "file": "plants/generated-small/plant-20-golden-wheatgrass.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "grass",
+      "color": "gold",
+      "species": null
+    },
+    {
+      "id": "plant-21-clover",
+      "file": "plants/generated-small/plant-21-clover.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "ground-plant",
+      "color": "green",
+      "species": null
+    },
+    {
+      "id": "plant-22-moss-patch",
+      "file": "plants/generated-small/plant-22-moss-patch.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "ground-plant",
+      "color": "moss",
+      "species": null
+    },
+    {
+      "id": "plant-23-leaf-bush",
+      "file": "plants/generated-small/plant-23-leaf-bush.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "bush",
+      "color": "green",
+      "species": null
+    },
+    {
+      "id": "plant-24-fern",
+      "file": "plants/generated-small/plant-24-fern.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "fern",
+      "color": "green",
+      "species": null
+    },
+    {
+      "id": "plant-25-lawn-tuft",
+      "file": "plants/generated-small/plant-25-lawn-tuft.png",
+      "group": "plants/generated-small",
+      "source": "generated-plant-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "grass",
+      "color": "fresh-green",
+      "species": null
+    },
+    {
+      "id": "baby-01-puppy",
+      "file": "animals/baby-small/baby-01-puppy.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "pet",
+      "color": "cream-brown",
+      "species": "puppy"
+    },
+    {
+      "id": "baby-02-kitten",
+      "file": "animals/baby-small/baby-02-kitten.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "pet",
+      "color": "orange",
+      "species": "kitten"
+    },
+    {
+      "id": "baby-03-bunny",
+      "file": "animals/baby-small/baby-03-bunny.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "small-mammal",
+      "color": "white",
+      "species": "bunny"
+    },
+    {
+      "id": "baby-04-chick",
+      "file": "animals/baby-small/baby-04-chick.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "bird",
+      "color": "yellow",
+      "species": "chick"
+    },
+    {
+      "id": "baby-05-duckling",
+      "file": "animals/baby-small/baby-05-duckling.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "bird",
+      "color": "yellow-orange",
+      "species": "duckling"
+    },
+    {
+      "id": "baby-06-piglet",
+      "file": "animals/baby-small/baby-06-piglet.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "farm",
+      "color": "pink",
+      "species": "piglet"
+    },
+    {
+      "id": "baby-07-calf",
+      "file": "animals/baby-small/baby-07-calf.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "farm",
+      "color": "white-black",
+      "species": "calf"
+    },
+    {
+      "id": "baby-08-lamb",
+      "file": "animals/baby-small/baby-08-lamb.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "farm",
+      "color": "ivory",
+      "species": "lamb"
+    },
+    {
+      "id": "baby-09-goat-kid",
+      "file": "animals/baby-small/baby-09-goat-kid.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "farm",
+      "color": "tan",
+      "species": "goat kid"
+    },
+    {
+      "id": "baby-10-foal",
+      "file": "animals/baby-small/baby-10-foal.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "farm",
+      "color": "chestnut",
+      "species": "foal"
+    },
+    {
+      "id": "baby-11-fawn",
+      "file": "animals/baby-small/baby-11-fawn.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "forest",
+      "color": "brown-spotted",
+      "species": "fawn"
+    },
+    {
+      "id": "baby-12-fox-kit",
+      "file": "animals/baby-small/baby-12-fox-kit.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "forest",
+      "color": "orange-white",
+      "species": "fox kit"
+    },
+    {
+      "id": "baby-13-bear-cub",
+      "file": "animals/baby-small/baby-13-bear-cub.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "forest",
+      "color": "brown",
+      "species": "bear cub"
+    },
+    {
+      "id": "baby-14-panda-cub",
+      "file": "animals/baby-small/baby-14-panda-cub.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "forest",
+      "color": "black-white",
+      "species": "panda cub"
+    },
+    {
+      "id": "baby-15-koala-joey",
+      "file": "animals/baby-small/baby-15-koala-joey.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "forest",
+      "color": "gray",
+      "species": "koala joey"
+    },
+    {
+      "id": "baby-16-penguin-chick",
+      "file": "animals/baby-small/baby-16-penguin-chick.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "polar",
+      "color": "gray-white",
+      "species": "penguin chick"
+    },
+    {
+      "id": "baby-17-seal-pup",
+      "file": "animals/baby-small/baby-17-seal-pup.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "sea",
+      "color": "silver",
+      "species": "seal pup"
+    },
+    {
+      "id": "baby-18-elephant-calf",
+      "file": "animals/baby-small/baby-18-elephant-calf.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "savanna",
+      "color": "blue-gray",
+      "species": "elephant calf"
+    },
+    {
+      "id": "baby-19-giraffe-calf",
+      "file": "animals/baby-small/baby-19-giraffe-calf.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "savanna",
+      "color": "gold-spotted",
+      "species": "giraffe calf"
+    },
+    {
+      "id": "baby-20-monkey-infant",
+      "file": "animals/baby-small/baby-20-monkey-infant.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "jungle",
+      "color": "brown-tan",
+      "species": "monkey infant"
+    },
+    {
+      "id": "baby-21-squirrel-kit",
+      "file": "animals/baby-small/baby-21-squirrel-kit.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "forest",
+      "color": "russet",
+      "species": "squirrel kit"
+    },
+    {
+      "id": "baby-22-hedgehog-hoglet",
+      "file": "animals/baby-small/baby-22-hedgehog-hoglet.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "small-mammal",
+      "color": "brown-cream",
+      "species": "hedgehog hoglet"
+    },
+    {
+      "id": "baby-23-hamster-pup",
+      "file": "animals/baby-small/baby-23-hamster-pup.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "small-mammal",
+      "color": "golden",
+      "species": "hamster pup"
+    },
+    {
+      "id": "baby-24-turtle-hatchling",
+      "file": "animals/baby-small/baby-24-turtle-hatchling.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "reptile",
+      "color": "green",
+      "species": "turtle hatchling"
+    },
+    {
+      "id": "baby-25-froglet",
+      "file": "animals/baby-small/baby-25-froglet.png",
+      "group": "animals/baby-small",
+      "source": "generated-baby-animal-small-5x5",
+      "width": 96,
+      "height": 96,
+      "category": "amphibian",
+      "color": "green",
+      "species": "froglet"
+    },
+    {
+      "id": "cartoon-01-puppy",
+      "file": "animals/cartoon-small/cartoon-01-puppy.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 161,
+      "height": 185,
+      "sourceArea": 15023,
+      "sourceCentroid": [
+        368.7,
+        124.1
+      ]
+    },
+    {
+      "id": "cartoon-02-hen",
+      "file": "animals/cartoon-small/cartoon-02-hen.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 143,
+      "height": 179,
+      "sourceArea": 11430,
+      "sourceCentroid": [
+        808.3,
+        130.4
+      ]
+    },
+    {
+      "id": "cartoon-03-pig",
+      "file": "animals/cartoon-small/cartoon-03-pig.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 197,
+      "height": 172,
+      "sourceArea": 16509,
+      "sourceCentroid": [
+        1025.6,
+        124.2
+      ]
+    },
+    {
+      "id": "cartoon-04-kitten",
+      "file": "animals/cartoon-small/cartoon-04-kitten.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 157,
+      "height": 168,
+      "sourceArea": 13184,
+      "sourceCentroid": [
+        586.1,
+        131.1
+      ]
+    },
+    {
+      "id": "cartoon-05-bunny",
+      "file": "animals/cartoon-small/cartoon-05-bunny.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 131,
+      "height": 174,
+      "sourceArea": 10575,
+      "sourceCentroid": [
+        362.4,
+        312.4
+      ]
+    },
+    {
+      "id": "cartoon-06-foal",
+      "file": "animals/cartoon-small/cartoon-06-foal.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 171,
+      "height": 180,
+      "sourceArea": 12881,
+      "sourceCentroid": [
+        1034.5,
+        310.2
+      ]
+    },
+    {
+      "id": "cartoon-07-lamb",
+      "file": "animals/cartoon-small/cartoon-07-lamb.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 168,
+      "height": 171,
+      "sourceArea": 12297,
+      "sourceCentroid": [
+        815.9,
+        306.4
+      ]
+    },
+    {
+      "id": "cartoon-08-duckling",
+      "file": "animals/cartoon-small/cartoon-08-duckling.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 114,
+      "height": 169,
+      "sourceArea": 8044,
+      "sourceCentroid": [
+        600.8,
+        311.5
+      ]
+    },
+    {
+      "id": "cartoon-09-squirrel",
+      "file": "animals/cartoon-small/cartoon-09-squirrel.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 175,
+      "height": 163,
+      "sourceArea": 14833,
+      "sourceCentroid": [
+        1042.2,
+        477.1
+      ]
+    },
+    {
+      "id": "cartoon-10-hamster",
+      "file": "animals/cartoon-small/cartoon-10-hamster.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 119,
+      "height": 156,
+      "sourceArea": 10901,
+      "sourceCentroid": [
+        365.5,
+        478.5
+      ]
+    },
+    {
+      "id": "cartoon-11-mouse",
+      "file": "animals/cartoon-small/cartoon-11-mouse.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 141,
+      "height": 140,
+      "sourceArea": 7498,
+      "sourceCentroid": [
+        812.5,
+        481.9
+      ]
+    },
+    {
+      "id": "cartoon-12-guinea-pig",
+      "file": "animals/cartoon-small/cartoon-12-guinea-pig.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 167,
+      "height": 128,
+      "sourceArea": 11941,
+      "sourceCentroid": [
+        595.1,
+        483.7
+      ]
+    },
+    {
+      "id": "cartoon-13-alpaca",
+      "file": "animals/cartoon-small/cartoon-13-alpaca.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 146,
+      "height": 204,
+      "sourceArea": 13321,
+      "sourceCentroid": [
+        1038.6,
+        662.3
+      ]
+    },
+    {
+      "id": "cartoon-14-donkey",
+      "file": "animals/cartoon-small/cartoon-14-donkey.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 149,
+      "height": 198,
+      "sourceArea": 10798,
+      "sourceCentroid": [
+        814.9,
+        660.4
+      ]
+    },
+    {
+      "id": "cartoon-15-goat",
+      "file": "animals/cartoon-small/cartoon-15-goat.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 164,
+      "height": 192,
+      "sourceArea": 11815,
+      "sourceCentroid": [
+        358.3,
+        662.8
+      ]
+    },
+    {
+      "id": "cartoon-16-calf",
+      "file": "animals/cartoon-small/cartoon-16-calf.png",
+      "group": "animals/cartoon-small",
+      "source": "download-dongsikmul-1-bg-removed",
+      "width": 187,
+      "height": 187,
+      "sourceArea": 14020,
+      "sourceCentroid": [
+        598.4,
+        659.0
+      ]
+    },
+    {
+      "id": "farm-01-cow",
+      "file": "animals/farm-medium/farm-01-cow.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 310,
+      "height": 207,
+      "sourceGrid": {
+        "row": 0,
+        "column": 0,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "farm-02-horse",
+      "file": "animals/farm-medium/farm-02-horse.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 271,
+      "height": 240,
+      "sourceGrid": {
+        "row": 0,
+        "column": 1,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "farm-03-water-buffalo",
+      "file": "animals/farm-medium/farm-03-water-buffalo.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 316,
+      "height": 196,
+      "sourceGrid": {
+        "row": 0,
+        "column": 2,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "farm-04-sheep",
+      "file": "animals/farm-medium/farm-04-sheep.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 226,
+      "height": 202,
+      "sourceGrid": {
+        "row": 1,
+        "column": 0,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "farm-05-alpaca",
+      "file": "animals/farm-medium/farm-05-alpaca.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 181,
+      "height": 222,
+      "sourceGrid": {
+        "row": 1,
+        "column": 1,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "farm-06-pig",
+      "file": "animals/farm-medium/farm-06-pig.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 243,
+      "height": 158,
+      "sourceGrid": {
+        "row": 1,
+        "column": 2,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "farm-07-donkey",
+      "file": "animals/farm-medium/farm-07-donkey.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 242,
+      "height": 235,
+      "sourceGrid": {
+        "row": 2,
+        "column": 0,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "farm-08-camel",
+      "file": "animals/farm-medium/farm-08-camel.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 279,
+      "height": 232,
+      "sourceGrid": {
+        "row": 2,
+        "column": 1,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "farm-09-deer",
+      "file": "animals/farm-medium/farm-09-deer.png",
+      "group": "animals/farm-medium",
+      "source": "download-dongsikmul-2-bg-removed",
+      "width": 315,
+      "height": 237,
+      "sourceGrid": {
+        "row": 2,
+        "column": 2,
+        "columns": 3,
+        "rows": 3
+      }
+    },
+    {
+      "id": "sheet-plant-01-red-tulip",
+      "file": "plants/sheet-small/sheet-plant-01-red-tulip.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 75,
+      "height": 127,
+      "sourceGrid": {
+        "row": 0,
+        "column": 0,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-02-pink-carnation",
+      "file": "plants/sheet-small/sheet-plant-02-pink-carnation.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 89,
+      "height": 128,
+      "sourceGrid": {
+        "row": 0,
+        "column": 1,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-03-pink-hydrangea",
+      "file": "plants/sheet-small/sheet-plant-03-pink-hydrangea.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 96,
+      "height": 127,
+      "sourceGrid": {
+        "row": 0,
+        "column": 2,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-04-red-geranium",
+      "file": "plants/sheet-small/sheet-plant-04-red-geranium.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 114,
+      "height": 129,
+      "sourceGrid": {
+        "row": 0,
+        "column": 3,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-05-pink-cosmos",
+      "file": "plants/sheet-small/sheet-plant-05-pink-cosmos.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 111,
+      "height": 130,
+      "sourceGrid": {
+        "row": 0,
+        "column": 4,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-06-pink-rose",
+      "file": "plants/sheet-small/sheet-plant-06-pink-rose.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 103,
+      "height": 126,
+      "sourceGrid": {
+        "row": 0,
+        "column": 5,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-07-pink-sprig",
+      "file": "plants/sheet-small/sheet-plant-07-pink-sprig.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 120,
+      "height": 126,
+      "sourceGrid": {
+        "row": 0,
+        "column": 6,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-08-bluebell",
+      "file": "plants/sheet-small/sheet-plant-08-bluebell.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 118,
+      "height": 153,
+      "sourceGrid": {
+        "row": 1,
+        "column": 0,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-09-lavender-sprig",
+      "file": "plants/sheet-small/sheet-plant-09-lavender-sprig.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 73,
+      "height": 153,
+      "sourceGrid": {
+        "row": 1,
+        "column": 1,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-10-purple-pansy",
+      "file": "plants/sheet-small/sheet-plant-10-purple-pansy.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 70,
+      "height": 153,
+      "sourceGrid": {
+        "row": 1,
+        "column": 2,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-11-white-daisy",
+      "file": "plants/sheet-small/sheet-plant-11-white-daisy.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 99,
+      "height": 153,
+      "sourceGrid": {
+        "row": 1,
+        "column": 3,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-12-blue-cornflower",
+      "file": "plants/sheet-small/sheet-plant-12-blue-cornflower.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 104,
+      "height": 153,
+      "sourceGrid": {
+        "row": 1,
+        "column": 4,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-13-blue-bellflower",
+      "file": "plants/sheet-small/sheet-plant-13-blue-bellflower.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 98,
+      "height": 153,
+      "sourceGrid": {
+        "row": 1,
+        "column": 5,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-14-purple-pansy",
+      "file": "plants/sheet-small/sheet-plant-14-purple-pansy.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 99,
+      "height": 153,
+      "sourceGrid": {
+        "row": 1,
+        "column": 6,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-15-sunflower",
+      "file": "plants/sheet-small/sheet-plant-15-sunflower.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 107,
+      "height": 138,
+      "sourceGrid": {
+        "row": 2,
+        "column": 0,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-16-orange-marigold",
+      "file": "plants/sheet-small/sheet-plant-16-orange-marigold.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 107,
+      "height": 138,
+      "sourceGrid": {
+        "row": 2,
+        "column": 1,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-17-yellow-marigold",
+      "file": "plants/sheet-small/sheet-plant-17-yellow-marigold.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 112,
+      "height": 138,
+      "sourceGrid": {
+        "row": 2,
+        "column": 2,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-18-yellow-blossom",
+      "file": "plants/sheet-small/sheet-plant-18-yellow-blossom.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 93,
+      "height": 139,
+      "sourceGrid": {
+        "row": 2,
+        "column": 3,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-19-yellow-daisy",
+      "file": "plants/sheet-small/sheet-plant-19-yellow-daisy.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 122,
+      "height": 138,
+      "sourceGrid": {
+        "row": 2,
+        "column": 4,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-20-orange-lily",
+      "file": "plants/sheet-small/sheet-plant-20-orange-lily.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 135,
+      "height": 138,
+      "sourceGrid": {
+        "row": 2,
+        "column": 5,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-21-orange-tiger-lily",
+      "file": "plants/sheet-small/sheet-plant-21-orange-tiger-lily.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 128,
+      "height": 130,
+      "sourceGrid": {
+        "row": 2,
+        "column": 6,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-22-yellow-button-flower",
+      "file": "plants/sheet-small/sheet-plant-22-yellow-button-flower.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 50,
+      "height": 107,
+      "sourceGrid": {
+        "row": 3,
+        "column": 0,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-23-green-sprout",
+      "file": "plants/sheet-small/sheet-plant-23-green-sprout.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 88,
+      "height": 111,
+      "sourceGrid": {
+        "row": 3,
+        "column": 1,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-24-green-sprout-tall",
+      "file": "plants/sheet-small/sheet-plant-24-green-sprout-tall.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 103,
+      "height": 110,
+      "sourceGrid": {
+        "row": 3,
+        "column": 2,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-25-pink-hydrangea-bush",
+      "file": "plants/sheet-small/sheet-plant-25-pink-hydrangea-bush.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 115,
+      "height": 131,
+      "sourceGrid": {
+        "row": 3,
+        "column": 3,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-26-white-clover-flower",
+      "file": "plants/sheet-small/sheet-plant-26-white-clover-flower.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 117,
+      "height": 135,
+      "sourceGrid": {
+        "row": 3,
+        "column": 4,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-27-white-baby-breath",
+      "file": "plants/sheet-small/sheet-plant-27-white-baby-breath.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 111,
+      "height": 136,
+      "sourceGrid": {
+        "row": 3,
+        "column": 5,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-28-white-sprig",
+      "file": "plants/sheet-small/sheet-plant-28-white-sprig.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 95,
+      "height": 121,
+      "sourceGrid": {
+        "row": 3,
+        "column": 6,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-29-grass-tuft",
+      "file": "plants/sheet-small/sheet-plant-29-grass-tuft.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 170,
+      "height": 133,
+      "sourceGrid": {
+        "row": 4,
+        "column": 0,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-30-ornamental-grass",
+      "file": "plants/sheet-small/sheet-plant-30-ornamental-grass.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 139,
+      "height": 134,
+      "sourceGrid": {
+        "row": 4,
+        "column": 1,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-31-lavender-bush",
+      "file": "plants/sheet-small/sheet-plant-31-lavender-bush.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 131,
+      "height": 136,
+      "sourceGrid": {
+        "row": 4,
+        "column": 2,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-32-clover-patch",
+      "file": "plants/sheet-small/sheet-plant-32-clover-patch.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 135,
+      "height": 137,
+      "sourceGrid": {
+        "row": 4,
+        "column": 3,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-33-fern-leaf",
+      "file": "plants/sheet-small/sheet-plant-33-fern-leaf.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 105,
+      "height": 141,
+      "sourceGrid": {
+        "row": 4,
+        "column": 4,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-34-fern-frond",
+      "file": "plants/sheet-small/sheet-plant-34-fern-frond.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 113,
+      "height": 139,
+      "sourceGrid": {
+        "row": 4,
+        "column": 5,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "sheet-plant-35-moss-patch",
+      "file": "plants/sheet-small/sheet-plant-35-moss-patch.png",
+      "group": "plants/sheet-small",
+      "source": "download-dongsikmul-3-bg-removed",
+      "width": 165,
+      "height": 100,
+      "sourceGrid": {
+        "row": 4,
+        "column": 6,
+        "columns": 7,
+        "rows": 5
+      }
+    },
+    {
+      "id": "medium-plant-01-oak-tree",
+      "file": "plants/medium/medium-plant-01-oak-tree.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 282,
+      "height": 316,
+      "sourceGrid": {
+        "row": 0,
+        "column": 0,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-02-maple-tree",
+      "file": "plants/medium/medium-plant-02-maple-tree.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 278,
+      "height": 313,
+      "sourceGrid": {
+        "row": 0,
+        "column": 1,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-03-pine-tree",
+      "file": "plants/medium/medium-plant-03-pine-tree.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 275,
+      "height": 319,
+      "sourceGrid": {
+        "row": 0,
+        "column": 2,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-04-cherry-blossom-tree",
+      "file": "plants/medium/medium-plant-04-cherry-blossom-tree.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 281,
+      "height": 310,
+      "sourceGrid": {
+        "row": 0,
+        "column": 3,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-05-palm-tree",
+      "file": "plants/medium/medium-plant-05-palm-tree.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 223,
+      "height": 321,
+      "sourceGrid": {
+        "row": 0,
+        "column": 4,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-06-coconut-palm",
+      "file": "plants/medium/medium-plant-06-coconut-palm.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 254,
+      "height": 332,
+      "sourceGrid": {
+        "row": 1,
+        "column": 0,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-07-bamboo",
+      "file": "plants/medium/medium-plant-07-bamboo.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 253,
+      "height": 330,
+      "sourceGrid": {
+        "row": 1,
+        "column": 1,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-08-apple-tree",
+      "file": "plants/medium/medium-plant-08-apple-tree.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 282,
+      "height": 329,
+      "sourceGrid": {
+        "row": 1,
+        "column": 2,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-09-silver-birch",
+      "file": "plants/medium/medium-plant-09-silver-birch.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 233,
+      "height": 333,
+      "sourceGrid": {
+        "row": 1,
+        "column": 3,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "medium-plant-10-fiddle-leaf-fig",
+      "file": "plants/medium/medium-plant-10-fiddle-leaf-fig.png",
+      "group": "plants/medium",
+      "source": "download-medium-plant-transparent-no-text",
+      "width": 220,
+      "height": 330,
+      "sourceGrid": {
+        "row": 1,
+        "column": 4,
+        "columns": 5,
+        "rows": 2
+      }
+    },
+    {
+      "id": "produce-fruit-01-red-apple",
+      "file": "plants/produce-fruit/produce-fruit-01-red-apple.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 146,
+      "height": 161,
+      "sourceArea": 11354,
+      "sourceCentroid": [
+        144.7,
+        134.1
+      ]
+    },
+    {
+      "id": "produce-fruit-02-green-apple",
+      "file": "plants/produce-fruit/produce-fruit-02-green-apple.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 147,
+      "height": 161,
+      "sourceArea": 11363,
+      "sourceCentroid": [
+        340.4,
+        134.0
+      ]
+    },
+    {
+      "id": "produce-fruit-03-pear",
+      "file": "plants/produce-fruit/produce-fruit-03-pear.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 130,
+      "height": 175,
+      "sourceArea": 10164,
+      "sourceCentroid": [
+        527.3,
+        132.8
+      ]
+    },
+    {
+      "id": "produce-fruit-04-strawberry",
+      "file": "plants/produce-fruit/produce-fruit-04-strawberry.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 130,
+      "height": 161,
+      "sourceArea": 10146,
+      "sourceCentroid": [
+        717.3,
+        131.5
+      ]
+    },
+    {
+      "id": "produce-fruit-05-strawberry-alt",
+      "file": "plants/produce-fruit/produce-fruit-05-strawberry-alt.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 117,
+      "height": 165,
+      "sourceArea": 10051,
+      "sourceCentroid": [
+        907.1,
+        130.8
+      ]
+    },
+    {
+      "id": "produce-fruit-06-peeled-banana",
+      "file": "plants/produce-fruit/produce-fruit-06-peeled-banana.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 130,
+      "height": 170,
+      "sourceArea": 9585,
+      "sourceCentroid": [
+        1098.9,
+        131.9
+      ]
+    },
+    {
+      "id": "produce-fruit-07-banana",
+      "file": "plants/produce-fruit/produce-fruit-07-banana.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 127,
+      "height": 170,
+      "sourceArea": 9582,
+      "sourceCentroid": [
+        1286.3,
+        132.3
+      ]
+    },
+    {
+      "id": "produce-fruit-08-watermelon-slice",
+      "file": "plants/produce-fruit/produce-fruit-08-watermelon-slice.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 187,
+      "height": 123,
+      "sourceArea": 13077,
+      "sourceCentroid": [
+        144.1,
+        309.2
+      ]
+    },
+    {
+      "id": "produce-fruit-09-watermelon",
+      "file": "plants/produce-fruit/produce-fruit-09-watermelon.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 156,
+      "height": 165,
+      "sourceArea": 11860,
+      "sourceCentroid": [
+        339.7,
+        304.8
+      ]
+    },
+    {
+      "id": "produce-fruit-10-orange",
+      "file": "plants/produce-fruit/produce-fruit-10-orange.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 143,
+      "height": 146,
+      "sourceArea": 11258,
+      "sourceCentroid": [
+        528.7,
+        305.9
+      ]
+    },
+    {
+      "id": "produce-fruit-11-purple-grapes",
+      "file": "plants/produce-fruit/produce-fruit-11-purple-grapes.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 130,
+      "height": 162,
+      "sourceArea": 10464,
+      "sourceCentroid": [
+        719.7,
+        297.3
+      ]
+    },
+    {
+      "id": "produce-fruit-12-green-grapes",
+      "file": "plants/produce-fruit/produce-fruit-12-green-grapes.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 132,
+      "height": 165,
+      "sourceArea": 10027,
+      "sourceCentroid": [
+        905.0,
+        296.6
+      ]
+    },
+    {
+      "id": "produce-fruit-13-lemon",
+      "file": "plants/produce-fruit/produce-fruit-13-lemon.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 148,
+      "height": 157,
+      "sourceArea": 10578,
+      "sourceCentroid": [
+        1096.8,
+        303.6
+      ]
+    },
+    {
+      "id": "produce-fruit-14-lime",
+      "file": "plants/produce-fruit/produce-fruit-14-lime.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 130,
+      "height": 155,
+      "sourceArea": 10556,
+      "sourceCentroid": [
+        1287.5,
+        305.1
+      ]
+    },
+    {
+      "id": "produce-fruit-15-blueberry",
+      "file": "plants/produce-fruit/produce-fruit-15-blueberry.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 156,
+      "height": 145,
+      "sourceArea": 10133,
+      "sourceCentroid": [
+        144.4,
+        483.4
+      ]
+    },
+    {
+      "id": "produce-fruit-16-green-pear",
+      "file": "plants/produce-fruit/produce-fruit-16-green-pear.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 127,
+      "height": 154,
+      "sourceArea": 10247,
+      "sourceCentroid": [
+        339.9,
+        480.1
+      ]
+    },
+    {
+      "id": "produce-fruit-17-peach",
+      "file": "plants/produce-fruit/produce-fruit-17-peach.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 134,
+      "height": 164,
+      "sourceArea": 11466,
+      "sourceCentroid": [
+        531.4,
+        476.7
+      ]
+    },
+    {
+      "id": "produce-fruit-18-cherry",
+      "file": "plants/produce-fruit/produce-fruit-18-cherry.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 126,
+      "height": 166,
+      "sourceArea": 6139,
+      "sourceCentroid": [
+        718.8,
+        493.7
+      ]
+    },
+    {
+      "id": "produce-fruit-19-cherries",
+      "file": "plants/produce-fruit/produce-fruit-19-cherries.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 166,
+      "height": 161,
+      "sourceArea": 12906,
+      "sourceCentroid": [
+        905.4,
+        489.3
+      ]
+    },
+    {
+      "id": "produce-fruit-20-mango",
+      "file": "plants/produce-fruit/produce-fruit-20-mango.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 142,
+      "height": 175,
+      "sourceArea": 11823,
+      "sourceCentroid": [
+        1101.6,
+        483.6
+      ]
+    },
+    {
+      "id": "produce-fruit-21-pineapple",
+      "file": "plants/produce-fruit/produce-fruit-21-pineapple.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 132,
+      "height": 198,
+      "sourceArea": 11199,
+      "sourceCentroid": [
+        1287.6,
+        488.4
+      ]
+    },
+    {
+      "id": "produce-fruit-22-honeydew-slice",
+      "file": "plants/produce-fruit/produce-fruit-22-honeydew-slice.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 186,
+      "height": 119,
+      "sourceArea": 11605,
+      "sourceCentroid": [
+        144.4,
+        673.2
+      ]
+    },
+    {
+      "id": "produce-fruit-23-raspberry",
+      "file": "plants/produce-fruit/produce-fruit-23-raspberry.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 141,
+      "height": 163,
+      "sourceArea": 10334,
+      "sourceCentroid": [
+        339.8,
+        661.9
+      ]
+    },
+    {
+      "id": "produce-fruit-24-kiwi",
+      "file": "plants/produce-fruit/produce-fruit-24-kiwi.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 146,
+      "height": 148,
+      "sourceArea": 10325,
+      "sourceCentroid": [
+        529.2,
+        663.4
+      ]
+    },
+    {
+      "id": "produce-fruit-25-plum",
+      "file": "plants/produce-fruit/produce-fruit-25-plum.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 149,
+      "height": 162,
+      "sourceArea": 10994,
+      "sourceCentroid": [
+        715.7,
+        661.0
+      ]
+    },
+    {
+      "id": "produce-fruit-26-tangerine",
+      "file": "plants/produce-fruit/produce-fruit-26-tangerine.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 154,
+      "height": 165,
+      "sourceArea": 11392,
+      "sourceCentroid": [
+        906.1,
+        660.7
+      ]
+    },
+    {
+      "id": "produce-fruit-27-lychee",
+      "file": "plants/produce-fruit/produce-fruit-27-lychee.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 165,
+      "height": 157,
+      "sourceArea": 13605,
+      "sourceCentroid": [
+        1097.2,
+        666.7
+      ]
+    },
+    {
+      "id": "produce-fruit-28-mangosteen",
+      "file": "plants/produce-fruit/produce-fruit-28-mangosteen.png",
+      "group": "plants/produce-fruit",
+      "source": "download-produce-1-bg-removed",
+      "width": 153,
+      "height": 144,
+      "sourceArea": 10213,
+      "sourceCentroid": [
+        1288.1,
+        666.5
+      ]
+    },
+    {
+      "id": "produce-vegetable-01-napa-cabbage",
+      "file": "plants/produce-vegetable/produce-vegetable-01-napa-cabbage.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 118,
+      "height": 130,
+      "sourceGrid": {
+        "row": 0,
+        "column": 0,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-02-carrot",
+      "file": "plants/produce-vegetable/produce-vegetable-02-carrot.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 87,
+      "height": 139,
+      "sourceGrid": {
+        "row": 0,
+        "column": 1,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-03-green-onion",
+      "file": "plants/produce-vegetable/produce-vegetable-03-green-onion.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 80,
+      "height": 136,
+      "sourceGrid": {
+        "row": 0,
+        "column": 2,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-04-onion",
+      "file": "plants/produce-vegetable/produce-vegetable-04-onion.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 126,
+      "height": 130,
+      "sourceGrid": {
+        "row": 0,
+        "column": 3,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-05-garlic",
+      "file": "plants/produce-vegetable/produce-vegetable-05-garlic.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 134,
+      "height": 124,
+      "sourceGrid": {
+        "row": 0,
+        "column": 4,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-06-shallot",
+      "file": "plants/produce-vegetable/produce-vegetable-06-shallot.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 125,
+      "height": 126,
+      "sourceGrid": {
+        "row": 0,
+        "column": 5,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-07-green-chili",
+      "file": "plants/produce-vegetable/produce-vegetable-07-green-chili.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 131,
+      "height": 119,
+      "sourceGrid": {
+        "row": 0,
+        "column": 6,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-08-broccoli",
+      "file": "plants/produce-vegetable/produce-vegetable-08-broccoli.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 141,
+      "height": 124,
+      "sourceGrid": {
+        "row": 1,
+        "column": 0,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-09-cauliflower",
+      "file": "plants/produce-vegetable/produce-vegetable-09-cauliflower.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 145,
+      "height": 117,
+      "sourceGrid": {
+        "row": 1,
+        "column": 1,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-10-radish",
+      "file": "plants/produce-vegetable/produce-vegetable-10-radish.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 107,
+      "height": 128,
+      "sourceGrid": {
+        "row": 1,
+        "column": 2,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-11-spinach",
+      "file": "plants/produce-vegetable/produce-vegetable-11-spinach.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 135,
+      "height": 123,
+      "sourceGrid": {
+        "row": 1,
+        "column": 3,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-12-lettuce",
+      "file": "plants/produce-vegetable/produce-vegetable-12-lettuce.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 127,
+      "height": 123,
+      "sourceGrid": {
+        "row": 1,
+        "column": 4,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-13-zucchini",
+      "file": "plants/produce-vegetable/produce-vegetable-13-zucchini.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 79,
+      "height": 128,
+      "sourceGrid": {
+        "row": 1,
+        "column": 5,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-14-red-chili",
+      "file": "plants/produce-vegetable/produce-vegetable-14-red-chili.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 94,
+      "height": 131,
+      "sourceGrid": {
+        "row": 1,
+        "column": 6,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-15-shiitake-mushroom",
+      "file": "plants/produce-vegetable/produce-vegetable-15-shiitake-mushroom.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 123,
+      "height": 120,
+      "sourceGrid": {
+        "row": 2,
+        "column": 0,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-16-yellow-bell-pepper",
+      "file": "plants/produce-vegetable/produce-vegetable-16-yellow-bell-pepper.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 116,
+      "height": 124,
+      "sourceGrid": {
+        "row": 2,
+        "column": 1,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-17-red-bell-pepper",
+      "file": "plants/produce-vegetable/produce-vegetable-17-red-bell-pepper.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 107,
+      "height": 124,
+      "sourceGrid": {
+        "row": 2,
+        "column": 2,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-18-asparagus",
+      "file": "plants/produce-vegetable/produce-vegetable-18-asparagus.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 81,
+      "height": 132,
+      "sourceGrid": {
+        "row": 2,
+        "column": 3,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-19-eggplant",
+      "file": "plants/produce-vegetable/produce-vegetable-19-eggplant.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 91,
+      "height": 132,
+      "sourceGrid": {
+        "row": 2,
+        "column": 4,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-20-beet",
+      "file": "plants/produce-vegetable/produce-vegetable-20-beet.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 119,
+      "height": 131,
+      "sourceGrid": {
+        "row": 2,
+        "column": 5,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-21-turnip",
+      "file": "plants/produce-vegetable/produce-vegetable-21-turnip.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 111,
+      "height": 133,
+      "sourceGrid": {
+        "row": 2,
+        "column": 6,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-22-sweet-potato",
+      "file": "plants/produce-vegetable/produce-vegetable-22-sweet-potato.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 99,
+      "height": 128,
+      "sourceGrid": {
+        "row": 3,
+        "column": 0,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-23-sweet-potato-alt",
+      "file": "plants/produce-vegetable/produce-vegetable-23-sweet-potato-alt.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 106,
+      "height": 127,
+      "sourceGrid": {
+        "row": 3,
+        "column": 1,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-24-potato",
+      "file": "plants/produce-vegetable/produce-vegetable-24-potato.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 113,
+      "height": 117,
+      "sourceGrid": {
+        "row": 3,
+        "column": 2,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-25-cucumber",
+      "file": "plants/produce-vegetable/produce-vegetable-25-cucumber.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 82,
+      "height": 134,
+      "sourceGrid": {
+        "row": 3,
+        "column": 3,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-26-green-pea",
+      "file": "plants/produce-vegetable/produce-vegetable-26-green-pea.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 86,
+      "height": 133,
+      "sourceGrid": {
+        "row": 3,
+        "column": 4,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-27-snap-peas",
+      "file": "plants/produce-vegetable/produce-vegetable-27-snap-peas.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 116,
+      "height": 125,
+      "sourceGrid": {
+        "row": 3,
+        "column": 5,
+        "columns": 7,
+        "rows": 4
+      }
+    },
+    {
+      "id": "produce-vegetable-28-corn",
+      "file": "plants/produce-vegetable/produce-vegetable-28-corn.png",
+      "group": "plants/produce-vegetable",
+      "source": "download-produce-2-bg-grid-text-removed",
+      "width": 107,
+      "height": 129,
+      "sourceGrid": {
+        "row": 3,
+        "column": 6,
+        "columns": 7,
+        "rows": 4
+      }
+    }
+  ]
+}

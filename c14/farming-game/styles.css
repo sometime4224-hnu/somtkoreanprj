@@ -369,11 +369,22 @@ body::before {
 }
 
 .basket-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 10px;
   border-radius: 999px;
   background: rgba(131, 179, 108, 0.14);
   color: var(--ink);
   font-size: 0.86rem;
+  line-height: 1;
+}
+
+.basket-chip-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 2px rgba(54, 78, 44, 0.16));
 }
 
 .basket-chip.is-empty {
