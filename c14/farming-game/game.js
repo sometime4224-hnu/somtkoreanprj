@@ -80,6 +80,142 @@ const ui = {
 const miniMapCtx = ui.miniMap.getContext("2d");
 const activityCtx = ui.activityCanvas.getContext("2d");
 
+const IMAGE_ASSET_ROOT = "assets/images";
+const VEGETABLE_ASSETS = [
+  `${IMAGE_ASSET_ROOT}/vegetables/produce-vegetable-01-napa-cabbage.png`,
+  `${IMAGE_ASSET_ROOT}/vegetables/produce-vegetable-02-carrot.png`,
+  `${IMAGE_ASSET_ROOT}/vegetables/produce-vegetable-10-radish.png`,
+  `${IMAGE_ASSET_ROOT}/vegetables/produce-vegetable-12-lettuce.png`
+];
+const PLANTER_ASSETS = [
+  `${IMAGE_ASSET_ROOT}/plants/plant-24-fern.png`,
+  `${IMAGE_ASSET_ROOT}/plants/plant-12-pink-cosmos.png`,
+  `${IMAGE_ASSET_ROOT}/plants/plant-13-lavender-sprig.png`,
+  `${IMAGE_ASSET_ROOT}/plants/plant-10-yellow-daisy.png`
+];
+const TREE_ASSETS = [
+  `${IMAGE_ASSET_ROOT}/trees/medium-plant-01-oak-tree.png`,
+  `${IMAGE_ASSET_ROOT}/trees/medium-plant-02-maple-tree.png`,
+  `${IMAGE_ASSET_ROOT}/trees/medium-plant-03-pine-tree.png`,
+  `${IMAGE_ASSET_ROOT}/trees/medium-plant-04-cherry-blossom-tree.png`,
+  `${IMAGE_ASSET_ROOT}/trees/medium-plant-08-apple-tree.png`,
+  `${IMAGE_ASSET_ROOT}/trees/medium-plant-09-silver-birch.png`
+];
+const PRODUCE_ASSETS = {
+  apple: `${IMAGE_ASSET_ROOT}/produce/produce-fruit-01-red-apple.png`,
+  pear: `${IMAGE_ASSET_ROOT}/produce/produce-fruit-03-pear.png`,
+  strawberry: `${IMAGE_ASSET_ROOT}/produce/produce-fruit-04-strawberry.png`,
+  watermelon: `${IMAGE_ASSET_ROOT}/produce/produce-fruit-08-watermelon-slice.png`,
+  orange: `${IMAGE_ASSET_ROOT}/produce/produce-fruit-10-orange.png`
+};
+const LIVESTOCK_ASSETS = {
+  cow: `${IMAGE_ASSET_ROOT}/livestock/farm-01-cow.png`,
+  sheep: `${IMAGE_ASSET_ROOT}/livestock/farm-04-sheep.png`,
+  pig: `${IMAGE_ASSET_ROOT}/livestock/farm-06-pig.png`,
+  chick: `${IMAGE_ASSET_ROOT}/livestock/baby-04-chick.png`,
+  kitten: `${IMAGE_ASSET_ROOT}/livestock/baby-02-kitten.png`
+};
+const BASKET_ITEM_ASSETS = {
+  꽃단장: `${IMAGE_ASSET_ROOT}/plants/plant-12-pink-cosmos.png`,
+  잔디결: `${IMAGE_ASSET_ROOT}/plants/plant-25-lawn-tuft.png`,
+  모종상자: `${IMAGE_ASSET_ROOT}/plants/plant-24-fern.png`,
+  "싱싱한 채소": `${IMAGE_ASSET_ROOT}/vegetables/produce-vegetable-01-napa-cabbage.png`,
+  "반듯한 고랑": `${IMAGE_ASSET_ROOT}/vegetables/produce-vegetable-02-carrot.png`,
+  "달걀 꾸러미": `${IMAGE_ASSET_ROOT}/livestock/baby-04-chick.png`,
+  "저녁 한 상": PRODUCE_ASSETS.apple
+};
+const imageAssetCache = new Map();
+
+function loadGameImage(src) {
+  if (!src) {
+    return null;
+  }
+  if (imageAssetCache.has(src)) {
+    return imageAssetCache.get(src);
+  }
+  const image = new Image();
+  const asset = {
+    image,
+    loaded: false,
+    failed: false
+  };
+  image.onload = () => {
+    asset.loaded = true;
+  };
+  image.onerror = () => {
+    asset.failed = true;
+  };
+  image.src = src;
+  imageAssetCache.set(src, asset);
+  return asset;
+}
+
+function drawCenteredImageAssetOn(g, src, x, y, width, height, options = {}) {
+  const asset = loadGameImage(src);
+  if (!asset?.loaded || asset.failed) {
+    return false;
+  }
+  g.save();
+  g.translate(x, y);
+  if (options.flipX) {
+    g.scale(-1, 1);
+  }
+  g.globalAlpha *= options.alpha ?? 1;
+  g.drawImage(asset.image, -width / 2, -height / 2, width, height);
+  g.restore();
+  return true;
+}
+
+function drawCenteredImageAsset(src, x, y, width, height, options = {}) {
+  return drawCenteredImageAssetOn(ctx, src, x, y, width, height, options);
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    };
+    return entities[char] ?? char;
+  });
+}
+
+function getBasketItemAsset(item) {
+  if (BASKET_ITEM_ASSETS[item]) {
+    return BASKET_ITEM_ASSETS[item];
+  }
+  if (item.includes("물고기")) {
+    return "";
+  }
+  if (item.includes("채소")) {
+    return BASKET_ITEM_ASSETS["싱싱한 채소"];
+  }
+  if (item.includes("모종")) {
+    return BASKET_ITEM_ASSETS.모종상자;
+  }
+  if (item.includes("달걀") || item.includes("가축")) {
+    return BASKET_ITEM_ASSETS["달걀 꾸러미"];
+  }
+  if (item.includes("잔디")) {
+    return BASKET_ITEM_ASSETS.잔디결;
+  }
+  if (item.includes("저녁")) {
+    return BASKET_ITEM_ASSETS["저녁 한 상"];
+  }
+  return "";
+}
+
+function renderBasketChip(item, isEmpty) {
+  const asset = isEmpty ? "" : getBasketItemAsset(item);
+  const imageMarkup = asset
+    ? `<img class="basket-chip-icon" src="${escapeHtml(asset)}" alt="" aria-hidden="true">`
+    : "";
+  return `<span class="basket-chip ${isEmpty ? "is-empty" : ""}">${imageMarkup}<span>${escapeHtml(item)}</span></span>`;
+}
+
 const world = {
   width: 2000,
   height: 1400
@@ -827,13 +963,13 @@ const quizSignDefinitions = [
 ];
 
 const followerDefinitions = {
-  chick: { label: "병아리", palette: ["#f6e48d", "#f2cf5b", "#e08a45"], shape: "chick" },
-  bunny: { label: "토끼", palette: ["#f7efe6", "#e5d4c4", "#d97f56"], shape: "bunny" },
-  duck: { label: "오리", palette: ["#f7f0b9", "#f1d45f", "#e58f4e"], shape: "duck" },
-  cat: { label: "고양이", palette: ["#f1dac6", "#d6b18b", "#7b6047"], shape: "cat" },
-  lamb: { label: "양", palette: ["#fcf7ef", "#e8ddcf", "#8d765e"], shape: "lamb" },
-  puppy: { label: "강아지", palette: ["#f0dfc3", "#c89d73", "#6f543f"], shape: "puppy" },
-  frog: { label: "개구리", palette: ["#b5dd83", "#78b15a", "#f5f1df"], shape: "frog" }
+  chick: { label: "병아리", palette: ["#f6e48d", "#f2cf5b", "#e08a45"], shape: "chick", asset: `${IMAGE_ASSET_ROOT}/followers/baby-04-chick.png`, assetScale: 1.08 },
+  bunny: { label: "토끼", palette: ["#f7efe6", "#e5d4c4", "#d97f56"], shape: "bunny", asset: `${IMAGE_ASSET_ROOT}/followers/baby-03-bunny.png`, assetScale: 1.08 },
+  duck: { label: "오리", palette: ["#f7f0b9", "#f1d45f", "#e58f4e"], shape: "duck", asset: `${IMAGE_ASSET_ROOT}/followers/baby-05-duckling.png`, assetScale: 1.08 },
+  cat: { label: "고양이", palette: ["#f1dac6", "#d6b18b", "#7b6047"], shape: "cat", asset: `${IMAGE_ASSET_ROOT}/followers/baby-02-kitten.png`, assetScale: 1.1 },
+  lamb: { label: "양", palette: ["#fcf7ef", "#e8ddcf", "#8d765e"], shape: "lamb", asset: `${IMAGE_ASSET_ROOT}/followers/baby-08-lamb.png`, assetScale: 1.1 },
+  puppy: { label: "강아지", palette: ["#f0dfc3", "#c89d73", "#6f543f"], shape: "puppy", asset: `${IMAGE_ASSET_ROOT}/followers/baby-01-puppy.png`, assetScale: 1.1 },
+  frog: { label: "개구리", palette: ["#b5dd83", "#78b15a", "#f5f1df"], shape: "frog", asset: `${IMAGE_ASSET_ROOT}/followers/baby-25-froglet.png`, assetScale: 1.04 }
 };
 
 const followerOrder = quizSignDefinitions.map((entry) => entry.followerId);
@@ -847,6 +983,14 @@ const followerFormation = [
   { back: 72, side: -12 },
   { back: 72, side: 12 }
 ];
+
+Object.values(followerDefinitions).forEach((definition) => loadGameImage(definition.asset));
+VEGETABLE_ASSETS.forEach((asset) => loadGameImage(asset));
+PLANTER_ASSETS.forEach((asset) => loadGameImage(asset));
+TREE_ASSETS.forEach((asset) => loadGameImage(asset));
+Object.values(PRODUCE_ASSETS).forEach((asset) => loadGameImage(asset));
+Object.values(LIVESTOCK_ASSETS).forEach((asset) => loadGameImage(asset));
+Object.values(BASKET_ITEM_ASSETS).forEach((asset) => loadGameImage(asset));
 
 const obstacles = [
   { x: 250, y: 140, w: 240, h: 210 },
@@ -979,6 +1123,7 @@ function createNatureBush(x, y, options = {}) {
     accentColor: options.accentColor ?? "#7fb067",
     blossomColor: options.blossomColor ?? "#f7d6e0",
     berryColor: options.berryColor ?? "#d66f63",
+    asset: options.asset ?? `${IMAGE_ASSET_ROOT}/plants/plant-23-leaf-bush.png`,
     cooldown: 0,
     shake: 0,
     brush: 0,
@@ -1001,6 +1146,7 @@ function createNatureFlowerPatch(x, y, options = {}) {
     scale: options.scale ?? 1,
     palette: options.palette ?? ["#f1b56b", "#f7d6e0", "#f4f0d0"],
     stemColor: options.stemColor ?? "#6c9158",
+    asset: options.asset ?? `${IMAGE_ASSET_ROOT}/plants/plant-10-yellow-daisy.png`,
     cooldown: 0,
     shake: 0,
     brush: 0,
@@ -1029,6 +1175,8 @@ function createNatureTree(x, y, options = {}) {
         accent: "#7fb067",
         trunk: "#7a5637"
       },
+    asset: options.asset ?? TREE_ASSETS[(options.assetIndex ?? options.variant ?? 0) % TREE_ASSETS.length],
+    fruitAsset: options.fruitAsset ?? PRODUCE_ASSETS.apple,
     fruitColor: options.fruitColor ?? "#e7b564",
     cooldown: 0,
     shake: 0,
@@ -1188,19 +1336,19 @@ function createAmbientState() {
     laundry: { gust: 0, sway: 0 },
     nature: {
       bushes: [
-        createNatureBush(314, 590, { label: "향기 수풀", scale: 1.02, blossomColor: "#f7d6e0", berryColor: "#d87762" }),
-        createNatureBush(458, 610, { label: "꽃 수풀", scale: 1.08, baseColor: "#6b9653", accentColor: "#8dbe70", blossomColor: "#f1b56b" }),
-        createNatureBush(878, 414, { label: "둥근 수풀", scale: 0.96, baseColor: "#5b8447", accentColor: "#78a95f", blossomColor: "#f4f0d0" }),
-        createNatureBush(1310, 780, { label: "열매 수풀", scale: 1.1, baseColor: "#5b8949", accentColor: "#87b66d", berryColor: "#e08a5e" }),
-        createNatureBush(1360, 1136, { label: "물가 수풀", scale: 1.04, baseColor: "#648f56", accentColor: "#8cc27b", blossomColor: "#f7d6e0" })
+        createNatureBush(314, 590, { label: "향기 수풀", scale: 1.02, blossomColor: "#f7d6e0", berryColor: "#d87762", asset: `${IMAGE_ASSET_ROOT}/plants/plant-23-leaf-bush.png` }),
+        createNatureBush(458, 610, { label: "꽃 수풀", scale: 1.08, baseColor: "#6b9653", accentColor: "#8dbe70", blossomColor: "#f1b56b", asset: `${IMAGE_ASSET_ROOT}/plants/plant-24-fern.png` }),
+        createNatureBush(878, 414, { label: "둥근 수풀", scale: 0.96, baseColor: "#5b8447", accentColor: "#78a95f", blossomColor: "#f4f0d0", asset: `${IMAGE_ASSET_ROOT}/plants/plant-21-clover.png` }),
+        createNatureBush(1310, 780, { label: "열매 수풀", scale: 1.1, baseColor: "#5b8949", accentColor: "#87b66d", berryColor: "#e08a5e", asset: `${IMAGE_ASSET_ROOT}/plants/plant-18-meadow-grass.png` }),
+        createNatureBush(1360, 1136, { label: "물가 수풀", scale: 1.04, baseColor: "#648f56", accentColor: "#8cc27b", blossomColor: "#f7d6e0", asset: `${IMAGE_ASSET_ROOT}/plants/plant-25-lawn-tuft.png` })
       ],
       flowers: [
-        createNatureFlowerPatch(234, 604, { label: "들꽃", palette: ["#f1b56b", "#f7d6e0", "#f4f0d0"], scale: 1 }),
-        createNatureFlowerPatch(548, 640, { label: "길가 꽃", palette: ["#d66f63", "#f7d6e0", "#f1b56b"], scale: 1.08 }),
-        createNatureFlowerPatch(936, 388, { label: "정원 꽃", palette: ["#f4f0d0", "#f1b56b", "#d66f63"], scale: 0.96 }),
-        createNatureFlowerPatch(1188, 768, { label: "밭둑 꽃", palette: ["#f7d6e0", "#f1b56b", "#a0c46d"], scale: 1 }),
-        createNatureFlowerPatch(1422, 1124, { label: "물가 꽃", palette: ["#d7eff6", "#f7d6e0", "#f4f0d0"], stemColor: "#6b8f55", scale: 1.02 }),
-        createNatureFlowerPatch(706, 1078, { label: "들판 꽃", palette: ["#f1b56b", "#f4f0d0", "#d66f63"], scale: 1.06 })
+        createNatureFlowerPatch(234, 604, { label: "들꽃", palette: ["#f1b56b", "#f7d6e0", "#f4f0d0"], scale: 1, asset: `${IMAGE_ASSET_ROOT}/plants/plant-12-pink-cosmos.png` }),
+        createNatureFlowerPatch(548, 640, { label: "길가 꽃", palette: ["#d66f63", "#f7d6e0", "#f1b56b"], scale: 1.08, asset: `${IMAGE_ASSET_ROOT}/plants/plant-01-red-flower.png` }),
+        createNatureFlowerPatch(936, 388, { label: "정원 꽃", palette: ["#f4f0d0", "#f1b56b", "#d66f63"], scale: 0.96, asset: `${IMAGE_ASSET_ROOT}/plants/plant-03-yellow-flower.png` }),
+        createNatureFlowerPatch(1188, 768, { label: "밭둑 꽃", palette: ["#f7d6e0", "#f1b56b", "#a0c46d"], scale: 1, asset: `${IMAGE_ASSET_ROOT}/plants/plant-07-orange-tulip.png` }),
+        createNatureFlowerPatch(1422, 1124, { label: "물가 꽃", palette: ["#d7eff6", "#f7d6e0", "#f4f0d0"], stemColor: "#6b8f55", scale: 1.02, asset: `${IMAGE_ASSET_ROOT}/plants/plant-13-lavender-sprig.png` }),
+        createNatureFlowerPatch(706, 1078, { label: "들판 꽃", palette: ["#f1b56b", "#f4f0d0", "#d66f63"], scale: 1.06, asset: `${IMAGE_ASSET_ROOT}/plants/plant-10-yellow-daisy.png` })
       ],
       trees: [
         createNatureTree(258, 652, {
@@ -1209,6 +1357,8 @@ function createAmbientState() {
           trunkHeight: 24,
           variant: 0,
           palette: { base: "#6e9c58", accent: "#8ab56f", trunk: "#765338" },
+          asset: TREE_ASSETS[3],
+          fruitAsset: PRODUCE_ASSETS.strawberry,
           fruitColor: "#f0a28d"
         }),
         createNatureTree(884, 404, {
@@ -1217,6 +1367,8 @@ function createAmbientState() {
           trunkHeight: 24,
           variant: 2,
           palette: { base: "#5f904b", accent: "#8dbc73", trunk: "#724f34" },
+          asset: TREE_ASSETS[0],
+          fruitAsset: PRODUCE_ASSETS.pear,
           fruitColor: "#f7d6e0"
         }),
         createNatureTree(1244, 820, {
@@ -1225,6 +1377,8 @@ function createAmbientState() {
           trunkHeight: 26,
           variant: 1,
           palette: { base: "#628f4a", accent: "#87b76e", trunk: "#745236" },
+          asset: TREE_ASSETS[4],
+          fruitAsset: PRODUCE_ASSETS.apple,
           fruitColor: "#e4d073"
         }),
         createNatureTree(1666, 786, {
@@ -1233,6 +1387,8 @@ function createAmbientState() {
           trunkHeight: 30,
           variant: 0,
           palette: { base: "#557f46", accent: "#7aa564", trunk: "#6b4e33" },
+          asset: TREE_ASSETS[2],
+          fruitAsset: PRODUCE_ASSETS.orange,
           fruitColor: "#d4a265"
         })
       ]
@@ -2505,10 +2661,7 @@ function renderHud() {
 
   const basketItems = state.basket.length > 0 ? state.basket : ["아직 바구니가 비어 있습니다"];
   ui.basketList.innerHTML = basketItems
-    .map(
-      (item, index) =>
-        `<span class="basket-chip ${state.basket.length === 0 && index === 0 ? "is-empty" : ""}">${item}</span>`
-    )
+    .map((item, index) => renderBasketChip(item, state.basket.length === 0 && index === 0))
     .join("");
   ui.saveStatus.textContent = state.saveMessage;
   renderTimeHud();
@@ -5148,8 +5301,9 @@ function createActivityState(zone) {
         instruction: "사료 자루를 들고 먹이통 두 곳에 직접 사료를 채우세요.",
         feedBag: { x: 96, y: 286, r: 18, taken: false, servings: 2 },
         animals: [
-          { x: 302, y: 154, homeX: 302, homeY: 154, color: "#e9e5de", step: 0, interest: 0 },
-          { x: 428, y: 240, homeX: 428, homeY: 240, color: "#ddd0a2", step: 1.1, interest: 0 }
+          { x: 302, y: 154, homeX: 302, homeY: 154, color: "#e9e5de", step: 0, interest: 0, asset: LIVESTOCK_ASSETS.cow, assetScale: 1.28 },
+          { x: 366, y: 204, homeX: 366, homeY: 204, color: "#e5b1a8", step: 0.7, interest: 0, asset: LIVESTOCK_ASSETS.pig, assetScale: 1.04 },
+          { x: 428, y: 240, homeX: 428, homeY: 240, color: "#ddd0a2", step: 1.1, interest: 0, asset: LIVESTOCK_ASSETS.sheep, assetScale: 1.18 }
         ],
         troughs: [
           { x: 460, y: 132, r: 18, filled: false, fillLevel: 0, reaction: 0 },
@@ -6299,6 +6453,16 @@ function drawActivityAnimal(animal) {
   activityCtx.beginPath();
   activityCtx.ellipse(animal.x, animal.y + 18, 18, 6, 0, 0, Math.PI * 2);
   activityCtx.fill();
+  if (drawCenteredImageAssetOn(activityCtx, animal.asset, animal.x, animal.y + bob - 4, 58 * (animal.assetScale ?? 1), 50 * (animal.assetScale ?? 1))) {
+    if (animal.interest > 0.12) {
+      activityCtx.strokeStyle = `rgba(214, 114, 78, ${animal.interest * 0.7})`;
+      activityCtx.lineWidth = 2;
+      activityCtx.beginPath();
+      activityCtx.arc(animal.x + 22, animal.y - 28 + bob, 6 + animal.interest * 4, Math.PI * 0.1, Math.PI * 0.9);
+      activityCtx.stroke();
+    }
+    return;
+  }
 
   activityCtx.fillStyle = animal.color;
   activityCtx.beginPath();
@@ -6447,7 +6611,8 @@ function drawStarburstOn(g, x, y, options = {}) {
 }
 
 function drawCanvasSeedlingCrate(g, x, y, options = {}) {
-  const { scale = 1, sprouts = 3, rotation = 0 } = options;
+  const { scale = 1, sprouts = 3, rotation = 0, assetSet = PLANTER_ASSETS } = options;
+  const crateAssets = assetSet?.length ? assetSet : PLANTER_ASSETS;
   g.save();
   g.translate(x, y);
   g.rotate(rotation);
@@ -6474,6 +6639,9 @@ function drawCanvasSeedlingCrate(g, x, y, options = {}) {
     g.moveTo(px, -10 * scale);
     g.lineTo(px, -4 * scale);
     g.stroke();
+    drawCenteredImageAssetOn(g, crateAssets[index % crateAssets.length], px + 0.4 * scale, -13 * scale, 13 * scale, 13 * scale, {
+      alpha: 0.92
+    });
   }
   g.restore();
 }
@@ -6527,7 +6695,7 @@ function drawCanvasFeedBag(g, x, y, options = {}) {
 }
 
 function drawCanvasBasket(g, x, y, options = {}) {
-  const { scale = 1, stored = 0, rotation = 0 } = options;
+  const { scale = 1, stored = 0, rotation = 0, itemAssets = null } = options;
   g.save();
   g.translate(x, y);
   g.rotate(rotation);
@@ -6540,11 +6708,20 @@ function drawCanvasBasket(g, x, y, options = {}) {
   g.arc(0, -11 * scale, 14 * scale, Math.PI, 0);
   g.stroke();
   if (stored > 0) {
-    drawCanvasFish(g, 0, -4 * scale, {
-      scale: 0.9 * scale,
-      rotation: 0.04,
-      palette: ["#fff5e9", "#f7d9a2", "#7ba9b8"]
-    });
+    const visibleAssets = Array.isArray(itemAssets) ? itemAssets.filter(Boolean).slice(0, Math.max(1, stored)) : [];
+    if (visibleAssets.length > 0) {
+      visibleAssets.forEach((asset, index) => {
+        const offsetX = (-8 + index * 8) * scale;
+        const offsetY = (-5 - (index % 2) * 3) * scale;
+        drawCenteredImageAssetOn(g, asset, offsetX, offsetY, 17 * scale, 17 * scale);
+      });
+    } else {
+      drawCanvasFish(g, 0, -4 * scale, {
+        scale: 0.9 * scale,
+        rotation: 0.04,
+        palette: ["#fff5e9", "#f7d9a2", "#7ba9b8"]
+      });
+    }
   }
   g.restore();
 }
@@ -7245,7 +7422,7 @@ function renderActivityScene() {
     if (game.kind === "vegetablePlant") {
       drawActivityEllipseShadow(game.tray.x, game.tray.y + 16, 20, 6, 0.12);
       drawCanvasSeedlingCrate(activityCtx, game.tray.x, game.tray.y, { scale: 1, sprouts: 3 });
-      game.plots.forEach((plot) => {
+      game.plots.forEach((plot, index) => {
         const lift = Math.sin(plot.pop * Math.PI) * 5;
         drawActivityEllipseShadow(plot.x, plot.y + 18, plot.planted ? 10 : 14, 5, 0.09);
         activityCtx.fillStyle = plot.planted ? "#7ab15b" : "#49311f";
@@ -7259,6 +7436,7 @@ function renderActivityScene() {
           activityCtx.moveTo(plot.x, plot.y + 8 + lift);
           activityCtx.lineTo(plot.x, plot.y - 6 + lift);
           activityCtx.stroke();
+          drawCenteredImageAssetOn(activityCtx, VEGETABLE_ASSETS[index % VEGETABLE_ASSETS.length], plot.x, plot.y - 12 + lift, 28, 28);
         }
       });
     } else {
@@ -7288,7 +7466,7 @@ function renderActivityScene() {
       activityCtx.stroke();
       drawActivityEllipseShadow(game.bucket.x, game.bucket.y + 16, 16, 5, 0.1);
       drawCanvasBucket(activityCtx, game.bucket.x, game.bucket.y - 1, { scale: 1, water: 1 });
-      game.plants.forEach((plant) => {
+      game.plants.forEach((plant, index) => {
         const bounce = Math.sin(plant.bounce * Math.PI) * 6;
         const droop = plant.droop * 0.85;
         drawActivityEllipseShadow(plant.x, plant.y + 16, 10, 4, 0.08);
@@ -7303,6 +7481,15 @@ function renderActivityScene() {
         activityCtx.ellipse(plant.x - 6, plant.y - 10 - bounce, 7, plant.watered ? 6 : 4, -0.5 - droop, 0, Math.PI * 2);
         activityCtx.ellipse(plant.x + 6, plant.y - 10 - bounce, 7, plant.watered ? 6 : 4, 0.5 + droop, 0, Math.PI * 2);
         activityCtx.fill();
+        drawCenteredImageAssetOn(
+          activityCtx,
+          PLANTER_ASSETS[index % PLANTER_ASSETS.length],
+          plant.x,
+          plant.y - 15 - bounce,
+          plant.watered ? 30 : 25,
+          plant.watered ? 30 : 25,
+          { alpha: plant.watered ? 0.98 : 0.78 }
+        );
       });
     }
   } else if (game.kind === "farmWork") {
@@ -8498,6 +8685,9 @@ function drawChicken(chicken) {
   }
   const bob = Math.sin(chicken.bob) * 1.2;
   drawEllipseShadow(x, y + 9, 10, 4, 0.12);
+  if (drawCenteredImageAsset(LIVESTOCK_ASSETS.chick, x, y + bob - 3, 27, 27, { flipX: chicken.heading < 0 })) {
+    return;
+  }
   ctx.fillStyle = "#f1e9dc";
   ctx.beginPath();
   ctx.ellipse(x, y + bob, 10, 7.6, 0, 0, Math.PI * 2);
@@ -8726,6 +8916,9 @@ function drawCat() {
   const curl = stretch > 0 ? 0.4 + stretch * 0.5 : 1;
   const bob = Math.sin(cat.nap * 1.8) * (stretch > 0 ? 0.4 : 0.9);
   drawEllipseShadow(x, y + 10, 13, 4, 0.1);
+  if (drawCenteredImageAsset(LIVESTOCK_ASSETS.kitten, x, y + bob - 4, 36 + stretch * 8, 36, { flipX: cat.heading < 0 })) {
+    return;
+  }
   ctx.save();
   ctx.translate(x, y + bob);
   ctx.scale(cat.heading, 1);
@@ -8902,6 +9095,7 @@ function drawNatureBush(bush) {
   ctx.arc(x - 6 * bush.scale + sway * 0.6, y - 2, 7 * bush.scale, 0, Math.PI * 2);
   ctx.arc(x + 8 * bush.scale + sway * 0.5, y + 2, 6.5 * bush.scale, 0, Math.PI * 2);
   ctx.fill();
+  drawCenteredImageAsset(bush.asset, x + sway * 0.35, y + 2, 42 * bush.scale, 42 * bush.scale);
 
   for (let index = 0; index < 3; index += 1) {
     const angle = index * 2.1 + bush.readyPhase;
@@ -8958,6 +9152,7 @@ function drawNatureFlowerPatch(flower) {
     ctx.arc(stemX + Math.sin(flower.sway * 1.2 + index) * 3, y - stemHeight, 1.4, 0, Math.PI * 2);
     ctx.fill();
   }
+  drawCenteredImageAsset(flower.asset, x + sway * 0.18, y - 8, 44 * flower.scale, 44 * flower.scale);
 
   if (flower.dropTimer > 0) {
     const alpha = Math.min(flower.dropTimer / 2, 1);
@@ -8998,21 +9193,42 @@ function drawNatureTree(tree) {
     drawScaledGlow(ctx, x, y + 4, tree.size * 1.7, tree.size * 1.1, `rgba(220, 238, 181, ${Math.min(glow * 0.14, 0.2)})`, "rgba(220, 238, 181, 0)", 0);
   }
 
-  drawTreeShape(x + sway, y, tree.size, tree.trunkHeight, tree.palette, tree.variant);
-  ctx.fillStyle = tree.fruitColor;
-  ctx.beginPath();
-  ctx.arc(x - tree.size * 0.35 + sway * 0.5, y + 2, 3.4, 0, Math.PI * 2);
-  ctx.arc(x + tree.size * 0.28 + sway * 0.4, y + 10, 3.2, 0, Math.PI * 2);
-  ctx.arc(x + sway * 0.3, y - tree.size * 0.18, 3, 0, Math.PI * 2);
-  ctx.fill();
+  drawTreeShape(x + sway, y, tree.size, tree.trunkHeight, tree.palette, tree.variant, tree.asset);
+  const fruitPoints = [
+    [x - tree.size * 0.35 + sway * 0.5, y + 2, 9],
+    [x + tree.size * 0.28 + sway * 0.4, y + 10, 8.5],
+    [x + sway * 0.3, y - tree.size * 0.18, 8]
+  ];
+  const drewFruit = fruitPoints.reduce(
+    (drawn, [fx, fy, size]) => drawCenteredImageAsset(tree.fruitAsset, fx, fy, size, size) || drawn,
+    false
+  );
+  if (!drewFruit) {
+    ctx.fillStyle = tree.fruitColor;
+    ctx.beginPath();
+    fruitPoints.forEach(([fx, fy, size]) => {
+      ctx.arc(fx, fy, size * 0.38, 0, Math.PI * 2);
+    });
+    ctx.fill();
+  }
 
   if (tree.dropTimer > 0) {
     const alpha = Math.min(tree.dropTimer / 2.4, 1);
-    ctx.fillStyle = `rgba(231, 180, 101, ${0.34 * alpha})`;
-    ctx.beginPath();
-    ctx.arc(x - 10, y + tree.trunkHeight + 22, 4, 0, Math.PI * 2);
-    ctx.arc(x + 11, y + tree.trunkHeight + 18, 3.6, 0, Math.PI * 2);
-    ctx.fill();
+    const dropped = [
+      [x - 10, y + tree.trunkHeight + 22],
+      [x + 11, y + tree.trunkHeight + 18]
+    ];
+    const drewDroppedFruit = dropped.reduce(
+      (drawn, [fx, fy]) => drawCenteredImageAsset(tree.fruitAsset, fx, fy, 11, 11, { alpha }) || drawn,
+      false
+    );
+    if (!drewDroppedFruit) {
+      ctx.fillStyle = `rgba(231, 180, 101, ${0.34 * alpha})`;
+      ctx.beginPath();
+      ctx.arc(x - 10, y + tree.trunkHeight + 22, 4, 0, Math.PI * 2);
+      ctx.arc(x + 11, y + tree.trunkHeight + 18, 3.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
 
   drawNatureVisitor(x + sway * 0.4, y - tree.size - 8, tree.visitorType, tree.visitorTimer, tree.readyPhase);
@@ -9509,8 +9725,11 @@ function drawCropRidges(x, y, w, h, rows = 5, baseColor = "#7b5535", alternateCo
   }
 }
 
-function drawTreeShape(x, y, size, trunkHeight, palette, variant = 0) {
+function drawTreeShape(x, y, size, trunkHeight, palette, variant = 0, asset = null) {
   drawEllipseShadow(x, y + trunkHeight + 18, size * 1.2, 8 + size * 0.18, 0.12);
+  if (drawCenteredImageAsset(asset, x, y + trunkHeight * 0.38, size * 3.65, size * 3.65, { alpha: 0.98 })) {
+    return;
+  }
   ctx.fillStyle = palette.trunkShadow ?? "rgba(72, 54, 38, 0.22)";
   ctx.fillRect(x - 7, y + trunkHeight - 2, 14, 30);
   ctx.fillStyle = palette.trunk ?? "#7a5637";
@@ -9906,7 +10125,7 @@ function drawWorldPracticeObjects(cameraX, cameraY) {
       scale: 1,
       water: practice.vegetable.bucket.water > 0 ? 1 : 0
     });
-    practice.vegetable.plots.forEach((plot) => {
+    practice.vegetable.plots.forEach((plot, index) => {
       const px = plot.x - cameraX;
       const py = plot.y - cameraY;
       drawEllipseShadow(px, py + 16, plot.planted ? 10 : 14, 4, 0.08);
@@ -9927,9 +10146,10 @@ function drawWorldPracticeObjects(cameraX, cameraY) {
         ctx.ellipse(px - 6, py - 10 - bounce, 7, plot.watered ? 6 : 4, -0.5, 0, Math.PI * 2);
         ctx.ellipse(px + 6, py - 10 - bounce, 7, plot.watered ? 6 : 4, 0.5, 0, Math.PI * 2);
         ctx.fill();
+        drawCenteredImageAsset(VEGETABLE_ASSETS[index % VEGETABLE_ASSETS.length], px, py - 16 - bounce, plot.watered ? 30 : 25, plot.watered ? 30 : 25);
       }
     });
-    practice.vegetable.planters.forEach((planter) => {
+    practice.vegetable.planters.forEach((planter, index) => {
       const px = planter.x - cameraX;
       const py = planter.y - cameraY;
       drawEllipseShadow(px, py + 18, 20, 6, 0.1);
@@ -9955,6 +10175,14 @@ function drawWorldPracticeObjects(cameraX, cameraY) {
         ctx.arc(px - 5, py - 14 - pop * 0.4, 4 + planter.bloom * 2, 0, Math.PI * 2);
         ctx.arc(px + 5, py - 11 - pop * 0.3, 4 + planter.bloom * 1.8, 0, Math.PI * 2);
         ctx.fill();
+        drawCenteredImageAsset(
+          PLANTER_ASSETS[index % PLANTER_ASSETS.length],
+          px,
+          py - 20 - pop,
+          30 + planter.bloom * 4,
+          30 + planter.bloom * 4,
+          { alpha: planter.watered ? 0.98 : 0.82 }
+        );
       }
     });
   }
@@ -10681,7 +10909,7 @@ function drawVegetablePatch(cameraX, cameraY) {
     for (let i = 0; i < 12; i += 1) {
       const px = x + 40 + (i % 4) * 80;
       const py = y + 46 + Math.floor(i / 4) * 80;
-      drawSprout(px, py, state.completedTasks.has("vegetableGrow"));
+      drawSprout(px, py, state.completedTasks.has("vegetableGrow"), VEGETABLE_ASSETS[i % VEGETABLE_ASSETS.length]);
     }
   }
 
@@ -10768,7 +10996,7 @@ function drawVillageWell(x, y) {
   }
 }
 
-function drawSprout(x, y, grown) {
+function drawSprout(x, y, grown, asset = null) {
   ctx.strokeStyle = "#588649";
   ctx.lineWidth = 3;
   ctx.beginPath();
@@ -10786,6 +11014,9 @@ function drawSprout(x, y, grown) {
     ctx.arc(x, y - 18, 3.2, 0, Math.PI * 2);
     ctx.fill();
   }
+  drawCenteredImageAsset(asset, x, y - (grown ? 16 : 12), grown ? 30 : 24, grown ? 30 : 24, {
+    alpha: grown ? 0.96 : 0.74
+  });
 }
 
 function drawField(cameraX, cameraY) {
@@ -10885,7 +11116,7 @@ function drawTrees(cameraX, cameraY) {
     const sx = x - cameraX;
     const sy = y - cameraY;
     const palette = palettes[index % palettes.length];
-    drawTreeShape(sx, sy, 20 + (index % 3) * 3, 22 + (index % 2) * 4, palette, index);
+    drawTreeShape(sx, sy, 20 + (index % 3) * 3, 22 + (index % 2) * 4, palette, index, TREE_ASSETS[index % TREE_ASSETS.length]);
     if (index % 3 === 0) {
       drawFlowerCluster(sx - 6, sy + 2, ["#f7d6e0", "#f1b56b", "#f4f0d0"]);
     }
@@ -11450,6 +11681,15 @@ function drawFollowerCompanion(entry) {
   const blink = Math.sin(entry.blink * 2.8) > 0.95;
 
   drawEllipseShadow(x, y + 12, 14, 4, 0.08);
+  const imageSize = 36 * (definition.assetScale ?? 1);
+  if (
+    drawCenteredImageAsset(definition.asset, x, y + bob - 2, imageSize, imageSize, {
+      flipX: Math.sin(entry.step) < 0
+    })
+  ) {
+    return;
+  }
+
   ctx.save();
   ctx.translate(x, y + bob);
 
