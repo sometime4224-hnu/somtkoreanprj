@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>14과 밭 · 과수원 · 동물농장 클리커</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="nav-link" href="../../index.html" aria-label="메인으로">⌂</a>
+      <a class="nav-link" href="../index.html">14과</a>
+      <strong>생명 농장 클리커</strong>
+      <button id="resetButton" class="icon-button" type="button" title="처음부터" aria-label="처음부터">↻</button>
+    </header>
+
+    <main class="game-shell">
+      <section class="score-band" aria-label="농장 현황">
+        <div>
+          <span class="eyebrow">오늘의 수확</span>
+          <h1><span id="totalScore">0</span> 잎</h1>
+        </div>
+        <div class="resource-grid" aria-live="polite">
+          <div>
+            <span>채소</span>
+            <strong id="vegCount">0</strong>
+          </div>
+          <div>
+            <span>과일</span>
+            <strong id="fruitCount">0</strong>
+          </div>
+          <div>
+            <span>동물</span>
+            <strong id="animalCount">0</strong>
+          </div>
+          <div>
+            <span>초당</span>
+            <strong id="perSecond">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="farm-layout">
+        <div class="farm-stage" aria-label="밭 과수원 동물농장">
+          <div id="fieldZone" class="zone zone-field" data-zone="field">
+            <button class="harvest-pad" type="button" data-action="harvest" data-zone="field">
+              <span class="zone-title">밭</span>
+              <span class="asset-cluster" aria-hidden="true">
+                <img src="../../assets/c14/misc/images/living-things-common/plants/produce-vegetable/produce-vegetable-02-carrot.png" alt="" />
+                <img src="../../assets/c14/misc/images/living-things-common/plants/produce-vegetable/produce-vegetable-12-lettuce.png" alt="" />
+                <img src="../../assets/c14/misc/images/living-things-common/plants/produce-vegetable/produce-vegetable-28-corn.png" alt="" />
+              </span>
+              <strong id="fieldYield">+1</strong>
+            </button>
+            <div id="fieldDecor" class="decor-layer" aria-hidden="true"></div>
+          </div>
+
+          <div id="orchardZone" class="zone zone-orchard" data-zone="orchard">
+            <button class="harvest-pad" type="button" data-action="harvest" data-zone="orchard">
+              <span class="zone-title">과수원</span>
+              <span class="asset-cluster" aria-hidden="true">
+                <img src="../../assets/c14/misc/images/living-things-common/plants/medium/medium-plant-08-apple-tree.png" alt="" />
+                <img src="../../assets/c14/misc/images/living-things-common/plants/produce-fruit/produce-fruit-01-red-apple.png" alt="" />
+                <img src="../../assets/c14/misc/images/living-things-common/plants/produce-fruit/produce-fruit-11-purple-grapes.png" alt="" />
+              </span>
+              <strong id="orchardYield">+3</strong>
+            </button>
+            <div id="orchardDecor" class="decor-layer" aria-hidden="true"></div>
+          </div>
+
+          <div id="pastureZone" class="zone zone-pasture" data-zone="pasture">
+            <button class="harvest-pad" type="button" data-action="harvest" data-zone="pasture">
+              <span class="zone-title">동물농장</span>
+              <span class="asset-cluster" aria-hidden="true">
+                <img src="../../assets/c14/misc/images/living-things-common/animals/farm-medium/farm-01-cow.png" alt="" />
+                <img src="../../assets/c14/misc/images/living-things-common/animals/cartoon-small/cartoon-02-hen.png" alt="" />
+                <img src="../../assets/c14/misc/images/living-things-common/animals/baby-small/baby-08-lamb.png" alt="" />
+              </span>
+              <strong id="pastureYield">+5</strong>
+            </button>
+            <div id="pastureDecor" class="decor-layer" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <aside class="control-panel" aria-label="업그레이드">
+          <div class="tabs" role="tablist" aria-label="구역 선택">
+            <button class="tab is-active" type="button" data-tab="field">밭</button>
+            <button class="tab" type="button" data-tab="orchard">과수원</button>
+            <button class="tab" type="button" data-tab="pasture">동물농장</button>
+          </div>
+
+          <div class="zone-card" id="activeZoneCard">
+            <div class="zone-card-head">
+              <img id="activeZoneIcon" src="../../assets/c14/misc/images/living-things-common/plants/produce-vegetable/produce-vegetable-02-carrot.png" alt="" />
+              <div>
+                <span id="activeZoneType">밭</span>
+                <strong id="activeZoneLevel">Lv. 1</strong>
+              </div>
+            </div>
+            <div class="meter" aria-label="성장 게이지">
+              <span id="activeZoneMeter"></span>
+            </div>
+          </div>
+
+          <div class="upgrade-list" id="upgradeList"></div>
+          <div class="mission-panel">
+            <span class="eyebrow">목표</span>
+            <ul id="missionList"></ul>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <template id="upgradeTemplate">
+      <button class="upgrade-button" type="button">
+        <span class="upgrade-icon"></span>
+        <span class="upgrade-copy">
+          <strong></strong>
+          <small></small>
+        </span>
+        <span class="upgrade-cost"></span>
+      </button>
+    </template>
+
+    <script src="./game.js"></script>
+  </body>
+</html>
