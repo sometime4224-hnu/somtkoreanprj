@@ -13,7 +13,6 @@
 - 공용 자산: `assets/`, `shared/`
 - 보조 앱과 독립 페이지: `apps/`
 - 리뷰/평가 페이지: `review/`
-- 시험 관련 정적 자료: `midterm-exam/`
 - 개발 보조 코드: `scripts/`, `tests/`, `package.json`, `playwright.config.js`
 - 핵심 문서: `README.md`, `LICENSE.md`, 구조/자산 가이드 문서
 
@@ -45,5 +44,5 @@
 
 - `main`이 `origin/main`과 동기화되었다.
 - 불필요한 브랜치, worktree, stash를 정리했다.
-- `apps/vocab-grammar-mock`가 로컬 연구 폴더가 아니라 자체 `data/` 폴더를 읽도록 정리되었다.
+- 중간고사, 수행 말하기, 모의고사 계열 자료는 2026-04-15에 저장소 바깥 로컬 아카이브로 이동했다.
 - 로컬 임시 자료와 백업 자료는 저장소 바깥 아카이브로 이동하는 방향으로 운영 기준을 확정했다.

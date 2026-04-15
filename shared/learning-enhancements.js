@@ -5,9 +5,6 @@
   const TEXT = {
     visitKo: "\uBC29\uBB38",
     progressTitle: "\uD559\uC2B5 \uC9C4\uD589\uB960",
-    navList: "\uBAA9\uB85D",
-    quizKo: "\uBB38\uBC95 \uD034\uC988",
-    quizVi: "Luyen tap ngu phap",
     visitVi: "\u0110\u00E3 xem"
   };
 
@@ -82,17 +79,8 @@
     return pathname.toLowerCase().endsWith("/index.html");
   }
 
-  function isRootIndex() {
-    return Boolean(document.body && document.body.dataset.page === "root-index");
-  }
-
   function inChapterFolder(pathname) {
     return /\/c\d+\//i.test(pathname);
-  }
-
-  function getGrammarSetFromPath(pathname) {
-    const match = pathname.toLowerCase().match(/\/grammar([1-4])\.html$/);
-    return match ? `g${match[1]}` : null;
   }
 
   function ensureStyle() {
@@ -100,49 +88,6 @@
     const style = document.createElement("style");
     style.id = "le-style";
     style.textContent = `
-      .le-tools {
-        position: fixed;
-        left: 16px;
-        bottom: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        z-index: 1200;
-      }
-      .le-tools.le-tools-right {
-        left: auto;
-        right: 16px;
-      }
-      .le-btn {
-        border: 1px solid rgba(148, 163, 184, 0.35);
-        background: rgba(15, 23, 42, 0.92);
-        color: #f8fafc;
-        font-size: 13px;
-        font-weight: 700;
-        border-radius: 10px;
-        padding: 9px 12px;
-        cursor: pointer;
-        text-decoration: none;
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-        text-align: center;
-      }
-      .le-btn:hover,
-      .le-btn:focus-visible {
-        outline: none;
-        border-color: rgba(99, 102, 241, 0.7);
-      }
-      .le-btn-ko {
-        display: block;
-        font-size: 12px;
-        font-weight: 800;
-        line-height: 1.2;
-      }
-      .le-btn-vi {
-        display: block;
-        font-size: 10px;
-        opacity: 0.82;
-        line-height: 1.2;
-      }
       .le-index-summary {
         margin-bottom: 16px;
         padding: 12px;
@@ -203,85 +148,8 @@
         opacity: 0.9;
         line-height: 1.1;
       }
-      @media (max-width: 640px) {
-        .le-tools {
-          left: 10px;
-          bottom: 10px;
-        }
-        .le-tools.le-tools-right {
-          left: auto;
-          right: 10px;
-        }
-        .le-btn {
-          font-size: 12px;
-          padding: 8px 10px;
-        }
-      }
     `;
     document.head.appendChild(style);
-  }
-
-  function overlapsLeftBottomFixedElement() {
-    const zoneLeft = 220;
-    const zoneBottom = 220;
-    const viewportHeight = window.innerHeight;
-
-    const elements = Array.from(document.querySelectorAll("body *"));
-    return elements.some((el) => {
-      if (!el || el.classList.contains("le-tools")) return false;
-      const style = window.getComputedStyle(el);
-      if (style.position !== "fixed") return false;
-      if (style.display === "none" || style.visibility === "hidden") return false;
-
-      const rect = el.getBoundingClientRect();
-      if (rect.width <= 0 || rect.height <= 0) return false;
-
-      const nearLeft = rect.left < zoneLeft;
-      const nearBottom = rect.bottom > viewportHeight - zoneBottom;
-      return nearLeft && nearBottom;
-    });
-  }
-  function buildTools(pathname) {
-    if (isRootIndex(pathname)) return;
-    if (!document.body) return;
-
-    ensureStyle();
-
-    const tools = document.createElement("div");
-    tools.className = "le-tools";
-
-    let navHref = null;
-    let navLabel = null;
-
-    if (inChapterFolder(pathname) && !isIndexPage(pathname)) {
-      navHref = "index.html";
-      navLabel = TEXT.navList;
-    }
-
-    if (navHref && navLabel) {
-      const navLink = document.createElement("a");
-      navLink.href = navHref;
-      navLink.className = "le-btn";
-      navLink.textContent = navLabel;
-      tools.appendChild(navLink);
-    }
-
-    const grammarSet = getGrammarSetFromPath(pathname);
-    if (grammarSet) {
-      const quizLink = document.createElement("a");
-      quizLink.href = `grammar-review.html?set=${grammarSet}`;
-      quizLink.className = "le-btn";
-      quizLink.innerHTML = `<span class="le-btn-ko">${TEXT.quizKo}</span><span class="le-btn-vi">${TEXT.quizVi}</span>`;
-      tools.appendChild(quizLink);
-    }
-
-    if (overlapsLeftBottomFixedElement()) {
-      tools.classList.add("le-tools-right");
-    }
-
-    if (tools.childElementCount > 0) {
-      document.body.appendChild(tools);
-    }
   }
 
   function createBadge() {
@@ -331,7 +199,7 @@
 
     const visits = storage.get(VISITS_KEY, {});
     links.forEach((link) => {
-      if (link.closest("nav") || link.closest(".le-tools")) return;
+      if (link.closest("nav")) return;
       const existing = link.querySelector(".le-link-badge");
       if (existing) existing.remove();
 
@@ -353,7 +221,7 @@
   function bootstrap() {
     const pathname = getCurrentPath();
     upsertVisit(pathname);
-    buildTools(pathname);
+    ensureStyle();
     annotateLinksAndSummary();
   }
 

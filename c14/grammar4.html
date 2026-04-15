@@ -29,6 +29,41 @@
         .vi-text { display: none; }
         .vi-on .vi-text { display: block; }
         .choice-btn { min-height: 52px; }
+        .quick-check-card {
+            border: 1px dashed #93c5fd;
+            background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+        }
+        .quick-check-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border-radius: 9999px;
+            background: #dbeafe; color: #1d4ed8;
+            font-size: 11px; font-weight: 800;
+        }
+        .quick-check-btn {
+            width: 100%; border: 1px solid #bfdbfe; border-radius: 14px;
+            padding: 10px 12px; background: #ffffff; color: #334155;
+            text-align: left; font-size: 13px; font-weight: 700;
+            transition: transform 0.18s, background 0.18s, border-color 0.18s;
+        }
+        .quick-check-btn:hover { transform: translateY(-1px); background: #eff6ff; border-color: #60a5fa; }
+        .quick-check-btn.is-correct { background: #eff6ff; border-color: #3b82f6; color: #1d4ed8; }
+        .quick-check-btn.is-wrong { background: #fff1f2; border-color: #fb7185; color: #be123c; }
+        .quick-check-btn.is-muted { background: #f8fafc; border-color: #e2e8f0; color: #94a3b8; }
+        .quick-feedback {
+            display: none; margin-top: 12px; border-radius: 16px;
+            border: 1px solid #bfdbfe; background: rgba(255,255,255,0.9);
+            padding: 12px;
+        }
+        .quick-feedback.show { display: block; }
+        .next-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 9999px;
+            border: 1px solid #bfdbfe; background: rgba(255,255,255,0.9);
+            color: #1e3a8a; text-decoration: none; font-size: 13px; font-weight: 700;
+            box-shadow: 0 4px 12px rgba(29,78,216,0.10);
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .next-link:hover { background: #eff6ff; border-color: #60a5fa; transform: translateY(-1px); }
         .prev-link {
             display: inline-flex; align-items: center; gap: 6px;
             padding: 8px 14px; border-radius: 9999px;
@@ -88,6 +123,16 @@
             </div>
             <div class="vi-text text-xs text-indigo-700 mt-3 safe">Lặp lại cùng một động từ hoặc tính từ để diễn tả mức độ tăng dần.</div>
         </article>
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">자주 쓰는 묶음</h2>
+            <div class="mt-3 space-y-2 text-sm text-slate-700 safe">
+                <p class="bg-slate-50 rounded-xl px-3 py-2">보면 볼수록 귀엽다</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">알면 알수록 재미있다</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">멀면 멀수록 더 보고 싶다</p>
+                <p class="bg-slate-50 rounded-xl px-3 py-2">나이가 들면 들수록 고향이 그립다</p>
+            </div>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">Những cụm này rất hay dùng khi luyện mẫu “càng ... càng ...”.</div>
+        </article>
         <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
             <h2 class="text-base font-bold text-slate-800">교재형 예문</h2>
             <ul class="mt-3 space-y-3 text-sm text-slate-700">
@@ -143,6 +188,7 @@
         const tabPractice   = document.getElementById('tabPractice');
         const learnPanel    = document.getElementById('learnPanel');
         const practicePanel = document.getElementById('practicePanel');
+        const practiceCard  = practicePanel.querySelector('article:first-child');
         const progressEl    = document.getElementById('progress');
         const progressBar   = document.getElementById('progressBar');
         const qGrammar      = document.getElementById('qGrammar');
@@ -177,6 +223,60 @@
         tabLearn.addEventListener('click',    function () { showTab('learn'); });
         tabPractice.addEventListener('click', function () { showTab('practice'); });
 
+        const quickChecks = [
+            {
+                        "anchor": 0,
+                        "label": "학습 확인 1",
+                        "q": "“-면 -ㄹ수록”의 뜻에 가장 가까운 문장은 무엇일까요?",
+                        "options": [
+                                    "배우면 배울수록 재미있어요.",
+                                    "배워서 재미있어요.",
+                                    "배우고 싶어해요."
+                        ],
+                        "answer": "배우면 배울수록 재미있어요.",
+                        "explainKo": "이 문장은 정도가 커질수록 느낌도 함께 달라지는 구조를 잘 보여 줍니다.",
+                        "explainVi": "Câu này thể hiện rõ cấu trúc “càng ... càng ...”.",
+                        "mistakes": {
+                                    "배워서 재미있어요.": "이 문장은 원인과 결과만 보여 주고, 정도가 점점 커지는 뜻은 없습니다.",
+                                    "배우고 싶어해요.": "이 문장은 희망 표현이라 반복 비교 문법과 다릅니다."
+                        }
+            },
+            {
+                        "anchor": 1,
+                        "label": "학습 확인 2",
+                        "q": "“알면 ____ 재미있어요.”에 알맞은 것은 무엇일까요?",
+                        "options": [
+                                    "알수록",
+                                    "알았던",
+                                    "알아해요"
+                        ],
+                        "answer": "알수록",
+                        "explainKo": "같은 어간을 반복해 “알면 알수록”으로 만들어야 자연스럽습니다.",
+                        "explainVi": "Phải lặp lại cùng một gốc từ để thành “알면 알수록”.",
+                        "mistakes": {
+                                    "알았던": "과거 회상 형태라서 반복 비교 자리에 올 수 없습니다.",
+                                    "알아해요": "“-아/어하다” 계열처럼 보이지만 여기서는 전혀 다른 문법입니다."
+                        }
+            },
+            {
+                        "anchor": 4,
+                        "label": "학습 확인 3",
+                        "q": "반복되는 어간이 자연스러운 문장을 골라 보세요.",
+                        "options": [
+                                    "보면 볼수록 귀여워요.",
+                                    "보면 귀여울수록 해요.",
+                                    "봤던 볼수록 귀여워요."
+                        ],
+                        "answer": "보면 볼수록 귀여워요.",
+                        "explainKo": "“-면 -ㄹ수록”은 같은 어간을 반복하는 것이 핵심입니다.",
+                        "explainVi": "Điểm mấu chốt là lặp lại cùng một gốc từ.",
+                        "mistakes": {
+                                    "보면 귀여울수록 해요.": "앞뒤 어간이 달라서 자연스러운 반복 구조가 되지 않습니다.",
+                                    "봤던 볼수록 귀여워요.": "과거 회상 형태와 비교 문법이 섞여서 어색합니다."
+                        }
+            }
+        ];
+
         const quiz = [
             {
                         "type": "mcq",
@@ -192,7 +292,12 @@
                         ],
                         "answer": "배우면 배울수록 쉽지 않은 것 같아요.",
                         "explainKo": "배우는 정도가 깊어질수록 더 어렵게 느껴진다는 뜻을 나타냅니다.",
-                        "explainVi": "Câu này thể hiện rõ ý “càng học càng thấy không dễ”."
+                        "explainVi": "Câu này thể hiện rõ ý “càng học càng thấy không dễ”.",
+                        "mistakes": {
+                                    "배워 봐서 좋았던 것 같아요.": "경험 회상이지, 정도가 점점 커지는 비교 문장은 아닙니다.",
+                                    "배우고 싶어해요.": "희망 표현이라 “-면 -ㄹ수록”의 반복 비교와 다릅니다.",
+                                    "하도 어려워서요.": "강한 원인-결과 강조이지, “càng ... càng ...” 구조는 아닙니다."
+                        }
             },
             {
                         "type": "mcq",
@@ -208,7 +313,12 @@
                         ],
                         "answer": "바쁠수록",
                         "explainKo": "바쁘면 바쁠수록이라는 형태로 반복해야 자연스럽습니다.",
-                        "explainVi": "Phải lặp lại ‘바쁘-’ thành ‘바쁘면 바쁠수록’."
+                        "explainVi": "Phải lặp lại ‘바쁘-’ thành ‘바쁘면 바쁠수록’.",
+                        "mistakes": {
+                                    "바빴던": "과거에 바빴던 상태를 꾸미는 말이라서 반복 비교 자리에 올 수 없습니다.",
+                                    "바빠해서": "감정이나 상태의 이유를 말할 때 쓰는 흐름이라 이 문장과 맞지 않습니다.",
+                                    "바꾸다": "앞말과 어간이 달라서 반복 비교 구조가 성립하지 않습니다."
+                        }
             },
             {
                         "type": "short",
@@ -217,10 +327,12 @@
                         "hintKo": "“먹으면 먹을수록”을 먼저 떠올려 보세요.",
                         "hintVi": "Hãy bắt đầu bằng “먹으면 먹을수록”.",
                         "answers": [
-                                    "불고기는 먹으면 먹을수록 더 맛있어요."
+                                    "불고기는 먹으면 먹을수록 더 맛있어요.",
+                                    "불고기는 먹으면 먹을수록 맛있어요."
                         ],
                         "explainKo": "한 음식을 계속 먹을수록 더 맛있게 느껴진다는 뜻입니다.",
-                        "explainVi": "Câu này diễn tả “càng ăn càng thấy ngon hơn”."
+                        "explainVi": "Câu này diễn tả “càng ăn càng thấy ngon hơn”.",
+                        "scaffoldKo": "불고기는 먹으면 먹을수록 더 맛있어요."
             },
             {
                         "type": "mcq",
@@ -230,13 +342,18 @@
                         "hintVi": "Câu này mang ý nghĩa giống tục ngữ về sự khiêm tốn.",
                         "options": [
                                     "벼는 자랄수록 더 크게 소리를 낸다.",
-                                    "잘 익은 벼일수록 고개가 아래로 숙고, 사람도 많이 알수록 겸손해진다.",
+                                    "잘 익은 벼일수록 고개를 숙이고, 사람도 많이 알수록 겸손해진다.",
                                     "벼는 익기 전에만 잘 자란다.",
                                     "벼는 물이 많을수록 사라진다."
                         ],
-                        "answer": "잘 익은 벼일수록 고개가 아래로 숙고, 사람도 많이 알수록 겸손해진다.",
+                        "answer": "잘 익은 벼일수록 고개를 숙이고, 사람도 많이 알수록 겸손해진다.",
                         "explainKo": "교재 예문은 정도가 커질수록 다른 모습도 함께 달라진다는 뜻을 비유적으로 보여 줍니다.",
-                        "explainVi": "Ví dụ này diễn tả rằng càng trưởng thành càng khiêm tốn hơn."
+                        "explainVi": "Ví dụ này diễn tả rằng càng trưởng thành càng khiêm tốn hơn.",
+                        "mistakes": {
+                                    "벼는 자랄수록 더 크게 소리를 낸다.": "예문은 겸손을 비유하는 내용이지 소리에 대한 말이 아닙니다.",
+                                    "벼는 익기 전에만 잘 자란다.": "정도가 커질수록 달라지는 비유와 맞지 않습니다.",
+                                    "벼는 물이 많을수록 사라진다.": "문장 뜻과 전혀 관계없는 내용입니다."
+                        }
             },
             {
                         "type": "mcq",
@@ -252,7 +369,12 @@
                         ],
                         "answer": "먹으면 먹을수록 맛있는 음식이 있어요?",
                         "explainKo": "교재에서는 같은 구조를 사용해 친구와 직접 이야기해 보는 연습을 합니다.",
-                        "explainVi": "Trong bài, người học dùng chính cấu trúc này để hỏi và trả lời."
+                        "explainVi": "Trong bài, người học dùng chính cấu trúc này để hỏi và trả lời.",
+                        "mistakes": {
+                                    "어제 먹었던 음식은 뭐예요?": "과거 회상 질문이지 “먹으면 먹을수록” 구조가 아닙니다.",
+                                    "누가 가장 힘들어해요?": "다른 문법 주제의 질문입니다.",
+                                    "어디가 어디인지 알아요?": "반복 비교 구조와 관련이 없습니다."
+                        }
             },
             {
                         "type": "short",
@@ -261,14 +383,17 @@
                         "hintKo": "14과 제목을 떠올려 보세요.",
                         "hintVi": "Hãy nhớ lại tiêu đề của bài 14.",
                         "answers": [
-                                    "나이가 들면 들수록 고향이 그리워져요."
+                                    "나이가 들면 들수록 고향이 그리워져요.",
+                                    "나이가 들면 들수록 고향이 더 그리워져요."
                         ],
                         "explainKo": "14과의 핵심 문장을 그대로 활용한 대표 예문입니다.",
-                        "explainVi": "Đây là câu trọng tâm của bài 14."
+                        "explainVi": "Đây là câu trọng tâm của bài 14.",
+                        "scaffoldKo": "나이가 들면 들수록 고향이 더 그리워져요."
             }
 ];
 
-        const state = { idx: 0, answered: false, score: 0, logs: [], started: false };
+        let activeQuiz = [];
+        const state = { idx: 0, answered: false, score: 0, logs: [], started: false, mode: 'main' };
 
         function esc(t) {
             return String(t == null ? '' : t)
@@ -277,13 +402,43 @@
         }
         function normalize(t) { return String(t||'').replace(/\s/g,''); }
 
-        function shuffleQuiz() {
-            for (var i = quiz.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tmp = quiz[i]; quiz[i] = quiz[j]; quiz[j] = tmp;
+        function shuffleArray(items) {
+            const copy = items.slice();
+            for (let i = copy.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const tmp = copy[i];
+                copy[i] = copy[j];
+                copy[j] = tmp;
             }
+            return copy;
         }
-        shuffleQuiz();
+
+        function resetMainRound() {
+            activeQuiz = shuffleArray(quiz);
+            state.mode = 'main';
+            state.idx = 0;
+            state.answered = false;
+            state.score = 0;
+            state.logs = [];
+        }
+
+        function startWrongReview(items) {
+            activeQuiz = shuffleArray(items);
+            state.mode = 'review';
+            state.idx = 0;
+            state.answered = false;
+            state.score = 0;
+            state.logs = [];
+            resultPanel.classList.add('hidden');
+            practiceCard.classList.remove('hidden');
+            showTab('practice');
+            renderQuestion();
+        }
+
+        function getWrongReason(q, user) {
+            if (q.mistakes && q.mistakes[user]) return q.mistakes[user];
+            return '핵심 문법 형태를 다시 확인해 보세요.';
+        }
 
         function lockInputs(q, user) {
             if (q.type === 'mcq') {
@@ -305,18 +460,27 @@
         }
 
         function feedbackHtml(ok, user, correct, q) {
-            return '<p class="text-sm font-bold ' + (ok ? 'text-blue-700' : 'text-rose-700') + '">'
+            let html = '<p class="text-sm font-bold ' + (ok ? 'text-blue-700' : 'text-rose-700') + '">'
                 + (ok ? '정답입니다.' : '오답입니다.')
                 + ' <span class="text-xs font-normal">(' + (ok ? 'Đúng' : 'Sai') + ')</span></p>'
                 + '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(user || '(무응답)') + '</p>'
-                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>'
-                + '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(q.explainKo) + '</p>'
+                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>';
+
+            if (!ok) {
+                html += '<p class="text-xs text-rose-700 mt-2 safe"><b>왜 틀렸는지:</b> ' + esc(getWrongReason(q, user)) + '</p>';
+            }
+            if (!ok && q.scaffoldKo) {
+                html += '<p class="text-xs text-slate-600 mt-2 safe"><b>문장 틀:</b> ' + esc(q.scaffoldKo) + '</p>';
+            }
+
+            html += '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(q.explainKo) + '</p>'
                 + '<p class="text-xs text-blue-700 mt-1 safe"><b>VI:</b> ' + esc(q.explainVi) + '</p>';
+            return html;
         }
 
         function answerQuestion(user) {
             if (state.answered) return;
-            const q = quiz[state.idx];
+            const q = activeQuiz[state.idx];
             const correct = q.type === 'mcq' ? q.answer : q.answers[0];
             let ok;
             if (q.type === 'mcq') {
@@ -327,7 +491,15 @@
             }
             state.answered = true;
             if (ok) state.score += 1;
-            state.logs.push({ ok: ok, user: user, correct: correct, q: q.q, explainKo: q.explainKo, explainVi: q.explainVi });
+            state.logs.push({
+                ok: ok,
+                user: user,
+                correct: correct,
+                item: q,
+                q: q.q,
+                explainKo: q.explainKo,
+                reasonKo: ok ? '' : getWrongReason(q, user)
+            });
             feedbackBox.classList.remove('hidden');
             feedbackBox.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-blue-50 border-blue-200' : 'bg-rose-50 border-rose-200');
             feedbackBox.innerHTML = feedbackHtml(ok, user, correct, q);
@@ -336,12 +508,12 @@
         }
 
         function renderQuestion() {
-            if (state.idx >= quiz.length) { renderResult(); return; }
-            const q = quiz[state.idx];
+            if (state.idx >= activeQuiz.length) { renderResult(); return; }
+            const q = activeQuiz[state.idx];
             state.answered = false;
-            progressEl.textContent = (state.idx + 1) + ' / ' + quiz.length;
-            progressBar.style.width = (state.idx / quiz.length * 100) + '%';
-            qGrammar.textContent = q.grammar;
+            progressEl.textContent = (state.mode === 'review' ? '오답 ' : '') + (state.idx + 1) + ' / ' + activeQuiz.length;
+            progressBar.style.width = (state.idx / activeQuiz.length * 100) + '%';
+            qGrammar.textContent = state.mode === 'review' ? '오답 다시 풀기 | ' + q.grammar : q.grammar;
             qText.textContent = q.q;
             qHintKo.textContent = '힌트: ' + q.hintKo;
             qHintVi.textContent = 'Gợi ý: ' + q.hintVi;
@@ -379,20 +551,35 @@
         });
 
         function renderResult() {
-            practicePanel.querySelector('article:first-child').classList.add('hidden');
+            practiceCard.classList.add('hidden');
             resultPanel.classList.remove('hidden');
-            const total = quiz.length;
+            const total = activeQuiz.length;
             const pct = Math.round(state.score / total * 100);
             const wrongItems = state.logs.filter(function (l) { return !l.ok; });
-            let html = '<p class="text-lg font-black text-slate-800">결과: ' + state.score + ' / ' + total
-                + ' <span class="text-blue-600">(' + pct + '%)</span></p>'
-                + '<p class="text-xs text-slate-500 mt-1">Kết quả: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
-            if (pct >= 80) {
-                html += '<p class="text-sm text-blue-700 font-bold mt-2">훌륭해요! 문법을 잘 이해했어요.</p>'
-                    + '<p class="text-xs text-blue-600">Xuất sắc! Bạn đã nắm tốt ngữ pháp này.</p>';
+            let html = '';
+
+            if (state.mode === 'main') {
+                html += '<p class="text-lg font-black text-slate-800">결과: ' + state.score + ' / ' + total
+                    + ' <span class="text-blue-600">(' + pct + '%)</span></p>'
+                    + '<p class="text-xs text-slate-500 mt-1">Kết quả: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
+                if (pct >= 80) {
+                    html += '<p class="text-sm text-blue-700 font-bold mt-2">훌륭해요! 이제 틀린 포인트만 한 번 더 확인하면 더 단단해져요.</p>'
+                        + '<p class="text-xs text-blue-600">Xuất sắc! Chỉ cần ôn lại chỗ sai là sẽ chắc hơn nữa.</p>';
+                } else {
+                    html += '<p class="text-sm text-amber-700 font-bold mt-2">좋아요. 틀린 문제를 바로 다시 풀면 기억이 더 오래 남아요.</p>'
+                        + '<p class="text-xs text-amber-600">Làm lại ngay câu sai sẽ giúp nhớ lâu hơn.</p>';
+                }
             } else {
-                html += '<p class="text-sm text-amber-700 font-bold mt-2">조금 더 연습해 봐요!</p>'
-                    + '<p class="text-xs text-amber-600">Hãy luyện thêm một chút nhé!</p>';
+                html += '<p class="text-lg font-black text-slate-800">오답 다시 풀기: ' + state.score + ' / ' + total
+                    + ' <span class="text-blue-600">(' + pct + '%)</span></p>'
+                    + '<p class="text-xs text-slate-500 mt-1">Làm lại câu sai: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
+                if (pct === 100) {
+                    html += '<p class="text-sm text-blue-700 font-bold mt-2">좋아요! 헷갈리던 포인트가 정리됐어요.</p>'
+                        + '<p class="text-xs text-blue-600">Tốt lắm! Điểm dễ nhầm đã được củng cố.</p>';
+                } else {
+                    html += '<p class="text-sm text-amber-700 font-bold mt-2">한 번 더 좋아졌어요. 아래 복습 포인트를 다시 보고 전체를 풀어 보세요.</p>'
+                        + '<p class="text-xs text-amber-600">Bạn đã tiến bộ. Hãy xem lại điểm sai rồi làm lại toàn bộ.</p>';
+                }
             }
             if (wrongItems.length > 0) {
                 html += '<div class="mt-3 border-t pt-3"><p class="text-xs font-bold text-slate-700 mb-2">틀린 문제 복습 / Ôn lại câu sai:</p>';
@@ -401,21 +588,98 @@
                         + '<p class="text-xs text-slate-700 font-semibold safe">' + esc(l.q) + '</p>'
                         + '<p class="text-xs text-rose-700 mt-1">내 답: ' + esc(l.user || '(무응답)') + '</p>'
                         + '<p class="text-xs text-blue-700">정답: ' + esc(l.correct) + '</p>'
-                        + '<p class="text-xs text-slate-600 mt-1 safe">' + esc(l.explainKo) + '</p>'
+                        + '<p class="text-xs text-slate-600 mt-1 safe">' + esc(l.reasonKo || l.explainKo) + '</p>'
                         + '</div>';
                 });
                 html += '</div>';
             }
-            html += '<button id="retryBtn" class="mt-4 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">다시 풀기 / Làm lại</button>';
+            if (state.mode === 'main' && wrongItems.length > 0) {
+                html += '<button id="reviewWrongBtn" class="mt-4 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">틀린 문제 다시 풀기</button>';
+            }
+            html += '<button id="retryBtn" class="mt-3 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">'
+                + (state.mode === 'main' ? '전체 다시 풀기 / Làm lại' : '처음부터 다시 풀기 / Làm lại từ đầu')
+                + '</button>';
             resultPanel.innerHTML = html;
+
+            const reviewWrongBtn = document.getElementById('reviewWrongBtn');
+            if (reviewWrongBtn) {
+                reviewWrongBtn.addEventListener('click', function () {
+                    startWrongReview(wrongItems.map(function (l) { return l.item; }));
+                });
+            }
+
             document.getElementById('retryBtn').addEventListener('click', function () {
-                state.idx = 0; state.score = 0; state.logs = []; state.answered = false;
-                shuffleQuiz();
+                resetMainRound();
                 resultPanel.classList.add('hidden');
-                practicePanel.querySelector('article:first-child').classList.remove('hidden');
+                practiceCard.classList.remove('hidden');
+                showTab('practice');
                 renderQuestion();
             });
         }
+
+        function lockQuickButtons(card, selected, answer) {
+            Array.from(card.querySelectorAll('.quick-check-btn')).forEach(function (btn) {
+                btn.disabled = true;
+                if (btn.textContent === answer) {
+                    btn.classList.add('is-correct');
+                } else if (btn.textContent === selected) {
+                    btn.classList.add('is-wrong');
+                } else {
+                    btn.classList.add('is-muted');
+                }
+            });
+        }
+
+        function quickFeedbackHtml(ok, item, selected) {
+            let html = '<p class="text-sm font-bold ' + (ok ? 'text-blue-700' : 'text-rose-700') + '">'
+                + (ok ? '바로 이해했어요.' : '여기서 많이 헷갈려요. 지금 잡고 갈게요.')
+                + '</p>'
+                + '<p class="text-xs text-slate-700 mt-2"><b>정답:</b> ' + esc(item.answer) + '</p>';
+            if (!ok && item.mistakes && item.mistakes[selected]) {
+                html += '<p class="text-xs text-rose-700 mt-2 safe"><b>왜 틀렸는지:</b> ' + esc(item.mistakes[selected]) + '</p>';
+            }
+            html += '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(item.explainKo) + '</p>'
+                + '<p class="text-xs text-blue-700 mt-1 safe"><b>VI:</b> ' + esc(item.explainVi) + '</p>';
+            return html;
+        }
+
+        function answerQuickCheck(card, item, selected) {
+            if (card.dataset.done === '1') return;
+            card.dataset.done = '1';
+            const ok = selected === item.answer;
+            lockQuickButtons(card, selected, item.answer);
+            const feedback = card.querySelector('.quick-feedback');
+            feedback.classList.add('show');
+            feedback.innerHTML = quickFeedbackHtml(ok, item, selected);
+        }
+
+        function renderQuickChecks() {
+            const anchors = Array.from(learnPanel.querySelectorAll('article'));
+            quickChecks.slice().reverse().forEach(function (item) {
+                const article = document.createElement('article');
+                article.className = 'quick-check-card rounded-2xl p-4 shadow-sm';
+                article.innerHTML = '<div class="flex items-center justify-between gap-2">'
+                    + '<span class="quick-check-badge">바로 확인</span>'
+                    + '<span class="text-[11px] font-bold text-slate-500">' + esc(item.label) + '</span>'
+                    + '</div>'
+                    + '<p class="mt-3 text-sm font-bold text-slate-800 safe">' + esc(item.q) + '</p>'
+                    + '<div class="mt-3 space-y-2">'
+                    + item.options.map(function (opt) {
+                        return '<button type="button" class="quick-check-btn safe">' + esc(opt) + '</button>';
+                    }).join('')
+                    + '</div>'
+                    + '<div class="quick-feedback"></div>';
+                anchors[item.anchor].insertAdjacentElement('afterend', article);
+                Array.from(article.querySelectorAll('.quick-check-btn')).forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        answerQuickCheck(article, item, btn.textContent);
+                    });
+                });
+            });
+        }
+
+        renderQuickChecks();
+        resetMainRound();
     </script>
     <script src="../shared/site-copyright.js"></script>
 </body>

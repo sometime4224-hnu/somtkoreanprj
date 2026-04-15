@@ -23,7 +23,6 @@ korean3Bimprove/
   assets/
   review/
   shared/
-  midterm-exam/
   scripts/
   tests/
   README.md
@@ -43,7 +42,7 @@ korean3Bimprove_local_archive_YYYYMMDD/
 
 1. 루트에는 바로 열어야 하는 페이지와 핵심 문서만 둔다.
 2. 장기 보관이 필요한 캡처와 임시 산출물은 `korean3Bimprove_local_archive_YYYYMMDD/` 같은 형식의 바깥 폴더로 옮긴다.
-3. ZIP, PDF, 비교 이미지처럼 배포 대상이 아닌 산출물은 루트에 오래 두지 않는다.
+3. ZIP, PDF, 비교 이미지, 시험 대비 묶음처럼 배포 대상이 아닌 산출물은 루트에 오래 두지 않는다.
 4. 실험은 우선 브랜치로 분리하고, 임시 파일 폴더는 짧게 쓰고 비운다.
 5. 로컬에서만 숨겨야 하는 규칙을 늘리기보다, 가능한 한 공용 `.gitignore` 또는 저장소 밖 이동으로 해결한다.
 
