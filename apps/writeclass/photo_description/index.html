@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사진을 보고 묘사하기</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden;
+  font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; }
+
+.app { display: flex; flex-direction: column; height: 100vh; background: #0F2340; }
+
+/* ══ 헤더 ══ */
+header {
+  flex-shrink: 0; height: 52px;
+  background: #1A3D6E;
+  border-bottom: 3px solid #E07B1A;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; gap: 16px;
+}
+.h-left { display: flex; align-items: baseline; gap: 0; }
+.h-title { font-size: 1.05rem; font-weight: 700; color: #fff; }
+.h-sub   { font-size: 0.72rem; color: #7AAAD8; margin-left: 10px; }
+.h-right { display: flex; align-items: center; gap: 10px; }
+.h-divider { width: 1px; height: 22px; background: rgba(255,255,255,.2); }
+
+/* 토글 그룹 공통 */
+.toggle-group {
+  display: flex; background: rgba(255,255,255,.1);
+  border-radius: 20px; padding: 3px; gap: 2px;
+}
+.tg-btn {
+  padding: 5px 16px; border: none; border-radius: 16px;
+  font-size: 0.82rem; font-family: inherit; font-weight: 700;
+  cursor: pointer; transition: all .2s;
+  background: transparent; color: #7AAAD8;
+}
+/* 전경/세부 활성 색 */
+.tg-btn.active-ov { background: #E07B1A; color: #fff; }
+.tg-btn.active-dt { background: #0D9488; color: #fff; }
+/* 바로보기/연습 활성 색 */
+.tg-btn.active-mode { background: #2563EB; color: #fff; }
+
+/* ══ 탭 ══ */
+.tab-bar {
+  flex-shrink: 0; height: 40px;
+  background: #162E54;
+  display: flex; align-items: flex-end; padding: 0 14px;
+  border-bottom: 2px solid #0F2340;
+  overflow-x: auto;
+}
+.tab-btn {
+  padding: 7px 18px; border: none; border-radius: 6px 6px 0 0;
+  background: transparent; color: #4A7AAE;
+  font-size: 0.86rem; font-family: inherit; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+  border-bottom: 2px solid transparent; transition: all .15s;
+}
+.tab-btn:hover  { color: #AECBF0; }
+.tab-btn.active { color: #fff; background: #1A3D6E; border-bottom-color: #E07B1A; }
+
+/* ══ 슬라이드 컨테이너 ══ */
+#slides-wrap { flex: 1; overflow: hidden; position: relative; }
+.slide-panel { display: none; width: 100%; height: 100%; }
+.slide-panel.active { display: block; }
+
+/* ══ 사진 래퍼 ══ */
+.photo-wrap {
+  position: relative; width: 100%; height: 100%;
+  overflow: hidden; cursor: default;
+}
+.photo-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block; user-select: none; pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════
+   상단 말풍선
+══════════════════════════════════════════════ */
+.bubble {
+  position: absolute;
+  top: 14px; left: 7%; right: 7%;
+  background: rgba(255,255,255,.97);
+  border: 3px solid #1A3D6E;
+  border-radius: 18px;
+  padding: 16px 24px 14px;
+  z-index: 50;
+  box-shadow: 0 10px 40px rgba(0,0,0,.45);
+  opacity: 0; transform: translateY(-14px);
+  transition: opacity .25s, transform .25s;
+  pointer-events: none;
+  --tail-x: 50%;
+}
+.bubble.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* 꼬리 – 외부 */
+.bubble::after {
+  content: ''; position: absolute;
+  bottom: -24px; left: var(--tail-x); transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 20px solid transparent; border-right: 20px solid transparent;
+  border-top: 24px solid #1A3D6E;
+}
+/* 꼬리 – 내부 */
+.bubble::before {
+  content: ''; position: absolute;
+  bottom: -17px; left: var(--tail-x); transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 15px solid transparent; border-right: 15px solid transparent;
+  border-top: 18px solid rgba(255,255,255,.97);
+  z-index: 1;
+}
+
+/* 말풍선 내부 */
+.b-label {
+  font-size: 0.78rem; font-weight: 700; color: #E07B1A;
+  letter-spacing: .5px; margin-bottom: 8px;
+}
+/* 세부 모드일 때 label 색 변경 */
+.bubble.dt-bubble .b-label { color: #0D9488; }
+.b-label.dt { color: #0D9488; }
+
+.b-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.b-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 1.45rem; font-weight: 600; line-height: 1.5; color: #1A2535;
+}
+.blt { color: #E07B1A; flex-shrink: 0; margin-top: 3px; font-size: 1rem; }
+.bubble.dt-bubble .blt { color: #0D9488; }
+
+/* 말풍선 하단 푸터 (세부 버튼) */
+.b-footer {
+  margin-top: 10px; padding-top: 8px;
+  border-top: 1px solid #E8F0F8;
+  display: flex; align-items: center;
+}
+.b-to-detail-btn {
+  padding: 5px 16px; border: none; border-radius: 10px;
+  background: #0D9488; color: #fff;
+  font-size: 0.85rem; font-family: inherit; font-weight: 700;
+  cursor: pointer; transition: background .2s;
+}
+.b-to-detail-btn:hover { background: #0F766E; }
+
+/* 연습 모드 버튼 */
+.b-reveal-btn {
+  margin-top: 10px; padding: 8px 24px; border: none;
+  background: #1A3D6E; color: #fff; border-radius: 10px;
+  font-size: 1rem; font-family: inherit; font-weight: 700;
+  cursor: pointer; transition: background .2s; display: block;
+}
+.b-reveal-btn:hover { background: #E07B1A; }
+.b-prompt { font-size: 1.1rem; color: #546E7A; font-weight: 600; margin-bottom: 6px; }
+.b-prompt strong { color: #1A3D6E; }
+.b-answer-head { font-size: 0.75rem; font-weight: 700; color: #1A3D6E; margin-bottom: 8px; letter-spacing: .5px; }
+.b-retry-btn {
+  margin-top: 8px; padding: 6px 18px; background: transparent;
+  color: #1A3D6E; border: 2px solid #1A3D6E; border-radius: 8px;
+  font-size: 0.9rem; font-family: inherit; font-weight: 700;
+  cursor: pointer; transition: all .2s;
+}
+.b-retry-btn:hover { background: #1A3D6E; color: #fff; }
+
+/* ══════════════════════════════════════════════
+   핫스팟 핀 – 전경 (주황)
+══════════════════════════════════════════════ */
+.hotspot {
+  position: absolute; transform: translate(-50%,-50%);
+  z-index: 20; cursor: pointer; display: flex; flex-direction: column; align-items: center;
+}
+.pin {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 900;
+  box-shadow: 0 3px 12px rgba(0,0,0,.45);
+  transition: transform .18s, box-shadow .18s;
+  position: relative; z-index: 2;
+  border: 3px solid #fff; color: #fff;
+}
+.ov-pin { background: #E07B1A; }
+.pin-pulse {
+  position: absolute; width: 36px; height: 36px;
+  border-radius: 50%; animation: pulse 2s ease-out infinite;
+  top: 0; left: 0; margin: -0px;
+  /* pulse colors set per class */
+}
+.ov-pulse { background: rgba(224,123,26,.4); }
+.hotspot:hover .pin { transform: scale(1.2); }
+
+/* 전경 핀 활성 */
+.hotspot.active .pin {
+  transform: scale(1.35); border-color: #FFD580;
+  box-shadow: 0 0 0 6px rgba(255,213,128,.4), 0 4px 16px rgba(0,0,0,.5);
+}
+.hotspot.active .pin-pulse { animation: none; opacity: 0; }
+.hotspot.active::after {
+  content: ''; position: absolute;
+  width: 70px; height: 70px; border-radius: 50%;
+  top: 0; left: 50%; transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+/* 전경 활성 링 */
+.hotspot.ov-hs.active::after { border: 3px solid #FFD580; animation: ring .3s ease-out forwards; }
+/* 세부 활성 링 */
+.hotspot.dt-hs.active::after { border: 3px solid #5EEAD4; animation: ring .3s ease-out forwards; }
+
+@keyframes ring {
+  from { opacity:0; transform:translate(-50%,-50%) scale(.5); }
+  to   { opacity:1; transform:translate(-50%,-50%) scale(1); }
+}
+@keyframes pulse {
+  0%   { transform:scale(1);   opacity:.8; }
+  100% { transform:scale(2.4); opacity:0; }
+}
+
+/* ══════════════════════════════════════════════
+   핫스팟 핀 – 세부 (청록)
+══════════════════════════════════════════════ */
+.dt-pin { background: #0D9488; width: 30px; height: 30px; font-size: 0.7rem; }
+.dt-pulse { background: rgba(13,149,136,.4); width: 30px; height: 30px; }
+/* 세부 핀 라벨 (핀 아래 작은 태그) */
+.pin-label {
+  margin-top: 3px;
+  background: rgba(13,149,136,.92);
+  color: #fff; font-size: 0.68rem; font-weight: 700;
+  padding: 2px 7px; border-radius: 8px;
+  white-space: nowrap; pointer-events: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+  position: relative; z-index: 2;
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══ 헤더 ══ -->
+<header>
+  <div class="h-left">
+    <span class="h-title">사진을 보고 묘사하기</span>
+    <span class="h-sub">한국어 2~3급 | 핀을 클릭하세요</span>
+  </div>
+  <div class="h-right">
+    <!-- 전경 / 세부 토글 -->
+    <div class="toggle-group">
+      <button class="tg-btn active-ov" id="btn-ov" onclick="setStage('overview')">전경</button>
+      <button class="tg-btn"           id="btn-dt" onclick="setStage('detail')">세부</button>
+    </div>
+    <div class="h-divider"></div>
+    <!-- 바로 보기 / 연습 모드 토글 -->
+    <div class="toggle-group">
+      <button class="tg-btn active-mode" id="btn-view"     onclick="setMode('view')">바로 보기</button>
+      <button class="tg-btn"             id="btn-practice" onclick="setMode('practice')">연습 모드</button>
+    </div>
+  </div>
+</header>
+
+<!-- ══ 탭 ══ -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showSlide(0)">① 전체 장면 소개하기</button>
+  <button class="tab-btn"        onclick="showSlide(1)">② 위치 표현하기</button>
+  <button class="tab-btn"        onclick="showSlide(2)">③ 사람 묘사하기</button>
+  <button class="tab-btn"        onclick="showSlide(3)">④ 장소·배경 묘사하기</button>
+  <button class="tab-btn"        onclick="showSlide(4)">⑤ 추측 표현하기</button>
+</div>
+
+<!-- ══ 슬라이드 영역 (JS로 생성) ══ -->
+<div id="slides-wrap"></div>
+
+</div><!-- /.app -->
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   데이터
+══════════════════════════════════════════════════════════════ */
+const NUMS = ['①','②','③','④','⑤','⑥','⑦','⑧'];
+
+const SLIDES = [
+  /* 0 ─ 시장 ─────────────────────────────────────────────── */
+  {
+    image: 'photo_market.webp', alt: '시장',
+    overview: [
+      { label:'① 전체 장면',         x:50, y:55,
+        s:['이 사진은 시장을 찍은 것입니다.','활기찬 시장의 모습입니다.','사람들이 물건을 사고 있는 장면입니다.'] },
+      { label:'② 왼쪽 채소 가판대',  x:14, y:52,
+        s:['왼쪽에 채소 가판대가 있습니다.','채소와 과일이 많이 보입니다.','상인이 물건을 팔고 있습니다.'] },
+      { label:'③ 오른쪽 음식 가판대',x:83, y:58,
+        s:['오른쪽에 음식을 파는 가게가 있습니다.','여러 가지 음식이 진열되어 있습니다.','먹음직스러운 음식들이 보입니다.'] },
+      { label:'④ 가게 간판',         x:50, y:22,
+        s:['위쪽에 가게 간판들이 많이 있습니다.','한국어로 쓰인 간판들이 보입니다.','시장 안에 여러 가게가 있는 것 같습니다.'] },
+    ],
+    detail: [
+      { label:'채소·과일',    x:10, y:35,
+        s:['배추, 당근, 파 등 다양한 채소가 있습니다.','채소들이 싱싱하고 신선해 보입니다.','가격표가 붙어 있습니다.'] },
+      { label:'어묵·튀김',    x:85, y:44,
+        s:['어묵, 튀김 등 분식을 팔고 있습니다.','맛있는 음식 냄새가 날 것 같습니다.','즉석에서 바로 먹을 수 있는 음식들입니다.'] },
+      { label:'지나가는 사람들', x:48, y:36,
+        s:['많은 사람들이 시장 안을 걷고 있습니다.','장바구니나 봉투를 들고 다니는 사람들도 있습니다.','다양한 연령대의 사람들이 보입니다.'] },
+      { label:'광장시장 간판', x:13, y:10,
+        s:['"광장시장"이라고 쓰인 빨간 간판이 보입니다.','큰 글씨로 시장 이름이 쓰여 있습니다.','여러 가게의 간판이 줄지어 있습니다.'] },
+      { label:'상인',         x:82, y:40,
+        s:['상인이 음식을 팔고 있습니다.','앞치마를 두르고 일하고 있습니다.','손님을 맞이하고 있는 것 같습니다.'] },
+    ]
+  },
+  /* 1 ─ 거실 ─────────────────────────────────────────────── */
+  {
+    image: 'photo_living_room.webp', alt: '거실',
+    overview: [
+      { label:'① TV',           x:50, y:32,
+        s:['벽의 가운데에 TV가 걸려 있습니다.','TV 아래에 작은 선반이 있습니다.','TV 왼쪽에 창문이 있습니다.'] },
+      { label:'② 고양이',       x:76, y:50,
+        s:['소파 위에 고양이가 앉아 있습니다.','고양이는 소파의 오른쪽에 있습니다.','고양이 옆에 쿠션이 있습니다.'] },
+      { label:'③ 식물',         x:14, y:52,
+        s:['창문 옆에 큰 식물이 있습니다.','식물은 방의 왼쪽 구석에 있습니다.','식물 아래에 화분이 있습니다.'] },
+      { label:'④ 테이블 아래 책', x:44, y:76,
+        s:['테이블 아래에 책들이 쌓여 있습니다.','책들은 소파 앞 테이블 아래에 있습니다.','책이 여러 권 있습니다.'] },
+      { label:'⑤ 소파 옆 가방', x:86, y:72,
+        s:['소파 오른쪽에 가방이 있습니다.','가방은 바닥 위에 놓여 있습니다.','가방 옆에 소파가 있습니다.'] },
+    ],
+    detail: [
+      { label:'TV',       x:50, y:18,
+        s:['검은색 TV가 벽에 걸려 있습니다.','화면이 꺼져 있습니다.','TV 아래에 스피커와 작은 물건들이 있습니다.'] },
+      { label:'고양이',   x:80, y:36,
+        s:['줄무늬 고양이가 소파 위에 앉아 있습니다.','귀를 쫑긋 세우고 있습니다.','털이 갈색과 회색이 섞여 있습니다.'] },
+      { label:'식물 잎',  x:16, y:32,
+        s:['잎이 크고 넓은 식물입니다.','잎이 초록색이고 싱싱해 보입니다.','창문 근처에서 햇빛을 받고 있습니다.'] },
+      { label:'책들',     x:35, y:82,
+        s:['책이 여러 권 쌓여 있습니다.','두꺼운 책과 얇은 책이 섞여 있습니다.','영어와 한국어 책이 섞여 있는 것 같습니다.'] },
+      { label:'가방',     x:88, y:60,
+        s:['베이지색 천으로 만든 가방입니다.','긴 손잡이가 달려 있습니다.','소파 옆 바닥에 세워져 있습니다.'] },
+      { label:'쿠션',     x:66, y:40,
+        s:['소파 위에 초록색 쿠션이 있습니다.','쿠션 아래에 담요도 보입니다.','편안해 보이는 소파입니다.'] },
+    ]
+  },
+  /* 2 ─ 카페 ─────────────────────────────────────────────── */
+  {
+    image: 'photo_cafe.webp', alt: '카페',
+    overview: [
+      { label:'① 왼쪽 여자',       x:22, y:48,
+        s:['노란 원피스를 입고 있습니다.','커피잔을 들고 이야기하고 있습니다.','밝게 웃고 있습니다. 즐거워 보입니다.','20대쯤 되어 보입니다.'] },
+      { label:'② 가운데 남자',     x:52, y:44,
+        s:['파란 셔츠를 입고 있습니다.','손짓을 하며 이야기하고 있습니다.','활발해 보입니다.','40대쯤 되어 보입니다.'] },
+      { label:'③ 오른쪽 할머니',   x:78, y:52,
+        s:['흰 가디건을 입고 있습니다.','두 사람의 이야기를 듣고 있습니다.','편안해 보입니다.','70대쯤 되어 보입니다.'] },
+      { label:'④ 테이블 위 커피',  x:38, y:76,
+        s:['테이블 위에 커피잔이 있습니다.','음료와 음식이 놓여 있습니다.','카페에서 이야기를 나누고 있는 장면입니다.'] },
+    ],
+    detail: [
+      { label:'여자 원피스',   x:18, y:28,
+        s:['노란 꽃무늬 원피스를 입고 있습니다.','짧은 소매 원피스입니다.','밝고 화사한 색깔입니다.'] },
+      { label:'남자 손짓',    x:48, y:24,
+        s:['손을 들어 이야기하고 있습니다.','눈을 마주치며 활발하게 대화하고 있습니다.','밝고 열정적인 표정입니다.'] },
+      { label:'할머니 자세',  x:80, y:34,
+        s:['두 팔을 앞에 모으고 앉아 있습니다.','편안하고 여유로운 자세입니다.','조용히 미소 짓고 있습니다.'] },
+      { label:'커피잔',       x:25, y:68,
+        s:['흰색 커피잔에 음료가 담겨 있습니다.','잔 위에 라테 아트가 그려진 것 같습니다.','커피잔이 테이블 위에 놓여 있습니다.'] },
+      { label:'꽃 화병',      x:48, y:58,
+        s:['테이블 위에 작은 꽃병이 있습니다.','흰 꽃이 꽂혀 있습니다.','카페 분위기를 아름답게 해 줍니다.'] },
+      { label:'카페 간판',    x:82, y:14,
+        s:['"카페 보라"라는 간판이 보입니다.','원형 모양의 한국어 간판입니다.','야외 테이블이 있는 카페입니다.'] },
+    ]
+  },
+  /* 3 ─ 한강 ─────────────────────────────────────────────── */
+  {
+    image: 'photo_han_river.webp', alt: '한강',
+    overview: [
+      { label:'① 하늘',            x:70, y:18,
+        s:['하늘이 파랗고 날씨가 화창합니다.','구름이 조금 있습니다.','맑은 날처럼 보입니다.'] },
+      { label:'② 강 (한강)',       x:62, y:55,
+        s:['넓은 강이 보입니다. 한강인 것 같습니다.','강 위에 배들이 떠 있습니다.','강물이 잔잔해 보입니다.'] },
+      { label:'③ 잔디밭·사람들',   x:20, y:72,
+        s:['잔디밭에 사람들이 앉아 쉬고 있습니다.','여유롭고 평화로운 분위기입니다.','공원처럼 보입니다.'] },
+      { label:'④ 도시 스카이라인', x:72, y:38,
+        s:['배경에 높은 건물들이 보입니다.','도시 안에 있는 공원인 것 같습니다.','서울처럼 보입니다.'] },
+      { label:'⑤ 자전거',          x:42, y:64,
+        s:['자전거 길 옆에 자전거들이 있습니다.','자전거를 타는 사람도 보입니다.','자전거 타기 좋은 날씨인 것 같습니다.'] },
+    ],
+    detail: [
+      { label:'구름',       x:35, y:10,
+        s:['흰 뭉게구름이 파란 하늘에 떠 있습니다.','구름이 크고 솜처럼 보입니다.','맑은 날씨를 알 수 있습니다.'] },
+      { label:'배(유람선)', x:64, y:48,
+        s:['강 위에 유람선이 떠 있습니다.','배가 천천히 움직이고 있는 것 같습니다.','여러 척의 배가 보입니다.'] },
+      { label:'롯데타워',   x:74, y:22,
+        s:['뾰족하고 높은 건물이 보입니다.','유리로 덮인 현대적인 건물입니다.','서울에서 가장 높은 건물 중 하나입니다.'] },
+      { label:'벤치 사람들', x:57, y:67,
+        s:['벤치에 두 사람이 나란히 앉아 있습니다.','강 쪽을 바라보고 있는 것 같습니다.','여유롭게 쉬고 있습니다.'] },
+      { label:'자전거들',   x:40, y:56,
+        s:['자전거들이 줄지어 세워져 있습니다.','대여용 자전거인 것 같습니다.','자전거를 빌려서 탈 수 있는 것 같습니다.'] },
+      { label:'잔디 위 사람', x:18, y:65,
+        s:['잔디밭에 사람들이 앉아 있습니다.','돗자리를 펴고 쉬고 있는 것 같습니다.','여유로운 주말 오후처럼 보입니다.'] },
+    ]
+  },
+  /* 4 ─ 식당 ─────────────────────────────────────────────── */
+  {
+    image: 'photo_restaurant.webp', alt: '식당',
+    overview: [
+      { label:'① 왼쪽 남자',    x:28, y:45,
+        s:['남자는 머리를 긁고 있습니다.','당황한 것처럼 보입니다.','아마 배가 고플 것입니다.','쇼핑을 하고 온 것 같습니다.'] },
+      { label:'② 오른쪽 여자',  x:57, y:42,
+        s:['여자가 문에 붙은 안내문을 가리키고 있습니다.','놀란 표정을 짓고 있습니다.','식당이 닫혀서 실망한 것 같습니다.'] },
+      { label:'③ 임시휴업 안내', x:76, y:38,
+        s:['식당이 임시휴업 중인 것 같습니다.','문에 "임시휴업" 안내문이 붙어 있습니다.','두 사람은 식당에 오려고 했던 것 같습니다.'] },
+      { label:'④ 쇼핑백',       x:33, y:74,
+        s:['두 사람이 쇼핑백을 들고 있습니다.','쇼핑을 하고 온 것 같습니다.','쇼핑백에 물건이 들어 있을 것 같습니다.'] },
+    ],
+    detail: [
+      { label:'남자 표정',    x:24, y:20,
+        s:['남자가 머리를 긁으며 당황한 표정입니다.','검은 패딩 점퍼를 입고 있습니다.','눈썹을 찌푸리고 있습니다.'] },
+      { label:'여자 손가락',  x:55, y:20,
+        s:['여자가 손가락으로 안내문을 가리키고 있습니다.','갈색 코트를 입고 있습니다.','놀란 표정으로 남자를 보고 있습니다.'] },
+      { label:'임시휴업 표지', x:78, y:22,
+        s:['"임시휴업"이라고 빨간 글씨로 쓰여 있습니다.','영어로도 "TEMPORARILY CLOSED"라고 쓰여 있습니다.','문에 붙어 있는 표지판입니다.'] },
+      { label:'공지 안내문',  x:62, y:33,
+        s:['가게 문에 공지 안내문이 붙어 있습니다.','사장님이 사과하는 내용인 것 같습니다.','손님들에게 양해를 구하는 글 같습니다.'] },
+      { label:'신세계 쇼핑백', x:18, y:64,
+        s:['"SHINSEGAE"라고 쓰인 쇼핑백입니다.','남자가 손에 들고 있습니다.','큰 백화점 쇼핑백입니다.'] },
+      { label:'롯데 쇼핑백',  x:52, y:65,
+        s:['"LOTTE"라고 쓰인 쇼핑백입니다.','여자가 들고 있습니다.','백화점에서 쇼핑한 물건이 담겨 있는 것 같습니다.'] },
+    ]
+  },
+];
+
+/* ══════════════════════════════════════════════════════════════
+   상태
+══════════════════════════════════════════════════════════════ */
+let curSlide = 0;
+let curStage = 'overview'; // 'overview' | 'detail'
+let curMode  = 'view';     // 'view' | 'practice'
+let activeHS = null;       // { s, i, stage }
+
+/* ══════════════════════════════════════════════════════════════
+   초기화: 슬라이드 HTML 동적 생성
+══════════════════════════════════════════════════════════════ */
+(function init() {
+  const wrap = document.getElementById('slides-wrap');
+  wrap.style.cssText = 'flex:1;overflow:hidden;position:relative;';
+
+  SLIDES.forEach((slide, s) => {
+    /* 전경 핀 */
+    const ovPins = slide.overview.map((hs, i) => `
+      <div class="hotspot ov-hs" style="left:${hs.x}%;top:${hs.y}%"
+           data-s="${s}" data-i="${i}" data-stage="overview">
+        <div class="pin-pulse ov-pulse"></div>
+        <div class="pin ov-pin">${NUMS[i]}</div>
+      </div>`).join('');
+
+    /* 세부 핀 (초기: 숨김) */
+    const dtPins = slide.detail.map((hs, i) => `
+      <div class="hotspot dt-hs" style="left:${hs.x}%;top:${hs.y}%;display:none"
+           data-s="${s}" data-i="${i}" data-stage="detail">
+        <div class="pin-pulse dt-pulse"></div>
+        <div class="pin dt-pin">${NUMS[i]}</div>
+        <div class="pin-label">${hs.label}</div>
+      </div>`).join('');
+
+    const panel = document.createElement('div');
+    panel.className = 'slide-panel' + (s === 0 ? ' active' : '');
+    panel.id = 'slide-' + s;
+    panel.style.cssText = 'width:100%;height:100%;';
+    panel.innerHTML = `
+      <div class="photo-wrap" id="photo-${s}" onclick="clearSel(${s})">
+        <img src="${slide.image}" alt="${slide.alt}" draggable="false">
+        ${ovPins}
+        ${dtPins}
+        <div class="bubble" id="bubble-${s}">
+          <div class="b-label" id="blbl-${s}"></div>
+          <div id="bcont-${s}"></div>
+        </div>
+      </div>`;
+    wrap.appendChild(panel);
+  });
+
+  /* 핫스팟 클릭 이벤트 */
+  document.querySelectorAll('.hotspot').forEach(el => {
+    el.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const s     = +this.dataset.s;
+      const i     = +this.dataset.i;
+      const stage = this.dataset.stage;
+      if (activeHS && activeHS.s===s && activeHS.i===i && activeHS.stage===stage) {
+        clearSel(s); return;
+      }
+      activate(s, i, stage, this);
+    });
+  });
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   탭 전환
+══════════════════════════════════════════════════════════════ */
+function showSlide(n) {
+  document.querySelectorAll('.slide-panel').forEach((el,i) => el.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-btn').forEach((el,i)     => el.classList.toggle('active', i===n));
+  curSlide = n;
+  activeHS = null;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   전경 / 세부 전환
+══════════════════════════════════════════════════════════════ */
+function setStage(stage) {
+  curStage = stage;
+  const ovBtn = document.getElementById('btn-ov');
+  const dtBtn = document.getElementById('btn-dt');
+
+  ovBtn.className = 'tg-btn' + (stage==='overview' ? ' active-ov' : '');
+  dtBtn.className = 'tg-btn' + (stage==='detail'   ? ' active-dt' : '');
+
+  document.querySelectorAll('.ov-hs').forEach(el => el.style.display = stage==='overview' ? '' : 'none');
+  document.querySelectorAll('.dt-hs').forEach(el => el.style.display = stage==='detail'   ? '' : 'none');
+
+  /* 현재 슬라이드 말풍선 닫기 */
+  if (activeHS !== null) clearSel(curSlide);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   바로보기 / 연습 모드 전환
+══════════════════════════════════════════════════════════════ */
+function setMode(mode) {
+  curMode = mode;
+  document.getElementById('btn-view').className     = 'tg-btn' + (mode==='view'     ? ' active-mode' : '');
+  document.getElementById('btn-practice').className = 'tg-btn' + (mode==='practice' ? ' active-mode' : '');
+  /* 선택 중인 핀이 있으면 내용 다시 렌더 */
+  if (activeHS) {
+    const el = document.querySelector(`[data-s="${activeHS.s}"][data-i="${activeHS.i}"][data-stage="${activeHS.stage}"]`);
+    activate(activeHS.s, activeHS.i, activeHS.stage, el);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   핀 활성화
+══════════════════════════════════════════════════════════════ */
+function activate(s, i, stage, el) {
+  document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('active'));
+  if (el) el.classList.add('active');
+  activeHS = { s, i, stage };
+
+  const data = stage==='overview' ? SLIDES[s].overview[i] : SLIDES[s].detail[i];
+
+  /* 꼬리 위치 계산: 핀 x% → 말풍선 상대 위치
+     말풍선이 left:7% ~ right:7% (너비 86%) */
+  const pinX   = parseFloat(el.style.left);
+  const tailPct = Math.max(6, Math.min(94, (pinX - 7) / 86 * 100));
+
+  const bubble = document.getElementById('bubble-' + s);
+  bubble.style.setProperty('--tail-x', tailPct + '%');
+
+  /* 말풍선 테두리 색 (세부=청록) */
+  bubble.style.borderColor = stage==='detail' ? '#0D9488' : '#1A3D6E';
+
+  /* 말풍선 꼬리 색 (::after는 border-top으로 색 지정) */
+  /* CSS 변수로 처리 */
+  bubble.style.setProperty('--tail-color', stage==='detail' ? '#0D9488' : '#1A3D6E');
+
+  /* 라벨 */
+  const lbl = document.getElementById('blbl-' + s);
+  lbl.textContent = data.label;
+  lbl.className   = 'b-label' + (stage==='detail' ? ' dt' : '');
+
+  /* 내용 렌더 */
+  if (curMode === 'view') renderView(s, data, stage);
+  else renderPractice(s, data, stage);
+
+  bubble.classList.add('show');
+}
+
+/* ══════════════════════════════════════════════════════════════
+   바로 보기 렌더
+══════════════════════════════════════════════════════════════ */
+function renderView(s, data, stage) {
+  const bltClass = stage==='detail' ? 'blt dt' : 'blt';
+  const items = data.s.map(sen =>
+    `<li><span class="${bltClass}">▸</span><span>${sen}</span></li>`
+  ).join('');
+
+  /* 전경 모드일 때만 "세부 보기" 버튼 표시 */
+  const footer = stage==='overview'
+    ? `<div class="b-footer"><button class="b-to-detail-btn" onclick="setStage('detail')">세부 보기 →</button></div>`
+    : '';
+
+  document.getElementById('bcont-'+s).innerHTML =
+    `<ul class="b-list">${items}</ul>${footer}`;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   연습 모드 렌더
+══════════════════════════════════════════════════════════════ */
+function renderPractice(s, data, stage) {
+  document.getElementById('bcont-'+s).innerHTML = `
+    <p class="b-prompt">📝 <strong>"${data.label}"</strong> 부분을 한국어로 묘사해 보세요.</p>
+    <button class="b-reveal-btn" onclick="revealPractice(${s})">정답 확인 →</button>`;
+}
+
+function revealPractice(s) {
+  if (!activeHS) return;
+  const { i, stage } = activeHS;
+  const data = stage==='overview' ? SLIDES[s].overview[i] : SLIDES[s].detail[i];
+  const bltClass = stage==='detail' ? 'blt dt' : 'blt';
+  const items = data.s.map(sen =>
+    `<li><span class="${bltClass}">▸</span><span>${sen}</span></li>`
+  ).join('');
+  const footer = stage==='overview'
+    ? `<div class="b-footer"><button class="b-to-detail-btn" onclick="setStage('detail')">세부 보기 →</button></div>`
+    : '';
+  document.getElementById('bcont-'+s).innerHTML = `
+    <div class="b-answer-head">예시 답안</div>
+    <ul class="b-list">${items}</ul>
+    <button class="b-retry-btn" onclick="renderPractice(${s}, ${
+      stage==='overview' ? `SLIDES[${s}].overview[${i}]` : `SLIDES[${s}].detail[${i}]`
+    }, '${stage}')">다시 보기</button>${footer}`;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   선택 해제
+══════════════════════════════════════════════════════════════ */
+function clearSel(s) {
+  document.querySelectorAll(`#photo-${s} .hotspot`).forEach(h => h.classList.remove('active'));
+  const bubble = document.getElementById('bubble-'+s);
+  bubble.classList.remove('show');
+  bubble.style.borderColor = '#1A3D6E';
+  activeHS = null;
+}
+</script>
+
+<!-- 말풍선 꼬리 색상 동적 처리 (CSS 변수로는 border-color 변경 불가하여 JS에서 직접 처리됨) -->
+<style>
+/* ::after 꼬리는 border-top 색상을 직접 바꿀 수 없으므로
+   .bubble 자체의 border-color와 일치시키기 위해 JS로 처리 */
+</style>
+</body>
+</html>
