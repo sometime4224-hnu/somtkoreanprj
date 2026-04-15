@@ -6349,7 +6349,10 @@ function updateActivityState(dt) {
 
   if (game.kind === "raiseLivestock") {
     game.animals.forEach((animal, index) => {
-      const trough = game.troughs[index];
+      const trough = game.troughs[index % game.troughs.length];
+      if (!trough) {
+        return;
+      }
       animal.interest = Math.max(animal.interest - dt * 0.55, 0);
       const nearFeed = game.player.carrying === "feed";
       const targetX = trough.filled ? trough.x - 44 : nearFeed ? game.player.x + (index === 0 ? -34 : 34) : animal.homeX;
