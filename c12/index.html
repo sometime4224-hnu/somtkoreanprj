@@ -23,7 +23,7 @@
             --muted: #64748b;
             --line: rgba(148, 163, 184, 0.28);
             --panel: rgba(255, 255, 255, 0.88);
-            --shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
+            --shadow: 0 14px 30px rgba(15, 23, 42, 0.07);
         }
 
         * {
@@ -73,7 +73,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            padding: 14px 18px;
+            padding: 10px 18px;
             backdrop-filter: blur(14px);
             background: rgba(255, 255, 255, 0.78);
             border-bottom: 1px solid rgba(255, 255, 255, 0.72);
@@ -95,15 +95,19 @@
         }
 
         .shell {
-            width: min(1120px, calc(100% - 32px));
-            margin: 26px auto 56px;
+            width: min(1200px, calc(100% - 32px));
+            margin: 14px auto 34px;
         }
 
         .hero {
             position: relative;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: 14px 18px;
             overflow: hidden;
-            padding: 24px 26px;
-            border-radius: 32px;
+            padding: 18px 22px;
+            border-radius: 24px;
             background:
                 linear-gradient(135deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 237, 213, 0.88) 38%, rgba(236, 254, 255, 0.92) 100%);
             border: 1px solid rgba(255, 255, 255, 0.76);
@@ -124,7 +128,8 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 16px;
+            width: max-content;
+            padding: 8px 13px;
             border-radius: 999px;
             background: linear-gradient(135deg, rgba(254, 215, 170, 0.76), rgba(204, 251, 241, 0.78));
             color: #9a3412;
@@ -132,15 +137,15 @@
         }
 
         .hero h1 {
-            margin: 14px 0 0;
-            font-size: clamp(2rem, 4vw, 3.45rem);
-            line-height: 1.08;
+            margin: 0;
+            font-size: clamp(1.8rem, 3.1vw, 2.9rem);
+            line-height: 1.1;
         }
 
         .staff-note {
-            margin-top: 24px;
-            padding: 18px 20px;
-            border-radius: 22px;
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 18px;
             background: rgba(255, 255, 255, 0.78);
             border: 1px solid rgba(148, 163, 184, 0.22);
             box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
@@ -158,26 +163,20 @@
             line-height: 1.7;
         }
 
-        .hero p {
-            margin: 0;
-            max-width: 760px;
-            color: var(--muted);
-            font-size: 1.02rem;
-            line-height: 1.7;
-        }
 
         .hero__chips {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 20px;
+            grid-column: 1 / -1;
+            margin-top: 0;
         }
 
         .hero__chip {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 14px;
+            padding: 8px 12px;
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.8);
             border: 1px solid rgba(148, 163, 184, 0.22);
@@ -187,9 +186,9 @@
         }
 
         .section {
-            margin-top: 28px;
-            padding: 28px;
-            border-radius: 30px;
+            margin-top: 18px;
+            padding: 18px;
+            border-radius: 24px;
             background: var(--panel);
             border: 1px solid rgba(255, 255, 255, 0.72);
             box-shadow: var(--shadow);
@@ -199,8 +198,8 @@
             display: flex;
             justify-content: space-between;
             gap: 18px;
-            align-items: end;
-            margin-bottom: 18px;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
         .section__eyebrow {
@@ -217,27 +216,26 @@
             font-size: clamp(1.4rem, 2vw, 1.95rem);
         }
 
-        .section__head p {
-            margin: 0;
-            max-width: 520px;
-            color: var(--muted);
-            line-height: 1.65;
-        }
 
         .path-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(236px, 1fr));
+            gap: 14px;
         }
 
         .path-card {
             position: relative;
             overflow: hidden;
-            padding: 22px;
-            border-radius: 26px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            column-gap: 12px;
+            row-gap: 10px;
+            padding: 16px;
+            border-radius: 18px;
             border: 1px solid var(--line);
             background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.06);
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.045);
         }
 
         .path-card::before {
@@ -280,7 +278,8 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 12px;
+            width: max-content;
+            padding: 7px 11px;
             border-radius: 999px;
             background: linear-gradient(135deg, var(--tone-soft), #ffffff);
             color: #334155;
@@ -289,29 +288,27 @@
         }
 
         .path-card h3 {
-            margin: 16px 0 8px;
-            font-size: 1.25rem;
+            margin: 0;
+            min-width: 0;
+            font-size: 1.08rem;
+            line-height: 1.35;
         }
 
-        .path-card > p {
-            margin: 0;
-            color: var(--muted);
-            line-height: 1.65;
-        }
 
         .lesson-list {
             display: grid;
-            gap: 12px;
-            margin-top: 18px;
+            grid-column: 1 / -1;
+            gap: 8px;
+            margin-top: 0;
         }
 
         .lesson-link {
             display: flex;
             justify-content: space-between;
-            gap: 14px;
-            align-items: flex-start;
-            padding: 14px 16px;
-            border-radius: 18px;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 14px;
             text-decoration: none;
             color: inherit;
             background: #ffffff;
@@ -330,12 +327,21 @@
             border-color: var(--tone-strong);
         }
 
+        .lesson-link > div {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+        }
+
         .lesson-kind {
             display: inline-flex;
             align-items: center;
-            padding: 4px 9px;
+            justify-content: center;
+            flex: 0 0 auto;
+            padding: 4px 8px;
             border-radius: 999px;
-            font-size: 0.73rem;
+            font-size: 0.72rem;
             font-weight: 900;
             letter-spacing: 0.04em;
             text-transform: uppercase;
@@ -360,23 +366,45 @@
 
         .lesson-title {
             display: block;
-            margin-top: 8px;
-            font-size: 1rem;
+            margin-top: 0;
+            font-size: 0.95rem;
             font-weight: 800;
+            line-height: 1.35;
         }
 
-        .lesson-note {
-            display: block;
-            margin-top: 4px;
-            color: var(--muted);
-            font-size: 0.92rem;
-            line-height: 1.55;
-        }
 
         .lesson-arrow {
-            padding-top: 4px;
+            flex: 0 0 auto;
+            padding-top: 0;
             color: #94a3b8;
             font-size: 0.95rem;
+        }
+
+        body .le-index-summary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 14px;
+        }
+
+        body .le-index-summary strong {
+            flex: 0 0 auto;
+            margin: 0;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        body .le-progress-track {
+            flex: 1 1 auto;
+            height: 6px;
+        }
+
+        body .le-progress-text {
+            flex: 0 0 auto;
+            margin: 0;
+            white-space: nowrap;
         }
 
         @media (max-width: 760px) {
@@ -386,18 +414,30 @@
 
             .shell {
                 width: min(100% - 20px, 1120px);
-                margin-top: 18px;
+                margin: 12px auto 28px;
             }
 
             .hero,
             .section {
-                padding: 22px;
-                border-radius: 24px;
+                padding: 18px;
+                border-radius: 22px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
             }
 
             .section__head {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            body .le-index-summary {
+                gap: 8px;
+            }
+
+            body .le-index-summary strong {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -430,19 +470,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <p class="section__eyebrow">Vocabulary</p>
                     <h2>어휘</h2>
                 </div>
-                <p>어휘 카드의 하위 정렬로 보조자료를 인접하게 배치해, 같은 내용을 다른 형식으로 반복할 수 있도록 구성했습니다.</p>
             </div>
             <div class="path-grid">
                 <article class="path-card" data-tone="vocab">
                     <span class="path-card__badge"><i class="fa-solid fa-layer-group"></i> 어휘 메인 + 보조</span>
                     <h3>어휘 카드에서 말하기 확장까지</h3>
-                    <p>몸과 건강 상태를 다루는 기본 어휘를 익힌 뒤, 문맥형 자료와 카드 게임, 어휘 말하기로 자연스럽게 확장할 수 있습니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="vocabulary.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">어휘 카드</span>
-                                <span class="lesson-note">몸과 건강 상태 중심의 기본 어휘 학습</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -450,7 +487,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind lesson-kind--extend">보조</span>
                                 <span class="lesson-title">문맥형 어휘</span>
-                                <span class="lesson-note">실제 맥락 속에서 단원 어휘를 다시 익히기</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -458,7 +494,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind lesson-kind--extend">보조</span>
                                 <span class="lesson-title">어휘 카드 게임</span>
-                                <span class="lesson-note">그림 조합 방식으로 어휘를 반복하는 활동</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -466,7 +501,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind lesson-kind--extend">보조</span>
                                 <span class="lesson-title">어휘 말하기</span>
-                                <span class="lesson-note">어휘를 문장으로 말하면서 발화로 확장하기</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -481,19 +515,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <p class="section__eyebrow">Grammar</p>
                     <h2>문법</h2>
                 </div>
-                <p>문법 1의 보조 이유 문법 자료를 메인 카드 옆에 붙이고, 문법 2~4는 독립된 핵심 단계로 보이도록 정리했습니다.</p>
             </div>
             <div class="path-grid">
                 <article class="path-card" data-tone="grammar">
                     <span class="path-card__badge"><i class="fa-solid fa-1"></i> 문법 1</span>
                     <h3>결과와 이유 표현</h3>
-                    <p>문법 1을 중심으로 두고, 연결해서 볼 수 있는 이유 문법 보조페이지를 바로 아래에 붙였습니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="grammar1.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">문법 1</span>
-                                <span class="lesson-note">V-았더니/었더니 중심 설명과 예문</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -501,7 +532,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind lesson-kind--extend">보조</span>
                                 <span class="lesson-title">이유 문법</span>
-                                <span class="lesson-note">문법 1과 가까운 이유 표현을 따로 정리한 보조 페이지</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -509,7 +539,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind lesson-kind--extend">보조</span>
                                 <span class="lesson-title">문법 카드 게임</span>
-                                <span class="lesson-note">-았/었더니와 -아/어서를 그림 카드로 비교하며 익히는 활동</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -519,13 +548,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <article class="path-card" data-tone="grammar">
                     <span class="path-card__badge"><i class="fa-solid fa-2"></i> 문법 2</span>
                     <h3>얼마나 -(으)ㄴ/는지 모르다</h3>
-                    <p>정도와 감탄을 표현하는 문형을 정리하는 핵심 단계입니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="grammar2.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">문법 2</span>
-                                <span class="lesson-note">정도 표현을 강하게 전달하는 구조 익히기</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -535,13 +562,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <article class="path-card" data-tone="grammar">
                     <span class="path-card__badge"><i class="fa-solid fa-3"></i> 문법 3</span>
                     <h3>-(으)ㄴ/는 모양이다</h3>
-                    <p>추측과 판단을 나타내는 표현을 차분히 정리하는 메인 페이지입니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="grammar3.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">문법 3</span>
-                                <span class="lesson-note">상황을 보고 추측하는 표현 익히기</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -551,13 +576,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <article class="path-card" data-tone="grammar">
                     <span class="path-card__badge"><i class="fa-solid fa-4"></i> 문법 4</span>
                     <h3>-아야/어야</h3>
-                    <p>필수 조건과 의무를 말하는 표현을 정리하는 마지막 문법 단계입니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="grammar4.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">문법 4</span>
-                                <span class="lesson-note">해야 하는 일과 조건을 분명하게 말하기</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -572,19 +595,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <p class="section__eyebrow">Speaking And Listening</p>
                     <h2>말하기와 듣기</h2>
                 </div>
-                <p>말하기는 발음 연습과 권유하기 회화를 한 묶음으로 두고, 듣기는 Track 30과 31을 한 줄기 안에서 이어가도록 정리했습니다.</p>
             </div>
             <div class="path-grid">
                 <article class="path-card" data-tone="speaking">
                     <span class="path-card__badge"><i class="fa-solid fa-comments"></i> 말하기</span>
                     <h3>발음 연습과 권유하기 회화</h3>
-                    <p>기본 말하기 연습을 먼저 두고, 친구에게 권유하는 대화 활동이 바로 이어지도록 묶었습니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="speaking-pronunciation.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">말하기 발음 연습</span>
-                                <span class="lesson-note">건강과 동작을 주제로 한 말하기 연습</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -592,7 +612,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind lesson-kind--extend">보조</span>
                                 <span class="lesson-title">문법1·2 융합 말하기</span>
-                                <span class="lesson-note">그림으로 문장을 만들고 바로 말하기까지 이어지는 5사이클 활동</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -600,7 +619,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind lesson-kind--extend">보조</span>
                                 <span class="lesson-title">권유하기 회화</span>
-                                <span class="lesson-note">친구에게 권유하는 상황으로 확장하는 말하기 활동</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -610,13 +628,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <article class="path-card" data-tone="speaking">
                     <span class="path-card__badge"><i class="fa-solid fa-headphones"></i> 듣기</span>
                     <h3>듣기 1, 듣기 2</h3>
-                    <p>Track 30과 31을 같은 구간에 두고, 핵심 듣기 흐름이 자연스럽게 이어지도록 정리했습니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="listening1.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">듣기 1</span>
-                                <span class="lesson-note">Track 30을 중심으로 듣기 감각 열기</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -624,7 +640,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind">이어서</span>
                                 <span class="lesson-title">듣기 2</span>
-                                <span class="lesson-note">Track 31로 이어지는 후속 듣기 활동</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -639,19 +654,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <p class="section__eyebrow">Reading</p>
                     <h2>읽기</h2>
                 </div>
-                <p>목 건강과 거북목 증후군을 주제로 한 읽기 지문과 어휘·퀴즈 활동입니다.</p>
             </div>
             <div class="path-grid">
                 <article class="path-card" data-tone="writing">
                     <span class="path-card__badge"><i class="fa-solid fa-book-open"></i> 읽기</span>
                     <h3>여러분의 목 건강은 어떠십니까?</h3>
-                    <p>거북목 증후군의 원인과 증상, 그리고 간단한 스트레칭 방법을 소개하는 읽기 지문입니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="reading.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">읽기</span>
-                                <span class="lesson-note">본문 읽기 + 어휘 + 이해 퀴즈</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -666,19 +678,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <p class="section__eyebrow">Writing</p>
                     <h2>쓰기</h2>
                 </div>
-                <p>생활 속 운동을 주제로 단원 표현을 문장과 짧은 글로 정리하는 마무리 활동입니다.</p>
             </div>
             <div class="path-grid">
                 <article class="path-card" data-tone="writing">
                     <span class="path-card__badge"><i class="fa-solid fa-pen-nib"></i> 쓰기 확장</span>
                     <h3>쓰기 활동</h3>
-                    <p>생활 속 운동이라는 주제 안에서 단원 표현을 문장과 짧은 글로 묶어보는 마무리 활동입니다.</p>
                     <div class="lesson-list">
                         <a class="lesson-link lesson-link--main" href="writing.html">
                             <div>
                                 <span class="lesson-kind lesson-kind--main">핵심</span>
                                 <span class="lesson-title">쓰기</span>
-                                <span class="lesson-note">생활 속 운동을 주제로 표현을 글로 정리하기</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
@@ -686,7 +695,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <div>
                                 <span class="lesson-kind lesson-kind--sub">확장</span>
                                 <span class="lesson-title">컷 쓰기</span>
-                                <span class="lesson-note">18컷 그림으로 읽기 지문을 단계별로 다시 쓰기</span>
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>

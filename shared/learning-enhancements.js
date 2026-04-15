@@ -4,8 +4,7 @@
   const VISITS_KEY = "korean3b.visits.v1";
   const TEXT = {
     visitKo: "\uBC29\uBB38",
-    progressTitle: "\uD559\uC2B5 \uC9C4\uD589\uB960",
-    visitVi: "\u0110\u00E3 xem"
+    progressTitle: "\uD559\uC2B5 \uC9C4\uD589\uB960"
   };
 
   function createStorage() {
@@ -122,15 +121,13 @@
       }
       .le-link-badge {
         display: inline-flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 1px;
         margin-top: 8px;
         margin-left: auto;
-        border-radius: 10px;
+        border-radius: 999px;
         padding: 3px 7px;
-        min-width: 56px;
+        min-width: 42px;
         pointer-events: none;
       }
       .le-link-badge-visit {
@@ -143,11 +140,6 @@
         letter-spacing: 0.01em;
         line-height: 1.15;
       }
-      .le-badge-vi {
-        font-size: 9px;
-        opacity: 0.9;
-        line-height: 1.1;
-      }
     `;
     document.head.appendChild(style);
   }
@@ -155,7 +147,7 @@
   function createBadge() {
     const badge = document.createElement("span");
     badge.className = "le-link-badge le-link-badge-visit";
-    badge.innerHTML = `<span class="le-badge-ko">${TEXT.visitKo}</span><span class="le-badge-vi">${TEXT.visitVi}</span>`;
+    badge.innerHTML = `<span class="le-badge-ko">${TEXT.visitKo}</span>`;
     return badge;
   }
 
