@@ -388,17 +388,25 @@
         const amount = card.direction === "increase"
             ? Math.min(stage, 18)
             : Math.max(1, 12 - Math.min(stage, 11));
-        const shrinkScale = round(Math.max(0.38, 1 - Math.min(stage, 12) * 0.052));
+        const shrinkScale = round(Math.max(0.26, 1 - Math.min(stage, 14) * 0.064));
+        const operator = card.direction === "increase" ? "+" : "−";
+        const changeValue = Math.min(stage * 2, 99);
+        const showAmountChange = stage > 0;
 
         return `
             <div class="media-frame amount-frame amount-frame--${escapeAttr(card.visual.kind)}" style="--level:${level};--amount:${amount};--energy:${energy};--shrink-scale:${shrinkScale};">
                 <span class="scene-chip">${escapeHtml(card.sceneLabel)}</span>
                 ${showBurst ? renderClickWordEffect(card) : ""}
+                ${showAmountChange ? `<div class="amount-operator amount-operator--${escapeAttr(card.direction)}" aria-hidden="true">${operator}</div>` : ""}
+                ${showAmountChange ? `<div class="amount-change-stamp amount-change-stamp--${escapeAttr(card.direction)}" aria-hidden="true">${operator}${changeValue}</div>` : ""}
                 <div class="amount-stage" aria-hidden="true">
                     ${card.visual.kind === "shrink-object"
                         ? renderShrinkObject(card, stage)
                         : renderAmountPile(card, stage, amount)}
                 </div>
+                ${showAmountChange ? `<div class="amount-sign-field" aria-hidden="true">
+                    ${renderAmountSigns(card, stage, operator)}
+                </div>` : ""}
                 <div class="amount-wave" aria-hidden="true"></div>
                 <div class="frame-top-rim"></div>
             </div>
@@ -534,6 +542,24 @@
                 ${escapeHtml(card.visual.itemEmoji)}
             </span>
         `;
+    }
+
+    function renderAmountSigns(card, stage, operator) {
+        const visibleSigns = Math.min(stage * 3, 28);
+
+        return Array.from({ length: visibleSigns }, (_, index) => {
+            const x = round(lerp(10, 90, seeded(card.id, index, 41)));
+            const y = round(lerp(14, 86, seeded(card.id, index, 42)));
+            const rotate = round(lerp(-24, 24, seeded(card.id, index, 43)));
+            const delay = round(lerp(-0.72, 0, seeded(card.id, index, 44)));
+            const scale = round(lerp(0.72, 1.36, seeded(card.id, index, 45)));
+
+            return `
+                <span class="amount-sign amount-sign--${escapeAttr(card.direction)}" style="left:${x}%;top:${y}%;--rotate:${rotate}deg;--delay:${delay}s;--sign-scale:${scale};">
+                    ${operator}
+                </span>
+            `;
+        }).join("");
     }
 
     function seeded(cardId, index, salt) {
