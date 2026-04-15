@@ -12,6 +12,7 @@ from PIL import Image, ImageDraw
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_DIR = ROOT / "assets" / "c14" / "vocabulary" / "images" / "split-variants" / "single"
 OUTPUT_DIR = ROOT / "assets" / "c14" / "grammar" / "images" / "g4-hires-objects"
+OBJECT_WEBP_SAVE_ARGS = {"format": "WEBP", "quality": 92, "method": 6}
 
 
 @dataclass(frozen=True)
@@ -476,11 +477,11 @@ def save_cutout(image_rgb: np.ndarray, alpha: np.ndarray, output_path: Path, mir
     crop_alpha = alpha[y1:y2, x1:x2]
     crop_alpha = strip_edge_background(crop_rgb, crop_alpha)
     rgba = np.dstack([crop_rgb, crop_alpha])
-    Image.fromarray(rgba, "RGBA").save(output_path)
+    Image.fromarray(rgba, "RGBA").save(output_path, **OBJECT_WEBP_SAVE_ARGS)
 
     if mirror:
         mirror_path = output_path.with_stem(f"{output_path.stem}-flip")
-        Image.fromarray(rgba, "RGBA").transpose(Image.Transpose.FLIP_LEFT_RIGHT).save(mirror_path)
+        Image.fromarray(rgba, "RGBA").transpose(Image.Transpose.FLIP_LEFT_RIGHT).save(mirror_path, **OBJECT_WEBP_SAVE_ARGS)
 
 
 def strip_edge_background(crop_rgb: np.ndarray, crop_alpha: np.ndarray) -> np.ndarray:
@@ -577,7 +578,7 @@ def main() -> None:
         image_rgb = np.array(Image.open(source_path).convert("RGB"))
         image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
         alpha = build_mask(image_bgr, config)
-        save_cutout(image_rgb, alpha, OUTPUT_DIR / f"{config.name}.png", config.mirror)
+        save_cutout(image_rgb, alpha, OUTPUT_DIR / f"{config.name}.webp", config.mirror)
 
     make_preview(OUTPUT_DIR)
     print(f"saved to {OUTPUT_DIR}")
