@@ -82,7 +82,6 @@ When adding or importing assets:
 - `assets/c10/misc/images/review-quiz/`
 - `assets/c11/vocabulary/images/split/`
 - `assets/c11/reading-writing/images/writing-cut/`
-- `assets/c12/listening/audio/extra/`
 - `assets/c12/misc/images/split-variants/`
 - `assets/c13/vocabulary/images/split-variants/`
 

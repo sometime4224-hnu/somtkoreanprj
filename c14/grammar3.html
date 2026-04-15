@@ -29,6 +29,32 @@
         .vi-text { display: none; }
         .vi-on .vi-text { display: block; }
         .choice-btn { min-height: 52px; }
+        .quick-check-card {
+            border: 1px dashed #c4b5fd;
+            background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+        }
+        .quick-check-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 4px 10px; border-radius: 9999px;
+            background: #ede9fe; color: #6d28d9;
+            font-size: 11px; font-weight: 800;
+        }
+        .quick-check-btn {
+            width: 100%; border: 1px solid #d8b4fe; border-radius: 14px;
+            padding: 10px 12px; background: #ffffff; color: #334155;
+            text-align: left; font-size: 13px; font-weight: 700;
+            transition: transform 0.18s, background 0.18s, border-color 0.18s;
+        }
+        .quick-check-btn:hover { transform: translateY(-1px); background: #faf5ff; border-color: #a78bfa; }
+        .quick-check-btn.is-correct { background: #f5f3ff; border-color: #8b5cf6; color: #6d28d9; }
+        .quick-check-btn.is-wrong { background: #fff1f2; border-color: #fb7185; color: #be123c; }
+        .quick-check-btn.is-muted { background: #f8fafc; border-color: #e2e8f0; color: #94a3b8; }
+        .quick-feedback {
+            display: none; margin-top: 12px; border-radius: 16px;
+            border: 1px solid #ddd6fe; background: rgba(255,255,255,0.9);
+            padding: 12px;
+        }
+        .quick-feedback.show { display: block; }
         .next-link {
             display: inline-flex; align-items: center; gap: 6px;
             padding: 8px 14px; border-radius: 9999px;
@@ -107,6 +133,20 @@
             <div class="vi-text text-xs text-indigo-700 mt-3 safe">Với bản thân, thường nói trực tiếp bằng tính từ. Với người khác, dùng dạng -아/어하다.</div>
         </article>
         <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+            <h2 class="text-base font-bold text-slate-800">바로 비교</h2>
+            <div class="mt-3 space-y-2 text-sm text-slate-700 safe">
+                <div class="rounded-xl bg-slate-50 px-3 py-2">
+                    <p><strong>저는 힘들어요.</strong> = 내 감정</p>
+                    <p><strong>줄리앙 씨가 힘들어해요.</strong> = 다른 사람의 감정</p>
+                </div>
+                <div class="rounded-xl bg-slate-50 px-3 py-2">
+                    <p><strong>저는 고향이 그리워요.</strong> = 내 마음</p>
+                    <p><strong>아버지는 고향을 그리워하세요.</strong> = 다른 사람의 마음</p>
+                </div>
+            </div>
+            <div class="vi-text text-xs text-indigo-700 mt-3 safe">So sánh nhanh: cảm xúc của mình dùng tính từ trực tiếp, còn cảm xúc của người khác thường dùng -아/어하다.</div>
+        </article>
+        <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
             <h2 class="text-base font-bold text-slate-800">교재형 예문</h2>
             <ul class="mt-3 space-y-3 text-sm text-slate-700">
                 <li class="safe">조카가 <strong class="text-violet-700">심심해해서</strong> 함께 놀아 줬어요.</li>
@@ -153,6 +193,7 @@
         const tabPractice   = document.getElementById('tabPractice');
         const learnPanel    = document.getElementById('learnPanel');
         const practicePanel = document.getElementById('practicePanel');
+        const practiceCard  = practicePanel.querySelector('article:first-child');
         const progressEl    = document.getElementById('progress');
         const progressBar   = document.getElementById('progressBar');
         const qGrammar      = document.getElementById('qGrammar');
@@ -187,6 +228,60 @@
         tabLearn.addEventListener('click',    function () { showTab('learn'); });
         tabPractice.addEventListener('click', function () { showTab('practice'); });
 
+        const quickChecks = [
+            {
+                        "anchor": 0,
+                        "label": "학습 확인 1",
+                        "q": "다음 중 다른 사람의 감정을 말하는 문장은 무엇일까요?",
+                        "options": [
+                                    "민수 씨가 피곤해해요.",
+                                    "저는 피곤해해요.",
+                                    "민수 씨가 피곤했던 사람이에요."
+                        ],
+                        "answer": "민수 씨가 피곤해해요.",
+                        "explainKo": "다른 사람의 감정은 -아/어하다로 말하는 것이 자연스럽습니다.",
+                        "explainVi": "Khi nói cảm xúc của người khác, dùng -아/어하다 là tự nhiên nhất.",
+                        "mistakes": {
+                                    "저는 피곤해해요.": "내 감정은 보통 “피곤해요”처럼 직접 말합니다.",
+                                    "민수 씨가 피곤했던 사람이에요.": "이 문장은 과거의 사람 설명처럼 들려서 감정 표현이 아닙니다."
+                        }
+            },
+            {
+                        "anchor": 2,
+                        "label": "학습 확인 2",
+                        "q": "“아이가 졸려___ 엄마가 안아 줬어요.”에 알맞은 것은 무엇일까요?",
+                        "options": [
+                                    "졸려해서",
+                                    "졸려요",
+                                    "졸렸던"
+                        ],
+                        "answer": "졸려해서",
+                        "explainKo": "아이의 상태 때문에 뒤의 행동이 이어지므로 “졸려해서”가 맞습니다.",
+                        "explainVi": "Vì hành động phía sau xảy ra do trạng thái của em bé nên “졸려해서” là đúng.",
+                        "mistakes": {
+                                    "졸려요": "이 형태는 문장을 끝맺는 말이라서 뒤의 행동 문장과 바로 이어지지 않습니다.",
+                                    "졸렸던": "이 형태는 뒤의 명사를 꾸밀 때 자연스럽고, 여기서는 이유 표현이 필요합니다."
+                        }
+            },
+            {
+                        "anchor": 4,
+                        "label": "학습 확인 3",
+                        "q": "가족의 마음을 자연스럽게 말한 문장을 골라 보세요.",
+                        "options": [
+                                    "아버지는 고향을 그리워하세요.",
+                                    "저는 고향을 그리워하세요.",
+                                    "아버지는 고향을 그리울수록 하세요."
+                        ],
+                        "answer": "아버지는 고향을 그리워하세요.",
+                        "explainKo": "다른 사람의 감정을 높여 말할 때는 “그리워하세요”처럼 쓰면 자연스럽습니다.",
+                        "explainVi": "Khi nói cảm xúc của người khác một cách kính trọng, “그리워하세요” là tự nhiên nhất.",
+                        "mistakes": {
+                                    "저는 고향을 그리워하세요.": "“저는”에는 높임 표현 “-세요”가 어울리지 않습니다.",
+                                    "아버지는 고향을 그리울수록 하세요.": "“-수록”은 비교 문법이라 여기의 감정 표현과 맞지 않습니다."
+                        }
+            }
+        ];
+
         const quiz = [
             {
                         "type": "mcq",
@@ -202,7 +297,12 @@
                         ],
                         "answer": "줄리앙 씨가 힘들어해요.",
                         "explainKo": "다른 사람의 감정을 간접적으로 말할 때는 -아/어하다가 자연스럽습니다.",
-                        "explainVi": "Khi nói cảm xúc của người khác, dùng -아/어하다 là tự nhiên nhất."
+                        "explainVi": "Khi nói cảm xúc của người khác, dùng -아/어하다 là tự nhiên nhất.",
+                        "mistakes": {
+                                    "저는 힘들어해요.": "자기 감정은 보통 “힘들어요”처럼 직접 말합니다.",
+                                    "줄리앙 씨가 힘들었던 사람이에요.": "과거의 사람 설명처럼 들려서 지금 느끼는 감정 표현이 아닙니다.",
+                                    "줄리앙 씨가 힘들수록 해요.": "“-수록”은 정도 비교 문법이라 여기서는 맞지 않습니다."
+                        }
             },
             {
                         "type": "mcq",
@@ -218,7 +318,12 @@
                         ],
                         "answer": "심심해해서",
                         "explainKo": "조카의 상태를 보고 그 이유로 함께 놀아 준 상황을 나타냅니다.",
-                        "explainVi": "Câu này cho thấy trạng thái của đứa cháu và hành động phía sau."
+                        "explainVi": "Câu này cho thấy trạng thái của đứa cháu và hành động phía sau.",
+                        "mistakes": {
+                                    "심심했어서": "과거 회상보다는 지금 조카가 심심해하는 이유를 말하는 흐름입니다.",
+                                    "심심했던": "명사를 꾸미는 형태라서 뒤의 행동 문장과 바로 이어지지 않습니다.",
+                                    "심심할수록": "비교 문법이라 이유 표현과 맞지 않습니다."
+                        }
             },
             {
                         "type": "short",
@@ -227,10 +332,14 @@
                         "hintKo": "다른 사람의 마음을 말해 보세요.",
                         "hintVi": "Hãy nói về cảm xúc của người khác.",
                         "answers": [
-                                    "제 친구는 고향을 그리워해요."
+                                    "제 친구는 고향을 그리워해요.",
+                                    "제 친구가 고향을 그리워해요.",
+                                    "친구는 고향을 그리워해요.",
+                                    "친구가 고향을 그리워해요."
                         ],
                         "explainKo": "다른 사람이 느끼는 그리움의 감정을 자연스럽게 나타낸 문장입니다.",
-                        "explainVi": "Đây là câu tự nhiên để nói nỗi nhớ quê của người khác."
+                        "explainVi": "Đây là câu tự nhiên để nói nỗi nhớ quê của người khác.",
+                        "scaffoldKo": "친구가/친구는 고향을 그리워해요."
             },
             {
                         "type": "mcq",
@@ -246,7 +355,12 @@
                         ],
                         "answer": "여자 친구가 추워하는 것을 보고 코트를 벗어 주었다.",
                         "explainKo": "다른 사람의 감정을 보고 그에 맞는 행동을 한 상황입니다.",
-                        "explainVi": "Đây là tình huống nhìn thấy cảm xúc của người khác rồi hành động theo."
+                        "explainVi": "Đây là tình huống nhìn thấy cảm xúc của người khác rồi hành động theo.",
+                        "mistakes": {
+                                    "여자 친구가 코트를 사고 싶어한다.": "문장에는 “추워해서”가 있어 감정 때문에 도와준 상황입니다.",
+                                    "여자 친구가 제 코트를 잃어버렸다.": "코트를 잃어버렸다는 내용은 문장에 없습니다.",
+                                    "제가 추워서 제 코트를 벗었다.": "추운 사람은 여자 친구이고, 행동한 사람은 화자입니다."
+                        }
             },
             {
                         "type": "mcq",
@@ -262,7 +376,12 @@
                         ],
                         "answer": "만들었어요",
                         "explainKo": "다른 사람의 바람 때문에 함께 행동한 결과를 자연스럽게 이어 줍니다.",
-                        "explainVi": "Kết quả phía sau nối tự nhiên với mong muốn của người khác."
+                        "explainVi": "Kết quả phía sau nối tự nhiên với mong muốn của người khác.",
+                        "mistakes": {
+                                    "만났던": "과거 회상 형태라서 “같이 ____” 자리의 서술어가 될 수 없습니다.",
+                                    "만들수록": "여기서는 함께 한 행동 결과가 와야 자연스럽습니다.",
+                                    "만들어해요": "“-아/어하다”는 감정 표현에 쓰는 형태라 “만들다”와는 맞지 않습니다."
+                        }
             },
             {
                         "type": "short",
@@ -271,14 +390,19 @@
                         "hintKo": "14과 주제와 연결해 보세요.",
                         "hintVi": "Hãy nối với chủ đề của bài 14.",
                         "answers": [
-                                    "아버지는 고향을 그리워하세요."
+                                    "아버지는 고향을 그리워하세요.",
+                                    "아버지는 고향을 그리워해요.",
+                                    "우리 아버지는 고향을 그리워하세요.",
+                                    "우리 아버지는 고향을 그리워해요."
                         ],
                         "explainKo": "14과의 주제인 고향에 대한 마음을 다른 사람의 감정으로 표현한 문장입니다.",
-                        "explainVi": "Đây là câu diễn tả nỗi nhớ quê của người khác trong bài 14."
+                        "explainVi": "Đây là câu diễn tả nỗi nhớ quê của người khác trong bài 14.",
+                        "scaffoldKo": "아버지는 고향을 그리워하세요."
             }
 ];
 
-        const state = { idx: 0, answered: false, score: 0, logs: [], started: false };
+        let activeQuiz = [];
+        const state = { idx: 0, answered: false, score: 0, logs: [], started: false, mode: 'main' };
 
         function esc(t) {
             return String(t == null ? '' : t)
@@ -287,13 +411,43 @@
         }
         function normalize(t) { return String(t||'').replace(/\s/g,''); }
 
-        function shuffleQuiz() {
-            for (var i = quiz.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tmp = quiz[i]; quiz[i] = quiz[j]; quiz[j] = tmp;
+        function shuffleArray(items) {
+            const copy = items.slice();
+            for (let i = copy.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const tmp = copy[i];
+                copy[i] = copy[j];
+                copy[j] = tmp;
             }
+            return copy;
         }
-        shuffleQuiz();
+
+        function resetMainRound() {
+            activeQuiz = shuffleArray(quiz);
+            state.mode = 'main';
+            state.idx = 0;
+            state.answered = false;
+            state.score = 0;
+            state.logs = [];
+        }
+
+        function startWrongReview(items) {
+            activeQuiz = shuffleArray(items);
+            state.mode = 'review';
+            state.idx = 0;
+            state.answered = false;
+            state.score = 0;
+            state.logs = [];
+            resultPanel.classList.add('hidden');
+            practiceCard.classList.remove('hidden');
+            showTab('practice');
+            renderQuestion();
+        }
+
+        function getWrongReason(q, user) {
+            if (q.mistakes && q.mistakes[user]) return q.mistakes[user];
+            return '핵심 문법 형태를 다시 확인해 보세요.';
+        }
 
         function lockInputs(q, user) {
             if (q.type === 'mcq') {
@@ -315,18 +469,27 @@
         }
 
         function feedbackHtml(ok, user, correct, q) {
-            return '<p class="text-sm font-bold ' + (ok ? 'text-violet-700' : 'text-rose-700') + '">'
+            let html = '<p class="text-sm font-bold ' + (ok ? 'text-violet-700' : 'text-rose-700') + '">'
                 + (ok ? '정답입니다.' : '오답입니다.')
                 + ' <span class="text-xs font-normal">(' + (ok ? 'Đúng' : 'Sai') + ')</span></p>'
                 + '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(user || '(무응답)') + '</p>'
-                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>'
-                + '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(q.explainKo) + '</p>'
+                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>';
+
+            if (!ok) {
+                html += '<p class="text-xs text-rose-700 mt-2 safe"><b>왜 틀렸는지:</b> ' + esc(getWrongReason(q, user)) + '</p>';
+            }
+            if (!ok && q.scaffoldKo) {
+                html += '<p class="text-xs text-slate-600 mt-2 safe"><b>문장 틀:</b> ' + esc(q.scaffoldKo) + '</p>';
+            }
+
+            html += '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(q.explainKo) + '</p>'
                 + '<p class="text-xs text-violet-700 mt-1 safe"><b>VI:</b> ' + esc(q.explainVi) + '</p>';
+            return html;
         }
 
         function answerQuestion(user) {
             if (state.answered) return;
-            const q = quiz[state.idx];
+            const q = activeQuiz[state.idx];
             const correct = q.type === 'mcq' ? q.answer : q.answers[0];
             let ok;
             if (q.type === 'mcq') {
@@ -337,7 +500,15 @@
             }
             state.answered = true;
             if (ok) state.score += 1;
-            state.logs.push({ ok: ok, user: user, correct: correct, q: q.q, explainKo: q.explainKo, explainVi: q.explainVi });
+            state.logs.push({
+                ok: ok,
+                user: user,
+                correct: correct,
+                item: q,
+                q: q.q,
+                explainKo: q.explainKo,
+                reasonKo: ok ? '' : getWrongReason(q, user)
+            });
             feedbackBox.classList.remove('hidden');
             feedbackBox.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-violet-50 border-violet-200' : 'bg-rose-50 border-rose-200');
             feedbackBox.innerHTML = feedbackHtml(ok, user, correct, q);
@@ -346,12 +517,12 @@
         }
 
         function renderQuestion() {
-            if (state.idx >= quiz.length) { renderResult(); return; }
-            const q = quiz[state.idx];
+            if (state.idx >= activeQuiz.length) { renderResult(); return; }
+            const q = activeQuiz[state.idx];
             state.answered = false;
-            progressEl.textContent = (state.idx + 1) + ' / ' + quiz.length;
-            progressBar.style.width = (state.idx / quiz.length * 100) + '%';
-            qGrammar.textContent = q.grammar;
+            progressEl.textContent = (state.mode === 'review' ? '오답 ' : '') + (state.idx + 1) + ' / ' + activeQuiz.length;
+            progressBar.style.width = (state.idx / activeQuiz.length * 100) + '%';
+            qGrammar.textContent = state.mode === 'review' ? '오답 다시 풀기 | ' + q.grammar : q.grammar;
             qText.textContent = q.q;
             qHintKo.textContent = '힌트: ' + q.hintKo;
             qHintVi.textContent = 'Gợi ý: ' + q.hintVi;
@@ -389,20 +560,35 @@
         });
 
         function renderResult() {
-            practicePanel.querySelector('article:first-child').classList.add('hidden');
+            practiceCard.classList.add('hidden');
             resultPanel.classList.remove('hidden');
-            const total = quiz.length;
+            const total = activeQuiz.length;
             const pct = Math.round(state.score / total * 100);
             const wrongItems = state.logs.filter(function (l) { return !l.ok; });
-            let html = '<p class="text-lg font-black text-slate-800">결과: ' + state.score + ' / ' + total
-                + ' <span class="text-violet-600">(' + pct + '%)</span></p>'
-                + '<p class="text-xs text-slate-500 mt-1">Kết quả: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
-            if (pct >= 80) {
-                html += '<p class="text-sm text-violet-700 font-bold mt-2">훌륭해요! 문법을 잘 이해했어요.</p>'
-                    + '<p class="text-xs text-violet-600">Xuất sắc! Bạn đã nắm tốt ngữ pháp này.</p>';
+            let html = '';
+
+            if (state.mode === 'main') {
+                html += '<p class="text-lg font-black text-slate-800">결과: ' + state.score + ' / ' + total
+                    + ' <span class="text-violet-600">(' + pct + '%)</span></p>'
+                    + '<p class="text-xs text-slate-500 mt-1">Kết quả: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
+                if (pct >= 80) {
+                    html += '<p class="text-sm text-violet-700 font-bold mt-2">훌륭해요! 이제 틀린 포인트만 한 번 더 확인하면 더 단단해져요.</p>'
+                        + '<p class="text-xs text-violet-600">Xuất sắc! Chỉ cần ôn lại chỗ sai là sẽ chắc hơn nữa.</p>';
+                } else {
+                    html += '<p class="text-sm text-amber-700 font-bold mt-2">좋아요. 틀린 문제를 바로 다시 풀면 기억이 더 오래 남아요.</p>'
+                        + '<p class="text-xs text-amber-600">Làm lại ngay câu sai sẽ giúp nhớ lâu hơn.</p>';
+                }
             } else {
-                html += '<p class="text-sm text-amber-700 font-bold mt-2">조금 더 연습해 봐요!</p>'
-                    + '<p class="text-xs text-amber-600">Hãy luyện thêm một chút nhé!</p>';
+                html += '<p class="text-lg font-black text-slate-800">오답 다시 풀기: ' + state.score + ' / ' + total
+                    + ' <span class="text-violet-600">(' + pct + '%)</span></p>'
+                    + '<p class="text-xs text-slate-500 mt-1">Làm lại câu sai: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
+                if (pct === 100) {
+                    html += '<p class="text-sm text-violet-700 font-bold mt-2">좋아요! 헷갈리던 포인트가 정리됐어요.</p>'
+                        + '<p class="text-xs text-violet-600">Tốt lắm! Điểm dễ nhầm đã được củng cố.</p>';
+                } else {
+                    html += '<p class="text-sm text-amber-700 font-bold mt-2">한 번 더 좋아졌어요. 아래 복습 포인트를 다시 보고 전체를 풀어 보세요.</p>'
+                        + '<p class="text-xs text-amber-600">Bạn đã tiến bộ. Hãy xem lại điểm sai rồi làm lại toàn bộ.</p>';
+                }
             }
             if (wrongItems.length > 0) {
                 html += '<div class="mt-3 border-t pt-3"><p class="text-xs font-bold text-slate-700 mb-2">틀린 문제 복습 / Ôn lại câu sai:</p>';
@@ -411,21 +597,98 @@
                         + '<p class="text-xs text-slate-700 font-semibold safe">' + esc(l.q) + '</p>'
                         + '<p class="text-xs text-rose-700 mt-1">내 답: ' + esc(l.user || '(무응답)') + '</p>'
                         + '<p class="text-xs text-violet-700">정답: ' + esc(l.correct) + '</p>'
-                        + '<p class="text-xs text-slate-600 mt-1 safe">' + esc(l.explainKo) + '</p>'
+                        + '<p class="text-xs text-slate-600 mt-1 safe">' + esc(l.reasonKo || l.explainKo) + '</p>'
                         + '</div>';
                 });
                 html += '</div>';
             }
-            html += '<button id="retryBtn" class="mt-4 w-full bg-violet-600 text-white py-3 rounded-xl text-sm font-bold" type="button">다시 풀기 / Làm lại</button>';
+            if (state.mode === 'main' && wrongItems.length > 0) {
+                html += '<button id="reviewWrongBtn" class="mt-4 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">틀린 문제 다시 풀기</button>';
+            }
+            html += '<button id="retryBtn" class="mt-3 w-full bg-violet-600 text-white py-3 rounded-xl text-sm font-bold" type="button">'
+                + (state.mode === 'main' ? '전체 다시 풀기 / Làm lại' : '처음부터 다시 풀기 / Làm lại từ đầu')
+                + '</button>';
             resultPanel.innerHTML = html;
+
+            const reviewWrongBtn = document.getElementById('reviewWrongBtn');
+            if (reviewWrongBtn) {
+                reviewWrongBtn.addEventListener('click', function () {
+                    startWrongReview(wrongItems.map(function (l) { return l.item; }));
+                });
+            }
+
             document.getElementById('retryBtn').addEventListener('click', function () {
-                state.idx = 0; state.score = 0; state.logs = []; state.answered = false;
-                shuffleQuiz();
+                resetMainRound();
                 resultPanel.classList.add('hidden');
-                practicePanel.querySelector('article:first-child').classList.remove('hidden');
+                practiceCard.classList.remove('hidden');
+                showTab('practice');
                 renderQuestion();
             });
         }
+
+        function lockQuickButtons(card, selected, answer) {
+            Array.from(card.querySelectorAll('.quick-check-btn')).forEach(function (btn) {
+                btn.disabled = true;
+                if (btn.textContent === answer) {
+                    btn.classList.add('is-correct');
+                } else if (btn.textContent === selected) {
+                    btn.classList.add('is-wrong');
+                } else {
+                    btn.classList.add('is-muted');
+                }
+            });
+        }
+
+        function quickFeedbackHtml(ok, item, selected) {
+            let html = '<p class="text-sm font-bold ' + (ok ? 'text-violet-700' : 'text-rose-700') + '">'
+                + (ok ? '바로 이해했어요.' : '여기서 많이 헷갈려요. 지금 잡고 갈게요.')
+                + '</p>'
+                + '<p class="text-xs text-slate-700 mt-2"><b>정답:</b> ' + esc(item.answer) + '</p>';
+            if (!ok && item.mistakes && item.mistakes[selected]) {
+                html += '<p class="text-xs text-rose-700 mt-2 safe"><b>왜 틀렸는지:</b> ' + esc(item.mistakes[selected]) + '</p>';
+            }
+            html += '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(item.explainKo) + '</p>'
+                + '<p class="text-xs text-violet-700 mt-1 safe"><b>VI:</b> ' + esc(item.explainVi) + '</p>';
+            return html;
+        }
+
+        function answerQuickCheck(card, item, selected) {
+            if (card.dataset.done === '1') return;
+            card.dataset.done = '1';
+            const ok = selected === item.answer;
+            lockQuickButtons(card, selected, item.answer);
+            const feedback = card.querySelector('.quick-feedback');
+            feedback.classList.add('show');
+            feedback.innerHTML = quickFeedbackHtml(ok, item, selected);
+        }
+
+        function renderQuickChecks() {
+            const anchors = Array.from(learnPanel.querySelectorAll('article'));
+            quickChecks.slice().reverse().forEach(function (item) {
+                const article = document.createElement('article');
+                article.className = 'quick-check-card rounded-2xl p-4 shadow-sm';
+                article.innerHTML = '<div class="flex items-center justify-between gap-2">'
+                    + '<span class="quick-check-badge">바로 확인</span>'
+                    + '<span class="text-[11px] font-bold text-slate-500">' + esc(item.label) + '</span>'
+                    + '</div>'
+                    + '<p class="mt-3 text-sm font-bold text-slate-800 safe">' + esc(item.q) + '</p>'
+                    + '<div class="mt-3 space-y-2">'
+                    + item.options.map(function (opt) {
+                        return '<button type="button" class="quick-check-btn safe">' + esc(opt) + '</button>';
+                    }).join('')
+                    + '</div>'
+                    + '<div class="quick-feedback"></div>';
+                anchors[item.anchor].insertAdjacentElement('afterend', article);
+                Array.from(article.querySelectorAll('.quick-check-btn')).forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        answerQuickCheck(article, item, btn.textContent);
+                    });
+                });
+            });
+        }
+
+        renderQuickChecks();
+        resetMainRound();
     </script>
     <script src="../shared/site-copyright.js"></script>
 </body>
