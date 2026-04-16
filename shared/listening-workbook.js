@@ -665,6 +665,7 @@
         return {
             mode: "tts",
             src: null,
+            sourceType: "original",
             trackNumber,
             expectedFileName: getExpectedLocalAudioFileName(trackNumber),
             foundFileName: null,
@@ -738,6 +739,19 @@
         return createLocalAudioStateEntry(lesson, "missing");
     }
 
+    function normalizeRemoteAudioSourceType(type) {
+        return String(type || "original").toLowerCase() === "generated" ? "generated" : "original";
+    }
+
+    function getRemoteAudioSourceType(lesson, useFallback = false) {
+        if (!lesson) return "original";
+        return normalizeRemoteAudioSourceType(useFallback ? lesson.fallbackAudioSourceType : lesson.audioSourceType);
+    }
+
+    function lessonHasRemoteOriginalAudio(lesson) {
+        return Boolean(lesson && lesson.audioSrc && getRemoteAudioSourceType(lesson) === "original");
+    }
+
     function getEffectiveAudioSource(lesson) {
         const localSource = getLocalAudioResolution(lesson);
         if (localSource.status === "ready" && localSource.src) return localSource;
@@ -746,6 +760,9 @@
                 ...localSource,
                 mode: "remote",
                 src: lesson.audioSrc,
+                sourceType: getRemoteAudioSourceType(lesson),
+                fallbackSrc: lesson.fallbackAudioSrc || "",
+                fallbackSourceType: getRemoteAudioSourceType(lesson, true),
                 status: "ready"
             };
         }
@@ -757,12 +774,41 @@
         return Boolean(source && source.src && source.mode !== "tts");
     }
 
+    function lessonHasGeneratedAudioFallback(lesson) {
+        return Boolean(
+            lesson
+            && (
+                (lesson.audioSrc && getRemoteAudioSourceType(lesson) === "generated")
+                || (lesson.fallbackAudioSrc && getRemoteAudioSourceType(lesson, true) === "generated")
+            )
+        );
+    }
+
+    function getRemoteAudioLabel(lesson, sourceType) {
+        return normalizeRemoteAudioSourceType(sourceType || getRemoteAudioSourceType(lesson)) === "generated"
+            ? chooseLocalizedText("생성 음성", "Am thanh tao san")
+            : getInstructionText().quickDockAudioSource;
+    }
+
     function getAudioSourceLabel(lesson) {
         const uiText = getInstructionText();
         const source = getEffectiveAudioSource(lesson);
         if (source.mode === "local") return uiText.quickDockLocalAudioSource;
-        if (source.mode === "remote") return uiText.quickDockAudioSource;
+        if (source.mode === "remote") return getRemoteAudioLabel(lesson);
         return uiText.quickDockTtsSource;
+    }
+
+    function getAudioTimingSourceType(lessonId) {
+        const audio = document.getElementById(`audio-${lessonId}`);
+        const datasetType = audio && audio.dataset
+            ? normalizeRemoteAudioSourceType(audio.dataset.remoteSourceType || "")
+            : "";
+        if (datasetType) return datasetType;
+
+        const lesson = lessonMap.get(lessonId);
+        const source = lesson ? getEffectiveAudioSource(lesson) : null;
+        if (source && source.mode === "remote") return normalizeRemoteAudioSourceType(source.sourceType);
+        return "original";
     }
 
     function getLocalAudioStatusTone(status) {
@@ -776,13 +822,90 @@
         const source = getLocalAudioResolution(lesson);
         const fileName = source.expectedFileName || LOCAL_AUDIO_FILE_EXAMPLE;
         const folderName = localAudioState.folderName || (localAudioState.folderHandle && localAudioState.folderHandle.name) || "";
+        const hasRemoteOriginalAudio = lessonHasRemoteOriginalAudio(lesson);
+        const hasGeneratedFallback = lessonHasGeneratedAudioFallback(lesson);
 
-        if (source.status === "unsupported") return uiText.localAudioUnsupported;
+        if (source.status === "unsupported") {
+            if (hasRemoteOriginalAudio && hasGeneratedFallback) {
+                return chooseLocalizedText(
+                    "이 환경에서는 로컬 폴더 연결을 지원하지 않아 아래 원음을 먼저 사용합니다. 원음을 불러오지 못하면 생성 음성으로 전환합니다.",
+                    "Moi truong nay khong ho tro ket noi thu muc audio cuc bo, vi vay se phat file goc ben duoi truoc. Neu khong tai duoc file goc, he thong se chuyen sang am thanh tao san."
+                );
+            }
+            if (hasRemoteOriginalAudio) {
+                return chooseLocalizedText(
+                    "이 환경에서는 로컬 폴더 연결을 지원하지 않아 아래 원음을 사용합니다.",
+                    "Moi truong nay khong ho tro ket noi thu muc audio cuc bo, vi vay se dung file goc o ben duoi."
+                );
+            }
+            return hasGeneratedFallback
+                ? chooseLocalizedText(
+                    "이 환경에서는 로컬 폴더 연결을 지원하지 않아 아래 생성 음성을 사용합니다.",
+                    "Moi truong nay khong ho tro ket noi thu muc audio cuc bo, vi vay se dung am thanh tao san o ben duoi."
+                )
+                : uiText.localAudioUnsupported;
+        }
         if (source.status === "track-unavailable") return uiText.localAudioTrackUnavailable;
-        if (source.status === "permission-required") return uiText.localAudioPermissionRequired;
+        if (source.status === "permission-required") {
+            if (hasRemoteOriginalAudio && hasGeneratedFallback) {
+                return chooseLocalizedText(
+                    "폴더 읽기 권한을 다시 연결하면 로컬 음원을 우선 사용합니다. 지금은 아래 원음을 재생하고, 원음을 불러오지 못하면 생성 음성으로 전환합니다.",
+                    "Neu cap lai quyen doc thu muc thi audio cuc bo se duoc uu tien. Hien tai se phat file goc ben duoi, va neu khong tai duoc file goc thi se chuyen sang am thanh tao san."
+                );
+            }
+            if (hasRemoteOriginalAudio) {
+                return chooseLocalizedText(
+                    "폴더 읽기 권한을 다시 연결하면 로컬 음원을 우선 사용합니다. 지금은 아래 원음을 재생할 수 있습니다.",
+                    "Neu cap lai quyen doc thu muc thi audio cuc bo se duoc uu tien. Hien tai van co the phat file goc o ben duoi."
+                );
+            }
+            return hasGeneratedFallback
+                ? chooseLocalizedText(
+                    "폴더 읽기 권한을 다시 연결하면 로컬 음원을 우선 사용합니다. 지금은 아래 생성 음성을 재생할 수 있습니다.",
+                    "Neu cap lai quyen doc thu muc thi audio cuc bo se duoc uu tien. Hien tai van co the phat am thanh tao san o ben duoi."
+                )
+                : uiText.localAudioPermissionRequired;
+        }
         if (source.status === "resolving") return uiText.localAudioResolving(fileName);
         if (source.status === "ready") return uiText.localAudioReady(folderName, source.foundFileName || fileName);
-        if (source.status === "missing") return uiText.localAudioMissing(folderName, fileName);
+        if (source.status === "missing") {
+            if (hasRemoteOriginalAudio && hasGeneratedFallback) {
+                return chooseLocalizedText(
+                    `연결된 폴더${folderName ? ` (${folderName})` : ""}에 ${fileName} 파일이 없습니다. 아래 원음을 사용하고, 원음을 불러오지 못하면 생성 음성으로 전환합니다.`,
+                    `${fileName} khong co trong thu muc${folderName ? ` ${folderName}` : " da chon"}. Se dung file goc o ben duoi, va neu khong tai duoc file goc thi se chuyen sang am thanh tao san.`
+                );
+            }
+            if (hasRemoteOriginalAudio) {
+                return chooseLocalizedText(
+                    `연결된 폴더${folderName ? ` (${folderName})` : ""}에 ${fileName} 파일이 없습니다. 아래 원음을 사용합니다.`,
+                    `${fileName} khong co trong thu muc${folderName ? ` ${folderName}` : " da chon"}. Se dung file goc o ben duoi.`
+                );
+            }
+            return hasGeneratedFallback
+                ? chooseLocalizedText(
+                    `연결된 폴더${folderName ? ` (${folderName})` : ""}에 ${fileName} 파일이 없습니다. 아래 생성 음성을 대신 사용합니다.`,
+                    `${fileName} khong co trong thu muc${folderName ? ` ${folderName}` : " da chon"}. Se dung am thanh tao san o ben duoi thay the.`
+                )
+                : uiText.localAudioMissing(folderName, fileName);
+        }
+        if (hasRemoteOriginalAudio && hasGeneratedFallback) {
+            return chooseLocalizedText(
+                `${fileName} 형식의 로컬 음원을 연결하면 우선 사용합니다. 연결하지 않으면 아래 원음을 재생하고, 원음을 불러오지 못하면 생성 음성으로 전환합니다.`,
+                `Neu ket noi audio cuc bo dang ${fileName} thi he thong se uu tien dung truoc. Neu khong ket noi, file goc o ben duoi se duoc phat; neu khong tai duoc file goc, he thong se chuyen sang am thanh tao san.`
+            );
+        }
+        if (hasRemoteOriginalAudio) {
+            return chooseLocalizedText(
+                `${fileName} 형식의 로컬 음원을 연결하면 우선 사용합니다. 연결하지 않으면 아래 원음을 재생합니다.`,
+                `Neu ket noi audio cuc bo dang ${fileName} thi he thong se uu tien dung truoc. Neu khong ket noi, file goc o ben duoi se duoc phat.`
+            );
+        }
+        if (hasGeneratedFallback) {
+            return chooseLocalizedText(
+                `${fileName} 형식의 로컬 음원을 연결하면 우선 사용합니다. 연결하지 않으면 아래 생성 음성이 재생됩니다.`,
+                `Neu ket noi audio cuc bo dang ${fileName} thi he thong se uu tien dung truoc. Neu khong ket noi, am thanh tao san o ben duoi se duoc phat.`
+            );
+        }
         return uiText.localAudioChooseHint(fileName);
     }
 
@@ -1573,7 +1696,7 @@
                 </div>
                 <div class="lw-quick-dock__panel">
                     <div class="lw-quick-dock__meta">
-                        <span class="lw-mini-chip">${escapeHtml(sourceLabel)}</span>
+                        <span id="lw-quick-dock-source" class="lw-mini-chip">${escapeHtml(sourceLabel)}</span>
                         <span class="lw-mini-chip">${escapeHtml(uiText.listenBadge(state.listens))}</span>
                     </div>
                     <div class="lw-quick-dock__timeline">
@@ -1848,11 +1971,16 @@
             ? `
                 ${localAudioControls}
                 <div class="lw-audio-wrap">
-                    <div class="lw-local-audio-player-label">
-                        <strong>${escapeHtml(source.mode === "local" ? uiText.localAudioPlayback : uiText.originalAudio)}</strong>
+                    <div id="audio-source-label-${escapeHtml(lesson.id)}" class="lw-local-audio-player-label">
+                        <strong>${escapeHtml(source.mode === "local" ? uiText.localAudioPlayback : getRemoteAudioLabel(lesson, source.sourceType))}</strong>
                         ${source.mode === "local" && source.foundFileName ? `<span class="lw-mini-chip">${escapeHtml(source.foundFileName)}</span>` : ""}
                     </div>
-                    <audio id="audio-${escapeHtml(lesson.id)}" controls preload="metadata">
+                    <audio id="audio-${escapeHtml(lesson.id)}" controls preload="metadata"
+                        data-lesson-id="${escapeHtml(lesson.id)}"
+                        data-remote-source-type="${escapeHtml(source.sourceType || "original")}"
+                        data-fallback-source-type="${escapeHtml(source.fallbackSourceType || "")}"
+                        data-fallback-src="${escapeHtml(source.fallbackSrc || "")}"
+                        data-fallback-applied="false">
                         <source src="${escapeHtml(source.src)}" type="audio/mpeg">
                         ${escapeHtml(uiText.audioUnsupported)}
                     </audio>
@@ -2669,17 +2797,41 @@
         return uiText.currentStage(getStageLabel(current), unlocked);
     }
 
-    function getLineTimeRange(line) {
-        const start = Number(line && line.start);
-        const end = Number(line && line.end);
+    function getGeneratedTranscriptTimingEntry(line, lesson = null, lineIndex = null) {
+        if (line && line.generatedTiming && typeof line.generatedTiming === "object") return line.generatedTiming;
+        if (
+            lesson
+            && Number.isInteger(lineIndex)
+            && Array.isArray(lesson.generatedTranscriptTimings)
+            && lesson.generatedTranscriptTimings[lineIndex]
+            && typeof lesson.generatedTranscriptTimings[lineIndex] === "object"
+        ) {
+            return lesson.generatedTranscriptTimings[lineIndex];
+        }
+        return null;
+    }
+
+    function getTranscriptTimingEntry(line, sourceType = "original", lesson = null, lineIndex = null) {
+        if (!line || typeof line !== "object") return null;
+        if (normalizeRemoteAudioSourceType(sourceType) === "generated") {
+            return getGeneratedTranscriptTimingEntry(line, lesson, lineIndex) || line;
+        }
+        return line;
+    }
+
+    function getLineTimeRange(line, sourceType = "original", lesson = null, lineIndex = null) {
+        const timingEntry = getTranscriptTimingEntry(line, sourceType, lesson, lineIndex);
+        const start = Number(timingEntry && timingEntry.start);
+        const end = Number(timingEntry && timingEntry.end);
         if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) return null;
         return { start, end };
     }
 
-    function getExplicitLineChunks(line) {
-        if (!line || !Array.isArray(line.chunks) || !line.chunks.length) return null;
+    function getExplicitLineChunks(line, sourceType = "original", lesson = null, lineIndex = null) {
+        const timingEntry = getTranscriptTimingEntry(line, sourceType, lesson, lineIndex);
+        if (!timingEntry || !Array.isArray(timingEntry.chunks) || !timingEntry.chunks.length) return null;
 
-        const chunks = line.chunks
+        const chunks = timingEntry.chunks
             .map((chunk) => {
                 const text = String(chunk && chunk.text ? chunk.text : "").trim();
                 const start = Number(chunk && chunk.start);
@@ -2692,11 +2844,12 @@
         return chunks.length ? chunks : null;
     }
 
-    function buildGeneratedLineChunks(line) {
-        const range = getLineTimeRange(line);
+    function buildGeneratedLineChunks(line, sourceType = "original", lesson = null, lineIndex = null) {
+        const timingEntry = getTranscriptTimingEntry(line, sourceType, lesson, lineIndex);
+        const range = getLineTimeRange(line, sourceType, lesson, lineIndex);
         if (!range) return null;
 
-        const source = String(line && line.text ? line.text : "").trim();
+        const source = String(timingEntry && timingEntry.text ? timingEntry.text : line && line.text ? line.text : "").trim();
         const parts = source.match(/[^.?!]+[.?!]?/g)
             ?.map((part) => part.trim())
             .filter(Boolean) || [];
@@ -2720,12 +2873,18 @@
         }).filter((chunk) => chunk.end >= chunk.start);
     }
 
-    function getLineChunks(line) {
+    function getLineChunks(line, sourceType = "original", lesson = null, lineIndex = null) {
         if (!line || typeof line !== "object") return null;
-        if (lineChunkCache.has(line)) return lineChunkCache.get(line);
+        const cacheKey = normalizeRemoteAudioSourceType(sourceType);
+        let cache = lineChunkCache.get(line);
+        if (!cache) {
+            cache = new Map();
+            lineChunkCache.set(line, cache);
+        }
+        if (cache.has(cacheKey)) return cache.get(cacheKey);
 
-        const chunks = getExplicitLineChunks(line) || buildGeneratedLineChunks(line);
-        lineChunkCache.set(line, chunks);
+        const chunks = getExplicitLineChunks(line, sourceType, lesson, lineIndex) || buildGeneratedLineChunks(line, sourceType, lesson, lineIndex);
+        cache.set(cacheKey, chunks);
         return chunks;
     }
 
@@ -2740,11 +2899,11 @@
         return Math.max(0, Math.min(Math.floor(progress * keywordCount), keywordCount - 1));
     }
 
-    function getLineKeywordIndex(line, currentTime) {
+    function getLineKeywordIndex(line, currentTime, sourceType = "original", lesson = null, lineIndex = null) {
         if (!line || !Array.isArray(line.keywords) || !line.keywords.length) return null;
 
         const safeTime = Number.isFinite(currentTime) ? currentTime : 0;
-        const explicitChunks = getLineChunks(line);
+        const explicitChunks = getLineChunks(line, sourceType, lesson, lineIndex);
         if (explicitChunks && explicitChunks.length === line.keywords.length) {
             for (let index = 0; index < explicitChunks.length; index += 1) {
                 const chunk = explicitChunks[index];
@@ -2754,12 +2913,16 @@
             }
         }
 
-        const range = getLineTimeRange(line);
+        const range = getLineTimeRange(line, sourceType, lesson, lineIndex);
         return getKeywordProgressIndex(range, line.keywords.length, safeTime);
     }
 
-    function hasTimedTranscript(lesson) {
-        return Boolean(lesson && Array.isArray(lesson.transcript) && lesson.transcript.some((line) => getLineTimeRange(line)));
+    function hasTimedTranscript(lesson, sourceType = "original") {
+        return Boolean(
+            lesson
+            && Array.isArray(lesson.transcript)
+            && lesson.transcript.some((line, index) => getLineTimeRange(line, sourceType, lesson, index))
+        );
     }
 
     function renderChunkedLineText(lessonId, lineIndex, line, slotIdPrefix) {
@@ -2781,9 +2944,10 @@
         if (!lesson) return null;
 
         const safeTime = Number.isFinite(currentTime) ? currentTime : 0;
-        if (hasTimedTranscript(lesson)) {
+        const sourceType = getAudioTimingSourceType(lessonId);
+        if (hasTimedTranscript(lesson, sourceType)) {
             for (let index = 0; index < lesson.transcript.length; index += 1) {
-                const range = getLineTimeRange(lesson.transcript[index]);
+                const range = getLineTimeRange(lesson.transcript[index], sourceType, lesson, index);
                 if (!range) continue;
                 if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
                     return index;
@@ -2796,7 +2960,7 @@
         const audio = document.getElementById(`audio-${lessonId}`);
         const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
         for (let index = 0; index < lesson.publicCues.length; index += 1) {
-            const range = getPublicCueTimeRange(lesson.publicCues[index], duration);
+            const range = getPublicCueTimeRange(lesson.publicCues[index], duration, sourceType, lesson, index);
             if (!range) continue;
             if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
                 return index;
@@ -2810,10 +2974,11 @@
         if (!lesson) return null;
 
         const safeTime = Number.isFinite(currentTime) ? currentTime : 0;
-        if (hasTimedTranscript(lesson)) {
+        const sourceType = getAudioTimingSourceType(lessonId);
+        if (hasTimedTranscript(lesson, sourceType)) {
             for (let lineIndex = 0; lineIndex < lesson.transcript.length; lineIndex += 1) {
                 const line = lesson.transcript[lineIndex];
-                const chunks = getLineChunks(line);
+                const chunks = getLineChunks(line, sourceType, lesson, lineIndex);
                 if (chunks && chunks.length) {
                     for (let chunkIndex = 0; chunkIndex < chunks.length; chunkIndex += 1) {
                         const chunk = chunks[chunkIndex];
@@ -2821,19 +2986,19 @@
                             return {
                                 lineIndex,
                                 chunkIndex,
-                                keywordIndex: getLineKeywordIndex(line, safeTime)
+                                keywordIndex: getLineKeywordIndex(line, safeTime, sourceType, lesson, lineIndex)
                             };
                         }
                     }
                 }
 
-                const range = getLineTimeRange(line);
+                const range = getLineTimeRange(line, sourceType, lesson, lineIndex);
                 if (!range) continue;
                 if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
                     return {
                         lineIndex,
                         chunkIndex: null,
-                        keywordIndex: getLineKeywordIndex(line, safeTime)
+                        keywordIndex: getLineKeywordIndex(line, safeTime, sourceType, lesson, lineIndex)
                     };
                 }
             }
@@ -2845,13 +3010,13 @@
         const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
         for (let lineIndex = 0; lineIndex < lesson.publicCues.length; lineIndex += 1) {
             const cue = lesson.publicCues[lineIndex];
-            const range = getPublicCueTimeRange(cue, duration);
+            const range = getPublicCueTimeRange(cue, duration, sourceType, lesson, lineIndex);
             if (!range) continue;
             if (safeTime >= Math.max(0, range.start - 0.05) && safeTime < range.end + 0.05) {
                 return {
                     lineIndex,
                     chunkIndex: null,
-                    keywordIndex: getPublicCueKeywordIndex(cue, safeTime, duration)
+                    keywordIndex: getPublicCueKeywordIndex(cue, safeTime, duration, sourceType, lesson, lineIndex)
                 };
             }
         }
@@ -2901,7 +3066,8 @@
     function updateAudioSyncUI(lessonId, options = {}) {
         const lesson = lessonMap.get(lessonId);
         const audio = document.getElementById(`audio-${lessonId}`);
-        const hasAudioGuide = Boolean(lesson && (hasTimedTranscript(lesson) || lessonHasTimedPublicCues(lesson)));
+        const sourceType = getAudioTimingSourceType(lessonId);
+        const hasAudioGuide = Boolean(lesson && (hasTimedTranscript(lesson, sourceType) || lessonHasTimedPublicCues(lesson, sourceType)));
         if (!lesson || !audio || !hasAudioGuide) {
             const previousLine = audioLineState.get(lessonId);
             const previousChunk = audioChunkState.get(lessonId);
@@ -3518,6 +3684,36 @@
             audio.pause();
         });
         clearPlaybackState("audio");
+    }
+
+    function updateRenderedAudioSourceLabel(lessonId, labelText) {
+        const playerLabel = document.querySelector(`#audio-source-label-${lessonId} strong`);
+        if (playerLabel) playerLabel.textContent = labelText;
+
+        const quickDockLabel = document.getElementById("lw-quick-dock-source");
+        const quickLesson = getQuickDockLesson();
+        if (quickDockLabel && quickLesson && quickLesson.id === lessonId) {
+            quickDockLabel.textContent = labelText;
+        }
+    }
+
+    function activateFallbackAudioSource(audio, lessonId) {
+        const fallbackSrc = audio.dataset.fallbackSrc || "";
+        if (!fallbackSrc || audio.dataset.fallbackApplied === "true") return false;
+
+        const lesson = lessonMap.get(lessonId);
+        const sourceNode = audio.querySelector("source");
+        audio.dataset.fallbackApplied = "true";
+        audio.dataset.remoteSourceType = audio.dataset.fallbackSourceType || "generated";
+        if (sourceNode) sourceNode.src = fallbackSrc;
+        audio.src = fallbackSrc;
+        audio.load();
+        updateRenderedAudioSourceLabel(lessonId, getRemoteAudioLabel(lesson, audio.dataset.remoteSourceType));
+        setStatus(`listen-status-${lessonId}`, chooseLocalizedText(
+            "원음을 불러오지 못해 생성 음성으로 전환했습니다.",
+            "Khong tai duoc file goc nen da chuyen sang am thanh tao san."
+        ), "warn");
+        return true;
     }
 
     async function playQuickLesson() {
@@ -4497,6 +4693,11 @@
         lessonMap.forEach((lesson, lessonId) => {
             const audio = document.getElementById(`audio-${lessonId}`);
             if (!audio) return;
+            audio.addEventListener("error", () => {
+                if (activateFallbackAudioSource(audio, lessonId)) return;
+                clearPlaybackState("audio", lessonId);
+                setStatus(`listen-status-${lessonId}`, getInstructionText().audioUnsupported, "warn");
+            });
             audio.addEventListener("play", () => {
                 cancelSpeech();
                 setPlaybackState("audio", lessonId, { mode: "audio" });
@@ -4649,29 +4850,53 @@
         return Boolean(lesson && Array.isArray(lesson.publicCues) && lesson.publicCues.length);
     }
 
-    function lessonHasTimedPublicCues(lesson) {
-        return Boolean(lessonHasPublicCues(lesson) && lesson.publicCues.some((cue) => {
-            const start = Number(cue && cue.start);
-            const end = Number(cue && cue.end);
+    function getGeneratedPublicCueTimingEntry(cue, lesson = null, cueIndex = null) {
+        if (cue && cue.generatedTiming && typeof cue.generatedTiming === "object") return cue.generatedTiming;
+        if (
+            lesson
+            && Number.isInteger(cueIndex)
+            && Array.isArray(lesson.generatedPublicCueTimings)
+            && lesson.generatedPublicCueTimings[cueIndex]
+            && typeof lesson.generatedPublicCueTimings[cueIndex] === "object"
+        ) {
+            return lesson.generatedPublicCueTimings[cueIndex];
+        }
+        return null;
+    }
+
+    function getPublicCueTimingEntry(cue, sourceType = "original", lesson = null, cueIndex = null) {
+        if (!cue || typeof cue !== "object") return null;
+        if (normalizeRemoteAudioSourceType(sourceType) === "generated") {
+            return getGeneratedPublicCueTimingEntry(cue, lesson, cueIndex) || cue;
+        }
+        return cue;
+    }
+
+    function lessonHasTimedPublicCues(lesson, sourceType = "original") {
+        return Boolean(lessonHasPublicCues(lesson) && lesson.publicCues.some((cue, index) => {
+            const timingEntry = getPublicCueTimingEntry(cue, sourceType, lesson, index);
+            const start = Number(timingEntry && timingEntry.start);
+            const end = Number(timingEntry && timingEntry.end);
             if (Number.isFinite(start) && Number.isFinite(end) && end > start) return true;
 
-            const startRatio = Number(cue && cue.startRatio);
-            const endRatio = Number(cue && cue.endRatio);
+            const startRatio = Number(timingEntry && timingEntry.startRatio);
+            const endRatio = Number(timingEntry && timingEntry.endRatio);
             return Number.isFinite(startRatio) && Number.isFinite(endRatio) && endRatio > startRatio;
         }));
     }
 
-    function getPublicCueTimeRange(cue, audioDuration = 0) {
-        if (!cue) return null;
+    function getPublicCueTimeRange(cue, audioDuration = 0, sourceType = "original", lesson = null, cueIndex = null) {
+        const timingEntry = getPublicCueTimingEntry(cue, sourceType, lesson, cueIndex);
+        if (!timingEntry) return null;
 
-        const start = Number(cue.start);
-        const end = Number(cue.end);
+        const start = Number(timingEntry.start);
+        const end = Number(timingEntry.end);
         if (Number.isFinite(start) && Number.isFinite(end) && end > start) {
             return { start, end };
         }
 
-        const startRatio = Number(cue.startRatio);
-        const endRatio = Number(cue.endRatio);
+        const startRatio = Number(timingEntry.startRatio);
+        const endRatio = Number(timingEntry.endRatio);
         if (Number.isFinite(startRatio) && Number.isFinite(endRatio) && endRatio > startRatio && audioDuration > 0) {
             return {
                 start: Math.max(0, startRatio) * audioDuration,
@@ -4682,7 +4907,7 @@
         return null;
     }
 
-    function getPublicCueKeywordIndex(cue, currentTime, audioDuration = 0) {
+    function getPublicCueKeywordIndex(cue, currentTime, audioDuration = 0, sourceType = "original", lesson = null, cueIndex = null) {
         if (!cue) return null;
 
         const keywords = Array.isArray(cue.keywords) && cue.keywords.length
@@ -4690,14 +4915,18 @@
             : (Array.isArray(cue.extraKeywords) ? cue.extraKeywords : []);
         if (!keywords.length) return null;
 
-        const range = getPublicCueTimeRange(cue, audioDuration);
+        const timingEntry = getPublicCueTimingEntry(cue, sourceType, lesson, cueIndex);
+        const range = getPublicCueTimeRange(cue, audioDuration, sourceType, lesson, cueIndex);
         if (!range) return null;
 
         const safeTime = Number.isFinite(currentTime) ? currentTime : range.start;
-        if (Array.isArray(cue.keywordTimings) && cue.keywordTimings.length) {
-            const timedCount = Math.min(cue.keywordTimings.length, keywords.length);
+        const keywordTimings = Array.isArray(timingEntry && timingEntry.keywordTimings) && timingEntry.keywordTimings.length
+            ? timingEntry.keywordTimings
+            : cue.keywordTimings;
+        if (Array.isArray(keywordTimings) && keywordTimings.length) {
+            const timedCount = Math.min(keywordTimings.length, keywords.length);
             for (let index = 0; index < timedCount; index += 1) {
-                const keywordRange = getPublicCueTimeRange(cue.keywordTimings[index], audioDuration);
+                const keywordRange = getPublicCueTimeRange(keywordTimings[index], audioDuration, sourceType);
                 if (!keywordRange) continue;
                 if (safeTime >= Math.max(0, keywordRange.start - 0.05) && safeTime < keywordRange.end + 0.05) {
                     return index;
@@ -4804,7 +5033,7 @@
         const uiText = getInstructionText();
         const source = getEffectiveAudioSource(lesson);
         if (source.mode === "local") return uiText.quickDockLocalAudioSource;
-        if (source.mode === "remote") return uiText.quickDockAudioSource;
+        if (source.mode === "remote") return getRemoteAudioLabel(lesson);
         if (!lessonHasTranscript(lesson)) {
             return chooseLocalizedText("교사 로컬 음원", "Am thanh cuc bo cua giao vien");
         }
@@ -5012,11 +5241,16 @@
             return `
                 ${localAudioControls}
                 <div class="lw-audio-wrap">
-                    <div class="lw-local-audio-player-label">
-                        <strong>${escapeHtml(source.mode === "local" ? uiText.localAudioPlayback : uiText.originalAudio)}</strong>
+                    <div id="audio-source-label-${escapeHtml(lesson.id)}" class="lw-local-audio-player-label">
+                        <strong>${escapeHtml(source.mode === "local" ? uiText.localAudioPlayback : getRemoteAudioLabel(lesson, source.sourceType))}</strong>
                         ${source.mode === "local" && source.foundFileName ? `<span class="lw-mini-chip">${escapeHtml(source.foundFileName)}</span>` : ""}
                     </div>
-                    <audio id="audio-${escapeHtml(lesson.id)}" controls preload="metadata">
+                    <audio id="audio-${escapeHtml(lesson.id)}" controls preload="metadata"
+                        data-lesson-id="${escapeHtml(lesson.id)}"
+                        data-remote-source-type="${escapeHtml(source.sourceType || "original")}"
+                        data-fallback-source-type="${escapeHtml(source.fallbackSourceType || "")}"
+                        data-fallback-src="${escapeHtml(source.fallbackSrc || "")}"
+                        data-fallback-applied="false">
                         <source src="${escapeHtml(source.src)}" type="audio/mpeg">
                         ${escapeHtml(uiText.audioUnsupported)}
                     </audio>

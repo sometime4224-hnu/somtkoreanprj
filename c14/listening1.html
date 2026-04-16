@@ -13,56 +13,19 @@
     <title>14과 듣기 1 | 주말농장 이야기</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/listening-workbook.css?v=20260324-audiosync">
     <style>
         body {
-            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            font-family: "Noto Sans KR", sans-serif;
+            background: linear-gradient(180deg, #f7fee7 0%, #fefce8 44%, #f8fafc 100%);
         }
-        .option-btn {
-            transition: all 0.2s;
-        }
-        .option-btn.correct {
-            background-color: #10b981; /* green-500 */
-            color: white;
-            border-color: #10b981;
-        }
-        .option-btn.incorrect {
-            background-color: #ef4444; /* red-500 */
-            color: white;
-            border-color: #ef4444;
-        }
-        .option-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.8;
-        }
-        
-        /* Mini Player Styles */
-        #mini-player {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        #mini-player.hidden {
-            transform: scale(0.8) translateY(-20px);
-            opacity: 0;
-            pointer-events: none;
-        }
-        #mini-player-progress {
-            transform: rotate(-90deg);
-            transform-origin: center;
-            transition: stroke-dashoffset 0.1s linear;
-        }
-    </style>
-
-    <!-- Tailwind & Fonts Injected -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Noto Sans KR', sans-serif !important; }
         .injected-global-nav {
             width: 100%;
             background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(8px);
-            border-bottom: 1px solid #e0e7ff;
+            border-bottom: 1px solid #d9f99d;
             height: 60px;
             display: flex;
             align-items: center;
@@ -77,23 +40,21 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            color: #4f46e5;
+            color: #4d7c0f;
             text-decoration: none;
             font-weight: 700;
             font-size: 14px;
             transition: color 0.2s;
         }
         .injected-global-nav a:hover {
-            color: #3730a3;
+            color: #365314;
         }
         .injected-global-nav .divider {
             color: #cbd5e1;
         }
-        /* Ensure body has no top margin/padding resetting the nav */
-        body { margin: 0; }
     </style>
-    </head>
-<body class="bg-gray-100 p-4 flex items-center justify-center min-h-screen">
+</head>
+<body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -101,217 +62,666 @@
     <nav id="injected-global-nav" class="injected-global-nav">
         <a href="../index.html"><i class="fa-solid fa-house"></i> 메인으로</a>
         <span class="divider">|</span>
-        <a href="index.html"><i class="fa-solid fa-folder-open"></i> 단원 홈</a>
+        <a href="index.html"><i class="fa-solid fa-folder-open"></i> 14과 목록</a>
     </nav>
-    
-    
-    <!-- Custom Alert Message Box -->
-    <div id="alert-box" class="hidden opacity-0 fixed top-5 left-1/2 -translate-x-1/2 bg-yellow-500 text-black py-3 px-6 rounded-lg shadow-xl z-[100] transition-opacity duration-300">
-        <p id="alert-message"></p>
-    </div>
 
-    <div class="w-full max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
-        <div class="text-center mb-6">
-    <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">14과 듣기 1</h1>
-    <p class="text-gray-600">주말농장에서 농사를 배우는 이야기를 듣고 문제를 풀어 보세요. 음원은 추후 연결됩니다.</p>
-</div>
+    <div id="listening-workbook-app"></div>
 
-        <!-- Main Audio Player -->
-        <div id="main-audio-player" class="audio-player bg-gray-50 p-4 rounded-lg mb-4">
-             <label for="audio-file" class="text-sm font-medium text-gray-700">듣기 음원</label>
-             <audio id="audio-file" controls class="w-full mt-2">
-                 <!-- 대화 내용에 맞는 오디오 파일을 여기에 추가하세요 -->
-                 <source src="" type="audio/mpeg">
-                 Your browser does not support the audio element.
-             </audio>
-        </div>
-
-        <!-- Quiz Container -->
-        <div id="quiz-container" class="space-y-8 border-t pt-6">
-            <!-- Quizzes are dynamically generated here -->
-        </div>
-        
-        <!-- Result and Action Buttons -->
-        <div class="border-t pt-6 text-center mt-6">
-             <div id="result-container" class="hidden mb-4">
-                 <h2 class="text-2xl font-bold text-green-600">퀴즈 완료!</h2>
-                 <p id="score-text" class="text-gray-700 text-lg mt-2"></p>
-             </div>
-             <button id="submit-btn" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition duration-300 w-full sm:w-auto">결과 보기</button>
-             <button id="retry-btn" class="hidden bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition duration-300 w-full sm:w-auto">다시 풀기</button>
-        </div>
-    </div>
-
-    <!-- Mini Audio Player (Sticky) -->
-    <div id="mini-player" class="hidden fixed top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg z-50">
-        <div class="relative w-12 h-12">
-            <svg class="absolute top-0 left-0 w-full h-full" viewBox="0 0 36 36">
-                <circle class="text-gray-200" cx="18" cy="18" r="16" fill="none" stroke-width="3"></circle>
-                <circle id="mini-player-progress" class="text-indigo-600"
-                    cx="18" cy="18" r="16"
-                    fill="none"
-                    stroke-width="3"
-                    stroke-dasharray="100.5"
-                    stroke-dashoffset="100.5" />
-            </svg>
-            <button id="mini-player-play-pause-btn" class="absolute top-0 left-0 w-full h-full flex items-center justify-center text-indigo-600">
-                <i class="fas fa-play text-base"></i>
-            </button>
-        </div>
-    </div>
-
-<script>
-    const quizData = [
-        {
-            question: "여자는 주말에 무엇을 합니까?",
-            options: [
-                "채소를 키우러 시골에 내려간다.",
-                "집 근처 주말농장에서 농사를 짓는다.",
-                "조용한 시골에 내려가서 스트레스를 푼다.",
-                "친구들과 정원만 가꾸러 간다."
+    <script>
+        window.LISTENING_WORKBOOK_CONFIG = {
+            kicker: "Chapter 14 Listening Lab",
+            title: "14과 듣기 1",
+            titleVi: "Luyen nghe bai 14 - Nghe 1",
+            description: "주말농장에서 농사를 배우는 경험담을 바탕으로 활동 이유, 주말농장의 특징, 그리고 화자가 느낀 점을 정리하는 듣기 워크북입니다.",
+            descriptionVi: "Day la workbook nghe ve cau chuyen hoc lam nong o vuon nong trai cuoi tuan. Em se sap xep y chinh, xem tu khoa va kiem tra muc do hieu.",
+            layoutVariant: "audio-in-pre",
+            sampleCompact: {
+                enabled: true,
+                defaults: {
+                    hideSceneCard: true,
+                    hideCorePointStage: true,
+                    hideNoteSection: true,
+                    hideOralFeaturesSection: true,
+                    hideSpeakingSection: true,
+                    moveBackgroundPromptIntoPrediction: true,
+                    relocateQuizBelowSubtitle: true,
+                    quizStartsCollapsed: true
+                }
+            },
+            instructionLanguage: {
+                enabled: true,
+                default: "ko"
+            },
+            theme: {
+                accent: "#4d7c0f",
+                accentDark: "#365314",
+                soft: "#ecfccb",
+                surface: "rgba(255,255,255,0.94)",
+                pageBackground: "linear-gradient(180deg, #f7fee7 0%, #fefce8 44%, #f8fafc 100%)"
+            },
+            featureList: [
+                "상황 예측",
+                "핵심어 보기",
+                "순서 배열",
+                "빈칸 채우기",
+                "이해 점검"
             ],
-            answer: "집 근처 주말농장에서 농사를 짓는다."
-        },
-        {
-            question: "주말농장에 대한 설명으로 가장 알맞은 것은 무엇입니까?",
-            options: [
-                "직접 채소를 키우고, 처음 농사를 짓는 사람도 방법을 배울 수 있다.",
-                "이미 농사 경험이 많은 사람만 참여할 수 있다.",
-                "주말마다 시골에 가서 가축을 키워야 한다.",
-                "정원을 구경만 하고 돌아오는 체험이다."
+            featureListVi: [
+                "Du doan tinh huong",
+                "Xem tu khoa",
+                "Sap xep thu tu",
+                "Dien vao cho trong",
+                "Kiem tra muc do hieu"
             ],
-            answer: "직접 채소를 키우고, 처음 농사를 짓는 사람도 방법을 배울 수 있다."
-        },
-        {
-            question: "주말농장에 참여하면서 여자가 느낀 점은 무엇입니까?",
-            options: [
-                "농사는 집에서도 쉽게 혼자 배울 수 있다고 생각했다.",
-                "채소를 심는 일보다 물고기를 잡는 일이 더 재미있었다.",
-                "농사짓는 일은 배우면 배울수록 어렵다고 느꼈다.",
-                "주말농장은 여유가 없어서 오래 다니기 어렵다고 생각했다."
-            ],
-            answer: "농사짓는 일은 배우면 배울수록 어렵다고 느꼈다."
-        }
-    ];
-
-    let score = 0;
-    let questionsAnswered = 0;
-
-    const quizContainer = document.getElementById('quiz-container');
-    const resultContainer = document.getElementById('result-container');
-    const scoreText = document.getElementById('score-text');
-    const submitBtn = document.getElementById('submit-btn');
-    const retryBtn = document.getElementById('retry-btn');
-    
-    // Audio Player Elements
-    const audio = document.getElementById('audio-file');
-    const mainAudioPlayer = document.getElementById('main-audio-player');
-    const miniPlayer = document.getElementById('mini-player');
-    const miniPlayerPlayPauseBtn = document.getElementById('mini-player-play-pause-btn');
-    const miniPlayerProgress = document.getElementById('mini-player-progress');
-    const progressCircleRadius = miniPlayerProgress.r.baseVal.value;
-    const progressCircumference = 2 * Math.PI * progressCircleRadius;
-    miniPlayerProgress.style.strokeDasharray = `${progressCircumference} ${progressCircumference}`;
-    miniPlayerProgress.style.strokeDashoffset = progressCircumference;
-
-    function showAlert(message) {
-        const alertBox = document.getElementById('alert-box');
-        const alertMessage = document.getElementById('alert-message');
-        if (!alertBox || !alertMessage) return;
-
-        alertMessage.textContent = message;
-        alertBox.classList.remove('hidden');
-        setTimeout(() => alertBox.classList.remove('opacity-0'), 10);
-
-        setTimeout(() => {
-            alertBox.classList.add('opacity-0');
-            alertBox.addEventListener('transitionend', () => {
-                alertBox.classList.add('hidden');
-            }, { once: true });
-        }, 2500);
-    }
-
-    function loadAllQuizzes() {
-        quizContainer.innerHTML = '';
-        quizData.forEach((quiz, index) => {
-            const questionBlock = document.createElement('div');
-            questionBlock.id = `question-${index}`;
-            const questionEl = document.createElement('h2');
-            questionEl.className = 'text-xl font-bold text-gray-800 mb-4';
-            questionEl.innerText = `Q${index + 1}. ${quiz.question}`;
-            const optionsEl = document.createElement('div');
-            optionsEl.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3';
-            quiz.options.forEach(optionText => {
-                const button = document.createElement('button');
-                button.innerText = optionText;
-                button.classList.add('option-btn', 'w-full', 'p-3', 'text-left', 'border-2', 'rounded-lg', 'hover:bg-gray-100');
-                button.addEventListener('click', () => checkAnswer(index, button, optionText, quiz.answer));
-                optionsEl.appendChild(button);
-            });
-            questionBlock.appendChild(questionEl);
-            questionBlock.appendChild(optionsEl);
-            quizContainer.appendChild(questionBlock);
-        });
-    }
-
-    function checkAnswer(questionIndex, button, selected, correct) {
-        const questionBlock = document.getElementById(`question-${questionIndex}`);
-        if (questionBlock.dataset.answered) return;
-        questionBlock.dataset.answered = 'true';
-        questionsAnswered++;
-        const optionButtons = questionBlock.querySelectorAll('.option-btn');
-        optionButtons.forEach(btn => {
-            btn.disabled = true;
-            if (btn.innerText === correct) {
-                btn.classList.add('correct');
-            }
-        });
-        if (selected === correct) {
-            score++;
-        } else {
-            button.classList.add('incorrect');
-        }
-    }
-
-    submitBtn.addEventListener('click', () => {
-        if (questionsAnswered < quizData.length) {
-            showAlert('모든 문제를 풀어주세요.');
-            return;
-        }
-        resultContainer.classList.remove('hidden');
-        scoreText.innerText = `총 ${quizData.length}문제 중 ${score}문제를 맞혔습니다!`;
-        submitBtn.classList.add('hidden');
-        retryBtn.classList.remove('hidden');
-    });
-
-    retryBtn.addEventListener('click', () => {
-        score = 0;
-        questionsAnswered = 0;
-        resultContainer.classList.add('hidden');
-        submitBtn.classList.remove('hidden');
-        retryBtn.classList.add('hidden');
-        loadAllQuizzes();
-    });
-    
-    // --- MINI PLAYER LOGIC ---
-    miniPlayerPlayPauseBtn.addEventListener('click', () => audio.paused ? audio.play() : audio.pause());
-    audio.addEventListener('play', () => miniPlayerPlayPauseBtn.innerHTML = '<i class="fas fa-pause text-base"></i>');
-    audio.addEventListener('pause', () => miniPlayerPlayPauseBtn.innerHTML = '<i class="fas fa-play text-base"></i>');
-    audio.addEventListener('timeupdate', () => {
-        const progressPercent = (audio.currentTime / audio.duration) || 0;
-        const offset = progressCircumference - progressPercent * progressCircumference;
-        miniPlayerProgress.style.strokeDashoffset = offset;
-    });
-
-    const playerObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => miniPlayer.classList.toggle('hidden', entry.isIntersecting));
-    }, { threshold: 0.1 }); 
-    playerObserver.observe(mainAudioPlayer);
-
-    loadAllQuizzes();
-</script>
-<script src="../shared/learning-enhancements.js"></script>
+            lessons: [
+                {
+                    id: "track52",
+                    compactSample: {
+                        removeDictoglossSection: true
+                    },
+                    label: "Track 52",
+                    audioTrackNumber: 52,
+                    title: "듣기 1: 주말농장 이야기",
+                    titleVi: "Nghe 1: Cau chuyen ve vuon nong trai cuoi tuan",
+                    summary: "여자가 집 근처 주말농장에서 농사를 배우며 채소를 직접 키우는 경험을 소개하고, 농사는 배우면 배울수록 어렵다고 느낀 이유를 말하는 대화입니다.",
+                    summaryVi: "Nguoi nu gioi thieu viec hoc lam nong o vuon nong trai gan nha, tu tay trong rau va noi vi sao co ay cam thay cong viec nay cang hoc cang kho.",
+                    grammarLink: {
+                        href: "grammar4.html",
+                        title: "문법 연결",
+                        titleVi: "Lien ket ngu phap",
+                        label: "-면 -ㄹ수록",
+                        labelVi: "-myeon -eul surok",
+                        description: "듣기에서 나온 '배우면 배울수록 어렵다'처럼 변화가 점점 커지는 표현을 문법 페이지와 연결해 복습해 보세요.",
+                        descriptionVi: "Hay on lai cach noi su thay doi tang dan nhu trong cau 'cang hoc cang thay kho' o trang ngu phap."
+                    },
+                    activityImage: {
+                        src: "../assets/c14/listening/images/listening1-illustration.webp",
+                        alt: "아파트가 보이는 집에서 직접 키운 고구마를 건네며 주말농장 이야기를 나누는 장면",
+                        altVi: "Canh trong nha co chung cu ben ngoai, nguoi nu dua khoai lang tu trong va tro chuyen ve vuon nong trai cuoi tuan",
+                        pendingLabel: "듣기 1 그림을 준비 중입니다.",
+                        pendingLabelVi: "Dang chuan bi hinh minh hoa cho bai nghe 1.",
+                        pendingHint: "이미지 파일을 바꾸면 이 영역에 자동으로 반영됩니다.",
+                        pendingHintVi: "Neu thay tep hinh, khu vuc nay se tu dong cap nhat.",
+                        caption: "참고 그림: 집에서 직접 키운 고구마를 함께 나누며, 도시 근처 주말농장 프로그램에 참가한 경험을 이야기하는 장면입니다.",
+                        captionVi: "Hinh tham khao: trong nha, hai nguoi cung chia se khoai lang tu trong va noi ve trai nghiem tham gia chuong trinh vuon nong trai gan thanh pho."
+                    },
+                    audioSrc: "../assets/c14/listening/audio/c14_track52_generated.mp3",
+                    audioSourceType: "generated",
+                    scene: {
+                        emoji: "🌱",
+                        title: "상황 그림: 주말농장에서 처음 농사를 배우는 화자",
+                        titleVi: "Tinh huong: nguoi noi dang hoc lam nong lan dau o vuon cuoi tuan",
+                        caption: "집 가까운 주말농장에 다니며 채소를 직접 키우고, 생각보다 손이 많이 가는 농사 일을 배우는 장면입니다.",
+                        captionVi: "Day la tinh huong nguoi noi den vuon nong trai gan nha, tu trong rau va hoc cong viec lam nong ton nhieu cong hon da nghi.",
+                        tags: ["주말농장", "채소", "배우다", "점점 어렵다"]
+                    },
+                    preListening: {
+                        vocab: [
+                            { ko: "주말농장", vi: "vuon nong trai cuoi tuan", hint: "도시 근처에서 주말마다 작은 밭을 가꾸는 곳" },
+                            { ko: "모종", vi: "cay non", hint: "밭에 옮겨 심기 전에 미리 키운 어린 식물" },
+                            { ko: "가꾸다", vi: "cham soc, vun trong", hint: "식물이나 밭을 정성껏 돌보다" },
+                            { ko: "잡초", vi: "co dai", hint: "작물이 잘 자라지 못하게 하는 풀" },
+                            { ko: "수확하다", vi: "thu hoach", hint: "기른 작물이나 열매를 거두다" }
+                        ],
+                        relationshipOptions: [
+                            { value: "friends", label: "친구 사이" },
+                            { value: "teacher-student", label: "선생님과 학생" },
+                            { value: "host-caller", label: "진행자와 청취자" }
+                        ],
+                        relationshipAnswer: "friends",
+                        genreOptions: [
+                            { value: "experience-talk", label: "체험 이야기" },
+                            { value: "shopping", label: "물건 구매 대화" },
+                            { value: "news", label: "뉴스 안내" }
+                        ],
+                        genreAnswer: "experience-talk",
+                        predictionNote: "화자는 왜 주말농장에 가게 되었는지, 거기에서 어떤 일을 배우는지, 그리고 마지막에 어떤 느낌을 말하는지 차례대로 들으면 좋습니다.",
+                        predictionNoteVi: "Hay nghe theo thu tu: vi sao nguoi noi den vuon nong trai, hoc nhung viec gi o do, va cuoi cung co ay cam thay the nao.",
+                        backgroundPrompt: "여러분이 주말농장에 간다면 먼저 무엇을 배우고 싶습니까? 두세 가지를 짧게 적어 보세요.",
+                        backgroundPromptVi: "Neu em den vuon nong trai cuoi tuan, em muon hoc dieu gi truoc? Hay viet ngan gon hai hoac ba y."
+                    },
+                    transcript: [
+                        {
+                            speaker: "안내",
+                            text: "잘 듣고 질문에 답하세요.",
+                            vi: "Hay nghe ky va tra loi cau hoi.",
+                            start: 3.57,
+                            end: 6.45,
+                            keywords: ["질문에 답하세요"],
+                            chunks: [
+                                { start: 3.57, end: 6.45, text: "잘 듣고 질문에 답하세요." }
+                            ]
+                        },
+                        {
+                            speaker: "여",
+                            text: "고구마 좀 쪄 왔는데 드셔 보세요. 제가 직접 키운 거예요.",
+                            vi: "Toi hap it khoai lang mang den day, anh thu di. Chinh tay toi trong do.",
+                            start: 7.01,
+                            end: 11.65,
+                            keywords: ["고구마 좀 쪄 왔는데", "제가 직접 키운 거예요"],
+                            chunks: [
+                                { start: 7.01, end: 9.67, text: "고구마 좀 쪄 왔는데 드셔 보세요." },
+                                { start: 10.41, end: 11.65, text: "제가 직접 키운 거예요." }
+                            ]
+                        },
+                        {
+                            speaker: "남",
+                            text: "이걸 직접 키웠다고요?",
+                            vi: "Ban noi chinh tay ban trong cai nay a?",
+                            start: 12.55,
+                            end: 14.75,
+                            keywords: ["직접 키웠다고요"],
+                            chunks: [
+                                { start: 12.55, end: 14.75, text: "이걸 직접 키웠다고요?" }
+                            ]
+                        },
+                        {
+                            speaker: "여",
+                            text: "네. 얼마 전에 조카들하고 심었던 고구마인데 생각보다 잘 자랐어요.",
+                            vi: "Vang. Day la khoai lang toi trong cung cac chau cach day khong lau, ma no lon tot hon toi nghi.",
+                            start: 15.75,
+                            end: 21.89,
+                            keywords: ["조카들하고 심었던 고구마", "생각보다 잘 자랐어요"],
+                            chunks: [
+                                { start: 15.75, end: 21.89, text: "네. 얼마 전에 조카들하고 심었던 고구마인데 생각보다 잘 자랐어요." }
+                            ]
+                        },
+                        {
+                            speaker: "남",
+                            text: "아파트에 산다고 들었는데, 어디에서 고구마 농사를 지었어요?",
+                            vi: "Toi nghe ban song o chung cu, vay ban trong khoai lang o dau?",
+                            start: 22.95,
+                            end: 27.41,
+                            keywords: ["아파트에 산다고", "어디에서 농사를 지었어요"],
+                            chunks: [
+                                { start: 22.95, end: 27.41, text: "아파트에 산다고 들었는데, 어디에서 고구마 농사를 지었어요?" }
+                            ]
+                        },
+                        {
+                            speaker: "여",
+                            text: "요즘 집 근처에서 하는 주말농장 프로그램에 참가하고 있어요.",
+                            vi: "Gan day toi dang tham gia chuong trinh vuon nong trai cuoi tuan o gan nha.",
+                            start: 28.23,
+                            end: 32.99,
+                            keywords: ["집 근처", "주말농장 프로그램"],
+                            chunks: [
+                                { start: 28.23, end: 32.99, text: "요즘 집 근처에서 하는 주말농장 프로그램에 참가하고 있어요." }
+                            ]
+                        },
+                        {
+                            speaker: "남",
+                            text: "주말농장이요? 그런 곳이 있어요?",
+                            vi: "Vuon nong trai cuoi tuan a? Co noi nhu vay sao?",
+                            start: 34.19,
+                            end: 36.85,
+                            keywords: ["주말농장이요", "그런 곳이 있어요"],
+                            chunks: [
+                                { start: 34.19, end: 36.85, text: "주말농장이요? 그런 곳이 있어요?" }
+                            ]
+                        },
+                        {
+                            speaker: "여",
+                            text: "네. 은퇴 후에 시골에 가서 살 준비를 하는 사람들이나 저처럼 농사를 짓고 싶어 하는 도시 사람들이 농사도 배우고 직접 키워 보기도 하는 곳이에요.",
+                            vi: "Vang. Do la noi nhung nguoi dang chuan bi ve que sau khi nghi huu, hoac nhung nguoi thanh pho muon lam nong nhu toi, co the hoc va tu trong thu.",
+                            start: 38.05,
+                            end: 49.53,
+                            keywords: ["은퇴 후 준비하는 사람들", "도시 사람들이 농사도 배우고"],
+                            chunks: [
+                                { start: 38.05, end: 42.61, text: "네. 은퇴 후에 시골에 가서 살 준비를 하는 사람들이나" },
+                                { start: 42.61, end: 49.53, text: "저처럼 농사를 짓고 싶어 하는 도시 사람들이 농사도 배우고 직접 키워 보기도 하는 곳이에요." }
+                            ]
+                        },
+                        {
+                            speaker: "남",
+                            text: "농사를 지어 보니까 어때요?",
+                            vi: "Vay sau khi thu lam nong, ban thay the nao?",
+                            start: 50.61,
+                            end: 52.53,
+                            keywords: ["농사를 지어 보니까"],
+                            chunks: [
+                                { start: 50.61, end: 52.53, text: "농사를 지어 보니까 어때요?" }
+                            ]
+                        },
+                        {
+                            speaker: "여",
+                            text: "배우면 배울수록 더 어려운 것 같아요. 하지만 도시에 살면서 자연을 느낄 수 있어서 참 좋아요. 그동안 쌓였던 스트레스도 풀리는 것 같고요.",
+                            vi: "Toi thay cang hoc cang kho hon. Nhung song o thanh pho ma van cam nhan duoc thien nhien nen rat hay. Cam giac nhu ca stress tich lai bấy lau nay cung duoc giai toa.",
+                            start: 53.55,
+                            end: 64.77,
+                            keywords: ["배우면 배울수록 더 어려워요", "자연을 느낄 수 있어서 좋아요", "스트레스도 풀려요"],
+                            chunks: [
+                                { start: 53.55, end: 56.09, text: "배우면 배울수록 더 어려운 것 같아요." },
+                                { start: 56.89, end: 61.33, text: "하지만 도시에 살면서 자연을 느낄 수 있어서 참 좋아요." },
+                                { start: 61.79, end: 64.77, text: "그동안 쌓였던 스트레스도 풀리는 것 같고요." }
+                            ]
+                        },
+                        {
+                            speaker: "남",
+                            text: "그래요? 그런데 저처럼 도시에서만 살던 사람도 농사를 지을 수 있을까요?",
+                            vi: "Vay a? Nhung nguoi chi song o thanh pho nhu toi cung co the lam nong duoc khong?",
+                            start: 65.61,
+                            end: 72.37,
+                            keywords: ["도시에서만 살던 사람도", "농사를 지을 수 있을까요"],
+                            chunks: [
+                                { start: 65.61, end: 72.37, text: "그래요? 그런데 저처럼 도시에서만 살던 사람도 농사를 지을 수 있을까요?" }
+                            ]
+                        },
+                        {
+                            speaker: "여",
+                            text: "물론이지요.",
+                            vi: "Tat nhien roi.",
+                            start: 73.45,
+                            end: 74.57,
+                            keywords: ["물론이지요"],
+                            chunks: [
+                                { start: 73.45, end: 74.57, text: "물론이지요." }
+                            ]
+                        },
+                        {
+                            speaker: "여",
+                            text: "저하고 같이 주말농장을 하는 사람들도 대부분 농사 경험이 없어요. 처음에는 좀 힘들겠지만 직접 심은 채소가 크는 걸 보면서 보람을 느낄 수 있을 거예요.",
+                            vi: "Nhung nguoi hoc vuon nong trai cung toi cung da so khong co kinh nghiem. Ban dau co the hoi vat va, nhung khi nhin rau minh tu trong lon len thi se thay rat dang cong.",
+                            start: 75.23,
+                            end: 87.63,
+                            keywords: ["대부분 농사 경험이 없어요", "보람을 느낄 수 있을 거예요"],
+                            chunks: [
+                                { start: 75.23, end: 80.23, text: "저하고 같이 주말농장을 하는 사람들도 대부분 농사 경험이 없어요." },
+                                { start: 80.23, end: 87.63, text: "처음에는 좀 힘들겠지만 직접 심은 채소가 크는 걸 보면서 보람을 느낄 수 있을 거예요." }
+                            ]
+                        },
+                        {
+                            speaker: "여",
+                            text: "이번 주말에도 주말농장에 가니까 시간 되면 놀러 오세요.",
+                            vi: "Cuoi tuan nay toi cung den vuon nong trai, neu co thoi gian thi den choi nhe.",
+                            start: 88.33,
+                            end: 92.97,
+                            keywords: ["이번 주말에도", "놀러 오세요"],
+                            chunks: [
+                                { start: 88.33, end: 92.97, text: "이번 주말에도 주말농장에 가니까 시간 되면 놀러 오세요." }
+                            ]
+                        },
+                        {
+                            speaker: "남",
+                            text: "그럼 그럴까요? 구경해 보고 싶은데요.",
+                            vi: "Vay toi thu den nhe? Toi muon den xem thu.",
+                            start: 93.71,
+                            end: 97.35,
+                            keywords: ["그럼 그럴까요", "구경해 보고 싶은데요"],
+                            chunks: [
+                                { start: 93.71, end: 95.21, text: "그럼 그럴까요?" },
+                                { start: 96.05, end: 97.35, text: "구경해 보고 싶은데요." }
+                            ]
+                        }
+                    ],
+                    generatedTranscriptTimings: [
+                        {
+                            start: 3.57,
+                            end: 6.738,
+                            chunks: [
+                                { start: 3.57, end: 6.738, text: "잘 듣고 질문에 답하세요." }
+                            ]
+                        },
+                        {
+                            start: 7.298,
+                            end: 13.87,
+                            chunks: [
+                                { start: 7.298, end: 10.538, text: "고구마 좀 쪄 왔는데 드셔 보세요." },
+                                { start: 11.278, end: 13.87, text: "제가 직접 키운 거예요." }
+                            ]
+                        },
+                        {
+                            start: 14.77,
+                            end: 17.842,
+                            chunks: [
+                                { start: 14.77, end: 17.842, text: "이걸 직접 키웠다고요?" }
+                            ]
+                        },
+                        {
+                            start: 18.842,
+                            end: 24.818,
+                            chunks: [
+                                { start: 18.842, end: 24.818, text: "네. 얼마 전에 조카들하고 심었던 고구마인데 생각보다 잘 자랐어요." }
+                            ]
+                        },
+                        {
+                            start: 25.878,
+                            end: 31.782,
+                            chunks: [
+                                { start: 25.878, end: 31.782, text: "아파트에 산다고 들었는데, 어디에서 고구마 농사를 지었어요?" }
+                            ]
+                        },
+                        {
+                            start: 32.602,
+                            end: 37.57,
+                            chunks: [
+                                { start: 32.602, end: 37.57, text: "요즘 집 근처에서 하는 주말농장 프로그램에 참가하고 있어요." }
+                            ]
+                        },
+                        {
+                            start: 38.77,
+                            end: 44.026,
+                            chunks: [
+                                { start: 38.77, end: 44.026, text: "주말농장이요? 그런 곳이 있어요?" }
+                            ]
+                        },
+                        {
+                            start: 45.226,
+                            end: 56.866,
+                            chunks: [
+                                { start: 45.226, end: 49.954, text: "네. 은퇴 후에 시골에 가서 살 준비를 하는 사람들이나" },
+                                { start: 49.954, end: 56.866, text: "저처럼 농사를 짓고 싶어 하는 도시 사람들이 농사도 배우고 직접 키워 보기도 하는 곳이에요." }
+                            ]
+                        },
+                        {
+                            start: 57.946,
+                            end: 61.354,
+                            chunks: [
+                                { start: 57.946, end: 61.354, text: "농사를 지어 보니까 어때요?" }
+                            ]
+                        },
+                        {
+                            start: 62.374,
+                            end: 76.018,
+                            chunks: [
+                                { start: 62.374, end: 66.022, text: "배우면 배울수록 더 어려운 것 같아요." },
+                                { start: 66.822, end: 71.742, text: "하지만 도시에 살면서 자연을 느낄 수 있어서 참 좋아요." },
+                                { start: 72.202, end: 76.018, text: "그동안 쌓였던 스트레스도 풀리는 것 같고요." }
+                            ]
+                        },
+                        {
+                            start: 76.858,
+                            end: 84.802,
+                            chunks: [
+                                { start: 76.858, end: 84.802, text: "그래요? 그런데 저처럼 도시에서만 살던 사람도 농사를 지을 수 있을까요?" }
+                            ]
+                        },
+                        {
+                            start: 85.882,
+                            end: 87.754,
+                            chunks: [
+                                { start: 85.882, end: 87.754, text: "물론이지요." }
+                            ]
+                        },
+                        {
+                            start: 88.414,
+                            end: 101.326,
+                            chunks: [
+                                { start: 88.414, end: 94.318, text: "저하고 같이 주말농장을 하는 사람들도 대부분 농사 경험이 없어요." },
+                                { start: 94.318, end: 101.326, text: "처음에는 좀 힘들겠지만 직접 심은 채소가 크는 걸 보면서 보람을 느낄 수 있을 거예요." }
+                            ]
+                        },
+                        {
+                            start: 102.026,
+                            end: 106.562,
+                            chunks: [
+                                { start: 102.026, end: 106.562, text: "이번 주말에도 주말농장에 가니까 시간 되면 놀러 오세요." }
+                            ]
+                        },
+                        {
+                            start: 107.302,
+                            end: 113.662,
+                            chunks: [
+                                { start: 107.302, end: 109.87, text: "그럼 그럴까요?" },
+                                { start: 110.71, end: 113.662, text: "구경해 보고 싶은데요." }
+                            ]
+                        }
+                    ],
+                    publicCues: [
+                        {
+                            speaker: "안내",
+                            start: 3.57,
+                            end: 21.89,
+                            keywords: ["질문에 답하세요", "직접 키운 고구마", "생각보다 잘 자랐어요"],
+                            extraKeywords: ["주말농장 대화", "조카들하고 심은 고구마"]
+                        },
+                        {
+                            speaker: "여",
+                            start: 22.95,
+                            end: 36.85,
+                            keywords: ["어디에서 농사를 지었어요", "집 근처 주말농장", "그런 곳이 있어요"],
+                            extraKeywords: ["아파트", "프로그램 참가"]
+                        },
+                        {
+                            speaker: "여",
+                            start: 38.05,
+                            end: 49.53,
+                            keywords: ["은퇴 후 준비", "도시 사람들이 농사도 배우고", "직접 키워 봐요"],
+                            extraKeywords: ["시골 생활 준비", "도시 농사 체험"]
+                        },
+                        {
+                            speaker: "여",
+                            start: 50.61,
+                            end: 64.77,
+                            keywords: ["배우면 배울수록 어려워요", "자연을 느낄 수 있어요", "스트레스도 풀려요"],
+                            extraKeywords: ["도시 속 자연", "주말 힐링"]
+                        },
+                        {
+                            speaker: "여",
+                            start: 65.61,
+                            end: 97.35,
+                            keywords: ["초보자도 가능해요", "보람을 느낄 수 있어요", "시간 되면 놀러 오세요"],
+                            extraKeywords: ["농사 경험 없음", "주말 초대"]
+                        }
+                    ],
+                    dictogloss: {
+                        prompt: "화자가 왜 주말농장을 시작했는지, 거기에서 무엇을 배우는지, 마지막에 어떤 생각을 했는지 핵심어를 보고 다시 정리해 보세요.",
+                        promptVi: "Hay nhin tu khoa roi sap xep lai vi sao nguoi noi bat dau di vuon nong trai, hoc dieu gi va cuoi cung nghi nhu the nao.",
+                        keywords: ["주말농장", "집 근처", "채소", "모종", "방법", "잡초", "배우면 배울수록", "어렵다"],
+                        placeholder: "이유, 활동 내용, 느낀 점이 모두 드러나도록 4~5문장으로 정리해 보세요.",
+                        placeholderVi: "Hay tom tat bang 4 den 5 cau, gom ly do, noi dung hoat dong va cam nhan."
+                    },
+                    sequenceTask: {
+                        title: "활동 순서 배열",
+                        titleVi: "Sap xep thu tu hoat dong",
+                        guide: "화자가 주말농장에서 경험한 일을 나온 순서대로 다시 배열해 보세요.",
+                        guideVi: "Hay sap xep lai cac viec nguoi noi trai nghiem o vuon nong trai theo dung thu tu xuat hien.",
+                        checkLabel: "순서 확인",
+                        checkLabelVi: "Kiem tra thu tu",
+                        resetLabel: "다시 섞기",
+                        resetLabelVi: "Tron lai",
+                        statusInitial: "항목을 움직여 화자의 경험 순서를 맞춰 보세요.",
+                        statusInitialVi: "Hay di chuyen cac muc de sap xep lai thu tu trai nghiem cua nguoi noi.",
+                        statusCorrect: "순서가 맞습니다. 화자의 경험 흐름을 잘 잡았습니다.",
+                        statusCorrectVi: "Thu tu da dung. Em da nam duoc dong trai nghiem cua nguoi noi.",
+                        statusIncorrect: "한 번 더 들어 보면서 활동 순서를 점검해 보세요.",
+                        statusIncorrectVi: "Hay nghe lai mot lan nua va kiem tra thu tu hoat dong.",
+                        items: [
+                            { id: "farm-1", text: "집 근처 주말농장에 등록한다.", textVi: "Dang ky vao vuon nong trai gan nha" },
+                            { id: "farm-2", text: "채소 모종을 심는 방법을 배운다.", textVi: "Hoc cach trong cay non" },
+                            { id: "farm-3", text: "물을 주고 잡초를 뽑으며 밭을 가꾼다.", textVi: "Tuoi nuoc va nho co de cham soc ruong" },
+                            { id: "farm-4", text: "농사는 배우면 배울수록 어렵다고 느낀다.", textVi: "Cam thay lam nong cang hoc cang kho" }
+                        ],
+                        answerOrder: ["farm-1", "farm-2", "farm-3", "farm-4"]
+                    },
+                    notePrompts: {
+                        keywords: "주말농장, 채소, 모종, 잡초, 배우면 배울수록",
+                        details: "주말농장에서 하는 일을 순서대로 적기",
+                        questions: "왜 화자가 농사가 어렵다고 느꼈는지 적기",
+                        cue: "집 근처 / 직접 / 방법 / 관리 / 보람",
+                        notes: "배운 일과 느낀 점을 나누어 메모하기",
+                        summary: "주말농장의 장점과 어려움을 두 문장으로 정리하기"
+                    },
+                    notePromptsVi: {
+                        keywords: "Vuon cuoi tuan, rau, cay non, co dai, cang hoc cang kho",
+                        details: "Ghi theo thu tu nhung viec lam o vuon",
+                        questions: "Viet ly do nguoi noi cam thay lam nong kho",
+                        cue: "Gan nha / tu tay / cach lam / cham soc / niem vui",
+                        notes: "Chia ghi chu thanh viec da hoc va cam nhan",
+                        summary: "Tom tat diem hay va diem kho cua vuon nong trai bang hai cau"
+                    },
+                    clozeSection: {
+                        title: "표현 빈칸 채우기",
+                        titleVi: "Dien vao cho trong",
+                        guide: "들은 문장을 떠올리며 핵심 표현을 채워 보세요.",
+                        guideVi: "Hay nho lai cau da nghe va dien vao bieu hien chinh."
+                    },
+                    clozeItems: [
+                        {
+                            sentence: "저는 집 근처 _____에서 농사를 배워요.",
+                            sentenceVi: "Toi hoc lam nong o _____ gan nha.",
+                            blank: "주말농장",
+                            hint: "주말마다 가꾸는 작은 밭",
+                            hintVi: "Noi lam vuon vao cuoi tuan",
+                            explanation: "화자는 집 가까운 주말농장에서 농사를 배운다고 말합니다.",
+                            explanationVi: "Nguoi noi noi rang co ay hoc o vuon nong trai gan nha."
+                        },
+                        {
+                            sentence: "처음 농사를 짓는 사람도 방법을 _____ 수 있어요.",
+                            sentenceVi: "Ngay ca nguoi moi lam nong lan dau cung co the _____ cach lam.",
+                            blank: "배울",
+                            hint: "-(으)ㄹ 수 있다",
+                            hintVi: "Co the",
+                            explanation: "주말농장에서는 초보자도 농사 방법을 배울 수 있다는 점이 핵심입니다.",
+                            explanationVi: "Y chinh la ngay ca nguoi moi cung co the hoc cach lam nong o day."
+                        },
+                        {
+                            sentence: "농사짓는 일은 배우면 배울수록 더 _____요.",
+                            sentenceVi: "Cong viec lam nong cang hoc cang _____ hon.",
+                            blank: "어려워져",
+                            hint: "-면 -ㄹ수록",
+                            hintVi: "Cang ... cang ...",
+                            explanation: "화자는 농사가 단순해 보이지만 실제로는 점점 어렵다고 느낍니다.",
+                            explanationVi: "Nguoi noi cam thay viec lam nong nhin co ve don gian nhung thuc te cang hoc cang kho hon."
+                        }
+                    ],
+                    speakingTask: {
+                        title: "말하기 출력",
+                        titleVi: "Dau ra noi",
+                        prompt: "친구에게 주말농장을 추천한다고 생각하고, 무엇을 배우고 어떤 점이 재미있는지 3~4문장으로 말해 보세요.",
+                        promptVi: "Hay tuong tuong em dang gioi thieu vuon nong trai cuoi tuan cho ban va noi bang 3 den 4 cau xem o do hoc gi va dieu gi thu vi.",
+                        placeholder: "예: 집 근처에서 직접 채소를 키울 수 있고, 처음 하는 사람도 방법을 배울 수 있어. 어렵지만 해 볼수록 재미있어.",
+                        placeholderVi: "Vi du: O gan nha minh co the tu tay trong rau, nguoi moi cung hoc duoc cach lam. Tuy kho nhung cang lam cang thay thu vi.",
+                        tips: ["직접", "배울 수 있다", "배우면 배울수록", "재미있다"],
+                        tipsVi: ["Truc tiep", "Co the hoc", "Cang hoc cang", "Thu vi"]
+                    },
+                    clarifications: [
+                        {
+                            ko: "처음 하는 사람도 배울 수 있다고 하셨죠?",
+                            vi: "Ban vua noi rang ngay ca nguoi moi cung hoc duoc, dung khong?",
+                            use: "활동 대상이 누구인지 다시 확인할 때 쓸 수 있습니다.",
+                            useVi: "Dung khi muon kiem tra lai doi tuong cua hoat dong."
+                        },
+                        {
+                            ko: "즉, 직접 채소를 심고 가꾸는 거예요?",
+                            vi: "Tuc la minh tu trong va cham soc rau, dung khong?",
+                            use: "체험 내용이 실제 활동인지 확인하는 표현입니다.",
+                            useVi: "Dung de xac nhan noi dung trai nghiem co phai la hoat dong thuc te hay khong."
+                        },
+                        {
+                            ko: "배우면 배울수록 어렵다는 말씀이군요.",
+                            vi: "Tuc la cang hoc thi cang thay kho hon.",
+                            use: "상대의 느낌이나 결론을 다시 정리하며 확인할 때 좋습니다.",
+                            useVi: "Hop khi muon tom lai va xac nhan cam nhan hay ket luan cua doi phuong."
+                        }
+                    ],
+                    clarificationPrompt: "주말농장의 대상, 활동 내용, 화자의 느낌을 다시 확인하는 표현을 골라 연습해 보세요.",
+                    clarificationPromptVi: "Hay luyen cac cach hoi lai de xac nhan doi tuong, noi dung hoat dong va cam nhan cua nguoi noi.",
+                    clarifyScenario: "예: '즉, 초보자도 직접 채소를 심어 보면서 배울 수 있다는 말씀이죠?'처럼 핵심 정보를 다시 묻는 문장을 만들어 보세요.",
+                    clarifyScenarioVi: "Vi du, hay tao cau hoi lai nhu 'Tuc la nguoi moi cung co the hoc trong khi tu tay trong rau, dung khong?'.",
+                    oralFeatures: [
+                        {
+                            term: "직접",
+                            type: "체험 강조",
+                            typeVi: "Nhan manh trai nghiem thuc te",
+                            note: "눈으로 보기만 하는 것이 아니라 스스로 해 본다는 뜻을 강조합니다.",
+                            noteVi: "Nhan manh rang khong chi xem ma con tu minh thuc hien."
+                        },
+                        {
+                            term: "처음",
+                            type: "경험 수준 표시",
+                            typeVi: "Chi muc do kinh nghiem",
+                            note: "농사를 처음 짓는 사람도 가능하다는 점을 드러냅니다.",
+                            noteVi: "Cho thay ngay ca nguoi lam nong lan dau cung co the tham gia."
+                        },
+                        {
+                            term: "배우면 배울수록",
+                            type: "점진 변화 표현",
+                            typeVi: "Bieu hien su thay doi tang dan",
+                            note: "어떤 느낌이 점점 커질 때 쓰는 핵심 표현입니다.",
+                            noteVi: "La bieu hien quan trong khi mot cam nhan tang dan theo thoi gian."
+                        }
+                    ],
+                    tfSection: {
+                        title: "맞아요 / 아니에요",
+                        titleVi: "Dung hay sai",
+                        guide: "들은 내용과 맞으면 O, 맞지 않으면 X를 고르세요.",
+                        guideVi: "Neu dung voi noi dung da nghe thi chon O, neu khong thi chon X."
+                    },
+                    tfQuestions: [
+                        {
+                            statement: "여자는 집에서 혼자 농사짓는 법을 배운다.",
+                            statementVi: "Nguoi nu hoc lam nong mot minh o nha.",
+                            answer: false,
+                            explanation: "화자는 집이 아니라 집 근처 주말농장에서 농사를 배운다고 말합니다.",
+                            explanationVi: "Nguoi noi noi rang co ay hoc o vuon nong trai gan nha, khong phai mot minh tai nha."
+                        },
+                        {
+                            statement: "주말농장에서는 직접 채소를 키워 볼 수 있다.",
+                            statementVi: "O vuon nong trai cuoi tuan co the tu tay trong rau.",
+                            answer: true,
+                            explanation: "주말농장의 특징으로 직접 채소를 키운다는 점이 제시됩니다.",
+                            explanationVi: "Mot dac diem cua vuon nong trai la co the tu minh trong rau."
+                        },
+                        {
+                            statement: "여자는 농사가 쉬워서 금방 익숙해졌다고 말한다.",
+                            statementVi: "Nguoi nu noi rang lam nong de nen quen rat nhanh.",
+                            answer: false,
+                            explanation: "화자는 오히려 배우면 배울수록 어렵다고 느꼈다고 말합니다.",
+                            explanationVi: "Nguoi noi nguoc lai cho biet cang hoc thi cang thay kho."
+                        }
+                    ],
+                    quizTitle: "이해 점검",
+                    quizTitleVi: "Kiem tra muc do hieu",
+                    quizGuideKo: "주말농장의 특징과 화자의 느낌을 중심으로 정답을 골라 보세요.",
+                    quizGuideVi: "Hay chon dap an dung dua tren dac diem cua vuon nong trai va cam nhan cua nguoi noi.",
+                    questions: [
+                        {
+                            prompt: "여자는 주말에 무엇을 합니까?",
+                            promptVi: "Cuoi tuan nguoi nu lam gi?",
+                            answer: "2",
+                            explanation: "화자는 집 근처 주말농장에서 농사를 짓는다고 말합니다.",
+                            explanationVi: "Nguoi noi cho biet co ay lam nong o vuon nong trai gan nha vao cuoi tuan.",
+                            options: [
+                                { value: "1", label: "채소를 키우러 시골에 내려간다.", labelVi: "Ve que de trong rau" },
+                                { value: "2", label: "집 근처 주말농장에서 농사를 짓는다.", labelVi: "Lam nong o vuon cuoi tuan gan nha" },
+                                { value: "3", label: "조용한 시골에 내려가서 스트레스를 푼다.", labelVi: "Ve que yen tinh de giai toa stress" },
+                                { value: "4", label: "친구들과 정원만 가꾸러 간다.", labelVi: "Chi den cham soc vuon cung ban" }
+                            ]
+                        },
+                        {
+                            prompt: "주말농장에 대한 설명으로 가장 알맞은 것은 무엇입니까?",
+                            promptVi: "Mo ta nao phu hop nhat ve vuon nong trai cuoi tuan?",
+                            answer: "1",
+                            explanation: "주말농장에서는 직접 채소를 키우고, 처음 농사를 짓는 사람도 방법을 배울 수 있다고 했습니다.",
+                            explanationVi: "Bai nghe noi rang o day co the tu trong rau, va ngay ca nguoi moi lam nong lan dau cung hoc duoc cach lam.",
+                            options: [
+                                { value: "1", label: "직접 채소를 키우고, 처음 농사를 짓는 사람도 방법을 배울 수 있다.", labelVi: "Co the tu trong rau va nguoi moi cung hoc duoc cach lam" },
+                                { value: "2", label: "이미 농사 경험이 많은 사람만 참여할 수 있다.", labelVi: "Chi nguoi da co nhieu kinh nghiem moi tham gia duoc" },
+                                { value: "3", label: "주말마다 시골에 가서 가축을 키워야 한다.", labelVi: "Cuoi tuan phai ve que de nuoi gia suc" },
+                                { value: "4", label: "정원을 구경만 하고 돌아오는 체험이다.", labelVi: "Chi xem vuon roi quay ve" }
+                            ]
+                        },
+                        {
+                            prompt: "주말농장에 참여하면서 여자가 느낀 점은 무엇입니까?",
+                            promptVi: "Trong khi tham gia vuon nong trai, nguoi nu cam thay nhu the nao?",
+                            answer: "3",
+                            explanation: "화자는 농사짓는 일은 배우면 배울수록 어렵다고 느꼈다고 말합니다.",
+                            explanationVi: "Nguoi noi noi rang co ay cam thay viec lam nong cang hoc cang kho.",
+                            options: [
+                                { value: "1", label: "농사는 집에서도 쉽게 혼자 배울 수 있다고 생각했다.", labelVi: "Co ay nghi rang o nha cung de tu hoc lam nong" },
+                                { value: "2", label: "채소를 심는 일보다 물고기를 잡는 일이 더 재미있었다.", labelVi: "Co ay thay bat ca vui hon trong rau" },
+                                { value: "3", label: "농사짓는 일은 배우면 배울수록 어렵다고 느꼈다.", labelVi: "Co ay thay lam nong cang hoc cang kho" },
+                                { value: "4", label: "주말농장은 여유가 없어서 오래 다니기 어렵다고 생각했다.", labelVi: "Co ay nghi kho theo lau vi khong co thoi gian" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+    </script>
+    <script src="../shared/listening-workbook.js?v=20260324-audiosync"></script>
+    <script src="../shared/learning-enhancements.js?v=20260416-c14-listening"></script>
+    <script src="../shared/pc-mode.js"></script>
     <script src="../shared/site-copyright.js"></script>
 </body>
 </html>
-
