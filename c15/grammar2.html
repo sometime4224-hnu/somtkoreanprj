@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>15과 문법 2 | A/V-(으)ㄹ걸(요)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at top right, rgba(253, 186, 116, 0.28), transparent 26%),
+                radial-gradient(circle at top left, rgba(125, 211, 252, 0.16), transparent 22%),
+                linear-gradient(180deg, #fffbeb 0%, #fff7ed 42%, #f8fafc 100%);
+        }
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 58px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 16px;
+            box-sizing: border-box;
+            background: rgba(255,255,255,0.92);
+            border-bottom: 1px solid #fed7aa;
+            backdrop-filter: blur(8px);
+        }
+        .global-nav a {
+            color: #c2410c;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .nav-divider { color: #cbd5e1; font-weight: 700; }
+        .safe { word-break: keep-all; overflow-wrap: break-word; }
+        .tab-btn.active { background: #ffedd5; color: #c2410c; border-color: #fdba74; }
+        .vi-text { display: none; }
+        .vi-on .vi-text { display: block; }
+        .vi-switch { display: none; }
+        .vi-on .vi-switch { display: block; }
+        .vi-on .ko-switch { display: none; }
+        .vi-switch-inline { display: none; }
+        .vi-on .vi-switch-inline { display: inline; }
+        .vi-on .ko-switch-inline { display: none; }
+        .formula-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 9999px;
+            border: 1px solid #fed7aa;
+            background: #fff7ed;
+            color: #c2410c;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .flow-card,
+        .compare-card,
+        .dialog-card,
+        .mistake-card,
+        .summary-card {
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(255,255,255,0.95);
+            padding: 14px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+        }
+        .signal-track {
+            margin-top: 14px;
+            padding: 16px;
+            border-radius: 20px;
+            border: 1px solid #fde68a;
+            background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,247,237,0.94));
+        }
+        .signal-line {
+            position: relative;
+            height: 8px;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, #dbeafe 0%, #fdba74 52%, #fca5a5 100%);
+        }
+        .signal-dot {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 18px;
+            height: 18px;
+            border-radius: 9999px;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 2px rgba(194, 65, 12, 0.14);
+            background: #ea580c;
+        }
+        .legend-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 9999px;
+            padding: 7px 11px;
+            font-size: 12px;
+            font-weight: 800;
+            border: 1px solid transparent;
+        }
+        .legend-pill--sky {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1d4ed8;
+        }
+        .legend-pill--amber {
+            background: #fff7ed;
+            border-color: #fdba74;
+            color: #c2410c;
+        }
+        .legend-pill--violet {
+            background: #f5f3ff;
+            border-color: #c4b5fd;
+            color: #7c3aed;
+        }
+        .compare-card__head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .compare-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            padding: 4px 9px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .compare-badge--basic { background: #e0f2fe; color: #0369a1; }
+        .compare-badge--guess { background: #ecfccb; color: #4d7c0f; }
+        .compare-badge--reply { background: #ffedd5; color: #c2410c; }
+        .compare-badge--follow { background: #f5f3ff; color: #7c3aed; }
+        .next-link,
+        .prev-link,
+        .ghost-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .next-link {
+            border: 1px solid #fdba74;
+            background: rgba(255,255,255,0.92);
+            color: #c2410c;
+            box-shadow: 0 4px 12px rgba(194, 65, 12, 0.08);
+        }
+        .next-link:hover { background: #fff7ed; border-color: #fb923c; transform: translateY(-1px); }
+        .prev-link {
+            border: 1px solid #cbd5e1;
+            background: rgba(255,255,255,0.92);
+            color: #475569;
+        }
+        .prev-link:hover { background: #f8fafc; transform: translateY(-1px); }
+        .ghost-link {
+            border: 1px dashed #cbd5e1;
+            background: rgba(255,255,255,0.72);
+            color: #94a3b8;
+            cursor: default;
+        }
+        .choice-btn {
+            min-height: 58px;
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f2937;
+            transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+        }
+        .choice-btn:hover { transform: translateY(-1px); border-color: #fdba74; }
+        .choice-btn:disabled:hover { transform: none; }
+        .choice-pending {
+            border-color: #c4b5fd;
+            background: #f5f3ff;
+            color: #6d28d9;
+        }
+        .choice-pending .choice-badge {
+            background: #8b5cf6;
+            color: #ffffff;
+        }
+        .choice-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .choice-text { flex: 1 1 auto; }
+        .choice-badge {
+            flex: 0 0 auto;
+            border-radius: 9999px;
+            padding: 4px 9px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .choice-target {
+            border-color: #86efac;
+            background: #ecfdf5;
+            color: #047857;
+        }
+        .choice-target .choice-badge {
+            background: #10b981;
+            color: #ffffff;
+        }
+        .choice-alternate {
+            border-color: #fdba74;
+            background: #fff7ed;
+            color: #c2410c;
+        }
+        .choice-alternate .choice-badge {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+        .choice-selected-wrong {
+            border-color: #fda4af;
+            background: #fff1f2;
+            color: #be123c;
+        }
+        .choice-selected-wrong .choice-badge {
+            background: #f43f5e;
+            color: #ffffff;
+        }
+        .choice-neutral {
+            border-color: #e2e8f0;
+            background: #f8fafc;
+            color: #94a3b8;
+        }
+        .answer-pill {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-right: 6px;
+            margin-top: 6px;
+        }
+        .answer-pill--target {
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+            color: #047857;
+        }
+        .answer-pill--alternate {
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            color: #c2410c;
+        }
+        .answer-pill--selected {
+            background: #f5f3ff;
+            border: 1px solid #c4b5fd;
+            color: #6d28d9;
+        }
+        .answer-pill--wrong {
+            background: #fff1f2;
+            border: 1px solid #fda4af;
+            color: #be123c;
+        }
+        .summary-grid {
+            display: grid;
+            gap: 12px;
+            margin-top: 14px;
+        }
+        @media (min-width: 768px) {
+            .summary-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">15과 목록</a>
+    </nav>
+
+    <main id="page" class="w-full max-w-5xl mx-auto space-y-4 px-3 sm:px-0 pb-8">
+        <section class="bg-white border border-orange-100 rounded-2xl p-5 shadow-sm mt-4">
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <p class="text-xs font-bold text-orange-600">15과 문법 2</p>
+                    <h1 class="text-2xl font-black text-slate-800 mt-1">A/V-(으)ㄹ걸(요)</h1>
+                    <p class="ko-switch text-sm text-slate-600 mt-1 safe">상황을 보고 “아마 그럴 거예요” 하고 부드럽게 예상하거나 반응할 때 쓰는 표현이에요.</p>
+                    <p class="vi-switch text-sm text-slate-600 mt-1 safe">Mẫu này dùng khi nhìn vào tình huống rồi dự đoán hoặc phản ứng nhẹ nhàng theo nghĩa “chắc là sẽ như vậy”.</p>
+                    <p class="vi-text text-xs text-orange-700 mt-1 safe">Mẫu này dùng khi dự đoán nhẹ nhàng hoặc phản ứng bằng ý “chắc là sẽ như vậy”.</p>
+                </div>
+                <button id="viToggle" class="shrink-0 px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 whitespace-nowrap">Tiếng Việt OFF</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button id="tabLearn" class="tab-btn active border rounded-xl py-2.5 text-sm font-bold border-orange-200" type="button">학습</button>
+                <button id="tabPractice" class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">연습</button>
+            </div>
+        </section>
+
+        <section id="learnPanel" class="space-y-3">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">핵심 개념</h2>
+                <div class="text-slate-700 mt-2 text-sm safe space-y-2">
+                    <p class="ko-switch"><strong>A/V-(으)ㄹ걸(요)</strong>는 아직 확실히 아는 정보는 아니지만, 상황을 보고 <strong>아마 그럴 것 같다</strong>고 부드럽게 예상할 때 써요.</p>
+                    <p class="vi-switch"><strong>A/V-(으)ㄹ걸(요)</strong> được dùng khi chưa biết chắc hoàn toàn nhưng nhìn tình huống rồi đoán nhẹ nhàng rằng <strong>“chắc là sẽ như vậy”</strong>.</p>
+                    <p class="ko-switch">특히 <strong>상대 질문에 짧게 반응</strong>하거나, 상대 말에 대해 <strong>조심스럽게 다른 예상</strong>을 말할 때 자연스러워요.</p>
+                    <p class="vi-switch">Nó đặc biệt tự nhiên khi <strong>phản ứng ngắn trước câu hỏi của người khác</strong> hoặc khi <strong>nhẹ nhàng đưa ra một dự đoán khác</strong> với điều người kia vừa nói.</p>
+                    <p class="mt-2 bg-orange-50 border border-orange-100 rounded-xl px-3 py-2"><span class="font-bold text-orange-700">한 줄 뜻:</span> “내 생각에는 아마 ~일 거예요.”</p>
+                </div>
+                <div class="vi-text text-xs text-orange-700 mt-3 safe space-y-1">
+                    <p><strong>A/V-(으)ㄹ걸(요)</strong> diễn tả dự đoán nhẹ nhàng khi chưa biết chắc hoàn toàn.</p>
+                    <p>Mẫu này đặc biệt tự nhiên khi trả lời ngắn cho câu hỏi của người khác hoặc nêu dự đoán khác một cách mềm mại.</p>
+                </div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">직관 도식</h2>
+                <div class="mt-3 grid sm:grid-cols-3 gap-3 text-sm safe">
+                    <div class="flow-card">
+                        <p class="text-xs font-bold text-sky-700">1 상황 보기</p>
+                        <p class="mt-2 font-bold text-slate-800">관리비 고지서를 본다</p>
+                        <p class="ko-switch mt-2 text-slate-600">아직 정확한 금액은 모르지만, 단서가 보이는 상황이에요.</p>
+                        <p class="vi-switch mt-2 text-slate-600">Chưa biết con số chính xác, nhưng đây là tình huống đã có dấu hiệu để đoán.</p>
+                    </div>
+                    <div class="flow-card">
+                        <p class="text-xs font-bold text-amber-700">2 머릿속 예상</p>
+                        <p class="mt-2 font-bold text-slate-800">“이번 달도 많이 나오겠다”</p>
+                        <p class="ko-switch mt-2 text-slate-600">내 판단이 생기지만, 100% 확정해서 말하지는 않아요.</p>
+                        <p class="vi-switch mt-2 text-slate-600">Mình đã có dự đoán, nhưng chưa nói như một điều chắc chắn 100%.</p>
+                    </div>
+                    <div class="flow-card">
+                        <p class="text-xs font-bold text-orange-700">3 입으로 말하기</p>
+                        <p class="mt-2 font-bold text-slate-800">“이번 달도 많이 나올걸요.”</p>
+                        <p class="ko-switch mt-2 text-slate-600">짧고 부드럽게 추측을 말하는 반응형 표현이에요.</p>
+                        <p class="vi-switch mt-2 text-slate-600">Đây là cách phản ứng ngắn gọn, mềm mại khi nói ra một dự đoán.</p>
+                    </div>
+                </div>
+                <div class="signal-track">
+                    <div class="flex items-center justify-between text-xs font-bold text-slate-500">
+                        <span class="ko-switch-inline">확실한 사실</span>
+                        <span class="vi-switch-inline">thông tin chắc chắn</span>
+                        <span class="ko-switch-inline">추측</span>
+                        <span class="vi-switch-inline">phỏng đoán</span>
+                        <span class="ko-switch-inline">뒷말 여지</span>
+                        <span class="vi-switch-inline">còn ý để nói tiếp</span>
+                    </div>
+                    <div class="signal-line mt-3">
+                        <span class="signal-dot" style="left: 56%;" aria-hidden="true"></span>
+                    </div>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span class="legend-pill legend-pill--sky">-(으)ㄹ 거예요 = 중립적 예상</span>
+                        <span class="legend-pill legend-pill--amber">-(으)ㄹ걸요 = 반응형 추측</span>
+                        <span class="legend-pill legend-pill--violet">-(으)ㄹ 텐데요 = 뒷말 여지</span>
+                    </div>
+                </div>
+                <div class="vi-text text-xs text-orange-700 mt-3 safe">-걸요 nằm ở vùng dự đoán, nhưng nghe mềm và mang tính phản ứng hội thoại rõ hơn.</div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">만드는 법</h2>
+                <div class="mt-3 flex flex-wrap gap-2">
+                    <span class="formula-chip">받침 없음: -ㄹ걸(요)</span>
+                    <span class="formula-chip">받침 있음: -을걸(요)</span>
+                    <span class="formula-chip">형용사 / 동사 모두 가능</span>
+                </div>
+                <div class="mt-4 grid sm:grid-cols-2 gap-3 text-sm safe">
+                    <div class="flow-card">
+                        <p class="font-bold text-slate-800">형태 예시</p>
+                        <ul class="ko-switch mt-2 space-y-1.5 text-slate-700">
+                            <li><strong>가다</strong> → 갈걸요</li>
+                            <li><strong>오다</strong> → 올걸요</li>
+                            <li><strong>많다</strong> → 많을걸요</li>
+                            <li><strong>비싸다</strong> → 비쌀걸요</li>
+                        </ul>
+                        <ul class="vi-switch mt-2 space-y-1.5 text-slate-700">
+                            <li><strong>가다</strong> → 갈걸요</li>
+                            <li><strong>오다</strong> → 올걸요</li>
+                            <li><strong>많다</strong> → 많을걸요</li>
+                            <li><strong>비싸다</strong> → 비쌀걸요</li>
+                        </ul>
+                    </div>
+                    <div class="flow-card">
+                        <p class="font-bold text-slate-800">말할 때 주의</p>
+                        <ul class="ko-switch mt-2 space-y-1.5 text-slate-700">
+                            <li><strong>요</strong>를 붙이면 더 부드럽고 회화체로 자연스러워요.</li>
+                            <li>확실한 안내보다 <strong>가벼운 추측</strong>에 어울려요.</li>
+                            <li><strong>상대에게 반응하는 자리</strong>에서 특히 잘 어울리지만, 비슷한 추측 표현과 자연스럽게 섞여 들릴 때도 있어요.</li>
+                        </ul>
+                        <ul class="vi-switch mt-2 space-y-1.5 text-slate-700">
+                            <li>Thêm <strong>요</strong> sẽ làm câu mềm mại và tự nhiên hơn trong hội thoại.</li>
+                            <li>Mẫu này hợp với <strong>dự đoán nhẹ</strong> hơn là lời 안내 chắc chắn.</li>
+                            <li>Nó nổi bật nhất khi <strong>phản ứng với người nghe</strong>, nhưng trong hội thoại thật vẫn có lúc nghe gần với các mẫu dự đoán tương tự.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="vi-text text-xs text-orange-700 mt-3 safe">Không nên dùng như một câu thông báo chắc chắn. Mẫu này hợp với dự đoán nói ra trong hội thoại.</div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">비슷한 표현 비교</h2>
+                <div class="mt-3 grid sm:grid-cols-2 gap-3 text-sm safe">
+                    <div class="compare-card">
+                        <div class="compare-card__head">
+                            <p class="font-bold text-slate-800">관리비가 많이 나올 거예요.</p>
+                            <span class="compare-badge compare-badge--basic">기본 예상</span>
+                        </div>
+                        <p class="ko-switch mt-2 text-slate-600">가장 중립적인 예상이에요. 다른 표현으로도 말할 수 있지만, 설명하거나 안내할 때 특히 무난해요.</p>
+                        <p class="vi-switch mt-2 text-slate-600">Đây là kiểu dự đoán trung tính nhất. Có thể thay bằng mẫu khác, nhưng đặc biệt tự nhiên khi giải thích hoặc hướng dẫn.</p>
+                    </div>
+                    <div class="compare-card">
+                        <div class="compare-card__head">
+                            <p class="font-bold text-slate-800">관리비가 많이 나올 것 같아요.</p>
+                            <span class="compare-badge compare-badge--guess">주관 추측</span>
+                        </div>
+                        <p class="ko-switch mt-2 text-slate-600">내 느낌과 판단이 더 들어가요. 비슷한 뜻으로 바꿔 말할 수 있지만, 혼자 생각을 말할 때 특히 자연스러워요.</p>
+                        <p class="vi-switch mt-2 text-slate-600">Mang nhiều cảm giác và phán đoán cá nhân hơn. Có thể thay bằng mẫu gần nghĩa, nhưng đặc biệt tự nhiên khi tự nói suy nghĩ của mình.</p>
+                    </div>
+                    <div class="compare-card">
+                        <div class="compare-card__head">
+                            <p class="font-bold text-slate-800">관리비가 많이 나올걸요.</p>
+                            <span class="compare-badge compare-badge--reply">반응형 추측</span>
+                        </div>
+                        <p class="ko-switch mt-2 text-slate-600">상대 질문에 짧게 답하거나, 상대 예상에 조심스럽게 반응할 때 특히 잘 어울려요. 다른 추측 표현과 겹치는 장면도 많아요.</p>
+                        <p class="vi-switch mt-2 text-slate-600">Đặc biệt hợp khi trả lời ngắn cho câu hỏi của người khác hoặc phản ứng nhẹ nhàng với dự đoán của họ. Nhiều tình huống vẫn chồng lấp với các mẫu dự đoán khác.</p>
+                    </div>
+                    <div class="compare-card">
+                        <div class="compare-card__head">
+                            <p class="font-bold text-slate-800">관리비가 많이 나올 텐데요.</p>
+                            <span class="compare-badge compare-badge--follow">뒷말 여지</span>
+                        </div>
+                        <p class="ko-switch mt-2 text-slate-600">걱정, 제안, 반대 의견처럼 뒤에 이어질 말이 느껴지는 표현이에요.</p>
+                        <p class="vi-switch mt-2 text-slate-600">Diễn tả cảm giác phía sau còn có lời tiếp theo như lo lắng, đề nghị hay ý kiến trái chiều.</p>
+                    </div>
+                </div>
+                <div class="mt-3 rounded-xl border border-orange-100 bg-orange-50 px-3 py-2 text-xs safe">
+                    <p class="ko-switch text-orange-800"><strong>기억하기:</strong> <strong>-거예요 / -것 같아요 / -걸요</strong>는 실제 회화에서 겹치는 장면이 많아요. 이 페이지에서는 “틀리다”보다 <strong>이 상황에서 더 자연스러운 표현</strong>을 보는 것이 중요해요. 다만 <strong>-텐데요</strong>는 뒤에 이어질 말의 느낌이 조금 더 뚜렷해요.</p>
+                    <p class="vi-switch text-orange-800"><strong>Ghi nhớ:</strong> <strong>-거예요 / -것 같아요 / -걸요</strong> thường chồng lấp trong hội thoại thật. Ở trang này, điều quan trọng không phải là “sai”, mà là <strong>mẫu nào tự nhiên hơn trong tình huống này</strong>. Riêng <strong>-텐데요</strong> có cảm giác còn lời tiếp theo rõ hơn.</p>
+                </div>
+                <p class="ko-switch mt-3 text-xs text-slate-500 safe">이번 페이지의 포인트: 같은 “추측”이어도 <strong>말하는 상황</strong>과 <strong>뒤에 이어질 분위기</strong>가 다르면 더 자연스러운 표현이 달라져요. 그래서 여러 표현을 섞어 듣고, 그중 무엇이 더 잘 맞는지 익히면 됩니다.</p>
+                <p class="vi-switch mt-3 text-xs text-slate-500 safe">Điểm chính của trang này là: cùng là “dự đoán”, nhưng khi tình huống nói và không khí câu tiếp theo thay đổi thì cách diễn đạt tự nhiên nhất cũng thay đổi. Vì vậy hãy làm quen với việc nghe nhiều mẫu gần nhau rồi chọn mẫu hợp hơn.</p>
+                <div class="vi-text text-xs text-orange-700 mt-2 safe">Điểm quan trọng là cùng là “dự đoán”, nhưng sắc thái tự nhiên thay đổi theo tình huống nói và phần tiếp theo của cuộc hội thoại. Hãy quen với việc các mẫu này có thể xen lẫn nhau.</div>
+            </article>
+
+            <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">대화 속 말맛</h2>
+                <div class="mt-3 grid sm:grid-cols-3 gap-3 text-sm safe">
+                    <div class="dialog-card">
+                        <span class="compare-badge compare-badge--reply">질문에 답하기</span>
+                        <p class="ko-switch mt-2 text-slate-700">“전기 요금은 직접 내야 해요?”</p>
+                        <p class="vi-switch mt-2 text-slate-700">“Tiền điện phải tự đi nộp trực tiếp à?”</p>
+                        <p class="mt-2 font-bold text-orange-700">“온라인으로 내도 될걸요.”</p>
+                    </div>
+                    <div class="dialog-card">
+                        <span class="compare-badge compare-badge--basic">중립 안내</span>
+                        <p class="ko-switch mt-2 text-slate-700">“신청하면 다음 달부터 자동이체가 시작돼요.”</p>
+                        <p class="vi-switch mt-2 text-slate-700">“Nếu đăng ký thì từ tháng sau sẽ bắt đầu chuyển khoản tự động.”</p>
+                        <p class="mt-2 font-bold text-sky-700">“다음 달부터 될 거예요.”</p>
+                    </div>
+                    <div class="dialog-card">
+                        <span class="compare-badge compare-badge--follow">걱정 이어가기</span>
+                        <p class="ko-switch mt-2 text-slate-700">“난방을 계속 틀면 괜찮겠지?”</p>
+                        <p class="vi-switch mt-2 text-slate-700">“Nếu cứ bật sưởi thế này thì chắc ổn nhỉ?”</p>
+                        <p class="mt-2 font-bold text-violet-700">“가스비가 많이 나올 텐데요.”</p>
+                    </div>
+                </div>
+                <div class="vi-text text-xs text-orange-700 mt-3 safe">Hãy học cảm giác hội thoại trước rồi mới học dạng chia. Khi đó việc chọn biểu hiện sẽ dễ hơn.</div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">자주 하는 실수</h2>
+                <ul class="ko-switch mt-3 space-y-3 text-sm text-slate-700 safe">
+                    <li><strong class="text-orange-700">1.</strong> 그냥 미래를 말하면 다 <strong>-걸요</strong>가 되는 것은 아니에요. 안내나 설명이면 <strong>-거예요</strong>가 더 자연스러울 수 있어요.</li>
+                    <li><strong class="text-orange-700">2.</strong> <strong>-거예요 / -것 같아요 / -걸요</strong>는 겹치는 장면이 많아요. 하나만 절대적으로 맞다고 외우기보다, 어떤 표현이 <strong>더 잘 어울리는지</strong> 비교하는 쪽이 좋아요.</li>
+                    <li><strong class="text-orange-700">3.</strong> <strong>-텐데요</strong>는 뒷말이 이어질 느낌이 중요해요. 걱정, 제안, 아쉬움이 없으면 조금 무거워질 수 있어요.</li>
+                </ul>
+                <ul class="vi-switch mt-3 space-y-3 text-sm text-slate-700 safe">
+                    <li><strong class="text-orange-700">1.</strong> Không phải cứ nói về tương lai là đều dùng <strong>-걸요</strong>. Nếu là câu hướng dẫn hay giải thích thì <strong>-거예요</strong> có thể tự nhiên hơn.</li>
+                    <li><strong class="text-orange-700">2.</strong> <strong>-거예요 / -것 같아요 / -걸요</strong> thường chồng lấp nhau. Thay vì học như chỉ có một đáp án tuyệt đối, hãy so sánh mẫu nào <strong>hợp hơn</strong> trong tình huống đó.</li>
+                    <li><strong class="text-orange-700">3.</strong> Với <strong>-텐데요</strong>, cảm giác còn lời tiếp theo là rất quan trọng. Nếu không có lo lắng, đề nghị hay tiếc nuối thì câu có thể nghe hơi nặng.</li>
+                </ul>
+                <div class="vi-text text-xs text-orange-700 mt-3 safe">Điểm dễ nhầm là xem ba mẫu -거예요 / -것 같아요 / -걸요 như tách biệt hoàn toàn. Thực ra chúng thường chồng lấp nhau, còn -텐데요 mới khác hơn vì có cảm giác còn ý tiếp theo.</div>
+            </article>
+        </section>
+
+        <section id="practicePanel" class="hidden">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between text-xs">
+                    <span id="progress" class="font-bold text-orange-600"></span>
+                    <span class="text-slate-500">연습 문제</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+                    <div id="progressBar" class="bg-orange-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+                <div class="mt-3 flex flex-wrap gap-2">
+                    <span class="legend-pill legend-pill--sky">초록: 가장 자연스러운 답</span>
+                    <span class="legend-pill legend-pill--amber">노랑: 가능한 답</span>
+                    <span class="legend-pill legend-pill--violet">보라/빨강: 내가 고른 답과 이번 맥락에서 덜 어울리는 답</span>
+                </div>
+                <div class="mt-3 rounded-xl border border-violet-200 bg-violet-50 px-3 py-2 text-xs safe">
+                    <p class="ko-switch text-violet-800 font-bold">여러 표현이 가능할 수 있어요. 가능한 표현을 모두 고른 뒤 확인하세요. 그중 가장 자연스러운 답은 초록으로 표시됩니다.</p>
+                    <p class="vi-switch text-violet-800 font-bold">Có thể có nhiều cách nói đều dùng được. Hãy chọn tất cả cách nói có thể dùng được rồi bấm xác nhận. Cách tự nhiên nhất sẽ được đánh dấu màu xanh lá.</p>
+                </div>
+                <p id="qGrammar" class="mt-3 text-[11px] font-bold text-orange-700 uppercase tracking-wide"></p>
+                <p id="qText" class="mt-1 text-base font-bold text-slate-800 safe"></p>
+                <p id="qHintKo" class="mt-1 text-xs text-slate-500 safe"></p>
+                <p id="qHintVi" class="vi-text text-xs text-orange-600 mt-0.5 safe"></p>
+                <div id="choices" class="mt-3 space-y-2"></div>
+                <button id="checkBtn" class="mt-3 w-full bg-violet-700 text-white py-3 rounded-xl text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed" type="button" disabled>선택 확인</button>
+                <div id="feedbackBox" class="hidden mt-3 rounded-xl border p-3"></div>
+                <button id="nextBtn" class="hidden mt-3 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">다음 문제</button>
+            </article>
+            <article id="resultPanel" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+        </section>
+
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <a href="grammar1.html" class="prev-link" aria-label="문법 1로 이동"><span aria-hidden="true">←</span><span>이전: 문법 1</span></a>
+            <span class="ghost-link" aria-disabled="true">다음: 문법 3 준비 중</span>
+        </div>
+    </main>
+
+    <script>
+        const page = document.getElementById('page');
+        const viToggle = document.getElementById('viToggle');
+        const tabLearn = document.getElementById('tabLearn');
+        const tabPractice = document.getElementById('tabPractice');
+        const learnPanel = document.getElementById('learnPanel');
+        const practicePanel = document.getElementById('practicePanel');
+        const progressEl = document.getElementById('progress');
+        const progressBar = document.getElementById('progressBar');
+        const qGrammar = document.getElementById('qGrammar');
+        const qText = document.getElementById('qText');
+        const qHintKo = document.getElementById('qHintKo');
+        const qHintVi = document.getElementById('qHintVi');
+        const choices = document.getElementById('choices');
+        const checkBtn = document.getElementById('checkBtn');
+        const feedbackBox = document.getElementById('feedbackBox');
+        const nextBtn = document.getElementById('nextBtn');
+        const resultPanel = document.getElementById('resultPanel');
+
+        let viOn = false;
+        viToggle.addEventListener('click', function () {
+            viOn = !viOn;
+            page.classList.toggle('vi-on', viOn);
+            viToggle.textContent = viOn ? 'Tiếng Việt ON' : 'Tiếng Việt OFF';
+        });
+
+        function showTab(name) {
+            const learn = name === 'learn';
+            learnPanel.classList.toggle('hidden', !learn);
+            practicePanel.classList.toggle('hidden', learn);
+            tabLearn.classList.toggle('active', learn);
+            tabPractice.classList.toggle('active', !learn);
+            tabLearn.classList.toggle('text-slate-600', !learn);
+            tabPractice.classList.toggle('text-slate-600', learn);
+            if (!learn && !state.started) {
+                state.started = true;
+                renderQuestion();
+            }
+        }
+
+        tabLearn.addEventListener('click', function () { showTab('learn'); });
+        tabPractice.addEventListener('click', function () { showTab('practice'); });
+
+        const quiz = [
+            {
+                grammar: '반응형 추측',
+                q: '“관리비는 매달 직접 내야 해요?”에 답할 때, 쓸 수 있는 표현을 모두 골라 보세요.',
+                hintKo: '상대 질문에 짧게 추측으로 답하는 말맛을 보세요. 비슷한 답이 함께 가능할 수도 있어요.',
+                hintVi: 'Hãy chú ý sắc thái trả lời ngắn gọn bằng dự đoán cho câu hỏi của người khác.',
+                options: [
+                    '계좌이체로 내도 될걸요.',
+                    '계좌이체로 내도 될 것 같아요.',
+                    '계좌이체로 내도 될 거예요.',
+                    '계좌이체로 내도 될 텐데요.'
+                ],
+                target: '계좌이체로 내도 될걸요.',
+                alternates: ['계좌이체로 내도 될 것 같아요.', '계좌이체로 내도 될 거예요.'],
+                explainTargetKo: '상대 질문에 바로 반응하면서 “아마 괜찮을 거예요”라고 답하는 자리라서 -걸요가 가장 자연스러워요.',
+                explainTargetVi: 'Vì đây là câu trả lời phản ứng trực tiếp cho câu hỏi của người khác, -걸요 tự nhiên nhất.',
+                explainAlternateKo: '-것 같아요와 -거예요도 충분히 들을 수 있어요. 다만 이번 문맥은 질문에 즉답하는 대화라서 반응형 표현인 -걸요가 가장 또렷하게 살아나요.',
+                explainAlternateVi: '-것 같아요 và -거예요 cũng có thể dùng ở đây, nhưng -걸요 hợp hơn vì đây là phản ứng trực tiếp trong hội thoại.',
+                wrongGuideKo: '-텐데요는 뒤에 걱정이나 추가 말이 이어질 느낌이 더 강해서, 여기서는 조금 멀어져요.',
+                wrongGuideVi: '-텐데요 gợi cảm giác còn có lời tiếp theo nên ở đây hơi lệch khỏi mạch nói hiện tại.'
+            },
+            {
+                grammar: '중립 설명과 비교',
+                q: '관리실 직원이 자동이체 신청을 안내할 때, 쓸 수 있는 표현을 모두 골라 보세요.',
+                hintKo: '대화 반응보다 안내 문장에 가까운 상황입니다. 여러 표현이 가능해도 안내처럼 들리는지가 중요해요.',
+                hintVi: 'Đây gần với câu hướng dẫn hơn là phản ứng hội thoại.',
+                options: [
+                    '다음 달부터 자동이체가 될 거예요.',
+                    '다음 달부터 자동이체가 될걸요.',
+                    '다음 달부터 자동이체가 될 것 같아요.',
+                    '다음 달부터 자동이체가 될 텐데요.'
+                ],
+                target: '다음 달부터 자동이체가 될 거예요.',
+                alternates: ['다음 달부터 자동이체가 될 것 같아요.'],
+                explainTargetKo: '안내나 설명처럼 들려야 하므로 가장 중립적인 -거예요가 자연스러워요.',
+                explainTargetVi: 'Vì đây là lời hướng dẫn/giải thích, -거예요 tự nhiên nhất.',
+                explainAlternateKo: '-것 같아요도 아주 불가능한 것은 아니지만, 안내 문맥에서는 자신 있게 설명하는 -거예요가 더 잘 맞아요.',
+                explainAlternateVi: '-것 같아요 không sai hoàn toàn, nhưng trong bối cảnh hướng dẫn thì -거예요 hợp hơn.',
+                wrongGuideKo: '-걸요는 반응형 추측 느낌이 강하고, -텐데요는 뒤에 이어질 말이 있을 것 같은 여지를 남겨요.',
+                wrongGuideVi: '-걸요 nghe như dự đoán phản ứng, còn -텐데요 để lại cảm giác còn lời tiếp theo.'
+            },
+            {
+                grammar: '주관적 추측',
+                q: '혼자 전기 사용량을 보면서 아직 확실하지 않게 말할 때, 쓸 수 있는 표현을 모두 골라 보세요.',
+                hintKo: '상대에게 답하기보다, 내 느낌을 조심스럽게 말하는 상황입니다. 비슷한 추측 표현이 함께 가능할 수도 있어요.',
+                hintVi: 'Đây là lúc nói thận trọng về cảm giác của mình, không phải trả lời trực tiếp ai.',
+                options: [
+                    '이번 달 전기 요금이 많이 나올 것 같아요.',
+                    '이번 달 전기 요금이 많이 나올걸요.',
+                    '이번 달 전기 요금이 많이 나올 거예요.',
+                    '이번 달 전기 요금이 많이 나올 텐데요.'
+                ],
+                target: '이번 달 전기 요금이 많이 나올 것 같아요.',
+                alternates: ['이번 달 전기 요금이 많이 나올걸요.', '이번 달 전기 요금이 많이 나올 거예요.'],
+                explainTargetKo: '혼잣말처럼 내 판단을 말하는 장면이라서 가장 주관적인 -것 같아요가 자연스러워요.',
+                explainTargetVi: 'Vì đây giống như tự nói suy nghĩ của mình, -것 같아요 tự nhiên nhất.',
+                explainAlternateKo: '-걸요와 -거예요도 쓸 수는 있지만, 이 문장은 질문에 반응하는 대화가 아니라 자기 판단을 정리하는 장면이라서 -것 같아요가 더 잘 맞아요.',
+                explainAlternateVi: '-걸요 và -거예요 cũng dùng được, nhưng ở đây không phải phản ứng hội thoại mà là tự nói suy nghĩ, nên -것 같아요 hợp hơn.',
+                wrongGuideKo: '-텐데요는 이어질 뒷말이 없으면 조금 뜬 느낌이 납니다.',
+                wrongGuideVi: '-텐데요 hơi lơ lửng nếu không có lời tiếp sau.'
+            },
+            {
+                grammar: '뒷말 여지',
+                q: '“난방을 계속 이렇게 켜 두면 괜찮겠지?”라는 말에 답할 때, 특히 뒷말 여지가 살아 있는 표현을 모두 골라 보세요.',
+                hintKo: '“그래서 조금 걱정돼요 / 줄이는 게 좋겠어요” 같은 뒷말이 이어질 수 있어야 합니다.',
+                hintVi: 'Cần có sắc thái để nối tiếp bằng ý như “nên hơi lo / tốt hơn là giảm bớt”.',
+                options: [
+                    '가스비가 많이 나올 텐데요.',
+                    '가스비가 많이 나올걸요.',
+                    '가스비가 많이 나올 것 같아요.',
+                    '가스비가 많이 나올 거예요.'
+                ],
+                target: '가스비가 많이 나올 텐데요.',
+                alternates: ['가스비가 많이 나올걸요.', '가스비가 많이 나올 것 같아요.'],
+                explainTargetKo: '걱정이나 조심스러운 제안이 뒤에 이어질 느낌을 살리려면 -텐데요가 가장 자연스러워요.',
+                explainTargetVi: 'Muốn giữ sắc thái lo lắng và còn lời tiếp theo thì -텐데요 là tự nhiên nhất.',
+                explainAlternateKo: '-걸요와 -것 같아요도 추측 자체는 가능하지만, 뒷말까지 열어 두는 힘은 -텐데요가 가장 커요.',
+                explainAlternateVi: '-걸요 và -것 같아요 cũng có thể dùng để đoán, nhưng -텐데요 mở ra cảm giác còn ý tiếp theo mạnh nhất.',
+                wrongGuideKo: '-거예요는 설명형이라 이어지는 걱정이나 제안의 느낌이 약해집니다.',
+                wrongGuideVi: '-거예요 mang sắc thái giải thích nên yếu hơn về cảm giác lo lắng/đề nghị tiếp nối.'
+            },
+            {
+                grammar: '상대 말에 조심스럽게 반응하기',
+                q: '친구가 “그 방은 밤에도 아주 조용하죠?”라고 말했을 때, 조심스럽게 다른 예상을 답하는 표현을 모두 골라 보세요.',
+                hintKo: '상대의 생각과 조금 다르게 보이지만, 부드럽게 답하는 상황입니다. 비슷한 표현이 함께 가능할 수 있어요.',
+                hintVi: 'Bạn trả lời nhẹ nhàng khác với suy nghĩ của người kia.',
+                options: [
+                    '밤에는 조금 시끄러울걸요.',
+                    '밤에는 조금 시끄러울 것 같아요.',
+                    '밤에는 조금 시끄러울 거예요.',
+                    '밤에는 조금 시끄러울 텐데요.'
+                ],
+                target: '밤에는 조금 시끄러울걸요.',
+                alternates: ['밤에는 조금 시끄러울 것 같아요.', '밤에는 조금 시끄러울 거예요.'],
+                explainTargetKo: '상대 말에 바로 반응하면서 조심스럽게 다른 예상을 내놓는 자리라서 -걸요가 가장 자연스러워요.',
+                explainTargetVi: 'Vì đây là phản ứng trực tiếp, nhẹ nhàng nêu dự đoán khác, -걸요 tự nhiên nhất.',
+                explainAlternateKo: '-것 같아요와 -거예요도 실제로 들을 수 있지만, 대화 반응의 느낌은 -걸요가 더 또렷합니다.',
+                explainAlternateVi: '-것 같아요 và -거예요 cũng có thể nghe được trong thực tế, nhưng cảm giác phản ứng hội thoại rõ ràng hơn ở -걸요.',
+                wrongGuideKo: '-텐데요는 뒤에 설명이나 걱정이 더 나올 것 같은 느낌이 강합니다.',
+                wrongGuideVi: '-텐데요 tạo cảm giác còn lời giải thích hay lo lắng phía sau.'
+            },
+            {
+                grammar: '말맛 구별',
+                q: '같은 의미라면, “아마 그럴 거예요”와 비슷하게 쓸 수 있는 표현을 모두 골라 보세요.',
+                hintKo: '이번 문법의 핵심 말맛을 찾으세요. 비슷한 표현을 함께 고른 뒤, 가장 회화적인 답도 살펴보세요.',
+                hintVi: 'Hãy tìm đúng sắc thái hội thoại trọng tâm của bài này.',
+                options: [
+                    '그럴걸요.',
+                    '그럴 것 같아요.',
+                    '그럴 거예요.',
+                    '그럴 텐데요.'
+                ],
+                target: '그럴걸요.',
+                alternates: ['그럴 것 같아요.', '그럴 거예요.'],
+                explainTargetKo: '이번 문법의 중심은 짧고 반응적인 추측이에요. 그 말맛을 가장 직접적으로 보여 주는 형태가 -걸요입니다.',
+                explainTargetVi: 'Trọng tâm của bài này là dự đoán ngắn, mang tính phản ứng. Dạng thể hiện rõ nhất là -걸요.',
+                explainAlternateKo: '-것 같아요와 -거예요도 비슷한 뜻으로 자주 섞여 쓰이지만, 이번 페이지에서 익히는 회화 반응형 추측은 -걸요가 더 핵심입니다.',
+                explainAlternateVi: '-것 같아요 và -거예요 cũng thường được dùng với nghĩa gần nhau, nhưng dạng phản ứng hội thoại trọng tâm của bài này là -걸요.',
+                wrongGuideKo: '-텐데요는 뒷말 여지가 강조되는 표현입니다.',
+                wrongGuideVi: '-텐데요 nhấn mạnh cảm giác còn ý tiếp theo.'
+            }
+        ];
+
+        const state = {
+            idx: 0,
+            answered: false,
+            started: false,
+            perfectCount: 0,
+            partialCount: 0,
+            reviewCount: 0,
+            selectedAnswers: [],
+            logs: []
+        };
+
+        function esc(text) {
+            return String(text == null ? '' : text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function renderChoiceContent(answer, badgeText, badgeClass) {
+            return '<span class="choice-row"><span class="choice-text safe">' + esc(answer) + '</span>'
+                + (badgeText ? '<span class="choice-badge ' + badgeClass + '">' + esc(badgeText) + '</span>' : '')
+                + '</span>';
+        }
+
+        function setChoiceState(button, kind) {
+            const answer = button.dataset.answer;
+            if (kind === 'pending') {
+                button.className = 'choice-btn choice-pending';
+                button.innerHTML = renderChoiceContent(answer, '선택', '');
+                return;
+            }
+            if (kind === 'target') {
+                button.className = 'choice-btn choice-target';
+                button.innerHTML = renderChoiceContent(answer, '목표', '');
+                return;
+            }
+            if (kind === 'alternate') {
+                button.className = 'choice-btn choice-alternate';
+                button.innerHTML = renderChoiceContent(answer, '가능', '');
+                return;
+            }
+            if (kind === 'selectedWrong') {
+                button.className = 'choice-btn choice-selected-wrong';
+                button.innerHTML = renderChoiceContent(answer, '주의', '');
+                return;
+            }
+            if (kind === 'neutral') {
+                button.className = 'choice-btn choice-neutral';
+                button.innerHTML = renderChoiceContent(answer, '', '');
+                return;
+            }
+            button.className = 'choice-btn';
+            button.innerHTML = renderChoiceContent(answer, '', '');
+        }
+
+        function answerStatus(question, answer) {
+            if (answer === question.target) {
+                return 'target';
+            }
+            if ((question.alternates || []).indexOf(answer) !== -1) {
+                return 'alternate';
+            }
+            return 'wrong';
+        }
+
+        function getValidAnswers(question) {
+            return [question.target].concat(question.alternates || []);
+        }
+
+        function formatPills(items, pillClass, emptyText) {
+            let html = '<div class="mt-2">';
+            if (!items.length) {
+                html += '<span class="answer-pill ' + pillClass + '">' + esc(emptyText) + '</span>';
+            } else {
+                items.forEach(function (item) {
+                    html += '<span class="answer-pill ' + pillClass + '">' + esc(item) + '</span>';
+                });
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function formatAnswerPills(question) {
+            let html = '<div class="mt-2">';
+            html += '<span class="answer-pill answer-pill--target">가장 자연스러운 답: ' + esc(question.target) + '</span>';
+            (question.alternates || []).forEach(function (answer) {
+                html += '<span class="answer-pill answer-pill--alternate">함께 가능한 답: ' + esc(answer) + '</span>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function updateCheckButton() {
+            checkBtn.disabled = state.answered || state.selectedAnswers.length === 0;
+        }
+
+        function classifySubmission(question, selectedAnswers) {
+            const validAnswers = getValidAnswers(question);
+            const selectedValid = selectedAnswers.filter(function (answer) {
+                return validAnswers.indexOf(answer) !== -1;
+            });
+            const selectedWrong = selectedAnswers.filter(function (answer) {
+                return validAnswers.indexOf(answer) === -1;
+            });
+            const missedValid = validAnswers.filter(function (answer) {
+                return selectedAnswers.indexOf(answer) === -1;
+            });
+
+            let status = 'review';
+            if (!selectedWrong.length && !missedValid.length) {
+                status = 'perfect';
+            } else if (selectedValid.length) {
+                status = 'partial';
+            }
+
+            return {
+                status: status,
+                validAnswers: validAnswers,
+                selectedValid: selectedValid,
+                selectedWrong: selectedWrong,
+                missedValid: missedValid,
+                selectedAnswers: selectedAnswers.slice()
+            };
+        }
+
+        function feedbackHtml(result, question) {
+            const header = result.status === 'perfect'
+                ? {
+                    title: '가능한 답을 모두 골랐어요.',
+                    body: '가능한 표현을 빠짐없이 골랐고, 그중 가장 자연스러운 답도 함께 확인했습니다.'
+                }
+                : result.status === 'partial'
+                    ? {
+                        title: '가능한 답은 일부 맞았어요.',
+                        body: '맞게 고른 답이 있지만, 놓친 가능한 답이나 이번 맥락에서는 덜 어울리는 답도 함께 있습니다.'
+                    }
+                    : {
+                        title: '이번에는 다시 볼게요.',
+                        body: '이번 맥락에서 더 잘 맞는 표현을 아직 찾지 못했어요. 색과 설명을 보면서 다시 정리해 보세요.'
+                    };
+
+            let html = '<p class="text-sm font-bold '
+                + (result.status === 'perfect'
+                    ? 'text-emerald-700'
+                    : result.status === 'partial'
+                        ? 'text-amber-700'
+                        : 'text-rose-700')
+                + '">' + esc(header.title) + '</p>';
+            html += '<p class="text-xs text-slate-700 mt-1 safe">' + esc(header.body) + '</p>';
+            html += '<p class="text-xs text-slate-700 mt-3"><b>내가 고른 답</b></p>';
+            html += formatPills(result.selectedAnswers, 'answer-pill--selected', '선택 없음');
+            html += '<p class="text-xs text-slate-700 mt-3"><b>이 문맥에서 가능한 답</b></p>';
+            html += formatAnswerPills(question);
+            html += '<p class="text-xs text-slate-700 mt-3 safe"><b>가장 자연스러운 답이 왜 이것일까:</b> ' + esc(question.explainTargetKo) + '</p>';
+
+            if ((question.alternates || []).length) {
+                html += '<p class="text-xs text-slate-700 mt-1 safe"><b>가능한 다른 답은 왜 노랑일까:</b> ' + esc(question.explainAlternateKo) + '</p>';
+            }
+
+            if (result.missedValid.length) {
+                html += '<p class="text-xs text-amber-800 mt-3"><b>놓친 가능한 답</b></p>';
+                html += formatPills(result.missedValid, 'answer-pill--alternate', '없음');
+                html += '<p class="text-xs text-slate-700 mt-1 safe"><b>정리:</b> 가능한 표현을 모두 고르는 문제이므로, 초록 답뿐 아니라 노랑 답도 함께 선택해야 합니다.</p>';
+                html += '<p class="text-xs text-orange-700 mt-1 safe vi-text"><b>VI:</b> Bạn chưa chọn hết các cách nói có thể dùng được. Với dạng bài này, cần chọn cả đáp án xanh lá lẫn đáp án vàng nếu đều dùng được.</p>';
+            }
+
+            if (result.selectedWrong.length) {
+                html += '<p class="text-xs text-rose-800 mt-3"><b>이번 맥락에서는 덜 어울리는 답</b></p>';
+                html += formatPills(result.selectedWrong, 'answer-pill--wrong', '없음');
+                html += '<p class="text-xs text-slate-700 mt-1 safe"><b>왜 덜 어울릴까:</b> ' + esc(question.wrongGuideKo) + '</p>';
+                html += '<p class="text-xs text-orange-700 mt-1 safe vi-text"><b>VI:</b> ' + esc(question.wrongGuideVi) + '</p>';
+            }
+
+            html += '<p class="text-xs text-orange-700 mt-2 safe vi-text"><b>VI:</b> ' + esc(question.explainTargetVi) + '</p>';
+            if ((question.alternates || []).length) {
+                html += '<p class="text-xs text-orange-700 mt-1 safe vi-text"><b>VI:</b> ' + esc(question.explainAlternateVi) + '</p>';
+            }
+
+            return html;
+        }
+
+        function lockChoices(question, result) {
+            Array.from(choices.querySelectorAll('button')).forEach(function (button) {
+                button.disabled = true;
+                const answer = button.dataset.answer;
+                const status = answerStatus(question, answer);
+                if (status === 'target') {
+                    setChoiceState(button, 'target');
+                } else if (status === 'alternate') {
+                    setChoiceState(button, 'alternate');
+                } else if (result.selectedWrong.indexOf(answer) !== -1) {
+                    setChoiceState(button, 'selectedWrong');
+                } else {
+                    setChoiceState(button, 'neutral');
+                }
+            });
+        }
+
+        function toggleChoice(button) {
+            if (state.answered) {
+                return;
+            }
+
+            const answer = button.dataset.answer;
+            const selectedIdx = state.selectedAnswers.indexOf(answer);
+            if (selectedIdx === -1) {
+                state.selectedAnswers.push(answer);
+                setChoiceState(button, 'pending');
+            } else {
+                state.selectedAnswers.splice(selectedIdx, 1);
+                setChoiceState(button, 'default');
+            }
+            updateCheckButton();
+        }
+
+        function submitQuestion() {
+            if (state.answered || !state.selectedAnswers.length) {
+                return;
+            }
+
+            const question = quiz[state.idx];
+            const result = classifySubmission(question, state.selectedAnswers);
+            state.answered = true;
+
+            if (result.status === 'perfect') {
+                state.perfectCount += 1;
+            } else if (result.status === 'partial') {
+                state.partialCount += 1;
+            } else {
+                state.reviewCount += 1;
+            }
+
+            state.logs.push({
+                status: result.status,
+                selectedAnswers: result.selectedAnswers.slice(),
+                target: question.target,
+                alternates: question.alternates || [],
+                missedValid: result.missedValid.slice(),
+                selectedWrong: result.selectedWrong.slice(),
+                q: question.q,
+                explainTargetKo: question.explainTargetKo,
+                explainAlternateKo: question.explainAlternateKo,
+                wrongGuideKo: question.wrongGuideKo
+            });
+
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = 'mt-3 rounded-xl border p-3 '
+                + (result.status === 'perfect'
+                    ? 'bg-emerald-50 border-emerald-200'
+                    : result.status === 'partial'
+                        ? 'bg-amber-50 border-amber-200'
+                        : 'bg-rose-50 border-rose-200');
+            feedbackBox.innerHTML = feedbackHtml(result, question);
+            nextBtn.classList.remove('hidden');
+            lockChoices(question, result);
+            updateCheckButton();
+        }
+
+        function renderQuestion() {
+            if (state.idx >= quiz.length) {
+                renderResult();
+                return;
+            }
+
+            const question = quiz[state.idx];
+            state.answered = false;
+            state.selectedAnswers = [];
+
+            progressEl.textContent = (state.idx + 1) + ' / ' + quiz.length;
+            progressBar.style.width = (state.idx / quiz.length * 100) + '%';
+            qGrammar.textContent = question.grammar;
+            qText.textContent = question.q;
+            qHintKo.textContent = '안내: 여러 표현이 가능할 수 있어요. 가능한 표현을 모두 고르세요. 힌트: ' + question.hintKo;
+            qHintVi.textContent = 'Hướng dẫn: Có thể có nhiều cách nói đều dùng được. Hãy chọn tất cả cách nói có thể dùng được. Gợi ý: ' + question.hintVi;
+
+            choices.innerHTML = '';
+            feedbackBox.classList.add('hidden');
+            feedbackBox.innerHTML = '';
+            nextBtn.classList.add('hidden');
+
+            question.options.forEach(function (option) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'choice-btn';
+                button.dataset.answer = option;
+                button.innerHTML = renderChoiceContent(option, '', '');
+                button.addEventListener('click', function () {
+                    toggleChoice(button);
+                });
+                choices.appendChild(button);
+            });
+
+            resultPanel.classList.add('hidden');
+            updateCheckButton();
+        }
+
+        function buildRowExplain(log) {
+            if (log.status === 'perfect') {
+                return '가능한 답을 모두 골랐습니다. ' + log.explainTargetKo;
+            }
+            if (log.status === 'partial') {
+                let text = '맞게 고른 답도 있지만, ';
+                if (log.missedValid.length) {
+                    text += '놓친 가능한 답이 있습니다. ';
+                }
+                if (log.selectedWrong.length) {
+                    text += log.wrongGuideKo + ' ';
+                }
+                return text + log.explainTargetKo;
+            }
+            return '이번 맥락에 더 잘 맞는 답을 아직 찾지 못했습니다. ' + log.wrongGuideKo + ' ' + log.explainTargetKo;
+        }
+
+        function renderResult() {
+            const weighted = Math.round((state.perfectCount + state.partialCount * 0.6) / quiz.length * 100);
+            const rows = state.logs.map(function (log, index) {
+                const meta = log.status === 'perfect'
+                    ? { cls: 'border-emerald-200 bg-emerald-50', label: '완전 정답', labelCls: 'text-emerald-700' }
+                    : log.status === 'partial'
+                        ? { cls: 'border-amber-200 bg-amber-50', label: '부분 정답', labelCls: 'text-amber-700' }
+                        : { cls: 'border-rose-200 bg-rose-50', label: '다시 보기', labelCls: 'text-rose-700' };
+                return '<article class="rounded-xl border p-3 ' + meta.cls + '">'
+                    + '<span class="text-xs font-bold ' + meta.labelCls + '">' + meta.label + ' ' + (index + 1) + '</span>'
+                    + '<p class="text-sm text-slate-800 mt-1 safe">' + esc(log.q) + '</p>'
+                    + '<p class="text-xs text-slate-600 mt-2"><b>내가 고른 답:</b></p>'
+                    + formatPills(log.selectedAnswers, 'answer-pill--selected', '선택 없음')
+                    + '<p class="text-xs text-slate-700 mt-2"><b>가장 자연스러운 답:</b> ' + esc(log.target) + '</p>'
+                    + (log.alternates.length
+                        ? '<p class="text-xs text-slate-700 mt-1"><b>함께 가능한 답:</b> ' + esc(log.alternates.join(' / ')) + '</p>'
+                        : '')
+                    + (log.missedValid.length
+                        ? '<p class="text-xs text-amber-800 mt-1"><b>놓친 답:</b> ' + esc(log.missedValid.join(' / ')) + '</p>'
+                        : '')
+                    + (log.selectedWrong.length
+                        ? '<p class="text-xs text-rose-800 mt-1"><b>덜 어울리는 답:</b> ' + esc(log.selectedWrong.join(' / ')) + '</p>'
+                        : '')
+                    + '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(buildRowExplain(log)) + '</p>'
+                    + '</article>';
+            }).join('');
+
+            resultPanel.innerHTML =
+                '<div class="rounded-xl border border-orange-200 bg-orange-50 p-4">'
+                + '<p class="text-xs text-orange-700 font-bold text-center">연습 완료</p>'
+                + '<h3 class="text-2xl font-black text-slate-800 mt-1 text-center">가능한 답 고르기 ' + weighted + '%</h3>'
+                + '<p class="text-sm text-slate-600 mt-1 text-center">비슷한 표현을 함께 보면서, 가능한 답과 그중 더 자연스러운 답을 구별하도록 돕습니다.</p>'
+                + '<div class="summary-grid">'
+                + '<div class="summary-card border-emerald-200 bg-emerald-50"><p class="text-xs font-bold text-emerald-700">완전 정답</p><p class="text-2xl font-black text-emerald-800 mt-1">' + state.perfectCount + '</p></div>'
+                + '<div class="summary-card border-amber-200 bg-amber-50"><p class="text-xs font-bold text-amber-700">부분 정답</p><p class="text-2xl font-black text-amber-800 mt-1">' + state.partialCount + '</p></div>'
+                + '<div class="summary-card border-rose-200 bg-rose-50"><p class="text-xs font-bold text-rose-700">다시 보기</p><p class="text-2xl font-black text-rose-800 mt-1">' + state.reviewCount + '</p></div>'
+                + '</div>'
+                + '<div class="text-center"><button id="restartBtn" class="mt-4 px-5 py-2 rounded-xl bg-slate-800 text-white text-sm font-bold" type="button">다시 풀기</button></div>'
+                + '</div>'
+                + '<div class="mt-3 space-y-2">' + rows + '</div>';
+
+            progressBar.style.width = '100%';
+            resultPanel.classList.remove('hidden');
+            document.getElementById('restartBtn').addEventListener('click', function () {
+                state.idx = 0;
+                state.perfectCount = 0;
+                state.partialCount = 0;
+                state.reviewCount = 0;
+                state.selectedAnswers = [];
+                state.logs = [];
+                renderQuestion();
+            });
+        }
+
+        checkBtn.addEventListener('click', function () {
+            submitQuestion();
+        });
+
+        nextBtn.addEventListener('click', function () {
+            state.idx += 1;
+            renderQuestion();
+        });
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
