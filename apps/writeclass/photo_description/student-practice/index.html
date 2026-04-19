@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사진 묘사 실습</title>
+<style>
+/* ── 리셋 ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', 'Nanum Gothic', sans-serif;
+  background: #EEF4FB;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: #1E2B3C;
+}
+
+/* ── 헤더 ──────────────────────────────────── */
+header {
+  background: #1A3D6E;
+  height: 56px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.h-title {
+  font-size: 17px;
+  font-weight: bold;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+.h-div {
+  width: 1px;
+  height: 22px;
+  background: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+/* 탭 */
+.tabs { display: flex; gap: 6px; }
+
+.tab-btn {
+  padding: 4px 15px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  background: transparent;
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.tab-btn:hover  { background: rgba(255,255,255,0.12); color: #fff; }
+.tab-btn.active { background: #E07B1A; border-color: #E07B1A; color: #fff; }
+
+.spacer { flex: 1; }
+
+/* 범례 */
+.legend { display: flex; gap: 14px; align-items: center; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(255,255,255,0.7); white-space: nowrap; }
+.leg-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── 단계 전환 컨트롤 ──────────────────────── */
+.stage-ctrl {
+  display: flex;
+  background: rgba(0,0,0,0.25);
+  border-radius: 18px;
+  padding: 3px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.stg-btn {
+  padding: 3px 14px;
+  border-radius: 14px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  transition: all 0.2s;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+.stg-btn:hover { color: rgba(255,255,255,0.85); }
+.stg-btn.active {
+  background: #fff;
+  color: #1A3D6E;
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+
+/* 토글 */
+.toggle-btn {
+  padding: 4px 15px;
+  border-radius: 14px;
+  border: 1.5px solid #E07B1A;
+  background: #E07B1A;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+.toggle-btn.off {
+  background: transparent;
+  border-color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.5);
+}
+
+/* ── 메인 영역 ─────────────────────────────── */
+.main {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  padding: 14px 16px;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* SVG 가이드선 오버레이 */
+#guide-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* ── 표현 패널 ─────────────────────────────── */
+.panel {
+  flex: 0 0 215px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+  z-index: 20;
+  min-width: 0;
+}
+
+.panel-label {
+  font-size: 10px;
+  font-weight: bold;
+  color: #7AAAD8;
+  letter-spacing: 1.2px;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed #B8D0E8;
+  margin-bottom: 2px;
+}
+
+/* ── 표현 카드 ─────────────────────────────── */
+.expr-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 12px;
+  border-left: 4px solid #B0BEC5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  cursor: pointer;
+  transition: transform 0.14s, box-shadow 0.14s, background 0.14s;
+  position: relative;
+  user-select: none;
+}
+.expr-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.13); z-index: 1; }
+.panel-left  .expr-card:hover { transform: translateX(3px); }
+.panel-right .expr-card:hover { transform: translateX(-3px); }
+
+/* 카드 활성화 */
+.panel-left  .expr-card.card-active { transform: translateX(5px) !important; background: #EFF7FF; }
+.panel-right .expr-card.card-active { transform: translateX(-5px) !important; background: #EFF7FF; }
+.expr-card.card-active { box-shadow: 0 4px 18px rgba(0,0,0,0.16) !important; }
+
+.panel-right .expr-card { border-left: none; border-right: 4px solid #B0BEC5; }
+
+/* 유형별 색상 */
+.t-scene  { border-color: #1A3D6E !important; }
+.t-pos    { border-color: #E07B1A !important; }
+.t-person { border-color: #0D9488 !important; }
+
+/* 유형 태그 */
+.e-tag {
+  font-size: 10px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  opacity: 0.7;
+}
+.t-scene  .e-tag { color: #1A3D6E; }
+.t-pos    .e-tag { color: #C06810; }
+.t-person .e-tag { color: #0D9488; }
+
+/* ── 1단계: 어휘·문법 뷰 ──────────────────── */
+.s1-view { display: block; }
+.s2-view { display: none;  }
+
+/* body에 .stage2 클래스가 붙으면 전환 */
+body.stage2 .s1-view { display: none;  }
+body.stage2 .s2-view { display: block; }
+
+/* 어휘 칩 */
+.keys-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+.key-chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.t-scene  .key-chip { background: rgba(26,61,110,0.09);  color: #1A3D6E; }
+.t-pos    .key-chip { background: rgba(224,123,26,0.11); color: #BF6010; }
+.t-person .key-chip { background: rgba(13,148,136,0.11); color: #0A7A71; }
+
+/* 문법 패턴 */
+.gram-hint {
+  font-size: 11px;
+  color: #8A9DB5;
+  font-style: italic;
+  line-height: 1.45;
+  letter-spacing: 0.1px;
+}
+
+/* ── 2단계: 예문 뷰 ───────────────────────── */
+.e-text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #1E2B3C;
+  word-break: keep-all;
+}
+
+/* 카드 힌트 점 */
+.panel-left .expr-card::after {
+  content: '';
+  position: absolute;
+  right: -7px; top: 50%;
+  transform: translateY(-50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #B0BEC5;
+}
+.panel-right .expr-card::before {
+  content: '';
+  position: absolute;
+  left: -7px; top: 50%;
+  transform: translateY(-50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #B0BEC5;
+}
+.panel-left  .t-scene::after,  .panel-right .t-scene::before  { background: #1A3D6E; }
+.panel-left  .t-pos::after,    .panel-right .t-pos::before    { background: #E07B1A; }
+.panel-left  .t-person::after, .panel-right .t-person::before { background: #0D9488; }
+
+/* ── 사진 영역 ─────────────────────────────── */
+.photo-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+  min-width: 0;
+}
+.photo-wrap { position: relative; display: inline-flex; line-height: 0; }
+.photo-wrap img {
+  display: block;
+  max-height: calc(100vh - 100px);
+  max-width: 100%;
+  width: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.22);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ── 슬라이드 전환 ─────────────────────────── */
+.slide { display: none; }
+.slide.active { display: flex; width: 100%; align-items: center; gap: 12px; }
+
+/* ── 좌표 HUD ──────────────────────────────── */
+#coord-hud {
+  position: fixed;
+  bottom: 18px; right: 18px;
+  background: rgba(15, 25, 40, 0.85);
+  color: #7EE8A2;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  display: none;
+  pointer-events: none;
+  z-index: 9999;
+  letter-spacing: 0.5px;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ 헤더 ════════════════════════════════════ -->
+<header>
+  <span class="h-title">📸 사진 묘사 실습</span>
+  <div class="h-div"></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="spacer"></div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#1A3D6E"></div>전체 장면</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#E07B1A"></div>위치 표현</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#0D9488"></div>사람 묘사</div>
+  </div>
+  <div class="h-div"></div>
+
+  <!-- 단계 전환 -->
+  <div class="stage-ctrl">
+    <button class="stg-btn active" id="stg1-btn" onclick="setStage(1)">1단계 어휘</button>
+    <button class="stg-btn"        id="stg2-btn" onclick="setStage(2)">2단계 예문</button>
+  </div>
+
+  <div class="h-div"></div>
+  <button class="toggle-btn" id="toggle-btn" onclick="toggleLines()">가이드선 ✓</button>
+</header>
+
+<!-- ══ 메인 ════════════════════════════════════ -->
+<div class="main" id="main">
+  <svg id="guide-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+
+<div id="coord-hud">px: 0.0 · py: 0.0</div>
+
+<script>
+/* ════════════════════════════════════════════
+   데이터  — keys: 어휘 힌트 / gram: 문법 패턴
+════════════════════════════════════════════ */
+const S   = { scene:'t-scene', pos:'t-pos', person:'t-person' };
+const TAG = { 't-scene':'전체 장면', 't-pos':'위치 표현', 't-person':'사람 묘사' };
+const CLR = { 't-scene':'#1A3D6E', 't-pos':'#E07B1A', 't-person':'#0D9488' };
+
+const SLIDES = [
+  /* ── 공원 ────────────────────────────────── */
+  {
+    title: '🌳 공원',
+    img:   'park-bench-scene.png',
+    left: [
+      { text:'이 사진은 공원을 찍은 것입니다.',
+        keys:['공원','사진'],              gram:'이 사진은 N을 찍은 것입니다',
+        type:S.scene,  px:50,  py:48 },
+      { text:'왼쪽에 여자가 앉아 있습니다.',
+        keys:['왼쪽','여자','앉다'],        gram:'N에 N이/가 V-아/어 있다',
+        type:S.pos,    px:27,  py:65 },
+      { text:'빨간 가디건을 입고 있습니다.',
+        keys:['빨간','가디건','입다'],       gram:'A+N을 V-고 있다',
+        type:S.person, px:26,  py:45 },
+      { text:'벤치 왼쪽에 화분이 있습니다.',
+        keys:['벤치','왼쪽','화분'],        gram:'N N에 N이/가 있다',
+        type:S.pos,    px:14,  py:82 },
+    ],
+    right: [
+      { text:'오른쪽에 남자가 서 있습니다.',
+        keys:['오른쪽','남자','서다'],       gram:'N에 N이/가 V-아/어 있다',
+        type:S.pos,    px:76,  py:55 },
+      { text:'파란 점퍼를 입고 있습니다.',
+        keys:['파란','점퍼','입다'],         gram:'A+N을 V-고 있다',
+        type:S.person, px:75,  py:38 },
+      { text:'나무 옆에 서 있습니다.',
+        keys:['나무','옆','서다'],           gram:'N 옆에 V-아/어 있다',
+        type:S.pos,    px:83,  py:32 },
+      { text:'배경에 도시가 보입니다.',
+        keys:['배경','도시','보이다'],       gram:'N에 N이/가 보이다',
+        type:S.scene,  px:62,  py:18 },
+    ],
+  },
+  /* ── 카페 ────────────────────────────────── */
+  {
+    title: '☕ 카페',
+    img:   'cafe-conversation-scene.png',
+    left: [
+      { text:'이 사진은 카페를 찍은 것입니다.',
+        keys:['카페','사진'],               gram:'이 사진은 N을 찍은 것입니다',
+        type:S.scene,  px:50,  py:35 },
+      { text:'왼쪽에 여자가 앉아 있습니다.',
+        keys:['왼쪽','여자','앉다'],         gram:'N에 N이/가 V-아/어 있다',
+        type:S.pos,    px:22,  py:55 },
+      { text:'노란 원피스를 입고 있습니다.',
+        keys:['노란','원피스','입다'],        gram:'A+N을 V-고 있다',
+        type:S.person, px:21,  py:70 },
+      { text:'밝게 웃고 있습니다.',
+        keys:['밝다','웃다'],               gram:'A게 V-고 있다',
+        type:S.person, px:20,  py:28 },
+    ],
+    right: [
+      { text:'오른쪽에 남자가 앉아 있습니다.',
+        keys:['오른쪽','남자','앉다'],        gram:'N에 N이/가 V-아/어 있다',
+        type:S.pos,    px:69,  py:45 },
+      { text:'흰 셔츠를 입고 있습니다.',
+        keys:['흰','셔츠','입다'],            gram:'A+N을 V-고 있다',
+        type:S.person, px:68,  py:32 },
+      { text:'테이블 위에 커피잔이 있습니다.',
+        keys:['테이블','위','커피잔'],         gram:'N 위에 N이/가 있다',
+        type:S.pos,    px:34,  py:75 },
+      { text:'테이블 위에 꽃병이 있습니다.',
+        keys:['테이블','위','꽃병'],           gram:'N 위에 N이/가 있다',
+        type:S.pos,    px:47,  py:65 },
+    ],
+  },
+  /* ── 거실 ────────────────────────────────── */
+  {
+    title: '🛋 거실',
+    img:   'living-room-cat-scene.png',
+    left: [
+      { text:'이 사진은 거실을 찍은 것입니다.',
+        keys:['거실','사진'],                gram:'이 사진은 N을 찍은 것입니다',
+        type:S.scene,  px:50,  py:45 },
+      { text:'왼쪽에 큰 식물이 있습니다.',
+        keys:['왼쪽','크다','식물'],          gram:'N에 A+N이/가 있다',
+        type:S.pos,    px:10,  py:52 },
+      { text:'소파 위에 주황색 쿠션이 있습니다.',
+        keys:['소파','위','쿠션','주황색'],    gram:'N 위에 N이/가 있다',
+        type:S.pos,    px:32,  py:55 },
+      { text:'창문 옆에 화분이 있습니다.',
+        keys:['창문','옆','화분'],             gram:'N 옆에 N이/가 있다',
+        type:S.pos,    px:12,  py:68 },
+    ],
+    right: [
+      { text:'가운데에 소파가 있습니다.',
+        keys:['가운데','소파'],               gram:'N에 N이/가 있다',
+        type:S.pos,    px:50,  py:68 },
+      { text:'소파 위에 고양이가 앉아 있습니다.',
+        keys:['소파','위','고양이','앉다'],     gram:'N 위에 N이/가 V-아/어 있다',
+        type:S.pos,    px:57,  py:44 },
+      { text:'오른쪽에 조명이 있습니다.',
+        keys:['오른쪽','조명'],               gram:'N에 N이/가 있다',
+        type:S.pos,    px:88,  py:55 },
+      { text:'위에 그림이 걸려 있습니다.',
+        keys:['위','그림','걸리다'],           gram:'N에 N이/가 V-아/어 있다',
+        type:S.pos,    px:52,  py:12 },
+    ],
+  },
+];
+
+/* ════════════════════════════════════════════
+   상태
+════════════════════════════════════════════ */
+let cur         = 0;
+let linesOn     = true;
+let currentStage = 1;
+const activeSet = new Set(); // "l0","r2" … 활성 카드
+
+/* ════════════════════════════════════════════
+   초기화
+════════════════════════════════════════════ */
+(function init() {
+  const tabsEl = document.getElementById('tabs');
+  SLIDES.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.className = 'tab-btn' + (i === 0 ? ' active' : '');
+    b.textContent = s.title;
+    b.onclick = () => goSlide(i);
+    tabsEl.appendChild(b);
+  });
+
+  const mainEl = document.getElementById('main');
+  SLIDES.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'slide' + (i === 0 ? ' active' : '');
+    div.id = 'slide-' + i;
+
+    const mkCard = (e, side, j) => {
+      const chips = e.keys.map(k => `<span class="key-chip">${k}</span>`).join('');
+      return `
+        <div class="expr-card ${e.type}" id="${side}c-${i}-${j}"
+             onclick="onCardClick('${side}',${j})">
+          <div class="e-tag">${TAG[e.type]}</div>
+          <!-- 1단계: 어휘 + 문법 패턴 -->
+          <div class="s1-view">
+            <div class="keys-wrap">${chips}</div>
+            <div class="gram-hint">${e.gram}</div>
+          </div>
+          <!-- 2단계: 완성 예문 -->
+          <div class="s2-view">
+            <div class="e-text">${e.text}</div>
+          </div>
+        </div>`;
+    };
+
+    const leftCards  = s.left .map((e, j) => mkCard(e, 'l', j)).join('');
+    const rightCards = s.right.map((e, j) => mkCard(e, 'r', j)).join('');
+
+    div.innerHTML = `
+      <div class="panel panel-left" id="lp-${i}">
+        <div class="panel-label">표현 참고 ◀</div>${leftCards}
+      </div>
+      <div class="photo-area">
+        <div class="photo-wrap">
+          <img id="img-${i}" src="${s.img}" alt="${s.title}" draggable="false">
+        </div>
+      </div>
+      <div class="panel panel-right" id="rp-${i}">
+        <div class="panel-label">▶ 표현 참고</div>${rightCards}
+      </div>`;
+
+    mainEl.appendChild(div);
+  });
+
+  window.addEventListener('resize', () => {
+    clearTimeout(window._rt);
+    window._rt = setTimeout(redrawAll, 80);
+  });
+})();
+
+/* ════════════════════════════════════════════
+   단계 전환
+════════════════════════════════════════════ */
+function setStage(n) {
+  currentStage = n;
+  document.body.classList.toggle('stage2', n === 2);
+  document.getElementById('stg1-btn').classList.toggle('active', n === 1);
+  document.getElementById('stg2-btn').classList.toggle('active', n === 2);
+}
+
+/* ════════════════════════════════════════════
+   카드 클릭: 선 토글
+════════════════════════════════════════════ */
+function onCardClick(side, idx) {
+  const key    = side + idx;
+  const cardEl = document.getElementById(`${side}c-${cur}-${idx}`);
+
+  if (activeSet.has(key)) {
+    activeSet.delete(key);
+    removeSVGElements(key);
+    if (cardEl) cardEl.classList.remove('card-active');
+  } else {
+    activeSet.add(key);
+    if (cardEl) cardEl.classList.add('card-active');
+    if (linesOn) {
+      requestAnimationFrame(() => requestAnimationFrame(() => drawOneLine(side, idx, true)));
+    }
+  }
+}
+
+/* ════════════════════════════════════════════
+   슬라이드 전환
+════════════════════════════════════════════ */
+function goSlide(i) {
+  document.querySelectorAll(`#slide-${cur} .expr-card`)
+          .forEach(c => c.classList.remove('card-active'));
+  activeSet.clear();
+  clearSVG();
+  document.querySelectorAll('.tab-btn').forEach((b, k) => b.classList.toggle('active', k === i));
+  document.querySelectorAll('.slide').forEach((s, k)   => s.classList.toggle('active', k === i));
+  cur = i;
+}
+
+/* ════════════════════════════════════════════
+   가이드선 ON/OFF
+════════════════════════════════════════════ */
+function toggleLines() {
+  linesOn = !linesOn;
+  const btn = document.getElementById('toggle-btn');
+  btn.textContent = linesOn ? '가이드선 ✓' : '가이드선 ✗';
+  btn.classList.toggle('off', !linesOn);
+  linesOn ? redrawAll(false) : clearSVG();
+}
+
+/* ════════════════════════════════════════════
+   전체 재드로우
+════════════════════════════════════════════ */
+function redrawAll(animate = false) {
+  clearSVG();
+  if (!linesOn) return;
+  activeSet.forEach(key => drawOneLine(key[0], parseInt(key.slice(1)), animate));
+}
+
+/* ════════════════════════════════════════════
+   한 카드의 선 그리기
+════════════════════════════════════════════ */
+function drawOneLine(side, idx, animate) {
+  const key = side + idx;
+  removeSVGElements(key);
+
+  const svgEl   = document.getElementById('guide-svg');
+  const svgRect = svgEl.getBoundingClientRect();
+  if (!svgRect.width) return;
+  svgEl.setAttribute('viewBox', `0 0 ${svgRect.width} ${svgRect.height}`);
+
+  const isLeft = side === 'l';
+  const items  = isLeft ? SLIDES[cur].left : SLIDES[cur].right;
+  if (idx >= items.length) return;
+  const item   = items[idx];
+
+  const cardEl = document.getElementById(`${side}c-${cur}-${idx}`);
+  const imgEl  = document.getElementById(`img-${cur}`);
+  if (!cardEl || !imgEl) return;
+
+  const cRect  = cardEl.getBoundingClientRect();
+  const iRect  = imgEl.getBoundingClientRect();
+  if (!iRect.width) return;
+
+  const x1 = (isLeft ? cRect.right  : cRect.left) - svgRect.left;
+  const y1 = (cRect.top + cRect.height / 2)        - svgRect.top;
+  const x2 = (iRect.left + item.px / 100 * iRect.width)  - svgRect.left;
+  const y2 = (iRect.top  + item.py / 100 * iRect.height) - svgRect.top;
+
+  addCurveSVG(svgEl, key, x1, y1, x2, y2, CLR[item.type], isLeft, animate, item, imgEl);
+}
+
+/* ════════════════════════════════════════════
+   SVG 곡선 + 과녁 그리기 (드래그 가능)
+════════════════════════════════════════════ */
+function addCurveSVG(svgEl, key, x1, y1, x2, y2, color, fromLeft, animate, item, imgEl) {
+  const ns = 'http://www.w3.org/2000/svg';
+
+  function makeD(ax2, ay2) {
+    const dx   = Math.abs(ax2 - x1) * 0.55;
+    const cp1x = fromLeft ? x1 + dx : x1 - dx;
+    const cp2x = fromLeft ? ax2 - dx * 0.35 : ax2 + dx * 0.35;
+    return `M${x1},${y1} C${cp1x},${y1} ${cp2x},${ay2} ${ax2},${ay2}`;
+  }
+
+  /* 경로 */
+  const path = document.createElementNS(ns, 'path');
+  path.setAttribute('stroke', color);
+  path.setAttribute('stroke-width', '2.5');
+  path.setAttribute('fill', 'none');
+  path.setAttribute('opacity', '0.9');
+  path.setAttribute('data-k', key);
+  path.setAttribute('d', makeD(x2, y2));
+
+  if (animate) {
+    svgEl.appendChild(path);
+    const len = path.getTotalLength();
+    path.style.strokeDasharray  = `${len} ${len}`;
+    path.style.strokeDashoffset = `${len}`;
+    requestAnimationFrame(() => {
+      path.style.transition       = 'stroke-dashoffset 0.55s cubic-bezier(0.22, 1, 0.36, 1)';
+      path.style.strokeDashoffset = '0';
+    });
+    setTimeout(() => {
+      path.style.transition      = 'none';
+      path.style.strokeDasharray = '8 5';
+      path.style.strokeDashoffset = '';
+    }, 650);
+  } else {
+    path.setAttribute('stroke-dasharray', '8 5');
+    svgEl.appendChild(path);
+  }
+
+  /* 카드쪽 앵커 */
+  const anchor = document.createElementNS(ns, 'circle');
+  anchor.setAttribute('cx', x1); anchor.setAttribute('cy', y1);
+  anchor.setAttribute('r', '4'); anchor.setAttribute('fill', color);
+  anchor.setAttribute('data-k', key);
+  if (animate) {
+    anchor.style.opacity = '0';
+    setTimeout(() => { anchor.style.transition = 'opacity 0.2s'; anchor.style.opacity = '1'; }, 80);
+  }
+  svgEl.appendChild(anchor);
+
+  /* 사진쪽 과녁 */
+  const glow   = document.createElementNS(ns, 'circle');
+  const ring   = document.createElementNS(ns, 'circle');
+  const center = document.createElementNS(ns, 'circle');
+
+  [[glow, 13, color, '0.18'], [ring, 7, color, '0.82'], [center, 2.8, '#fff', '1']]
+    .forEach(([el, r, fill, op]) => {
+      el.setAttribute('cx', x2); el.setAttribute('cy', y2);
+      el.setAttribute('r', r);   el.setAttribute('fill', fill);
+      el.setAttribute('data-k', key);
+      if (!animate) el.setAttribute('opacity', op);
+      else {
+        el.style.opacity = '0';
+        setTimeout(() => {
+          el.style.transition = 'opacity 0.3s';
+          el.style.opacity    = op;
+        }, 500);
+      }
+      svgEl.appendChild(el);
+    });
+
+  [glow, ring].forEach(c => {
+    c.style.cursor        = 'grab';
+    c.style.pointerEvents = 'auto';
+  });
+
+  /* 드래그 핸들러 */
+  function startDrag(e) {
+    e.preventDefault(); e.stopPropagation();
+    [glow, ring].forEach(c => c.style.cursor = 'grabbing');
+    const hud = document.getElementById('coord-hud');
+    hud.style.display = 'block';
+
+    function onMove(me) {
+      const iR = imgEl.getBoundingClientRect();
+      const sR = svgEl.getBoundingClientRect();
+      const newPx = Math.max(1, Math.min(99, (me.clientX - iR.left) / iR.width  * 100));
+      const newPy = Math.max(1, Math.min(99, (me.clientY - iR.top)  / iR.height * 100));
+      item.px = newPx; item.py = newPy;
+      const nx = iR.left + newPx / 100 * iR.width  - sR.left;
+      const ny = iR.top  + newPy / 100 * iR.height - sR.top;
+      path.setAttribute('d', makeD(nx, ny));
+      [glow, ring, center].forEach(c => { c.setAttribute('cx', nx); c.setAttribute('cy', ny); });
+      hud.textContent = `px: ${newPx.toFixed(1)}  ·  py: ${newPy.toFixed(1)}`;
+    }
+    function onUp() {
+      [glow, ring].forEach(c => c.style.cursor = 'grab');
+      document.getElementById('coord-hud').style.display = 'none';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup',   onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup',   onUp);
+  }
+
+  [glow, ring].forEach(c => c.addEventListener('mousedown', startDrag));
+}
+
+/* ════════════════════════════════════════════
+   헬퍼
+════════════════════════════════════════════ */
+function removeSVGElements(key) {
+  document.querySelectorAll(`[data-k="${key}"]`).forEach(e => e.remove());
+}
+function clearSVG() {
+  document.getElementById('guide-svg').innerHTML = '';
+}
+</script>
+</body>
+</html>
