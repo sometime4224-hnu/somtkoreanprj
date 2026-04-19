@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14과 어휘·문법 30문제 모의고사</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./mock-exam.css">
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="topbar">
+        <div class="topbar__links">
+            <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+            <span class="topbar__divider">|</span>
+            <a href="index.html"><i class="fa-solid fa-folder-open"></i> 14과 허브</a>
+        </div>
+        <span class="topbar__title">14과 모의고사</span>
+    </header>
+
+    <main class="page-shell">
+        <section class="hero">
+            <div class="hero__eyebrow">C14 Mock Exam</div>
+            <h1>14과 어휘·문법 30문제 모의고사</h1>
+            <div class="hero__stats" id="heroStats"></div>
+            <p class="hero__recent" id="recentScore" hidden></p>
+        </section>
+
+        <section class="quiz-panel">
+            <div class="toolbar">
+                <div class="toolbar__status">
+                    <div id="progressText" class="toolbar__value">0 / 30</div>
+                    <div id="quizMeta" class="toolbar__meta"></div>
+                    <div id="scoreText" class="toolbar__note">문항을 모두 고른 뒤 채점하면 정답과 해설이 열립니다.</div>
+                    <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+                </div>
+                <div class="toolbar__actions">
+                    <button class="action-button action-button--primary" data-action="grade" type="button">채점</button>
+                    <button class="action-button" data-action="reset" type="button">다시 풀기</button>
+                </div>
+            </div>
+
+            <section id="summaryCard" class="summary-card" hidden></section>
+            <div id="quizSections" class="section-stack"></div>
+
+            <div class="toolbar toolbar--bottom">
+                <div class="toolbar__actions">
+                    <button class="action-button action-button--primary" data-action="grade" type="button">채점</button>
+                    <button class="action-button" data-action="reset" type="button">다시 풀기</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="./mock-exam-data.js"></script>
+    <script defer src="./mock-exam.js"></script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
