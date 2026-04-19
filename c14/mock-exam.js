@@ -455,7 +455,7 @@
     function renderStem(stem) {
         return stem
             .split("\n")
-            .map((line) => `<p>${escapeHtml(line)}</p>`)
+            .map((line) => `<p>${renderInline(line)}</p>`)
             .join("");
     }
 
@@ -464,7 +464,9 @@
     }
 
     function renderInline(text) {
-        return escapeHtml(text).replace(/`([^`]+)`/g, "<code>$1</code>");
+        return escapeHtml(text)
+            .replace(/==(.+?)==/g, '<span class="question-underline">$1</span>')
+            .replace(/`([^`]+)`/g, "<code>$1</code>");
     }
 
     function escapeHtml(text) {

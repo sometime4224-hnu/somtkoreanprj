@@ -419,6 +419,13 @@ a {
     margin: 0;
 }
 
+.question-underline {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+}
+
 .option-list {
     display: grid;
     gap: 8px;
