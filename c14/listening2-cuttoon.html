@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14과 듣기 2 컷툰</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../shared/listening-cuttoon.css">
+</head>
+<body data-lesson-key="listening2">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="lc-nav">
+        <div class="lc-nav__links">
+            <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+            <span class="lc-nav__divider">|</span>
+            <a href="index.html"><i class="fa-solid fa-folder-open"></i> 14과</a>
+        </div>
+        <span class="lc-nav__title" id="cuttoonNavTitle">듣기 2 컷툰</span>
+    </nav>
+
+    <main class="lc-shell">
+        <section class="lc-stage">
+            <div class="lc-stage__top">
+                <div class="lc-stage__meta">
+                    <span class="lc-title" id="cuttoonPageTitle">듣기 2 컷툰</span>
+                    <span class="lc-badge" id="audioSourceBadge">오디오</span>
+                </div>
+                <button class="lc-action" id="toggleTranscriptBtn" type="button">대본</button>
+            </div>
+
+            <div class="lc-frame">
+                <img class="lc-frame__image" id="panelImage" alt="">
+            </div>
+            <div class="lc-thumbs" id="cutThumbs"></div>
+            <div class="lc-audio">
+                <audio id="audioPlayer" controls preload="metadata"></audio>
+            </div>
+        </section>
+
+        <section class="lc-transcript" id="transcriptSection" hidden>
+            <div class="lc-transcript__lines" id="transcriptLines"></div>
+        </section>
+    </main>
+
+    <script src="./listening-cuttoon-data.js"></script>
+    <script src="../shared/listening-cuttoon.js"></script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
