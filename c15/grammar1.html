@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>15과 문법 1 | V-게 하다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(125, 211, 252, 0.26), transparent 26%),
+                radial-gradient(circle at top right, rgba(251, 191, 36, 0.18), transparent 22%),
+                linear-gradient(180deg, #eff6ff 0%, #f8fafc 52%, #fffaf0 100%);
+        }
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 58px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 16px;
+            box-sizing: border-box;
+            background: rgba(255,255,255,0.92);
+            border-bottom: 1px solid #bfdbfe;
+            backdrop-filter: blur(8px);
+        }
+        .global-nav a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .nav-divider { color: #cbd5e1; font-weight: 700; }
+        .safe { word-break: keep-all; overflow-wrap: break-word; }
+        .tab-btn.active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+        .vi-text { display: none; }
+        .vi-on .vi-text { display: block; }
+        .vi-switch { display: none; }
+        .vi-on .vi-switch { display: block; }
+        .vi-on .ko-switch { display: none; }
+        .choice-btn { min-height: 52px; }
+        .flow-box {
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.95));
+            padding: 14px;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+        }
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #60a5fa;
+            font-size: 26px;
+            font-weight: 900;
+        }
+        .formula-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 9999px;
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .mini-card {
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(255,255,255,0.95);
+            padding: 14px;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+        }
+        .next-link,
+        .prev-link,
+        .ghost-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .next-link {
+            border: 1px solid #93c5fd;
+            background: rgba(255,255,255,0.92);
+            color: #1d4ed8;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+        }
+        .next-link:hover { background: #eff6ff; border-color: #60a5fa; transform: translateY(-1px); }
+        .prev-link {
+            border: 1px solid #cbd5e1;
+            background: rgba(255,255,255,0.92);
+            color: #475569;
+        }
+        .prev-link:hover { background: #f8fafc; transform: translateY(-1px); }
+        .ghost-link {
+            border: 1px dashed #cbd5e1;
+            background: rgba(255,255,255,0.72);
+            color: #94a3b8;
+            cursor: default;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .illustration-wrap {
+            margin-top: 16px;
+            border-radius: 24px;
+            border: 1px solid #bfdbfe;
+            background:
+                radial-gradient(circle at top left, rgba(186, 230, 253, 0.55), transparent 30%),
+                linear-gradient(180deg, rgba(255,255,255,0.96), rgba(239,246,255,0.92));
+            padding: 16px;
+        }
+        .illustration-grid {
+            display: grid;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .figure-image-frame {
+            position: relative;
+            margin-top: 14px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid rgba(147, 197, 253, 0.95);
+            background: #dbeafe;
+            box-shadow: 0 16px 30px rgba(59, 130, 246, 0.12);
+        }
+        .figure-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .figure-details {
+            margin-top: 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(147, 197, 253, 0.9);
+            background: rgba(255,255,255,0.82);
+            overflow: hidden;
+        }
+        .figure-details summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            color: #1e3a8a;
+            font-size: 14px;
+            font-weight: 800;
+        }
+        .figure-details summary::-webkit-details-marker {
+            display: none;
+        }
+        .figure-details summary::after {
+            content: '열기';
+            color: #475569;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .figure-details[open] summary::after {
+            content: '닫기';
+        }
+        .figure-details__body {
+            padding: 0 16px 16px;
+        }
+        .overlay-tag {
+            position: absolute;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255,255,255,0.92);
+            background: rgba(15, 23, 42, 0.78);
+            color: #ffffff;
+            font-size: clamp(10px, 2.4vw, 12px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.14);
+        }
+        .overlay-tag--cause { background: rgba(234, 88, 12, 0.88); }
+        .overlay-tag--target { background: rgba(37, 99, 235, 0.88); }
+        .overlay-tag--action { background: rgba(5, 150, 105, 0.88); }
+        .overlay-tag--result { background: rgba(124, 58, 237, 0.88); }
+        .overlay-tag--left-cause { top: 8%; left: 4.5%; }
+        .overlay-tag--left-target { top: 33%; left: 31%; }
+        .overlay-tag--left-action { top: 58%; left: 23%; }
+        .overlay-tag--right-cause { top: 8%; left: 58%; }
+        .overlay-tag--right-target { top: 46%; left: 77%; }
+        .overlay-tag--right-result { top: 74%; left: 74%; }
+        .legend-grid {
+            display: grid;
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .legend-card {
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(255,255,255,0.88);
+            padding: 14px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        }
+        .sentence-track {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .sentence-segment {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            border: 1px solid transparent;
+        }
+        .sentence-segment--cause {
+            background: #ffedd5;
+            border-color: #fdba74;
+            color: #9a3412;
+        }
+        .sentence-segment--target {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            color: #1d4ed8;
+        }
+        .sentence-segment--action {
+            background: #d1fae5;
+            border-color: #86efac;
+            color: #047857;
+        }
+        .sentence-segment--result {
+            background: #ede9fe;
+            border-color: #c4b5fd;
+            color: #6d28d9;
+        }
+        .sentence-arrow-inline {
+            color: #94a3b8;
+            font-size: 16px;
+            font-weight: 900;
+        }
+        .illustration-card {
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(255,255,255,0.88);
+            padding: 14px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        }
+        .illustration-canvas {
+            border-radius: 20px;
+            border: 1px solid rgba(191, 219, 254, 0.95);
+            background:
+                linear-gradient(180deg, rgba(248,250,252,0.98), rgba(219,234,254,0.78));
+            padding: 14px;
+            min-height: 162px;
+        }
+        .illustration-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .illustration-arrow {
+            width: 34px;
+            height: 34px;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #dbeafe;
+            color: #2563eb;
+            font-size: 18px;
+            font-weight: 900;
+            flex: 0 0 auto;
+        }
+        .avatar-chip {
+            width: 72px;
+            height: 72px;
+            border-radius: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 10px 18px rgba(15, 23, 42, 0.08);
+        }
+        .avatar-chip--mom {
+            background: linear-gradient(180deg, #fce7f3, #fed7aa);
+            color: #9d174d;
+        }
+        .avatar-chip--child {
+            background: linear-gradient(180deg, #fef3c7, #fed7aa);
+            color: #92400e;
+        }
+        .speech-bubble {
+            position: relative;
+            max-width: 150px;
+            border-radius: 18px;
+            border: 1px solid #bfdbfe;
+            background: #ffffff;
+            padding: 10px 12px;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.45;
+            box-shadow: 0 8px 18px rgba(59, 130, 246, 0.08);
+        }
+        .speech-bubble::after {
+            content: "";
+            position: absolute;
+            left: 18px;
+            bottom: -8px;
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #ffffff transparent transparent;
+        }
+        .cup {
+            width: 30px;
+            height: 38px;
+            border: 3px solid #60a5fa;
+            border-top: 0;
+            border-radius: 0 0 12px 12px;
+            background: linear-gradient(180deg, rgba(191,219,254,0.95), rgba(96,165,250,0.3));
+            position: relative;
+            flex: 0 0 auto;
+        }
+        .cup::before {
+            content: "";
+            position: absolute;
+            left: -3px;
+            right: -3px;
+            top: -8px;
+            height: 8px;
+            border-radius: 9999px;
+            background: #bfdbfe;
+        }
+        .sentence-pill {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            padding: 8px 12px;
+            color: #1e3a8a;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .screen-box {
+            width: 96px;
+            height: 66px;
+            border-radius: 18px;
+            border: 3px solid #1e293b;
+            background: linear-gradient(180deg, #334155, #0f172a);
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 12px 20px rgba(15, 23, 42, 0.18);
+        }
+        .screen-box__title {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+        .screen-box__line {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            bottom: 10px;
+            height: 3px;
+            border-radius: 9999px;
+            background: rgba(191, 219, 254, 0.65);
+        }
+        .audience-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .audience-pill {
+            border-radius: 9999px;
+            background: linear-gradient(180deg, #ede9fe, #ddd6fe);
+            color: #5b21b6;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 900;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+        }
+        .tear-row {
+            display: flex;
+            gap: 8px;
+        }
+        .tear-row span {
+            width: 10px;
+            height: 14px;
+            border-radius: 9999px 9999px 9999px 9999px;
+            background: linear-gradient(180deg, rgba(96,165,250,0.95), rgba(191,219,254,0.75));
+            transform: rotate(14deg);
+        }
+        .impact-label {
+            margin-top: 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.84);
+            border: 1px solid rgba(196, 181, 253, 0.7);
+            padding: 10px 12px;
+            color: #4c1d95;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .illustration-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .legend-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">15과 목록</a>
+    </nav>
+
+    <main id="page" class="w-full max-w-5xl mx-auto space-y-4 px-3 sm:px-0 pb-8">
+        <section class="bg-white border border-blue-100 rounded-2xl p-5 shadow-sm mt-4">
+            <div class="flex items-start justify-between gap-3">
+                <div>
+                    <p class="text-xs font-bold text-blue-600">15과 문법 1</p>
+                    <h1 class="text-2xl font-black text-slate-800 mt-1">V-게 하다</h1>
+                    <p class="text-sm text-slate-600 mt-1 safe">누가 다른 사람이나 어떤 대상이 어떤 행동을 하도록 만들 때 쓰는 표현이에요.</p>
+                    <p class="vi-text text-xs text-blue-700 mt-1 safe">Mẫu này dùng khi ai đó khiến một người khác hay một đối tượng làm một hành động.</p>
+                </div>
+                <button id="viToggle" class="shrink-0 px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 whitespace-nowrap">Tiếng Việt OFF</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button id="tabLearn" class="tab-btn active border rounded-xl py-2.5 text-sm font-bold border-blue-200" type="button">학습</button>
+                <button id="tabPractice" class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">연습</button>
+            </div>
+        </section>
+
+        <section id="learnPanel" class="space-y-3">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">핵심 개념</h2>
+                <div class="text-slate-700 mt-2 text-sm safe space-y-2">
+                    <p><strong>V-게 하다</strong>는 <strong>누가</strong> 다른 사람이나 대상이 <strong>어떤 행동을 하도록 만들다</strong>는 뜻이에요.</p>
+                    <p>꼭 강하게 시키는 느낌만 있는 것은 아니고, 부탁해서 하게 할 때, 규칙 때문에 하게 될 때, 어떤 상황이 자연스럽게 행동을 일으킬 때도 쓸 수 있어요.</p>
+                    <p class="mt-2 bg-blue-50 border border-blue-100 rounded-xl px-3 py-2"><span class="font-bold text-blue-700">한 줄 뜻:</span> “A가 B를/에게 V하도록 만들다”</p>
+                </div>
+                <div class="vi-text text-xs text-blue-700 mt-3 safe space-y-1">
+                    <p><strong>V-게 하다</strong> nghĩa là “A làm cho B thực hiện hành động V”.</p>
+                    <p>Không chỉ là ra lệnh. Mẫu này còn dùng cho tình huống khuyên, dẫn dắt hoặc tạo ra kết quả tự nhiên.</p>
+                </div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">직관 도식</h2>
+                <div class="mt-3 grid gap-3">
+                    <div class="grid sm:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1.3fr] gap-2 items-stretch">
+                        <div class="flow-box">
+                            <span class="badge bg-sky-100 text-sky-700">1 주체</span>
+                            <p class="ko-switch mt-2 text-xs text-slate-500">시키는 쪽 / 원인</p>
+                            <p class="vi-switch mt-2 text-xs text-slate-500">Bên tác động / nguyên nhân</p>
+                            <p class="mt-1 text-base font-bold text-slate-800">엄마가</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box">
+                            <span class="badge bg-amber-100 text-amber-700">2 대상</span>
+                            <p class="ko-switch mt-2 text-xs text-slate-500">행동하는 사람</p>
+                            <p class="vi-switch mt-2 text-xs text-slate-500">Người thực hiện hành động</p>
+                            <p class="mt-1 text-base font-bold text-slate-800">아이에게</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box">
+                            <span class="badge bg-emerald-100 text-emerald-700">3 행동</span>
+                            <p class="ko-switch mt-2 text-xs text-slate-500">실제로 하게 되는 일</p>
+                            <p class="vi-switch mt-2 text-xs text-slate-500">Việc thật sự sẽ diễn ra</p>
+                            <p class="mt-1 text-base font-bold text-slate-800">우유를 마시다</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box border-blue-200 bg-blue-50">
+                            <span class="badge bg-blue-200 text-blue-800">완성</span>
+                            <p class="mt-2 text-sm font-bold text-slate-800 safe">엄마가 아이에게 우유를 마시게 해요.</p>
+                        </div>
+                    </div>
+                    <div class="grid sm:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1.3fr] gap-2 items-stretch">
+                        <div class="flow-box">
+                            <span class="badge bg-sky-100 text-sky-700">1 주체</span>
+                            <p class="ko-switch mt-2 text-xs text-slate-500">원인이 되는 것</p>
+                            <p class="vi-switch mt-2 text-xs text-slate-500">Điều trở thành nguyên nhân</p>
+                            <p class="mt-1 text-base font-bold text-slate-800">그 영화가</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box">
+                            <span class="badge bg-amber-100 text-amber-700">2 대상</span>
+                            <p class="ko-switch mt-2 text-xs text-slate-500">영향을 받는 사람</p>
+                            <p class="vi-switch mt-2 text-xs text-slate-500">Người chịu ảnh hưởng</p>
+                            <p class="mt-1 text-base font-bold text-slate-800">사람들을</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box">
+                            <span class="badge bg-emerald-100 text-emerald-700">3 행동</span>
+                            <p class="ko-switch mt-2 text-xs text-slate-500">결과로 나온 행동</p>
+                            <p class="vi-switch mt-2 text-xs text-slate-500">Hành động xuất hiện như kết quả</p>
+                            <p class="mt-1 text-base font-bold text-slate-800">울다</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-box border-blue-200 bg-blue-50">
+                            <span class="badge bg-blue-200 text-blue-800">완성</span>
+                            <p class="mt-2 text-sm font-bold text-slate-800 safe">그 영화가 사람들을 울게 했어요.</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="ko-switch text-xs text-slate-500 mt-3 safe">중요: <strong>행동을 실제로 하는 사람</strong>과 <strong>그 행동을 만들거나 이끄는 쪽</strong>을 나누어 생각하면 쉬워요.</p>
+                <p class="vi-switch text-xs text-slate-500 mt-3 safe">Điều quan trọng là tách riêng <strong>người thật sự làm hành động</strong> với <strong>người hoặc nguồn làm cho hành động đó xảy ra</strong>.</p>
+                <div class="illustration-wrap">
+                    <div class="flex items-start justify-between gap-3 flex-col sm:flex-row">
+                        <div>
+                            <p class="text-xs font-bold text-sky-700">그림 모형</p>
+                            <h3 class="mt-1 text-lg font-black text-slate-800">장면으로 보는 V-게 하다</h3>
+                        </div>
+                        <div class="ko-switch rounded-full border border-sky-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600">원인 → 대상 → 행동 결과</div>
+                        <div class="vi-switch rounded-full border border-sky-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600">Nguyên nhân → đối tượng → kết quả hành động</div>
+                    </div>
+                    <div class="figure-image-frame">
+                        <img
+                            src="../assets/c15/grammar/v-ge-hada-model-ko.svg"
+                            alt="왼쪽에는 엄마가 아이에게 우유를 마시게 하는 장면, 오른쪽에는 영화가 사람들을 울게 하는 장면이 있는 문법 그림 모형"
+                            class="figure-image"
+                            width="1536"
+                            height="1024"
+                        />
+                    </div>
+                    <p class="ko-switch mt-3 text-xs text-slate-500 safe">이미지 안에 도식과 문장 구조를 함께 고정해서 넣었어요. 이제 화면 비율이 달라져도 위치가 흐트러지지 않습니다.</p>
+                    <p class="vi-switch mt-3 text-xs text-slate-500 safe">Hình tiếng Hàn ở trên luôn cố định. Khi cần, bạn có thể mở riêng bản tiếng Việt bên dưới.</p>
+                    <details class="figure-details vi-switch">
+                        <summary>
+                            <span>베트남어 그림 보기</span>
+                        </summary>
+                        <div class="figure-details__body">
+                            <img
+                                src="../assets/c15/grammar/v-ge-hada-model-vi.svg"
+                                alt="Hình minh họa ngữ pháp với cảnh người mẹ làm em bé uống sữa và bộ phim khiến mọi người khóc"
+                                class="figure-image"
+                                width="1536"
+                                height="1024"
+                            />
+                        </div>
+                    </details>
+                </div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">만드는 법</h2>
+                <div class="mt-3 flex flex-wrap gap-2">
+                    <span class="formula-chip">동사 어간 + 게 하다</span>
+                    <span class="formula-chip">V-지 않게 하다</span>
+                    <span class="formula-chip">V-지 못하게 하다</span>
+                </div>
+                <div class="mt-4 grid sm:grid-cols-2 gap-3 text-sm safe">
+                    <div class="mini-card">
+                        <p class="font-bold text-slate-800">기본형</p>
+                        <ul class="mt-2 space-y-1.5 text-slate-700">
+                            <li><strong>읽다</strong> → 읽게 하다</li>
+                            <li><strong>먹다</strong> → 먹게 하다</li>
+                            <li><strong>운동하다</strong> → 운동하게 하다</li>
+                            <li><strong>오다</strong> → 오게 하다</li>
+                        </ul>
+                    </div>
+                    <div class="mini-card">
+                        <p class="font-bold text-slate-800">막거나 못 하게 말할 때</p>
+                        <ul class="mt-2 space-y-1.5 text-slate-700">
+                            <li><strong>실수하다</strong> → 실수하지 않게 하다</li>
+                            <li><strong>떠들다</strong> → 떠들지 못하게 하다</li>
+                            <li><strong>만지다</strong> → 만지지 않게 하다</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500 mt-3 safe">참고: 이번 페이지는 교재 제목대로 <strong>동사 V-게 하다</strong>에 집중해요. 형용사 + 게 하다는 다른 확장 표현으로 따로 다루면 더 쉬워요.</p>
+                <p class="vi-text text-xs text-blue-700 mt-2 safe">Trang này tập trung vào <strong>động từ V-게 하다</strong> để tránh nhầm với các cách dùng khác của “-게 하다”.</p>
+            </article>
+
+            <article class="bg-sky-50 border border-sky-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">문장 조립 체크</h2>
+                <div class="mt-3 grid sm:grid-cols-3 gap-3 text-sm safe">
+                    <div class="mini-card">
+                        <span class="badge bg-sky-100 text-sky-700">1</span>
+                        <p class="mt-2 font-bold text-slate-800">누가 / 무엇이?</p>
+                        <p class="mt-1 text-slate-700">행동을 시키거나, 일으키는 쪽을 먼저 잡아요.</p>
+                    </div>
+                    <div class="mini-card">
+                        <span class="badge bg-amber-100 text-amber-700">2</span>
+                        <p class="mt-2 font-bold text-slate-800">누가 행동해요?</p>
+                        <p class="mt-1 text-slate-700">실제로 움직이거나 말하거나 하는 사람을 넣어요.</p>
+                    </div>
+                    <div class="mini-card">
+                        <span class="badge bg-emerald-100 text-emerald-700">3</span>
+                        <p class="mt-2 font-bold text-slate-800">무슨 행동이에요?</p>
+                        <p class="mt-1 text-slate-700">동사에 <strong>-게 하다</strong>를 붙여서 문장을 완성해요.</p>
+                    </div>
+                </div>
+                <div class="mt-3 rounded-2xl border border-sky-100 bg-white px-4 py-3 text-sm safe">
+                    <p class="font-bold text-sky-700">한눈에 공식</p>
+                    <p class="mt-1 text-slate-800"><strong>A가</strong> + <strong>B를 / B에게</strong> + <strong>동사 어간 + 게 하다</strong></p>
+                    <p class="mt-2 text-slate-600">예: <strong>비가</strong> + <strong>사람들을</strong> + <strong>뛰게 했어요</strong></p>
+                </div>
+            </article>
+
+            <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">어떤 느낌으로 쓰나</h2>
+                <div class="mt-3 grid sm:grid-cols-3 gap-3 text-sm safe">
+                    <div class="mini-card">
+                        <span class="badge bg-rose-100 text-rose-700">시키기</span>
+                        <p class="mt-2 text-slate-700">선생님이 학생들에게 발표하게 해요.</p>
+                        <p class="mt-2 text-xs text-slate-500">직접 하라고 하거나 맡기는 느낌</p>
+                    </div>
+                    <div class="mini-card">
+                        <span class="badge bg-indigo-100 text-indigo-700">유도하기</span>
+                        <p class="mt-2 text-slate-700">친구가 저를 같이 가게 했어요.</p>
+                        <p class="mt-2 text-xs text-slate-500">권하거나 설득해서 하게 만드는 느낌</p>
+                    </div>
+                    <div class="mini-card">
+                        <span class="badge bg-emerald-100 text-emerald-700">원인 / 영향</span>
+                        <p class="mt-2 text-slate-700">그 음악이 모두를 춤추게 했어요.</p>
+                        <p class="mt-2 text-xs text-slate-500">상황이나 사물이 행동을 일으키는 느낌</p>
+                    </div>
+                </div>
+                <p class="vi-text text-xs text-blue-700 mt-3 safe">Mẫu này có thể mang sắc thái ra lệnh, dẫn dắt hoặc tạo ảnh hưởng.</p>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">직관 연습</h2>
+                <div class="mt-3 grid gap-3">
+                    <div class="mini-card">
+                        <p class="text-xs font-bold text-blue-600">연습 1</p>
+                        <p class="mt-2 text-slate-700 safe">아이가 일찍 자다 → 부모님이 아이를 일찍 자게 해요.</p>
+                    </div>
+                    <div class="mini-card">
+                        <p class="text-xs font-bold text-blue-600">연습 2</p>
+                        <p class="mt-2 text-slate-700 safe">학생들이 창문을 닫다 → 선생님이 학생들에게 창문을 닫게 해요.</p>
+                    </div>
+                    <div class="mini-card">
+                        <p class="text-xs font-bold text-blue-600">연습 3</p>
+                        <p class="mt-2 text-slate-700 safe">그 농담 때문에 모두가 웃다 → 그 농담이 모두를 웃게 했어요.</p>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500 mt-3 safe">방법: 먼저 <strong>원래 행동 문장</strong>을 떠올리고, 앞에 <strong>누가/무엇이 그 행동을 만들었는지</strong>를 붙이면 돼요.</p>
+                <p class="vi-text text-xs text-blue-700 mt-2 safe">Cách làm: nghĩ câu gốc trước, rồi thêm “ai/cái gì làm cho hành động đó xảy ra”.</p>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">자주 하는 실수</h2>
+                <ul class="mt-3 space-y-3 text-sm text-slate-700 safe">
+                    <li><strong class="text-blue-700">1.</strong> 행동하는 사람 없이 문장을 만들면 뜻이 흐릴 수 있어요. 가능하면 누가 행동하는지 같이 말해 주세요.</li>
+                    <li><strong class="text-blue-700">2.</strong> “시키다”만 떠올리면 너무 강한 뜻으로 이해하기 쉬워요. 실제로는 부탁, 유도, 영향까지 넓게 써요.</li>
+                    <li><strong class="text-blue-700">3.</strong> 부정형은 <strong>V-지 않게 하다 / V-지 못하게 하다</strong>처럼 한 덩어리로 익히는 것이 쉬워요.</li>
+                </ul>
+                <p class="vi-text text-xs text-blue-700 mt-3 safe">Ba lỗi thường gặp: bỏ người hành động, hiểu quá mạnh như “bắt buộc”, và quên cụm phủ định.</p>
+            </article>
+        </section>
+
+        <section id="practicePanel" class="hidden">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between text-xs">
+                    <span id="progress" class="font-bold text-blue-600"></span>
+                    <span class="text-slate-500">연습 문제</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+                    <div id="progressBar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+                <p id="qGrammar" class="mt-3 text-[11px] font-bold text-sky-700 uppercase tracking-wide"></p>
+                <p id="qText" class="mt-1 text-base font-bold text-slate-800 safe"></p>
+                <p id="qHintKo" class="mt-1 text-xs text-slate-500 safe"></p>
+                <p id="qHintVi" class="vi-text text-xs text-blue-600 mt-0.5 safe"></p>
+                <div id="choices" class="mt-3 space-y-2"></div>
+                <div id="shortWrap" class="mt-3 hidden">
+                    <input id="shortInput" type="text" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400" placeholder="답을 적고 아래 버튼을 눌러 보세요" />
+                    <button id="checkShortBtn" class="mt-2 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">정답 확인</button>
+                </div>
+                <div id="feedbackBox" class="hidden mt-3 rounded-xl border p-3"></div>
+                <button id="nextBtn" class="hidden mt-3 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">다음 문제</button>
+            </article>
+            <article id="resultPanel" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+        </section>
+
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <a href="index.html" class="prev-link" aria-label="15과 목록으로 이동"><span aria-hidden="true">←</span><span>목록으로</span></a>
+            <a href="grammar2.html" class="next-link" aria-label="문법 2로 이동"><span>다음: 문법 2</span><span aria-hidden="true">→</span></a>
+        </div>
+    </main>
+
+    <script>
+        const page = document.getElementById('page');
+        const viToggle = document.getElementById('viToggle');
+        const tabLearn = document.getElementById('tabLearn');
+        const tabPractice = document.getElementById('tabPractice');
+        const learnPanel = document.getElementById('learnPanel');
+        const practicePanel = document.getElementById('practicePanel');
+        const progressEl = document.getElementById('progress');
+        const progressBar = document.getElementById('progressBar');
+        const qGrammar = document.getElementById('qGrammar');
+        const qText = document.getElementById('qText');
+        const qHintKo = document.getElementById('qHintKo');
+        const qHintVi = document.getElementById('qHintVi');
+        const choices = document.getElementById('choices');
+        const shortWrap = document.getElementById('shortWrap');
+        const shortInput = document.getElementById('shortInput');
+        const checkShortBtn = document.getElementById('checkShortBtn');
+        const feedbackBox = document.getElementById('feedbackBox');
+        const nextBtn = document.getElementById('nextBtn');
+        const resultPanel = document.getElementById('resultPanel');
+
+        let viOn = false;
+        viToggle.addEventListener('click', function () {
+            viOn = !viOn;
+            page.classList.toggle('vi-on', viOn);
+            viToggle.textContent = viOn ? 'Tiếng Việt ON' : 'Tiếng Việt OFF';
+        });
+
+        function showTab(name) {
+            const learn = name === 'learn';
+            learnPanel.classList.toggle('hidden', !learn);
+            practicePanel.classList.toggle('hidden', learn);
+            tabLearn.classList.toggle('active', learn);
+            tabPractice.classList.toggle('active', !learn);
+            tabLearn.classList.toggle('text-slate-600', !learn);
+            tabPractice.classList.toggle('text-slate-600', learn);
+            if (!learn && !state.started) {
+                state.started = true;
+                renderQuestion();
+            }
+        }
+
+        tabLearn.addEventListener('click', function () { showTab('learn'); });
+        tabPractice.addEventListener('click', function () { showTab('practice'); });
+
+        const quiz = [
+            {
+                type: 'mcq',
+                grammar: '핵심 의미',
+                q: '“엄마가 아이가 손을 씻도록 했다”와 가장 가까운 문장은 무엇일까요?',
+                hintKo: '누가 행동을 하게 만들었는지 보세요.',
+                hintVi: 'Hãy nhìn xem ai là người làm cho hành động xảy ra.',
+                options: [
+                    '엄마가 아이에게 손을 씻게 했어요.',
+                    '아이가 엄마에게 손을 씻게 했어요.',
+                    '엄마가 손을 씻고 아이를 봤어요.',
+                    '아이가 손을 씻고 엄마를 불렀어요.'
+                ],
+                answer: '엄마가 아이에게 손을 씻게 했어요.',
+                explainKo: '엄마가 원인/주체이고, 아이가 실제로 손을 씻는 사람이에요. 그래서 V-게 하다가 가장 잘 맞아요.',
+                explainVi: 'Mẹ là người gây ra hành động, còn em bé là người thực sự rửa tay.'
+            },
+            {
+                type: 'mcq',
+                grammar: '형태 만들기',
+                q: '선생님이 학생들에게 창문을 ____ 했어요. 빈칸에 가장 알맞은 것은?',
+                hintKo: '동사 어간 + 게 하다 형태를 떠올려 보세요.',
+                hintVi: 'Hãy nhớ dạng động từ + 게 하다.',
+                options: ['닫게', '닫으게', '닫는 게', '닫고'],
+                answer: '닫게',
+                explainKo: '닫다의 어간은 닫-이고, 여기에 게 하다를 붙이면 닫게 하다가 돼요.',
+                explainVi: 'Gốc động từ là 닫-, nên dạng đúng là 닫게 하다.'
+            },
+            {
+                type: 'short',
+                grammar: '문장 변환',
+                q: '“아이들이 일찍 자다”를 보고 “부모님이 …”로 시작하는 문장으로 바꿔 보세요.',
+                hintKo: '부모님이 아이들을 일찍 자게 했어요/해요 형태로 생각해 보세요.',
+                hintVi: 'Hãy viết theo mẫu “부모님이 아이들을 일찍 자게 …”.',
+                answers: [
+                    '부모님이 아이들을 일찍 자게 했어요',
+                    '부모님이 아이들을 일찍 자게 해요',
+                    '부모님이 아이들을 일찍 자게 했습니다'
+                ],
+                explainKo: '원래 행동은 “아이들이 일찍 자다”이고, 부모님이 그 행동을 하도록 만들었기 때문에 V-게 하다를 써요.',
+                explainVi: 'Hành động gốc là “bọn trẻ ngủ sớm”, cha mẹ làm cho hành động đó xảy ra.'
+            },
+            {
+                type: 'mcq',
+                grammar: '의미 구별',
+                q: '다음 중 “영향이나 원인”을 나타내는 V-게 하다 문장은 무엇일까요?',
+                hintKo: '직접 시키는 느낌보다, 어떤 것이 자연스럽게 행동을 일으키는 문장을 고르세요.',
+                hintVi: 'Chọn câu diễn tả ảnh hưởng hoặc nguyên nhân tự nhiên.',
+                options: [
+                    '코치가 선수들에게 바로 뛰게 했어요.',
+                    '그 영화가 사람들을 울게 했어요.',
+                    '언니가 동생에게 숙제를 하게 했어요.',
+                    '사장이 직원들을 회의에 오게 했어요.'
+                ],
+                answer: '그 영화가 사람들을 울게 했어요.',
+                explainKo: '영화는 사람에게 명령하는 존재가 아니라 감정을 일으키는 원인이에요. 그래서 “영향/원인”의 예예요.',
+                explainVi: 'Bộ phim không ra lệnh mà tạo ra cảm xúc, nên đây là ví dụ về nguyên nhân/ảnh hưởng.'
+            },
+            {
+                type: 'mcq',
+                grammar: '부정형',
+                q: '도서관에서는 학생들을 큰 소리로 말하지 ____ 해요. 빈칸에 알맞은 것은?',
+                hintKo: '“하지 않게 하다” 덩어리를 떠올려 보세요.',
+                hintVi: 'Hãy nhớ cụm “-지 않게 하다”.',
+                options: ['않게', '못게', '않는 게', '안 게'],
+                answer: '않게',
+                explainKo: '말하지 않게 하다는 “말하는 행동이 일어나지 않도록 만들다”는 뜻이에요.',
+                explainVi: '“말하지 않게 하다” nghĩa là làm cho hành động nói to không xảy ra.'
+            },
+            {
+                type: 'short',
+                grammar: '직관 응용',
+                q: '“알람 + 나 + 일찍 일어나다”를 사용해서 자연스러운 문장을 만들어 보세요.',
+                hintKo: '알람이 저를/나를 일찍 일어나게 해요 형태가 자연스러워요.',
+                hintVi: 'Mẫu tự nhiên là “알람이 저를/나를 일찍 일어나게 해요”.',
+                answers: [
+                    '알람이 저를 일찍 일어나게 해요',
+                    '알람이 나를 일찍 일어나게 해요',
+                    '알람이 저를 일찍 일어나게 했어요',
+                    '알람이 나를 일찍 일어나게 했어요',
+                    '알람이 저를 빨리 일어나게 해요',
+                    '알람이 나를 빨리 일어나게 해요'
+                ],
+                explainKo: '알람이 원인이고, 내가 실제로 일어나는 사람이에요. 그래서 “알람이 나를/저를 … 일어나게 하다”가 자연스러워요.',
+                explainVi: 'Chuông báo là nguyên nhân, còn “tôi” là người thực sự thức dậy.'
+            }
+        ];
+
+        const state = { idx: 0, answered: false, score: 0, logs: [], started: false };
+
+        function esc(text) {
+            return String(text == null ? '' : text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function normalize(text) {
+            return String(text || '')
+                .replace(/\s/g, '')
+                .replace(/[.,!?]/g, '');
+        }
+
+        function lockInputs(question, userAnswer) {
+            if (question.type === 'mcq') {
+                Array.from(choices.querySelectorAll('button')).forEach(function (button) {
+                    button.disabled = true;
+                    if (button.textContent === question.answer) {
+                        button.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-emerald-400 bg-emerald-50 text-emerald-800';
+                    } else if (button.textContent === userAnswer) {
+                        button.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-rose-400 bg-rose-50 text-rose-800';
+                    } else {
+                        button.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-slate-200 bg-slate-50 text-slate-400';
+                    }
+                });
+            } else {
+                shortInput.disabled = true;
+                checkShortBtn.disabled = true;
+                checkShortBtn.className = 'mt-2 w-full bg-slate-400 text-white py-3 rounded-xl text-sm font-bold cursor-not-allowed';
+            }
+        }
+
+        function feedbackHtml(ok, userAnswer, correctAnswer, question) {
+            return '<p class="text-sm font-bold ' + (ok ? 'text-emerald-700' : 'text-rose-700') + '">'
+                + (ok ? '정답입니다!' : '아직 한 번 더 확인해 보세요.')
+                + '</p>'
+                + '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(userAnswer || '(무응답)') + '</p>'
+                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correctAnswer) + '</p>'
+                + '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(question.explainKo) + '</p>'
+                + '<p class="text-xs text-blue-700 mt-1 safe vi-text"><b>VI:</b> ' + esc(question.explainVi) + '</p>';
+        }
+
+        function answerQuestion(userAnswer) {
+            if (state.answered) {
+                return;
+            }
+
+            const question = quiz[state.idx];
+            const correctAnswer = question.type === 'mcq' ? question.answer : question.answers[0];
+            let ok = false;
+
+            if (question.type === 'mcq') {
+                ok = userAnswer === question.answer;
+            } else {
+                const normalized = normalize(userAnswer);
+                ok = question.answers.some(function (answer) {
+                    return normalize(answer) === normalized;
+                });
+            }
+
+            state.answered = true;
+            if (ok) {
+                state.score += 1;
+            }
+            state.logs.push({
+                ok: ok,
+                user: userAnswer,
+                correct: correctAnswer,
+                q: question.q,
+                explainKo: question.explainKo,
+                explainVi: question.explainVi
+            });
+
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200');
+            feedbackBox.innerHTML = feedbackHtml(ok, userAnswer, correctAnswer, question);
+            nextBtn.classList.remove('hidden');
+            lockInputs(question, userAnswer);
+        }
+
+        function renderQuestion() {
+            if (state.idx >= quiz.length) {
+                renderResult();
+                return;
+            }
+
+            const question = quiz[state.idx];
+            state.answered = false;
+
+            progressEl.textContent = (state.idx + 1) + ' / ' + quiz.length;
+            progressBar.style.width = (state.idx / quiz.length * 100) + '%';
+            qGrammar.textContent = question.grammar;
+            qText.textContent = question.q;
+            qHintKo.textContent = '힌트: ' + question.hintKo;
+            qHintVi.textContent = 'Gợi ý: ' + question.hintVi;
+
+            choices.innerHTML = '';
+            feedbackBox.classList.add('hidden');
+            feedbackBox.innerHTML = '';
+            nextBtn.classList.add('hidden');
+            shortWrap.classList.add('hidden');
+            shortInput.value = '';
+            shortInput.disabled = false;
+            checkShortBtn.disabled = false;
+            checkShortBtn.className = 'mt-2 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold';
+
+            if (question.type === 'mcq') {
+                question.options.forEach(function (option) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'choice-btn w-full border border-slate-300 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-800';
+                    button.textContent = option;
+                    button.addEventListener('click', function () { answerQuestion(option); });
+                    choices.appendChild(button);
+                });
+            } else {
+                shortWrap.classList.remove('hidden');
+                shortInput.focus();
+            }
+
+            resultPanel.classList.add('hidden');
+        }
+
+        function renderResult() {
+            const percent = Math.round(state.score / quiz.length * 100);
+            const rows = state.logs.map(function (log, index) {
+                const cls = log.ok ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50';
+                const label = log.ok
+                    ? '<span class="text-xs font-bold text-emerald-700">정답 ' + (index + 1) + '</span>'
+                    : '<span class="text-xs font-bold text-rose-700">오답 ' + (index + 1) + '</span>';
+                return '<article class="rounded-xl border p-3 ' + cls + '">'
+                    + label
+                    + '<p class="text-sm text-slate-800 mt-1 safe">' + esc(log.q) + '</p>'
+                    + (log.ok ? '' : '<p class="text-xs text-slate-600 mt-1"><b>내 답:</b> ' + esc(log.user || '(무응답)') + '</p>')
+                    + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(log.correct) + '</p>'
+                    + '<p class="text-xs text-slate-700 mt-1 safe"><b>설명:</b> ' + esc(log.explainKo) + '</p>'
+                    + '<p class="text-xs text-blue-700 mt-0.5 safe vi-text"><b>VI:</b> ' + esc(log.explainVi) + '</p>'
+                    + '</article>';
+            }).join('');
+
+            resultPanel.innerHTML =
+                '<div class="rounded-xl border border-blue-200 bg-blue-50 p-4 text-center">'
+                + '<p class="text-xs text-blue-600 font-bold">연습 완료</p>'
+                + '<h3 class="text-3xl font-black text-slate-800 mt-1">' + state.score + ' <span class="text-xl text-slate-500">/ ' + quiz.length + '</span></h3>'
+                + '<p class="text-sm text-slate-600 mt-1">정답률 ' + percent + '%</p>'
+                + '<button id="restartBtn" class="mt-3 px-5 py-2 rounded-xl bg-slate-800 text-white text-sm font-bold" type="button">다시 풀기</button>'
+                + '</div>'
+                + '<div class="mt-3 space-y-2">' + rows + '</div>';
+
+            progressBar.style.width = '100%';
+            resultPanel.classList.remove('hidden');
+            document.getElementById('restartBtn').addEventListener('click', function () {
+                state.idx = 0;
+                state.score = 0;
+                state.logs = [];
+                renderQuestion();
+            });
+        }
+
+        checkShortBtn.addEventListener('click', function () {
+            answerQuestion(shortInput.value.trim());
+        });
+
+        shortInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                answerQuestion(shortInput.value.trim());
+            }
+        });
+
+        nextBtn.addEventListener('click', function () {
+            state.idx += 1;
+            renderQuestion();
+        });
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
