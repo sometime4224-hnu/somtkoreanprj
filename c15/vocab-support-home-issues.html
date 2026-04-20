@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>집에서 생기는 문제 - 어휘 보조 활동 | 15과</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── NAV ── */
+    .global-nav {
+      width: 100%; background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e0e7ff;
+      height: 56px; display: flex; align-items: center;
+      padding: 0 16px; gap: 14px;
+      position: sticky; top: 0; z-index: 999;
+    }
+    .global-nav a {
+      display: flex; align-items: center; gap: 5px;
+      color: #4f46e5; text-decoration: none;
+      font-weight: 700; font-size: 13px; transition: color 0.2s;
+    }
+    .global-nav a:hover { color: #3730a3; }
+    .global-nav .divider { color: #cbd5e1; }
+
+    /* ── HEADER ── */
+    .page-header {
+      text-align: center; padding: 16px 20px 12px;
+    }
+    .page-header h1 {
+      color: #e0e7ff; font-size: 1.35rem; font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .page-header p {
+      color: #94a3b8; font-size: 0.78rem;
+    }
+
+    /* ── GAME WRAPPER ── */
+    #game-wrapper {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 0 16px 20px;
+      width: 100%; max-width: 1020px;
+    }
+
+    #canvas-area {
+      flex: 0 1 760px;
+      width: 760px;
+      max-width: 100%;
+    }
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+
+    #touch-controls {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(191,219,254,0.3);
+      box-shadow: 0 8px 24px rgba(15,23,42,0.28);
+    }
+    #touch-controls p {
+      margin-bottom: 10px;
+      color: #cbd5e1;
+      font-size: 0.72rem;
+      text-align: center;
+      font-weight: 700;
+    }
+    .touch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-areas:
+        ". up ."
+        "left action right"
+        ". down .";
+      gap: 10px;
+    }
+    .touch-btn {
+      min-height: 54px;
+      border: none;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.96);
+      color: #1d4ed8;
+      font: inherit;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(15,23,42,0.2);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+    .touch-btn i { pointer-events: none; }
+    .touch-btn--up { grid-area: up; }
+    .touch-btn--left { grid-area: left; }
+    .touch-btn--right { grid-area: right; }
+    .touch-btn--down { grid-area: down; }
+    .touch-btn--action {
+      grid-area: action;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #eff6ff;
+    }
+    .touch-btn.is-active {
+      transform: scale(0.96);
+      box-shadow: inset 0 2px 8px rgba(15,23,42,0.18);
+    }
+
+    /* ── SIDE PANEL ── */
+    #side-panel {
+      width: 210px; flex-shrink: 0;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .panel-box {
+      background: rgba(255,255,255,0.96);
+      border-radius: 12px; padding: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
+    .panel-box h2 {
+      font-size: 0.82rem; font-weight: 900;
+      color: #1e40af; margin-bottom: 10px;
+      text-align: center;
+      border-bottom: 2px solid #dbeafe;
+      padding-bottom: 6px;
+    }
+    .tool-status {
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 0.76rem;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+    .tool-status--search {
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+    .tool-status--ready {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .tool-guide {
+      margin-top: 8px;
+      color: #475569;
+      font-size: 0.72rem;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    /* vocab items */
+    .vocab-item {
+      display: flex; align-items: center; gap: 7px;
+      padding: 5px 4px; border-radius: 7px; margin-bottom: 4px;
+      font-size: 0.78rem; transition: all 0.4s;
+    }
+    .vocab-item.seen  { background: #dcfce7; }
+    .vocab-item.unseen { background: #f8fafc; color: #94a3b8; }
+    .vocab-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .vocab-item.seen .dot  { background: #22c55e; }
+    .vocab-item.unseen .dot { background: #cbd5e1; }
+    .vocab-item .word { font-weight: 700; font-size: 0.76rem; line-height: 1.3; }
+
+    /* progress */
+    #progress-label { font-size: 0.72rem; color: #475569; text-align: center; margin-bottom: 5px; }
+    #bar-track { background: #e2e8f0; border-radius: 99px; height: 10px; overflow: hidden; }
+    #bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #22c55e);
+      border-radius: 99px; width: 0%;
+      transition: width 0.6s ease;
+    }
+
+    /* controls */
+    .controls-box { font-size: 0.71rem; color: #64748b; text-align: center; line-height: 1.8; }
+    .key-badge {
+      display: inline-block;
+      background: #e2e8f0; color: #374151;
+      border-radius: 4px; padding: 1px 5px;
+      font-weight: 700; font-size: 0.68rem;
+    }
+
+    /* completion banner */
+    #completion-banner {
+      display: none; background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+      border: 2px solid #22c55e; border-radius: 10px;
+      padding: 10px 12px; text-align: center;
+    }
+    #completion-banner.show { display: block; animation: popIn 0.4s ease; }
+    #completion-banner .congrats { font-size: 1.1rem; }
+    #completion-banner p { font-size: 0.75rem; color: #166534; margin-top: 4px; font-weight: 700; }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* responsive */
+    @media (max-width: 780px) {
+      #game-wrapper { flex-direction: column; align-items: center; }
+      #canvas-area { width: 100%; max-width: 580px; }
+      #side-panel { width: 100%; max-width: 580px; flex-direction: row; flex-wrap: wrap; }
+      .panel-box { flex: 1; min-width: 180px; }
+      #touch-controls { display: block; }
+    }
+  </style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- NAV -->
+<nav class="global-nav">
+  <a href="../index.html"><i class="fa-solid fa-house"></i> 메인으로</a>
+  <span class="divider">|</span>
+  <a href="index.html"><i class="fa-solid fa-folder-open"></i> 단원 홈</a>
+  <span class="divider">|</span>
+  <a href="vocabulary.html"><i class="fa-solid fa-cards-blank"></i> 어휘 카드</a>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <h1>🏠 집 탐험 어휘 보조 활동</h1>
+  <p>집 안을 돌아다니며 물건을 조작해 보세요. 고장과 수리를 반복하면서 표현을 익히는 어휘 보조 자료입니다.</p>
+</div>
+
+<!-- GAME WRAPPER -->
+<div id="game-wrapper">
+  <div id="canvas-area">
+    <canvas id="gameCanvas" width="760" height="520"></canvas>
+    <div id="touch-controls" aria-label="터치 조작 패널">
+      <p>모바일에서는 아래 버튼으로 이동하고 조사할 수 있어요.</p>
+      <div class="touch-grid">
+        <button type="button" class="touch-btn touch-btn--up" data-key="ArrowUp" aria-label="위로 이동">
+          <i class="fa-solid fa-chevron-up"></i>
+        </button>
+        <button type="button" class="touch-btn touch-btn--left" data-key="ArrowLeft" aria-label="왼쪽으로 이동">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" class="touch-btn touch-btn--action" data-action="interact" aria-label="조사하기">
+          <i class="fa-solid fa-hand-point-up"></i> 조사
+        </button>
+        <button type="button" class="touch-btn touch-btn--right" data-key="ArrowRight" aria-label="오른쪽으로 이동">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <button type="button" class="touch-btn touch-btn--down" data-key="ArrowDown" aria-label="아래로 이동">
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="side-panel">
+    <!-- vocab tracker -->
+    <div class="panel-box">
+      <h2>📋 발견한 표현</h2>
+      <div id="vocab-list"></div>
+      <div style="margin-top:10px;">
+        <div id="progress-label">0 / 8 발견</div>
+        <div id="bar-track"><div id="bar-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- completion -->
+    <div id="completion-banner">
+      <div class="congrats">🎉</div>
+      <p>모든 표현을 발견했어요!</p>
+    </div>
+
+    <div class="panel-box">
+      <h2>🔧 수리 상태</h2>
+      <div id="tool-status" class="tool-status tool-status--search">스패너를 아직 찾지 못했어요.</div>
+      <p id="repair-guide" class="tool-guide">고장 난 물건은 문제가 계속됩니다. 스패너를 챙긴 뒤 세 번 수리하면 정상으로 돌아와요.</p>
+    </div>
+
+    <!-- controls -->
+    <div class="panel-box controls-box">
+      <strong style="display:block;margin-bottom:6px;color:#1e40af;font-size:0.8rem;">🎮 조작법</strong>
+      <span class="key-badge">W A S D</span> 또는<br>
+      <span class="key-badge">↑ ↓ ← →</span> 이동<br><br>
+      <span class="key-badge">E</span> 또는 <span class="key-badge">Space</span> 상호작용<br><br>
+      <span class="key-badge">모바일</span> 아래 터치 버튼 사용<br><br>
+      <span style="color:#3b82f6;font-weight:700;">파란 테두리</span> = 상호작용 가능
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  CONSTANTS & LAYOUT
+// ═══════════════════════════════════════════
+const CW = 760, CH = 520;
+// Room boundaries (inner floor areas)
+// Layout: 2×2 grid, wall gap = 16px
+// Rooms:  Kitchen(TL) | Bathroom(TR)
+//         Living(BL)  | Bedroom(BR)
+const ROOMS = [
+  // Keep room edges flush with the 16px door openings so movement can cross rooms cleanly.
+  { id:'kitchen',  x:8,   y:8,   w:364, h:244, color:'#FFFBEB', border:'#FDE68A', name:'주방',   emoji:'🍳' },
+  { id:'bathroom', x:388, y:8,   w:364, h:244, color:'#EFF6FF', border:'#BFDBFE', name:'화장실', emoji:'🚿' },
+  { id:'living',   x:8,   y:268, w:364, h:244, color:'#F0FDF4', border:'#BBF7D0', name:'거실',   emoji:'🛋️' },
+  { id:'bedroom',  x:388, y:268, w:364, h:244, color:'#FFF1F2', border:'#FECDD3', name:'침실',   emoji:'🛏️' },
+];
+
+// Door openings (walkable passages in walls)
+const DOORS = [
+  { x:372, y:85,  w:16, h:80 },  // Kitchen ↔ Bathroom  (vertical wall)
+  { x:105, y:252, w:80, h:16 },  // Kitchen ↔ Living    (horizontal wall)
+  { x:485, y:252, w:80, h:16 },  // Bathroom ↔ Bedroom  (horizontal wall)
+  { x:372, y:385, w:16, h:80 },  // Living ↔ Bedroom    (vertical wall)
+];
+
+// ═══════════════════════════════════════════
+//  VOCABULARY
+// ═══════════════════════════════════════════
+const VOCAB = [
+  { id:0, text:'수돗물이 안 나오다', seen:false },
+  { id:1, text:'전기가 나가다',      seen:false },
+  { id:2, text:'변기가 막히다',      seen:false },
+  { id:3, text:'물이 새다',          seen:false },
+  { id:4, text:'소음이 심하다',      seen:false },
+  { id:5, text:'난방이 안 되다',     seen:false },
+  { id:6, text:'이상한 냄새가 나다', seen:false },
+  { id:7, text:'물이 안 내려가다',   seen:false },
+];
+
+// ═══════════════════════════════════════════
+//  INTERACTIVE OBJECTS
+// ═══════════════════════════════════════════
+// legacy hot vocab stub removed
+// legacy vocab stub removed
+// ];
+
+const OBJECTS = [
+  // ─── 주방 ───
+  {
+    id:'stove',   x:38,  y:30, w:58, h:58,
+    label:'가스레인지', emoji:'🔥',
+    normalText:'요리를 시작합니다~', failText:'이상한 냄새가 나요!',
+    fireText:'불이 났어요!', gasLeakText:'이상한 냄새가 나요!',
+    normalText:'\uC694\uB9AC\uB97C \uC2DC\uC791\uD569\uB2C8\uB2E4!', failText:'\uC774\uC0C1\uD55C \uB0C4\uC0C8\uAC00 \uB098\uC694!',
+    fireText:'\uBD88\uC774 \uB0AC\uC5B4\uC694!', gasLeakText:'\uC774\uC0C1\uD55C \uB0C4\uC0C8\uAC00 \uB098\uC694!',
+    failVocabId:6, count:0, broken:false, color:'#FEF9C3',
+    normalFx:'flame', failFx:'smell',
+  },
+  {
+    id:'faucet',  x:165, y:30, w:58, h:58,
+    label:'수도꼭지', emoji:'🚰',
+    normalText:'물을 틀었어요.', failText:'수돗물이 안 나와요!',
+    failVocabId:0, count:0, broken:false, color:'#DBEAFE',
+    normalFx:'drops', failFx:'noDrop',
+  },
+  {
+    id:'drain',   x:290, y:30, w:58, h:58,
+    label:'싱크대 배수구', emoji:'🕳️',
+    normalText:'물이 잘 내려가요.', failText:'물이 안 내려가요!',
+    failVocabId:7, count:0, broken:false, color:'#D1D5DB',
+    normalFx:'drain', failFx:'overflow',
+  },
+  {
+    id:'fridge',  x:294, y:126, w:56, h:92,
+    label:'냉장고', emoji:'🧊',
+    normalText:'냉장고가 시원해요.', failText:'전기가 나간 뒤 냉장고에서 이상한 냄새가 나요!',
+    normalText:'\uB0C9\uC7A5\uACE0\uAC00 \uC2DC\uC6D0\uD574\uC694.', failText:'\uC804\uAE30\uAC00 \uB098\uAC04 \uB4A4 \uB0C9\uC7A5\uACE0\uC5D0\uC11C \uC774\uC0C1\uD55C \uB0C4\uC0C8\uAC00 \uB098\uC694!',
+    failVocabId:6, count:0, broken:false, color:'#DBEAFE',
+    normalFx:'cold', failFx:'smell',
+    repairText:'냉장고 냄새를 없애는 중이에요.',
+    repairedText:'냉장고가 다시 괜찮아졌어요.',
+    repairText:'\uB0C9\uC7A5\uACE0 \uB0C4\uC0C8\uB97C \uC5C6\uC560\uB294 \uC911\uC774\uC5D0\uC694.',
+    repairedText:'\uB0C9\uC7A5\uACE0\uAC00 \uB2E4\uC2DC \uAD1C\uCC2E\uC544\uC84C\uC5B4\uC694.',
+    repairText:'\uB0C9\uC7A5\uACE0\uB97C \uCCAD\uC18C\uD574\uC694.',
+    repairedText:'\uB0C9\uC7A5\uACE0 \uB0C4\uC0C8\uAC00 \uC0AC\uB77C\uC84C\uC5B4\uC694.',
+    repairToolRequired:false,
+    manualBreakOnly:true,
+  },
+
+  // ─── 화장실 ───
+  {
+    id:'toilet',  x:420, y:28, w:58, h:66,
+    label:'변기', emoji:'🚽',
+    normalText:'물이 내려갑니다.', failText:'변기가 막혔어요!',
+    failVocabId:2, count:0, broken:false, color:'#E0E7FF',
+    normalFx:'flush', failFx:'clog',
+  },
+  {
+    id:'pipe',    x:660, y:28, w:58, h:58,
+    label:'수도관', emoji:'🔧',
+    normalText:'파이프 이상 없음.', failText:'물이 새요!',
+    failVocabId:3, count:0, broken:false, color:'#BAE6FD',
+    normalFx:'pipeOk', failFx:'leak',
+  },
+
+  // ─── 거실 ───
+  {
+    id:'switch',  x:310, y:285, w:46, h:58,
+    label:'전등 스위치', emoji:'💡',
+    normalText:'전등을 켰어요!', failText:'전기가 나갔어요!',
+    failVocabId:1, count:0, broken:false, color:'#FEF3C7',
+    normalFx:'glow', failFx:'spark',
+  },
+  {
+    id:'heater',  x:40,  y:285, w:58, h:58,
+    label:'난방기', emoji:'🌡️',
+    normalText:'따뜻해졌어요~', failText:'난방이 안 돼요!',
+    failVocabId:5, count:0, broken:false, color:'#FEE2E2',
+    normalFx:'heat', failFx:'cold',
+  },
+  {
+    id:'tv', x:24, y:436, w:86, h:50,
+    label:'TV', emoji:'\uD83D\uDCFA',
+    normalText:'TV\uAC00 \uC798 \uB098\uC640\uC694.', failText:'\uD154\uB808\uBE44\uC804\uC774 \uC548 \uB098\uC640\uC694!',
+    failVocabId:9, count:0, broken:false, color:'#CBD5E1',
+    normalFx:'glow', failFx:'static',
+  },
+  {
+    id:'ac', x:586, y:278, w:94, h:38,
+    label:'\uC5D0\uC5B4\uCEE8', emoji:'\u2744\uFE0F',
+    normalText:'\uC5D0\uC5B4\uCEE8\uC774 \uC2DC\uC6D0\uD574\uC694.', failText:'\uB354\uC6CC\uC694!',
+    failVocabId:8, count:0, broken:false, color:'#DBEAFE',
+    normalFx:'cold', failFx:'heat',
+  },
+  {
+    id:'extinguisher', x:42, y:196, w:32, h:40,
+    kind:'tool', collected:false,
+    label:'\uC18C\uD654\uAE30', emoji:'\uD83E\uDDEF',
+    pickupText:'\uC18C\uD654\uAE30\uB97C \uCC59\uACBC\uC5B4\uC694!',
+    normalText:'\uC774\uC81C \uC18C\uD654\uAE30\uB97C \uB4E4\uACE0 \uC788\uC5B4\uC694.',
+    color:'#FECACA',
+  },
+  {
+    id:'wrench',  x:315, y:445, w:36, h:36,
+    kind:'tool', collected:false,
+    label:'수리용 스패너', emoji:'🛠️',
+    pickupText:'수리용 스패너를 챙겼어요!',
+    normalText:'이미 스패너를 들고 있어요.',
+    color:'#E2E8F0',
+  },
+
+  // ─── 침실 ───
+  {
+    id:'neighbor', x:708, y:286, w:34, h:188,
+    label:'이웃집 벽', emoji:'',
+    normalText:'벽 너머가 조용해요.', failText:'소음이 심해요!',
+    failVocabId:4, count:0, broken:false, color:'#D1FAE5',
+    normalFx:'quiet', failFx:'noise',
+    repairText:'조용히 시켜주세요.',
+    repairedText:'이웃집이 조용해졌어요.',
+    repairToolRequired:false,
+    autoTriggerDisabled:false,
+  },
+];
+
+const REPAIR_HITS_REQUIRED = 3;
+const SAFE_INTERACTIONS_BEFORE_FAILURE = 3;
+const FAILURE_STEP_AFTER_SAFE = 0.2;
+const POST_RESET_FAILURE_CHANCE = 0.33;
+const BROKEN_EFFECT_INTERVALS = {
+  stove: 18,
+  faucet: 10,
+  drain: 14,
+  fridge: 18,
+  toilet: 14,
+  pipe: 12,
+  switch: 8,
+  heater: 16,
+  tv: 12,
+  ac: 16,
+  neighbor: 14,
+};
+
+OBJECTS.forEach(obj => {
+  if (obj.kind !== 'tool') {
+    obj.repairHits = 0;
+    obj.brokenFxTimer = 0;
+    obj.brokenMode = null;
+    obj.failureResetActive = false;
+    obj.repairHitsRequired = obj.repairHitsRequired ?? REPAIR_HITS_REQUIRED;
+    obj.baseRepairHitsRequired = obj.repairHitsRequired;
+  }
+});
+
+VOCAB[8] = VOCAB[8] || { id:8, text:'\uB354\uC6CC\uC694', seen:false };
+VOCAB[9] = VOCAB[9] || { id:9, text:'\uD154\uB808\uBE44\uC804\uC774 \uC548 \uB098\uC640\uC694', seen:false };
+
+// ═══════════════════════════════════════════
+//  PLAYER
+// ═══════════════════════════════════════════
+const player = {
+  x:185, y:140,   // start inside kitchen
+  w:22,  h:30,
+  speed:2.6,
+  facing:'down',
+  animFrame:0, animTimer:0,
+  hasWrench:false,
+  hasExtinguisher:false,
+  isMoving:false,
+};
+
+// ═══════════════════════════════════════════
+//  GAME STATE
+// ═══════════════════════════════════════════
+const keys = {};
+let speechBubble = null;
+let particles = [];
+let lightOut = false, lightOutTimer = 0;
+let completionShown = false;
+let shakeTimer = 0;
+const sessionStartMs = performance.now();
+let otherActionCount = 0;
+
+// ═══════════════════════════════════════════
+//  CANVAS
+// ═══════════════════════════════════════════
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const touchButtons = document.querySelectorAll('[data-key]');
+const touchInteractButton = document.querySelector('[data-action="interact"]');
+const toolStatus = document.getElementById('tool-status');
+const repairGuide = document.getElementById('repair-guide');
+
+// ═══════════════════════════════════════════
+//  INPUT
+// ═══════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  keys[e.key] = true;
+  if ((e.key==='e'||e.key==='E'||e.key===' ') && !e.repeat) {
+    e.preventDefault();
+    tryInteract();
+  }
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.key] = false; });
+
+function setTouchKey(button, key, isPressed) {
+  keys[key] = isPressed;
+  button.classList.toggle('is-active', isPressed);
+}
+
+function releaseTouchDirections() {
+  touchButtons.forEach(button => {
+    setTouchKey(button, button.dataset.key, false);
+  });
+}
+
+touchButtons.forEach(button => {
+  const key = button.dataset.key;
+  button.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    button.setPointerCapture?.(e.pointerId);
+    setTouchKey(button, key, true);
+  });
+
+  const release = e => {
+    e.preventDefault();
+    setTouchKey(button, key, false);
+  };
+
+  button.addEventListener('pointerup', release);
+  button.addEventListener('pointercancel', release);
+  button.addEventListener('lostpointercapture', () => setTouchKey(button, key, false));
+});
+
+let interactFlashTimer = 0;
+touchInteractButton.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  touchInteractButton.classList.add('is-active');
+  clearTimeout(interactFlashTimer);
+  interactFlashTimer = window.setTimeout(() => {
+    touchInteractButton.classList.remove('is-active');
+  }, 140);
+  tryInteract();
+});
+touchInteractButton.addEventListener('pointerup', e => e.preventDefault());
+touchInteractButton.addEventListener('pointercancel', e => {
+  e.preventDefault();
+  touchInteractButton.classList.remove('is-active');
+});
+
+window.addEventListener('blur', releaseTouchDirections);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) releaseTouchDirections();
+});
+
+function getSwitchObject() {
+  return OBJECTS.find(obj => obj.id === 'switch');
+}
+
+function getFridgeObject() {
+  return OBJECTS.find(obj => obj.id === 'fridge');
+}
+
+function getHeaterObject() {
+  return OBJECTS.find(obj => obj.id === 'heater');
+}
+
+function getAcObject() {
+  return OBJECTS.find(obj => obj.id === 'ac');
+}
+
+function getNeighborObject() {
+  return OBJECTS.find(obj => obj.id === 'neighbor');
+}
+
+function isHiddenObject(obj) {
+  return obj.kind === 'tool' && obj.collected;
+}
+
+function getObjectAnchor(obj) {
+  return { x: obj.x + obj.w/2, y: obj.y + obj.h/2 };
+}
+
+function getRequiredToolType(obj) {
+  if (obj.repairToolRequired === false) return null;
+  if (obj.id === 'stove' && obj.brokenMode === 'fire') return 'extinguisher';
+  return 'wrench';
+}
+
+function needsRepairTool(obj) {
+  return getRequiredToolType(obj) !== null;
+}
+
+function hasRequiredTool(obj) {
+  const requiredTool = getRequiredToolType(obj);
+  if (!requiredTool) return true;
+  return requiredTool === 'extinguisher' ? player.hasExtinguisher : player.hasWrench;
+}
+
+function getRequiredToolName(obj) {
+  const requiredTool = getRequiredToolType(obj);
+  if (requiredTool === 'extinguisher') return '\uC18C\uD654\uAE30';
+  if (requiredTool === 'wrench') return '\uC218\uB9AC\uC6A9 \uC2A4\uD328\uB108';
+  return '';
+}
+
+function getRepairHitsRequired(obj) {
+  return obj.repairHitsRequired ?? REPAIR_HITS_REQUIRED;
+}
+
+function getRepairVerb(obj) {
+  if (obj.id === 'stove' && obj.brokenMode === 'fire') return '\uC9C4\uC555';
+  if (obj.id === 'neighbor') return '\uC870\uC6A9\uD788';
+  if (obj.id === 'fridge') return '\uCCAD\uC18C';
+  return '\uC218\uB9AC';
+}
+
+function getRepairProgressText(obj, requiredHits) {
+  if (obj.id === 'stove' && obj.brokenMode === 'fire') {
+    return `\uBD88\uC744 \uB044\uB294 \uC911\uC774\uC5D0\uC694. (${obj.repairHits}/${requiredHits})`;
+  }
+  if (obj.repairText) {
+    return `${obj.repairText} (${obj.repairHits}/${requiredHits})`;
+  }
+  return `${obj.label} \uC218\uB9AC \uC911.. (${obj.repairHits}/${requiredHits})`;
+}
+
+function getRepairCompleteText(obj) {
+  if (obj.id === 'stove' && obj.brokenMode === 'fire') {
+    return '\uBD88\uC774 \uAEBC\uC84C\uC5B4\uC694!';
+  }
+  return obj.repairedText || `${obj.label}\uB97C \uACE0\uCCE4\uC5B4\uC694!`;
+}
+
+function getMissingToolMessage(obj) {
+  const requiredToolName = getRequiredToolName(obj);
+  return requiredToolName ? `${requiredToolName}\uAC00 \uD544\uC694\uD574\uC694!` : '\uD655\uC778\uD574 \uBCF4\uC138\uC694!';
+}
+
+function getBrokenInteractLabel(obj) {
+  if (hasRequiredTool(obj)) return `[E] ${getRepairVerb(obj)}`;
+  return '[E] \uD655\uC778';
+}
+
+function getFailureChance(obj) {
+  if (obj.failureResetActive) return POST_RESET_FAILURE_CHANCE;
+  const attemptNumber = obj.count ?? 0;
+  if (attemptNumber <= SAFE_INTERACTIONS_BEFORE_FAILURE) return 0;
+  return Math.min(1, (attemptNumber - SAFE_INTERACTIONS_BEFORE_FAILURE) * FAILURE_STEP_AFTER_SAFE);
+}
+
+function spawnBrokenFxForObject(obj) {
+  const { x, y } = getObjectAnchor(obj);
+  if (obj.id === 'stove') {
+    if (obj.brokenMode === 'fire') {
+      spawnFx('flame', x, y+4);
+      spawnFx('flash', x, y);
+      spawnFx('ember', x, y+6);
+      return;
+    }
+    spawnFx('smell', x, y-6);
+    spawnFx('smokeBurst', x, y-8);
+    return;
+  }
+  if (obj.id === 'faucet') {
+    spawnFx('airPuff', x, y+4);
+    spawnFx('noDrop', x, y+12);
+    return;
+  }
+  if (obj.id === 'drain') {
+    spawnFx('overflow', x, y+10);
+    spawnFx('floodRing', x, y+16);
+    return;
+  }
+  if (obj.id === 'fridge') {
+    spawnFx('smell', x, y-2);
+    spawnFx('smokeBurst', x, y-4);
+    return;
+  }
+  if (obj.id === 'toilet') {
+    spawnFx('clog', x, y+10);
+    spawnFx('floodRing', x, y+24);
+    spawnFx('splash', x, y+20);
+    return;
+  }
+  if (obj.id === 'pipe') {
+    spawnFx('leak', x, y+10);
+    spawnFx('spraySide', x, y+4);
+    return;
+  }
+  if (obj.id === 'switch') {
+    spawnFx('spark', x, y);
+    spawnFx('flash', x, y);
+    return;
+  }
+  if (obj.id === 'heater') {
+    spawnFx('cold', x, y+8);
+    spawnFx('frost', x, y+6);
+    return;
+  }
+  if (obj.id === 'tv') {
+    spawnFx('static', x, y);
+    spawnFx('flash', x, y);
+    return;
+  }
+  if (obj.id === 'ac') {
+    spawnFx('heat', x, y+8);
+    spawnFx('airPuff', x, y+6);
+    return;
+  }
+  if (obj.id === 'neighbor') {
+    spawnFx('noise', x, y);
+    spawnFx('shout', x, y-8);
+    return;
+  }
+  spawnFx(obj.failFx, x, y);
+}
+
+function triggerFridgeOdor(showSpeechBubble = false) {
+  const fridge = getFridgeObject();
+  if (!fridge || fridge.broken) return;
+
+  fridge.broken = true;
+  fridge.repairHits = 0;
+  fridge.brokenFxTimer = 0;
+  fridge.brokenMode = 'spoiled';
+  fridge.repairHitsRequired = 2 + Math.floor(Math.random() * 3);
+  VOCAB[fridge.failVocabId].seen = true;
+  updateVocabPanel();
+  spawnBrokenFxForObject(fridge);
+  if (showSpeechBubble) {
+    const { x, y } = getObjectAnchor(fridge);
+    showSpeech(fridge.failText, true, x, y);
+  }
+  updateToolStatus();
+}
+
+function triggerNeighborNoise(showSpeechBubble = true) {
+  const neighbor = getNeighborObject();
+  if (!neighbor || neighbor.broken || neighbor.autoTriggerDisabled) return;
+
+  neighbor.broken = true;
+  neighbor.repairHits = 0;
+  neighbor.brokenFxTimer = 0;
+  VOCAB[neighbor.failVocabId].seen = true;
+  updateVocabPanel();
+  spawnBrokenFxForObject(neighbor);
+  if (showSpeechBubble) {
+    const { x, y } = getObjectAnchor(neighbor);
+    showSpeech(neighbor.failText, true, x, y);
+  }
+  updateToolStatus();
+}
+
+function updateNeighborNoise() {
+  const neighbor = getNeighborObject();
+  if (!neighbor || neighbor.broken || neighbor.autoTriggerDisabled) return;
+
+  const elapsedMs = performance.now() - sessionStartMs;
+  if (otherActionCount >= 15 || elapsedMs >= 120000) {
+    triggerNeighborNoise(true);
+  }
+}
+
+function updateToolStatus() {
+  const activeBrokenObjects = OBJECTS.filter(obj => obj.kind !== 'tool' && obj.broken);
+  const activeBrokenCount = activeBrokenObjects.length;
+  const activeToolNeededCount = activeBrokenObjects.filter(needsRepairTool).length;
+  const activeNoToolCount = activeBrokenCount - activeToolNeededCount;
+  const missingWrenchCount = activeBrokenObjects.filter(obj => getRequiredToolType(obj) === 'wrench' && !player.hasWrench).length;
+  const missingExtinguisherCount = activeBrokenObjects.filter(obj => getRequiredToolType(obj) === 'extinguisher' && !player.hasExtinguisher).length;
+  const heldTools = [];
+  if (player.hasWrench) heldTools.push('\uC2A4\uD328\uB108');
+  if (player.hasExtinguisher) heldTools.push('\uC18C\uD654\uAE30');
+  const heldToolsLabel = heldTools.join(', ');
+  const missingTools = [];
+  if (missingWrenchCount > 0) missingTools.push('\uC2A4\uD328\uB108');
+  if (missingExtinguisherCount > 0) missingTools.push('\uC18C\uD654\uAE30');
+  const missingToolsLabel = missingTools.join(', ');
+
+  if (heldToolsLabel) {
+    toolStatus.className = 'tool-status tool-status--ready';
+    toolStatus.textContent = activeBrokenCount
+      ? (missingToolsLabel
+          ? `\uB4E4\uACE0 \uC788\uB294 \uB3C4\uAD6C: ${heldToolsLabel} | \uCD94\uAC00 \uD544\uC694: ${missingToolsLabel}`
+          : `\uB4E4\uACE0 \uC788\uB294 \uB3C4\uAD6C: ${heldToolsLabel} | \uD574\uACB0 \uB300\uAE30 ${activeBrokenCount}\uAC1C`)
+      : `\uB4E4\uACE0 \uC788\uB294 \uB3C4\uAD6C: ${heldToolsLabel}`;
+  } else if (activeToolNeededCount > 0) {
+    toolStatus.className = 'tool-status tool-status--search';
+    toolStatus.textContent = activeNoToolCount > 0
+      ? `\uACE0\uC7A5 ${activeBrokenCount}\uAC1C. \uADF8\uC911 ${activeNoToolCount}\uAC1C\uB294 \uBC14\uB85C \uD574\uACB0\uD560 \uC218 \uC788\uACE0, \uB098\uBA38\uC9C0\uB294 ${missingToolsLabel}\uAC00 \uD544\uC694\uD574\uC694.`
+      : `\uACE0\uC7A5 ${activeBrokenCount}\uAC1C. ${missingToolsLabel}\uB97C \uCC3E\uC544\uC57C \uD574\uC694.`;
+  } else {
+    toolStatus.className = 'tool-status tool-status--ready';
+    toolStatus.textContent = activeBrokenCount
+      ? `\uACE0\uC7A5 ${activeBrokenCount}\uAC1C\uB294 \uC2A4\uD328\uB108 \uC5C6\uC774\uB3C4 \uD574\uACB0\uD560 \uC218 \uC788\uC5B4\uC694.`
+      : '\uC2A4\uD328\uB108\uB97C \uC544\uC9C1 \uCC3E\uC9C0 \uBABB\uD588\uC5B4\uB3C4 \uAE08\uBC29 \uD560 \uC77C\uC740 \uC5C6\uC5B4\uC694.';
+  }
+
+  repairGuide.textContent = activeBrokenCount
+    ? '\uACE0\uC7A5\uB09C \uBB3C\uAC74 \uAC00\uAE4C\uC774\uC11C [E]\uB97C \uB20C\uB7EC \uD655\uC778\uD558\uC138\uC694. \uD654\uC7AC\uB294 \uC18C\uD654\uAE30\uB85C \uC9C4\uC555\uD558\uACE0, \uB0C9\uC7A5\uACE0\uB294 \uCCAD\uC18C, \uC774\uC6C3\uC9D1 \uBCBD\uC740 \uBC14\uB85C \uC870\uC6A9\uD788 \uC2DC\uD0AC \uC218 \uC788\uC5B4\uC694.'
+    : '\uBB38\uC81C\uAC00 \uC0DD\uAE30\uBA74 \uC774\uD399\uD2B8\uAC00 \uACC4\uC18D \uB0A8\uC544\uC694. \uC2A4\uD328\uB108\uB97C \uBA3C\uC800 \uCC59\uAE30\uBA74 \uB300\uBD80\uBD84 \uACE0\uC7A5\uC744 \uBC14\uB85C \uACE0\uCE60 \uC218 \uC788\uC5B4\uC694.';
+  return;
+  const brokenCount = OBJECTS.filter(obj => obj.kind !== 'tool' && obj.broken).length;
+
+  if (player.hasWrench) {
+    toolStatus.className = 'tool-status tool-status--ready';
+    toolStatus.textContent = brokenCount
+      ? `스패너 장착 완료 · 수리 대기 ${brokenCount}곳`
+      : '스패너 장착 완료 · 바로 수리할 수 있어요.';
+  } else {
+    toolStatus.className = 'tool-status tool-status--search';
+    toolStatus.textContent = brokenCount
+      ? `고장 ${brokenCount}곳 · 스패너를 찾아야 해요.`
+      : '스패너를 아직 찾지 못했어요.';
+  }
+
+  repairGuide.textContent = brokenCount
+    ? '고장 난 물건 가까이에서 [E]를 눌러 점검하세요. 스패너를 들고 세 번 수리하면 고쳐집니다.'
+    : '문제가 생기면 이펙트가 계속 나타납니다. 스패너를 먼저 챙겨 두면 바로 수리할 수 있어요.';
+}
+
+// ═══════════════════════════════════════════
+//  VOCAB PANEL
+// ═══════════════════════════════════════════
+function updateVocabPanel() {
+  const totalWords = VOCAB.length;
+  const listEl = document.getElementById('vocab-list');
+  listEl.innerHTML = '';
+  VOCAB.forEach(v => {
+    const d = document.createElement('div');
+    d.className = `vocab-item ${v.seen ? 'seen' : 'unseen'}`;
+    d.innerHTML = `<div class="dot"></div><div class="word">${v.seen ? v.text : '???'}</div>`;
+    listEl.appendChild(d);
+  });
+  const seenCount = VOCAB.filter(v => v.seen).length;
+  document.getElementById('progress-label').textContent = `${seenCount} / ${totalWords} \uBC1C\uACAC`;
+  document.getElementById('bar-fill').style.width = `${(seenCount / totalWords) * 100}%`;
+  if (seenCount === totalWords && !completionShown) {
+    completionShown = true;
+    document.getElementById('completion-banner').classList.add('show');
+  }
+  return;
+  const list = document.getElementById('vocab-list');
+  list.innerHTML = '';
+  VOCAB.forEach(v => {
+    const d = document.createElement('div');
+    d.className = `vocab-item ${v.seen ? 'seen' : 'unseen'}`;
+    d.innerHTML = `<div class="dot"></div><div class="word">${v.seen ? v.text : '???'}</div>`;
+    list.appendChild(d);
+  });
+  const n = VOCAB.filter(v=>v.seen).length;
+  document.getElementById('progress-label').textContent = `${n} / 8 발견`;
+  document.getElementById('bar-fill').style.width = `${(n/8)*100}%`;
+  if (n===8 && !completionShown) {
+    completionShown = true;
+    document.getElementById('completion-banner').classList.add('show');
+  }
+}
+
+// ═══════════════════════════════════════════
+//  COLLISION / MOVEMENT
+// ═══════════════════════════════════════════
+function isWalkable(cx, cy) {
+  for (const r of ROOMS)  if (cx>=r.x && cx<=r.x+r.w && cy>=r.y && cy<=r.y+r.h) return true;
+  for (const d of DOORS)  if (cx>=d.x && cx<=d.x+d.w && cy>=d.y && cy<=d.y+d.h) return true;
+  return false;
+}
+
+function updatePlayer() {
+  const dx = ((keys['ArrowRight']||keys['d']||keys['D'])?1:0) - ((keys['ArrowLeft']||keys['a']||keys['A'])?1:0);
+  const dy = ((keys['ArrowDown'] ||keys['s']||keys['S'])?1:0) - ((keys['ArrowUp']  ||keys['w']||keys['W'])?1:0);
+  player.isMoving = (dx!==0||dy!==0);
+  if (!player.isMoving) return;
+
+  if      (dx>0)  player.facing = 'right';
+  else if (dx<0)  player.facing = 'left';
+  else if (dy>0)  player.facing = 'down';
+  else if (dy<0)  player.facing = 'up';
+
+  const len = Math.sqrt(dx*dx+dy*dy);
+  const nx = dx/len * player.speed;
+  const ny = dy/len * player.speed;
+  const cx = player.x + player.w/2;
+  const cy = player.y + player.h/2;
+
+  if (isWalkable(cx+nx, cy+ny)) { player.x+=nx; player.y+=ny; }
+  else if (isWalkable(cx+nx, cy)) player.x+=nx;
+  else if (isWalkable(cx, cy+ny)) player.y+=ny;
+
+  player.x = Math.max(0, Math.min(CW-player.w, player.x));
+  player.y = Math.max(0, Math.min(CH-player.h, player.y));
+
+  player.animTimer++;
+  if (player.animTimer>8) { player.animFrame=(player.animFrame+1)%4; player.animTimer=0; }
+}
+
+// ═══════════════════════════════════════════
+//  INTERACTION
+// ═══════════════════════════════════════════
+function nearestObject() {
+  const REACH = 58;
+  const px = player.x+player.w/2, py = player.y+player.h/2;
+  let best=null, bestD=REACH;
+  for (const o of OBJECTS) {
+    if (isHiddenObject(o)) continue;
+    const d = Math.hypot(px-(o.x+o.w/2), py-(o.y+o.h/2));
+    if (d<bestD) { best=o; bestD=d; }
+  }
+  return best;
+}
+
+function tryInteract() {
+  const targetObj = nearestObject();
+  if (!targetObj) return;
+  const { x: anchorX, y: anchorY } = getObjectAnchor(targetObj);
+  const countsAsAction = targetObj.id !== 'neighbor';
+  if (countsAsAction) otherActionCount++;
+
+  if (targetObj.kind === 'tool') {
+    if (!targetObj.collected) {
+      targetObj.collected = true;
+      if (targetObj.id === 'extinguisher') player.hasExtinguisher = true;
+      else player.hasWrench = true;
+      showSpeech(targetObj.pickupText, false, anchorX, anchorY);
+      spawnFx('repair', anchorX, anchorY);
+      updateToolStatus();
+    } else {
+      showSpeech(targetObj.normalText, false, anchorX, anchorY);
+    }
+    if (countsAsAction) updateNeighborNoise();
+    return;
+  }
+
+  if (targetObj.broken) {
+    const repairNeedsTool = needsRepairTool(targetObj);
+    const usingExtinguisher = getRequiredToolType(targetObj) === 'extinguisher';
+    if (repairNeedsTool && !hasRequiredTool(targetObj)) {
+      showSpeech(getMissingToolMessage(targetObj), true, anchorX, anchorY);
+      spawnBrokenFxForObject(targetObj);
+      return;
+    }
+
+    targetObj.repairHits++;
+    spawnFx('repair', anchorX, anchorY);
+    if (usingExtinguisher) spawnFx('foam', anchorX, anchorY);
+    const requiredHits = getRepairHitsRequired(targetObj);
+
+    if (targetObj.repairHits >= requiredHits) {
+      const repairDoneText = getRepairCompleteText(targetObj);
+      targetObj.broken = false;
+      targetObj.repairHits = 0;
+      targetObj.brokenFxTimer = 0;
+      targetObj.brokenMode = null;
+      targetObj.repairHitsRequired = targetObj.baseRepairHitsRequired;
+      if (targetObj.id === 'neighbor') targetObj.autoTriggerDisabled = true;
+      showSpeech(repairDoneText, false, anchorX, anchorY);
+      if (targetObj.id === 'switch') {
+        lightOut = false;
+        lightOutTimer = 0;
+      }
+      updateToolStatus();
+    } else {
+      const repairLine = getRepairProgressText(targetObj, requiredHits);
+      showSpeech(repairLine, false, anchorX, anchorY);
+    }
+    if (countsAsAction) updateNeighborNoise();
+    return;
+  }
+
+  if (targetObj.id === 'fridge') {
+    showSpeech(targetObj.normalText, false, anchorX, anchorY);
+    spawnFx(targetObj.normalFx, anchorX, anchorY);
+    if (countsAsAction) updateNeighborNoise();
+    return;
+  }
+
+  targetObj.count++;
+
+  const failureChance = getFailureChance(targetObj);
+  const didFail = Math.random() < failureChance;
+
+  if (didFail) {
+    targetObj.count = 0;
+    targetObj.failureResetActive = true;
+    if (targetObj.id === 'neighbor') {
+      triggerNeighborNoise(true);
+      return;
+    }
+
+    targetObj.broken = true;
+    targetObj.repairHits = 0;
+    targetObj.brokenFxTimer = 0;
+    targetObj.brokenMode = null;
+    targetObj.repairHitsRequired = targetObj.baseRepairHitsRequired;
+
+    if (targetObj.id === 'stove') {
+      targetObj.brokenMode = Math.random() < 0.5 ? 'fire' : 'gas';
+      if (targetObj.brokenMode === 'gas') {
+        VOCAB[targetObj.failVocabId].seen = true;
+        updateVocabPanel();
+        showSpeech(targetObj.gasLeakText || targetObj.failText, true, anchorX, anchorY);
+      } else {
+        showSpeech(targetObj.fireText || '\uBD88\uC774 \uB0AC\uC5B4\uC694!', true, anchorX, anchorY);
+        shakeTimer = Math.max(shakeTimer, 6);
+      }
+      spawnBrokenFxForObject(targetObj);
+      updateToolStatus();
+      if (countsAsAction) updateNeighborNoise();
+      return;
+    }
+
+    if (!targetObj.manualBreakOnly) {
+      VOCAB[targetObj.failVocabId].seen = true;
+      updateVocabPanel();
+    }
+    showSpeech(targetObj.failText, true, anchorX, anchorY);
+    spawnBrokenFxForObject(targetObj);
+
+    if (targetObj.id === 'switch') {
+      lightOut = true;
+      lightOutTimer = 180;
+      shakeTimer = 6;
+      triggerFridgeOdor(false);
+    }
+
+    updateToolStatus();
+  } else {
+    showSpeech(targetObj.normalText, false, anchorX, anchorY);
+    spawnFx(targetObj.normalFx, anchorX, anchorY);
+  }
+
+  if (countsAsAction) updateNeighborNoise();
+  return;
+  const obj = nearestObject();
+  if (!obj) return;
+  const { x: bx, y: by } = getObjectAnchor(obj);
+  const countsAsOtherAction = obj.id !== 'neighbor';
+  if (countsAsOtherAction) otherActionCount++;
+
+  if (obj.kind === 'tool') {
+    if (!obj.collected) {
+      obj.collected = true;
+      player.hasWrench = true;
+      showSpeech(obj.pickupText, false, bx, by);
+      spawnFx('repair', bx, by);
+      updateToolStatus();
+    } else {
+      showSpeech(obj.normalText, false, bx, by);
+    }
+    if (countsAsOtherAction) updateNeighborNoise();
+    return;
+  }
+
+  if (obj.broken) {
+    if (!player.hasWrench) {
+      showSpeech('수리용 스패너가 필요해요!', true, bx, by);
+      spawnBrokenFxForObject(obj);
+      return;
+    }
+
+    obj.repairHits++;
+    spawnFx('repair', bx, by);
+
+    if (obj.repairHits >= REPAIR_HITS_REQUIRED) {
+      obj.broken = false;
+      obj.repairHits = 0;
+      obj.brokenFxTimer = 0;
+      obj.brokenMode = null;
+      if (obj.id === 'neighbor') obj.autoTriggerDisabled = true;
+      showSpeech(obj.id === 'neighbor' ? obj.repairedText : `${obj.label}를 고쳤어요!`, false, bx, by);
+      showSpeech(obj.repairedText || `${obj.label}\uB97C \uACE0\uCCE4\uC5B4\uC694!`, false, bx, by);
+      if (obj.id === 'switch') {
+        lightOut = false;
+        lightOutTimer = 0;
+      }
+      updateToolStatus();
+    } else {
+      showSpeech(obj.id === 'neighbor' ? obj.repairText : `${obj.label} 수리 중... (${obj.repairHits}/${REPAIR_HITS_REQUIRED})`, false, bx, by);
+    }
+    if (countsAsOtherAction) updateNeighborNoise();
+    return;
+  }
+
+  if (obj.id === 'fridge') {
+    showSpeech(obj.normalText, false, bx, by);
+    spawnFx(obj.normalFx, bx, by);
+    if (countsAsOtherAction) updateNeighborNoise();
+    return;
+  }
+
+  obj.count++;
+
+  // Compute fail probability:
+  // If vocab not yet seen: 35% → 60% → guaranteed by 3rd attempt
+  // If already seen: low random chance to keep surprises alive
+  const failP = getFailureChance(obj);
+  const fail   = Math.random() < failP;
+
+  if (fail) {
+    obj.count = 0;
+    obj.failureResetActive = true;
+    if (obj.id === 'neighbor') {
+      triggerNeighborNoise(true);
+      return;
+    }
+    obj.broken = true;
+    obj.repairHits = 0;
+    obj.brokenFxTimer = 0;
+    obj.brokenMode = null;
+    if (obj.id === 'stove') {
+      obj.brokenMode = Math.random() < 0.5 ? 'fire' : 'gas';
+      if (obj.brokenMode === 'gas') {
+        VOCAB[obj.failVocabId].seen = true;
+        updateVocabPanel();
+        showSpeech(obj.gasLeakText || obj.failText, true, bx, by);
+      } else {
+        showSpeech(obj.fireText || '\uBD88\uC774 \uB0AC\uC5B4\uC694!', true, bx, by);
+        shakeTimer = Math.max(shakeTimer, 6);
+      }
+      spawnBrokenFxForObject(obj);
+      updateToolStatus();
+      if (countsAsOtherAction) updateNeighborNoise();
+      return;
+    }
+    VOCAB[obj.failVocabId].seen = true;
+    updateVocabPanel();
+    showSpeech(obj.failText, true, bx, by);
+    spawnBrokenFxForObject(obj);
+    if (obj.id==='switch') {
+      lightOut=true;
+      lightOutTimer=180;
+      shakeTimer=6;
+      triggerFridgeOdor(false);
+    }
+    updateToolStatus();
+  } else {
+    showSpeech(obj.normalText, false, bx, by);
+    spawnFx(obj.normalFx, bx, by);
+  }
+  if (countsAsOtherAction) updateNeighborNoise();
+}
+
+// ═══════════════════════════════════════════
+//  SPEECH BUBBLE
+// ═══════════════════════════════════════════
+function showSpeech(text, isError, ox, oy) {
+  speechBubble = { text, isError, ox, oy, t:0, max: isError ? 220 : 160 };
+}
+
+// ═══════════════════════════════════════════
+//  PARTICLES
+// ═══════════════════════════════════════════
+function spawnFx(type, cx, cy) {
+  const add = (o) => particles.push(o);
+  if (type==='drops')   for(let i=0;i<5;i++) add({ type:'drop',   x:cx+(Math.random()-.5)*12, y:cy, vx:(Math.random()-.5)*.6, vy:1+Math.random()*1.5, life:45, max:45 });
+  if (type==='noDrop')  for(let i=0;i<5;i++) add({ type:'nodrop', x:cx+(Math.random()-.5)*14, y:cy, vx:(Math.random()-.5)*.4, vy:-.6-Math.random(), life:55, max:55 });
+  if (type==='airPuff') for(let i=0;i<8;i++) add({ type:'airPuff', x:cx+(Math.random()-.5)*12, y:cy+(Math.random()-.5)*4, vx:(Math.random()-.5)*.9, vy:-.3-Math.random()*.7, life:50, max:50, phase:Math.random()*6, size:8+Math.random()*4 });
+  if (type==='drain')   for(let i=0;i<4;i++) add({ type:'drop',   x:cx+(Math.random()-.5)*10, y:cy+5, vx:(Math.random()-.5)*.3, vy:.4+Math.random(), life:30, max:30 });
+  if (type==='overflow') for(let i=0;i<6;i++) add({ type:'bubble', x:cx+(Math.random()-.5)*18, y:cy, vx:(Math.random()-.5)*.8, vy:-.4-Math.random()*.8, life:60, max:60 });
+  if (type==='flame')   for(let i=0;i<6;i++) add({ type:'heat',   x:cx+(Math.random()-.5)*18, y:cy, vx:(Math.random()-.5)*.5, vy:-.7-Math.random()*1.2, life:50, max:50 });
+  if (type==='smell')   for(let i=0;i<7;i++) add({ type:'smell',  x:cx+(Math.random()-.5)*20, y:cy, vx:(Math.random()-.5)*.4, vy:-.5-Math.random()*.9, life:80, max:80, phase:Math.random()*6 });
+  if (type==='smokeBurst') for(let i=0;i<10;i++) add({ type:'smoke', x:cx+(Math.random()-.5)*22, y:cy+4, vx:(Math.random()-.5)*.7, vy:-.9-Math.random()*1.2, life:85, max:85, size:5+Math.random()*6 });
+  if (type==='flush')   for(let i=0;i<5;i++) add({ type:'swirl',  x:cx, y:cy, angle:i*72, r:12+i*3, life:40, max:40 });
+  if (type==='clog')    for(let i=0;i<7;i++) add({ type:'bubble', x:cx+(Math.random()-.5)*20, y:cy, vx:(Math.random()-.5)*1,  vy:-.5-Math.random()*1.5, life:65, max:65 });
+  if (type==='pipeOk')  for(let i=0;i<4;i++) add({ type:'drop',   x:cx, y:cy, vx:(Math.random()-.5)*.8, vy:(Math.random()-.5)*.8, life:20, max:20 });
+  if (type==='leak')    for(let i=0;i<8;i++) add({ type:'drop',   x:cx+(Math.random()-.5)*14, y:cy+10, vx:(Math.random()-.5)*1.2, vy:1.5+Math.random()*2, life:55, max:55 });
+  if (type==='spray')   for(let i=0;i<18;i++) add({ type:'spray',  x:cx+(Math.random()-.5)*10, y:cy-2, vx:(Math.random()-.5)*2.4, vy:1.4+Math.random()*3.2, life:34, max:34 });
+  if (type==='spraySide') for(let i=0;i<14;i++) add({ type:'spray', x:cx+(Math.random()-.5)*8, y:cy, vx:(Math.random()>.5?1:-1)*(1.2+Math.random()*2.2), vy:.8+Math.random()*2.2, life:32, max:32 });
+  if (type==='splash')  for(let i=0;i<12;i++) add({ type:'splash', x:cx+(Math.random()-.5)*18, y:cy+10, vx:(Math.random()-.5)*1.8, vy:-.6-Math.random()*2, life:38, max:38 });
+  if (type==='floodRing') for(let i=0;i<3;i++) add({ type:'floodRing', x:cx, y:cy+10, r:14+i*10, speed:2.6, life:34-i*5, max:34-i*5 });
+  if (type==='glow')    for(let i=0;i<8;i++) { const a=i/8*Math.PI*2; add({ type:'star', x:cx, y:cy, vx:Math.cos(a)*2.5, vy:Math.sin(a)*2.5, life:30, max:30 }); }
+  if (type==='spark')   for(let i=0;i<10;i++) add({ type:'spark', x:cx+(Math.random()-.5)*20, y:cy+(Math.random()-.5)*20, vx:(Math.random()-.5)*4, vy:(Math.random()-.5)*4, life:35, max:35 });
+  if (type==='flash')   for(let i=0;i<6;i++) add({ type:'flash', x:cx, y:cy, angle:i*60, r:10+i*4, life:18, max:18 });
+  if (type==='heat')    for(let i=0;i<5;i++) add({ type:'heat',   x:cx+(Math.random()-.5)*16, y:cy, vx:(Math.random()-.5)*.3, vy:-.6-Math.random(), life:55, max:55 });
+  if (type==='cold')    for(let i=0;i<7;i++) add({ type:'cold',   x:cx+(Math.random()-.5)*18, y:cy, vx:(Math.random()-.5)*.6, vy:-.3-Math.random()*.6, life:70, max:70 });
+  if (type==='frost')   for(let i=0;i<10;i++) add({ type:'frost', x:cx+(Math.random()-.5)*24, y:cy+(Math.random()-.5)*10, vx:(Math.random()-.5)*1.1, vy:-.5-Math.random()*1.1, life:62, max:62, spin:Math.random()*360 });
+  if (type==='foam')    for(let i=0;i<14;i++) add({ type:'foam',   x:cx+(Math.random()-.5)*18, y:cy+(Math.random()-.5)*8, vx:(Math.random()-.5)*1.1, vy:-.4-Math.random()*1.4, life:34+Math.random()*10, max:44, size:3+Math.random()*4 });
+  if (type==='static')  for(let i=0;i<20;i++) add({ type:'static', x:cx+(Math.random()-.5)*26, y:cy+(Math.random()-.5)*14, vx:(Math.random()-.5)*.9, vy:(Math.random()-.5)*.4, life:18+Math.random()*8, max:26, size:2+Math.random()*3 });
+  if (type==='quiet')   for(let i=0;i<3;i++) add({ type:'note',   x:cx+(Math.random()-.5)*14, y:cy, vx:(Math.random()-.5)*.3, vy:-.4-Math.random()*.5, life:50, max:50 });
+  if (type==='noise')   for(let i=0;i<6;i++) add({ type:'wave',   x:cx, y:cy, r:i*6+4, speed:2.5, life:50-i*5, max:50-i*5 });
+  if (type==='shout')   for(let i=0;i<4;i++) add({ type:'shout', x:cx+(Math.random()-.5)*10, y:cy+(Math.random()-.5)*24, vx:(Math.random()-.5)*.4, vy:-.8-Math.random()*.7, life:46, max:46, glyph:i%2===0?'!':'※' });
+  if (type==='ember')   for(let i=0;i<9;i++) add({ type:'ember', x:cx+(Math.random()-.5)*18, y:cy+6, vx:(Math.random()-.5)*1.4, vy:-.8-Math.random()*1.6, life:42, max:42 });
+  if (type==='repair')  for(let i=0;i<8;i++) add({ type:'repair', x:cx, y:cy, vx:(Math.random()-.5)*2.8, vy:-1.1-Math.random()*1.4, life:34, max:34 });
+}
+
+function updateParticles() {
+  particles = particles.filter(p=>p.life>0);
+  for (const p of particles) {
+    p.life--;
+    if (p.type==='drop'||p.type==='nodrop'||p.type==='airPuff'||p.type==='bubble'||p.type==='heat'||p.type==='cold'||p.type==='smell'||p.type==='star'||p.type==='spark'||p.type==='note'||p.type==='repair'||p.type==='smoke'||p.type==='spray'||p.type==='splash'||p.type==='frost'||p.type==='ember'||p.type==='shout'||p.type==='static'||p.type==='foam') {
+      p.x+=p.vx; p.y+=p.vy;
+      if (p.type==='drop')   p.vy+=0.12;
+      if (p.type==='spray')  p.vy+=0.18;
+      if (p.type==='splash') p.vy+=0.16;
+      if (p.type==='airPuff') p.vx+=Math.sin(p.life*.28)*.08;
+      if (p.type==='smell')  p.vx+=Math.sin(p.life*.3)*.12;
+      if (p.type==='smoke')  p.vx+=Math.sin(p.life*.22)*.16;
+      if (p.type==='heat')   p.vx+=Math.sin(p.life*.4)*.10;
+      if (p.type==='cold')   p.vx+=Math.sin(p.life*.35)*.10;
+      if (p.type==='frost')  p.spin+=7;
+      if (p.type==='ember')  p.vy-=0.02;
+    }
+    if (p.type==='swirl') { p.angle+=9; }
+    if (p.type==='wave'||p.type==='floodRing'||p.type==='flash')  { p.r+=p.speed; }
+  }
+}
+
+// ═══════════════════════════════════════════
+//  DECORATIONS
+// ═══════════════════════════════════════════
+function drawDecorations(ctx) {
+  // Kitchen counter (top wall)
+  ctx.fillStyle = '#FED7AA';
+  ctx.fillRect(14, 14, 350, 24);
+  ctx.strokeStyle = '#FDBA74'; ctx.lineWidth=1.5;
+  ctx.strokeRect(14, 14, 350, 24);
+
+  // Kitchen table
+  ctx.fillStyle = '#FDE68A'; ctx.strokeStyle='#F59E0B'; ctx.lineWidth=1;
+  roundRectPath(ctx, 120, 110, 130, 80, 8); ctx.fill(); ctx.stroke();
+  // Chairs
+  ctx.fillStyle='#FEF3C7';
+  roundRectPath(ctx, 108, 118, 20, 28, 4); ctx.fill(); ctx.stroke();
+  roundRectPath(ctx, 260, 118, 20, 28, 4); ctx.fill(); ctx.stroke();
+
+  // Bathroom bathtub
+  ctx.fillStyle='#BFDBFE'; ctx.strokeStyle='#93C5FD'; ctx.lineWidth=2;
+  roundRectPath(ctx, 510, 50, 160, 80, 10); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#EFF6FF';
+  roundRectPath(ctx, 520, 58, 140, 62, 8); ctx.fill();
+  // Faucet on tub
+  ctx.fillStyle='#9CA3AF';
+  ctx.fillRect(587, 48, 6, 14);
+
+  // Bathroom floor mat
+  ctx.fillStyle='rgba(147,197,253,0.35)';
+  roundRectPath(ctx, 425, 180, 100, 50, 8); ctx.fill();
+
+  // Living room sofa
+  ctx.fillStyle='#6EE7B7'; ctx.strokeStyle='#34D399'; ctx.lineWidth=1.5;
+  roundRectPath(ctx, 100, 370, 200, 60, 10); ctx.fill(); ctx.stroke();
+  // sofa back
+  ctx.fillStyle='#A7F3D0';
+  roundRectPath(ctx, 100, 360, 200, 22, 6); ctx.fill(); ctx.stroke();
+  // cushions
+  ctx.fillStyle='#34D399';
+  roundRectPath(ctx, 108, 375, 56, 42, 6); ctx.fill();
+  roundRectPath(ctx, 172, 375, 56, 42, 6); ctx.fill();
+  roundRectPath(ctx, 236, 375, 56, 42, 6); ctx.fill();
+
+  // Living room media stand
+  ctx.fillStyle='#475569'; ctx.strokeStyle='#334155'; ctx.lineWidth=2;
+  roundRectPath(ctx, 12, 470, 116, 16, 6); ctx.fill(); ctx.stroke();
+
+  // Bedroom bed
+  ctx.fillStyle='#FECDD3'; ctx.strokeStyle='#FDA4AF'; ctx.lineWidth=2;
+  roundRectPath(ctx, 430, 330, 190, 130, 10); ctx.fill(); ctx.stroke();
+  // pillow
+  ctx.fillStyle='#FFF1F2';
+  roundRectPath(ctx, 440, 340, 75, 50, 8); ctx.fill(); ctx.stroke();
+  roundRectPath(ctx, 525, 340, 75, 50, 8); ctx.fill(); ctx.stroke();
+  // blanket
+  ctx.fillStyle='#FCA5A5'; ctx.strokeStyle='#F87171'; ctx.lineWidth=1;
+  roundRectPath(ctx, 430, 396, 190, 58, 8); ctx.fill(); ctx.stroke();
+
+  // Bedroom desk
+  ctx.fillStyle='#E5E7EB'; ctx.strokeStyle='#D1D5DB'; ctx.lineWidth=1.5;
+  roundRectPath(ctx, 430, 278, 100, 46, 6); ctx.fill(); ctx.stroke();
+  // Book on desk
+  ctx.fillStyle='#3B82F6';
+  roundRectPath(ctx, 440, 284, 26, 34, 3); ctx.fill();
+  ctx.fillStyle='#60A5FA';
+  roundRectPath(ctx, 470, 284, 22, 34, 3); ctx.fill();
+}
+
+// ═══════════════════════════════════════════
+//  DRAW WORLD
+// ═══════════════════════════════════════════
+function drawWorld() {
+  // Wall background
+  ctx.fillStyle = '#4B5563';
+  ctx.fillRect(0, 0, CW, CH);
+  // Outer border
+  ctx.strokeStyle = '#374151'; ctx.lineWidth=4;
+  ctx.strokeRect(2, 2, CW-4, CH-4);
+
+  // Room floors
+  for (const r of ROOMS) {
+    ctx.fillStyle = r.color;
+    ctx.fillRect(r.x, r.y, r.w, r.h);
+    ctx.strokeStyle = r.border; ctx.lineWidth=2;
+    ctx.strokeRect(r.x, r.y, r.w, r.h);
+  }
+
+  // Door openings (fill with lighter neutral)
+  ctx.fillStyle = '#F1F5F9';
+  for (const d of DOORS) ctx.fillRect(d.x, d.y, d.w, d.h);
+
+  // Door highlights
+  ctx.strokeStyle = '#CBD5E1'; ctx.lineWidth=1;
+  for (const d of DOORS) ctx.strokeRect(d.x, d.y, d.w, d.h);
+
+  // Room labels
+  ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  for (const r of ROOMS) {
+    ctx.font = '700 12px "Noto Sans KR",sans-serif';
+    ctx.fillStyle = 'rgba(55,65,81,0.7)';
+    ctx.fillText(r.emoji + ' ' + r.name, r.x+8, r.y+6);
+  }
+
+  drawDecorations(ctx);
+}
+
+function drawNeighborWall(o, nearby) {
+  ctx.save();
+  ctx.fillStyle = o.broken ? '#FEE2E2' : '#F7E7E1';
+  ctx.fillRect(o.x, o.y, o.w, o.h);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.34)';
+  ctx.fillRect(o.x, o.y, 6, o.h);
+  ctx.fillStyle = 'rgba(148,163,184,0.18)';
+  for (let y=o.y+10; y<o.y+o.h; y+=16) ctx.fillRect(o.x+9, y, o.w-14, 2);
+  ctx.fillStyle = 'rgba(71,85,105,0.16)';
+  ctx.fillRect(o.x+o.w-4, o.y, 4, o.h);
+
+  ctx.strokeStyle = o.broken ? '#EF4444' : (nearby ? '#2563EB' : '#CBD5E1');
+  ctx.lineWidth = nearby || o.broken ? 2.5 : 1.5;
+  ctx.strokeRect(o.x, o.y, o.w, o.h);
+
+  ctx.fillStyle = '#E5E7EB';
+  ctx.fillRect(o.x-12, o.y+o.h-10, o.w+16, 10);
+  ctx.strokeStyle = '#CBD5E1';
+  ctx.strokeRect(o.x-12, o.y+o.h-10, o.w+16, 10);
+
+  ctx.fillStyle = '#F8FAFC';
+  ctx.strokeStyle = '#CBD5E1';
+  roundRectPath(ctx, o.x-30, o.y+34, 18, 34, 4); ctx.fill(); ctx.stroke();
+
+  if (o.broken) {
+    ctx.strokeStyle = 'rgba(239,68,68,0.75)';
+    ctx.lineWidth = 2;
+    drawCrack(ctx, o.x+10, o.y+36, 20, 48);
+    drawCrack(ctx, o.x+22, o.y+96, 14, 38);
+  }
+
+  if (nearby) {
+    ctx.font = '700 9px "Noto Sans KR",sans-serif';
+    ctx.fillStyle = '#1D4ED8';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(o.broken ? (player.hasWrench ? '[E] 조용히' : '[E] 점검') : '[E]', o.x+o.w/2, o.y-4);
+
+    ctx.fillText(o.broken ? getBrokenInteractLabel(o) : '[E]', o.x+o.w/2, o.y-4);
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = o.broken ? '#991B1B' : '#475569';
+    ctx.fillText('\uC774\uC6C3\uC9D1 \uBCBD', o.x+o.w/2, o.y+o.h+4);
+    ctx.fillText('이웃집 벽', o.x+o.w/2, o.y+o.h+4);
+  }
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════
+//  DRAW OBJECTS
+// ═══════════════════════════════════════════
+function drawObjects() {
+  const px = player.x+player.w/2, py = player.y+player.h/2;
+  for (const o of OBJECTS) {
+    if (isHiddenObject(o)) continue;
+    const ox = o.x+o.w/2, oy = o.y+o.h/2;
+    const dist = Math.hypot(px-ox, py-oy);
+    const nearby = dist < 62;
+    if (o.id === 'neighbor') {
+      drawNeighborWall(o, nearby);
+      if (o.broken) drawBrokenAura(o);
+      continue;
+    }
+    let interactLabel = o.kind === 'tool'
+      ? '[E] 줍기'
+      : (o.broken ? (player.hasWrench ? '[E] 수리' : '[E] 점검') : '[E]');
+
+    if (o.kind === 'tool') interactLabel = '[E] \uC90D\uAE30';
+    if (o.broken) interactLabel = getBrokenInteractLabel(o);
+
+    ctx.save();
+    if (o.broken) { ctx.shadowColor='#EF4444'; ctx.shadowBlur=14; }
+    else if (nearby) { ctx.shadowColor='#3B82F6'; ctx.shadowBlur=12; }
+
+    ctx.fillStyle = o.broken ? '#FEE2E2' : (nearby ? '#DBEAFE' : o.color);
+    ctx.strokeStyle = o.broken ? '#EF4444' : (nearby ? '#2563EB' : '#9CA3AF');
+    ctx.lineWidth = o.broken ? 2.5 : (nearby ? 2 : 1.5);
+
+    roundRectPath(ctx, o.x, o.y, o.w, o.h, 10);
+    ctx.fill(); ctx.stroke();
+
+    if (o.id === 'tv') {
+      ctx.fillStyle = o.broken ? '#111827' : '#0EA5E9';
+      roundRectPath(ctx, o.x+6, o.y+6, o.w-12, o.h-16, 6); ctx.fill();
+      ctx.fillStyle = '#475569';
+      ctx.fillRect(o.x+o.w/2-12, o.y+o.h-9, 24, 5);
+      if (o.broken) {
+        ctx.strokeStyle = 'rgba(226,232,240,0.65)';
+        ctx.lineWidth = 1.2;
+        for (let i=0; i<4; i++) {
+          ctx.beginPath();
+          ctx.moveTo(o.x+10, o.y+12+i*7);
+          ctx.lineTo(o.x+o.w-10, o.y+16+i*6);
+          ctx.stroke();
+        }
+      }
+    } else if (o.id === 'ac') {
+      ctx.fillStyle = '#F8FAFC';
+      roundRectPath(ctx, o.x+5, o.y+5, o.w-10, o.h-10, 8); ctx.fill();
+      ctx.strokeStyle = o.broken ? '#F97316' : '#CBD5E1';
+      ctx.lineWidth = 1.4;
+      for (let i=0; i<4; i++) {
+        ctx.beginPath();
+        ctx.moveTo(o.x+12, o.y+14+i*4);
+        ctx.lineTo(o.x+o.w-12, o.y+14+i*4);
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+
+    if (o.broken) drawBrokenAura(o);
+
+    if (o.id !== 'tv' && o.id !== 'ac') {
+      ctx.font = '26px serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(o.emoji, o.x+o.w/2, o.y+o.h/2-3);
+    }
+
+    // Name label below
+    ctx.font = '700 9px "Noto Sans KR",sans-serif';
+    ctx.fillStyle = o.broken ? '#991B1B' : '#4B5563';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    ctx.fillText(o.broken ? `${o.label} (고장)` : o.label, o.x+o.w/2, o.y+o.h+2);
+
+    // Interact hint
+    if (nearby) {
+      ctx.font = '700 9px "Noto Sans KR",sans-serif';
+      ctx.fillStyle = '#1D4ED8';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(interactLabel, o.x+o.w/2, o.y-2);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+//  DRAW PARTICLES
+// ═══════════════════════════════════════════
+function drawParticles() {
+  for (const p of particles) {
+    const a = p.life/p.max;
+    ctx.save(); ctx.globalAlpha = a;
+    if (p.type==='drop')  { ctx.fillStyle='#60A5FA'; ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='nodrop'){ ctx.strokeStyle='#94A3B8'; ctx.lineWidth=2; drawX(ctx, p.x, p.y, 5); }
+    if (p.type==='airPuff'){ ctx.strokeStyle=`rgba(148,163,184,${a*.9})`; ctx.lineWidth=1.8; drawWiggly(ctx,p.x,p.y,p.phase+p.life*.2,p.size||10); }
+    if (p.type==='bubble'){ ctx.strokeStyle='#8B5CF6'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(p.x,p.y,4+a*3,0,Math.PI*2); ctx.stroke(); }
+    if (p.type==='smoke') { ctx.fillStyle=`rgba(110,231,183,${a*.55})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.size||6,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='spray') { ctx.fillStyle='#38BDF8'; ctx.beginPath(); ctx.ellipse(p.x,p.y,2.5,5,0,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='splash'){ ctx.fillStyle='#7DD3FC'; ctx.beginPath(); ctx.arc(p.x,p.y,3.5,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='floodRing'){ ctx.strokeStyle=`rgba(56,189,248,${a*.8})`; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.stroke(); }
+    if (p.type==='heat')  { ctx.strokeStyle=`hsl(${16+a*20},95%,${55+a*20}%)`; ctx.lineWidth=2; drawWiggly(ctx,p.x,p.y,p.life*.25,12); }
+    if (p.type==='smell') { ctx.strokeStyle=`rgba(134,239,172,${a})`; ctx.lineWidth=2; drawWiggly(ctx,p.x,p.y,p.phase+p.life*.2,14); }
+    if (p.type==='cold')  { ctx.fillStyle='#BAE6FD'; ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='frost') { ctx.strokeStyle=`rgba(191,219,254,${a})`; ctx.lineWidth=1.6; drawSnowflake(ctx, p.x, p.y, 5+a*2, p.spin); }
+    if (p.type==='foam')  { ctx.fillStyle=`rgba(241,245,249,${a})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='static'){ ctx.fillStyle=`rgba(226,232,240,${a})`; ctx.fillRect(p.x, p.y, p.size, p.size); }
+    if (p.type==='star')  { ctx.fillStyle='#FCD34D'; ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='spark') { ctx.fillStyle='#F97316'; ctx.beginPath(); ctx.arc(p.x,p.y,2.5,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='flash') { ctx.strokeStyle=`rgba(253,224,71,${a})`; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.stroke(); }
+    if (p.type==='ember') { ctx.fillStyle=`rgba(251,113,133,${a})`; ctx.beginPath(); ctx.arc(p.x,p.y,2.2+a,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='repair'){ ctx.fillStyle='#22C55E'; ctx.beginPath(); ctx.arc(p.x,p.y,3,0,Math.PI*2); ctx.fill(); }
+    if (p.type==='note')  { ctx.font='14px serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#6EE7B7'; ctx.globalAlpha=a*.6; ctx.fillText('♪',p.x,p.y); }
+    if (p.type==='shout') { ctx.font='bold 18px "Noto Sans KR",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle=`rgba(248,113,113,${a})`; ctx.fillText(p.glyph,p.x,p.y); }
+    if (p.type==='wave')  { ctx.strokeStyle=`rgba(107,114,128,${a})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.stroke(); }
+    if (p.type==='swirl') {
+      const sx = p.x + Math.cos(p.angle*Math.PI/180)*p.r;
+      const sy = p.y + Math.sin(p.angle*Math.PI/180)*p.r;
+      ctx.fillStyle='#60A5FA'; ctx.beginPath(); ctx.arc(sx,sy,3,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+function drawX(ctx,x,y,s){ctx.beginPath();ctx.moveTo(x-s,y-s);ctx.lineTo(x+s,y+s);ctx.moveTo(x+s,y-s);ctx.lineTo(x-s,y+s);ctx.stroke();}
+function drawWiggly(ctx,x,y,phase,len){ctx.beginPath();ctx.moveTo(x,y);for(let i=0;i<len;i++){ctx.lineTo(x+Math.sin(phase+i*.6)*5,y-i);}ctx.stroke();}
+function drawSnowflake(ctx,x,y,s,spin){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate((spin||0)*Math.PI/180);
+  ctx.beginPath();
+  for(let i=0;i<4;i++){
+    ctx.moveTo(-s,0); ctx.lineTo(s,0);
+    ctx.rotate(Math.PI/4);
+  }
+  ctx.stroke();
+  ctx.restore();
+}
+function drawCrack(ctx,x,y,w,h){
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+  ctx.lineTo(x+w*.2,y+h*.18);
+  ctx.lineTo(x-w*.12,y+h*.38);
+  ctx.lineTo(x+w*.26,y+h*.58);
+  ctx.lineTo(x,y+h);
+  ctx.stroke();
+}
+
+// ═══════════════════════════════════════════
+//  DRAW PLAYER
+// ═══════════════════════════════════════════
+function drawPlayer() {
+  const px=player.x, py=player.y, pw=player.w, ph=player.h;
+  const cx=px+pw/2, cy=py+ph/2;
+
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,0.18)';
+  ctx.beginPath(); ctx.ellipse(cx, py+ph-2, pw*.5, 5, 0, 0, Math.PI*2); ctx.fill();
+
+  // Body
+  ctx.fillStyle='#3B82F6';
+  roundRectPath(ctx, px+3, py+ph*.38, pw-6, ph*.62, 5);
+  ctx.fill();
+
+  // Head
+  ctx.fillStyle='#FDE68A';
+  ctx.beginPath(); ctx.arc(cx, py+ph*.28, pw*.44, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#D97706'; ctx.lineWidth=1.5; ctx.stroke();
+
+  // Hair / face direction
+  if (player.facing==='up') {
+    // back of head — just dark hair
+    ctx.fillStyle='#92400E';
+    for(let i=0;i<3;i++){ctx.beginPath();ctx.arc(cx-5+i*5,py+ph*.2,2.2,0,Math.PI*2);ctx.fill();}
+  } else {
+    const eyeOX = player.facing==='left'?-3:player.facing==='right'?3:0;
+    const eyeY  = py+ph*.24;
+    ctx.fillStyle='#1F2937';
+    ctx.beginPath();ctx.arc(cx-4+eyeOX,eyeY,2,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(cx+4+eyeOX,eyeY,2,0,Math.PI*2);ctx.fill();
+    // smile
+    ctx.strokeStyle='#92400E'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(cx+eyeOX,eyeY+5,3.5,0,Math.PI); ctx.stroke();
+  }
+
+  // Arms (swing with walk)
+  const swing = player.isMoving ? Math.sin(player.animFrame*Math.PI/2)*6 : 0;
+  ctx.strokeStyle='#2563EB'; ctx.lineWidth=5; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(px+3,py+ph*.44); ctx.lineTo(px-4,py+ph*.62+swing); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(px+pw-3,py+ph*.44); ctx.lineTo(px+pw+4,py+ph*.62-swing); ctx.stroke();
+
+  // Legs
+  ctx.strokeStyle='#1D4ED8'; ctx.lineWidth=5; ctx.lineCap='round';
+  const legSwing = player.isMoving ? Math.sin(player.animFrame*Math.PI/2)*5 : 0;
+  ctx.beginPath(); ctx.moveTo(cx-4,py+ph*.9); ctx.lineTo(cx-5,py+ph+legSwing); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx+4,py+ph*.9); ctx.lineTo(cx+5,py+ph-legSwing); ctx.stroke();
+
+  if (player.hasWrench) {
+    const wrenchX = player.facing === 'left' ? px - 8 : px + pw + 8;
+    const wrenchY = py + ph*.54;
+    ctx.font = '14px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🔧', wrenchX, wrenchY);
+  }
+  if (player.hasExtinguisher) {
+    const extinguisherX = player.facing === 'left' ? px + pw + 10 : px - 10;
+    const extinguisherY = py + ph*.34;
+    ctx.font = '15px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('\uD83E\uDDEF', extinguisherX, extinguisherY);
+  }
+}
+
+// ═══════════════════════════════════════════
+//  DRAW SPEECH BUBBLE
+// ═══════════════════════════════════════════
+function drawSpeechBubble() {
+  if (!speechBubble) return;
+  speechBubble.t++;
+  if (speechBubble.t >= speechBubble.max) { speechBubble=null; return; }
+
+  const alpha = speechBubble.t<12 ? speechBubble.t/12 :
+                speechBubble.t > speechBubble.max-20 ? (speechBubble.max-speechBubble.t)/20 : 1;
+
+  const px = speechBubble.ox ?? (player.x+player.w/2);
+  const py = speechBubble.oy ?? player.y;
+
+  ctx.save(); ctx.globalAlpha=alpha;
+  ctx.font = 'bold 13px "Noto Sans KR",sans-serif';
+  const tw = ctx.measureText(speechBubble.text).width;
+  const bw = tw+22, bh=30;
+  let bx = px-bw/2;
+  let by = py-bh-18;
+  bx = Math.max(5, Math.min(CW-bw-5, bx));
+  by = Math.max(5, by);
+
+  // Bubble
+  ctx.fillStyle   = speechBubble.isError ? '#FEF2F2' : '#FFFFFF';
+  ctx.strokeStyle = speechBubble.isError ? '#EF4444' : '#3B82F6';
+  ctx.lineWidth=2.5;
+  roundRectPath(ctx, bx, by, bw, bh, 8); ctx.fill(); ctx.stroke();
+
+  // Tail
+  ctx.beginPath();
+  const tailX = Math.max(bx+10, Math.min(bx+bw-10, px));
+  ctx.moveTo(tailX-6, by+bh); ctx.lineTo(tailX, by+bh+9); ctx.lineTo(tailX+6, by+bh);
+  ctx.fillStyle = speechBubble.isError ? '#FEF2F2' : '#FFFFFF';
+  ctx.fill();
+  ctx.strokeStyle = speechBubble.isError ? '#EF4444' : '#3B82F6';
+  ctx.stroke();
+
+  // Text
+  ctx.fillStyle   = speechBubble.isError ? '#DC2626' : '#1F2937';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(speechBubble.text, bx+bw/2, by+bh/2);
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════
+//  BLACKOUT OVERLAY
+// ═══════════════════════════════════════════
+function drawClimateOverlay() {
+  const heaterBroken = !!getHeaterObject()?.broken;
+  const acBroken = !!getAcObject()?.broken;
+  if (!heaterBroken && !acBroken) return;
+
+  const now = Date.now() / 1000;
+  ctx.save();
+
+  if (heaterBroken) {
+    ctx.fillStyle = 'rgba(147,197,253,0.12)';
+    ctx.fillRect(0, 0, CW, CH);
+    for (let i=0; i<16; i++) {
+      const x = (i * 49 + now * 26) % (CW + 32) - 16;
+      const y = (i * 31 + now * 42) % (CH + 32) - 16;
+      ctx.strokeStyle = 'rgba(219,234,254,0.72)';
+      ctx.lineWidth = 1.5;
+      drawSnowflake(ctx, x, y, 5 + (i % 3), now * 70 + i * 18);
+    }
+    ctx.fillStyle = 'rgba(219,234,254,0.18)';
+    ctx.beginPath();
+    ctx.ellipse(CW/2, CH/2, CW*0.46, CH*0.36, 0, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  if (acBroken) {
+    ctx.fillStyle = 'rgba(251,146,60,0.10)';
+    ctx.fillRect(0, 0, CW, CH);
+    ctx.strokeStyle = 'rgba(249,115,22,0.35)';
+    ctx.lineWidth = 2;
+    for (let i=0; i<9; i++) {
+      drawWiggly(ctx, 90 + i * 72, CH - 18, now * 2.2 + i, 34);
+      drawWiggly(ctx, 56 + i * 78, CH - 68, now * 2.4 + i * 0.8, 26);
+    }
+  }
+
+  ctx.restore();
+}
+
+function drawBlackout() {
+  const powerBroken = !!getSwitchObject()?.broken;
+  if (!lightOut && !powerBroken) return;
+
+  let burstAlpha = 0;
+  if (lightOut) {
+    lightOutTimer--;
+    if (lightOutTimer<=0) lightOut=false;
+
+    const fadeIn  = Math.min(1, (180-lightOutTimer+1)/15);
+    const fadeOut = lightOutTimer < 30 ? lightOutTimer/30 : 1;
+    burstAlpha = Math.min(fadeIn, fadeOut) * 0.82;
+  }
+
+  const steadyAlpha = powerBroken ? 0.34 + Math.sin(Date.now()/220)*0.04 : 0;
+  const a = Math.max(burstAlpha, steadyAlpha);
+
+  ctx.save(); ctx.globalAlpha=a;
+  ctx.fillStyle='#000'; ctx.fillRect(0,0,CW,CH);
+  ctx.globalAlpha=a;
+  ctx.font='bold 24px "Noto Sans KR",sans-serif';
+  ctx.fillStyle='#FCD34D'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(powerBroken ? '⚡ 수리 전까지 전기가 불안정해요! ⚡' : '⚡ 전기가 나갔어요! ⚡', CW/2, CH/2);
+  ctx.restore();
+}
+
+function drawBrokenAura(obj) {
+  const pulse = (Math.sin(Date.now()/140) + 1) / 2;
+  const x = obj.x, y = obj.y, w = obj.w, h = obj.h;
+
+  ctx.save();
+  if (obj.id === 'stove') {
+    if (obj.brokenMode === 'fire') {
+      ctx.fillStyle = `rgba(251,113,133,${0.16 + pulse*0.14})`;
+      roundRectPath(ctx, x-8, y-8, w+16, h+16, 16); ctx.fill();
+      ctx.strokeStyle = `rgba(251,191,36,${0.44 + pulse*0.28})`;
+      ctx.lineWidth = 4;
+      roundRectPath(ctx, x-5, y-5, w+10, h+10, 14); ctx.stroke();
+      ctx.beginPath();
+      ctx.ellipse(x+w/2, y+h+6, w*.55, 8+pulse*4, 0, 0, Math.PI*2);
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = `rgba(34,197,94,${0.14 + pulse*0.12})`;
+      roundRectPath(ctx, x-6, y-6, w+12, h+12, 14); ctx.fill();
+      ctx.strokeStyle = `rgba(248,113,113,${0.45 + pulse*0.3})`;
+      ctx.lineWidth = 3;
+      roundRectPath(ctx, x-4, y-4, w+8, h+8, 14); ctx.stroke();
+    }
+  } else if (obj.id === 'faucet') {
+    ctx.fillStyle = `rgba(148,163,184,${0.16 + pulse*0.1})`;
+    roundRectPath(ctx, x-5, y-5, w+10, h+10, 12); ctx.fill();
+    ctx.strokeStyle = `rgba(239,68,68,${0.34 + pulse*0.22})`;
+    ctx.lineWidth = 2.5;
+    for (let i=0; i<3; i++) drawX(ctx, x+16+i*12, y+h+2-pulse*3, 4);
+  } else if (obj.id === 'pipe') {
+    ctx.fillStyle = `rgba(56,189,248,${0.2 + pulse*0.12})`;
+    ctx.beginPath();
+    ctx.ellipse(x+w/2, y+h+12, w*.62, 10+pulse*5, 0, 0, Math.PI*2);
+    ctx.fill();
+  } else if (obj.id === 'fridge') {
+    ctx.fillStyle = `rgba(134,239,172,${0.14 + pulse*0.08})`;
+    roundRectPath(ctx, x-8, y-8, w+16, h+16, 16); ctx.fill();
+    ctx.strokeStyle = `rgba(74,222,128,${0.26 + pulse*0.18})`;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(x+w/2, y+h+10, w*.68, 10+pulse*5, 0, 0, Math.PI*2);
+    ctx.stroke();
+  } else if (obj.id === 'drain' || obj.id === 'toilet') {
+    ctx.fillStyle = `rgba(96,165,250,${0.18 + pulse*0.1})`;
+    ctx.beginPath();
+    ctx.ellipse(x+w/2, y+h+16, w*.72, 12+pulse*6, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = `rgba(59,130,246,${0.35 + pulse*0.22})`;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(x+w/2, y+h+16, w*.82, 15+pulse*8, 0, 0, Math.PI*2);
+    ctx.stroke();
+  } else if (obj.id === 'switch') {
+    ctx.shadowColor = '#FDE047';
+    ctx.shadowBlur = 24 + pulse*20;
+    ctx.strokeStyle = `rgba(253,224,71,${0.45 + pulse*0.3})`;
+    ctx.lineWidth = 4;
+    roundRectPath(ctx, x-8, y-8, w+16, h+16, 16); ctx.stroke();
+  } else if (obj.id === 'heater') {
+    ctx.fillStyle = `rgba(147,197,253,${0.18 + pulse*0.08})`;
+    ctx.beginPath();
+    ctx.ellipse(x+w/2, y+h/2+10, w*.85, h*.55, 0, 0, Math.PI*2);
+    ctx.fill();
+  } else if (obj.id === 'tv') {
+    ctx.strokeStyle = `rgba(226,232,240,${0.35 + pulse*0.3})`;
+    ctx.lineWidth = 3;
+    roundRectPath(ctx, x-6, y-6, w+12, h+12, 12); ctx.stroke();
+    ctx.fillStyle = `rgba(148,163,184,${0.14 + pulse*0.08})`;
+    roundRectPath(ctx, x+6, y+6, w-12, h-18, 8); ctx.fill();
+  } else if (obj.id === 'ac') {
+    ctx.fillStyle = `rgba(251,191,36,${0.14 + pulse*0.12})`;
+    roundRectPath(ctx, x-8, y-6, w+16, h+12, 14); ctx.fill();
+    ctx.strokeStyle = `rgba(249,115,22,${0.3 + pulse*0.22})`;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(x+w/2, y+h+8, w*.65, 8+pulse*4, 0, 0, Math.PI*2);
+    ctx.stroke();
+  } else if (obj.id === 'neighbor') {
+    ctx.strokeStyle = `rgba(248,113,113,${0.35 + pulse*0.25})`;
+    ctx.lineWidth = 3;
+    for (let i=0; i<3; i++) {
+      ctx.beginPath();
+      ctx.arc(x+w/2, y+h/2, 26+i*12+pulse*4, -Math.PI/3, Math.PI/3);
+      ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+
+// ═══════════════════════════════════════════
+//  CANVAS SHAKE
+// ═══════════════════════════════════════════
+function applyShake() {
+  if (shakeTimer>0) {
+    shakeTimer--;
+    const s=3;
+    ctx.translate((Math.random()-.5)*s, (Math.random()-.5)*s);
+  }
+}
+
+function updateBrokenObjects() {
+  updateNeighborNoise();
+  for (const obj of OBJECTS) {
+    if (obj.kind === 'tool' || !obj.broken) continue;
+    if (obj.brokenFxTimer > 0) {
+      obj.brokenFxTimer--;
+      continue;
+    }
+
+    spawnBrokenFxForObject(obj);
+    obj.brokenFxTimer = BROKEN_EFFECT_INTERVALS[obj.id] ?? 28;
+
+    if (obj.id === 'switch') {
+      shakeTimer = Math.max(shakeTimer, 4);
+    } else if (obj.id === 'stove' && obj.brokenMode === 'fire') {
+      shakeTimer = Math.max(shakeTimer, 2);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
+function roundRectPath(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+
+// ═══════════════════════════════════════════
+//  MAIN LOOP
+// ═══════════════════════════════════════════
+function loop() {
+  updatePlayer();
+  updateBrokenObjects();
+  updateParticles();
+
+  ctx.save();
+  ctx.clearRect(0,0,CW,CH);
+  applyShake();
+  drawWorld();
+  drawObjects();
+  drawParticles();
+  drawPlayer();
+  drawSpeechBubble();
+  ctx.restore();
+  drawClimateOverlay();
+  drawBlackout();   // outside save so shake doesn't affect overlay
+
+  requestAnimationFrame(loop);
+}
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+updateToolStatus();
+updateVocabPanel();
+loop();
+</script>
+<script src="../shared/learning-enhancements.js"></script>
+<script src="../shared/site-copyright.js"></script>
+</body>
+</html>
