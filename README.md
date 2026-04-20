@@ -22,3 +22,7 @@ Keep the repository root focused on deployable pages, chapter folders, shared co
 - Avoid leaving loose debug PNG files at the repository root.
 - Avoid relying on local-only ignore rules in `.git/info/exclude` for files that should simply live outside the repository.
 - Keep generated caches such as `__pycache__/`, test artifacts, and local build output out of Git.
+
+## Shared Content Rules
+
+When a page renders authored question text, use the shared inline markup rule described in [CONTENT_MARKUP_GUIDELINES.md](CONTENT_MARKUP_GUIDELINES.md).

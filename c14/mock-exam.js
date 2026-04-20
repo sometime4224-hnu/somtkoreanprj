@@ -1,8 +1,14 @@
 (function () {
     const exam = window.C14_MOCK_EXAM;
+    const textMarkup = window.Korean3BTextMarkup;
 
     if (!exam) {
         console.error("C14 mock exam data not found.");
+        return;
+    }
+
+    if (!textMarkup) {
+        console.error("Shared text markup helper not found.");
         return;
     }
 
@@ -106,7 +112,7 @@
             `어휘 ${vocabCount} · 문법 ${grammarCount}`,
             `14과 정답 ${lesson14Count}문항`,
             `14과 어휘 ${lesson14Vocab} · 문법 ${lesson14Grammar}`
-        ].map((text) => `<span>${escapeHtml(text)}</span>`).join("");
+        ].map((text) => `<span>${textMarkup.escapeHtml(text)}</span>`).join("");
 
         refs.quizMeta.textContent = `총 ${allQuestions.length}문항`;
     }
@@ -119,7 +125,7 @@
                 <section class="section-card">
                     <div class="section-card__header">
                         <div>
-                            <h2>${escapeHtml(section.title)}</h2>
+                            <h2>${textMarkup.escapeHtml(section.title)}</h2>
                         </div>
                         <div class="section-card__count">${section.questions.length}문항</div>
                     </div>
@@ -149,7 +155,7 @@
                             <label for="q${question.number}-${option.letter}">
                                 <input id="q${question.number}-${option.letter}" class="option-input" type="radio" name="q${question.number}" value="${option.letter}">
                                 <span class="option-letter">${option.letter}</span>
-                                <span>${escapeHtml(option.text)}</span>
+                                <span>${textMarkup.escapeHtml(option.text)}</span>
                             </label>
                         </div>
                     `).join("")}
@@ -317,9 +323,9 @@
 
         return `
             <span class="${pillClass}">${pillText}</span>
-            <div class="feedback-title">${escapeHtml(title)}</div>
-            <div class="feedback-answer">정답: <code>${question.correct}</code> ${escapeHtml(correctText)}</div>
-            <div class="feedback-answer">내 답: ${selectedLetter ? `<code>${selectedLetter}</code> ${escapeHtml(selectedText)}` : "미응답"}</div>
+            <div class="feedback-title">${textMarkup.escapeHtml(title)}</div>
+            <div class="feedback-answer">정답: <code>${question.correct}</code> ${textMarkup.escapeHtml(correctText)}</div>
+            <div class="feedback-answer">내 답: ${selectedLetter ? `<code>${selectedLetter}</code> ${textMarkup.escapeHtml(selectedText)}` : "미응답"}</div>
             <div class="feedback-body">${renderInline(question.explanation)}</div>
         `;
     }
@@ -367,7 +373,7 @@
 
         refs.summaryCard.innerHTML = `
             <h2>채점 결과</h2>
-            <p>${escapeHtml(band.message)}</p>
+            <p>${textMarkup.escapeHtml(band.message)}</p>
             <div class="summary-grid">
                 <div class="summary-box">
                     <div class="summary-box__title">총점</div>
@@ -385,7 +391,7 @@
             <div class="summary-grid">
                 ${sectionBreakdown.map((item) => `
                     <div class="summary-box">
-                        <div class="summary-box__title">${escapeHtml(item.title)}</div>
+                        <div class="summary-box__title">${textMarkup.escapeHtml(item.title)}</div>
                         <div class="summary-box__value">${item.correct} / ${item.total}</div>
                     </div>
                 `).join("")}
@@ -393,20 +399,20 @@
             <div class="summary-grid">
                 ${kindBreakdown.map((item) => `
                     <div class="summary-box">
-                        <div class="summary-box__title">${escapeHtml(item.title)} 정답</div>
+                        <div class="summary-box__title">${textMarkup.escapeHtml(item.title)} 정답</div>
                         <div class="summary-box__value">${item.correct} / ${item.total}</div>
                     </div>
                 `).join("")}
                 ${lessonBreakdown.map((item) => `
                     <div class="summary-box">
-                        <div class="summary-box__title">${escapeHtml(item.title)} 정답</div>
+                        <div class="summary-box__title">${textMarkup.escapeHtml(item.title)} 정답</div>
                         <div class="summary-box__value">${item.correct} / ${item.total}</div>
                     </div>
                 `).join("")}
             </div>
             <ol class="summary-list">
                 ${reviewItems.length
-                    ? reviewItems.map(([focus, count]) => `<li>${escapeHtml(focus)}: ${count}문항 다시 보기</li>`).join("")
+                    ? reviewItems.map(([focus, count]) => `<li>${textMarkup.escapeHtml(focus)}: ${count}문항 다시 보기</li>`).join("")
                     : "<li>모든 핵심 표현이 안정적으로 맞았습니다.</li>"}
             </ol>
         `;
@@ -464,17 +470,6 @@
     }
 
     function renderInline(text) {
-        return escapeHtml(text)
-            .replace(/==(.+?)==/g, '<span class="question-underline">$1</span>')
-            .replace(/`([^`]+)`/g, "<code>$1</code>");
-    }
-
-    function escapeHtml(text) {
-        return String(text)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#39;");
+        return textMarkup.renderInlineMarkup(text);
     }
 })();
