@@ -28,6 +28,7 @@
       --radius-lg: 28px;
       --radius-md: 20px;
       --radius-sm: 14px;
+      --presentation-safe-bottom: 0px;
     }
 
     * {
@@ -48,14 +49,15 @@
     body {
       display: flex;
       justify-content: center;
-      padding: 22px;
+      align-items: flex-start;
+      padding: clamp(16px, 2vw, 24px);
     }
 
     .app-shell {
-      width: min(1580px, 100%);
+      width: min(1760px, calc(100vw - 44px));
       display: grid;
-      grid-template-columns: 220px minmax(0, 1fr) 220px;
-      gap: 20px;
+      grid-template-columns: clamp(214px, 15vw, 248px) minmax(0, 1fr) clamp(210px, 14vw, 236px);
+      gap: clamp(16px, 1.5vw, 24px);
       align-items: start;
     }
 
@@ -72,8 +74,9 @@
       position: sticky;
       top: 22px;
       padding: 18px 16px;
+      max-height: calc(100vh - 48px);
       border-radius: 24px;
-      overflow: hidden;
+      overflow: auto;
       background:
         repeating-linear-gradient(
           180deg,
@@ -85,6 +88,7 @@
         linear-gradient(180deg, #fffaf0, #f4ebda);
       border: 1px solid rgba(133, 105, 75, 0.18);
       box-shadow: var(--shadow);
+      scrollbar-width: thin;
     }
 
     .waste-panel {
@@ -101,11 +105,43 @@
     }
 
     .panel-label {
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       font-weight: 900;
       letter-spacing: 0.08em;
       color: #8b6a3f;
+      margin: 0;
+    }
+
+    .lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px;
       margin-bottom: 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(140, 106, 65, 0.14);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .lang-toggle__btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: #8b6a3f;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      padding: 4px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .lang-toggle__btn.is-active {
+      background: #ffffff;
+      color: #2f6bb5;
+      box-shadow: 0 4px 10px rgba(92, 67, 39, 0.12);
     }
 
     .vocab-list {
@@ -117,13 +153,13 @@
     .vocab-item {
       display: grid;
       grid-template-columns: 18px 1fr;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
-      padding: 9px 10px;
+      padding: 10px 11px;
       border-radius: 12px;
       background: rgba(255, 255, 255, 0.62);
       border: 1px dashed rgba(143, 113, 80, 0.18);
-      font-size: 0.9rem;
+      font-size: 0.94rem;
       transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
     }
 
@@ -152,13 +188,13 @@
 
     .vocab-word {
       font-weight: 800;
-      line-height: 1.1;
+      line-height: 1.16;
     }
 
     .vocab-def {
       display: block;
       margin-top: 3px;
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       color: var(--soft-ink);
     }
 
@@ -174,19 +210,19 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 2px;
-      font-size: 0.83rem;
+      font-size: 0.86rem;
       color: #8d7150;
     }
 
     .panel-total strong {
       color: var(--ink);
-      font-size: 0.96rem;
+      font-size: 1rem;
     }
 
     .board {
       position: relative;
       min-width: 0;
-      padding: 18px 18px 20px;
+      padding: 18px 20px 20px;
       border-radius: 32px;
       overflow: hidden;
       background:
@@ -238,7 +274,7 @@
     }
 
     .graph-card {
-      padding: 16px 18px 14px;
+      padding: 14px 16px 12px;
       border-radius: 24px;
       margin-bottom: 16px;
       background:
@@ -270,7 +306,7 @@
 
     #balance-canvas {
       width: 100%;
-      height: 122px;
+      height: 112px;
       display: block;
       border-radius: 16px;
       background: linear-gradient(180deg, rgba(222, 242, 229, 0.9), rgba(255, 255, 255, 0.85));
@@ -278,22 +314,22 @@
 
     .board-main {
       display: grid;
-      grid-template-columns: 170px minmax(0, 1fr);
-      gap: 16px;
+      grid-template-columns: 184px minmax(0, 1fr);
+      gap: 18px;
       align-items: start;
     }
 
     .expense-column {
       display: grid;
-      gap: 12px;
+      gap: 14px;
     }
 
     .expense-card {
       position: relative;
       border: 0;
       border-radius: 20px;
-      padding: 16px 12px;
-      min-height: 92px;
+      padding: 15px 12px;
+      min-height: 98px;
       text-align: left;
       cursor: pointer;
       background:
@@ -363,9 +399,9 @@
     }
 
     .choice-board {
-      padding: 16px;
+      padding: 16px 18px;
       border-radius: 24px;
-      min-height: 214px;
+      min-height: 220px;
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.78)),
         var(--paper);
@@ -382,13 +418,13 @@
     }
 
     .choice-title {
-      font-size: 1.24rem;
+      font-size: 1.28rem;
       font-weight: 900;
       color: var(--ink);
     }
 
     .choice-sub {
-      font-size: 0.83rem;
+      font-size: 0.84rem;
       color: #866c51;
       font-weight: 800;
     }
@@ -401,7 +437,7 @@
 
     .option-card {
       position: relative;
-      min-height: 78px;
+      min-height: 84px;
       border-radius: 18px;
       padding: 14px 84px 14px 14px;
       border: 1px solid transparent;
@@ -437,7 +473,7 @@
     }
 
     .option-name {
-      font-size: 1rem;
+      font-size: 1.02rem;
       font-weight: 900;
       line-height: 1.15;
       margin-bottom: 6px;
@@ -448,7 +484,7 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 800;
     }
 
@@ -537,44 +573,119 @@
       min-height: 180px;
       padding: 18px 18px 16px;
       background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), transparent 22%),
-        linear-gradient(180deg, #9a6637, #6f4523);
-      color: #fff6eb;
+        radial-gradient(circle at 18% 16%, rgba(255, 244, 225, 0.32), transparent 24%),
+        linear-gradient(180deg, #b57a44 0%, #8c5930 48%, #6a4124 100%);
+      color: #fff8ef;
+      border-color: rgba(80, 45, 18, 0.35);
+      box-shadow:
+        0 18px 34px rgba(73, 44, 17, 0.18),
+        inset 0 1px 0 rgba(255, 239, 212, 0.34),
+        inset 0 -14px 20px rgba(66, 36, 15, 0.18);
+      isolation: isolate;
+    }
+
+    .wallet-zone::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 42px;
+      height: 48px;
+      border-radius: 18px 18px 14px 14px;
+      background: linear-gradient(180deg, rgba(255, 232, 205, 0.16), rgba(99, 57, 27, 0.16));
+      border: 1px solid rgba(255, 238, 214, 0.15);
+      box-shadow: inset 0 -10px 14px rgba(49, 26, 10, 0.16);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wallet-zone::after {
+      content: "";
+      position: absolute;
+      top: 64px;
+      right: 26px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #f7d28d, #c28b39 72%);
+      box-shadow:
+        0 4px 10px rgba(53, 30, 12, 0.22),
+        inset 0 1px 0 rgba(255, 247, 227, 0.55);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wallet-zone .zone-title {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 11px;
+      border-radius: 999px;
+      color: #fff4df;
+      background: rgba(72, 40, 16, 0.34);
+      border: 1px solid rgba(255, 238, 214, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 245, 228, 0.16);
+      text-shadow: 0 1px 2px rgba(34, 18, 7, 0.35);
     }
 
     .wallet-face {
+      position: relative;
+      z-index: 1;
       display: grid;
-      gap: 6px;
+      gap: 8px;
       justify-items: center;
-      margin-top: 4px;
+      margin-top: 10px;
+      padding-top: 10px;
     }
 
     .wallet-icon {
-      font-size: 2.3rem;
-      filter: drop-shadow(0 5px 8px rgba(24, 12, 4, 0.22));
+      position: absolute;
+      top: -4px;
+      right: 8px;
+      font-size: 1.15rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 6px rgba(24, 12, 4, 0.22));
+      opacity: 0.92;
     }
 
     .wallet-amount-row {
       display: flex;
       align-items: center;
-      gap: 6px;
-      min-height: 38px;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      min-width: 172px;
+      padding: 8px 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 249, 241, 0.96), rgba(244, 228, 208, 0.9));
+      border: 1px solid rgba(110, 65, 30, 0.16);
+      box-shadow:
+        0 10px 18px rgba(59, 32, 12, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
       font-weight: 900;
-      font-size: 1.5rem;
+      font-size: 1.46rem;
       letter-spacing: -0.03em;
+      color: #4f2f17;
+      text-shadow: none;
+    }
+
+    .wallet-amount {
+      color: #4f2f17;
     }
 
     .wallet-amount.up {
-      color: #ccffbb;
+      color: #1f7a34;
     }
 
     .wallet-amount.down {
-      color: #ffd1c3;
+      color: #b9402c;
     }
 
     .wallet-trend {
-      width: 18px;
-      font-size: 1rem;
+      width: 20px;
+      font-size: 1.02rem;
+      color: #7f4b25;
       opacity: 0;
       transition: opacity 0.18s ease;
     }
@@ -588,6 +699,9 @@
       width: 188px;
       height: 72px;
       margin-top: 10px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(74, 42, 18, 0.22), rgba(255, 242, 223, 0.08));
+      border: 1px dashed rgba(255, 230, 196, 0.22);
     }
 
     .piggy-zone {
@@ -669,10 +783,16 @@
 
     .result-row {
       position: absolute;
+      left: 24px;
       right: 24px;
       top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
     }
 
+    .salary-btn,
     .result-btn,
     .restart-btn {
       appearance: none;
@@ -688,12 +808,20 @@
       transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
     }
 
+    .salary-btn {
+      background: linear-gradient(180deg, #3f8d5d, #2e6945);
+      color: #f4fff4;
+      box-shadow: 0 10px 22px rgba(29, 74, 47, 0.22);
+    }
+
+    .salary-btn:hover,
     .result-btn:hover,
     .restart-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 14px 24px rgba(55, 34, 18, 0.26);
     }
 
+    .salary-btn.dimmed,
     .result-btn.dimmed {
       opacity: 0.68;
     }
@@ -706,11 +834,11 @@
     }
 
     .waste-title {
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       letter-spacing: 0.08em;
       font-weight: 900;
       color: #a14040;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .waste-grid {
@@ -721,7 +849,7 @@
 
     .waste-slot {
       position: relative;
-      min-height: 84px;
+      min-height: 88px;
       border-radius: 16px;
       padding: 12px 12px 12px 14px;
       display: grid;
@@ -746,14 +874,14 @@
     }
 
     .waste-name {
-      font-size: 0.94rem;
+      font-size: 0.98rem;
       font-weight: 900;
       margin-bottom: 2px;
       color: #933636;
     }
 
     .waste-amount {
-      font-size: 0.8rem;
+      font-size: 0.84rem;
       font-weight: 800;
       color: #ba5555;
     }
@@ -867,6 +995,31 @@
       z-index: 40;
     }
 
+    .toast.toast--wallet-alert {
+      left: 0;
+      top: 0;
+      bottom: auto;
+      min-width: 240px;
+      max-width: 320px;
+      padding: 14px 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 247, 237, 0.98), rgba(254, 226, 226, 0.95));
+      border: 2px solid rgba(220, 38, 38, 0.22);
+      color: #991b1b;
+      font-size: 1.12rem;
+      font-weight: 900;
+      line-height: 1.25;
+      box-shadow:
+        0 18px 28px rgba(127, 29, 29, 0.18),
+        0 0 0 1px rgba(255, 255, 255, 0.72) inset;
+      transform: translate(-50%, 16px) scale(0.94);
+      text-align: center;
+    }
+
+    .toast.toast--wallet-alert.show {
+      transform: translate(-50%, 0) scale(1);
+    }
+
     .toast.show {
       opacity: 1;
       transform: translate(-50%, 0);
@@ -892,6 +1045,213 @@
       animation: burstOut 0.62s ease forwards;
     }
 
+    .celebration-overlay {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: var(--presentation-safe-bottom);
+      z-index: 95;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.26s ease;
+    }
+
+    .celebration-overlay.show {
+      opacity: 1;
+    }
+
+    .celebration-overlay::before,
+    .celebration-overlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .celebration-overlay::before {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.92), transparent 12%),
+        radial-gradient(circle at 50% 42%, rgba(214, 181, 255, 0.36), transparent 32%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent 72%);
+      filter: blur(10px);
+      animation: celebrationPulse 1.18s ease-in-out infinite alternate;
+    }
+
+    .celebration-overlay::after {
+      inset: -10% -8%;
+      background:
+        repeating-conic-gradient(
+          from 0deg at 50% 24%,
+          rgba(255, 255, 255, 0.12) 0deg 9deg,
+          rgba(255, 228, 127, 0.2) 9deg 18deg,
+          transparent 18deg 31deg
+        );
+      mix-blend-mode: screen;
+      filter: blur(24px);
+      opacity: 0.52;
+      transform-origin: 50% 24%;
+      animation: celebrationSpin 8s linear infinite;
+    }
+
+    .celebration-overlay[data-stage="0"]::before {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.72), transparent 12%),
+        radial-gradient(circle at 50% 42%, rgba(188, 164, 255, 0.22), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 72%);
+    }
+
+    .celebration-overlay[data-stage="1"]::before {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.84), transparent 13%),
+        radial-gradient(circle at 50% 40%, rgba(164, 210, 255, 0.28), transparent 32%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 72%);
+    }
+
+    .celebration-overlay[data-stage="2"]::before {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.92), transparent 13%),
+        radial-gradient(circle at 50% 40%, rgba(255, 217, 138, 0.34), transparent 34%),
+        linear-gradient(180deg, rgba(255, 253, 231, 0.16), transparent 76%);
+    }
+
+    .celebration-overlay[data-stage="3"]::before {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.98), transparent 13%),
+        radial-gradient(circle at 50% 38%, rgba(255, 171, 218, 0.38), transparent 36%),
+        linear-gradient(180deg, rgba(255, 247, 197, 0.22), transparent 76%);
+    }
+
+    .celebration-overlay[data-stage="4"]::before,
+    .celebration-overlay[data-stage="5"]::before {
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255, 255, 255, 1), transparent 12%),
+        radial-gradient(circle at 50% 36%, rgba(255, 151, 151, 0.44), transparent 36%),
+        linear-gradient(180deg, rgba(255, 245, 179, 0.3), transparent 78%);
+    }
+
+    .celebration-overlay[data-stage="4"]::after {
+      opacity: 0.72;
+      filter: blur(18px);
+      animation-duration: 5.2s;
+    }
+
+    .celebration-overlay[data-stage="5"]::after {
+      opacity: 0.9;
+      filter: blur(12px);
+      animation-duration: 3.6s;
+    }
+
+    .celebration-copy-wrap {
+      position: absolute;
+      left: 50%;
+      top: clamp(46px, 8vh, 94px);
+      width: min(760px, calc(100vw - 72px));
+      transform: translateX(-50%);
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .celebration-copy,
+    .celebration-sub {
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+    }
+
+    .celebration-overlay.show .celebration-copy,
+    .celebration-overlay.show .celebration-sub {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .celebration-copy {
+      font-size: clamp(2rem, 4.8vw, 4.8rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: #fffdf7;
+      text-shadow:
+        0 14px 28px rgba(98, 63, 10, 0.24),
+        0 0 20px rgba(255, 255, 255, 0.7);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .celebration-sub {
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: rgba(255, 252, 246, 0.82);
+      border: 1px solid rgba(255, 241, 205, 0.84);
+      box-shadow: 0 16px 28px rgba(113, 70, 14, 0.12);
+      color: #8e5021;
+      font-size: clamp(1rem, 1.8vw, 1.45rem);
+      font-weight: 900;
+      line-height: 1.2;
+      transition: opacity 0.24s ease 0.05s, transform 0.24s ease 0.05s;
+    }
+
+    .celebration-overlay[data-stage="4"] .celebration-copy,
+    .celebration-overlay[data-stage="5"] .celebration-copy {
+      font-size: clamp(2.8rem, 6.2vw, 6rem);
+      text-shadow:
+        0 16px 30px rgba(114, 26, 26, 0.2),
+        0 0 24px rgba(255, 255, 255, 0.94),
+        0 0 42px rgba(255, 231, 110, 0.9);
+    }
+
+    .celebration-overlay[data-stage="5"] .celebration-copy {
+      animation: celebrationHeadlineWobble 0.52s ease-in-out 0.24s 4 alternate;
+    }
+
+    .celebration-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .celebration-particle,
+    .celebration-ribbon {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .celebration-particle {
+      left: 0;
+      top: 0;
+      display: grid;
+      place-items: center;
+      will-change: transform, opacity;
+      animation: celebrationDrop var(--dur, 1.5s) cubic-bezier(0.15, 0.72, 0.22, 1) forwards;
+      animation-delay: var(--delay, 0s);
+    }
+
+    .celebration-particle--word {
+      font-weight: 900;
+      text-shadow:
+        0 6px 12px rgba(100, 49, 8, 0.18),
+        0 0 14px rgba(255, 255, 255, 0.6);
+    }
+
+    .celebration-ribbon {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 240, 208, 0.94));
+      border: 2px solid rgba(255, 219, 133, 0.84);
+      color: #a14d1c;
+      font-size: clamp(0.98rem, 1.7vw, 1.45rem);
+      font-weight: 900;
+      white-space: nowrap;
+      box-shadow: 0 18px 30px rgba(118, 71, 14, 0.16);
+      animation: celebrationRibbonPop var(--dur, 1.5s) ease forwards;
+      animation-delay: var(--delay, 0s);
+    }
+
+    body.celebration-shake .app-shell {
+      animation: celebrationScreenShake 0.22s linear 4;
+    }
+
     @keyframes floatRise {
       0% { transform: translate(-50%, 0) scale(0.9); opacity: 0; }
       18% { opacity: 1; }
@@ -901,6 +1261,57 @@
     @keyframes burstOut {
       0% { transform: translate(0, 0) scale(0.6); opacity: 1; }
       100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+
+    @keyframes celebrationPulse {
+      0% { transform: scale(0.94); opacity: 0.64; }
+      100% { transform: scale(1.06); opacity: 1; }
+    }
+
+    @keyframes celebrationSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes celebrationDrop {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(0deg) scale(0.75);
+        opacity: 0;
+      }
+      12% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(var(--move-x, 0px), var(--move-y, 180px), 0) rotate(var(--spin, 180deg)) scale(1.12);
+        opacity: 0;
+      }
+    }
+
+    @keyframes celebrationRibbonPop {
+      0% {
+        transform: translate3d(0, 18px, 0) scale(0.82) rotate(var(--tilt, 0deg));
+        opacity: 0;
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(var(--move-x, 0px), var(--move-y, -28px), 0) scale(1.04) rotate(var(--tilt, 0deg));
+        opacity: 0;
+      }
+    }
+
+    @keyframes celebrationHeadlineWobble {
+      0% { transform: translateY(0) rotate(-1.2deg) scale(1); }
+      100% { transform: translateY(-4px) rotate(1.2deg) scale(1.03); }
+    }
+
+    @keyframes celebrationScreenShake {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(4px, -2px); }
+      50% { transform: translate(-4px, 3px); }
+      75% { transform: translate(3px, 2px); }
+      100% { transform: translate(0, 0); }
     }
 
     .result-overlay {
@@ -1018,6 +1429,331 @@
       display: none !important;
     }
 
+    @media (min-width: 1500px) and (min-height: 820px) {
+      .app-shell {
+        grid-template-columns: clamp(228px, 14vw, 262px) minmax(0, 1fr) clamp(220px, 13vw, 244px);
+      }
+
+      .board {
+        min-height: calc(100vh - 48px);
+      }
+
+      .board-main {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .expense-column {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .expense-card {
+        min-height: 114px;
+        padding: 14px 14px 12px;
+      }
+
+      .expense-icon {
+        font-size: 1.9rem;
+      }
+
+      .expense-name {
+        font-size: 1.02rem;
+      }
+
+      .stage {
+        gap: 14px;
+      }
+
+      .choice-board {
+        min-height: 188px;
+      }
+
+      .choice-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .option-card {
+        min-height: 102px;
+        padding: 14px 60px 14px 14px;
+      }
+
+      .option-name {
+        margin-bottom: 8px;
+      }
+
+      .option-icon {
+        top: 14px;
+        right: 12px;
+        font-size: 1.85rem;
+      }
+
+      .desk-area {
+        min-height: 452px;
+      }
+
+      .wallet-zone {
+        left: 18%;
+        top: 150px;
+        width: 270px;
+      }
+
+      .piggy-zone {
+        right: 118px;
+        width: 184px;
+      }
+    }
+
+    @media (min-width: 1500px) and (min-height: 900px) {
+      :root {
+        --presentation-safe-bottom: 200px;
+      }
+
+      body {
+        padding: 16px 24px 0;
+      }
+
+      .app-shell {
+        height: calc(100vh - var(--presentation-safe-bottom) - 16px);
+        max-height: calc(100vh - var(--presentation-safe-bottom) - 16px);
+        align-items: stretch;
+      }
+
+      .vocab-panel,
+      .waste-panel,
+      .board {
+        top: 16px;
+        height: calc(100vh - var(--presentation-safe-bottom) - 16px);
+        max-height: calc(100vh - var(--presentation-safe-bottom) - 16px);
+      }
+
+      .board {
+        display: grid;
+        grid-template-rows: 144px minmax(0, 1fr);
+        padding: 16px 18px 18px;
+        min-height: 0;
+      }
+
+      .graph-card {
+        margin-bottom: 12px;
+        padding: 12px 14px 10px;
+      }
+
+      .graph-top {
+        margin-bottom: 8px;
+      }
+
+      #balance-canvas {
+        height: 84px;
+      }
+
+      .board-main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        gap: 12px;
+        min-height: 0;
+        height: 100%;
+      }
+
+      .expense-column {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .expense-card {
+        min-height: 92px;
+        padding: 12px 12px 10px;
+      }
+
+      .expense-icon {
+        font-size: 1.7rem;
+        margin-bottom: 6px;
+      }
+
+      .expense-name {
+        font-size: 0.98rem;
+        margin-bottom: 3px;
+      }
+
+      .expense-card small {
+        font-size: 0.7rem;
+      }
+
+      .stage {
+        grid-template-rows: auto 1fr;
+        gap: 12px;
+        min-height: 0;
+        height: 100%;
+      }
+
+      .choice-board {
+        min-height: 0;
+        height: 155px;
+        padding: 14px 16px;
+      }
+
+      .choice-head {
+        margin-bottom: 10px;
+      }
+
+      .choice-title {
+        font-size: 1.18rem;
+      }
+
+      .choice-sub {
+        font-size: 0.78rem;
+      }
+
+      .choice-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .option-card {
+        min-height: 88px;
+        padding: 12px 54px 12px 12px;
+      }
+
+      .option-name {
+        font-size: 0.96rem;
+        margin-bottom: 6px;
+      }
+
+      .option-meta {
+        gap: 6px;
+        font-size: 0.76rem;
+      }
+
+      .option-tag {
+        padding: 3px 8px;
+        font-size: 0.68rem;
+      }
+
+      .option-icon {
+        top: 12px;
+        right: 10px;
+        font-size: 1.72rem;
+      }
+
+      .desk-area {
+        min-height: 0;
+        align-self: stretch;
+      }
+
+      .result-row {
+        left: 18px;
+        top: 16px;
+        right: 18px;
+      }
+
+      .result-btn,
+      .restart-btn {
+        padding: 10px 16px;
+        font-size: 0.86rem;
+      }
+
+      .zone-title {
+        font-size: 0.76rem;
+      }
+
+      .wallet-zone {
+        left: 15%;
+        top: 104px;
+        width: 246px;
+        min-height: 150px;
+        padding: 14px 16px 12px;
+      }
+
+      .wallet-icon {
+        font-size: 2rem;
+      }
+
+      .wallet-amount-row {
+        min-height: 32px;
+        font-size: 1.26rem;
+      }
+
+      .wallet-handle-layer {
+        width: 172px;
+        height: 58px;
+        margin-top: 8px;
+      }
+
+      .piggy-zone {
+        right: 104px;
+        bottom: 22px;
+        width: 164px;
+        min-height: 160px;
+        padding: 14px 14px 12px;
+      }
+
+      .piggy-emoji {
+        font-size: 2.35rem;
+        margin: 6px 0 8px;
+      }
+
+      .piggy-fill {
+        margin-bottom: 8px;
+      }
+
+      .piggy-amount {
+        font-size: 1.08rem;
+      }
+
+      .parttime-card {
+        right: 18px;
+        bottom: 36px;
+        width: 84px;
+        min-height: 122px;
+        padding: 10px 10px 8px;
+        gap: 8px;
+      }
+
+      .parttime-icon {
+        font-size: 1.7rem;
+        margin-top: 4px;
+      }
+
+      .parttime-progress {
+        height: 10px;
+      }
+
+      .desk-token,
+      .wallet-handle,
+      .drag-proxy {
+        width: 68px;
+        height: 68px;
+      }
+
+      .desk-token.job-token {
+        width: 54px;
+        height: 54px;
+      }
+
+      .wallet-handle,
+      .drag-proxy.handle-look {
+        width: 50px;
+        height: 50px;
+      }
+
+      .token-amount {
+        font-size: 0.88rem;
+      }
+
+      .token-label {
+        font-size: 0.62rem;
+      }
+
+      .wallet-handle span {
+        font-size: 0.7rem;
+      }
+
+      .toast {
+        bottom: 14px;
+      }
+    }
+
     @media (max-width: 1320px) {
       .app-shell {
         grid-template-columns: 190px minmax(0, 1fr) 190px;
@@ -1114,6 +1850,10 @@
   <div class="app-shell">
     <aside class="vocab-panel">
       <div class="panel-label">언어 표현</div>
+      <div class="lang-toggle" role="group" aria-label="뜻 언어 전환">
+        <button type="button" class="lang-toggle__btn is-active" data-gloss-lang="en">EN</button>
+        <button type="button" class="lang-toggle__btn" data-gloss-lang="vi">VI</button>
+      </div>
       <div class="vocab-list" id="vocab-list"></div>
       <div class="panel-totals">
         <div class="panel-total"><span>수입</span><strong id="stat-income">₩0</strong></div>
@@ -1151,6 +1891,7 @@
 
           <div class="desk-area" id="desk-area">
             <div class="result-row">
+              <button class="salary-btn" id="salary-btn" type="button">&#51452;&#44553;</button>
               <button class="result-btn dimmed" id="result-btn" type="button">결산</button>
             </div>
 
@@ -1194,6 +1935,14 @@
     </aside>
   </div>
 
+  <div class="celebration-overlay" id="celebration-overlay" data-stage="0" aria-hidden="true">
+    <div class="celebration-copy-wrap">
+      <div class="celebration-copy" id="celebration-copy"></div>
+      <div class="celebration-sub" id="celebration-sub"></div>
+    </div>
+    <div class="celebration-layer" id="celebration-layer"></div>
+  </div>
+
   <div class="result-overlay" id="result-overlay">
     <div class="result-card">
       <div class="result-title">월말 결산</div>
@@ -1212,14 +1961,14 @@
 
   <script>
     const VOCABS = {
-      income:   { word: "수입",     gloss: "돈이 들어오다 / income",      color: "#2f8f58", tint: "#dcf5e6" },
-      expense:  { word: "지출",     gloss: "돈을 쓰다 / expense",         color: "#cf6a2e", tint: "#ffe8d7" },
-      increase: { word: "늘다",     gloss: "많아지다 / increase",         color: "#2f8f58", tint: "#dcf5e6" },
-      decrease: { word: "줄다",     gloss: "적어지다 / decrease",         color: "#c54c4c", tint: "#ffe1e1" },
-      save:     { word: "아끼다",   gloss: "적게 쓰다 / save money",      color: "#2f6bb5", tint: "#e1efff" },
-      budget:   { word: "절약하다", gloss: "계획해서 아끼다 / budget",    color: "#c08a21", tint: "#fff3cf" },
-      waste:    { word: "낭비하다", gloss: "쓸데없이 쓰다 / waste",       color: "#c54c4c", tint: "#ffe1e1" },
-      savings:  { word: "저축하다", gloss: "돈을 모으다 / save up",       color: "#7454bc", tint: "#ece4ff" }
+      income:   { word: "수입",     gloss: "돈이 들어오다 / income",      glossVi: "돈이 들어오다 / thu nhập",                  color: "#2f8f58", tint: "#dcf5e6" },
+      expense:  { word: "지출",     gloss: "돈을 쓰다 / expense",         glossVi: "돈을 쓰다 / chi tiêu",                     color: "#cf6a2e", tint: "#ffe8d7" },
+      increase: { word: "늘다",     gloss: "많아지다 / increase",         glossVi: "많아지다 / tăng lên",                      color: "#2f8f58", tint: "#dcf5e6" },
+      decrease: { word: "줄다",     gloss: "적어지다 / decrease",         glossVi: "적어지다 / giảm xuống",                    color: "#c54c4c", tint: "#ffe1e1" },
+      save:     { word: "아끼다",   gloss: "적게 쓰다 / save money",      glossVi: "적게 쓰다 / tiết kiệm",                    color: "#2f6bb5", tint: "#e1efff" },
+      budget:   { word: "절약하다", gloss: "계획해서 아끼다 / budget",    glossVi: "계획해서 아끼다 / tiết kiệm theo kế hoạch", color: "#c08a21", tint: "#fff3cf" },
+      waste:    { word: "낭비하다", gloss: "쓸데없이 쓰다 / waste",       glossVi: "쓸데없이 쓰다 / lãng phí",                 color: "#c54c4c", tint: "#ffe1e1" },
+      savings:  { word: "저축하다", gloss: "돈을 모으다 / save up",       glossVi: "돈을 모으다 / để dành tiền",               color: "#7454bc", tint: "#ece4ff" }
     };
 
     const EXPENSES = [
@@ -1281,14 +2030,8 @@
       { id: "balloon",  label: "풍선",   icon: "🎈", amount: 1500 }
     ];
 
-    const SALARY_TOKENS = [20000, 20000, 20000, 20000, 20000];
-    const SALARY_POSITIONS = [
-      { x: 0.12, y: 0.10 },
-      { x: 0.28, y: 0.03 },
-      { x: 0.50, y: 0.09 },
-      { x: 0.20, y: 0.32 },
-      { x: 0.44, y: 0.30 }
-    ];
+    const WEEKLY_WAGE_AMOUNT = 10000;
+    const WEEKLY_WAGE_COUNT = 10;
 
     const PART_TIME_INTERVAL = 6500;
     const PART_TIME_MAX = 7;
@@ -1298,6 +2041,7 @@
       savingsBalance: 0,
       incomeTotal: 0,
       spentTotal: 0,
+      glossLanguage: "en",
       seenVocabs: new Set(),
       balanceHistory: [0],
       currentExpenseId: EXPENSES[0].id,
@@ -1305,9 +2049,14 @@
       chosenOptions: new Map(),
       activeTokens: [],
       nextTokenId: 1,
+      weeklyWageIssued: false,
       dragging: null,
       toastTimer: null,
       bannerTimer: null,
+      celebrationTimer: null,
+      celebrationCleanupTimer: null,
+      celebrationShakeTimer: null,
+      bannerContent: null,
       jobTimer: null,
       jobClock: 0,
       resultOpen: false
@@ -1341,6 +2090,11 @@
       parttimeProgress: document.getElementById("parttime-progress-bar"),
       wasteGrid: document.getElementById("waste-grid"),
       toast: document.getElementById("toast"),
+      celebrationOverlay: document.getElementById("celebration-overlay"),
+      celebrationCopy: document.getElementById("celebration-copy"),
+      celebrationSub: document.getElementById("celebration-sub"),
+      celebrationLayer: document.getElementById("celebration-layer"),
+      salaryBtn: document.getElementById("salary-btn"),
       resultBtn: document.getElementById("result-btn"),
       resultOverlay: document.getElementById("result-overlay"),
       resultIncome: document.getElementById("result-income"),
@@ -1348,7 +2102,8 @@
       resultSaved: document.getElementById("result-saved"),
       resultBadge: document.getElementById("result-badge"),
       resultVocabs: document.getElementById("result-vocabs"),
-      restartBtn: document.getElementById("restart-btn")
+      restartBtn: document.getElementById("restart-btn"),
+      glossToggleButtons: document.querySelectorAll("[data-gloss-lang]")
     };
 
     function formatMoney(value) {
@@ -1371,6 +2126,45 @@
       return state.activeTokens.filter((token) => token.type === "salary");
     }
 
+    function updateSalaryButtonState() {
+      const disabled = state.weeklyWageIssued || state.resultOpen;
+      els.salaryBtn.disabled = disabled;
+      els.salaryBtn.classList.toggle("dimmed", disabled);
+    }
+
+    function getGloss(meta) {
+      return state.glossLanguage === "vi" ? meta.glossVi : meta.gloss;
+    }
+
+    function updateGlossToggle() {
+      els.glossToggleButtons.forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.glossLang === state.glossLanguage);
+      });
+    }
+
+    function renderBannerContent() {
+      if (!state.bannerContent) {
+        return;
+      }
+      const { keys, sentence, primary } = state.bannerContent;
+      const meta = VOCABS[primary];
+      els.banner.style.background = `linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72)), ${meta.tint}`;
+      els.banner.style.color = meta.color;
+      els.bannerTitle.textContent = keys.map((key) => VOCABS[key].word).join(" + ");
+      els.bannerGloss.textContent = keys.map((key) => getGloss(VOCABS[key])).join(" · ");
+      els.bannerSentence.textContent = sentence;
+    }
+
+    function setGlossLanguage(language) {
+      if (!["en", "vi"].includes(language) || state.glossLanguage === language) {
+        return;
+      }
+      state.glossLanguage = language;
+      updateGlossToggle();
+      createVocabPanel();
+      renderBannerContent();
+    }
+
     function createVocabPanel() {
       els.vocabList.innerHTML = "";
       Object.keys(VOCABS).forEach((key) => {
@@ -1380,7 +2174,7 @@
         item.className = "vocab-item" + (seen ? " seen" : "");
         item.innerHTML = `
           <div class="vocab-mark">${seen ? "✓" : ""}</div>
-          <div class="vocab-word">${seen ? meta.word : "???"}${seen ? `<span class="vocab-def">${meta.gloss}</span>` : ""}</div>
+          <div class="vocab-word">${seen ? meta.word : "???"}${seen ? `<span class="vocab-def">${getGloss(meta)}</span>` : ""}</div>
         `;
         els.vocabList.appendChild(item);
       });
@@ -1445,7 +2239,7 @@
         `;
         card.addEventListener("click", () => {
           if (state.walletBalance < option.amount) {
-            showToast(randomShortage());
+            showToast(randomShortage(), "shortage");
           } else {
             showToast("지갑의 돈을 끌어 놓아요.");
           }
@@ -1469,7 +2263,7 @@
         `;
         slot.addEventListener("click", () => {
           if (state.walletBalance < item.amount) {
-            showToast(randomShortage());
+            showToast(randomShortage(), "shortage");
           } else {
             showToast("지갑의 돈을 끌어 놓아요.");
           }
@@ -1536,6 +2330,7 @@
     }
 
     function setSavingsBalance(next) {
+      const previous = state.savingsBalance;
       state.savingsBalance = Math.max(0, Math.round(next));
       updateTotals();
       const base = Math.max(100000, state.incomeTotal || 0);
@@ -1550,6 +2345,156 @@
       } else {
         els.piggyEmoji.textContent = "🐷🏆";
       }
+      if (state.savingsBalance > previous) {
+        triggerSavingsCelebration(state.savingsBalance, state.savingsBalance - previous, base);
+      }
+    }
+
+    function getPresentationSafeBottom() {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue("--presentation-safe-bottom");
+      return Number.parseFloat(raw) || 0;
+    }
+
+    function getSavingsCelebrationStage(amount, base) {
+      const ratio = amount / Math.max(100000, base || 0);
+      if (amount >= 120000 || ratio >= 0.95) {
+        return 5;
+      }
+      if (amount >= 80000 || ratio >= 0.72) {
+        return 4;
+      }
+      if (amount >= 50000 || ratio >= 0.48) {
+        return 3;
+      }
+      if (amount >= 30000 || ratio >= 0.3) {
+        return 2;
+      }
+      if (amount >= 15000 || ratio >= 0.15) {
+        return 1;
+      }
+      return 0;
+    }
+
+    function getSavingsCelebrationCopy(stage, amount) {
+      const messageMap = [
+        { title: "저축 시작!", sub: `${formatMoney(amount)} 모였어요. 차곡차곡 잘 쌓이고 있어요!` },
+        { title: "오, 저축이 늘어요!", sub: `${formatMoney(amount)} 돌파! 이제 제법 모이는 느낌이에요.` },
+        { title: "좋아요, 잘 모으고 있어요!", sub: `${formatMoney(amount)} 모였어요. 화면도 같이 들썩일 만큼 든든해요!` },
+        { title: "우와, 저금통이 빵빵해요!", sub: `${formatMoney(amount)} 달성! 이제부터는 축하도 꽤 요란해집니다.` },
+        { title: "대단해요! 저축 잔액 폭발!", sub: `${formatMoney(amount)} 모였어요. 거의 발표회급으로 호들갑을 떨어도 되는 수준이에요!` },
+        { title: "와아아! 저축 대성공!!!", sub: `${formatMoney(amount)}까지 왔어요! 화면 전체가 난리 날 정도로 과장되게 축하할게요!` }
+      ];
+      return messageMap[Math.max(0, Math.min(messageMap.length - 1, stage))];
+    }
+
+    function clearCelebrationLayer() {
+      els.celebrationLayer.innerHTML = "";
+    }
+
+    function stopSavingsCelebration() {
+      window.clearTimeout(state.celebrationTimer);
+      window.clearTimeout(state.celebrationCleanupTimer);
+      window.clearTimeout(state.celebrationShakeTimer);
+      els.celebrationOverlay.classList.remove("show");
+      document.body.classList.remove("celebration-shake");
+      clearCelebrationLayer();
+    }
+
+    function createCelebrationParticle(stage, width, height, accent) {
+      const particle = document.createElement("div");
+      const isWord = stage >= 2 && Math.random() < Math.min(0.44, 0.16 + stage * 0.06);
+      particle.className = "celebration-particle" + (isWord ? " celebration-particle--word" : "");
+      particle.style.left = `${Math.round(Math.random() * width)}px`;
+      particle.style.top = `${Math.round(18 + Math.random() * Math.max(120, height * 0.42))}px`;
+      particle.style.setProperty("--move-x", `${Math.round((Math.random() - 0.5) * (90 + stage * 36))}px`);
+      particle.style.setProperty("--move-y", `${Math.round(140 + Math.random() * (160 + stage * 42))}px`);
+      particle.style.setProperty("--spin", `${Math.round((Math.random() - 0.5) * (420 + stage * 75))}deg`);
+      particle.style.setProperty("--dur", `${(1.05 + Math.random() * 0.7 + stage * 0.08).toFixed(2)}s`);
+      particle.style.setProperty("--delay", `${(Math.random() * 0.18).toFixed(2)}s`);
+
+      if (isWord) {
+        const words = ["축", "하", "★", "✦", "₩", "돈", "팡", "짠"];
+        particle.textContent = words[Math.floor(Math.random() * words.length)];
+        particle.style.fontSize = `${18 + stage * 4 + Math.round(Math.random() * 14)}px`;
+        particle.style.color = accent[Math.floor(Math.random() * accent.length)];
+      } else {
+        const size = 9 + Math.round(Math.random() * (10 + stage * 2));
+        particle.style.width = `${size}px`;
+        particle.style.height = `${Math.max(10, Math.round(size * (Math.random() > 0.5 ? 1.6 : 1)))}px`;
+        particle.style.background = accent[Math.floor(Math.random() * accent.length)];
+        particle.style.borderRadius = Math.random() > 0.55 ? "50%" : "4px";
+        particle.style.boxShadow = "0 0 0 1px rgba(255,255,255,0.28) inset";
+      }
+      els.celebrationLayer.appendChild(particle);
+      window.setTimeout(() => particle.remove(), 2600 + stage * 220);
+    }
+
+    function createCelebrationRibbon(stage, width, height, text) {
+      const ribbon = document.createElement("div");
+      ribbon.className = "celebration-ribbon";
+      ribbon.textContent = text;
+      ribbon.style.left = `${Math.round(40 + Math.random() * Math.max(180, width - 260))}px`;
+      ribbon.style.top = `${Math.round(120 + Math.random() * Math.max(60, height * 0.22))}px`;
+      ribbon.style.setProperty("--move-x", `${Math.round((Math.random() - 0.5) * (40 + stage * 16))}px`);
+      ribbon.style.setProperty("--move-y", `${Math.round(-28 - Math.random() * 38)}px`);
+      ribbon.style.setProperty("--tilt", `${((Math.random() - 0.5) * 14).toFixed(2)}deg`);
+      ribbon.style.setProperty("--dur", `${(1.22 + Math.random() * 0.55 + stage * 0.06).toFixed(2)}s`);
+      ribbon.style.setProperty("--delay", `${(Math.random() * 0.18).toFixed(2)}s`);
+      els.celebrationLayer.appendChild(ribbon);
+      window.setTimeout(() => ribbon.remove(), 2500 + stage * 180);
+    }
+
+    function triggerSavingsCelebration(amount, delta, base) {
+      const stage = getSavingsCelebrationStage(amount, base);
+      const copy = getSavingsCelebrationCopy(stage, amount);
+      const width = window.innerWidth;
+      const height = Math.max(260, window.innerHeight - getPresentationSafeBottom());
+      const accent = ["#ffffff", "#ffe37d", "#ff97c4", "#9cc9ff", "#c69cff", "#ffd19a"];
+      const particleCount = 18 + stage * 14 + Math.min(16, Math.round(delta / 5000) * 2);
+
+      window.clearTimeout(state.celebrationTimer);
+      window.clearTimeout(state.celebrationCleanupTimer);
+      window.clearTimeout(state.celebrationShakeTimer);
+
+      els.celebrationOverlay.dataset.stage = String(stage);
+      els.celebrationCopy.textContent = copy.title;
+      els.celebrationSub.textContent = copy.sub;
+      clearCelebrationLayer();
+
+      for (let i = 0; i < particleCount; i += 1) {
+        createCelebrationParticle(stage, width, height, accent);
+      }
+
+      if (stage >= 2) {
+        const ribbons = [
+          "저축 성공!",
+          "차곡차곡!",
+          stage >= 4 ? "대단해요!" : "좋아요!"
+        ];
+        ribbons.forEach((text) => createCelebrationRibbon(stage, width, height, text));
+      }
+
+      els.celebrationOverlay.classList.remove("show");
+      void els.celebrationOverlay.offsetWidth;
+      els.celebrationOverlay.classList.add("show");
+
+      if (stage >= 4) {
+        document.body.classList.add("celebration-shake");
+        state.celebrationShakeTimer = window.setTimeout(() => {
+          document.body.classList.remove("celebration-shake");
+        }, 960);
+      } else {
+        document.body.classList.remove("celebration-shake");
+      }
+
+      state.celebrationTimer = window.setTimeout(() => {
+        els.celebrationOverlay.classList.remove("show");
+      }, 1680 + stage * 230);
+
+      state.celebrationCleanupTimer = window.setTimeout(() => {
+        clearCelebrationLayer();
+        document.body.classList.remove("celebration-shake");
+      }, 2500 + stage * 240);
     }
 
     function drawBalanceChart() {
@@ -1616,6 +2561,14 @@
     function showBanner(keys, sentence, primary = keys[0]) {
       keys.forEach((key) => state.seenVocabs.add(key));
       createVocabPanel();
+      state.bannerContent = { keys: [...keys], sentence, primary };
+      renderBannerContent();
+      els.banner.classList.add("show");
+      window.clearTimeout(state.bannerTimer);
+      state.bannerTimer = window.setTimeout(() => {
+        els.banner.classList.remove("show");
+      }, 3000);
+      return;
       const meta = VOCABS[primary];
       els.banner.style.background = `linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72)), ${meta.tint}`;
       els.banner.style.color = meta.color;
@@ -1629,8 +2582,24 @@
       }, 3000);
     }
 
-    function showToast(message) {
+    function positionWalletToast() {
+      const walletRect = els.walletZone.getBoundingClientRect();
+      const deskRect = els.deskArea.getBoundingClientRect();
+      const walletCenter = walletRect.left - deskRect.left + walletRect.width / 2;
+      const walletTop = walletRect.top - deskRect.top;
+      els.toast.style.left = `${walletCenter}px`;
+      els.toast.style.top = `${Math.max(12, walletTop - 76)}px`;
+    }
+
+    function showToast(message, type = "default") {
       els.toast.textContent = message;
+      els.toast.classList.toggle("toast--wallet-alert", type === "shortage");
+      if (type === "shortage") {
+        positionWalletToast();
+      } else {
+        els.toast.style.left = "";
+        els.toast.style.top = "";
+      }
       els.toast.classList.add("show");
       window.clearTimeout(state.toastTimer);
       state.toastTimer = window.setTimeout(() => {
@@ -1680,23 +2649,62 @@
         <span class="token-amount">${formatMoney(amount)}</span>
         <span class="token-label">${type === "job" ? "아르바이트" : "돈"}</span>
       `;
+      const tokenLabel = type === "job" ? "\uC54C\uBC14" : "\uC8FC\uAE09";
+      token.innerHTML = `
+        <span class="token-amount">${formatMoney(amount)}</span>
+        <span class="token-label">${tokenLabel}</span>
+      `;
       token.addEventListener("pointerdown", (event) => beginDrag(event, { kind: "desk", amount, tokenId: state.nextTokenId, type }, token));
       els.deskTokenLayer.appendChild(token);
       state.activeTokens.push({ id: state.nextTokenId, amount, type, element: token });
       state.nextTokenId += 1;
     }
 
+    function getWeeklyWagePositions() {
+      const compactLayout = window.innerWidth >= 1500 && window.innerHeight >= 900;
+      const cols = 5;
+      const startX = els.deskArea.clientWidth * (compactLayout ? 0.56 : 0.52);
+      const startY = compactLayout ? 42 : 48;
+      const stepX = compactLayout ? 54 : 46;
+      const stepY = compactLayout ? 58 : 54;
+
+      return Array.from({ length: WEEKLY_WAGE_COUNT }, (_, index) => {
+        const row = Math.floor(index / cols);
+        const col = index % cols;
+        return {
+          x: Math.round(startX + col * stepX + row * 12),
+          y: Math.round(startY + row * stepY)
+        };
+      });
+    }
+
     function spawnSalaryTokens() {
-      const rect = els.deskArea.getBoundingClientRect();
-      SALARY_TOKENS.forEach((amount, index) => {
-        const pos = SALARY_POSITIONS[index];
+      if (state.weeklyWageIssued) {
+        return;
+      }
+
+      getWeeklyWagePositions().forEach((pos) => {
         createDeskToken(
-          amount,
-          Math.max(18, rect.width * pos.x),
-          Math.max(20, rect.height * pos.y),
+          WEEKLY_WAGE_AMOUNT,
+          pos.x,
+          pos.y,
           "salary"
         );
       });
+      state.weeklyWageIssued = true;
+      updateSalaryButtonState();
+    }
+
+    function issueWeeklyWage() {
+      if (state.resultOpen) {
+        return;
+      }
+      if (state.weeklyWageIssued) {
+        showToast("\uC774\uBC88 \uC8FC\uAE09\uC740 \uC774\uBBF8 \uBC1B\uC558\uC5B4\uC694.");
+        return;
+      }
+      spawnSalaryTokens();
+      showToast("\uC8FC\uAE09 10\uB9CC \uC6D0\uC774 \uB098\uC654\uC5B4\uC694!");
     }
 
     function spawnJobToken() {
@@ -1819,7 +2827,7 @@
 
       if (state.walletBalance < option.amount) {
         proxy.remove();
-        showToast(randomShortage());
+        showToast(randomShortage(), "shortage");
         return;
       }
 
@@ -1860,7 +2868,7 @@
       }
       if (state.walletBalance < item.amount) {
         proxy.remove();
-        showToast(randomShortage());
+        showToast(randomShortage(), "shortage");
         return;
       }
 
@@ -1878,7 +2886,7 @@
     function moveWalletToSavings(proxy) {
       if (state.walletBalance <= 0) {
         proxy.remove();
-        showToast(randomShortage());
+        showToast(randomShortage(), "shortage");
         return;
       }
 
@@ -2019,22 +3027,33 @@
     }
 
     function updateResultButtonState() {
-      const ready = state.completedExpenses.size === EXPENSES.length;
+      const ready =
+        state.incomeTotal > 0 ||
+        state.spentTotal > 0 ||
+        state.savingsBalance > 0 ||
+        state.walletBalance > 0 ||
+        state.completedExpenses.size > 0;
       els.resultBtn.classList.toggle("dimmed", !ready);
     }
 
     function tryOpenResult() {
-      if (state.completedExpenses.size < EXPENSES.length) {
-        showToast("지출을 더 골라 보세요.");
-        return;
-      }
-      if (getUnclaimedSalaryTokens().length > 0) {
-        showToast("남은 월급이 있어요.");
+      const hasLedgerData =
+        state.incomeTotal > 0 ||
+        state.spentTotal > 0 ||
+        state.savingsBalance > 0 ||
+        state.walletBalance > 0 ||
+        state.completedExpenses.size > 0;
+
+      if (!hasLedgerData) {
+        showToast("먼저 월급을 받거나 돈을 움직여 보세요.");
         return;
       }
 
       state.resultOpen = true;
+      updateSalaryButtonState();
       window.clearInterval(state.jobTimer);
+      const remainingExpenses = EXPENSES.length - state.completedExpenses.size;
+      const pendingDeskMoney = getActiveDeskTokens().length;
       const isBudgetSuccess = state.incomeTotal > 0 && state.spentTotal <= state.incomeTotal * 0.4;
       if (isBudgetSuccess) {
         showBanner(["budget"], "이번 달에 계획해서 돈을 아껴 썼어요.", "budget");
@@ -2044,9 +3063,23 @@
       els.resultSpent.textContent = formatMoney(state.spentTotal);
       els.resultSaved.textContent = formatMoney(state.savingsBalance);
       els.resultBadge.className = "result-badge " + (isBudgetSuccess ? "good" : "try");
-      els.resultBadge.textContent = isBudgetSuccess
-        ? "절약하다: 이번 달에 계획해서 돈을 아껴 썼어요."
-        : "이번 달은 지출이 많았어요. 다시 해 볼 수 있어요.";
+      if (remainingExpenses > 0 || pendingDeskMoney > 0) {
+        const progressMessage = isBudgetSuccess
+          ? "지금까지는 아껴 쓰고 있어요."
+          : "지금까지는 지출이 큰 편이에요.";
+        const followup = [];
+        if (remainingExpenses > 0) {
+          followup.push(`아직 ${remainingExpenses}개의 지출 선택이 남아 있어요.`);
+        }
+        if (pendingDeskMoney > 0) {
+          followup.push(`책상 위 돈 ${pendingDeskMoney}개도 남아 있어요.`);
+        }
+        els.resultBadge.textContent = `${progressMessage} ${followup.join(" ")}`.trim();
+      } else {
+        els.resultBadge.textContent = isBudgetSuccess
+          ? "절약하다: 이번 달에 계획해서 돈을 아껴 썼어요."
+          : "이번 달은 지출이 많았어요. 다시 해 볼 수 있어요.";
+      }
       els.resultVocabs.innerHTML = "";
       Object.keys(VOCABS).forEach((key) => {
         const item = document.createElement("div");
@@ -2061,6 +3094,7 @@
       window.clearInterval(state.jobTimer);
       window.clearTimeout(state.toastTimer);
       window.clearTimeout(state.bannerTimer);
+      stopSavingsCelebration();
       state.walletBalance = 0;
       state.savingsBalance = 0;
       state.incomeTotal = 0;
@@ -2072,9 +3106,11 @@
       state.chosenOptions = new Map();
       state.activeTokens = [];
       state.nextTokenId = 1;
+      state.weeklyWageIssued = false;
       state.dragging = null;
       state.jobClock = 0;
       state.resultOpen = false;
+      state.bannerContent = null;
       els.toast.classList.remove("show");
       els.banner.classList.remove("show");
       els.deskTokenLayer.innerHTML = "";
@@ -2083,6 +3119,7 @@
       setSavingsBalance(0);
       setWalletBalance(0);
       updateTotals();
+      updateSalaryButtonState();
     }
 
     function restartGame() {
@@ -2091,16 +3128,22 @@
       renderExpenseCards();
       renderChoiceBoard();
       renderWasteSlots();
-      spawnSalaryTokens();
       renderWalletHandles();
       drawBalanceChart();
       startPartTimeLoop();
     }
 
+    els.glossToggleButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setGlossLanguage(button.dataset.glossLang);
+      });
+    });
+    els.salaryBtn.addEventListener("click", issueWeeklyWage);
     els.resultBtn.addEventListener("click", tryOpenResult);
     els.restartBtn.addEventListener("click", restartGame);
     window.addEventListener("resize", drawBalanceChart);
 
+    updateGlossToggle();
     renderWasteSlots();
     restartGame();
   </script>

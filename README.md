@@ -17,8 +17,8 @@ See [LICENSE.md](LICENSE.md) for the full notice and terms of use.
 
 Keep the repository root focused on deployable pages, chapter folders, shared code, and core project docs.
 
-- Prefer a sibling local archive folder outside the repository for archival captures, screenshots, ZIP exports, and one-off extracts.
-- Use `tmp/`, `output/`, `.codex_tmp/`, and `backup/` only as short-lived staging areas when work is still in progress.
+- Prefer `../backup/korean3Bimprove/YYYYMMDD/` outside the repository for archival captures, screenshots, ZIP exports, one-off extracts, and manual backups.
+- Use `tmp/`, `output/`, `.codex_tmp/`, and any repo-internal `backup/` folder only as short-lived staging areas when work is still in progress.
 - Avoid leaving loose debug PNG files at the repository root.
 - Avoid relying on local-only ignore rules in `.git/info/exclude` for files that should simply live outside the repository.
 - Keep generated caches such as `__pycache__/`, test artifacts, and local build output out of Git.
