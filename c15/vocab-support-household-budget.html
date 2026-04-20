@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나의 가계부 - 어휘 보조 활동 | 15과</title>
+  <style>
+    :root {
+      --desk: #d7c19a;
+      --desk-deep: #b18b5c;
+      --paper: #fbf6e9;
+      --paper-line: rgba(148, 127, 90, 0.12);
+      --ink: #403226;
+      --soft-ink: #78624c;
+      --green: #2f8f58;
+      --green-soft: #dcf5e6;
+      --blue: #2f6bb5;
+      --blue-soft: #e1efff;
+      --orange: #cf6a2e;
+      --orange-soft: #ffe8d7;
+      --red: #c54c4c;
+      --red-soft: #ffe1e1;
+      --purple: #7454bc;
+      --purple-soft: #ece4ff;
+      --gold: #c08a21;
+      --gold-soft: #fff3cf;
+      --shadow: 0 26px 50px rgba(63, 38, 12, 0.18);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --radius-sm: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.24), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(255, 241, 214, 0.25), transparent 30%),
+        linear-gradient(180deg, #7e5b38 0%, #5a4127 100%);
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 22px;
+    }
+
+    .app-shell {
+      width: min(1580px, 100%);
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 220px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card-surface {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.2)),
+        var(--paper);
+      border: 1px solid rgba(134, 102, 68, 0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .vocab-panel,
+    .waste-panel {
+      position: sticky;
+      top: 22px;
+      padding: 18px 16px;
+      border-radius: 24px;
+      overflow: hidden;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(128, 104, 72, 0.04) 0,
+          rgba(128, 104, 72, 0.04) 28px,
+          transparent 28px,
+          transparent 56px
+        ),
+        linear-gradient(180deg, #fffaf0, #f4ebda);
+      border: 1px solid rgba(133, 105, 75, 0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .waste-panel {
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(170, 82, 82, 0.05) 0,
+          rgba(170, 82, 82, 0.05) 28px,
+          transparent 28px,
+          transparent 56px
+        ),
+        linear-gradient(180deg, #fff5f5, #f6dfdf);
+      border-color: rgba(170, 82, 82, 0.16);
+    }
+
+    .panel-label {
+      font-size: 0.88rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: #8b6a3f;
+      margin-bottom: 12px;
+    }
+
+    .vocab-list {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .vocab-item {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px dashed rgba(143, 113, 80, 0.18);
+      font-size: 0.9rem;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .vocab-item.seen {
+      background: #eefbf1;
+      border-style: solid;
+      border-color: rgba(42, 144, 86, 0.24);
+      transform: translateX(3px);
+    }
+
+    .vocab-mark {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #d9c8af;
+      display: grid;
+      place-items: center;
+      font-size: 0.72rem;
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .vocab-item.seen .vocab-mark {
+      background: var(--green);
+    }
+
+    .vocab-word {
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .vocab-def {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.7rem;
+      color: var(--soft-ink);
+    }
+
+    .panel-totals {
+      display: grid;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(128, 99, 68, 0.24);
+    }
+
+    .panel-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 2px;
+      font-size: 0.83rem;
+      color: #8d7150;
+    }
+
+    .panel-total strong {
+      color: var(--ink);
+      font-size: 0.96rem;
+    }
+
+    .board {
+      position: relative;
+      min-width: 0;
+      padding: 18px 18px 20px;
+      border-radius: 32px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.22)),
+        linear-gradient(180deg, #fbf2e2, #efe0c2);
+      border: 1px solid rgba(129, 97, 62, 0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .banner {
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      transform: translate(-50%, -14px);
+      width: min(580px, calc(100% - 80px));
+      padding: 16px 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 18px 30px rgba(46, 30, 12, 0.22);
+      display: grid;
+      gap: 5px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 20;
+    }
+
+    .banner.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .banner-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .banner-gloss {
+      font-size: 0.84rem;
+      opacity: 0.86;
+      font-weight: 700;
+    }
+
+    .banner-sentence {
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .graph-card {
+      padding: 16px 18px 14px;
+      border-radius: 24px;
+      margin-bottom: 16px;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(128, 99, 68, 0.03) 0,
+          rgba(128, 99, 68, 0.03) 26px,
+          transparent 26px,
+          transparent 52px
+        ),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.4));
+      border: 1px solid rgba(128, 99, 68, 0.16);
+    }
+
+    .graph-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 900;
+      color: #7c6248;
+    }
+
+    .graph-top strong {
+      font-size: 1.2rem;
+      color: var(--green);
+      letter-spacing: -0.03em;
+    }
+
+    #balance-canvas {
+      width: 100%;
+      height: 122px;
+      display: block;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(222, 242, 229, 0.9), rgba(255, 255, 255, 0.85));
+    }
+
+    .board-main {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .expense-column {
+      display: grid;
+      gap: 12px;
+    }
+
+    .expense-card {
+      position: relative;
+      border: 0;
+      border-radius: 20px;
+      padding: 16px 12px;
+      min-height: 92px;
+      text-align: left;
+      cursor: pointer;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72)),
+        var(--paper);
+      border: 1px solid rgba(126, 99, 69, 0.18);
+      box-shadow: 0 12px 26px rgba(90, 60, 24, 0.12);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .expense-card:hover,
+    .expense-card.active {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 28px rgba(90, 60, 24, 0.16);
+      border-color: rgba(72, 118, 197, 0.28);
+    }
+
+    .expense-card.done {
+      background: linear-gradient(180deg, #e7f7ea, #dff1e3);
+      border-color: rgba(47, 143, 88, 0.22);
+    }
+
+    .expense-icon {
+      font-size: 1.7rem;
+      margin-bottom: 8px;
+    }
+
+    .expense-name {
+      font-size: 1rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .expense-card small {
+      color: var(--soft-ink);
+      font-weight: 700;
+      font-size: 0.72rem;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      min-width: 28px;
+      height: 28px;
+      padding: 0 7px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(47, 143, 88, 0.14);
+      color: var(--green);
+      font-size: 0.74rem;
+      font-weight: 900;
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .expense-card.done .stamp {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .stage {
+      display: grid;
+      gap: 14px;
+    }
+
+    .choice-board {
+      padding: 16px;
+      border-radius: 24px;
+      min-height: 214px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.78)),
+        var(--paper);
+      border: 1px solid rgba(128, 99, 68, 0.16);
+      box-shadow: 0 14px 26px rgba(90, 60, 24, 0.12);
+    }
+
+    .choice-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .choice-title {
+      font-size: 1.24rem;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .choice-sub {
+      font-size: 0.83rem;
+      color: #866c51;
+      font-weight: 800;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .option-card {
+      position: relative;
+      min-height: 78px;
+      border-radius: 18px;
+      padding: 14px 84px 14px 14px;
+      border: 1px solid transparent;
+      display: grid;
+      align-content: center;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      overflow: hidden;
+    }
+
+    .option-card:hover,
+    .option-card.hovered {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 22px rgba(90, 60, 24, 0.14);
+    }
+
+    .option-card.save {
+      background: var(--blue-soft);
+      border-color: rgba(47, 107, 181, 0.22);
+      color: #1e4f8d;
+    }
+
+    .option-card.normal {
+      background: var(--orange-soft);
+      border-color: rgba(207, 106, 46, 0.22);
+      color: #94481e;
+    }
+
+    .option-card.waste {
+      background: var(--red-soft);
+      border-color: rgba(197, 76, 76, 0.22);
+      color: #9d3131;
+    }
+
+    .option-name {
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .option-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .option-tag {
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 0.72rem;
+    }
+
+    .option-icon {
+      position: absolute;
+      right: 14px;
+      top: 12px;
+      font-size: 2rem;
+      opacity: 0.92;
+      pointer-events: none;
+    }
+
+    .desk-area {
+      position: relative;
+      min-height: 420px;
+      border-radius: 28px;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(144, 112, 78, 0.08) 0,
+          rgba(144, 112, 78, 0.08) 34px,
+          transparent 34px,
+          transparent 68px
+        ),
+        linear-gradient(180deg, #fdf8ed, #f1e4c7);
+      border: 1px solid rgba(128, 99, 68, 0.16);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+      overflow: hidden;
+    }
+
+    .desk-area::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.35), transparent 18%),
+        radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.25), transparent 20%);
+      pointer-events: none;
+    }
+
+    .desk-area::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 22px;
+      border: 1px dashed rgba(143, 111, 78, 0.12);
+      pointer-events: none;
+    }
+
+    .zone-title {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: #8c6d48;
+      letter-spacing: 0.06em;
+    }
+
+    .wallet-zone,
+    .piggy-zone,
+    .parttime-card {
+      position: absolute;
+      border-radius: 24px;
+      box-shadow: 0 16px 30px rgba(73, 44, 17, 0.14);
+      border: 2px dashed transparent;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .wallet-zone.hovered,
+    .piggy-zone.hovered,
+    .waste-slot.hovered,
+    .option-card.hovered {
+      border-color: rgba(63, 104, 184, 0.42);
+      box-shadow: 0 18px 30px rgba(60, 93, 150, 0.18);
+    }
+
+    .wallet-zone {
+      left: 32%;
+      top: 168px;
+      width: 250px;
+      min-height: 180px;
+      padding: 18px 18px 16px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), transparent 22%),
+        linear-gradient(180deg, #9a6637, #6f4523);
+      color: #fff6eb;
+    }
+
+    .wallet-face {
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      margin-top: 4px;
+    }
+
+    .wallet-icon {
+      font-size: 2.3rem;
+      filter: drop-shadow(0 5px 8px rgba(24, 12, 4, 0.22));
+    }
+
+    .wallet-amount-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: -0.03em;
+    }
+
+    .wallet-amount.up {
+      color: #ccffbb;
+    }
+
+    .wallet-amount.down {
+      color: #ffd1c3;
+    }
+
+    .wallet-trend {
+      width: 18px;
+      font-size: 1rem;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+    }
+
+    .wallet-trend.show {
+      opacity: 1;
+    }
+
+    .wallet-handle-layer {
+      position: relative;
+      width: 188px;
+      height: 72px;
+      margin-top: 10px;
+    }
+
+    .piggy-zone {
+      right: 128px;
+      bottom: 48px;
+      width: 170px;
+      min-height: 190px;
+      padding: 16px 16px 14px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.3), transparent 22%),
+        linear-gradient(180deg, #fff7d9, #f4d989);
+    }
+
+    .piggy-emoji {
+      font-size: 2.7rem;
+      margin: 8px 0 10px;
+      text-align: center;
+    }
+
+    .piggy-fill {
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(86, 67, 22, 0.12);
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .piggy-fill > div {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #f1bb3a, #d18d1b);
+      transition: width 0.25s ease;
+    }
+
+    .piggy-amount {
+      display: block;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #7b5b18;
+    }
+
+    .parttime-card {
+      right: 24px;
+      bottom: 74px;
+      width: 92px;
+      min-height: 144px;
+      padding: 12px 12px 10px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), transparent 24%),
+        linear-gradient(180deg, #e7f0ff, #bfd6ff);
+      display: grid;
+      align-content: start;
+      justify-items: center;
+      gap: 10px;
+    }
+
+    .parttime-icon {
+      font-size: 2rem;
+      margin-top: 8px;
+    }
+
+    .parttime-progress {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(31, 71, 134, 0.12);
+      overflow: hidden;
+    }
+
+    .parttime-progress > div {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #4a89d9, #244f98);
+      transition: width 0.12s linear;
+    }
+
+    .result-row {
+      position: absolute;
+      right: 24px;
+      top: 20px;
+    }
+
+    .result-btn,
+    .restart-btn {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 18px;
+      background: linear-gradient(180deg, #5d4632, #3e2d1d);
+      color: #fff7ed;
+      font-weight: 900;
+      font-size: 0.92rem;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(55, 34, 18, 0.22);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .result-btn:hover,
+    .restart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(55, 34, 18, 0.26);
+    }
+
+    .result-btn.dimmed {
+      opacity: 0.68;
+    }
+
+    .waste-bar {
+      padding: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .waste-title {
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+      color: #a14040;
+      margin-bottom: 12px;
+    }
+
+    .waste-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .waste-slot {
+      position: relative;
+      min-height: 84px;
+      border-radius: 16px;
+      padding: 12px 12px 12px 14px;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      column-gap: 10px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.72);
+      border: 2px dashed rgba(197, 76, 76, 0.14);
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      cursor: pointer;
+    }
+
+    .waste-slot:hover {
+      transform: translateY(-2px);
+    }
+
+    .waste-icon {
+      grid-row: 1 / span 2;
+      font-size: 1.7rem;
+      margin-bottom: 0;
+      align-self: center;
+    }
+
+    .waste-name {
+      font-size: 0.94rem;
+      font-weight: 900;
+      margin-bottom: 2px;
+      color: #933636;
+    }
+
+    .waste-amount {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #ba5555;
+    }
+
+    .desk-token,
+    .wallet-handle,
+    .drag-proxy {
+      position: absolute;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 900;
+      user-select: none;
+      touch-action: none;
+      box-shadow: 0 12px 24px rgba(92, 62, 10, 0.22);
+    }
+
+    .desk-token,
+    .drag-proxy.token-look {
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.8), transparent 28%),
+        linear-gradient(180deg, #ffe18a, #eca91f);
+      border: 3px solid rgba(180, 120, 16, 0.42);
+      color: #784d00;
+      cursor: grab;
+    }
+
+    .desk-token.job-token {
+      width: 62px;
+      height: 62px;
+      background:
+        radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.75), transparent 26%),
+        linear-gradient(180deg, #d3e7ff, #69a5ff);
+      border-color: rgba(46, 92, 174, 0.35);
+      color: #184a95;
+    }
+
+    .token-amount {
+      display: block;
+      font-size: 0.96rem;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .token-label {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.66rem;
+      opacity: 0.78;
+      letter-spacing: 0.02em;
+    }
+
+    .wallet-handle,
+    .drag-proxy.handle-look {
+      width: 58px;
+      height: 58px;
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.85), transparent 28%),
+        linear-gradient(180deg, #ffe7a1, #f0b11e);
+      border: 3px solid rgba(179, 124, 22, 0.35);
+      color: #7b5200;
+      cursor: grab;
+    }
+
+    .wallet-handle {
+      box-shadow: 0 10px 18px rgba(41, 21, 7, 0.18);
+    }
+
+    .wallet-handle span {
+      font-size: 0.78rem;
+    }
+
+    .drag-proxy {
+      margin: 0;
+      position: fixed;
+      z-index: 80;
+      pointer-events: none;
+      transform: scale(1.08);
+      cursor: grabbing;
+    }
+
+    .drag-origin {
+      opacity: 0.25;
+    }
+
+    .consumed {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translate(-50%, 12px);
+      min-width: 180px;
+      max-width: calc(100% - 28px);
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(68, 50, 31, 0.9);
+      color: #fffaf2;
+      font-weight: 900;
+      text-align: center;
+      box-shadow: 0 14px 22px rgba(55, 34, 18, 0.18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 40;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .float-text,
+    .burst-dot {
+      position: fixed;
+      z-index: 90;
+      pointer-events: none;
+    }
+
+    .float-text {
+      font-weight: 900;
+      animation: floatRise 0.9s ease forwards;
+      white-space: nowrap;
+    }
+
+    .burst-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: burstOut 0.62s ease forwards;
+    }
+
+    @keyframes floatRise {
+      0% { transform: translate(-50%, 0) scale(0.9); opacity: 0; }
+      18% { opacity: 1; }
+      100% { transform: translate(-50%, -42px) scale(1.08); opacity: 0; }
+    }
+
+    @keyframes burstOut {
+      0% { transform: translate(0, 0) scale(0.6); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+    }
+
+    .result-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(42, 27, 13, 0.5);
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+      z-index: 100;
+    }
+
+    .result-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .result-card {
+      width: min(560px, 100%);
+      padding: 26px 24px 22px;
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.82)),
+        var(--paper);
+      border: 1px solid rgba(129, 97, 62, 0.16);
+      box-shadow: 0 28px 52px rgba(39, 24, 12, 0.26);
+    }
+
+    .result-title {
+      font-size: 1.7rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      color: #6f5336;
+    }
+
+    .result-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .result-stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(129, 97, 62, 0.1);
+    }
+
+    .result-stat span {
+      display: block;
+      font-size: 0.82rem;
+      color: #8d7150;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .result-stat strong {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .result-badge {
+      min-height: 58px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      margin-bottom: 14px;
+      display: grid;
+      align-items: center;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .result-badge.good {
+      background: linear-gradient(180deg, #fff5d7, #ffe6a4);
+      color: #895d00;
+    }
+
+    .result-badge.try {
+      background: linear-gradient(180deg, #f3f0eb, #e9decc);
+      color: #6c5844;
+    }
+
+    .result-vocabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .result-vocab {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(129, 97, 62, 0.1);
+      font-weight: 900;
+      color: #70563a;
+    }
+
+    .result-vocab.on {
+      background: #e6f8e9;
+      color: var(--green);
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1320px) {
+      .app-shell {
+        grid-template-columns: 190px minmax(0, 1fr) 190px;
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .board {
+        order: 1;
+      }
+
+      .vocab-panel {
+        order: 2;
+      }
+
+      .waste-panel {
+        order: 3;
+      }
+
+      .vocab-panel,
+      .waste-panel {
+        position: static;
+      }
+
+      body {
+        padding: 12px;
+      }
+
+      .board-main {
+        grid-template-columns: 1fr;
+      }
+
+      .expense-column {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .choice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .desk-area {
+        min-height: 520px;
+      }
+
+      .wallet-zone {
+        left: 20px;
+        top: 206px;
+      }
+
+      .piggy-zone {
+        right: 20px;
+      }
+
+      .parttime-card {
+        right: 20px;
+        bottom: 256px;
+      }
+
+      .waste-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .expense-column {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .result-summary,
+      .result-vocabs {
+        grid-template-columns: 1fr;
+      }
+
+      .waste-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wallet-zone {
+        width: 220px;
+      }
+
+      .piggy-zone {
+        width: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="vocab-panel">
+      <div class="panel-label">언어 표현</div>
+      <div class="vocab-list" id="vocab-list"></div>
+      <div class="panel-totals">
+        <div class="panel-total"><span>수입</span><strong id="stat-income">₩0</strong></div>
+        <div class="panel-total"><span>지출</span><strong id="stat-spent">₩0</strong></div>
+        <div class="panel-total"><span>저축</span><strong id="stat-saved">₩0</strong></div>
+      </div>
+    </aside>
+
+    <section class="board">
+      <div class="banner" id="vocab-banner">
+        <div class="banner-title" id="banner-title"></div>
+        <div class="banner-gloss" id="banner-gloss"></div>
+        <div class="banner-sentence" id="banner-sentence"></div>
+      </div>
+
+      <div class="graph-card">
+        <div class="graph-top">
+          <span>현재 잔고</span>
+          <strong id="graph-balance">₩0</strong>
+        </div>
+        <canvas id="balance-canvas"></canvas>
+      </div>
+
+      <div class="board-main">
+        <div class="expense-column" id="expense-column"></div>
+
+        <div class="stage">
+          <div class="choice-board card-surface">
+            <div class="choice-head">
+              <div class="choice-title" id="choice-title">식비</div>
+              <div class="choice-sub" id="choice-sub">지갑의 돈을 끌어 놓아요.</div>
+            </div>
+            <div class="choice-grid" id="choice-grid"></div>
+          </div>
+
+          <div class="desk-area" id="desk-area">
+            <div class="result-row">
+              <button class="result-btn dimmed" id="result-btn" type="button">결산</button>
+            </div>
+
+            <div class="wallet-zone drop-target" id="wallet-zone" data-drop="wallet">
+              <div class="zone-title">지갑</div>
+              <div class="wallet-face">
+                <div class="wallet-icon">👛</div>
+                <div class="wallet-amount-row">
+                  <span class="wallet-trend" id="wallet-trend"></span>
+                  <strong class="wallet-amount" id="wallet-amount">₩0</strong>
+                </div>
+                <div class="wallet-handle-layer" id="wallet-handle-layer"></div>
+              </div>
+            </div>
+
+            <div class="piggy-zone drop-target" id="piggy-zone" data-drop="piggy">
+              <div class="zone-title">저축</div>
+              <div class="piggy-emoji" id="piggy-emoji">🐷</div>
+              <div class="piggy-fill"><div id="piggy-fill-bar"></div></div>
+              <strong class="piggy-amount" id="piggy-amount">₩0</strong>
+            </div>
+
+            <div class="parttime-card" id="parttime-card">
+              <div class="zone-title">아르바이트</div>
+              <div class="parttime-icon">🧑‍🍳</div>
+              <div class="parttime-progress"><div id="parttime-progress-bar"></div></div>
+            </div>
+
+            <div id="desk-token-layer"></div>
+            <div class="toast" id="toast"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="waste-panel">
+      <div class="waste-bar">
+        <div class="waste-title">낭비</div>
+        <div class="waste-grid" id="waste-grid"></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="result-overlay" id="result-overlay">
+    <div class="result-card">
+      <div class="result-title">월말 결산</div>
+      <div class="result-summary">
+        <div class="result-stat"><span>수입</span><strong id="result-income">₩0</strong></div>
+        <div class="result-stat"><span>지출</span><strong id="result-spent">₩0</strong></div>
+        <div class="result-stat"><span>저축</span><strong id="result-saved">₩0</strong></div>
+      </div>
+      <div class="result-badge" id="result-badge"></div>
+      <div class="result-vocabs" id="result-vocabs"></div>
+      <div class="result-actions">
+        <button class="restart-btn" id="restart-btn" type="button">다시 하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const VOCABS = {
+      income:   { word: "수입",     gloss: "돈이 들어오다 / income",      color: "#2f8f58", tint: "#dcf5e6" },
+      expense:  { word: "지출",     gloss: "돈을 쓰다 / expense",         color: "#cf6a2e", tint: "#ffe8d7" },
+      increase: { word: "늘다",     gloss: "많아지다 / increase",         color: "#2f8f58", tint: "#dcf5e6" },
+      decrease: { word: "줄다",     gloss: "적어지다 / decrease",         color: "#c54c4c", tint: "#ffe1e1" },
+      save:     { word: "아끼다",   gloss: "적게 쓰다 / save money",      color: "#2f6bb5", tint: "#e1efff" },
+      budget:   { word: "절약하다", gloss: "계획해서 아끼다 / budget",    color: "#c08a21", tint: "#fff3cf" },
+      waste:    { word: "낭비하다", gloss: "쓸데없이 쓰다 / waste",       color: "#c54c4c", tint: "#ffe1e1" },
+      savings:  { word: "저축하다", gloss: "돈을 모으다 / save up",       color: "#7454bc", tint: "#ece4ff" }
+    };
+
+    const EXPENSES = [
+      {
+        id: "food",
+        label: "식비",
+        icon: "🍚",
+        subtitle: "한 번만 선택",
+        options: [
+          { id: "ramen",  label: "컵라면",     icon: "🍜", amount: 3000,  type: "save",   tag: "아끼다" },
+          { id: "cook",   label: "요리하기",   icon: "🍳", amount: 7000,  type: "save",   tag: "아끼다" },
+          { id: "eatout", label: "식당가기",   icon: "🍽️", amount: 12000, type: "normal", tag: "지출" },
+          { id: "delivery", label: "배달시키기", icon: "🛵", amount: 19000, type: "waste",  tag: "낭비하다" }
+        ]
+      },
+      {
+        id: "transport",
+        label: "교통비",
+        icon: "🚌",
+        subtitle: "한 번만 선택",
+        options: [
+          { id: "bike",  label: "자전거", icon: "🚲", amount: 1000,  type: "save",   tag: "아끼다" },
+          { id: "bus",   label: "버스",   icon: "🚌", amount: 2500,  type: "normal", tag: "지출" },
+          { id: "subway",label: "지하철", icon: "🚇", amount: 3500,  type: "normal", tag: "지출" },
+          { id: "taxi",  label: "택시",   icon: "🚕", amount: 12000, type: "waste",  tag: "낭비하다" }
+        ]
+      },
+      {
+        id: "shopping",
+        label: "쇼핑",
+        icon: "👕",
+        subtitle: "한 번만 선택",
+        options: [
+          { id: "socks",  label: "양말",   icon: "🧦", amount: 4000,  type: "save",   tag: "아끼다" },
+          { id: "tee",    label: "티셔츠", icon: "👕", amount: 12000, type: "normal", tag: "지출" },
+          { id: "hoodie", label: "후드티", icon: "🧥", amount: 28000, type: "normal", tag: "지출" },
+          { id: "shoes",  label: "운동화", icon: "👟", amount: 48000, type: "waste",  tag: "낭비하다" }
+        ]
+      },
+      {
+        id: "medical",
+        label: "의료비",
+        icon: "💊",
+        subtitle: "한 번만 선택",
+        options: [
+          { id: "band",   label: "밴드",   icon: "🩹", amount: 2000,  type: "save",   tag: "아끼다" },
+          { id: "pill",   label: "감기약", icon: "💊", amount: 5000,  type: "normal", tag: "지출" },
+          { id: "clinic", label: "병원",   icon: "🏥", amount: 12000, type: "normal", tag: "지출" },
+          { id: "big",    label: "큰 병원", icon: "🚑", amount: 25000, type: "waste",  tag: "낭비하다" }
+        ]
+      }
+    ];
+
+    const WASTE_ITEMS = [
+      { id: "snack",    label: "과자",   icon: "🍪", amount: 2000 },
+      { id: "drink",    label: "음료수", icon: "🥤", amount: 2500 },
+      { id: "choco",    label: "초콜릿", icon: "🍫", amount: 3000 },
+      { id: "doll",     label: "인형",   icon: "🧸", amount: 7000 },
+      { id: "balloon",  label: "풍선",   icon: "🎈", amount: 1500 }
+    ];
+
+    const SALARY_TOKENS = [20000, 20000, 20000, 20000, 20000];
+    const SALARY_POSITIONS = [
+      { x: 0.12, y: 0.10 },
+      { x: 0.28, y: 0.03 },
+      { x: 0.50, y: 0.09 },
+      { x: 0.20, y: 0.32 },
+      { x: 0.44, y: 0.30 }
+    ];
+
+    const PART_TIME_INTERVAL = 6500;
+    const PART_TIME_MAX = 7;
+
+    const state = {
+      walletBalance: 0,
+      savingsBalance: 0,
+      incomeTotal: 0,
+      spentTotal: 0,
+      seenVocabs: new Set(),
+      balanceHistory: [0],
+      currentExpenseId: EXPENSES[0].id,
+      completedExpenses: new Set(),
+      chosenOptions: new Map(),
+      activeTokens: [],
+      nextTokenId: 1,
+      dragging: null,
+      toastTimer: null,
+      bannerTimer: null,
+      jobTimer: null,
+      jobClock: 0,
+      resultOpen: false
+    };
+
+    const els = {
+      vocabList: document.getElementById("vocab-list"),
+      statIncome: document.getElementById("stat-income"),
+      statSpent: document.getElementById("stat-spent"),
+      statSaved: document.getElementById("stat-saved"),
+      banner: document.getElementById("vocab-banner"),
+      bannerTitle: document.getElementById("banner-title"),
+      bannerGloss: document.getElementById("banner-gloss"),
+      bannerSentence: document.getElementById("banner-sentence"),
+      graphBalance: document.getElementById("graph-balance"),
+      balanceCanvas: document.getElementById("balance-canvas"),
+      expenseColumn: document.getElementById("expense-column"),
+      choiceTitle: document.getElementById("choice-title"),
+      choiceSub: document.getElementById("choice-sub"),
+      choiceGrid: document.getElementById("choice-grid"),
+      deskArea: document.getElementById("desk-area"),
+      deskTokenLayer: document.getElementById("desk-token-layer"),
+      walletZone: document.getElementById("wallet-zone"),
+      walletAmount: document.getElementById("wallet-amount"),
+      walletTrend: document.getElementById("wallet-trend"),
+      walletHandleLayer: document.getElementById("wallet-handle-layer"),
+      piggyZone: document.getElementById("piggy-zone"),
+      piggyEmoji: document.getElementById("piggy-emoji"),
+      piggyFillBar: document.getElementById("piggy-fill-bar"),
+      piggyAmount: document.getElementById("piggy-amount"),
+      parttimeProgress: document.getElementById("parttime-progress-bar"),
+      wasteGrid: document.getElementById("waste-grid"),
+      toast: document.getElementById("toast"),
+      resultBtn: document.getElementById("result-btn"),
+      resultOverlay: document.getElementById("result-overlay"),
+      resultIncome: document.getElementById("result-income"),
+      resultSpent: document.getElementById("result-spent"),
+      resultSaved: document.getElementById("result-saved"),
+      resultBadge: document.getElementById("result-badge"),
+      resultVocabs: document.getElementById("result-vocabs"),
+      restartBtn: document.getElementById("restart-btn")
+    };
+
+    function formatMoney(value) {
+      return "₩" + Math.max(0, Math.round(value)).toLocaleString("ko-KR");
+    }
+
+    function getExpenseById(id) {
+      return EXPENSES.find((item) => item.id === id);
+    }
+
+    function getActiveDeskTokens() {
+      return state.activeTokens.filter((token) => token.type === "salary" || token.type === "job");
+    }
+
+    function getActiveJobTokens() {
+      return state.activeTokens.filter((token) => token.type === "job");
+    }
+
+    function getUnclaimedSalaryTokens() {
+      return state.activeTokens.filter((token) => token.type === "salary");
+    }
+
+    function createVocabPanel() {
+      els.vocabList.innerHTML = "";
+      Object.keys(VOCABS).forEach((key) => {
+        const meta = VOCABS[key];
+        const seen = state.seenVocabs.has(key);
+        const item = document.createElement("div");
+        item.className = "vocab-item" + (seen ? " seen" : "");
+        item.innerHTML = `
+          <div class="vocab-mark">${seen ? "✓" : ""}</div>
+          <div class="vocab-word">${seen ? meta.word : "???"}${seen ? `<span class="vocab-def">${meta.gloss}</span>` : ""}</div>
+        `;
+        els.vocabList.appendChild(item);
+      });
+    }
+
+    function updateTotals() {
+      els.statIncome.textContent = formatMoney(state.incomeTotal);
+      els.statSpent.textContent = formatMoney(state.spentTotal);
+      els.statSaved.textContent = formatMoney(state.savingsBalance);
+      els.graphBalance.textContent = formatMoney(state.walletBalance);
+      els.walletAmount.textContent = formatMoney(state.walletBalance);
+      els.piggyAmount.textContent = formatMoney(state.savingsBalance);
+    }
+
+    function renderExpenseCards() {
+      els.expenseColumn.innerHTML = "";
+      EXPENSES.forEach((expense) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "expense-card" +
+          (state.currentExpenseId === expense.id ? " active" : "") +
+          (state.completedExpenses.has(expense.id) ? " done" : "");
+        btn.innerHTML = `
+          <div class="expense-icon">${expense.icon}</div>
+          <div class="expense-name">${expense.label}</div>
+          <small>${state.chosenOptions.get(expense.id) || expense.subtitle}</small>
+          <div class="stamp">✓</div>
+        `;
+        btn.addEventListener("click", () => {
+          if (state.completedExpenses.has(expense.id)) {
+            showToast("이미 골랐어요.");
+            return;
+          }
+          state.currentExpenseId = expense.id;
+          renderExpenseCards();
+          renderChoiceBoard();
+        });
+        els.expenseColumn.appendChild(btn);
+      });
+      updateResultButtonState();
+    }
+
+    function renderChoiceBoard() {
+      const expense = getExpenseById(state.currentExpenseId);
+      els.choiceTitle.textContent = expense.label;
+      els.choiceSub.textContent = state.walletBalance > 0 ? "지갑의 돈을 끌어 놓아요." : "지갑에 돈이 없어도 먼저 볼 수 있어요.";
+      els.choiceGrid.innerHTML = "";
+      expense.options.forEach((option) => {
+        const card = document.createElement("div");
+        card.className = `option-card ${option.type} drop-target`;
+        card.dataset.drop = "choice";
+        card.dataset.expenseId = expense.id;
+        card.dataset.optionId = option.id;
+        card.dataset.amount = String(option.amount);
+        card.innerHTML = `
+          <div class="option-name">${option.label}</div>
+          <div class="option-meta">
+            <span class="option-tag">${option.tag}</span>
+            <strong>${formatMoney(option.amount)}</strong>
+          </div>
+          <div class="option-icon">${option.icon}</div>
+        `;
+        card.addEventListener("click", () => {
+          if (state.walletBalance < option.amount) {
+            showToast(randomShortage());
+          } else {
+            showToast("지갑의 돈을 끌어 놓아요.");
+          }
+        });
+        els.choiceGrid.appendChild(card);
+      });
+    }
+
+    function renderWasteSlots() {
+      els.wasteGrid.innerHTML = "";
+      WASTE_ITEMS.forEach((item) => {
+        const slot = document.createElement("div");
+        slot.className = "waste-slot drop-target";
+        slot.dataset.drop = "waste";
+        slot.dataset.wasteId = item.id;
+        slot.dataset.amount = String(item.amount);
+        slot.innerHTML = `
+          <div class="waste-icon">${item.icon}</div>
+          <div class="waste-name">${item.label}</div>
+          <div class="waste-amount">${formatMoney(item.amount)}</div>
+        `;
+        slot.addEventListener("click", () => {
+          if (state.walletBalance < item.amount) {
+            showToast(randomShortage());
+          } else {
+            showToast("지갑의 돈을 끌어 놓아요.");
+          }
+        });
+        els.wasteGrid.appendChild(slot);
+      });
+    }
+
+    function renderWalletHandles() {
+      els.walletHandleLayer.innerHTML = "";
+      if (state.walletBalance <= 0) {
+        return;
+      }
+
+      const handleCount = Math.min(4, Math.max(1, Math.ceil(state.walletBalance / 20000)));
+      for (let i = 0; i < handleCount; i += 1) {
+        const handle = document.createElement("div");
+        handle.className = "wallet-handle";
+        handle.dataset.kind = "wallet";
+        handle.style.left = `${16 + (i % 2) * 64 + Math.floor(i / 2) * 8}px`;
+        handle.style.top = `${6 + Math.floor(i / 2) * 18}px`;
+        handle.innerHTML = "<span>돈</span>";
+        handle.addEventListener("pointerdown", (event) => beginDrag(event, { kind: "wallet" }, handle));
+        els.walletHandleLayer.appendChild(handle);
+      }
+    }
+
+    function pushBalanceHistory(value) {
+      state.balanceHistory.push(value);
+      if (state.balanceHistory.length > 16) {
+        state.balanceHistory.shift();
+      }
+      drawBalanceChart();
+    }
+
+    function setWalletBalance(next, direction) {
+      const clamped = Math.max(0, Math.round(next));
+      if (clamped === state.walletBalance) {
+        updateTotals();
+        renderWalletHandles();
+        return;
+      }
+
+      state.walletBalance = clamped;
+      updateTotals();
+      renderWalletHandles();
+      pushBalanceHistory(clamped);
+      els.walletAmount.classList.remove("up", "down");
+      els.walletTrend.classList.remove("show");
+      if (direction === "up") {
+        els.walletAmount.classList.add("up");
+        els.walletTrend.textContent = "↑";
+        els.walletTrend.classList.add("show");
+      } else if (direction === "down") {
+        els.walletAmount.classList.add("down");
+        els.walletTrend.textContent = "↓";
+        els.walletTrend.classList.add("show");
+      }
+      window.clearTimeout(setWalletBalance._timer);
+      setWalletBalance._timer = window.setTimeout(() => {
+        els.walletAmount.classList.remove("up", "down");
+        els.walletTrend.classList.remove("show");
+      }, 700);
+    }
+
+    function setSavingsBalance(next) {
+      state.savingsBalance = Math.max(0, Math.round(next));
+      updateTotals();
+      const base = Math.max(100000, state.incomeTotal || 0);
+      const ratio = Math.min(1, state.savingsBalance / base);
+      els.piggyFillBar.style.width = `${ratio * 100}%`;
+      if (ratio < 0.25) {
+        els.piggyEmoji.textContent = "🐷";
+      } else if (ratio < 0.5) {
+        els.piggyEmoji.textContent = "🐷✨";
+      } else if (ratio < 0.85) {
+        els.piggyEmoji.textContent = "🐷💛";
+      } else {
+        els.piggyEmoji.textContent = "🐷🏆";
+      }
+    }
+
+    function drawBalanceChart() {
+      const canvas = els.balanceCanvas;
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(1, Math.round(rect.width * dpr));
+      canvas.height = Math.max(1, Math.round(rect.height * dpr));
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, rect.width, rect.height);
+
+      const history = state.balanceHistory;
+      const maxValue = Math.max(20000, ...history, state.walletBalance);
+      const padding = { top: 14, right: 16, bottom: 20, left: 16 };
+      const innerWidth = rect.width - padding.left - padding.right;
+      const innerHeight = rect.height - padding.top - padding.bottom;
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "rgba(97, 153, 111, 0.18)";
+      for (let i = 0; i < 4; i += 1) {
+        const y = padding.top + (innerHeight / 3) * i;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, y);
+        ctx.lineTo(rect.width - padding.right, y);
+        ctx.stroke();
+      }
+
+      if (!history.length) {
+        return;
+      }
+
+      const points = history.map((value, index) => {
+        const x = padding.left + (history.length === 1 ? innerWidth : (innerWidth / (history.length - 1)) * index);
+        const y = padding.top + innerHeight - (value / maxValue) * innerHeight;
+        return { x, y };
+      });
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, rect.height - padding.bottom);
+      points.forEach((point) => ctx.lineTo(point.x, point.y));
+      ctx.lineTo(points[points.length - 1].x, rect.height - padding.bottom);
+      ctx.closePath();
+      const gradient = ctx.createLinearGradient(0, padding.top, 0, rect.height - padding.bottom);
+      gradient.addColorStop(0, "rgba(55, 148, 88, 0.30)");
+      gradient.addColorStop(1, "rgba(55, 148, 88, 0.02)");
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      points.forEach((point) => ctx.lineTo(point.x, point.y));
+      ctx.strokeStyle = "#2f8f58";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      const last = points[points.length - 1];
+      ctx.fillStyle = "#2f8f58";
+      ctx.beginPath();
+      ctx.arc(last.x, last.y, 5.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function showBanner(keys, sentence, primary = keys[0]) {
+      keys.forEach((key) => state.seenVocabs.add(key));
+      createVocabPanel();
+      const meta = VOCABS[primary];
+      els.banner.style.background = `linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72)), ${meta.tint}`;
+      els.banner.style.color = meta.color;
+      els.bannerTitle.textContent = keys.map((key) => VOCABS[key].word).join(" + ");
+      els.bannerGloss.textContent = keys.map((key) => VOCABS[key].gloss).join(" · ");
+      els.bannerSentence.textContent = sentence;
+      els.banner.classList.add("show");
+      window.clearTimeout(state.bannerTimer);
+      state.bannerTimer = window.setTimeout(() => {
+        els.banner.classList.remove("show");
+      }, 3000);
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      window.clearTimeout(state.toastTimer);
+      state.toastTimer = window.setTimeout(() => {
+        els.toast.classList.remove("show");
+      }, 1400);
+    }
+
+    function randomShortage() {
+      return Math.random() > 0.5 ? "돈이 부족해요." : "돈이 모자라요.";
+    }
+
+    function spawnFloatText(x, y, text, color) {
+      const float = document.createElement("div");
+      float.className = "float-text";
+      float.textContent = text;
+      float.style.left = `${x}px`;
+      float.style.top = `${y}px`;
+      float.style.color = color;
+      document.body.appendChild(float);
+      window.setTimeout(() => float.remove(), 900);
+    }
+
+    function spawnBurst(x, y, color) {
+      const count = 8;
+      for (let i = 0; i < count; i += 1) {
+        const dot = document.createElement("div");
+        dot.className = "burst-dot";
+        dot.style.left = `${x}px`;
+        dot.style.top = `${y}px`;
+        dot.style.background = color;
+        const angle = (Math.PI * 2 * i) / count;
+        dot.style.setProperty("--dx", `${Math.cos(angle) * 34}px`);
+        dot.style.setProperty("--dy", `${Math.sin(angle) * 34}px`);
+        document.body.appendChild(dot);
+        window.setTimeout(() => dot.remove(), 640);
+      }
+    }
+
+    function createDeskToken(amount, left, top, type = "salary") {
+      const token = document.createElement("div");
+      token.className = `desk-token${type === "job" ? " job-token" : ""}`;
+      token.dataset.kind = "desk";
+      token.dataset.id = String(state.nextTokenId);
+      token.style.left = `${left}px`;
+      token.style.top = `${top}px`;
+      token.innerHTML = `
+        <span class="token-amount">${formatMoney(amount)}</span>
+        <span class="token-label">${type === "job" ? "아르바이트" : "돈"}</span>
+      `;
+      token.addEventListener("pointerdown", (event) => beginDrag(event, { kind: "desk", amount, tokenId: state.nextTokenId, type }, token));
+      els.deskTokenLayer.appendChild(token);
+      state.activeTokens.push({ id: state.nextTokenId, amount, type, element: token });
+      state.nextTokenId += 1;
+    }
+
+    function spawnSalaryTokens() {
+      const rect = els.deskArea.getBoundingClientRect();
+      SALARY_TOKENS.forEach((amount, index) => {
+        const pos = SALARY_POSITIONS[index];
+        createDeskToken(
+          amount,
+          Math.max(18, rect.width * pos.x),
+          Math.max(20, rect.height * pos.y),
+          "salary"
+        );
+      });
+    }
+
+    function spawnJobToken() {
+      const activeJobs = getActiveJobTokens();
+      if (activeJobs.length >= PART_TIME_MAX || state.resultOpen) {
+        return;
+      }
+      const deskRect = els.deskArea.getBoundingClientRect();
+      const partRect = document.getElementById("parttime-card").getBoundingClientRect();
+      const stackOffsets = [
+        { x: 8,  y: -72 },
+        { x: 18, y: -66 },
+        { x: 28, y: -60 },
+        { x: 12, y: -52 },
+        { x: 24, y: -46 },
+        { x: 36, y: -40 },
+        { x: 18, y: -32 }
+      ];
+      const stackIndex = activeJobs.length;
+      const offset = stackOffsets[stackIndex] || stackOffsets[stackOffsets.length - 1];
+      const localLeft = partRect.left - deskRect.left + offset.x;
+      const localTop = partRect.top - deskRect.top + offset.y;
+      createDeskToken(5000, localLeft, Math.max(18, localTop), "job");
+      state.jobClock = 0;
+      const cx = partRect.left + partRect.width / 2;
+      const cy = partRect.top + partRect.height / 2;
+      spawnFloatText(cx, cy, "+₩5,000", "#2f6bb5");
+      spawnBurst(cx, cy, "#5f99f5");
+      if (getActiveJobTokens().length >= PART_TIME_MAX) {
+        els.parttimeProgress.style.width = "100%";
+      }
+    }
+
+    function startPartTimeLoop() {
+      window.clearInterval(state.jobTimer);
+      state.jobClock = 0;
+      els.parttimeProgress.style.width = "0%";
+      state.jobTimer = window.setInterval(() => {
+        if (state.resultOpen) {
+          window.clearInterval(state.jobTimer);
+          return;
+        }
+        if (getActiveJobTokens().length >= PART_TIME_MAX) {
+          state.jobClock = 0;
+          els.parttimeProgress.style.width = "100%";
+          return;
+        }
+        state.jobClock += 120;
+        const progress = Math.min(1, state.jobClock / PART_TIME_INTERVAL);
+        els.parttimeProgress.style.width = `${progress * 100}%`;
+        if (progress >= 1) {
+          spawnJobToken();
+        }
+      }, 120);
+    }
+
+    function removeTokenById(tokenId) {
+      const index = state.activeTokens.findIndex((token) => token.id === tokenId);
+      if (index >= 0) {
+        const [token] = state.activeTokens.splice(index, 1);
+        token.element.remove();
+        if (token.type === "job" && getActiveJobTokens().length < PART_TIME_MAX) {
+          state.jobClock = 0;
+          els.parttimeProgress.style.width = "0%";
+        }
+      }
+    }
+
+    function claimDeskToken(payload, destination, proxy) {
+      const amount = payload.amount;
+      const targetEl = destination === "wallet" ? els.walletZone : els.piggyZone;
+      const targetRect = targetEl.getBoundingClientRect();
+      animateProxyTo(proxy, targetRect, () => {
+        removeTokenById(payload.tokenId);
+        state.incomeTotal += amount;
+        updateTotals();
+        createVocabPanel();
+        if (destination === "wallet") {
+          setWalletBalance(state.walletBalance + amount, "up");
+          showBanner(["income", "increase"], "돈이 들어와서 지갑의 돈이 늘었어요.", "income");
+          spawnFloatText(targetRect.left + targetRect.width / 2, targetRect.top + 18, "+" + formatMoney(amount), "#2f8f58");
+          spawnBurst(targetRect.left + targetRect.width / 2, targetRect.top + 24, "#6cc58a");
+        } else {
+          setSavingsBalance(state.savingsBalance + amount);
+          showBanner(["income", "savings", "increase"], "들어온 돈을 바로 저축해서 저금통이 늘었어요.", "savings");
+          spawnFloatText(targetRect.left + targetRect.width / 2, targetRect.top + 18, "+" + formatMoney(amount), "#7454bc");
+          spawnBurst(targetRect.left + targetRect.width / 2, targetRect.top + 24, "#987be0");
+        }
+        updateResultButtonState();
+      });
+    }
+
+    function animateProxyTo(proxy, targetRect, done) {
+      const nextLeft = targetRect.left + targetRect.width / 2 - proxy.offsetWidth / 2;
+      const nextTop = targetRect.top + targetRect.height / 2 - proxy.offsetHeight / 2;
+      proxy.style.transition = "left 0.32s ease, top 0.32s ease, transform 0.32s ease, opacity 0.32s ease";
+      proxy.style.left = `${nextLeft}px`;
+      proxy.style.top = `${nextTop}px`;
+      proxy.style.transform = "scale(0.18)";
+      proxy.style.opacity = "0";
+      window.setTimeout(() => {
+        proxy.remove();
+        done();
+      }, 330);
+    }
+
+    function selectExpenseOption(expenseId, optionId, proxy, dropRect) {
+      const expense = getExpenseById(expenseId);
+      const option = expense.options.find((item) => item.id === optionId);
+      if (!option) {
+        proxy.remove();
+        return;
+      }
+
+      if (state.completedExpenses.has(expenseId)) {
+        proxy.remove();
+        showToast("이미 골랐어요.");
+        return;
+      }
+
+      if (state.walletBalance < option.amount) {
+        proxy.remove();
+        showToast(randomShortage());
+        return;
+      }
+
+      animateProxyTo(proxy, dropRect, () => {
+        state.completedExpenses.add(expenseId);
+        state.chosenOptions.set(expenseId, option.label);
+        state.spentTotal += option.amount;
+        updateTotals();
+        setWalletBalance(state.walletBalance - option.amount, "down");
+
+        if (option.type === "save") {
+          showBanner(["save", "decrease"], "조금만 써서 지갑의 돈이 조금 줄었어요.", "save");
+          spawnFloatText(dropRect.left + dropRect.width / 2, dropRect.top + 18, "-" + formatMoney(option.amount), "#2f6bb5");
+          spawnBurst(dropRect.left + dropRect.width / 2, dropRect.top + 22, "#6ea4f0");
+        } else if (option.type === "normal") {
+          showBanner(["expense", "decrease"], "필요한 곳에 써서 지갑의 돈이 줄었어요.", "expense");
+          spawnFloatText(dropRect.left + dropRect.width / 2, dropRect.top + 18, "-" + formatMoney(option.amount), "#cf6a2e");
+          spawnBurst(dropRect.left + dropRect.width / 2, dropRect.top + 22, "#e7a363");
+        } else {
+          showBanner(["waste", "decrease"], "쓸데없이 써서 지갑의 돈이 빨리 줄었어요.", "waste");
+          spawnFloatText(dropRect.left + dropRect.width / 2, dropRect.top + 18, "-" + formatMoney(option.amount), "#c54c4c");
+          spawnBurst(dropRect.left + dropRect.width / 2, dropRect.top + 22, "#e57c7c");
+        }
+
+        const nextExpense = EXPENSES.find((item) => !state.completedExpenses.has(item.id));
+        state.currentExpenseId = nextExpense ? nextExpense.id : expenseId;
+        renderExpenseCards();
+        renderChoiceBoard();
+        updateResultButtonState();
+      });
+    }
+
+    function useWasteItem(wasteId, proxy, dropRect) {
+      const item = WASTE_ITEMS.find((entry) => entry.id === wasteId);
+      if (!item) {
+        proxy.remove();
+        return;
+      }
+      if (state.walletBalance < item.amount) {
+        proxy.remove();
+        showToast(randomShortage());
+        return;
+      }
+
+      animateProxyTo(proxy, dropRect, () => {
+        state.spentTotal += item.amount;
+        updateTotals();
+        setWalletBalance(state.walletBalance - item.amount, "down");
+        showBanner(["waste", "decrease"], "쓸데없이 써서 지갑의 돈이 빨리 줄었어요.", "waste");
+        spawnFloatText(dropRect.left + dropRect.width / 2, dropRect.top + 18, "-" + formatMoney(item.amount), "#c54c4c");
+        spawnBurst(dropRect.left + dropRect.width / 2, dropRect.top + 22, "#e57c7c");
+        updateResultButtonState();
+      });
+    }
+
+    function moveWalletToSavings(proxy) {
+      if (state.walletBalance <= 0) {
+        proxy.remove();
+        showToast(randomShortage());
+        return;
+      }
+
+      const amount = Math.min(20000, state.walletBalance);
+      const dropRect = els.piggyZone.getBoundingClientRect();
+      animateProxyTo(proxy, dropRect, () => {
+        setWalletBalance(state.walletBalance - amount, "down");
+        setSavingsBalance(state.savingsBalance + amount);
+        showBanner(["savings", "decrease", "increase"], "저축해서 지갑은 줄고 저금통은 늘었어요.", "savings");
+        spawnFloatText(dropRect.left + dropRect.width / 2, dropRect.top + 18, "+" + formatMoney(amount), "#7454bc");
+        spawnBurst(dropRect.left + dropRect.width / 2, dropRect.top + 22, "#987be0");
+        updateResultButtonState();
+      });
+    }
+
+    function beginDrag(event, payload, sourceEl) {
+      if (state.resultOpen) {
+        return;
+      }
+      if (sourceEl.classList.contains("consumed")) {
+        return;
+      }
+      event.preventDefault();
+      const rect = sourceEl.getBoundingClientRect();
+      const proxy = sourceEl.cloneNode(true);
+      proxy.classList.add("drag-proxy");
+      proxy.classList.toggle("token-look", payload.kind === "desk");
+      proxy.classList.toggle("handle-look", payload.kind === "wallet");
+      proxy.style.left = `${rect.left}px`;
+      proxy.style.top = `${rect.top}px`;
+      proxy.style.width = `${rect.width}px`;
+      proxy.style.height = `${rect.height}px`;
+      document.body.appendChild(proxy);
+      sourceEl.classList.add("drag-origin");
+      state.dragging = {
+        sourceEl,
+        proxy,
+        payload,
+        offsetX: event.clientX - rect.left,
+        offsetY: event.clientY - rect.top,
+        hoverEl: null
+      };
+      moveDrag(event.clientX, event.clientY);
+      document.addEventListener("pointermove", onPointerMove);
+      document.addEventListener("pointerup", onPointerUp, { once: true });
+    }
+
+    function moveDrag(clientX, clientY) {
+      const drag = state.dragging;
+      if (!drag) {
+        return;
+      }
+      drag.proxy.style.left = `${clientX - drag.offsetX}px`;
+      drag.proxy.style.top = `${clientY - drag.offsetY}px`;
+
+      if (drag.hoverEl) {
+        drag.hoverEl.classList.remove("hovered");
+      }
+
+      const found = document.elementFromPoint(clientX, clientY);
+      const dropEl = found ? found.closest(".drop-target") : null;
+
+      if (dropEl && isValidDropTarget(drag.payload, dropEl)) {
+        drag.hoverEl = dropEl;
+        drag.hoverEl.classList.add("hovered");
+      } else {
+        drag.hoverEl = null;
+      }
+    }
+
+    function isValidDropTarget(payload, el) {
+      const type = el.dataset.drop;
+      if (payload.kind === "desk") {
+        return type === "wallet" || type === "piggy";
+      }
+      if (payload.kind === "wallet") {
+        return type === "piggy" || type === "choice" || type === "waste";
+      }
+      return false;
+    }
+
+    function cleanupDrag() {
+      if (!state.dragging) {
+        return;
+      }
+      if (state.dragging.hoverEl) {
+        state.dragging.hoverEl.classList.remove("hovered");
+      }
+      state.dragging.sourceEl.classList.remove("drag-origin");
+      document.removeEventListener("pointermove", onPointerMove);
+      state.dragging = null;
+    }
+
+    function onPointerMove(event) {
+      moveDrag(event.clientX, event.clientY);
+    }
+
+    function onPointerUp(event) {
+      const drag = state.dragging;
+      if (!drag) {
+        return;
+      }
+
+      const found = document.elementFromPoint(event.clientX, event.clientY);
+      const dropEl = found ? found.closest(".drop-target") : null;
+      const isValid = dropEl && isValidDropTarget(drag.payload, dropEl);
+
+      cleanupDrag();
+
+      if (!isValid) {
+        drag.proxy.remove();
+        return;
+      }
+
+      if (drag.payload.kind === "desk") {
+        drag.sourceEl.classList.add("consumed");
+        if (dropEl.dataset.drop === "wallet") {
+          claimDeskToken(drag.payload, "wallet", drag.proxy);
+        } else if (dropEl.dataset.drop === "piggy") {
+          claimDeskToken(drag.payload, "piggy", drag.proxy);
+        } else {
+          drag.proxy.remove();
+        }
+        return;
+      }
+
+      if (drag.payload.kind === "wallet") {
+        if (dropEl.dataset.drop === "piggy") {
+          moveWalletToSavings(drag.proxy);
+        } else if (dropEl.dataset.drop === "choice") {
+          selectExpenseOption(dropEl.dataset.expenseId, dropEl.dataset.optionId, drag.proxy, dropEl.getBoundingClientRect());
+        } else if (dropEl.dataset.drop === "waste") {
+          useWasteItem(dropEl.dataset.wasteId, drag.proxy, dropEl.getBoundingClientRect());
+        } else {
+          drag.proxy.remove();
+        }
+      }
+    }
+
+    function updateResultButtonState() {
+      const ready = state.completedExpenses.size === EXPENSES.length;
+      els.resultBtn.classList.toggle("dimmed", !ready);
+    }
+
+    function tryOpenResult() {
+      if (state.completedExpenses.size < EXPENSES.length) {
+        showToast("지출을 더 골라 보세요.");
+        return;
+      }
+      if (getUnclaimedSalaryTokens().length > 0) {
+        showToast("남은 월급이 있어요.");
+        return;
+      }
+
+      state.resultOpen = true;
+      window.clearInterval(state.jobTimer);
+      const isBudgetSuccess = state.incomeTotal > 0 && state.spentTotal <= state.incomeTotal * 0.4;
+      if (isBudgetSuccess) {
+        showBanner(["budget"], "이번 달에 계획해서 돈을 아껴 썼어요.", "budget");
+      }
+
+      els.resultIncome.textContent = formatMoney(state.incomeTotal);
+      els.resultSpent.textContent = formatMoney(state.spentTotal);
+      els.resultSaved.textContent = formatMoney(state.savingsBalance);
+      els.resultBadge.className = "result-badge " + (isBudgetSuccess ? "good" : "try");
+      els.resultBadge.textContent = isBudgetSuccess
+        ? "절약하다: 이번 달에 계획해서 돈을 아껴 썼어요."
+        : "이번 달은 지출이 많았어요. 다시 해 볼 수 있어요.";
+      els.resultVocabs.innerHTML = "";
+      Object.keys(VOCABS).forEach((key) => {
+        const item = document.createElement("div");
+        item.className = "result-vocab" + (state.seenVocabs.has(key) ? " on" : "");
+        item.textContent = `${state.seenVocabs.has(key) ? "✓" : "○"} ${VOCABS[key].word}`;
+        els.resultVocabs.appendChild(item);
+      });
+      els.resultOverlay.classList.add("show");
+    }
+
+    function resetState() {
+      window.clearInterval(state.jobTimer);
+      window.clearTimeout(state.toastTimer);
+      window.clearTimeout(state.bannerTimer);
+      state.walletBalance = 0;
+      state.savingsBalance = 0;
+      state.incomeTotal = 0;
+      state.spentTotal = 0;
+      state.seenVocabs = new Set();
+      state.balanceHistory = [0];
+      state.currentExpenseId = EXPENSES[0].id;
+      state.completedExpenses = new Set();
+      state.chosenOptions = new Map();
+      state.activeTokens = [];
+      state.nextTokenId = 1;
+      state.dragging = null;
+      state.jobClock = 0;
+      state.resultOpen = false;
+      els.toast.classList.remove("show");
+      els.banner.classList.remove("show");
+      els.deskTokenLayer.innerHTML = "";
+      els.resultOverlay.classList.remove("show");
+      els.parttimeProgress.style.width = "0%";
+      setSavingsBalance(0);
+      setWalletBalance(0);
+      updateTotals();
+    }
+
+    function restartGame() {
+      resetState();
+      createVocabPanel();
+      renderExpenseCards();
+      renderChoiceBoard();
+      renderWasteSlots();
+      spawnSalaryTokens();
+      renderWalletHandles();
+      drawBalanceChart();
+      startPartTimeLoop();
+    }
+
+    els.resultBtn.addEventListener("click", tryOpenResult);
+    els.restartBtn.addEventListener("click", restartGame);
+    window.addEventListener("resize", drawBalanceChart);
+
+    renderWasteSlots();
+    restartGame();
+  </script>
+</body>
+</html>
