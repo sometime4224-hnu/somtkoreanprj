@@ -1,0 +1,3793 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>주거 계약 · 공과금 어휘 보조 활동 | 15과</title>
+  <style>
+    :root {
+      --bg: #f6efe4;
+      --bg-strong: #e8dcc8;
+      --card: rgba(255, 252, 247, 0.88);
+      --card-strong: rgba(255, 250, 244, 0.97);
+      --line: rgba(97, 75, 53, 0.12);
+      --text: #2e2117;
+      --muted: #7a6755;
+      --brown: #7b5233;
+      --brown-deep: #533624;
+      --sage: #2d7b68;
+      --sage-soft: #e4f4ee;
+      --teal: #d5ebe7;
+      --amber: #cb9248;
+      --amber-soft: #ffefcf;
+      --coral: #d1664a;
+      --coral-soft: #ffe4dd;
+      --shadow-xl: 0 28px 70px rgba(65, 42, 25, 0.18);
+      --shadow-lg: 0 20px 38px rgba(65, 42, 25, 0.14);
+      --shadow-sm: 0 10px 20px rgba(65, 42, 25, 0.08);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --sans: "SUIT Variable", "Pretendard Variable", "Noto Sans KR", sans-serif;
+      --serif: "Noto Serif KR", "Nanum Myeongjo", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top left, rgba(255, 217, 167, 0.5), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(163, 214, 205, 0.34), transparent 24%),
+        linear-gradient(180deg, #f8f1e7 0%, #efe3d4 100%);
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      color: inherit;
+    }
+
+    .page-shell {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .lesson-sidebar {
+      position: sticky;
+      top: 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .sidebar-panel,
+    .hero-panel,
+    .scene-card,
+    .learning-panel,
+    .modal-panel {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(12px);
+    }
+
+    .sidebar-panel {
+      padding: 20px;
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .brand-panel {
+      background:
+        linear-gradient(145deg, rgba(255, 252, 247, 0.94), rgba(244, 235, 223, 0.94)),
+        linear-gradient(135deg, rgba(45, 123, 104, 0.08), transparent 46%);
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--sage);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .brand-panel h1,
+    .hero-panel h2,
+    .modal-header h2,
+    .summary-modal h2 {
+      margin: 10px 0 0;
+      font-family: var(--serif);
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.15;
+    }
+
+    .sidebar-copy,
+    .hero-copy,
+    .scene-copy,
+    .summary-modal p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .meter-row,
+    .panel-heading,
+    .scene-header,
+    .modal-header,
+    .doc-row,
+    .signature-actions,
+    .summary-actions,
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .meter-row {
+      margin-top: 22px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .progress-bar {
+      height: 12px;
+      margin-top: 10px;
+      border-radius: 999px;
+      background: rgba(91, 67, 46, 0.08);
+      overflow: hidden;
+    }
+
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #2d7b68 0%, #58b29d 100%);
+      transition: width 0.24s ease;
+    }
+
+    .panel-heading h2,
+    .learning-panel h2,
+    .aside-card h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .panel-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(45, 123, 104, 0.12);
+      color: var(--sage);
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .pill.neutral {
+      background: rgba(91, 67, 46, 0.08);
+      color: var(--muted);
+    }
+
+    .mission-list,
+    .vocab-list,
+    .doc-checklist,
+    .summary-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .mission-item,
+    .vocab-item,
+    .summary-word,
+    .doc-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 251, 245, 0.78);
+      border: 1px solid var(--line);
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .mission-item.is-done,
+    .summary-word.is-found,
+    .doc-item.is-found {
+      background: var(--sage-soft);
+      border-color: rgba(45, 123, 104, 0.18);
+    }
+
+    .vocab-item {
+      width: 100%;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .vocab-item:hover:not(:disabled),
+    .doc-row:hover,
+    .scene-tab:hover:not(:disabled),
+    .hotspot:hover,
+    .primary-button:hover,
+    .secondary-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .vocab-item:disabled {
+      cursor: default;
+      opacity: 0.72;
+    }
+
+    .vocab-item.is-found {
+      background: rgba(255, 251, 245, 0.98);
+      border-color: rgba(45, 123, 104, 0.18);
+    }
+
+    .check-badge {
+      min-width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(91, 67, 46, 0.08);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .mission-item.is-done .check-badge,
+    .vocab-item.is-found .check-badge,
+    .summary-word.is-found .check-badge,
+    .doc-item.is-found .check-badge {
+      background: rgba(45, 123, 104, 0.18);
+      color: var(--sage);
+    }
+
+    .lesson-main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero-panel,
+    .learning-panel {
+      padding: 22px 24px;
+      border-radius: 28px;
+    }
+
+    .hero-panel {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .hero-meta {
+      flex-wrap: wrap;
+      align-content: start;
+      justify-content: flex-end;
+      min-width: 240px;
+    }
+
+    .scene-tab,
+    .primary-button,
+    .secondary-button,
+    .hotspot,
+    .close-button {
+      cursor: pointer;
+      border-radius: 999px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+    }
+
+    .scene-tab {
+      padding: 12px 16px;
+      background: rgba(91, 67, 46, 0.08);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .scene-tab.is-active {
+      background: linear-gradient(135deg, #2d7b68 0%, #57a997 100%);
+      color: #fff;
+      box-shadow: 0 12px 22px rgba(45, 123, 104, 0.24);
+    }
+
+    .scene-tab:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    .scene-shell {
+      position: relative;
+      min-height: 640px;
+    }
+
+    .word-toast {
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      z-index: 6;
+      width: min(92%, 520px);
+      padding: 18px 20px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--toast-accent, #2d7b68), color-mix(in srgb, var(--toast-accent, #2d7b68) 82%, white));
+      color: #fff;
+      box-shadow: var(--shadow-lg);
+      transform: translate(-50%, -26px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .word-toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .toast-label {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.82;
+    }
+
+    .toast-word {
+      margin-top: 6px;
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .toast-meaning,
+    .toast-note {
+      margin-top: 8px;
+      line-height: 1.5;
+      font-weight: 700;
+      opacity: 0.95;
+    }
+
+    .scene-card {
+      position: relative;
+      display: none;
+      padding: 24px;
+      border-radius: 34px;
+      overflow: visible;
+    }
+
+    .scene-card.is-active {
+      display: block;
+      animation: sceneFadeIn 0.24s ease;
+    }
+
+    @keyframes sceneFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .scene-header {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 18px;
+      align-items: start;
+    }
+
+    .scene-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(26px, 3vw, 34px);
+      line-height: 1.2;
+    }
+
+    .scene-copy {
+      max-width: 720px;
+    }
+
+    .scene-step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(91, 67, 46, 0.08);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .office-stage,
+    .bank-board {
+      position: relative;
+      min-height: 500px;
+      border-radius: 30px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #f5ede2 0%, #f0dfcf 100%);
+      border: 1px solid rgba(255, 255, 255, 0.68);
+    }
+
+    .office-stage::before,
+    .bank-board::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 26px;
+      border: 1px solid rgba(105, 79, 56, 0.08);
+      pointer-events: none;
+    }
+
+    .office-stage {
+      background:
+        radial-gradient(circle at 18% 14%, rgba(255, 216, 161, 0.34), transparent 20%),
+        linear-gradient(180deg, #f6f1e7 0%, #efe1cd 52%, #d2b797 52%, #be9f7f 100%);
+    }
+
+    .window-panel {
+      position: absolute;
+      top: 56px;
+      left: 54px;
+      width: 180px;
+      height: 130px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(179, 221, 255, 0.96), rgba(243, 250, 255, 0.9) 60%, rgba(255, 234, 202, 0.85) 100%);
+      border: 10px solid #8d6b4f;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+    }
+
+    .window-panel::before,
+    .window-panel::after {
+      content: "";
+      position: absolute;
+      background: rgba(141, 107, 79, 0.75);
+    }
+
+    .window-panel::before {
+      top: 0;
+      left: 50%;
+      width: 10px;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+
+    .window-panel::after {
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      transform: translateY(-50%);
+    }
+
+    .office-shelf {
+      position: absolute;
+      top: 66px;
+      right: 52px;
+      width: 220px;
+      height: 150px;
+      border-radius: 24px;
+      background: rgba(123, 82, 51, 0.12);
+    }
+
+    .office-shelf::before,
+    .office-shelf::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(123, 82, 51, 0.42);
+    }
+
+    .office-shelf::before {
+      top: 42px;
+    }
+
+    .office-shelf::after {
+      top: 92px;
+    }
+
+    .office-book,
+    .plant-pot {
+      position: absolute;
+      border-radius: 16px;
+    }
+
+    .office-book {
+      top: 28px;
+      width: 32px;
+      height: 58px;
+      background: linear-gradient(180deg, #9cc5b1 0%, #618f7a 100%);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .office-book.book-one {
+      left: 34px;
+    }
+
+    .office-book.book-two {
+      left: 74px;
+      height: 72px;
+      background: linear-gradient(180deg, #dfaa6d 0%, #c27c49 100%);
+    }
+
+    .plant-pot {
+      right: 32px;
+      top: 24px;
+      width: 64px;
+      height: 74px;
+      background: linear-gradient(180deg, #fff9f0 0%, #ead4bb 100%);
+      border-radius: 18px 18px 28px 28px;
+    }
+
+    .plant-pot::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 56px;
+      width: 58px;
+      height: 58px;
+      border-radius: 999px 999px 50% 50%;
+      background: radial-gradient(circle at 50% 70%, #6ea38c 0%, #47836b 70%);
+      transform: translateX(-50%);
+      box-shadow:
+        -22px -8px 0 -8px #5a9478,
+        22px -10px 0 -8px #78ab90,
+        0 -26px 0 -14px #6ea38c;
+    }
+
+    .character {
+      position: absolute;
+      bottom: 116px;
+      width: 200px;
+      height: 280px;
+    }
+
+    .character .head,
+    .character .body,
+    .character .arm,
+    .character .chair {
+      position: absolute;
+    }
+
+    .character .head {
+      top: 12px;
+      left: 56px;
+      width: 88px;
+      height: 98px;
+      border-radius: 44px 44px 40px 40px;
+      background: linear-gradient(180deg, #f5d2b8 0%, #ebc1a3 100%);
+      z-index: 2;
+      box-shadow: 0 10px 16px rgba(78, 53, 34, 0.12);
+    }
+
+    .character .head::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      top: -8px;
+      height: 40px;
+      border-radius: 999px 999px 18px 18px;
+      background: var(--hair, #493226);
+    }
+
+    .character .body {
+      top: 92px;
+      left: 28px;
+      width: 146px;
+      height: 126px;
+      border-radius: 34px 34px 24px 24px;
+      background: var(--suit, #6b8ea8);
+      z-index: 1;
+    }
+
+    .character .arm {
+      top: 124px;
+      width: 26px;
+      height: 104px;
+      border-radius: 999px;
+      background: var(--suit, #6b8ea8);
+      transform-origin: top center;
+      z-index: 0;
+    }
+
+    .character .arm.left {
+      left: 34px;
+      transform: rotate(26deg);
+    }
+
+    .character .arm.right {
+      right: 34px;
+      transform: rotate(-32deg);
+    }
+
+    .character .chair {
+      bottom: 0;
+      left: 24px;
+      width: 156px;
+      height: 118px;
+      border-radius: 28px 28px 18px 18px;
+      background: rgba(122, 94, 73, 0.2);
+      z-index: -1;
+    }
+
+    .character.realtor {
+      left: 220px;
+      --suit: #7f6955;
+      --hair: #362219;
+    }
+
+    .character.learner {
+      right: 180px;
+      --suit: #668ea2;
+      --hair: #52392d;
+    }
+
+    .character.learner .arm.left {
+      transform: rotate(40deg);
+    }
+
+    .character.learner .arm.right {
+      transform: rotate(-12deg);
+    }
+
+    .desk {
+      position: absolute;
+      left: 70px;
+      right: 70px;
+      bottom: 46px;
+      height: 170px;
+      border-radius: 34px 34px 18px 18px;
+      background:
+        linear-gradient(180deg, #8a6041 0%, #6f4932 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        0 22px 36px rgba(78, 51, 34, 0.18);
+    }
+
+    .desk::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .desk::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      width: 320px;
+      height: 92px;
+      border-radius: 22px;
+      background: rgba(255, 250, 241, 0.15);
+      transform: translateX(-50%);
+    }
+
+    .contract-hotspot {
+      position: absolute;
+      left: 50%;
+      top: 320px;
+      width: 290px;
+      height: 132px;
+      padding: 22px 28px;
+      border-radius: 20px;
+      background:
+        linear-gradient(180deg, #fffdf8 0%, #fbf1e3 100%);
+      border: 1px solid rgba(104, 79, 59, 0.14);
+      box-shadow: var(--shadow-lg);
+      transform: translateX(-50%) rotate(-4deg);
+      text-align: left;
+      font-weight: 900;
+      color: var(--brown-deep);
+      z-index: 2;
+    }
+
+    .contract-hotspot::before,
+    .contract-hotspot::after {
+      content: "";
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(103, 134, 121, 0.22);
+    }
+
+    .contract-hotspot::before {
+      top: 58px;
+      box-shadow: 0 20px 0 rgba(103, 134, 121, 0.22), 0 40px 0 rgba(103, 134, 121, 0.22);
+    }
+
+    .contract-hotspot::after {
+      top: 34px;
+      left: 62%;
+      right: 24px;
+      background: rgba(209, 102, 74, 0.18);
+    }
+
+    .contract-hotspot strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .contract-hotspot span {
+      display: inline-block;
+      margin-top: 52px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .pen-prop {
+      position: absolute;
+      left: calc(50% + 190px);
+      top: 392px;
+      width: 120px;
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #d5dbe2 0%, #68737f 18%, #1e3145 60%, #111a24 100%);
+      transform: rotate(22deg);
+      box-shadow: var(--shadow-sm);
+      z-index: 2;
+    }
+
+    .speech-bubble,
+    .stamp-banner,
+    .floating-note {
+      position: absolute;
+      padding: 12px 18px;
+      border-radius: 18px;
+      box-shadow: var(--shadow-sm);
+      line-height: 1.5;
+      font-size: 14px;
+      font-weight: 800;
+      z-index: 3;
+    }
+
+    .speech-bubble {
+      left: 44px;
+      bottom: 228px;
+      max-width: 240px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--brown-deep);
+      text-align: left;
+    }
+
+    .speech-bubble::after {
+      content: "";
+      position: absolute;
+      left: 32px;
+      bottom: -12px;
+      width: 22px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      transform: rotate(45deg);
+      border-radius: 4px;
+    }
+
+    .stamp-banner {
+      right: 30px;
+      bottom: 34px;
+      background: rgba(255, 247, 234, 0.92);
+      color: #9a6226;
+      border: 1px solid rgba(203, 146, 72, 0.16);
+    }
+
+    .bank-board {
+      background:
+        radial-gradient(circle at 20% 8%, rgba(255, 217, 163, 0.26), transparent 24%),
+        linear-gradient(180deg, #f8f1e7 0%, #f2e6d5 54%, #d8c0a4 54%, #c9ad8f 100%);
+    }
+
+    .bank-guide-strip {
+      margin: 14px 0 16px;
+      padding: 16px 18px 18px;
+      border-radius: 24px;
+      border: 1px solid rgba(104, 79, 59, 0.1);
+      background:
+        linear-gradient(180deg, rgba(255, 253, 249, 0.96), rgba(248, 240, 229, 0.94));
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bank-guide-current {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      align-items: center;
+    }
+
+    .bank-guide-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(203, 146, 72, 0.16);
+      color: #9a6226;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .bank-guide-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .bank-guide-text {
+      flex: 1 1 100%;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .bank-step-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .bank-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 74px;
+      padding: 12px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(104, 79, 59, 0.1);
+      background: rgba(255, 255, 255, 0.58);
+      opacity: 0.72;
+      transition: transform 0.18s ease, opacity 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .bank-step.is-active {
+      opacity: 1;
+      transform: translateY(-2px);
+      border-color: rgba(203, 146, 72, 0.38);
+      background: rgba(255, 251, 245, 0.98);
+      box-shadow: 0 14px 20px rgba(70, 45, 26, 0.08);
+    }
+
+    .bank-step.is-done {
+      opacity: 1;
+      border-color: rgba(45, 123, 104, 0.18);
+      background: rgba(232, 245, 239, 0.9);
+    }
+
+    .bank-step-no {
+      flex: 0 0 auto;
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(91, 67, 46, 0.08);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .bank-step.is-active .bank-step-no {
+      background: rgba(203, 146, 72, 0.18);
+      color: #9a6226;
+    }
+
+    .bank-step.is-done .bank-step-no {
+      background: rgba(45, 123, 104, 0.16);
+      color: var(--sage);
+    }
+
+    .bank-step-copy {
+      min-width: 0;
+    }
+
+    .bank-step-copy strong,
+    .bank-step-copy small {
+      display: block;
+    }
+
+    .bank-step-copy strong {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .bank-step-copy small {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .counter-zone,
+    .atm-zone {
+      position: absolute;
+      top: 78px;
+      width: min(42%, 390px);
+      height: 300px;
+      border-radius: 28px;
+      padding: 24px;
+      border: 2px dashed rgba(91, 67, 46, 0.15);
+      background: rgba(255, 251, 245, 0.7);
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .counter-zone {
+      left: 48px;
+      background:
+        linear-gradient(180deg, rgba(255, 251, 245, 0.96), rgba(237, 226, 208, 0.94));
+    }
+
+    .atm-zone {
+      right: 48px;
+      background:
+        linear-gradient(180deg, rgba(225, 240, 241, 0.96), rgba(186, 215, 213, 0.96));
+    }
+
+    .drop-zone.is-ready {
+      border-color: rgba(45, 123, 104, 0.38);
+    }
+
+    .drop-zone.is-hovered {
+      transform: scale(1.02);
+      border-color: rgba(45, 123, 104, 0.54);
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .zone-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(91, 67, 46, 0.08);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .counter-zone .clerk {
+      position: absolute;
+      left: 50%;
+      top: 68px;
+      width: 120px;
+      height: 154px;
+      transform: translateX(-50%);
+    }
+
+    .counter-zone .clerk::before,
+    .counter-zone .clerk::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .counter-zone .clerk::before {
+      top: 0;
+      width: 62px;
+      height: 72px;
+      border-radius: 999px 999px 28px 28px;
+      background: linear-gradient(180deg, #f2cfb2 0%, #e8bea0 100%);
+      box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.02);
+    }
+
+    .counter-zone .clerk::after {
+      top: 56px;
+      width: 104px;
+      height: 96px;
+      border-radius: 28px 28px 18px 18px;
+      background: linear-gradient(180deg, #7d8ea1 0%, #5a6a7f 100%);
+    }
+
+    .counter-desk {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 34px;
+      height: 88px;
+      border-radius: 24px 24px 16px 16px;
+      background: linear-gradient(180deg, #8b5f40 0%, #6f4932 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .counter-text,
+    .atm-text {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 134px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .atm-zone::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #8caeb2 0%, #5c7e83 100%);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+    }
+
+    .atm-screen,
+    .atm-slot,
+    .atm-pad {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .atm-screen {
+      top: 58px;
+      width: 210px;
+      height: 92px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #1f444a 0%, #10272c 100%);
+      box-shadow: inset 0 0 0 1px rgba(126, 233, 232, 0.18);
+    }
+
+    .atm-screen::before {
+      content: "납부 화면";
+      position: absolute;
+      left: 18px;
+      top: 16px;
+      color: #dff9f6;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .atm-screen::after {
+      content: "전기 · 수도 · 가스";
+      position: absolute;
+      left: 18px;
+      bottom: 14px;
+      color: rgba(223, 249, 246, 0.88);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .atm-slot {
+      top: 184px;
+      width: 152px;
+      height: 22px;
+      border-radius: 999px;
+      background: #23373a;
+      box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.28);
+    }
+
+    .atm-pad {
+      top: 228px;
+      width: 190px;
+      height: 84px;
+      border-radius: 20px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(227, 239, 238, 0.92));
+      box-shadow: var(--shadow-sm);
+    }
+
+    .atm-pad::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: 14px;
+      background:
+        linear-gradient(90deg, rgba(45, 123, 104, 0.12) 0 20%, transparent 20% 40%, rgba(45, 123, 104, 0.12) 40% 60%, transparent 60% 80%, rgba(45, 123, 104, 0.12) 80% 100%),
+        linear-gradient(180deg, rgba(45, 123, 104, 0.12) 0 22%, transparent 22% 44%, rgba(45, 123, 104, 0.12) 44% 66%, transparent 66% 88%, rgba(45, 123, 104, 0.12) 88% 100%);
+    }
+
+    .bill-stack {
+      position: absolute;
+      left: 26px;
+      top: 390px;
+      width: 182px;
+      min-height: 112px;
+      padding: 20px 18px 18px;
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, #fffefb 0%, #faefdf 100%);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(104, 79, 59, 0.14);
+      text-align: left;
+      z-index: 4;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .bill-stack::before,
+    .bill-stack::after {
+      content: "";
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(209, 102, 74, 0.22);
+    }
+
+    .bill-stack::before {
+      top: 42px;
+    }
+
+    .bill-stack::after {
+      top: 64px;
+    }
+
+    .bill-stack strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 22px;
+      line-height: 1.15;
+    }
+
+    .bill-stack span {
+      display: inline-block;
+      margin-top: 36px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .bill-stack.dragging {
+      transform: rotate(-2deg) scale(1.03);
+      box-shadow: 0 30px 42px rgba(65, 42, 25, 0.24);
+      cursor: grabbing;
+    }
+
+    .bill-stack.is-paid {
+      pointer-events: none;
+      background: linear-gradient(180deg, #edf8f4 0%, #d7ede6 100%);
+      border-color: rgba(45, 123, 104, 0.16);
+    }
+
+    .bill-note {
+      right: 24px;
+      bottom: 26px;
+      max-width: 300px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--muted);
+    }
+
+    .bank-drag-guide {
+      position: absolute;
+      left: 214px;
+      right: 54px;
+      bottom: 124px;
+      height: 108px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .bank-drag-guide[hidden] {
+      display: none;
+    }
+
+    .bank-drag-guide::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 34px;
+      top: 58px;
+      border-top: 4px dashed rgba(203, 146, 72, 0.68);
+    }
+
+    .bank-drag-guide::after {
+      content: "";
+      position: absolute;
+      right: 24px;
+      top: 49px;
+      width: 18px;
+      height: 18px;
+      border-top: 4px solid rgba(203, 146, 72, 0.84);
+      border-right: 4px solid rgba(203, 146, 72, 0.84);
+      transform: rotate(45deg);
+    }
+
+    .bank-drag-pill {
+      position: absolute;
+      left: 50%;
+      top: 6px;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 247, 234, 0.96);
+      border: 1px solid rgba(203, 146, 72, 0.24);
+      color: #9a6226;
+      font-size: 14px;
+      font-weight: 900;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bill-stack.guide-active,
+    .secondary-button.guide-active,
+    .drop-zone.guide-active {
+      animation: guidePulse 1.35s ease-in-out infinite;
+    }
+
+    .bill-stack.guide-active,
+    .secondary-button.guide-active {
+      box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.88),
+        0 0 0 10px rgba(203, 146, 72, 0.18),
+        var(--shadow-lg);
+    }
+
+    .drop-zone.guide-active {
+      border-color: rgba(203, 146, 72, 0.46);
+      box-shadow: 0 0 0 10px rgba(203, 146, 72, 0.12);
+    }
+
+    @keyframes guidePulse {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-2px) scale(1.015);
+      }
+    }
+
+    .bank-controls {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .primary-button,
+    .secondary-button,
+    .close-button {
+      min-height: 48px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 900;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .primary-button {
+      color: #fff;
+      background: linear-gradient(135deg, #2d7b68 0%, #57a997 100%);
+    }
+
+    .primary-button:disabled,
+    .secondary-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      box-shadow: none;
+    }
+
+    .secondary-button,
+    .close-button {
+      background: rgba(255, 251, 245, 0.92);
+      color: var(--brown-deep);
+      border: 1px solid rgba(104, 79, 59, 0.12);
+    }
+
+    .secondary-button.warning {
+      background: var(--coral-soft);
+      color: #a14932;
+      border-color: rgba(209, 102, 74, 0.16);
+    }
+
+    .bank-status {
+      margin: 0;
+      flex: 1 1 240px;
+      min-height: 48px;
+      padding: 12px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(104, 79, 59, 0.1);
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .learning-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start;
+    }
+
+    .word-display {
+      font-family: var(--serif);
+      font-size: clamp(34px, 4vw, 46px);
+      line-height: 1.08;
+      font-weight: 900;
+    }
+
+    .word-meaning {
+      margin-top: 10px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .word-example {
+      margin: 14px 0 0;
+      max-width: 720px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .learning-side {
+      display: grid;
+      gap: 12px;
+    }
+
+    .context-card,
+    .aside-card {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 251, 245, 0.78);
+      border: 1px solid var(--line);
+    }
+
+    .context-label {
+      display: inline-block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .context-card p,
+    .aside-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .vi-panel[hidden] {
+      display: none;
+    }
+
+    .vi-title {
+      margin-top: 10px;
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .vi-body,
+    .vi-usage {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+    }
+
+    .phrase-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .phrase-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(91, 67, 46, 0.08);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .phrase-chip.is-on {
+      background: rgba(45, 123, 104, 0.12);
+      color: var(--sage);
+    }
+
+    .toggle-button {
+      min-height: 36px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(104, 79, 59, 0.14);
+      background: rgba(255, 251, 245, 0.92);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .toggle-button.is-active {
+      background: rgba(45, 123, 104, 0.12);
+      color: var(--sage);
+      border-color: rgba(45, 123, 104, 0.18);
+    }
+
+    .inline-term {
+      display: inline;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      font-weight: 900;
+      text-decoration: underline;
+      text-decoration-style: dashed;
+      text-underline-offset: 0.16em;
+      text-decoration-thickness: 1.5px;
+      cursor: pointer;
+    }
+
+    .inline-term:hover {
+      color: var(--sage);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: rgba(38, 26, 17, 0.34);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-panel {
+      width: min(1180px, 100%);
+      max-height: calc(100vh - 48px);
+      padding: 24px;
+      border-radius: 32px;
+      background: var(--card-strong);
+      box-shadow: var(--shadow-xl);
+      overflow-y: auto;
+    }
+
+    .contract-modal {
+      margin: auto 0;
+    }
+
+    .vocab-detail-modal {
+      width: min(720px, 100%);
+      margin: auto 0;
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      padding-bottom: 14px;
+      margin-bottom: 4px;
+      background: linear-gradient(180deg, rgba(255, 250, 244, 0.98) 0%, rgba(255, 250, 244, 0.9) 72%, rgba(255, 250, 244, 0));
+    }
+
+    .detail-layout {
+      display: grid;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .detail-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .detail-word {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(34px, 4vw, 44px);
+      font-weight: 900;
+      line-height: 1.08;
+    }
+
+    .detail-meaning {
+      margin: 10px 0 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .detail-card {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255, 251, 245, 0.82);
+      border: 1px solid var(--line);
+    }
+
+    .detail-card h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 900;
+    }
+
+    .detail-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .contract-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .document-paper {
+      position: relative;
+      padding: 34px 34px 30px;
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 239, 224, 0.98));
+      border: 1px solid rgba(111, 83, 59, 0.18);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.58),
+        0 20px 34px rgba(65, 42, 25, 0.1);
+      overflow: hidden;
+    }
+
+    .document-paper::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(115, 88, 64, 0.18);
+      pointer-events: none;
+    }
+
+    .document-paper::after {
+      content: "표준";
+      position: absolute;
+      right: 44px;
+      top: 136px;
+      width: 112px;
+      height: 112px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 3px solid rgba(209, 102, 74, 0.18);
+      color: rgba(209, 102, 74, 0.12);
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      transform: rotate(-14deg);
+      pointer-events: none;
+    }
+
+    .doc-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 34px;
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 0.08em;
+    }
+
+    .doc-subtitle {
+      margin: 12px 0 0;
+      color: #6f5c4c;
+      line-height: 1.7;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .doc-paper-head {
+      position: relative;
+      padding-bottom: 18px;
+      border-bottom: 2px solid rgba(91, 67, 46, 0.24);
+    }
+
+    .doc-paper-badges {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #7b634f;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .doc-paper-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(123, 82, 51, 0.08);
+    }
+
+    .doc-form-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      margin-top: 18px;
+      border: 1px solid rgba(111, 83, 59, 0.2);
+      border-bottom: 0;
+    }
+
+    .doc-meta-cell {
+      min-height: 64px;
+      padding: 10px 12px;
+      border-right: 1px solid rgba(111, 83, 59, 0.2);
+      border-bottom: 1px solid rgba(111, 83, 59, 0.2);
+    }
+
+    .doc-meta-cell:nth-child(4n) {
+      border-right: 0;
+    }
+
+    .doc-meta-label,
+    .doc-party-label,
+    .doc-clause-label,
+    .doc-sign-label {
+      display: block;
+      color: #7f6b58;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .doc-meta-value,
+    .doc-party-value {
+      display: block;
+      margin-top: 10px;
+      line-height: 1.5;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .doc-section {
+      margin-top: 20px;
+    }
+
+    .doc-section-title {
+      margin: 0;
+      padding: 0 0 10px;
+      border-bottom: 1px solid rgba(111, 83, 59, 0.2);
+      font-size: 15px;
+      font-weight: 900;
+      color: #624631;
+      letter-spacing: 0.06em;
+    }
+
+    .doc-party-table {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr);
+      margin-top: 12px;
+      border: 1px solid rgba(111, 83, 59, 0.2);
+    }
+
+    .doc-party-table > div {
+      min-height: 54px;
+      padding: 12px 14px;
+      border-right: 1px solid rgba(111, 83, 59, 0.2);
+      border-bottom: 1px solid rgba(111, 83, 59, 0.2);
+      display: flex;
+      align-items: center;
+    }
+
+    .doc-party-table > div:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .doc-party-table > div:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .doc-party-label {
+      color: #624631;
+    }
+
+    .doc-clause-list {
+      display: grid;
+      gap: 0;
+      margin-top: 12px;
+      border-top: 2px solid rgba(91, 67, 46, 0.32);
+      border-bottom: 1px solid rgba(111, 83, 59, 0.2);
+    }
+
+    .doc-row {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border-radius: 0;
+      text-align: left;
+      background: rgba(255, 255, 255, 0);
+      border: 0;
+      border-bottom: 1px solid rgba(111, 83, 59, 0.2);
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .doc-row:last-child {
+      border-bottom: 0;
+    }
+
+    .doc-row.is-found {
+      background: rgba(228, 244, 238, 0.66);
+    }
+
+    .doc-row-shell {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr) 200px;
+      align-items: stretch;
+      min-height: 122px;
+    }
+
+    .doc-clause-index {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid rgba(111, 83, 59, 0.2);
+      background: rgba(123, 82, 51, 0.05);
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 900;
+      color: #5f4431;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .doc-clause-content {
+      padding: 18px 18px 16px;
+      border-right: 1px solid rgba(111, 83, 59, 0.2);
+    }
+
+    .doc-clause-label {
+      color: #8b725d;
+    }
+
+    .doc-clause-title {
+      display: block;
+      margin-top: 8px;
+      font-size: 20px;
+      font-weight: 900;
+      color: #34261b;
+    }
+
+    .doc-clause-text {
+      display: block;
+      margin-top: 10px;
+      color: #6f5c4c;
+      line-height: 1.7;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .doc-clause-side {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px;
+      background: rgba(255, 252, 247, 0.72);
+    }
+
+    .doc-side-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .doc-side-chip.point {
+      background: rgba(203, 146, 72, 0.14);
+      color: #915a1f;
+    }
+
+    .include-tags {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .include-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .include-tag.is-on {
+      background: rgba(45, 123, 104, 0.12);
+      color: var(--sage);
+      border: 1px solid rgba(45, 123, 104, 0.14);
+    }
+
+    .include-tag.is-off {
+      background: rgba(209, 102, 74, 0.12);
+      color: #a14932;
+      border: 1px solid rgba(209, 102, 74, 0.12);
+    }
+
+    .doc-footnote {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border: 1px dashed rgba(111, 83, 59, 0.24);
+      color: #7a6654;
+      line-height: 1.6;
+      font-size: 13px;
+      font-weight: 700;
+      background: rgba(255, 250, 244, 0.7);
+    }
+
+    .signature-section {
+      position: relative;
+      margin-top: 22px;
+      padding: 18px 18px 22px;
+      border: 1px solid rgba(111, 83, 59, 0.2);
+      background:
+        linear-gradient(180deg, rgba(255, 254, 251, 0.96), rgba(248, 239, 224, 0.84));
+    }
+
+    .signature-meta {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 180px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .signature-meta strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .signature-meta span {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .signature-guide {
+      padding: 12px 14px;
+      border: 1px dashed rgba(111, 83, 59, 0.2);
+      background: rgba(255, 252, 247, 0.72);
+      text-align: center;
+    }
+
+    .signature-guide strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 900;
+      color: #624631;
+    }
+
+    .signature-guide span {
+      display: block;
+      margin-top: 6px;
+      color: #7a6654;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    #signatureCanvas {
+      display: block;
+      width: 100%;
+      height: 170px;
+      margin-top: 16px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(250, 239, 221, 0.9));
+      border: 1px solid rgba(111, 83, 59, 0.18);
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .signature-status {
+      flex: 1;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .signature-ledger {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 14px;
+      border-top: 1px solid rgba(111, 83, 59, 0.2);
+      border-left: 1px solid rgba(111, 83, 59, 0.2);
+    }
+
+    .signature-ledger > div {
+      min-height: 74px;
+      padding: 12px 14px;
+      border-right: 1px solid rgba(111, 83, 59, 0.2);
+      border-bottom: 1px solid rgba(111, 83, 59, 0.2);
+    }
+
+    .doc-sign-label {
+      color: #7f6b58;
+    }
+
+    .doc-sign-value {
+      display: block;
+      margin-top: 10px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .contract-stamp {
+      position: absolute;
+      right: 28px;
+      top: 40px;
+      padding: 16px 22px;
+      border: 3px solid rgba(209, 102, 74, 0.78);
+      border-radius: 18px;
+      color: rgba(209, 102, 74, 0.9);
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      transform: rotate(-10deg) scale(0.7);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .contract-stamp.is-visible {
+      opacity: 1;
+      transform: rotate(-10deg) scale(1);
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .contract-aside {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .summary-modal {
+      width: min(840px, 100%);
+      text-align: center;
+    }
+
+    .summary-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 24px;
+      text-align: left;
+    }
+
+    .summary-actions {
+      justify-content: center;
+      margin-top: 24px;
+    }
+
+    .shake {
+      animation: shake 0.28s ease;
+    }
+
+    @keyframes shake {
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+
+      75% {
+        transform: translateX(-4px);
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .page-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .lesson-sidebar {
+        position: static;
+      }
+
+      .hero-panel,
+      .learning-layout,
+      .contract-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel {
+        flex-direction: column;
+      }
+
+      .hero-meta {
+        justify-content: flex-start;
+      }
+
+      .doc-form-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .doc-meta-cell:nth-child(4n) {
+        border-right: 1px solid rgba(111, 83, 59, 0.2);
+      }
+
+      .doc-meta-cell:nth-child(2n) {
+        border-right: 0;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .scene-shell {
+        min-height: 860px;
+      }
+
+      .office-stage,
+      .bank-board {
+        min-height: 720px;
+      }
+
+      .character.realtor {
+        left: 90px;
+      }
+
+      .character.learner {
+        right: 60px;
+      }
+
+      .contract-hotspot {
+        top: 350px;
+        width: 250px;
+      }
+
+      .pen-prop {
+        left: calc(50% + 128px);
+      }
+
+      .counter-zone,
+      .atm-zone {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        width: 100%;
+        height: 240px;
+      }
+
+      .bank-board {
+        display: grid;
+        gap: 16px;
+        align-content: start;
+        padding: 84px 22px 150px;
+      }
+
+      .bank-step-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .bank-drag-guide {
+        display: none !important;
+      }
+
+      .bill-stack {
+        top: auto;
+        bottom: 24px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page-shell {
+        padding: 14px;
+      }
+
+      .scene-card,
+      .hero-panel,
+      .learning-panel,
+      .modal-panel,
+      .sidebar-panel {
+        border-radius: 24px;
+      }
+
+      .scene-shell {
+        min-height: 960px;
+      }
+
+      .office-stage {
+        min-height: 820px;
+      }
+
+      .window-panel,
+      .office-shelf {
+        transform: scale(0.84);
+        transform-origin: top left;
+      }
+
+      .character {
+        width: 160px;
+        height: 240px;
+        bottom: 176px;
+      }
+
+      .character.realtor {
+        left: 20px;
+      }
+
+      .character.learner {
+        right: 10px;
+      }
+
+      .desk {
+        left: 18px;
+        right: 18px;
+        bottom: 60px;
+        height: 220px;
+      }
+
+      .contract-hotspot {
+        top: 448px;
+        width: 220px;
+        height: 124px;
+      }
+
+      .pen-prop {
+        left: calc(50% + 84px);
+        top: 540px;
+        width: 88px;
+      }
+
+      .speech-bubble {
+        left: 18px;
+        right: 18px;
+        bottom: 296px;
+        max-width: none;
+      }
+
+      .stamp-banner {
+        left: 18px;
+        right: 18px;
+        bottom: 20px;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bank-guide-strip {
+        padding: 14px;
+      }
+
+      .bank-guide-title {
+        font-size: 19px;
+      }
+
+      .bank-step-list {
+        grid-template-columns: 1fr;
+      }
+
+      .bank-step {
+        min-height: 64px;
+      }
+
+      .bank-drag-guide {
+        left: 18px;
+        right: 18px;
+        bottom: 118px;
+        height: 96px;
+      }
+
+      .bank-drag-guide::before {
+        right: 26px;
+        top: 56px;
+      }
+
+      .bank-drag-guide::after {
+        right: 16px;
+        top: 47px;
+      }
+
+      .bank-drag-pill {
+        width: calc(100% - 32px);
+      }
+
+      .document-paper {
+        padding: 24px 20px 22px;
+      }
+
+      .doc-form-meta,
+      .signature-ledger {
+        grid-template-columns: 1fr;
+      }
+
+      .doc-meta-cell:nth-child(4n),
+      .doc-meta-cell:nth-child(2n) {
+        border-right: 0;
+      }
+
+      .doc-row-shell,
+      .doc-party-table,
+      .signature-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .doc-clause-index,
+      .doc-clause-content {
+        border-right: 0;
+        border-bottom: 1px solid rgba(111, 83, 59, 0.2);
+      }
+
+      .doc-clause-index {
+        min-height: 54px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <aside class="lesson-sidebar">
+      <section class="sidebar-panel brand-panel">
+        <p class="eyebrow">어휘 보조 활동</p>
+        <h1>주거 계약 · 공과금</h1>
+        <div class="meter-row">
+          <span>진행</span>
+          <strong id="progressCount">0 / 9</strong>
+        </div>
+        <div class="progress-bar">
+          <span id="progressBar"></span>
+        </div>
+      </section>
+
+      <section class="sidebar-panel">
+        <div class="panel-heading">
+          <h2>오늘의 어휘</h2>
+          <span class="pill neutral">9개</span>
+        </div>
+        <div id="vocabList" class="vocab-list"></div>
+      </section>
+    </aside>
+
+    <main class="lesson-main">
+      <header class="hero-panel">
+        <div>
+          <h2>계약 · 공과금 어휘</h2>
+        </div>
+        <div class="hero-meta">
+          <button id="officeTab" class="scene-tab is-active" type="button">부동산 사무실</button>
+          <button id="bankTab" class="scene-tab" type="button" disabled>은행 / ATM</button>
+        </div>
+      </header>
+
+      <section class="scene-shell">
+        <div id="toast" class="word-toast" aria-live="polite"></div>
+
+        <section id="officeScene" class="scene-card is-active" aria-labelledby="officeTitle">
+          <div class="scene-header">
+            <div>
+              <span class="scene-step">1</span>
+              <h3 id="officeTitle" class="scene-title">부동산 사무실</h3>
+            </div>
+          </div>
+
+          <div class="office-stage">
+            <div class="window-panel" aria-hidden="true"></div>
+            <div class="office-shelf" aria-hidden="true">
+              <div class="office-book book-one"></div>
+              <div class="office-book book-two"></div>
+              <div class="plant-pot"></div>
+            </div>
+
+            <div class="character realtor" aria-hidden="true">
+              <div class="head"></div>
+              <div class="body"></div>
+              <div class="arm left"></div>
+              <div class="arm right"></div>
+              <div class="chair"></div>
+            </div>
+
+            <div class="character learner" aria-hidden="true">
+              <div class="head"></div>
+              <div class="body"></div>
+              <div class="arm left"></div>
+              <div class="arm right"></div>
+              <div class="chair"></div>
+            </div>
+
+            <div class="desk" aria-hidden="true"></div>
+
+            <button id="contractHotspot" class="hotspot contract-hotspot" type="button" aria-label="계약서를 확대해 보기">
+              <strong>계약서</strong>
+              <span>열기</span>
+            </button>
+
+            <div class="pen-prop" aria-hidden="true"></div>
+
+            <button id="officeHintButton" class="hotspot speech-bubble" type="button">계약서 보기</button>
+
+            <div id="contractReadyBadge" class="stamp-banner">서명 후 이동 가능</div>
+          </div>
+        </section>
+
+        <section id="bankScene" class="scene-card" aria-labelledby="bankTitle">
+          <div class="scene-header">
+            <div>
+              <span class="scene-step">2</span>
+              <h3 id="bankTitle" class="scene-title">은행 / ATM</h3>
+            </div>
+          </div>
+
+          <div class="bank-guide-strip" aria-live="polite">
+            <div class="bank-guide-current">
+              <span id="bankGuideBadge" class="bank-guide-badge">1단계</span>
+              <strong id="bankGuideTitle" class="bank-guide-title">공과금 누르기</strong>
+              <p id="bankGuideText" class="bank-guide-text">왼쪽 아래 공과금 청구서를 먼저 누르세요.</p>
+            </div>
+
+            <div class="bank-step-list">
+              <div id="bankStepBill" class="bank-step is-active">
+                <span class="bank-step-no">1</span>
+                <span class="bank-step-copy">
+                  <strong>공과금</strong>
+                  <small>청구서 누르기</small>
+                </span>
+              </div>
+              <div id="bankStepDelay" class="bank-step">
+                <span class="bank-step-no">2</span>
+                <span class="bank-step-copy">
+                  <strong>하루 미루기</strong>
+                  <small>늦게 내기</small>
+                </span>
+              </div>
+              <div id="bankStepLate" class="bank-step">
+                <span class="bank-step-no">3</span>
+                <span class="bank-step-copy">
+                  <strong>연체료</strong>
+                  <small>추가 요금 보기</small>
+                </span>
+              </div>
+              <div id="bankStepPay" class="bank-step">
+                <span class="bank-step-no">4</span>
+                <span class="bank-step-copy">
+                  <strong>납부하다</strong>
+                  <small>창구 또는 ATM</small>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div id="bankBoard" class="bank-board">
+            <div id="counterZone" class="drop-zone counter-zone" data-target="counter">
+              <div class="zone-label">은행 창구</div>
+              <div class="clerk" aria-hidden="true"></div>
+              <div class="counter-text">여기에 놓기</div>
+              <div class="counter-desk" aria-hidden="true"></div>
+            </div>
+
+            <div id="atmZone" class="drop-zone atm-zone" data-target="atm">
+              <div class="zone-label">ATM</div>
+              <div class="atm-screen" aria-hidden="true"></div>
+              <div class="atm-slot" aria-hidden="true"></div>
+              <div class="atm-pad" aria-hidden="true"></div>
+              <div class="atm-text">여기에 놓기</div>
+            </div>
+
+            <button id="billStack" class="bill-stack" type="button" aria-label="공과금 청구서">
+              <strong>공과금</strong>
+              <span>전기 · 수도 · 가스 청구서</span>
+            </button>
+
+            <div id="bankDragGuide" class="bank-drag-guide" hidden aria-hidden="true">
+              <span class="bank-drag-pill">청구서를 끌어다가 놓으세요</span>
+            </div>
+
+            <div class="floating-note bill-note" hidden></div>
+          </div>
+
+          <div class="bank-controls">
+            <button id="delayButton" class="secondary-button" type="button">하루 미루기</button>
+            <button id="lateFeeBadge" class="secondary-button warning" type="button" hidden>연체료 +12,000원</button>
+            <p id="bankStatus" class="bank-status">공과금을 눌러 보세요.</p>
+          </div>
+        </section>
+      </section>
+
+      <section class="learning-panel">
+        <div class="panel-heading">
+          <h2>어휘</h2>
+          <div class="panel-tools">
+            <span id="entryKind" class="pill">명사</span>
+            <button id="viToggle" class="toggle-button" type="button" aria-pressed="false">VN 설명</button>
+          </div>
+        </div>
+        <div class="learning-layout">
+          <div>
+            <div id="currentWord" class="word-display">계약서</div>
+            <div id="currentMeaning" class="word-meaning">계약 문서</div>
+            <p id="currentExample" class="word-example">먼저 계약서를 읽고 조건을 확인해요.</p>
+          </div>
+          <div class="learning-side">
+            <div id="viPanel" class="context-card vi-panel" hidden>
+              <span class="context-label">Tiếng Việt</span>
+              <div id="viTitle" class="vi-title">계약서</div>
+              <p id="viBody" class="vi-body"></p>
+              <p id="viUsage" class="vi-usage"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="contractModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="contractTitle">
+    <div class="modal-panel contract-modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="contractTitle">임대차 계약서</h2>
+        </div>
+        <button id="closeContractButton" class="close-button" type="button">닫기</button>
+      </div>
+
+      <div class="contract-layout">
+        <div class="document-paper">
+          <div class="doc-paper-head">
+            <div class="doc-paper-badges">
+              <span class="doc-paper-badge">표준 서식</span>
+              <span class="doc-paper-badge">주택 임대차</span>
+            </div>
+            <h3 class="doc-title">주택 임대차 계약서</h3>
+            <p class="doc-subtitle">임대인과 임차인은 아래와 같이 주택 임대차 계약을 체결한다.</p>
+
+            <div class="doc-form-meta">
+              <div class="doc-meta-cell">
+                <span class="doc-meta-label">문서번호</span>
+                <span class="doc-meta-value">LH-2026-0415</span>
+              </div>
+              <div class="doc-meta-cell">
+                <span class="doc-meta-label">작성일</span>
+                <span class="doc-meta-value">2026. 04. 20.</span>
+              </div>
+              <div class="doc-meta-cell">
+                <span class="doc-meta-label">계약구분</span>
+                <span class="doc-meta-value">전세 계약</span>
+              </div>
+              <div class="doc-meta-cell">
+                <span class="doc-meta-label">계약상태</span>
+                <span class="doc-meta-value">확인 중</span>
+              </div>
+            </div>
+          </div>
+
+          <section class="doc-section">
+            <h4 class="doc-section-title">1. 계약 당사자</h4>
+            <div class="doc-party-table">
+              <div><span class="doc-party-label">임대인</span></div>
+              <div><span class="doc-party-value">김주택 / 서울시 마포구 성산동 102-11</span></div>
+              <div><span class="doc-party-label">임차인</span></div>
+              <div><span class="doc-party-value">이민수 / 서울시 서대문구 북가좌동 21-8</span></div>
+            </div>
+          </section>
+
+          <section class="doc-section">
+            <h4 class="doc-section-title">2. 주요 조항</h4>
+            <div class="doc-clause-list">
+              <button class="doc-row" data-entry="보증금" type="button">
+                <span class="doc-row-shell">
+                  <span class="doc-clause-index">제1조</span>
+                  <span class="doc-clause-content">
+                  <span class="doc-clause-label">금액 조항</span>
+                  <strong class="doc-clause-title">보증금</strong>
+                  <span class="doc-clause-text">임차인은 본 계약 체결 시 보증금 금 <strong>50,000,000원</strong>을 임대인에게 맡긴다. 계약 종료 후 조건 충족 시 반환한다.</span>
+                </span>
+                <span class="doc-clause-side">
+                    <span class="doc-side-chip point">5,000만원</span>
+                    <span class="check-badge">1</span>
+                  </span>
+                </span>
+              </button>
+
+              <button class="doc-row" data-entry="계약 기간" type="button">
+                <span class="doc-row-shell">
+                  <span class="doc-clause-index">제2조</span>
+                  <span class="doc-clause-content">
+                  <span class="doc-clause-label">기간 조항</span>
+                  <strong class="doc-clause-title">계약 기간</strong>
+                  <span class="doc-clause-text">계약 기간은 <strong>2026년 5월 1일</strong>부터 <strong>2028년 4월 30일</strong>까지로 하며, 해당 기간 동안 계약이 유효하다.</span>
+                </span>
+                <span class="doc-clause-side">
+                    <span class="doc-side-chip point">2년</span>
+                    <span class="check-badge">2</span>
+                  </span>
+                </span>
+              </button>
+
+              <button class="doc-row" data-entry="포함되다" type="button">
+                <span class="doc-row-shell">
+                  <span class="doc-clause-index">제3조</span>
+                  <span class="doc-clause-content">
+                    <span class="doc-clause-label">비용 조항</span>
+                    <strong class="doc-clause-title">포함되다</strong>
+                    <span class="doc-clause-text">월세 항목 안에 관리비가 <strong>포함되며</strong>, 전기·수도·가스 등 공과금은 별도 부담으로 하여 계약 금액에 포함하지 않는다.</span>
+                  </span>
+                  <span class="doc-clause-side">
+                    <span class="include-tags">
+                      <span class="include-tag is-on">관리비 포함</span>
+                      <span class="include-tag is-off">공과금 미포함</span>
+                    </span>
+                  </span>
+                </span>
+              </button>
+            </div>
+
+            <div class="doc-footnote">특약: 반려동물 사육은 사전 협의 후 가능하며, 입주일 이전 시설 점검 결과는 별첨 확인서에 따른다.</div>
+          </section>
+
+          <div class="signature-section">
+            <div class="signature-meta">
+              <div>
+                <strong>3. 계약 체결 및 서명</strong>
+                <span>아래에 서명합니다.</span>
+              </div>
+              <div class="signature-guide">
+                <strong>임차인 서명란</strong>
+                <span>이름처럼 적으세요.</span>
+              </div>
+            </div>
+            <canvas id="signatureCanvas" width="960" height="340"></canvas>
+            <div class="signature-ledger">
+              <div>
+                <span class="doc-sign-label">임대인</span>
+                <span class="doc-sign-value">김주택 (인)</span>
+              </div>
+              <div>
+                <span class="doc-sign-label">임차인</span>
+                <span class="doc-sign-value">직접 서명</span>
+              </div>
+              <div>
+                <span class="doc-sign-label">중개사 확인</span>
+                <span class="doc-sign-value">새길공인중개사사무소</span>
+              </div>
+            </div>
+            <div class="signature-actions">
+              <button id="clearSignatureButton" class="secondary-button" type="button">서명 지우기</button>
+              <span id="signatureStatus" class="signature-status">먼저 보증금, 계약 기간, 포함되다 항목을 확인한 뒤 사인해 보세요.</span>
+            </div>
+            <div id="contractStamp" class="contract-stamp">계약 완료</div>
+          </div>
+        </div>
+
+        <aside class="contract-aside">
+          <div class="aside-card">
+            <h3>확인 항목</h3>
+            <div id="docChecklist" class="doc-checklist"></div>
+          </div>
+
+          <button id="moveBankButton" class="primary-button" type="button" disabled>은행 / ATM 장면으로 이동</button>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <div id="summaryModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="summaryTitle">
+    <div class="modal-panel summary-modal">
+      <p class="eyebrow">복습 완료</p>
+      <h2 id="summaryTitle">집의 계약과 관리 어휘를 모두 확인했습니다.</h2>
+      <p id="summaryCopy">계약, 납부, 연체 관련 어휘를 모두 확인했습니다.</p>
+      <div id="summaryWords" class="summary-grid"></div>
+      <div class="summary-actions">
+        <button id="restartButton" class="primary-button" type="button">처음부터 다시</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="detailWord" data-no-term>
+    <div class="modal-panel vocab-detail-modal">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">어휘 상세 설명</p>
+          <h2 id="detailWord" class="detail-word">계약서</h2>
+        </div>
+        <button id="closeDetailButton" class="close-button" type="button">닫기</button>
+      </div>
+
+      <div class="detail-layout">
+        <div class="detail-head">
+          <div>
+            <span id="detailKind" class="pill">명사</span>
+            <p id="detailMeaning" class="detail-meaning">계약 문서</p>
+          </div>
+          <button id="detailViToggle" class="toggle-button" type="button" aria-pressed="true">VN 설명 포함</button>
+        </div>
+
+        <div class="detail-grid">
+          <section class="detail-card">
+            <h3>한국어 설명</h3>
+            <p id="detailExample"></p>
+            <p id="detailNote"></p>
+          </section>
+
+          <section id="detailViCard" class="detail-card">
+            <h3>Tiếng Việt</h3>
+            <p id="detailViBody"></p>
+            <p id="detailViUsage"></p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const MAIN_WORDS = [
+        "계약서",
+        "보증금",
+        "계약 기간",
+        "계약하다",
+        "포함되다",
+        "공과금",
+        "납부하다",
+        "연체료",
+        "밀리다"
+      ];
+
+      const ENTRIES = {
+        "계약서": {
+          kind: "명사",
+          accent: "#8b5c3b",
+          meaning: "계약 문서",
+          example: "먼저 계약서를 읽고 조건을 확인해요.",
+          note: "서로 약속한 내용을 적은 종이예요."
+        },
+        "보증금": {
+          kind: "명사",
+          accent: "#cb9248",
+          meaning: "계약 때 맡기고, 끝나면 돌려받는 돈",
+          example: "보증금은 처음에 맡기고 나중에 돌려받아요.",
+          note: "집을 빌릴 때 먼저 맡기는 큰돈이에요."
+        },
+        "계약 기간": {
+          kind: "명사",
+          accent: "#8b5c3b",
+          meaning: "계약 유효 기간",
+          example: "계약 기간은 2년이에요.",
+          note: "시작하는 날과 끝나는 날이 있어요."
+        },
+        "계약하다": {
+          kind: "동사",
+          accent: "#2d7b68",
+          meaning: "계약을 맺다",
+          example: "두 사람이 조건에 동의하면 계약해요.",
+          note: "서로 약속하고 계약을 맺는 거예요."
+        },
+        "포함되다": {
+          kind: "동사",
+          accent: "#4e907f",
+          meaning: "항목에 들어 있다",
+          example: "관리비가 월세에 포함될 수 있어요.",
+          note: "따로 내지 않고 이미 들어 있는 상태예요."
+        },
+        "공과금": {
+          kind: "명사",
+          accent: "#5f7f8a",
+          meaning: "전기·수도·가스 요금",
+          example: "전기세와 수도세는 공과금이에요.",
+          note: "집에서 생활할 때 내는 기본 요금이에요."
+        },
+        "납부하다": {
+          kind: "동사",
+          accent: "#2d7b68",
+          meaning: "요금을 내다",
+          example: "창구나 ATM에서 공과금을 납부해요.",
+          note: "정해진 돈을 내는 말이에요."
+        },
+        "연체료": {
+          kind: "명사",
+          accent: "#d1664a",
+          meaning: "기한 초과 추가 요금",
+          example: "기한이 지나면 연체료가 붙을 수 있어요.",
+          note: "늦게 내서 더 붙는 돈이에요."
+        },
+        "밀리다": {
+          kind: "동사",
+          accent: "#d1664a",
+          meaning: "납부가 늦어지다",
+          example: "이번 달 공과금 납부가 밀렸어요.",
+          note: "기한보다 늦어진 상태를 말해요."
+        },
+        "서명하다": {
+          kind: "표현",
+          accent: "#8b5c3b",
+          meaning: "이름을 적어 의사를 표시하다",
+          example: "계약서에 이름을 써서 서명해요.",
+          note: "이름을 써서 동의한다는 뜻을 보여 줘요."
+        }
+      };
+
+      const VI_DETAILS = {
+        "계약서": {
+          body: "“계약서” là giấy ghi lời hứa giữa hai bên.",
+          usage: "Trong giấy này có tiền, thời gian và điều kiện."
+        },
+        "보증금": {
+          body: "“보증금” là tiền người thuê đưa trước khi ký hợp đồng. Khi hết hợp đồng, thường sẽ được nhận lại tiền này.",
+          usage: "Đây không phải tiền thuê mỗi tháng."
+        },
+        "계약 기간": {
+          body: "“계약 기간” là khoảng thời gian hợp đồng có hiệu lực.",
+          usage: "Nó có ngày bắt đầu và ngày kết thúc."
+        },
+        "계약하다": {
+          body: "“계약하다” là làm hợp đồng với ai đó.",
+          usage: "Sau khi đồng ý và ký tên, có thể nói là đã 계약하다."
+        },
+        "포함되다": {
+          body: "“포함되다” nghĩa là có ở bên trong, đã tính chung.",
+          usage: "Nếu đã 포함되다, không cần trả riêng."
+        },
+        "공과금": {
+          body: "“공과금” là tiền điện, nước, gas.",
+          usage: "Đây là nhóm tiền sinh hoạt trong nhà."
+        },
+        "납부하다": {
+          body: "“납부하다” nghĩa là trả hoặc nộp tiền.",
+          usage: "Từ này hay thấy trên hóa đơn."
+        },
+        "연체료": {
+          body: "“연체료” là tiền phải trả thêm khi trả chậm. Nếu không trả đúng ngày, số tiền sẽ tăng lên.",
+          usage: "Trả chậm thì phải trả thêm khoản này."
+        },
+        "밀리다": {
+          body: "“밀리다” ở đây nghĩa là bị chậm.",
+          usage: "“납부가 밀리다” là việc trả tiền bị muộn."
+        },
+        "서명하다": {
+          body: "“서명하다” là ký tên vào giấy.",
+          usage: "Bạn viết chữ ký của mình."
+        }
+      };
+
+      const DETAIL_WORDS = Object.keys(ENTRIES).sort((a, b) => b.length - a.length);
+
+      const DOC_WORDS = ["보증금", "계약 기간", "포함되다"];
+
+      const state = {
+        scene: "office",
+        discovered: new Set(),
+        contractOpened: false,
+        docItemsSeen: new Set(),
+        signatureComplete: false,
+        contractComplete: false,
+        bankUnlocked: false,
+        utilityViewed: false,
+        overdueTriggered: false,
+        lateFeeViewed: false,
+        paymentComplete: false,
+        toastTimer: null,
+        hoveredDrop: null,
+        draggingBill: false,
+        billPointerId: null,
+        billOffsetX: 0,
+        billOffsetY: 0,
+        billHome: { x: 26, y: 390 },
+        summaryShown: false,
+        signatureDrawing: false,
+        signatureHasInk: false,
+        signaturePointCount: 0,
+        signatureStrokeLength: 0,
+        signatureTransitionTimer: null,
+        lastSignaturePoint: null,
+        currentEntry: "계약서",
+        showVietnamese: false,
+        detailVietnameseVisible: true
+      };
+
+      const officeScene = document.getElementById("officeScene");
+      const bankScene = document.getElementById("bankScene");
+      const officeTab = document.getElementById("officeTab");
+      const bankTab = document.getElementById("bankTab");
+      const vocabList = document.getElementById("vocabList");
+      const progressCount = document.getElementById("progressCount");
+      const progressBar = document.getElementById("progressBar");
+      const currentWord = document.getElementById("currentWord");
+      const currentMeaning = document.getElementById("currentMeaning");
+      const currentExample = document.getElementById("currentExample");
+      const entryKind = document.getElementById("entryKind");
+      const viToggle = document.getElementById("viToggle");
+      const viPanel = document.getElementById("viPanel");
+      const viTitle = document.getElementById("viTitle");
+      const viBody = document.getElementById("viBody");
+      const viUsage = document.getElementById("viUsage");
+      const toast = document.getElementById("toast");
+      const contractHotspot = document.getElementById("contractHotspot");
+      const officeHintButton = document.getElementById("officeHintButton");
+      const contractReadyBadge = document.getElementById("contractReadyBadge");
+      const contractModal = document.getElementById("contractModal");
+      const closeContractButton = document.getElementById("closeContractButton");
+      const docChecklist = document.getElementById("docChecklist");
+      const docRows = Array.from(document.querySelectorAll(".doc-row"));
+      const signatureCanvas = document.getElementById("signatureCanvas");
+      const signatureStatus = document.getElementById("signatureStatus");
+      const clearSignatureButton = document.getElementById("clearSignatureButton");
+      const contractStamp = document.getElementById("contractStamp");
+      const moveBankButton = document.getElementById("moveBankButton");
+      const bankBoard = document.getElementById("bankBoard");
+      const counterZone = document.getElementById("counterZone");
+      const atmZone = document.getElementById("atmZone");
+      const billStack = document.getElementById("billStack");
+      const delayButton = document.getElementById("delayButton");
+      const lateFeeBadge = document.getElementById("lateFeeBadge");
+      const bankStatus = document.getElementById("bankStatus");
+      const bankGuideBadge = document.getElementById("bankGuideBadge");
+      const bankGuideTitle = document.getElementById("bankGuideTitle");
+      const bankGuideText = document.getElementById("bankGuideText");
+      const bankStepBill = document.getElementById("bankStepBill");
+      const bankStepDelay = document.getElementById("bankStepDelay");
+      const bankStepLate = document.getElementById("bankStepLate");
+      const bankStepPay = document.getElementById("bankStepPay");
+      const bankDragGuide = document.getElementById("bankDragGuide");
+      const summaryModal = document.getElementById("summaryModal");
+      const summaryWords = document.getElementById("summaryWords");
+      const restartButton = document.getElementById("restartButton");
+      const detailModal = document.getElementById("detailModal");
+      const closeDetailButton = document.getElementById("closeDetailButton");
+      const detailWord = document.getElementById("detailWord");
+      const detailKind = document.getElementById("detailKind");
+      const detailMeaning = document.getElementById("detailMeaning");
+      const detailExample = document.getElementById("detailExample");
+      const detailNote = document.getElementById("detailNote");
+      const detailViToggle = document.getElementById("detailViToggle");
+      const detailViCard = document.getElementById("detailViCard");
+      const detailViBody = document.getElementById("detailViBody");
+      const detailViUsage = document.getElementById("detailViUsage");
+      const signatureCtx = signatureCanvas.getContext("2d");
+
+      function escapeRegExp(text) {
+        return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      }
+
+      function undecorateTerms(root) {
+        root.querySelectorAll(".inline-term").forEach((node) => {
+          node.replaceWith(document.createTextNode(node.textContent || ""));
+        });
+      }
+
+      function decorateTerms(root) {
+        if (!root || root.closest?.("[data-no-term]")) {
+          return;
+        }
+
+        const pattern = new RegExp(`(${DETAIL_WORDS.map(escapeRegExp).join("|")})`, "g");
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) {
+            if (!node.nodeValue || !node.nodeValue.trim()) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            const parent = node.parentElement;
+            if (!parent) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            if (parent.closest("[data-no-term]")) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            if (["SCRIPT", "STYLE", "TEXTAREA", "CANVAS"].includes(parent.tagName)) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            if (parent.classList.contains("inline-term")) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            if (!pattern.test(node.nodeValue)) {
+              pattern.lastIndex = 0;
+              return NodeFilter.FILTER_REJECT;
+            }
+            pattern.lastIndex = 0;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+
+        const textNodes = [];
+        while (walker.nextNode()) {
+          textNodes.push(walker.currentNode);
+        }
+
+        textNodes.forEach((node) => {
+          const fragment = document.createDocumentFragment();
+          const text = node.nodeValue || "";
+          let lastIndex = 0;
+          text.replace(pattern, (match, _group, offset) => {
+            if (offset > lastIndex) {
+              fragment.appendChild(document.createTextNode(text.slice(lastIndex, offset)));
+            }
+            const term = document.createElement("span");
+            term.className = "inline-term";
+            term.dataset.word = match;
+            term.setAttribute("role", "button");
+            term.setAttribute("tabindex", "0");
+            term.textContent = match;
+            fragment.appendChild(term);
+            lastIndex = offset + match.length;
+            return match;
+          });
+          if (lastIndex < text.length) {
+            fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+          }
+          node.replaceWith(fragment);
+          pattern.lastIndex = 0;
+        });
+      }
+
+      function refreshTermInteractions() {
+        undecorateTerms(document.body);
+        decorateTerms(document.body);
+      }
+
+      function renderDetailVietnameseVisibility() {
+        detailViCard.hidden = !state.detailVietnameseVisible;
+        detailViToggle.classList.toggle("is-active", state.detailVietnameseVisible);
+        detailViToggle.setAttribute("aria-pressed", state.detailVietnameseVisible ? "true" : "false");
+        detailViToggle.textContent = state.detailVietnameseVisible ? "VN 설명 숨기기" : "VN 설명 보기";
+      }
+
+      function openDetailModal(word) {
+        const entry = ENTRIES[word];
+        if (!entry) {
+          return;
+        }
+
+        const viDetail = VI_DETAILS[word] || VI_DETAILS[state.currentEntry] || null;
+        state.currentEntry = word;
+        detailWord.textContent = word;
+        detailKind.textContent = entry.kind;
+        detailMeaning.textContent = entry.meaning;
+        detailExample.textContent = entry.example;
+        detailNote.textContent = entry.note;
+        detailViBody.textContent = viDetail ? viDetail.body : "";
+        detailViUsage.textContent = viDetail ? viDetail.usage : "";
+        state.detailVietnameseVisible = Boolean(viDetail);
+        renderDetailVietnameseVisibility();
+        detailModal.classList.remove("hidden");
+      }
+
+      function closeDetailModal() {
+        detailModal.classList.add("hidden");
+      }
+
+      function renderVocabList() {
+        vocabList.innerHTML = "";
+        MAIN_WORDS.forEach((word, index) => {
+          const found = state.discovered.has(word);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "vocab-item" + (found ? " is-found" : "");
+          button.disabled = !found;
+          button.innerHTML = `
+            <span>${found ? word : "어휘 " + (index + 1)}</span>
+            <span class="check-badge">${found ? "보기" : "잠금"}</span>
+          `;
+          if (found) {
+            button.addEventListener("click", () => {
+              presentEntry(word, { skipDiscover: true });
+              openDetailModal(word);
+            });
+          }
+          vocabList.appendChild(button);
+        });
+
+        const discoveredCount = MAIN_WORDS.filter((word) => state.discovered.has(word)).length;
+        progressCount.textContent = `${discoveredCount} / ${MAIN_WORDS.length}`;
+        progressBar.style.width = `${(discoveredCount / MAIN_WORDS.length) * 100}%`;
+        refreshTermInteractions();
+      }
+
+      function renderDocChecklist() {
+        docChecklist.innerHTML = "";
+        DOC_WORDS.forEach((word) => {
+          const found = state.docItemsSeen.has(word);
+          const item = document.createElement("div");
+          item.className = "doc-item" + (found ? " is-found" : "");
+          item.innerHTML = `
+            <span>${word}</span>
+            <span class="check-badge">${found ? "확인" : "미확인"}</span>
+          `;
+          docChecklist.appendChild(item);
+        });
+        refreshTermInteractions();
+      }
+
+      function renderVietnameseDetail() {
+        const detail = VI_DETAILS[state.currentEntry];
+        const shouldShow = state.showVietnamese && Boolean(detail);
+        viPanel.hidden = !shouldShow;
+        viToggle.classList.toggle("is-active", state.showVietnamese);
+        viToggle.setAttribute("aria-pressed", state.showVietnamese ? "true" : "false");
+        viToggle.textContent = state.showVietnamese ? "VN 설명 숨기기" : "VN 설명";
+
+        if (!shouldShow) {
+          refreshTermInteractions();
+          return;
+        }
+
+        viTitle.textContent = state.currentEntry;
+        viBody.textContent = detail.body;
+        viUsage.textContent = detail.usage;
+        refreshTermInteractions();
+      }
+
+      function renderSummary() {
+        summaryWords.innerHTML = "";
+        MAIN_WORDS.forEach((word) => {
+          const found = state.discovered.has(word);
+          const item = document.createElement("div");
+          item.className = "summary-word" + (found ? " is-found" : "");
+          item.innerHTML = `
+            <span>${word}</span>
+            <span class="check-badge">${found ? "완료" : "미완료"}</span>
+          `;
+          if (found) {
+            item.addEventListener("click", () => openDetailModal(word));
+          }
+          summaryWords.appendChild(item);
+        });
+        refreshTermInteractions();
+      }
+
+      function updateSceneState() {
+        const officeActive = state.scene === "office";
+        officeScene.classList.toggle("is-active", officeActive);
+        bankScene.classList.toggle("is-active", !officeActive);
+        officeTab.classList.toggle("is-active", officeActive);
+        bankTab.classList.toggle("is-active", !officeActive);
+        bankTab.disabled = !state.bankUnlocked;
+        renderBankGuide();
+      }
+
+      function presentEntry(key, options = {}) {
+        const entry = ENTRIES[key];
+        if (!entry) {
+          return;
+        }
+
+        if (MAIN_WORDS.includes(key) && !options.skipDiscover) {
+          state.discovered.add(key);
+        }
+
+        state.currentEntry = key;
+        currentWord.textContent = key;
+        currentMeaning.textContent = options.meaning || entry.meaning;
+        currentExample.textContent = options.example || entry.example;
+        entryKind.textContent = options.kind || entry.kind;
+
+        renderVocabList();
+        renderVietnameseDetail();
+        refreshTermInteractions();
+        showToast(key, entry);
+        maybeFinishLesson();
+      }
+
+      function showToast(key, entry) {
+        window.clearTimeout(state.toastTimer);
+        toast.style.setProperty("--toast-accent", entry.accent);
+        toast.innerHTML = `
+          <div class="toast-label">${entry.kind}</div>
+          <div class="toast-word">${key}</div>
+          <div class="toast-meaning">${entry.meaning}</div>
+        `;
+        toast.classList.add("show");
+        refreshTermInteractions();
+        state.toastTimer = window.setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2200);
+      }
+
+      function switchScene(nextScene) {
+        if (nextScene === "bank" && !state.bankUnlocked) {
+          return;
+        }
+        state.scene = nextScene;
+        updateSceneState();
+        if (nextScene === "bank") {
+          requestAnimationFrame(resetBillPosition);
+        }
+      }
+
+      function openContractModal() {
+        state.contractOpened = true;
+        contractModal.classList.remove("hidden");
+        resizeSignatureCanvas();
+        requestAnimationFrame(resizeSignatureCanvas);
+        presentEntry("계약서");
+        renderDocChecklist();
+      }
+
+      function closeContractModal() {
+        contractModal.classList.add("hidden");
+      }
+
+      function handleDocClick(word) {
+        state.docItemsSeen.add(word);
+        presentEntry(word);
+        openDetailModal(word);
+
+        docRows.forEach((row) => {
+          row.classList.toggle("is-found", state.docItemsSeen.has(row.dataset.entry));
+        });
+        renderDocChecklist();
+        signatureStatus.textContent = DOC_WORDS.every((item) => state.docItemsSeen.has(item))
+          ? "이제 서명해 보세요."
+          : "남은 항목을 먼저 확인하세요.";
+        refreshTermInteractions();
+      }
+
+      function resizeSignatureCanvas() {
+        const rect = signatureCanvas.getBoundingClientRect();
+        if (rect.width < 8 || rect.height < 8) {
+          return;
+        }
+
+        const ratio = window.devicePixelRatio || 1;
+        const nextWidth = Math.round(rect.width * ratio);
+        const nextHeight = Math.round(rect.height * ratio);
+
+        if (signatureCanvas.width === nextWidth && signatureCanvas.height === nextHeight) {
+          return;
+        }
+
+        let snapshot = null;
+        if (signatureCanvas.width > 0 && signatureCanvas.height > 0) {
+          snapshot = document.createElement("canvas");
+          snapshot.width = signatureCanvas.width;
+          snapshot.height = signatureCanvas.height;
+          snapshot.getContext("2d").drawImage(signatureCanvas, 0, 0);
+        }
+
+        signatureCanvas.width = nextWidth;
+        signatureCanvas.height = nextHeight;
+        signatureCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+        if (snapshot && state.signatureHasInk) {
+          signatureCtx.clearRect(0, 0, rect.width, rect.height);
+          signatureCtx.drawImage(snapshot, 0, 0, rect.width, rect.height);
+          signatureCtx.lineCap = "round";
+          signatureCtx.lineJoin = "round";
+          signatureCtx.strokeStyle = "#2f1f16";
+          signatureCtx.lineWidth = 4;
+          return;
+        }
+
+        clearSignatureCanvas(false);
+      }
+
+      function clearSignatureCanvas(updateStatus = true) {
+        signatureCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+        signatureCtx.lineCap = "round";
+        signatureCtx.lineJoin = "round";
+        signatureCtx.strokeStyle = "#2f1f16";
+        signatureCtx.lineWidth = 4;
+        state.signatureHasInk = false;
+        state.signaturePointCount = 0;
+        state.signatureStrokeLength = 0;
+        if (updateStatus && !state.contractComplete) {
+          signatureStatus.textContent = DOC_WORDS.every((item) => state.docItemsSeen.has(item))
+            ? "이름처럼 적어 보세요."
+            : "보증금, 계약 기간, 포함되다를 먼저 확인하세요.";
+        }
+        refreshTermInteractions();
+      }
+
+      function resetSignatureFlow() {
+        window.clearTimeout(state.signatureTransitionTimer);
+        state.signatureTransitionTimer = null;
+        state.signatureDrawing = false;
+        state.lastSignaturePoint = null;
+        state.signatureComplete = false;
+        state.contractComplete = false;
+
+        const bankStarted = state.utilityViewed || state.overdueTriggered || state.lateFeeViewed || state.paymentComplete;
+        state.bankUnlocked = bankStarted;
+        moveBankButton.disabled = !state.bankUnlocked;
+        contractStamp.classList.remove("is-visible");
+        contractReadyBadge.textContent = state.bankUnlocked ? "은행 / ATM 이동 가능" : "서명 후 이동 가능";
+
+        clearSignatureCanvas(true);
+        updateSceneState();
+      }
+
+      function getCanvasPoint(event) {
+        const rect = signatureCanvas.getBoundingClientRect();
+        return {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top
+        };
+      }
+
+      function completeSignature() {
+        if (state.contractComplete) {
+          return;
+        }
+
+        state.signatureComplete = true;
+        contractStamp.classList.add("is-visible");
+        signatureStatus.textContent = "서명이 확인되었습니다.";
+        refreshTermInteractions();
+
+        presentEntry("서명하다");
+
+        window.clearTimeout(state.signatureTransitionTimer);
+        state.signatureTransitionTimer = window.setTimeout(() => {
+          state.signatureTransitionTimer = null;
+          state.contractComplete = true;
+          state.bankUnlocked = true;
+          moveBankButton.disabled = false;
+          contractReadyBadge.textContent = "은행 / ATM 이동 가능";
+          presentEntry("계약하다");
+        }, 850);
+      }
+
+      function handleSignaturePointerDown(event) {
+        if (state.contractComplete) {
+          return;
+        }
+
+        event.preventDefault();
+        state.signatureDrawing = true;
+        const point = getCanvasPoint(event);
+        signatureCtx.beginPath();
+        signatureCtx.moveTo(point.x, point.y);
+        state.signaturePointCount = 1;
+        state.signatureStrokeLength = 0;
+        state.lastSignaturePoint = point;
+        signatureCanvas.setPointerCapture(event.pointerId);
+      }
+
+      function handleSignaturePointerMove(event) {
+        if (!state.signatureDrawing || state.contractComplete) {
+          return;
+        }
+        event.preventDefault();
+        const point = getCanvasPoint(event);
+        const prev = state.lastSignaturePoint || point;
+        signatureCtx.lineTo(point.x, point.y);
+        signatureCtx.stroke();
+        state.signatureHasInk = true;
+        state.signaturePointCount += 1;
+        state.signatureStrokeLength += Math.hypot(point.x - prev.x, point.y - prev.y);
+        state.lastSignaturePoint = point;
+      }
+
+      function handleSignaturePointerUp(event) {
+        if (!state.signatureDrawing) {
+          return;
+        }
+        event.preventDefault();
+        state.signatureDrawing = false;
+        try {
+          signatureCanvas.releasePointerCapture(event.pointerId);
+        } catch (error) {
+          void error;
+        }
+        state.lastSignaturePoint = null;
+
+        if (!DOC_WORDS.every((word) => state.docItemsSeen.has(word))) {
+          signatureStatus.textContent = "보증금, 계약 기간, 포함되다를 모두 확인하세요.";
+          docRows.forEach((row) => {
+            if (!state.docItemsSeen.has(row.dataset.entry)) {
+              row.classList.add("shake");
+              window.setTimeout(() => row.classList.remove("shake"), 280);
+            }
+          });
+          clearSignatureCanvas(false);
+          return;
+        }
+
+        if (state.signatureHasInk && (state.signaturePointCount > 8 || state.signatureStrokeLength > 90)) {
+          completeSignature();
+        } else {
+          signatureStatus.textContent = "조금 더 길게 서명해 보세요.";
+          refreshTermInteractions();
+        }
+      }
+
+      function setBankStatus(message) {
+        bankStatus.textContent = message;
+        renderBankGuide();
+        refreshTermInteractions();
+      }
+
+      function renderBankGuide() {
+        let activeStep = 1;
+        let stepKey = "bill";
+        let badge = "1단계";
+        let title = "공과금 누르기";
+        let text = "왼쪽 아래 공과금 청구서를 먼저 누르세요.";
+
+        if (state.paymentComplete) {
+          activeStep = 4;
+          stepKey = "done";
+          badge = "완료";
+          title = "납부 완료";
+          text = "창구나 ATM에 공과금을 내는 단계까지 끝났습니다.";
+        } else if (!state.utilityViewed) {
+          activeStep = 1;
+          stepKey = "bill";
+          badge = "1단계";
+          title = "공과금 누르기";
+          text = "왼쪽 아래 공과금 청구서를 먼저 누르세요.";
+        } else if (!state.overdueTriggered) {
+          activeStep = 2;
+          stepKey = "delay";
+          badge = "2단계";
+          title = "하루 미루기 누르기";
+          text = "아래의 하루 미루기 버튼을 눌러 보세요.";
+        } else if (!state.lateFeeViewed) {
+          activeStep = 3;
+          stepKey = "late";
+          badge = "3단계";
+          title = "연체료 누르기";
+          text = "빨간 연체료 버튼을 눌러 추가 요금을 확인하세요.";
+        } else {
+          activeStep = 4;
+          stepKey = "pay";
+          badge = "4단계";
+          title = "청구서 끌어다 놓기";
+          text = "공과금 청구서를 창구나 ATM으로 끌어다가 놓으세요.";
+        }
+
+        bankGuideBadge.textContent = badge;
+        bankGuideTitle.textContent = title;
+        bankGuideText.textContent = text;
+        bankBoard.dataset.guideStep = stepKey;
+
+        const steps = [bankStepBill, bankStepDelay, bankStepLate, bankStepPay];
+        steps.forEach((stepNode, index) => {
+          const number = index + 1;
+          stepNode.classList.toggle("is-active", stepKey !== "done" && number === activeStep);
+          stepNode.classList.toggle("is-done", stepKey === "done" || number < activeStep);
+        });
+
+        billStack.classList.toggle("guide-active", (stepKey === "bill" || stepKey === "pay") && !state.draggingBill && !state.paymentComplete);
+        delayButton.classList.toggle("guide-active", stepKey === "delay");
+        lateFeeBadge.classList.toggle("guide-active", stepKey === "late" && !lateFeeBadge.hidden);
+        [counterZone, atmZone].forEach((zone) => {
+          zone.classList.toggle("guide-active", stepKey === "pay" && !state.paymentComplete);
+        });
+        bankDragGuide.hidden = !(stepKey === "pay" && !state.paymentComplete);
+      }
+
+      function markDropZones() {
+        const ready = state.utilityViewed && state.overdueTriggered;
+        [counterZone, atmZone].forEach((zone) => {
+          zone.classList.toggle("is-ready", ready && !state.paymentComplete);
+          zone.classList.remove("is-hovered");
+        });
+      }
+
+      function revealUtilityWord() {
+        state.utilityViewed = true;
+        presentEntry("공과금");
+        setBankStatus("이제 하루 미루기를 눌러 보세요.");
+        markDropZones();
+      }
+
+      function triggerOverdue() {
+        if (!state.utilityViewed) {
+          setBankStatus("먼저 공과금을 눌러 보세요.");
+          delayButton.classList.add("shake");
+          window.setTimeout(() => delayButton.classList.remove("shake"), 280);
+          return;
+        }
+
+        if (state.overdueTriggered) {
+          return;
+        }
+
+        state.overdueTriggered = true;
+        lateFeeBadge.hidden = false;
+        presentEntry("밀리다");
+        setBankStatus("납부가 밀렸습니다. 연체료를 눌러 보세요.");
+        markDropZones();
+      }
+
+      function revealLateFee() {
+        if (!state.overdueTriggered) {
+          return;
+        }
+
+        state.lateFeeViewed = true;
+        presentEntry("연체료");
+        setBankStatus("이제 청구서를 창구나 ATM에 놓아 납부하세요.");
+      }
+
+      function resetBillPosition() {
+        const boardRect = bankBoard.getBoundingClientRect();
+        const billHeight = billStack.offsetHeight || 112;
+        const left = 26;
+        const top = Math.max(26, boardRect.height - billHeight - 26);
+        state.billHome = { x: left, y: top };
+        if (!state.draggingBill && !state.paymentComplete) {
+          billStack.style.left = `${left}px`;
+          billStack.style.top = `${top}px`;
+        }
+      }
+
+      function pointerInsideRect(point, rect) {
+        return point.x >= rect.left && point.x <= rect.right && point.y >= rect.top && point.y <= rect.bottom;
+      }
+
+      function updateHoveredDrop(clientX, clientY) {
+        if (!state.draggingBill) {
+          return;
+        }
+
+        const point = { x: clientX, y: clientY };
+        const zones = [counterZone, atmZone];
+        const hovered = zones.find((zone) => pointerInsideRect(point, zone.getBoundingClientRect()));
+        state.hoveredDrop = hovered ? hovered.dataset.target : null;
+
+        zones.forEach((zone) => {
+          zone.classList.toggle("is-hovered", zone.dataset.target === state.hoveredDrop);
+        });
+      }
+
+      function startBillDrag(event) {
+        if (state.paymentComplete) {
+          return;
+        }
+        if (event.target.closest(".inline-term")) {
+          return;
+        }
+
+        revealUtilityWord();
+        state.draggingBill = true;
+        state.billPointerId = event.pointerId;
+        const billRect = billStack.getBoundingClientRect();
+        state.billOffsetX = event.clientX - billRect.left;
+        state.billOffsetY = event.clientY - billRect.top;
+        billStack.classList.add("dragging");
+        billStack.setPointerCapture(event.pointerId);
+        renderBankGuide();
+      }
+
+      function moveBill(event) {
+        if (!state.draggingBill || event.pointerId !== state.billPointerId) {
+          return;
+        }
+
+        const boardRect = bankBoard.getBoundingClientRect();
+        const maxX = boardRect.width - billStack.offsetWidth;
+        const maxY = boardRect.height - billStack.offsetHeight;
+        const left = Math.min(Math.max(0, event.clientX - boardRect.left - state.billOffsetX), maxX);
+        const top = Math.min(Math.max(0, event.clientY - boardRect.top - state.billOffsetY), maxY);
+
+        billStack.style.left = `${left}px`;
+        billStack.style.top = `${top}px`;
+        updateHoveredDrop(event.clientX, event.clientY);
+      }
+
+      function positionBillOnTarget(targetZone) {
+        const boardRect = bankBoard.getBoundingClientRect();
+        const zoneRect = targetZone.getBoundingClientRect();
+        const left = zoneRect.left - boardRect.left + zoneRect.width / 2 - billStack.offsetWidth / 2;
+        const top = zoneRect.top - boardRect.top + zoneRect.height / 2 - billStack.offsetHeight / 2;
+        billStack.style.left = `${left}px`;
+        billStack.style.top = `${top}px`;
+      }
+
+      function finishPayment(target) {
+        if (state.paymentComplete) {
+          return;
+        }
+
+        state.paymentComplete = true;
+        positionBillOnTarget(target === "counter" ? counterZone : atmZone);
+        billStack.classList.remove("dragging");
+        billStack.classList.add("is-paid");
+        [counterZone, atmZone].forEach((zone) => zone.classList.remove("is-hovered"));
+
+        presentEntry("납부하다");
+
+        setBankStatus(target === "counter"
+          ? "은행 창구에서 공과금을 납부했습니다."
+          : "ATM에서 공과금을 납부했습니다.");
+      }
+
+      function endBillDrag(event) {
+        if (!state.draggingBill || event.pointerId !== state.billPointerId) {
+          return;
+        }
+
+        billStack.classList.remove("dragging");
+
+        try {
+          billStack.releasePointerCapture(event.pointerId);
+        } catch (error) {
+          void error;
+        }
+
+        if (!state.overdueTriggered) {
+          setBankStatus("먼저 하루 미루기를 눌러 보세요.");
+          resetBillPosition();
+        } else if (!state.lateFeeViewed) {
+          revealLateFee();
+          resetBillPosition();
+        } else if (state.hoveredDrop) {
+          finishPayment(state.hoveredDrop);
+        } else {
+          resetBillPosition();
+        }
+
+        state.draggingBill = false;
+        state.billPointerId = null;
+        state.hoveredDrop = null;
+        [counterZone, atmZone].forEach((zone) => zone.classList.remove("is-hovered"));
+        renderBankGuide();
+      }
+
+      function maybeFinishLesson() {
+        if (state.summaryShown) {
+          return;
+        }
+
+        const allMainWordsFound = MAIN_WORDS.every((word) => state.discovered.has(word));
+        if (state.paymentComplete && allMainWordsFound) {
+          state.summaryShown = true;
+          renderSummary();
+          window.setTimeout(() => {
+            summaryModal.classList.remove("hidden");
+          }, 820);
+        }
+      }
+
+      function resetLesson() {
+        state.scene = "office";
+        state.discovered = new Set();
+        state.contractOpened = false;
+        state.docItemsSeen = new Set();
+        state.signatureComplete = false;
+        state.contractComplete = false;
+        state.bankUnlocked = false;
+        state.utilityViewed = false;
+        state.overdueTriggered = false;
+        state.lateFeeViewed = false;
+        state.paymentComplete = false;
+        state.summaryShown = false;
+        state.draggingBill = false;
+        window.clearTimeout(state.signatureTransitionTimer);
+        state.signatureTransitionTimer = null;
+        state.billPointerId = null;
+        state.hoveredDrop = null;
+        state.currentEntry = "계약서";
+        state.showVietnamese = false;
+        state.detailVietnameseVisible = true;
+
+        contractModal.classList.add("hidden");
+        summaryModal.classList.add("hidden");
+        detailModal.classList.add("hidden");
+        lateFeeBadge.hidden = true;
+        moveBankButton.disabled = true;
+        delayButton.disabled = false;
+        billStack.classList.remove("is-paid", "dragging");
+        contractStamp.classList.remove("is-visible");
+        contractReadyBadge.textContent = "서명 후 이동 가능";
+        signatureStatus.textContent = "보증금, 계약 기간, 포함되다를 먼저 확인하세요.";
+        setBankStatus("공과금을 눌러 보세요.");
+
+        docRows.forEach((row) => row.classList.remove("is-found"));
+
+        clearSignatureCanvas(false);
+        renderDocChecklist();
+        renderVocabList();
+        updateSceneState();
+        renderVietnameseDetail();
+        markDropZones();
+
+        currentWord.textContent = "계약서";
+        currentMeaning.textContent = "계약 문서";
+        currentExample.textContent = "먼저 계약서를 읽고 조건을 확인해요.";
+        entryKind.textContent = "명사";
+        refreshTermInteractions();
+
+        requestAnimationFrame(resetBillPosition);
+      }
+
+      contractHotspot.addEventListener("click", openContractModal);
+      officeHintButton.addEventListener("click", openContractModal);
+      closeContractButton.addEventListener("click", closeContractModal);
+      moveBankButton.addEventListener("click", () => {
+        closeContractModal();
+        switchScene("bank");
+      });
+
+      officeTab.addEventListener("click", () => switchScene("office"));
+      bankTab.addEventListener("click", () => switchScene("bank"));
+
+      contractModal.addEventListener("click", (event) => {
+        if (event.target === contractModal) {
+          closeContractModal();
+        }
+      });
+
+      detailModal.addEventListener("click", (event) => {
+        if (event.target === detailModal) {
+          closeDetailModal();
+        }
+      });
+
+      summaryModal.addEventListener("click", (event) => {
+        if (event.target === summaryModal) {
+          summaryModal.classList.add("hidden");
+        }
+      });
+
+      restartButton.addEventListener("click", resetLesson);
+      viToggle.addEventListener("click", () => {
+        state.showVietnamese = !state.showVietnamese;
+        renderVietnameseDetail();
+      });
+      closeDetailButton.addEventListener("click", closeDetailModal);
+      detailViToggle.addEventListener("click", () => {
+        state.detailVietnameseVisible = !state.detailVietnameseVisible;
+        renderDetailVietnameseVisibility();
+      });
+
+      document.addEventListener("click", (event) => {
+        const term = event.target.closest(".inline-term");
+        if (!term) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        openDetailModal(term.dataset.word);
+      }, true);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeDetailModal();
+        }
+
+        const term = event.target.closest?.(".inline-term");
+        if (!term) {
+          return;
+        }
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openDetailModal(term.dataset.word);
+        }
+      });
+
+      docRows.forEach((row) => {
+        row.addEventListener("click", () => handleDocClick(row.dataset.entry));
+      });
+
+      clearSignatureButton.addEventListener("click", () => {
+        resetSignatureFlow();
+      });
+
+      signatureCanvas.addEventListener("pointerdown", handleSignaturePointerDown);
+      signatureCanvas.addEventListener("pointermove", handleSignaturePointerMove);
+      signatureCanvas.addEventListener("pointerup", handleSignaturePointerUp);
+      signatureCanvas.addEventListener("pointercancel", handleSignaturePointerUp);
+      signatureCanvas.addEventListener("pointerleave", (event) => {
+        if (state.signatureDrawing) {
+          handleSignaturePointerUp(event);
+        }
+      });
+
+      billStack.addEventListener("pointerdown", startBillDrag);
+      window.addEventListener("pointermove", moveBill);
+      window.addEventListener("pointerup", endBillDrag);
+
+      billStack.addEventListener("click", () => {
+        if (!state.paymentComplete) {
+          revealUtilityWord();
+        }
+      });
+
+      delayButton.addEventListener("click", triggerOverdue);
+      lateFeeBadge.addEventListener("click", revealLateFee);
+
+      window.addEventListener("resize", () => {
+        resizeSignatureCanvas();
+        resetBillPosition();
+      });
+
+      resizeSignatureCanvas();
+      resetLesson();
+    })();
+  </script>
+</body>
+</html>
