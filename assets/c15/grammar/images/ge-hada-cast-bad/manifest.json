@@ -1,0 +1,122 @@
+{
+  "friend_female_01_bad": {
+    "source": "mood_sheet_2",
+    "box": [
+      0,
+      0,
+      1012,
+      1012
+    ],
+    "png": "friend_female_01_bad.png",
+    "webp": "friend_female_01_bad.webp",
+    "size": [
+      1012,
+      1012
+    ]
+  },
+  "office_man_glasses_01_bad": {
+    "source": "mood_sheet_2",
+    "box": [
+      1036,
+      0,
+      2048,
+      1012
+    ],
+    "png": "office_man_glasses_01_bad.png",
+    "webp": "office_man_glasses_01_bad.webp",
+    "size": [
+      1012,
+      1012
+    ]
+  },
+  "grandma_01_bad": {
+    "source": "mood_sheet_2",
+    "box": [
+      0,
+      1036,
+      1012,
+      2048
+    ],
+    "png": "grandma_01_bad.png",
+    "webp": "grandma_01_bad.webp",
+    "size": [
+      1012,
+      1012
+    ]
+  },
+  "boy_01_bad": {
+    "source": "mood_sheet_2",
+    "box": [
+      1036,
+      1036,
+      2048,
+      2048
+    ],
+    "png": "boy_01_bad.png",
+    "webp": "boy_01_bad.webp",
+    "size": [
+      1012,
+      1012
+    ]
+  },
+  "friend_female_02_bad": {
+    "source": "mood_sheet_1",
+    "box": [
+      0,
+      0,
+      1012,
+      1012
+    ],
+    "png": "friend_female_02_bad.png",
+    "webp": "friend_female_02_bad.webp",
+    "size": [
+      1012,
+      1012
+    ]
+  },
+  "office_man_beard_01_bad": {
+    "source": "mood_sheet_1",
+    "box": [
+      1036,
+      0,
+      2048,
+      1012
+    ],
+    "png": "office_man_beard_01_bad.png",
+    "webp": "office_man_beard_01_bad.webp",
+    "size": [
+      1012,
+      1012
+    ]
+  },
+  "self_main_01_bad": {
+    "source": "mood_sheet_1",
+    "box": [
+      0,
+      1036,
+      1012,
+      2048
+    ],
+    "png": "self_main_01_bad.png",
+    "webp": "self_main_01_bad.webp",
+    "size": [
+      1012,
+      1012
+    ]
+  },
+  "boy_02_bad": {
+    "source": "mood_sheet_1",
+    "box": [
+      1036,
+      1036,
+      2048,
+      2048
+    ],
+    "png": "boy_02_bad.png",
+    "webp": "boy_02_bad.webp",
+    "size": [
+      1012,
+      1012
+    ]
+  }
+}
