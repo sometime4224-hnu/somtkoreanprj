@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14과 읽기 | 도낏자루 썩는 줄 모른다</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-top: #fff9ef;
+            --bg-bottom: #eef6ff;
+            --panel: rgba(255, 255, 255, 0.9);
+            --paper: #fffdf7;
+            --line: rgba(148, 163, 184, 0.24);
+            --ink: #1f2937;
+            --muted: #64748b;
+            --brand: #2563eb;
+            --brand-soft: rgba(37, 99, 235, 0.12);
+            --accent: #f59e0b;
+            --accent-soft: rgba(245, 158, 11, 0.16);
+            --success: #16a34a;
+            --success-soft: #dcfce7;
+            --danger: #dc2626;
+            --danger-soft: #fee2e2;
+            --shadow: 0 22px 46px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Noto Sans KR", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 8% 14%, rgba(245, 158, 11, 0.14), transparent 24%),
+                radial-gradient(circle at 92% 18%, rgba(59, 130, 246, 0.15), transparent 28%),
+                linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        button,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(14px);
+            background: rgba(255, 255, 255, 0.82);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.88);
+        }
+
+        .topbar__inner {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            min-height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .topbar__home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ea580c;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .topbar__title {
+            color: #475569;
+            font-weight: 800;
+            font-size: 0.96rem;
+        }
+
+        .shell {
+            width: min(1180px, calc(100% - 32px));
+            margin: 18px auto 40px;
+            display: grid;
+            gap: 18px;
+        }
+
+        .hero,
+        .section-card {
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            overflow: hidden;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 244, 214, 0.96) 38%, rgba(219, 234, 254, 0.95) 100%);
+        }
+
+        .hero__grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+            gap: 24px;
+            padding: 28px;
+            align-items: center;
+        }
+
+        .hero__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.82);
+            color: #1d4ed8;
+            font-size: 0.88rem;
+            font-weight: 900;
+        }
+
+        .hero h1 {
+            margin: 14px 0 10px;
+            font-size: clamp(2.1rem, 4.4vw, 3.9rem);
+            line-height: 1.08;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 720px;
+            color: #475569;
+            font-size: 1.02rem;
+            line-height: 1.8;
+        }
+
+        .hero__chips {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hero__chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 13px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            color: #334155;
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+        .hero__figure {
+            padding: 16px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.88);
+            box-shadow: 0 18px 34px rgba(15, 23, 42, 0.07);
+        }
+
+        .hero__figure img {
+            width: 100%;
+            border-radius: 18px;
+            background: #fff;
+        }
+
+        .section-card {
+            background: var(--panel);
+            padding: 24px;
+        }
+
+        .section-head {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 18px;
+            align-items: flex-end;
+            margin-bottom: 18px;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            width: max-content;
+            padding: 7px 13px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: #9a3412;
+            font-size: 0.86rem;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+        }
+
+        .section-head h2 {
+            margin: 0;
+            font-size: clamp(1.34rem, 2.4vw, 2rem);
+            line-height: 1.3;
+        }
+
+        .prep-box {
+            padding: 20px;
+            border-radius: 22px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 247, 237, 0.92) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.22);
+        }
+
+        .prep-box textarea,
+        .retell-box textarea {
+            width: 100%;
+            min-height: 128px;
+            resize: vertical;
+            padding: 16px 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--ink);
+            line-height: 1.7;
+        }
+
+        .prep-box textarea:focus,
+        .retell-box textarea:focus,
+        .sequence-card select:focus {
+            outline: 2px solid rgba(37, 99, 235, 0.22);
+            outline-offset: 0;
+            border-color: rgba(37, 99, 235, 0.42);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: 20px;
+        }
+
+        .story-paper {
+            padding: 30px 28px;
+            border-radius: 28px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 252, 245, 0.98) 100%);
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.86);
+        }
+
+        .story-paper h3 {
+            margin: 0 0 20px;
+            text-align: center;
+            color: #2563eb;
+            font-size: clamp(1.7rem, 3vw, 2.5rem);
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .story-paper p {
+            margin: 0 0 14px;
+            font-size: 1.12rem;
+            line-height: 1.95;
+            word-break: keep-all;
+        }
+
+        .story-paper p:last-child {
+            margin-bottom: 0;
+        }
+
+        .marker {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.2em;
+            padding: 0 0.45em;
+            margin: 0 0.12em;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.1);
+            color: #1d4ed8;
+            font-weight: 900;
+        }
+
+        .side-stack {
+            display: grid;
+            gap: 16px;
+        }
+
+        .scene-card,
+        .glossary-card,
+        .retell-box {
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .scene-card {
+            overflow: hidden;
+            padding: 14px;
+        }
+
+        .scene-card img {
+            width: 100%;
+            border-radius: 16px;
+        }
+
+        .glossary-card {
+            padding: 18px;
+        }
+
+        .glossary-card h4,
+        .retell-box h4,
+        .quiz-card h3 {
+            margin: 0 0 12px;
+            font-size: 1.1rem;
+        }
+
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .glossary-item {
+            padding: 12px 13px;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 1px solid rgba(203, 213, 225, 0.68);
+        }
+
+        .glossary-item strong {
+            display: block;
+            font-size: 0.98rem;
+        }
+
+        .glossary-item span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .quiz-card {
+            padding: 22px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.97);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 16px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .quiz-card--wide {
+            grid-column: 1 / -1;
+        }
+
+        .quiz-card p {
+            margin: 0;
+            line-height: 1.75;
+        }
+
+        .question {
+            margin-bottom: 16px;
+            font-size: 1.06rem;
+            font-weight: 800;
+            line-height: 1.7;
+        }
+
+        .sentence-box {
+            margin-bottom: 16px;
+            padding: 15px 18px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255, 251, 235, 0.95) 0%, rgba(255, 255, 255, 0.96) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.26);
+            font-size: 1.02rem;
+            font-weight: 700;
+            line-height: 1.7;
+        }
+
+        .choice-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            width: 100%;
+            padding: 14px 16px;
+            text-align: left;
+            border-radius: 16px;
+            border: 1px solid rgba(203, 213, 225, 0.9);
+            background: #fff;
+            color: var(--ink);
+            cursor: pointer;
+            transition: transform 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+            line-height: 1.65;
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-1px);
+            border-color: rgba(37, 99, 235, 0.32);
+            background: #f8fbff;
+        }
+
+        .choice-btn--correct {
+            border-color: var(--success);
+            background: var(--success-soft);
+            color: #166534;
+        }
+
+        .choice-btn--wrong {
+            border-color: var(--danger);
+            background: var(--danger-soft);
+            color: #991b1b;
+        }
+
+        .feedback,
+        .sequence-feedback {
+            margin-top: 14px;
+            padding: 13px 15px;
+            border-radius: 16px;
+            line-height: 1.7;
+            font-size: 0.96rem;
+            display: none;
+        }
+
+        .feedback--success,
+        .sequence-feedback--success {
+            display: block;
+            background: var(--success-soft);
+            color: #166534;
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+
+        .feedback--error,
+        .sequence-feedback--error {
+            display: block;
+            background: var(--danger-soft);
+            color: #991b1b;
+            border: 1px solid rgba(220, 38, 38, 0.16);
+        }
+
+        .feedback--info,
+        .sequence-feedback--info {
+            display: block;
+            background: rgba(219, 234, 254, 0.6);
+            color: #1d4ed8;
+            border: 1px solid rgba(37, 99, 235, 0.16);
+        }
+
+        .sequence-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .sequence-card {
+            display: grid;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 20px;
+            background: #f8fafc;
+            border: 1px solid rgba(203, 213, 225, 0.65);
+        }
+
+        .sequence-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1.32;
+            object-fit: cover;
+            border-radius: 14px;
+            background: #fff;
+        }
+
+        .sequence-card label {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #475569;
+        }
+
+        .sequence-card select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.38);
+            background: #fff;
+        }
+
+        .sequence-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .action-btn {
+            border: 0;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .action-btn--primary {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .action-btn--secondary {
+            background: rgba(148, 163, 184, 0.14);
+            color: #334155;
+        }
+
+        .retell-box {
+            margin-top: 18px;
+            padding: 18px;
+        }
+
+        .retell-box p {
+            margin: 0 0 12px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 1024px) {
+            .hero__grid,
+            .story-grid,
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sequence-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .topbar__inner,
+            .shell {
+                width: min(100%, calc(100% - 20px));
+            }
+
+            .topbar__inner {
+                min-height: 56px;
+            }
+
+            .hero__grid,
+            .section-card {
+                padding: 18px;
+            }
+
+            .story-paper {
+                padding: 22px 18px;
+            }
+
+            .story-paper p {
+                font-size: 1.02rem;
+                line-height: 1.85;
+            }
+
+            .glossary-grid,
+            .sequence-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .hero h1 {
+                font-size: 2.1rem;
+            }
+
+            .glossary-grid,
+            .sequence-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="topbar">
+        <div class="topbar__inner">
+            <a class="topbar__home" href="index.html">← 14과 허브로</a>
+            <div class="topbar__title">14과 읽기</div>
+        </div>
+    </header>
+
+    <main class="shell">
+        <section class="hero">
+            <div class="hero__grid">
+                <div>
+                    <span class="hero__eyebrow">읽고 쓰기 · 속담 이야기 읽기</span>
+                    <h1>도낏자루 썩는 줄 모른다</h1>
+                    <p>옛날 이야기 속에서 시간 가는 줄 모르는 순간을 따라가 보고, 읽은 내용을 문제 1~4로 바로 확인해 보세요.</p>
+                    <div class="hero__chips">
+                        <span class="hero__chip">준비 질문</span>
+                        <span class="hero__chip">읽기 지문</span>
+                        <span class="hero__chip">문제 1~4</span>
+                        <span class="hero__chip">핵심 어휘</span>
+                    </div>
+                </div>
+                <figure class="hero__figure">
+                    <img src="../assets/c14/reading-writing/split/source2-panel-2.webp" alt="신선들과 바둑을 구경하는 나무꾼 삽화">
+                </figure>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <span class="section-label">준비</span>
+                <h2>어떤 일을 하다가 시간 가는 줄 몰랐던 적이 있습니까?</h2>
+            </div>
+            <div class="prep-box">
+                <textarea placeholder="예: 주말에 좋아하는 영화를 보다가 밤이 된 줄 몰랐습니다."></textarea>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <span class="section-label">읽기</span>
+                <h2>다음 글을 읽고 질문에 답하세요.</h2>
+            </div>
+            <div class="story-grid">
+                <article class="story-paper">
+                    <h3>도낏자루 썩는 줄 모른다</h3>
+                    <p>옛날에 어떤 나무꾼이 나무를 하러 산에 갔다가 동굴을 발견했다. <span class="marker">(가)</span> 그 동굴은 입구는 작고 어두웠지만 들어가면 들어갈수록 점점 넓어지고 밝아졌다.</p>
+                    <p>그리고 동굴 안에서 수염이 긴 노인들이 바둑을 두고 있었다. 나무꾼은 바둑이 하도 재미있어서 시간 가는 줄 모르고 구경을 했다.</p>
+                    <p>얼마 후 나무꾼은 집에 돌아가려고 도끼를 들다가 깜짝 놀랐다. <span class="marker">(나)</span> 그는 이상해하면서 자루가 없는 도끼를 들고 산을 내려왔다.</p>
+                    <p>마을에 도착해 보니 집들이 완전히 변해 있었고 아는 사람도 전혀 없었다. <span class="marker">(다)</span> 나무꾼의 집도 낡은 집이 되었고, 며칠 전에 심었던 나무가 크게 자라서 지붕을 덮고 있었다.</p>
+                    <p>나무꾼은 지나가는 사람에게 자기 이름을 말하면서 그 사람을 아느냐고 물어보았다. 그 사람은 “그분은 제 아버지의 할아버지신데 나무하러 산에 갔다가 못 돌아오셨다고 들었습니다.” 하고 대답했다. 나무꾼이 봤던 노인들은 신선들이었다. 신선들의 바둑을 잠깐 구경하는 동안에 100년의 시간이 지난 것이다.</p>
+                </article>
+
+                <div class="side-stack">
+                    <figure class="scene-card">
+                        <img src="../assets/c14/reading-writing/split/source2-panel-2.webp" alt="신선들이 바둑을 두는 모습을 바라보는 나무꾼">
+                    </figure>
+
+                    <section class="glossary-card">
+                        <h4>어휘</h4>
+                        <div class="glossary-grid">
+                            <div class="glossary-item">
+                                <strong>도낏자루</strong>
+                                <span>shaft of ax / hatchet</span>
+                            </div>
+                            <div class="glossary-item">
+                                <strong>썩다</strong>
+                                <span>to rot</span>
+                            </div>
+                            <div class="glossary-item">
+                                <strong>나무꾼</strong>
+                                <span>woodcutter</span>
+                            </div>
+                            <div class="glossary-item">
+                                <strong>나무를 하다</strong>
+                                <span>to cut wood</span>
+                            </div>
+                            <div class="glossary-item">
+                                <strong>동굴</strong>
+                                <span>cave</span>
+                            </div>
+                            <div class="glossary-item">
+                                <strong>바둑을 두다</strong>
+                                <span>to play go</span>
+                            </div>
+                            <div class="glossary-item">
+                                <strong>낡다</strong>
+                                <span>to be old / worn</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-head">
+                <span class="section-label">문제</span>
+                <h2>읽은 내용을 확인해 보세요.</h2>
+            </div>
+
+            <div class="activity-grid">
+                <article class="quiz-card" id="question1">
+                    <h3>1) 다음 문장이 들어가야 할 곳은 어디입니까?</h3>
+                    <div class="sentence-box">도낏자루가 다 썩어서 없어졌기 때문이다.</div>
+                    <div class="choice-grid" data-question="q1">
+                        <button class="choice-btn" type="button" data-value="ga">① (가)</button>
+                        <button class="choice-btn" type="button" data-value="na">② (나)</button>
+                        <button class="choice-btn" type="button" data-value="da">③ (다)</button>
+                    </div>
+                    <div class="feedback" aria-live="polite"></div>
+                </article>
+
+                <article class="quiz-card" id="question2">
+                    <h3>2) 이 글의 내용과 맞는 것은 무엇입니까?</h3>
+                    <div class="choice-grid" data-question="q2">
+                        <button class="choice-btn" type="button" data-value="1">① 나무꾼은 신선들이 사는 세계에 갔다 왔다.</button>
+                        <button class="choice-btn" type="button" data-value="2">② 나무꾼은 동굴 안에서 신선들과 바둑을 두었다.</button>
+                        <button class="choice-btn" type="button" data-value="3">③ 나무꾼은 산속에서 길을 잃어서 다른 마을로 갔다.</button>
+                    </div>
+                    <div class="feedback" aria-live="polite"></div>
+                </article>
+
+                <article class="quiz-card quiz-card--wide" id="question3">
+                    <h3>3) 순서에 맞게 번호를 쓰고 이야기해 보세요.</h3>
+                    <div class="sequence-grid">
+                        <div class="sequence-card">
+                            <img src="../assets/c14/reading-writing/split/source2-panel-1.webp" alt="동굴을 발견한 나무꾼 그림">
+                            <label for="sequence1">그림 1 번호</label>
+                            <select id="sequence1">
+                                <option value="">선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="sequence-card">
+                            <img src="../assets/c14/reading-writing/split/source2-panel-2.webp" alt="신선들의 바둑을 구경하는 나무꾼 그림">
+                            <label for="sequence2">그림 2 번호</label>
+                            <select id="sequence2">
+                                <option value="">선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="sequence-card">
+                            <img src="../assets/c14/reading-writing/split/source2-panel-3.webp" alt="도낏자루가 썩은 뒤 산을 내려오는 나무꾼 그림">
+                            <label for="sequence3">그림 3 번호</label>
+                            <select id="sequence3">
+                                <option value="">선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="sequence-card">
+                            <img src="../assets/c14/reading-writing/split/source2-panel-4.webp" alt="달라진 집을 바라보는 나무꾼 그림">
+                            <label for="sequence4">그림 4 번호</label>
+                            <select id="sequence4">
+                                <option value="">선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="sequence-card">
+                            <img src="../assets/c14/reading-writing/split/source1-panel-5.webp" alt="도끼 자루가 썩은 것을 보고 놀라는 나무꾼 그림">
+                            <label for="sequence5">그림 5 번호</label>
+                            <select id="sequence5">
+                                <option value="">선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="sequence-actions">
+                        <button class="action-btn action-btn--primary" type="button" id="checkSequence">정답 확인</button>
+                        <button class="action-btn action-btn--secondary" type="button" id="resetSequence">다시 하기</button>
+                    </div>
+                    <div class="sequence-feedback" id="sequenceFeedback" aria-live="polite"></div>
+
+                    <div class="retell-box">
+                        <h4>이야기해 보기</h4>
+                        <p>순서를 맞춘 뒤, 아래에 한두 문장으로 이야기를 정리해 보세요.</p>
+                        <textarea placeholder="예: 나무꾼은 산에서 동굴을 발견하고, 신선들이 바둑 두는 모습을 구경했습니다. 그러다가 시간이 많이 지나 마을이 완전히 달라졌습니다."></textarea>
+                    </div>
+                </article>
+
+                <article class="quiz-card quiz-card--wide" id="question4">
+                    <h3>4) 다음 중 ‘도낏자루 썩는 줄 모르는’ 사람은 누구일까요?</h3>
+                    <div class="choice-grid" data-question="q4">
+                        <button class="choice-btn" type="button" data-value="1">① 처음 보는 것은 무엇이든지 신기해하며 꼭 해 보는 친구</button>
+                        <button class="choice-btn" type="button" data-value="2">② 일이 너무 많아서 밤새도록 했지만 아직 다 못 한 직장 동료</button>
+                        <button class="choice-btn" type="button" data-value="3">③ 컴퓨터 게임을 너무 좋아해서 시험 전날에도 게임만 하는 동생</button>
+                    </div>
+                    <div class="feedback" aria-live="polite"></div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        (function () {
+            const answerMap = {
+                q1: {
+                    correct: "na",
+                    explanation: "정답은 ② (나)입니다. 나무꾼이 깜짝 놀란 이유를 설명하는 문장이므로 (나)에 들어갑니다."
+                },
+                q2: {
+                    correct: "1",
+                    explanation: "정답은 ①입니다. 나무꾼이 만난 노인들은 신선들이었으므로 신선들의 세계를 다녀온 셈입니다."
+                },
+                q4: {
+                    correct: "3",
+                    explanation: "정답은 ③입니다. ‘도낏자루 썩는 줄 모른다’는 무언가에 푹 빠져 시간 가는 줄 모르는 경우를 말합니다."
+                }
+            };
+
+            document.querySelectorAll(".choice-grid[data-question]").forEach((group) => {
+                const questionId = group.dataset.question;
+                const config = answerMap[questionId];
+                const card = group.closest(".quiz-card");
+                const feedback = card.querySelector(".feedback");
+                const buttons = Array.from(group.querySelectorAll(".choice-btn"));
+
+                buttons.forEach((button) => {
+                    button.addEventListener("click", () => {
+                        buttons.forEach((item) => {
+                            item.classList.remove("choice-btn--correct", "choice-btn--wrong");
+                        });
+
+                        const isCorrect = button.dataset.value === config.correct;
+                        const correctButton = buttons.find((item) => item.dataset.value === config.correct);
+
+                        if (correctButton) {
+                            correctButton.classList.add("choice-btn--correct");
+                        }
+
+                        if (!isCorrect) {
+                            button.classList.add("choice-btn--wrong");
+                        }
+
+                        feedback.textContent = config.explanation;
+                        feedback.className = "feedback " + (isCorrect ? "feedback--success" : "feedback--error");
+                    });
+                });
+            });
+
+            const sequenceAnswer = ["1", "2", "4", "5", "3"];
+            const selects = sequenceAnswer.map((_, index) => document.getElementById("sequence" + (index + 1)));
+            const sequenceFeedback = document.getElementById("sequenceFeedback");
+            const checkSequenceButton = document.getElementById("checkSequence");
+            const resetSequenceButton = document.getElementById("resetSequence");
+
+            checkSequenceButton.addEventListener("click", () => {
+                const values = selects.map((select) => select.value);
+
+                if (values.some((value) => !value)) {
+                    sequenceFeedback.textContent = "모든 그림에 번호를 선택해 주세요.";
+                    sequenceFeedback.className = "sequence-feedback sequence-feedback--info";
+                    return;
+                }
+
+                const isCorrect = values.every((value, index) => value === sequenceAnswer[index]);
+
+                if (isCorrect) {
+                    sequenceFeedback.textContent = "정답입니다. 그림 아래 번호는 1, 2, 4, 5, 3이고, 이야기 순서는 동굴 발견 → 바둑 구경 → 도끼 자루가 썩은 것을 발견 → 산을 내려옴 → 달라진 마을을 봄입니다.";
+                    sequenceFeedback.className = "sequence-feedback sequence-feedback--success";
+                    return;
+                }
+
+                sequenceFeedback.textContent = "다시 확인해 보세요. 그림 아래 번호는 1, 2, 4, 5, 3입니다.";
+                sequenceFeedback.className = "sequence-feedback sequence-feedback--error";
+            });
+
+            resetSequenceButton.addEventListener("click", () => {
+                selects.forEach((select) => {
+                    select.value = "";
+                });
+                sequenceFeedback.textContent = "";
+                sequenceFeedback.className = "sequence-feedback";
+            });
+        })();
+    </script>
+</body>
+</html>
