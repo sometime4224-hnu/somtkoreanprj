@@ -18,6 +18,10 @@
       --blue-soft: #eff6ff;
       --green-soft: #ecfdf5;
       --green-line: #86efac;
+      --violet-soft: #f5f3ff;
+      --violet-line: #c4b5fd;
+      --amber-soft: #fffbeb;
+      --amber-line: #fcd34d;
       --red-soft: #fef2f2;
       --red-line: #fca5a5;
       --shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
@@ -89,7 +93,7 @@
 
     .subtitle {
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.7;
       margin-bottom: 16px;
     }
 
@@ -101,9 +105,20 @@
       font-weight: 800;
     }
 
+    .intro-note {
+      margin-top: 14px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+      color: #92400e;
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
     .rule-box {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
       margin-top: 16px;
     }
@@ -143,6 +158,11 @@
     .tag.react {
       background: #fef3c7;
       color: #92400e;
+    }
+
+    .tag.follow {
+      background: #ede9fe;
+      color: #6d28d9;
     }
 
     .topbar {
@@ -197,6 +217,14 @@
       margin-bottom: 18px;
     }
 
+    .scene-subtext {
+      margin-top: 8px;
+      color: #2563eb;
+      font-size: 0.94rem;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
     .sentence {
       font-size: 1.22rem;
       font-weight: 700;
@@ -213,6 +241,7 @@
       color: #1d4ed8;
       font-size: 0.92rem;
       font-weight: 700;
+      line-height: 1.6;
     }
 
     .choices {
@@ -248,7 +277,7 @@
 
     button.choice:disabled {
       cursor: default;
-      opacity: 0.95;
+      opacity: 0.98;
     }
 
     button.choice:focus-visible,
@@ -259,22 +288,38 @@
       outline-offset: 2px;
     }
 
-    .correct {
-      background: #dcfce7 !important;
-      border-color: #22c55e !important;
+    .choice.is-best {
+      background: var(--green-soft);
+      border-color: #22c55e;
       outline: 2px solid #22c55e;
     }
 
-    .wrong {
-      background: #fee2e2 !important;
-      border-color: #ef4444 !important;
+    .choice.is-partial {
+      background: var(--violet-soft);
+      border-color: var(--violet-line);
+      outline: 2px solid var(--violet-line);
+    }
+
+    .choice.is-allowed {
+      background: var(--amber-soft);
+      border-color: var(--amber-line);
+      outline: 2px solid var(--amber-line);
+    }
+
+    .choice.is-discouraged {
+      background: var(--red-soft);
+      border-color: #ef4444;
       outline: 2px solid #ef4444;
+    }
+
+    .choice.is-picked {
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
     }
 
     .feedback {
       margin-top: 18px;
       padding: 16px;
-      border-radius: 14px;
+      border-radius: 16px;
       display: none;
       line-height: 1.7;
     }
@@ -283,12 +328,22 @@
       display: block;
     }
 
-    .feedback.ok {
+    .feedback.best {
       background: var(--green-soft);
       border: 1px solid var(--green-line);
     }
 
-    .feedback.no {
+    .feedback.partial {
+      background: var(--violet-soft);
+      border: 1px solid var(--violet-line);
+    }
+
+    .feedback.allowed {
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+    }
+
+    .feedback.discouraged {
       background: var(--red-soft);
       border: 1px solid var(--red-line);
     }
@@ -296,6 +351,111 @@
     .answer-line {
       font-weight: 800;
       margin-bottom: 8px;
+    }
+
+    .feedback p {
+      margin: 0;
+    }
+
+    .feedback p + p {
+      margin-top: 8px;
+    }
+
+    .option-review {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .option-review__title {
+      margin: 0 0 12px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #475569;
+    }
+
+    .option-review__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .option-card {
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      padding: 14px;
+      background: var(--surface-soft);
+    }
+
+    .option-card.is-picked {
+      border-color: #93c5fd;
+      box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.16);
+    }
+
+    .option-card__top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .option-card__text {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .option-card__ko,
+    .option-card__vi {
+      margin: 10px 0 0;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .option-card__vi {
+      color: #2563eb;
+      font-weight: 700;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status-badge.best {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-badge.partial {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    .status-badge.allowed {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-badge.discouraged {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .status-badge.picked {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1d4ed8;
     }
 
     .controls {
@@ -349,6 +509,46 @@
       line-height: 1.8;
       margin: 12px 0 18px;
       color: #374151;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .result-stat {
+      border-radius: 16px;
+      padding: 14px 10px;
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .result-stat strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-top: 8px;
+    }
+
+    .result-stat.best {
+      background: var(--green-soft);
+      border-color: var(--green-line);
+    }
+
+    .result-stat.partial {
+      background: var(--violet-soft);
+      border-color: var(--violet-line);
+    }
+
+    .result-stat.allowed {
+      background: var(--amber-soft);
+      border-color: var(--amber-line);
+    }
+
+    .result-stat.discouraged {
+      background: var(--red-soft);
+      border-color: var(--red-line);
     }
 
     .mini-guide {
@@ -406,7 +606,8 @@
         font-size: 1.56rem;
       }
 
-      .subtitle {
+      .subtitle,
+      .intro-note {
         font-size: 0.95rem;
       }
 
@@ -416,7 +617,7 @@
 
       .rule-box {
         grid-auto-flow: column;
-        grid-auto-columns: 84%;
+        grid-auto-columns: 82%;
         overflow-x: auto;
         padding-bottom: 4px;
         scroll-snap-type: x proximity;
@@ -453,6 +654,10 @@
         font-size: 0.96rem;
       }
 
+      .scene-subtext {
+        font-size: 0.86rem;
+      }
+
       .sentence {
         font-size: 1.1rem;
         padding: 16px;
@@ -464,8 +669,10 @@
         font-size: 0.84rem;
       }
 
-      .choices {
-        gap: 10px;
+      .choices,
+      .option-review__grid,
+      .result-grid {
+        grid-template-columns: 1fr;
       }
 
       button.choice {
@@ -473,7 +680,8 @@
         padding: 14px 16px;
       }
 
-      .feedback {
+      .feedback,
+      .option-review {
         margin-top: 14px;
         padding: 14px;
       }
@@ -532,8 +740,8 @@
     <div class="card" id="introCard">
       <h1>문법 2 스피드퀴즈</h1>
       <div class="subtitle">
-        <strong>“것 같아요 / 거예요 / 걸요”</strong> 차이를 상황으로 익히는 퀴즈입니다.<br />
-        아래 3개만 잡으면 됩니다. 참고: 표준 표기는 <strong>거예요</strong>입니다. (거에요 X)
+        <strong>“것 같아요 / 거예요 / 걸요 / 텐데요”</strong>의 차이를 빠르게 비교하는 퀴즈입니다.<br />
+        문제 줄기는 그대로 두고, 각 보기마다 <strong>최적 정답 / 부분 정답 / 허용 답 / 비추천 답</strong>을 나눠서 보여 줍니다.
       </div>
       <div class="swipe-hint">휴대전화에서는 아래 규칙 카드를 좌우로 넘기며 빠르게 볼 수 있어요.</div>
 
@@ -553,9 +761,22 @@
         <div class="rule">
           <div class="tag react">반응 / 완곡한 반박</div>
           <h3>걸요</h3>
-          <div>상대 말에 대한 반응, “그런데요?” 느낌</div>
+          <div>상대 말에 반응, “그런데요?” 느낌</div>
           <div><strong>예:</strong> 벌써 왔을걸요.</div>
         </div>
+        <div class="rule">
+          <div class="tag follow">뒷말 여지</div>
+          <h3>텐데요</h3>
+          <div>걱정, 제안, 설명이 뒤에 더 올 느낌</div>
+          <div><strong>예:</strong> 비가 올 텐데요.</div>
+        </div>
+      </div>
+
+      <div class="intro-note">
+        <strong>읽는 방법</strong><br />
+        1. 먼저 가장 좋은 답을 하나 누르세요.<br />
+        2. 그다음 네 표현을 모두 보고 차이를 비교하세요.<br />
+        3. 어떤 문제는 허용 답이 두 개일 수도 있고, 비추천 답이 없을 수도 있어요.
       </div>
 
       <div class="controls">
@@ -565,7 +786,7 @@
 
     <div class="card" id="gameCard" style="display:none;">
       <div class="topbar">
-        <div class="score" id="scoreBox">점수: 0</div>
+        <div class="score" id="scoreBox">점수: 0점</div>
         <div class="progress-text" id="progressText">1 / 10</div>
       </div>
       <div class="progress">
@@ -574,15 +795,23 @@
 
       <div id="questionArea">
         <div class="question-num" id="questionNum"></div>
-        <div class="scene" id="sceneText"></div>
+        <div class="scene">
+          <div id="sceneText"></div>
+          <div class="scene-subtext" id="sceneViText"></div>
+        </div>
         <div class="sentence" id="sentenceText"></div>
-        <div class="prompt-tip">가장 자연스러운 표현 하나를 빠르게 누르세요.</div>
+        <div class="prompt-tip">가장 좋은 답을 먼저 고르세요. 고른 뒤에는 네 표현의 등급을 모두 보여 줍니다.</div>
 
         <div class="choices" id="choicesBox"></div>
 
         <div class="feedback" id="feedbackBox">
           <div class="answer-line" id="answerLine"></div>
           <div id="explanationText"></div>
+        </div>
+
+        <div class="option-review" id="optionReview" hidden>
+          <p class="option-review__title">네 표현 모두 보기</p>
+          <div class="option-review__grid" id="optionReviewGrid"></div>
         </div>
 
         <div class="controls">
@@ -597,11 +826,21 @@
       <div class="big-score" id="finalScore"></div>
       <div class="result-comment" id="resultComment"></div>
 
+      <div class="result-grid">
+        <div class="result-stat best">최적 정답<strong id="bestCount">0</strong></div>
+        <div class="result-stat partial">부분 정답<strong id="partialCount">0</strong></div>
+        <div class="result-stat allowed">허용 답<strong id="allowedCount">0</strong></div>
+        <div class="result-stat discouraged">비추천 답<strong id="discouragedCount">0</strong></div>
+      </div>
+
       <div class="mini-guide">
         <strong>최종 한 줄 정리</strong><br />
-        ① <strong>것 같아요</strong> = 조심스럽게 추측<br />
-        ② <strong>거예요</strong> = 더 분명한 판단 / 예정<br />
-        ③ <strong>걸요</strong> = 상대 말에 반응하며 살짝 다른 의견
+        ① <strong>것 같아요</strong> = 내 느낌으로 조심스럽게 추측<br />
+        ② <strong>거예요</strong> = 설명이나 비교적 분명한 판단<br />
+        ③ <strong>걸요</strong> = 상대 말에 짧게 반응하며 다른 예상<br />
+        ④ <strong>텐데요</strong> = 뒤에 걱정, 제안, 설명이 더 이어질 느낌<br />
+        <br />
+        <strong>점수 기준</strong>: 최적 10점 / 부분 7점 / 허용 4점 / 비추천 0점
       </div>
 
       <div class="controls" style="justify-content:center;">
@@ -616,76 +855,285 @@
   </div>
 
   <script>
+    const STATUS_META = {
+      best: { label: "최적 정답", points: 10 },
+      partial: { label: "부분 정답", points: 7 },
+      allowed: { label: "허용 답", points: 4 },
+      discouraged: { label: "비추천 답", points: 0 }
+    };
+
+    const OPTION_ORDER = ["것 같아요", "거예요", "걸요", "텐데요"];
+
     const questions = [
       {
-        scene: "창밖을 보니 하늘이 어둡고 바람이 많이 붑니다. 혼잣말로 말합니다.",
+        sceneKo: "창밖을 보니 하늘이 어둡고 바람이 많이 붑니다. 혼잣말로 말합니다.",
+        sceneVi: "Bạn nhìn ra ngoài. Trời tối và gió mạnh. Bạn tự nói một mình.",
         sentence: "비가 올 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "것 같아요",
-        explanation: "눈에 보이는 상황을 보고 조심스럽게 추측하는 경우라서 '것 같아요'가 가장 자연스럽습니다."
+        options: {
+          "것 같아요": {
+            status: "best",
+            noteKo: "눈앞의 하늘과 바람을 보고 조심스럽게 추측해서 가장 자연스러워요.",
+            noteVi: "Bạn nhìn trời và gió rồi đoán nhẹ. Câu này tự nhiên nhất."
+          },
+          "거예요": {
+            status: "partial",
+            noteKo: "이 말도 가능하지만, 혼잣말치고는 조금 더 단정하게 들려요.",
+            noteVi: "Câu này cũng được, nhưng khi tự nói một mình thì nghe chắc hơn một chút."
+          },
+          "걸요": {
+            status: "discouraged",
+            noteKo: "-걸요는 다른 사람 말에 반응할 때 더 잘 어울려요.",
+            noteVi: "-걸요 hợp hơn khi phản ứng với lời của người khác."
+          },
+          "텐데요": {
+            status: "discouraged",
+            noteKo: "-텐데요는 뒤에 걱정이나 다른 말이 이어질 때 더 자연스러워요.",
+            noteVi: "-텐데요 tự nhiên hơn khi phía sau còn lời tiếp theo."
+          }
+        }
       },
       {
-        scene: "일기예보에서 오늘 오후 강수확률이 90%라고 했습니다. 친구에게 알려 줍니다.",
+        sceneKo: "일기예보에서 오늘 오후 강수확률이 90%라고 했습니다. 친구에게 알려 줍니다.",
+        sceneVi: "Bản tin thời tiết nói chiều nay khả năng mưa là 90%. Bạn nói cho bạn biết.",
         sentence: "오늘 오후엔 비가 올 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "거예요",
-        explanation: "근거가 비교적 분명한 예측입니다. 단순 느낌보다 더 확실한 판단이어서 '거예요'가 자연스럽습니다."
+        options: {
+          "것 같아요": {
+            status: "partial",
+            noteKo: "가능한 표현이지만, 예보를 전달하는 자리라서 조금 덜 분명해 보여요.",
+            noteVi: "Câu này dùng được, nhưng vì đang nói theo dự báo nên nghe kém rõ hơn."
+          },
+          "거예요": {
+            status: "best",
+            noteKo: "예보라는 분명한 근거를 바탕으로 알려 주는 말이라서 가장 자연스러워요.",
+            noteVi: "Bạn nói dựa vào bản tin thời tiết nên câu này tự nhiên nhất."
+          },
+          "걸요": {
+            status: "allowed",
+            noteKo: "대화에서는 들릴 수 있지만, 여기서는 안내보다 반응처럼 들려요.",
+            noteVi: "Trong hội thoại vẫn nghe được, nhưng ở đây nó giống phản ứng hơn là thông báo."
+          },
+          "텐데요": {
+            status: "discouraged",
+            noteKo: "-텐데요는 뒤에 걱정이나 설명이 더 이어질 느낌이 강해요.",
+            noteVi: "-텐데요 làm người nghe nghĩ là phía sau còn lo lắng hay lời nói tiếp."
+          }
+        }
       },
       {
-        scene: "친구가 말합니다. “민수 아직 안 왔지?” 당신은 민수가 이미 도착했을 가능성이 높다고 답합니다.",
+        sceneKo: "친구가 말합니다. “민수 아직 안 왔지?” 당신은 민수가 이미 도착했을 가능성이 높다고 답합니다.",
+        sceneVi: "Bạn của bạn nói: “Min-su chưa tới, đúng không?” Bạn nghĩ có lẽ bạn ấy đã tới rồi.",
         sentence: "지금쯤 도착했을 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "걸요",
-        explanation: "'걸요'는 상대의 말에 반응하면서 자기 판단을 내놓을 때 자주 씁니다. 약한 반박 느낌도 있습니다."
+        options: {
+          "것 같아요": {
+            status: "partial",
+            noteKo: "이 답도 자연스럽지만, 대화 반응의 느낌은 -걸요보다 약해요.",
+            noteVi: "Câu này cũng tự nhiên, nhưng cảm giác phản ứng hội thoại yếu hơn -걸요."
+          },
+          "거예요": {
+            status: "allowed",
+            noteKo: "가능은 하지만, 질문에 바로 답하는 말치고는 조금 설명처럼 들려요.",
+            noteVi: "Câu này có thể dùng, nhưng với câu trả lời trực tiếp thì nghe hơi giống giải thích."
+          },
+          "걸요": {
+            status: "best",
+            noteKo: "상대 말에 바로 반응하면서 조심스럽게 다른 예상을 내놓아서 가장 자연스러워요.",
+            noteVi: "Bạn phản ứng ngay với lời người kia và đưa ra dự đoán khác một cách nhẹ nhàng. Câu này tự nhiên nhất."
+          },
+          "텐데요": {
+            status: "discouraged",
+            noteKo: "말 뒤에 다른 설명이 이어질 듯한 느낌이 강해서 여기서는 조금 떠 보여요.",
+            noteVi: "Câu này làm người nghe chờ lời tiếp theo, nên ở đây hơi lửng."
+          }
+        }
       },
       {
-        scene: "사진 한 장을 보고 있습니다. 잘 모르지만 어려 보여서 추측합니다.",
+        sceneKo: "사진 한 장을 보고 있습니다. 잘 모르지만 어려 보여서 추측합니다.",
+        sceneVi: "Bạn nhìn một tấm ảnh. Bạn không chắc, nhưng người đó trông còn trẻ.",
         sentence: "저 사람은 학생인 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "것 같아요",
-        explanation: "확실하지 않고 인상으로 판단하는 상황입니다. 그래서 '것 같아요'가 맞습니다."
+        options: {
+          "것 같아요": {
+            status: "best",
+            noteKo: "사진을 보고 인상으로 조심스럽게 추측하는 자리라서 가장 잘 맞아요.",
+            noteVi: "Bạn chỉ nhìn ảnh rồi đoán nhẹ theo cảm giác. Câu này hợp nhất."
+          },
+          "거예요": {
+            status: "partial",
+            noteKo: "말할 수는 있지만, 사진만 보고 말하는 것치고는 조금 더 단정적이에요.",
+            noteVi: "Câu này dùng được, nhưng chỉ nhìn ảnh mà nói như vậy thì nghe chắc hơn một chút."
+          },
+          "걸요": {
+            status: "discouraged",
+            noteKo: "다른 사람 말에 반응하는 장면이 아니라서 -걸요 느낌이 약해요.",
+            noteVi: "Không phải cảnh phản ứng với lời người khác, nên -걸요 không hợp lắm."
+          },
+          "텐데요": {
+            status: "discouraged",
+            noteKo: "뒤에 다른 말이 이어질 느낌이 필요해서 이 문맥에는 잘 맞지 않아요.",
+            noteVi: "Mẫu này cần cảm giác còn lời phía sau, nên không hợp trong cảnh này."
+          }
+        }
       },
       {
-        scene: "내일 일정이 이미 정해져 있습니다. 누가 묻습니다. “내일 오세요?”",
+        sceneKo: "내일 일정이 이미 정해져 있습니다. 누가 묻습니다. “내일 오세요?”",
+        sceneVi: "Lịch ngày mai đã quyết rồi. Có người hỏi: “Ngày mai bạn có đến không?”",
         sentence: "네, 내일 갈 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "거예요",
-        explanation: "이 경우는 추측보다 '예정'의 의미가 큽니다. 그래서 '갈 거예요'가 가장 자연스럽습니다."
+        options: {
+          "것 같아요": {
+            status: "allowed",
+            noteKo: "문법적으로 가능하지만, 이미 정한 일정치고는 자신감이 조금 약해 보여요.",
+            noteVi: "Câu này dùng được, nhưng vì lịch đã quyết rồi nên nghe hơi thiếu chắc chắn."
+          },
+          "거예요": {
+            status: "best",
+            noteKo: "이미 정한 예정이나 계획을 말하는 자리라서 가장 자연스러워요.",
+            noteVi: "Bạn đang nói kế hoạch đã quyết rồi, nên câu này tự nhiên nhất."
+          },
+          "걸요": {
+            status: "partial",
+            noteKo: "질문에 답하는 느낌은 살지만, 이 문장은 일정 설명이라 -거예요보다 조금 덜 맞아요.",
+            noteVi: "Nó vẫn có cảm giác trả lời câu hỏi, nhưng vì đây là nói lịch trình nên kém hợp hơn -거예요."
+          },
+          "텐데요": {
+            status: "discouraged",
+            noteKo: "뒤에 걱정이나 덧붙이는 말이 없어서 문장이 조금 뜹니다.",
+            noteVi: "Không có lời lo lắng hay nói tiếp phía sau, nên câu này hơi lửng."
+          }
+        }
       },
       {
-        scene: "친구가 말합니다. “저 식당 맛없어요.” 당신은 다르게 생각합니다.",
+        sceneKo: "친구가 말합니다. “저 식당 맛없어요.” 당신은 다르게 생각합니다.",
+        sceneVi: "Bạn của bạn nói: “Quán đó không ngon.” Bạn nghĩ khác.",
         sentence: "아닌데요, 맛있을 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "걸요",
-        explanation: "상대 말에 반응하며 살짝 반대 의견을 말하는 장면입니다. '맛있을걸요'가 자연스럽습니다."
+        options: {
+          "것 같아요": {
+            status: "allowed",
+            noteKo: "부드럽게 말할 수는 있지만, 상대 말에 바로 반응하는 힘은 조금 약해요.",
+            noteVi: "Câu này nói nhẹ nhàng được, nhưng sức phản ứng trực tiếp với lời người kia yếu hơn."
+          },
+          "거예요": {
+            status: "discouraged",
+            noteKo: "이 문맥에서는 조금 설명체처럼 들려서 반응의 말맛이 약해져요.",
+            noteVi: "Trong cảnh này câu này nghe hơi như giải thích, nên cảm giác phản ứng yếu đi."
+          },
+          "걸요": {
+            status: "best",
+            noteKo: "상대 말에 바로 반응하면서 살짝 다른 의견을 내는 장면이라서 가장 자연스러워요.",
+            noteVi: "Bạn phản ứng ngay và nói ý khác một cách nhẹ nhàng. Câu này tự nhiên nhất."
+          },
+          "텐데요": {
+            status: "partial",
+            noteKo: "상대와 다른 생각을 부드럽게 보일 수는 있지만, 뒷말 여지가 조금 더 강해요.",
+            noteVi: "Câu này cũng cho thấy ý khác một cách mềm, nhưng cảm giác còn lời tiếp theo mạnh hơn."
+          }
+        }
       },
       {
-        scene: "문이 잠겨 있고 불이 꺼져 있습니다. 아직 확신은 없지만 가게가 문을 닫았다고 추측합니다.",
+        sceneKo: "문이 잠겨 있고 불이 꺼져 있습니다. 아직 확신은 없지만 가게가 문을 닫았다고 추측합니다.",
+        sceneVi: "Cửa khóa và đèn tắt. Bạn chưa chắc, nhưng nghĩ hôm nay quán nghỉ.",
         sentence: "오늘은 가게가 쉰 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "것 같아요",
-        explanation: "관찰한 상황을 바탕으로 추측하는 표현입니다. '쉰 것 같아요'가 가장 자연스럽습니다."
+        options: {
+          "것 같아요": {
+            status: "best",
+            noteKo: "눈으로 본 상황을 바탕으로 조심스럽게 추측하는 자리라서 가장 잘 맞아요.",
+            noteVi: "Bạn nhìn tình hình rồi đoán nhẹ. Câu này hợp nhất."
+          },
+          "거예요": {
+            status: "partial",
+            noteKo: "이 말도 가능하지만, 아직 확신이 없는 장면에서는 조금 더 단정적이에요.",
+            noteVi: "Câu này cũng được, nhưng trong cảnh chưa chắc thì nghe khẳng định hơn một chút."
+          },
+          "걸요": {
+            status: "discouraged",
+            noteKo: "다른 사람 말에 답하는 장면이 아니라서 -걸요는 덜 자연스러워요.",
+            noteVi: "Không phải cảnh trả lời lời người khác, nên -걸요 kém tự nhiên."
+          },
+          "텐데요": {
+            status: "discouraged",
+            noteKo: "뒤에 이어질 말이 없는 상태에서는 조금 붕 뜬 느낌이 납니다.",
+            noteVi: "Nếu không có lời nói tiếp thì câu này hơi lơ lửng."
+          }
+        }
       },
       {
-        scene: "상대가 말합니다. “수업이 벌써 끝났겠어요?” 당신은 아직 안 끝났다고 봅니다.",
+        sceneKo: "상대가 말합니다. “수업이 벌써 끝났겠어요?” 당신은 아직 안 끝났다고 봅니다.",
+        sceneVi: "Người kia nói: “Lớp học chắc xong rồi nhỉ?” Bạn nghĩ là chưa xong.",
         sentence: "아직 안 끝났을 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "걸요",
-        explanation: "질문이나 말에 대해 반응하면서 자신의 판단을 말하는 자리입니다. '걸요'가 잘 맞습니다."
+        options: {
+          "것 같아요": {
+            status: "allowed",
+            noteKo: "가능한 답이지만, 질문에 바로 반응하는 느낌은 -걸요보다 약해요.",
+            noteVi: "Đây là câu trả lời có thể dùng, nhưng cảm giác phản ứng trực tiếp yếu hơn -걸요."
+          },
+          "거예요": {
+            status: "allowed",
+            noteKo: "설명처럼 말할 수는 있지만, 회화 반응의 부드러움은 조금 줄어들어요.",
+            noteVi: "Bạn vẫn có thể nói như vậy, nhưng cảm giác phản ứng hội thoại mềm mại sẽ giảm đi."
+          },
+          "걸요": {
+            status: "best",
+            noteKo: "상대의 말에 바로 반응하면서 조심스럽게 다른 예상을 말해서 가장 자연스러워요.",
+            noteVi: "Bạn phản ứng ngay với lời người kia và nói dự đoán khác một cách nhẹ nhàng. Câu này tự nhiên nhất."
+          },
+          "텐데요": {
+            status: "partial",
+            noteKo: "이 답도 꽤 자연스럽지만, 뒤에 이유나 설명이 더 나올 듯한 느낌이 조금 강해요.",
+            noteVi: "Câu này cũng khá tự nhiên, nhưng nó làm người nghe chờ thêm lý do hay lời giải thích."
+          }
+        }
       },
       {
-        scene: "버스 시간표를 확인했습니다. 5분 뒤에 버스가 옵니다.",
+        sceneKo: "버스 시간표를 확인했습니다. 5분 뒤에 버스가 옵니다.",
+        sceneVi: "Bạn xem bảng giờ xe buýt. 5 phút nữa xe đến.",
         sentence: "버스가 곧 올 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "거예요",
-        explanation: "시간표라는 근거가 있어 비교적 분명한 예측입니다. '거예요'가 적절합니다."
+        options: {
+          "것 같아요": {
+            status: "partial",
+            noteKo: "말할 수는 있지만, 시간표를 본 상황이라 조금 덜 분명하게 들려요.",
+            noteVi: "Câu này dùng được, nhưng vì bạn đã xem bảng giờ nên nghe kém chắc hơn một chút."
+          },
+          "거예요": {
+            status: "best",
+            noteKo: "시간표라는 비교적 분명한 근거가 있어서 가장 자연스러워요.",
+            noteVi: "Bạn có căn cứ rõ là bảng giờ xe, nên câu này tự nhiên nhất."
+          },
+          "걸요": {
+            status: "allowed",
+            noteKo: "대화에서는 들릴 수 있지만, 여기서는 안내보다 반응처럼 느껴져요.",
+            noteVi: "Trong hội thoại vẫn nghe được, nhưng ở đây nó giống phản ứng hơn là thông tin."
+          },
+          "텐데요": {
+            status: "discouraged",
+            noteKo: "뒤에 이어질 말이 없으면 문장이 조금 덜 완결돼 보여요.",
+            noteVi: "Nếu không có lời tiếp theo thì câu này trông hơi chưa trọn."
+          }
+        }
       },
       {
-        scene: "친구 얼굴이 안 좋아 보입니다. 감기인지 확실하진 않지만 그렇게 보입니다.",
+        sceneKo: "친구 얼굴이 안 좋아 보입니다. 감기인지 확실하진 않지만 그렇게 보입니다.",
+        sceneVi: "Mặt bạn bạn trông không khỏe. Bạn không chắc, nhưng thấy có vẻ bị cảm.",
         sentence: "감기에 걸린 ____.",
-        options: ["것 같아요", "거예요", "걸요"],
-        answer: "것 같아요",
-        explanation: "겉모습을 보고 조심스럽게 추측하는 상황입니다. '것 같아요'가 맞습니다."
+        options: {
+          "것 같아요": {
+            status: "best",
+            noteKo: "겉모습을 보고 조심스럽게 추측하는 장면이라서 가장 자연스러워요.",
+            noteVi: "Bạn nhìn vẻ ngoài rồi đoán nhẹ, nên câu này tự nhiên nhất."
+          },
+          "거예요": {
+            status: "partial",
+            noteKo: "이 말도 가능하지만, 아직 확신이 없는 장면에서는 조금 더 단정적으로 들려요.",
+            noteVi: "Câu này cũng được, nhưng trong cảnh chưa chắc thì nghe khẳng định hơn."
+          },
+          "걸요": {
+            status: "discouraged",
+            noteKo: "상대 말에 답하는 장면이 아니어서 -걸요가 잘 살아나지 않아요.",
+            noteVi: "Không phải cảnh trả lời lời người khác, nên -걸요 không phát huy tốt."
+          },
+          "텐데요": {
+            status: "discouraged",
+            noteKo: "뒤에 다른 말이 이어지지 않으면 조금 뜬 느낌이 납니다.",
+            noteVi: "Nếu không có lời tiếp theo thì câu này hơi lửng."
+          }
+        }
       }
     ];
 
@@ -693,6 +1141,12 @@
     let currentIndex = 0;
     let score = 0;
     let answered = false;
+    let statusCounts = {
+      best: 0,
+      partial: 0,
+      allowed: 0,
+      discouraged: 0
+    };
 
     function isPhoneLayout() {
       return window.matchMedia("(max-width: 700px)").matches;
@@ -713,11 +1167,15 @@
 
     function shuffle(array) {
       const copied = [...array];
-      for (let i = copied.length - 1; i > 0; i--) {
+      for (let i = copied.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * (i + 1));
         [copied[i], copied[j]] = [copied[j], copied[i]];
       }
       return copied;
+    }
+
+    function fillSentence(stem, optionText) {
+      return stem.replace("____", optionText);
     }
 
     function startGame() {
@@ -725,10 +1183,16 @@
       document.getElementById("gameCard").style.display = "block";
       document.getElementById("resultBox").classList.remove("show");
 
-      gameQuestions = shuffle(questions).slice(0, 10);
+      gameQuestions = shuffle(questions).slice(0, questions.length);
       currentIndex = 0;
       score = 0;
       answered = false;
+      statusCounts = {
+        best: 0,
+        partial: 0,
+        allowed: 0,
+        discouraged: 0
+      };
       updateScore();
       renderQuestion();
       focusSection("gameCard");
@@ -739,7 +1203,7 @@
     }
 
     function updateScore() {
-      document.getElementById("scoreBox").textContent = `점수: ${score}`;
+      document.getElementById("scoreBox").textContent = `점수: ${score}점`;
     }
 
     function renderQuestion() {
@@ -747,7 +1211,8 @@
       const q = gameQuestions[currentIndex];
 
       document.getElementById("questionNum").textContent = `문제 ${currentIndex + 1}`;
-      document.getElementById("sceneText").textContent = q.scene;
+      document.getElementById("sceneText").textContent = q.sceneKo;
+      document.getElementById("sceneViText").textContent = q.sceneVi;
       document.getElementById("sentenceText").textContent = q.sentence;
       document.getElementById("progressText").textContent = `${currentIndex + 1} / ${gameQuestions.length}`;
       document.getElementById("progressFill").style.width =
@@ -756,58 +1221,86 @@
       const choicesBox = document.getElementById("choicesBox");
       choicesBox.innerHTML = "";
 
-      const mixedOptions = shuffle(q.options);
+      const mixedOptions = shuffle(OPTION_ORDER);
 
-      mixedOptions.forEach((option) => {
+      mixedOptions.forEach((optionText) => {
         const btn = document.createElement("button");
         btn.className = "choice";
         btn.type = "button";
-        btn.textContent = option;
-        btn.onclick = () => checkAnswer(option);
+        btn.textContent = optionText;
+        btn.onclick = () => checkAnswer(optionText);
         choicesBox.appendChild(btn);
       });
 
       const feedbackBox = document.getElementById("feedbackBox");
       feedbackBox.className = "feedback";
-      feedbackBox.classList.remove("show", "ok", "no");
+      feedbackBox.classList.remove("show", "best", "partial", "allowed", "discouraged");
       document.getElementById("answerLine").textContent = "";
-      document.getElementById("explanationText").textContent = "";
+      document.getElementById("explanationText").innerHTML = "";
+      document.getElementById("optionReview").hidden = true;
+      document.getElementById("optionReviewGrid").innerHTML = "";
       document.getElementById("nextBtn").style.display = "none";
       focusSection("questionArea");
+    }
+
+    function renderOptionReview(question, selected) {
+      const reviewGrid = document.getElementById("optionReviewGrid");
+      reviewGrid.innerHTML = OPTION_ORDER.map((optionText) => {
+        const option = question.options[optionText];
+        const meta = STATUS_META[option.status];
+        const pickedBadge = selected === optionText
+          ? '<span class="status-badge picked">내가 고름</span>'
+          : "";
+
+        return `
+          <article class="option-card ${selected === optionText ? "is-picked" : ""}">
+            <div class="option-card__top">
+              <p class="option-card__text">${fillSentence(question.sentence, optionText)}</p>
+              <span class="status-badge ${option.status}">${meta.label}</span>
+            </div>
+            ${pickedBadge}
+            <p class="option-card__ko">${option.noteKo}</p>
+            <p class="option-card__vi">${option.noteVi}</p>
+          </article>
+        `;
+      }).join("");
+
+      document.getElementById("optionReview").hidden = false;
     }
 
     function checkAnswer(selected) {
       if (answered) return;
       answered = true;
 
-      const q = gameQuestions[currentIndex];
+      const question = gameQuestions[currentIndex];
+      const selectedOption = question.options[selected];
+      const selectedMeta = STATUS_META[selectedOption.status];
       const buttons = document.querySelectorAll(".choice");
 
       buttons.forEach((btn) => {
+        const option = question.options[btn.textContent];
         btn.disabled = true;
-        if (btn.textContent === q.answer) {
-          btn.classList.add("correct");
-        }
-        if (btn.textContent === selected && selected !== q.answer) {
-          btn.classList.add("wrong");
+        btn.classList.add(`is-${option.status}`);
+        if (btn.textContent === selected) {
+          btn.classList.add("is-picked");
         }
       });
 
+      score += selectedMeta.points;
+      statusCounts[selectedOption.status] += 1;
+      updateScore();
+
       const feedbackBox = document.getElementById("feedbackBox");
-      const answerLine = document.getElementById("answerLine");
-      const explanationText = document.getElementById("explanationText");
+      feedbackBox.className = `feedback show ${selectedOption.status}`;
+      document.getElementById("answerLine").textContent =
+        `${selectedMeta.label}: ${fillSentence(question.sentence, selected)}`;
+      document.getElementById("explanationText").innerHTML = `
+        <p>${selectedOption.noteKo}</p>
+        <p>${selectedOption.noteVi}</p>
+        <p><strong>점수:</strong> ${selectedMeta.points}점</p>
+      `;
 
-      if (selected === q.answer) {
-        score += 10;
-        updateScore();
-        feedbackBox.classList.add("show", "ok");
-        answerLine.textContent = `정답: ${q.answer}`;
-      } else {
-        feedbackBox.classList.add("show", "no");
-        answerLine.textContent = `오답. 정답: ${q.answer}`;
-      }
-
-      explanationText.textContent = q.explanation;
+      renderOptionReview(question, selected);
       document.getElementById("nextBtn").style.display = "inline-block";
       document.getElementById("progressFill").style.width =
         `${((currentIndex + 1) / gameQuestions.length) * 100}%`;
@@ -815,7 +1308,7 @@
     }
 
     function nextQuestion() {
-      currentIndex++;
+      currentIndex += 1;
       if (currentIndex >= gameQuestions.length) {
         showResult();
       } else {
@@ -829,16 +1322,20 @@
       resultBox.classList.add("show");
 
       document.getElementById("finalScore").textContent = `${score}점 / 100점`;
+      document.getElementById("bestCount").textContent = statusCounts.best;
+      document.getElementById("partialCount").textContent = statusCounts.partial;
+      document.getElementById("allowedCount").textContent = statusCounts.allowed;
+      document.getElementById("discouragedCount").textContent = statusCounts.discouraged;
 
       let comment = "";
-      if (score === 100) {
-        comment = "완벽합니다. 세 문형 차이를 거의 정확히 구분하고 있습니다.";
-      } else if (score >= 80) {
-        comment = "잘했습니다. 큰 차이는 이해했고, '걸요'의 대화적 느낌만 더 익히면 됩니다.";
-      } else if (score >= 60) {
-        comment = "기본은 잡았습니다. 보통 '것 같아요'와 '거예요'는 확신 정도, '걸요'는 상대 반응이라는 점을 다시 보면 됩니다.";
+      if (score >= 90) {
+        comment = "아주 잘했습니다. 어떤 표현이 가장 잘 맞는지 빠르게 구분하고 있어요.";
+      } else if (score >= 70) {
+        comment = "잘하고 있습니다. 최적 정답과 부분 정답의 차이만 조금 더 익히면 더 좋아져요.";
+      } else if (score >= 50) {
+        comment = "기본은 잡았습니다. 특히 -걸요와 -텐데요의 말맛 차이를 더 비교해 보면 좋아요.";
       } else {
-        comment = "아직 헷갈릴 수 있습니다. 먼저 이렇게 외우면 됩니다: 느낌 추측 = 것 같아요 / 예정·분명한 판단 = 거예요 / 상대 반응·약한 반박 = 걸요";
+        comment = "아직 헷갈릴 수 있어요. 상황이 혼잣말인지, 설명인지, 반응인지 먼저 보고 고르면 쉬워집니다.";
       }
 
       document.getElementById("resultComment").textContent = comment;
