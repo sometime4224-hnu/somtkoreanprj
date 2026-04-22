@@ -26,3 +26,9 @@ Keep the repository root focused on deployable pages, chapter folders, shared co
 ## Shared Content Rules
 
 When a page renders authored question text, use the shared inline markup rule described in [CONTENT_MARKUP_GUIDELINES.md](CONTENT_MARKUP_GUIDELINES.md).
+
+## Shared Page Standards
+
+- All learner-facing pages should follow the shared design rules in [PAGE_DESIGN_GUIDELINES.md](PAGE_DESIGN_GUIDELINES.md).
+- Speaking pages should follow the shared standard described in [SPEAKING_PAGE_GUIDELINES.md](SPEAKING_PAGE_GUIDELINES.md).
+- The current official speaking-page reference is the `c15` speaking PRO format and its shared implementation files.

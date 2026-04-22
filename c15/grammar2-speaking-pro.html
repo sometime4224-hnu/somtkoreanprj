@@ -34,6 +34,7 @@
             --sp-warning-border: #fde68a;
         }
     </style>
+        <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
 </head>
 <body class="speaking-pro-page">
     <!-- Google Tag Manager (noscript) -->
@@ -169,43 +170,6 @@
     </nav>
 
     <main class="max-w-md mx-auto px-4 pt-4 pb-12">
-        <section class="sp-card p-5 mb-4">
-            <div class="flex items-start justify-between gap-3">
-                <div>
-                    <p id="pageEyebrow" class="text-xs font-bold text-orange-600 mb-1"></p>
-                    <h1 id="pageTitle" class="text-2xl font-black text-slate-800 leading-snug safe"></h1>
-                    <p id="pageSubtitle" class="mt-2 text-sm text-slate-600 leading-6 safe"></p>
-                </div>
-                <div id="pageEmoji" class="text-5xl mt-1"></div>
-            </div>
-
-            <div class="mt-4 flex flex-wrap gap-2" id="heroChips"></div>
-            <div class="mt-4">
-                <span id="pageFormula" class="sp-mini-badge"></span>
-            </div>
-
-            <div class="mt-4">
-                <div class="flex justify-between text-xs text-slate-500 mb-1">
-                    <span id="progressLabel">1 / 8</span>
-                    <span id="progressPct">0%</span>
-                </div>
-                <div class="sp-progress-track">
-                    <div id="progressBar" class="sp-progress-fill"></div>
-                </div>
-            </div>
-
-            <div id="browserWarn" class="hidden sp-warning-box mt-3">
-                <i class="fa-solid fa-triangle-exclamation mr-1"></i>
-                이 브라우저는 음성 인식 지원이 제한될 수 있어요. Chrome 또는 Edge 최신 버전을 권장합니다.
-            </div>
-            <div id="httpsWarn" class="hidden sp-warning-box mt-3">
-                <i class="fa-solid fa-lock-open mr-1"></i>
-                마이크 녹음은 보통 HTTPS 또는 localhost 환경에서 가장 안정적으로 동작합니다.
-            </div>
-
-            <div class="sp-step-guide mt-4" id="stepGuide"></div>
-        </section>
-
         <div id="mainArea"></div>
 
         <section id="sessionResult" class="hidden sp-card p-6 text-center">

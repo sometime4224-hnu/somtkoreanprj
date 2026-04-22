@@ -52,6 +52,10 @@
         recordingItemId: '',
         liveTranscript: '',
         finalTranscript: '',
+        hasHeardModel: false,
+        speechRequestId: 0,
+        guideStage: '',
+        guideScrollTimer: 0,
         sessionScores: [],
         sessionLog: []
     };
@@ -67,41 +71,69 @@
     }
 
     function renderHero() {
-        refs.pageEyebrow.textContent = config.eyebrow || '';
-        refs.pageTitle.textContent = config.title || '';
-        refs.pageSubtitle.textContent = config.subtitle || '';
-        refs.pageFormula.textContent = config.formula || '';
-        refs.pageEmoji.textContent = config.emoji || '🗣️';
+        if (refs.pageEyebrow) {
+            refs.pageEyebrow.textContent = config.eyebrow || '';
+        }
+        if (refs.pageTitle) {
+            refs.pageTitle.textContent = config.title || '';
+        }
+        if (refs.pageSubtitle) {
+            refs.pageSubtitle.textContent = config.subtitle || '';
+        }
+        if (refs.pageFormula) {
+            refs.pageFormula.textContent = config.formula || '';
+        }
+        if (refs.pageEmoji) {
+            refs.pageEmoji.textContent = config.emoji || '🗣️';
+        }
 
-        refs.heroChips.innerHTML = (config.heroChips || [])
-            .map((chip) => '<span class="sp-chip">' + escapeHtml(chip) + '</span>')
-            .join('');
+        if (refs.heroChips) {
+            refs.heroChips.innerHTML = (config.heroChips || [])
+                .map((chip) => '<span class="sp-chip">' + escapeHtml(chip) + '</span>')
+                .join('');
+        }
 
-        refs.stepGuide.innerHTML = (config.steps || [])
-            .map((step, index) => (
-                '<div class="sp-step-row">'
-                + '<span class="sp-step-num">' + (index + 1) + '</span>'
-                + '<p class="text-sm text-slate-700 safe m-0">' + escapeHtml(step) + '</p>'
-                + '</div>'
-            ))
-            .join('');
+        if (refs.stepGuide) {
+            refs.stepGuide.innerHTML = (config.steps || [])
+                .map((step, index) => (
+                    '<div class="sp-step-row">'
+                    + '<span class="sp-step-num">' + (index + 1) + '</span>'
+                    + '<p class="text-sm text-slate-700 safe m-0">' + escapeHtml(step) + '</p>'
+                    + '</div>'
+                ))
+                .join('');
+        }
     }
 
     function bindStaticEvents() {
-        refs.historyButton.addEventListener('click', showHistoryModal);
-        refs.clearHistoryBtn.addEventListener('click', clearHistory);
-        refs.closeHistoryBtn.addEventListener('click', closeHistoryModal);
-        refs.historyModal.addEventListener('click', function (event) {
-            if (event.target === refs.historyModal) {
-                closeHistoryModal();
-            }
-        });
-        refs.restartSessionBtn.addEventListener('click', restartSession);
+        if (refs.historyButton) {
+            refs.historyButton.addEventListener('click', showHistoryModal);
+        }
+        if (refs.clearHistoryBtn) {
+            refs.clearHistoryBtn.addEventListener('click', clearHistory);
+        }
+        if (refs.closeHistoryBtn) {
+            refs.closeHistoryBtn.addEventListener('click', closeHistoryModal);
+        }
+        if (refs.historyModal) {
+            refs.historyModal.addEventListener('click', function (event) {
+                if (event.target === refs.historyModal) {
+                    closeHistoryModal();
+                }
+            });
+        }
+        if (refs.restartSessionBtn) {
+            refs.restartSessionBtn.addEventListener('click', restartSession);
+        }
     }
 
     function renderWarnings() {
-        refs.browserWarn.classList.toggle('hidden', hasRecognition);
-        refs.httpsWarn.classList.toggle('hidden', isSecureContextOrLocalhost() && canRecord);
+        if (refs.browserWarn) {
+            refs.browserWarn.classList.toggle('hidden', hasRecognition);
+        }
+        if (refs.httpsWarn) {
+            refs.httpsWarn.classList.toggle('hidden', isSecureContextOrLocalhost() && canRecord);
+        }
     }
 
     function render() {
@@ -116,14 +148,21 @@
         if (isDone) {
             refs.mainArea.innerHTML = '';
             renderSessionSummary();
+            window.setTimeout(function () {
+                focusGuideStage('summary');
+            }, 60);
             return;
         }
 
         refs.sessionResult.classList.add('hidden');
+        state.hasHeardModel = false;
         const item = config.items[state.idx];
-        refs.mainArea.innerHTML = buildItemMarkup(item, state.idx === total - 1);
+        refs.mainArea.innerHTML = buildCompactItemMarkup(item, state.idx === total - 1);
         bindItemEvents();
         updateStatus('마이크를 눌러 문장을 끝까지 따라 말해 보세요.', false);
+        window.setTimeout(function () {
+            focusGuideStage('listen');
+        }, 60);
     }
 
     function buildItemMarkup(item, isLast) {
@@ -145,11 +184,11 @@
             '    <div class="text-4xl mt-1">' + escapeHtml(item.sceneIcon || '🗣️') + '</div>',
             '  </div>',
             '  <div class="grid gap-3 mt-4">',
-            '    <div class="sp-question-box">',
+            '    <div id="questionBox" class="sp-question-box">',
             '      <p class="sp-bubble-label">상황 질문</p>',
             '      <p class="text-[15px] font-semibold text-slate-800 leading-7 safe m-0">' + escapeHtml(item.question || '') + '</p>',
             '    </div>',
-            '    <div class="sp-answer-box">',
+            '    <div id="answerBox" class="sp-answer-box">',
             '      <div class="flex items-center justify-between gap-2">',
             '        <p class="sp-bubble-label">모범 답안</p>',
             '        <button id="toggleModelBtn" class="sp-inline-btn" type="button">가리기</button>',
@@ -157,13 +196,15 @@
             '      <p id="modelAnswer" class="text-[15px] font-bold text-slate-800 leading-7 safe m-0">' + highlightHtml(item.target || '', item.highlights || []) + '</p>',
             '    </div>',
             '  </div>',
-            '  <div class="sp-tip-box mt-4">',
-            '    <p class="text-xs font-black text-slate-700 m-0">말하기 포인트</p>',
-            '    <p class="mt-2 text-sm text-slate-700 safe m-0">' + escapeHtml(item.tip || '') + '</p>',
-            chips ? '    <div class="flex flex-wrap gap-2 mt-3">' + chips + '</div>' : '',
-            '  </div>',
+            '  <details class="sp-tip-details mt-4">',
+            '    <summary class="sp-tip-summary">말하기 포인트</summary>',
+            '    <div class="sp-tip-box mt-2">',
+            '      <p class="mt-0 text-sm text-slate-700 safe m-0">' + escapeHtml(item.tip || '') + '</p>',
+            chips ? '      <div class="flex flex-wrap gap-2 mt-3">' + chips + '</div>' : '',
+            '    </div>',
+            '  </details>',
             '  <div class="grid gap-3 mt-4">',
-            '    <div class="grid grid-cols-2 gap-2">',
+            '    <div id="listenActionArea" class="grid grid-cols-2 gap-2">',
             '      <button id="listenBtn" class="sp-btn sp-btn-soft" type="button">모범답안 듣기</button>',
             '      <button id="slowBtn" class="sp-btn sp-btn-warm" type="button">천천히 듣기</button>',
             '    </div>',
@@ -171,7 +212,7 @@
             '      <p class="sp-bubble-label">말하기 상태</p>',
             '      <p id="statusText" class="text-sm font-semibold text-slate-700 safe m-0">마이크를 눌러 문장을 끝까지 따라 말해 보세요.</p>',
             '    </div>',
-            '    <div class="rounded-[20px] border border-slate-200 bg-white p-4">',
+            '    <div id="recordArea" class="rounded-[20px] border border-slate-200 bg-white p-4">',
             '      <div class="flex items-center gap-4">',
             '        <button id="recordBtn" class="sp-btn sp-record-button" type="button" aria-label="말하기 시작">',
             '          <span id="recordBtnText">말하기</span>',
@@ -187,10 +228,81 @@
             '      </div>',
             '    </div>',
             '    <div id="resultWrap" class="hidden sp-result-box"></div>',
-            '    <div class="grid grid-cols-2 gap-2">',
+            '    <div id="actionRow" class="grid grid-cols-2 gap-2">',
             '      <button id="retryBtn" class="sp-btn sp-btn-ghost" type="button">다시 시도</button>',
             '      <button id="nextBtn" class="sp-btn sp-btn-primary" type="button">' + (isLast ? '결과 보기' : '다음 문장') + '</button>',
             '    </div>',
+            '  </div>',
+            '</section>'
+        ].join('');
+    }
+
+    function buildCompactItemMarkup(item, isLast) {
+        const chips = (item.pronunciationTips || [])
+            .map((tip) => '<span class="sp-chip">' + escapeHtml(tip) + '</span>')
+            .join('');
+
+        return [
+            '<section class="sp-card sp-item-card p-4 mb-4">',
+            '  <div class="sp-scene-head flex items-start justify-between gap-3">',
+            '    <div class="min-w-0 flex-1">',
+            '      <div class="flex flex-wrap gap-2">',
+            '        <span class="sp-mini-badge">' + escapeHtml(config.grammarLabel || '') + '</span>',
+            '        <span class="sp-mini-badge sp-mini-badge--soft">' + escapeHtml(item.concept || '') + '</span>',
+            '      </div>',
+            '      <h2 class="sp-scene-title mt-2 text-xl font-black text-slate-800 leading-snug safe">' + escapeHtml(item.scene || '') + '</h2>',
+            '    </div>',
+            '    <div class="sp-scene-icon text-3xl">' + escapeHtml(item.sceneIcon || '💬') + '</div>',
+            '  </div>',
+            '  <div class="sp-prompt-grid grid gap-2 mt-3">',
+            '    <div id="questionBox" class="sp-question-box">',
+            '      <p class="sp-bubble-label">상황 질문</p>',
+            '      <p class="sp-question-text safe m-0">' + escapeHtml(item.question || '') + '</p>',
+            '    </div>',
+            '    <div id="answerBox" class="sp-answer-box">',
+            '      <div class="flex items-center justify-between gap-2">',
+            '        <p class="sp-bubble-label">모범 답안</p>',
+            '        <button id="toggleModelBtn" class="sp-inline-btn" type="button">가리기</button>',
+            '      </div>',
+            '      <p id="modelAnswer" class="sp-answer-text safe m-0">' + highlightHtml(item.target || '', item.highlights || []) + '</p>',
+            '    </div>',
+            '  </div>',
+            '  <div class="sp-activity-grid grid gap-2 mt-3">',
+            '    <div id="listenActionArea" class="grid grid-cols-2 gap-2">',
+            '      <button id="listenBtn" class="sp-btn sp-btn-soft" type="button">모범답안 듣기</button>',
+            '      <button id="slowBtn" class="sp-btn sp-btn-warm" type="button">천천히 듣기</button>',
+            '    </div>',
+            '    <div id="recordArea" class="sp-record-area">',
+            '      <div id="statusBox" class="sp-status-box">',
+            '        <p class="sp-bubble-label">말하기 상태</p>',
+            '        <p id="statusText" class="sp-status-text safe m-0">마이크를 눌러 문장을 끝까지 따라 말해 보세요.</p>',
+            '      </div>',
+            '      <div class="sp-record-main flex items-center gap-3">',
+            '        <button id="recordBtn" class="sp-btn sp-record-button" type="button" aria-label="말하기 시작">',
+            '          <span id="recordBtnText">말하기</span>',
+            '        </button>',
+            '        <div class="min-w-0 flex-1">',
+            '          <p class="sp-bubble-label">인식 문장</p>',
+            '          <div id="transcriptBox" class="sp-transcript safe">아직 인식된 문장이 없습니다.</div>',
+            '        </div>',
+            '      </div>',
+            '      <div id="audioWrap" class="hidden mt-3">',
+            '        <p class="sp-bubble-label">녹음 다시 듣기</p>',
+            '        <audio id="audioPlayer" class="w-full" controls></audio>',
+            '      </div>',
+            '    </div>',
+            '    <div id="resultWrap" class="hidden sp-result-box"></div>',
+            '    <div id="actionRow" class="grid grid-cols-2 gap-2">',
+            '      <button id="retryBtn" class="sp-btn sp-btn-ghost" type="button">다시 시도</button>',
+            '      <button id="nextBtn" class="sp-btn sp-btn-primary" type="button">' + (isLast ? '결과 보기' : '다음 문장') + '</button>',
+            '    </div>',
+            '    <details class="sp-tip-details mt-1">',
+            '      <summary class="sp-tip-summary">말하기 포인트</summary>',
+            '      <div class="sp-tip-box mt-2">',
+            '        <p class="mt-0 text-sm text-slate-700 safe m-0">' + escapeHtml(item.tip || '') + '</p>',
+            chips ? '        <div class="flex flex-wrap gap-2 mt-3">' + chips + '</div>' : '',
+            '      </div>',
+            '    </details>',
             '  </div>',
             '</section>'
         ].join('');
@@ -221,9 +333,15 @@
         const currentCount = isDone ? total : Math.min(state.idx + 1, total);
         const progress = isDone ? 100 : Math.round((state.idx / total) * 100);
 
-        refs.progressLabel.textContent = currentCount + ' / ' + total;
-        refs.progressPct.textContent = progress + '%';
-        refs.progressBar.style.width = progress + '%';
+        if (refs.progressLabel) {
+            refs.progressLabel.textContent = currentCount + ' / ' + total;
+        }
+        if (refs.progressPct) {
+            refs.progressPct.textContent = progress + '%';
+        }
+        if (refs.progressBar) {
+            refs.progressBar.style.width = progress + '%';
+        }
     }
 
     function getCurrentItem() {
@@ -255,6 +373,9 @@
             return;
         }
 
+        state.hasHeardModel = true;
+        state.speechRequestId += 1;
+        const speechRequestId = state.speechRequestId;
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(item.target);
         utterance.lang = 'ko-KR';
@@ -266,8 +387,20 @@
         if (koreanVoice) {
             utterance.voice = koreanVoice;
         }
+        utterance.onend = function () {
+            if (speechRequestId !== state.speechRequestId) {
+                return;
+            }
+            const currentItem = getCurrentItem();
+            if (!currentItem || currentItem.id !== item.id || state.isRecording || isResultVisible()) {
+                return;
+            }
+            updateStatus('이제 말하기 버튼을 눌러 직접 말해 보세요.', false);
+            focusGuideStage('record-ready');
+        };
         window.speechSynthesis.speak(utterance);
         updateStatus(statusMessage, false);
+        focusGuideStage('listen');
     }
 
     function toggleRecording() {
@@ -285,6 +418,7 @@
         }
 
         resetAttemptUi(true);
+        state.speechRequestId += 1;
         window.speechSynthesis?.cancel();
 
         try {
@@ -335,6 +469,7 @@
             ? '녹음 중이에요. 숨을 고르고 문장을 끝까지 말해 보세요.'
             : '녹음 중이에요. 이 브라우저는 음성 인식이 제한적이라 녹음만 남길 수 있습니다.',
         true);
+        focusGuideStage('recording');
     }
 
     function stopRecording() {
@@ -362,6 +497,7 @@
                 ? '말한 내용이 잘 잡히지 않았어요. 천천히 다시 말해 보세요.'
                 : '녹음은 저장됐어요. 음성 인식이 없어 점수는 표시되지 않습니다.',
             false);
+            focusGuideStage('record-ready');
             return;
         }
 
@@ -471,23 +607,26 @@
         resultWrap.className = 'sp-result-box ' + toneClass;
         resultWrap.classList.remove('hidden');
         resultWrap.innerHTML = [
-            '<p class="sp-bubble-label">브라우저 추정 결과</p>',
-            '<div class="sp-score-grid mt-2">',
-            '  <div class="sp-score-card">',
-            '    <span class="text-xs text-slate-500 font-bold">종합</span>',
-            '    <strong class="text-slate-800">' + entry.score + '</strong>',
+            '<div class="sp-result-summary">',
+            '  <div class="sp-result-scorecard">',
+            '    <span class="sp-result-scorecard__label">종합</span>',
+            '    <strong class="sp-result-scorecard__value">' + entry.score + '점</strong>',
             '  </div>',
-            '  <div class="sp-score-card">',
-            '    <span class="text-xs text-slate-500 font-bold">일치도</span>',
-            '    <strong class="text-slate-800">' + entry.accuracy + '</strong>',
-            '  </div>',
-            '  <div class="sp-score-card">',
-            '    <span class="text-xs text-slate-500 font-bold">완성도</span>',
-            '    <strong class="text-slate-800">' + entry.completeness + '</strong>',
+            '  <div class="sp-result-summary__side">',
+            '    <div class="sp-result-mini-grid">',
+            '      <div class="sp-result-mini">',
+            '        <span class="sp-result-mini__label">일치도</span>',
+            '        <strong class="sp-result-mini__value">' + entry.accuracy + '</strong>',
+            '      </div>',
+            '      <div class="sp-result-mini">',
+            '        <span class="sp-result-mini__label">완성도</span>',
+            '        <strong class="sp-result-mini__value">' + entry.completeness + '</strong>',
+            '      </div>',
+            '    </div>',
+            '    <p class="sp-result-feedback safe">' + escapeHtml(entry.feedback) + '</p>',
             '  </div>',
             '</div>',
-            '<p class="mt-4 text-sm font-bold text-slate-800 safe">' + escapeHtml(entry.feedback) + '</p>',
-            '<div class="grid gap-3 mt-4">',
+            '<div class="sp-compare-grid mt-3">',
             '  <div class="sp-compare">',
             '    <p class="sp-bubble-label">목표 문장</p>',
             '    <p class="safe">' + entry.targetHtml + '</p>',
@@ -497,8 +636,14 @@
             '    <p class="safe">' + entry.spokenHtml + '</p>',
             '  </div>',
             '</div>',
-            '<p class="sp-note mt-3">공백과 구두점은 줄여서 비교합니다. 점수는 브라우저 음성 인식 결과를 기준으로 한 참고용입니다.</p>'
+            '<p class="sp-note mt-2">공백과 구두점은 줄여서 비교한 참고 점수입니다.</p>'
         ].join('');
+
+        window.setTimeout(function () {
+            focusGuideStage('result', {
+                preferRetry: entry.score < 80
+            });
+        }, 60);
     }
 
     function renderSessionSummary() {
@@ -560,6 +705,7 @@
 
         if (!keepStatus) {
             updateStatus('다시 한 번 또박또박 말해 보세요.', false);
+            focusGuideStage(state.hasHeardModel ? 'record-ready' : 'listen');
         }
     }
 
@@ -669,7 +815,166 @@
 
     function cleanupAll() {
         cleanupTransientState();
+        state.speechRequestId += 1;
         window.speechSynthesis?.cancel();
+    }
+
+    function focusGuideStage(stageKey, options) {
+        const stage = buildGuideStage(stageKey, options || {});
+        if (!stage) {
+            return;
+        }
+
+        state.guideStage = stageKey;
+        clearGuideHighlights();
+
+        (stage.highlights || []).forEach(function (highlight) {
+            markGuideTarget(highlight.id, highlight.mode);
+        });
+
+        autoScrollToTarget(stage.scrollTarget, stage.fitIds || []);
+    }
+
+    function buildGuideStage(stageKey, options) {
+        const preferRetry = !!options.preferRetry;
+
+        const stages = {
+            listen: {
+                scrollTarget: 'answerBox',
+                fitIds: ['questionBox', 'answerBox', 'listenActionArea', 'recordArea'],
+                highlights: [
+                    { id: 'answerBox', mode: 'view' },
+                    { id: 'listenBtn', mode: 'action' }
+                ]
+            },
+            'record-ready': {
+                scrollTarget: 'recordArea',
+                fitIds: ['questionBox', 'answerBox', 'listenActionArea', 'recordArea'],
+                highlights: [
+                    { id: 'answerBox', mode: 'view' },
+                    { id: 'recordBtn', mode: 'action' }
+                ]
+            },
+            recording: {
+                scrollTarget: 'recordArea',
+                fitIds: ['questionBox', 'answerBox', 'recordArea'],
+                highlights: [
+                    { id: 'transcriptBox', mode: 'view' },
+                    { id: 'recordBtn', mode: 'action' }
+                ]
+            },
+            result: {
+                scrollTarget: 'resultWrap',
+                fitIds: ['questionBox', 'answerBox', 'resultWrap', 'actionRow'],
+                highlights: [
+                    { id: 'resultWrap', mode: 'view' },
+                    { id: preferRetry ? 'retryBtn' : 'nextBtn', mode: 'action' }
+                ]
+            },
+            summary: {
+                scrollTarget: 'sessionResult',
+                fitIds: ['sessionResult'],
+                highlights: [
+                    { id: 'sessionResult', mode: 'view' },
+                    { id: 'restartSessionBtn', mode: 'action' }
+                ]
+            }
+        };
+
+        return stages[stageKey] || null;
+    }
+
+    function clearGuideHighlights() {
+        [
+            'questionBox',
+            'answerBox',
+            'listenBtn',
+            'slowBtn',
+            'listenActionArea',
+            'statusBox',
+            'recordArea',
+            'recordBtn',
+            'transcriptBox',
+            'resultWrap',
+            'retryBtn',
+            'nextBtn',
+            'sessionResult',
+            'restartSessionBtn'
+        ].forEach(function (id) {
+            const element = document.getElementById(id);
+            if (!element) {
+                return;
+            }
+            element.classList.remove('sp-guided', 'sp-guided-view', 'sp-guided-action');
+        });
+    }
+
+    function markGuideTarget(id, mode) {
+        const element = document.getElementById(id);
+        if (!element) {
+            return;
+        }
+
+        element.classList.add('sp-guided');
+        if (mode === 'action') {
+            element.classList.add('sp-guided-action');
+        } else {
+            element.classList.add('sp-guided-view');
+        }
+    }
+
+    function autoScrollToTarget(id, fitIds) {
+        const target = document.getElementById(id);
+        if (!target) {
+            return;
+        }
+
+        window.clearTimeout(state.guideScrollTimer);
+        state.guideScrollTimer = window.setTimeout(function () {
+            const topPadding = 80;
+            const bottomPadding = 16;
+            const fitElements = (fitIds || [])
+                .map(function (fitId) {
+                    return document.getElementById(fitId);
+                })
+                .filter(Boolean);
+            let top;
+
+            if (fitElements.length) {
+                const bounds = fitElements.map(function (element) {
+                    const rect = element.getBoundingClientRect();
+                    return {
+                        top: rect.top + window.scrollY,
+                        bottom: rect.bottom + window.scrollY
+                    };
+                });
+                const regionTop = Math.min.apply(null, bounds.map(function (bound) {
+                    return bound.top;
+                }));
+                const regionBottom = Math.max.apply(null, bounds.map(function (bound) {
+                    return bound.bottom;
+                }));
+                const availableHeight = Math.max(window.innerHeight - topPadding - bottomPadding, 120);
+                const regionHeight = regionBottom - regionTop;
+
+                top = regionTop - topPadding;
+                if (regionHeight > availableHeight) {
+                    top = Math.min(top, regionBottom - window.innerHeight + bottomPadding);
+                }
+            } else {
+                top = target.getBoundingClientRect().top + window.scrollY - topPadding;
+            }
+
+            window.scrollTo({
+                top: Math.max(0, top),
+                behavior: 'smooth'
+            });
+        }, 40);
+    }
+
+    function isResultVisible() {
+        const resultWrap = document.getElementById('resultWrap');
+        return !!(resultWrap && !resultWrap.classList.contains('hidden') && resultWrap.innerHTML.trim());
     }
 
     function persistHistory(entry) {
