@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>15과 문법 4 | V-는 길에</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(125, 211, 252, 0.26), transparent 24%),
+                radial-gradient(circle at top right, rgba(251, 191, 36, 0.16), transparent 22%),
+                linear-gradient(180deg, #eff6ff 0%, #f0fdf4 52%, #f8fafc 100%);
+        }
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 58px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 16px;
+            box-sizing: border-box;
+            background: rgba(255,255,255,0.92);
+            border-bottom: 1px solid #bfdbfe;
+            backdrop-filter: blur(8px);
+        }
+        .global-nav a {
+            color: #1d4ed8;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .nav-divider { color: #cbd5e1; font-weight: 700; }
+        .safe { word-break: keep-all; overflow-wrap: break-word; }
+        .tab-btn.active { background: #dbeafe; color: #1e3a8a; border-color: #93c5fd; }
+        .vi-text { display: none; }
+        .vi-on .vi-text { display: block; }
+        .choice-btn { min-height: 52px; }
+        .quick-check-card {
+            border: 1px dashed #93c5fd;
+            background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+        }
+        .quick-check-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .quick-check-btn {
+            width: 100%;
+            border: 1px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 10px 12px;
+            background: #ffffff;
+            color: #334155;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            transition: transform 0.18s, background 0.18s, border-color 0.18s;
+        }
+        .quick-check-btn:hover { transform: translateY(-1px); background: #eff6ff; border-color: #60a5fa; }
+        .quick-check-btn.is-correct { background: #eff6ff; border-color: #3b82f6; color: #1d4ed8; }
+        .quick-check-btn.is-wrong { background: #fff1f2; border-color: #fb7185; color: #be123c; }
+        .quick-check-btn.is-muted { background: #f8fafc; border-color: #e2e8f0; color: #94a3b8; }
+        .quick-feedback {
+            display: none;
+            margin-top: 12px;
+            border-radius: 16px;
+            border: 1px solid #bfdbfe;
+            background: rgba(255,255,255,0.9);
+            padding: 12px;
+        }
+        .quick-feedback.show { display: block; }
+        .next-link,
+        .prev-link,
+        .ghost-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .next-link {
+            border: 1px solid #93c5fd;
+            background: rgba(255,255,255,0.92);
+            color: #1d4ed8;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.10);
+        }
+        .next-link:hover { background: #eff6ff; border-color: #60a5fa; transform: translateY(-1px); }
+        .prev-link {
+            border: 1px solid #cbd5e1;
+            background: rgba(255,255,255,0.92);
+            color: #475569;
+        }
+        .prev-link:hover { background: #f8fafc; transform: translateY(-1px); }
+        .ghost-link {
+            border: 1px dashed #cbd5e1;
+            background: rgba(255,255,255,0.72);
+            color: #94a3b8;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">15과 목록</a>
+    </nav>
+
+    <main id="page" class="w-full max-w-5xl mx-auto space-y-4">
+        <section class="bg-white border border-blue-100 rounded-2xl p-5 shadow-sm">
+            <div class="flex items-start justify-between gap-2">
+                <div>
+                    <p class="text-xs font-bold text-blue-700">15과 문법 4</p>
+                    <h1 class="text-2xl font-black text-slate-800 mt-1">V-는 길에</h1>
+                    <p class="text-sm text-slate-600 mt-1 safe">어딘가로 가거나 오던 중에 다른 행동을 하거나, 그 길에 부탁을 할 때 쓰는 표현입니다.</p>
+                    <p class="vi-text text-xs text-blue-700 mt-1 safe">Dùng khi làm một việc khác trên đường đi hoặc trên đường về, hoặc khi nhờ ai làm gì nhân tiện đường đó.</p>
+                </div>
+                <button id="viToggle" class="shrink-0 px-3 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 whitespace-nowrap">Tiếng Việt OFF</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button id="tabLearn" class="tab-btn active border rounded-xl py-2.5 text-sm font-bold border-blue-200" type="button">학습</button>
+                <button id="tabPractice" class="tab-btn border rounded-xl py-2.5 text-sm font-bold border-slate-200 text-slate-600" type="button">연습</button>
+            </div>
+        </section>
+
+        <section id="learnPanel" class="mt-4 space-y-3">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">핵심 개념</h2>
+                <div class="text-slate-700 mt-2 text-sm safe space-y-2">
+                    <p><strong>-는 길에</strong>는 어떤 장소로 <strong>가거나 오던 중</strong>에 다른 일을 덧붙여 말할 때 자주 씁니다.</p>
+                    <p>특히 <strong>들르다, 사다, 버리다, 찾다</strong>처럼 길에서 함께 할 수 있는 행동과 잘 어울립니다.</p>
+                    <p class="mt-2 bg-blue-50 border border-blue-100 rounded-xl px-3 py-2">운동 갔다 오는 길에 세탁소에 들러서 옷을 찾으러 올게요.</p>
+                </div>
+                <div class="vi-text text-xs text-blue-700 mt-3 safe">Mẫu này thường dùng khi nói “trên đường đi / trên đường về” rồi làm thêm một việc khác.</div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">만드는 법</h2>
+                <div class="mt-3 space-y-2 text-sm text-slate-700 safe">
+                    <p class="bg-slate-50 rounded-xl px-3 py-2">동사 어간 + <strong>-는 길에</strong></p>
+                    <p class="bg-slate-50 rounded-xl px-3 py-2">가다 → 가는 길에</p>
+                    <p class="bg-slate-50 rounded-xl px-3 py-2">오다 → 오는 길에 / 돌아오다 → 돌아오는 길에</p>
+                    <p class="bg-slate-50 rounded-xl px-3 py-2">퇴근하다 → 퇴근하는 길에 / 외출하다 → 외출하는 길에</p>
+                </div>
+                <div class="vi-text text-xs text-blue-700 mt-3 safe">Cách tạo: gắn -는 길에 vào gốc động từ. Thường đi cùng các động từ chỉ đi, đến, về, ra ngoài, tan làm...</div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">교재형 예문</h2>
+                <ul class="mt-3 space-y-3 text-sm text-slate-700">
+                    <li class="safe">부산에 <strong class="text-blue-700">가는 길에</strong> 경주에 들러서 구경하려고 해요.</li>
+                    <li class="safe">오늘이 켈리 씨 생일이라서 학교에 <strong class="text-blue-700">오는 길에</strong> 케이크를 샀어요.</li>
+                    <li class="safe">귀국하는 <strong class="text-blue-700">길에</strong> 면세점에서 화장품 좀 사다 줄래요?</li>
+                    <li class="safe">제가 운동 갔다 오는 <strong class="text-blue-700">길에</strong> 찾으러 올게요.</li>
+                </ul>
+                <div class="vi-text text-xs text-blue-700 mt-3 safe">Các ví dụ này cho thấy một hành động được làm thêm trên quãng đường đi hoặc về.</div>
+            </article>
+
+            <article class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">자주 쓰는 부탁</h2>
+                <div class="text-sm text-slate-700 safe space-y-2 mt-2">
+                    <p>이 표현은 부탁할 때 특히 자연스럽습니다.</p>
+                    <div class="rounded-xl bg-white border border-amber-100 px-3 py-3">
+                        <p><strong>나가는 길에</strong> 음식물 쓰레기 좀 버려 줄래요?</p>
+                        <p class="mt-1"><strong>퇴근하는 길에</strong> 우유 좀 사다 줄 수 있어요?</p>
+                        <p class="mt-1"><strong>들어오는 길에</strong> 경비실에서 택배 좀 찾아와 주세요.</p>
+                    </div>
+                    <p>이미 가는 동선이 있는 사람에게 부탁할 때 부담이 덜하게 들립니다.</p>
+                </div>
+                <div class="vi-text text-xs text-blue-700 mt-3 safe">Mẫu này rất tự nhiên khi nhờ ai đó làm việc gì tiện đường, nên nghe nhẹ nhàng và thực tế hơn.</div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">주의할 점</h2>
+                <div class="text-sm text-slate-700 safe space-y-2 mt-2">
+                    <p><strong>-는 길에</strong>는 보통 실제 <strong>이동 경로</strong>가 있을 때 자연스럽습니다.</p>
+                    <p>그래서 아무 행동에나 붙이기보다, <strong>가다 / 오다 / 돌아오다 / 퇴근하다 / 외출하다</strong>처럼 동선이 느껴지는 동사와 잘 맞습니다.</p>
+                    <div class="rounded-xl bg-slate-50 px-3 py-2">
+                        <p><strong>퇴근하는 길에 우유를 샀어요.</strong> = 자연스러움</p>
+                        <p><strong>잠자는 길에 우유를 샀어요.</strong> = 이동 경로가 아니어서 어색함</p>
+                    </div>
+                </div>
+                <div class="vi-text text-xs text-blue-700 mt-3 safe">Điểm quan trọng là phải có cảm giác về lộ trình di chuyển; không phải hành động nào cũng dùng được với -는 길에.</div>
+            </article>
+
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <h2 class="text-base font-bold text-slate-800">말하기 연결</h2>
+                <div class="text-sm text-slate-700 safe space-y-2 mt-2">
+                    <p>생활 속 잔심부름과 연결하면 금방 자연스러워집니다.</p>
+                    <div class="rounded-xl bg-blue-50 border border-blue-100 px-3 py-3">
+                        <p><strong>경비실에 들르는 길에</strong> 택배를 찾을 수 있어요.</p>
+                        <p class="mt-1"><strong>학교에 오는 길에</strong> 필요한 물건을 사 올 수 있어요.</p>
+                        <p class="mt-1"><strong>집에 돌아오는 길에</strong> 쓰레기를 버릴 수도 있어요.</p>
+                    </div>
+                    <p>즉, 일정과 동선을 함께 말하면서 부탁하거나 계획을 설명할 때 아주 유용합니다.</p>
+                </div>
+                <div class="vi-text text-xs text-blue-700 mt-3 safe">Mẫu này rất hữu ích khi vừa nói lịch trình vừa giải thích kế hoạch hoặc nhờ vả trong đời sống hằng ngày.</div>
+            </article>
+        </section>
+
+        <section id="practicePanel" class="mt-4 hidden">
+            <article class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between text-xs">
+                    <span id="progress" class="font-bold text-blue-600"></span>
+                    <span class="text-slate-500">연습 문제</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+                    <div id="progressBar" class="bg-blue-500 h-1.5 rounded-full transition-all duration-300" style="width:0%"></div>
+                </div>
+                <p id="qGrammar" class="mt-3 text-[11px] font-bold text-blue-700 uppercase tracking-wide"></p>
+                <p id="qText" class="mt-1 text-base font-bold text-slate-800 safe"></p>
+                <p id="qHintKo" class="mt-1 text-xs text-slate-500 safe"></p>
+                <p id="qHintVi" class="vi-text text-xs text-blue-600 mt-0.5 safe"></p>
+                <div id="choices" class="mt-3 space-y-2"></div>
+                <div id="shortWrap" class="mt-3 hidden">
+                    <input id="shortInput" type="text" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400" placeholder="답을 쓰고 아래 버튼을 누르세요" />
+                    <button id="checkShortBtn" class="mt-2 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">답 확인</button>
+                </div>
+                <div id="feedbackBox" class="hidden mt-3 rounded-xl border p-3"></div>
+                <button id="nextBtn" class="hidden mt-3 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">다음 문제</button>
+            </article>
+            <article id="resultPanel" class="hidden mt-3 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"></article>
+        </section>
+
+        <div class="mt-5 flex items-center justify-between gap-3">
+            <a href="grammar3.html" class="prev-link" aria-label="문법 3으로 이동"><span aria-hidden="true">←</span><span>이전: 문법 3</span></a>
+            <span class="ghost-link" aria-disabled="true">다음: 듣기 1 준비 중</span>
+        </div>
+    </main>
+
+    <script src="../shared/grammar-bilingual-layout.js"></script>
+    <script>
+        const page = document.getElementById('page');
+        const viToggle = document.getElementById('viToggle');
+        const tabLearn = document.getElementById('tabLearn');
+        const tabPractice = document.getElementById('tabPractice');
+        const learnPanel = document.getElementById('learnPanel');
+        const practicePanel = document.getElementById('practicePanel');
+        const practiceCard = practicePanel.querySelector('article:first-child');
+        const progressEl = document.getElementById('progress');
+        const progressBar = document.getElementById('progressBar');
+        const qGrammar = document.getElementById('qGrammar');
+        const qText = document.getElementById('qText');
+        const qHintKo = document.getElementById('qHintKo');
+        const qHintVi = document.getElementById('qHintVi');
+        const choices = document.getElementById('choices');
+        const shortWrap = document.getElementById('shortWrap');
+        const shortInput = document.getElementById('shortInput');
+        const checkShortBtn = document.getElementById('checkShortBtn');
+        const feedbackBox = document.getElementById('feedbackBox');
+        const nextBtn = document.getElementById('nextBtn');
+        const resultPanel = document.getElementById('resultPanel');
+
+        let viOn = false;
+        viToggle.addEventListener('click', function () {
+            viOn = !viOn;
+            page.classList.toggle('vi-on', viOn);
+            viToggle.textContent = viOn ? 'Tiếng Việt ON' : 'Tiếng Việt OFF';
+        });
+
+        function showTab(name) {
+            const learn = name === 'learn';
+            learnPanel.classList.toggle('hidden', !learn);
+            practicePanel.classList.toggle('hidden', learn);
+            tabLearn.classList.toggle('active', learn);
+            tabPractice.classList.toggle('active', !learn);
+            tabLearn.classList.toggle('text-slate-600', !learn);
+            tabPractice.classList.toggle('text-slate-600', learn);
+            if (!learn && !state.started) {
+                state.started = true;
+                renderQuestion();
+            }
+        }
+
+        tabLearn.addEventListener('click', function () { showTab('learn'); });
+        tabPractice.addEventListener('click', function () { showTab('practice'); });
+
+        const quickChecks = [
+            {
+                anchor: 0,
+                label: '학습 확인 1',
+                q: '“오는 길에”를 가장 잘 설명한 것은 무엇일까요?',
+                options: [
+                    '어디에서 오면서 그 도중에',
+                    '반드시 해야 하는 규칙',
+                    '상대의 말을 추측해서 답하는 표현'
+                ],
+                answer: '어디에서 오면서 그 도중에',
+                explainKo: '-는 길에는 가거나 오던 도중, 즉 이동 경로를 말할 때 쓰는 표현입니다.',
+                explainVi: '-는 길에 là mẫu dùng khi nói về quãng đường đang đi hoặc đang về.',
+                mistakes: {
+                    '반드시 해야 하는 규칙': '이 뜻은 문법 3인 -지 않으면 안 되다와 더 가깝습니다.',
+                    '상대의 말을 추측해서 답하는 표현': '이 뜻은 문법 2인 -(으)ㄹ걸(요)와 더 가깝습니다.'
+                }
+            },
+            {
+                anchor: 2,
+                label: '학습 확인 2',
+                q: '“학교에 오는 길에 케이크를 샀어요.”의 뜻으로 가장 알맞은 것은 무엇일까요?',
+                options: [
+                    '학교에서 케이크를 만들었어요.',
+                    '학교에 오다가 케이크를 샀어요.',
+                    '학교에 가기 전에 케이크를 먹었어요.'
+                ],
+                answer: '학교에 오다가 케이크를 샀어요.',
+                explainKo: '학교로 오는 동선 중간에 케이크를 산 상황입니다.',
+                explainVi: 'Đây là tình huống mua bánh trên đường đến trường.',
+                mistakes: {
+                    '학교에서 케이크를 만들었어요.': '장소와 행동이 모두 달라졌습니다.',
+                    '학교에 가기 전에 케이크를 먹었어요.': '사는 행동과 먹는 행동은 다르고, 길 위 행동이라는 점도 사라집니다.'
+                }
+            },
+            {
+                anchor: 4,
+                label: '학습 확인 3',
+                q: '다음 중 가장 자연스러운 부탁 문장은 무엇일까요?',
+                options: [
+                    '퇴근하는 길에 우유 좀 사다 줄 수 있어요?',
+                    '퇴근하지 않으면 안 우유예요.',
+                    '퇴근할걸요 우유 좀.'
+                ],
+                answer: '퇴근하는 길에 우유 좀 사다 줄 수 있어요?',
+                explainKo: '이미 있는 이동 동선에 심부름을 붙여 부탁하는 문장이라 자연스럽습니다.',
+                explainVi: 'Đây là câu nhờ vả rất tự nhiên vì gắn việc mua đồ vào lộ trình đã có sẵn.',
+                mistakes: {
+                    '퇴근하지 않으면 안 우유예요.': '문장 구조도 어색하고 의미도 맞지 않습니다.',
+                    '퇴근할걸요 우유 좀.': '-걸요는 이 문맥의 부탁 표현과 맞지 않습니다.'
+                }
+            }
+        ];
+
+        const quiz = [
+            {
+                type: 'mcq',
+                grammar: '의미 이해',
+                q: '“운동 갔다 오는 길에 찾으러 올게요.”와 가장 가까운 뜻은 무엇일까요?',
+                hintKo: '운동을 마친 뒤 돌아오는 동선을 떠올려 보세요.',
+                hintVi: 'Hãy nghĩ đến lộ trình quay về sau khi tập thể dục.',
+                options: [
+                    '운동을 하러 갈 때 먼저 들를게요.',
+                    '운동을 하고 돌아오는 도중에 찾아갈게요.',
+                    '운동을 안 하고 바로 올게요.',
+                    '운동하는 방법을 찾아볼게요.'
+                ],
+                answer: '운동을 하고 돌아오는 도중에 찾아갈게요.',
+                explainKo: '갔다 오는 길에는 “가서 다시 돌아오는 동선”이 들어 있습니다.',
+                explainVi: '갔다 오는 길에 bao hàm ý “đi rồi quay về”, nên nghĩa là ghé trên đường trở về sau khi tập.',
+                mistakes: {
+                    '운동을 하러 갈 때 먼저 들를게요.': '원문은 갈 때보다 “돌아오는 중”에 더 가깝습니다.',
+                    '운동을 안 하고 바로 올게요.': '운동을 하고 난 뒤의 동선이라는 뜻이 사라졌습니다.',
+                    '운동하는 방법을 찾아볼게요.': '찾으러 오다의 뜻을 잘못 이해한 경우입니다.'
+                }
+            },
+            {
+                type: 'mcq',
+                grammar: '문장 완성',
+                q: '“오늘이 켈리 씨 생일이라서 학교에 ___ 케이크를 샀어요.”에 알맞은 것은 무엇일까요?',
+                hintKo: '학교로 오는 동선 중간이라는 뜻입니다.',
+                hintVi: 'Ý là mua bánh trên đường đến trường.',
+                options: [
+                    '오는 길에',
+                    '오지 않으면 안 돼요',
+                    '올걸요',
+                    '온 사람이'
+                ],
+                answer: '오는 길에',
+                explainKo: '동사 오다에 -는 길에가 붙어 “오는 도중에”가 됩니다.',
+                explainVi: 'Gắn -는 길에 vào 오다 để tạo nghĩa “trên đường đến / đang đến”.',
+                mistakes: {
+                    '오지 않으면 안 돼요': '이 표현은 필수 조건 문법으로 뜻이 달라집니다.',
+                    '올걸요': '추측 표현이라 문장 구조가 맞지 않습니다.',
+                    '온 사람이': '관형형이라 여기의 자리와 맞지 않습니다.'
+                }
+            },
+            {
+                type: 'mcq',
+                grammar: '교재 이해',
+                q: '“부산에 가는 길에 경주에 들러서 구경하려고 해요.”를 가장 잘 이해한 것은 무엇일까요?',
+                hintKo: '최종 목적지는 부산이고, 중간에 잠깐 다른 곳을 방문합니다.',
+                hintVi: 'Điểm đến cuối là Busan, nhưng giữa đường sẽ ghé nơi khác một lúc.',
+                options: [
+                    '경주에 살다가 부산으로 이사하려고 해요.',
+                    '부산으로 가는 도중에 경주에 들를 계획이에요.',
+                    '부산에서 경주를 구경하려고 해요.',
+                    '부산에 간 적이 없어서 경주를 몰라요.'
+                ],
+                answer: '부산으로 가는 도중에 경주에 들를 계획이에요.',
+                explainKo: '가는 길에 + 들르다는 이동 경로 중간에 잠깐 방문한다는 뜻을 잘 보여 줍니다.',
+                explainVi: '가는 길에 + 들르다 cho thấy sẽ ghé một nơi trên đường đi.',
+                mistakes: {
+                    '경주에 살다가 부산으로 이사하려고 해요.': '사는 장소 변화가 아니라 여행 동선을 말합니다.',
+                    '부산에서 경주를 구경하려고 해요.': '경주는 부산에 있지 않고, “가는 중간”이라는 뜻이 중요합니다.',
+                    '부산에 간 적이 없어서 경주를 몰라요.': '문장과 관련 없는 내용입니다.'
+                }
+            },
+            {
+                type: 'mcq',
+                grammar: '부탁하기',
+                q: '친구가 “나 지금 나가는데 뭐 부탁할 거 없어?”라고 말했을 때 가장 자연스러운 대답은 무엇일까요?',
+                hintKo: '이미 나가는 동선이 있다는 점을 이용해 보세요.',
+                hintVi: 'Hãy tận dụng việc người kia đã có sẵn lộ trình đi ra ngoài.',
+                options: [
+                    '그럼 나가는 길에 음식물 쓰레기 좀 버려 줄래요?',
+                    '그럼 음식물 쓰레기를 버리지 않으면 안 돼요.',
+                    '그럼 음식물 쓰레기를 버릴걸요.',
+                    '그럼 음식물 쓰레기는 버리는 사람이에요.'
+                ],
+                answer: '그럼 나가는 길에 음식물 쓰레기 좀 버려 줄래요?',
+                explainKo: '상대의 이동 동선에 심부름을 붙여 부탁하는 가장 자연스러운 말입니다.',
+                explainVi: 'Đây là cách nhờ vả tự nhiên nhất: gắn việc cần nhờ vào lộ trình người kia đang đi.',
+                mistakes: {
+                    '그럼 음식물 쓰레기를 버리지 않으면 안 돼요.': '규칙을 말하는 문장이어서 부탁 응답으로는 어색합니다.',
+                    '그럼 음식물 쓰레기를 버릴걸요.': '추측 표현이라서 부탁이 되지 않습니다.',
+                    '그럼 음식물 쓰레기는 버리는 사람이에요.': '문장 의미가 자연스럽지 않습니다.'
+                }
+            },
+            {
+                type: 'mcq',
+                grammar: '표현 구별',
+                q: '다음 중 가장 자연스러운 문장을 고르세요.',
+                hintKo: '실제 이동 경로가 느껴지는 표현을 찾으세요.',
+                hintVi: 'Hãy chọn câu có cảm giác rõ ràng về lộ trình di chuyển thực tế.',
+                options: [
+                    '퇴근하는 길에 우유를 샀어요.',
+                    '잠자는 길에 우유를 샀어요.',
+                    '생각하는 길에 우유를 샀어요.',
+                    '우유를 사는 길에예요.'
+                ],
+                answer: '퇴근하는 길에 우유를 샀어요.',
+                explainKo: '퇴근은 실제 이동 동선이 있으므로 -는 길에와 자연스럽게 결합합니다.',
+                explainVi: '퇴근 có lộ trình di chuyển thực tế nên kết hợp rất tự nhiên với -는 길에.',
+                mistakes: {
+                    '잠자는 길에 우유를 샀어요.': '잠자다는 이동 동선이 아니라서 어색합니다.',
+                    '생각하는 길에 우유를 샀어요.': '생각하다 역시 이동 경로를 나타내지 않습니다.',
+                    '우유를 사는 길에예요.': '문장 구조가 부자연스럽고 완결되지 않았습니다.'
+                }
+            },
+            {
+                type: 'mcq',
+                grammar: '생활 적용',
+                q: '경비실에서 택배를 찾아와야 하는데, 친구가 “나 지금 집에 들어가.”라고 말했어요. 가장 자연스러운 부탁은 무엇일까요?',
+                hintKo: '들어오는 동선에 심부름을 붙여 보세요.',
+                hintVi: 'Hãy gắn việc cần nhờ vào lộ trình đang đi vào nhà.',
+                options: [
+                    '그럼 들어오는 길에 택배 좀 찾아 줄래요?',
+                    '그럼 택배를 찾지 않으면 안 돼요.',
+                    '그럼 택배를 찾을걸요.',
+                    '그럼 택배를 찾는 길에예요.'
+                ],
+                answer: '그럼 들어오는 길에 택배 좀 찾아 줄래요?',
+                explainKo: '상대가 집으로 들어오는 중이므로, 그 길에 부탁하는 문장이 가장 자연스럽습니다.',
+                explainVi: 'Vì người kia đang trên đường vào nhà, lời nhờ “nhân tiện đường đó” là tự nhiên nhất.',
+                mistakes: {
+                    '그럼 택배를 찾지 않으면 안 돼요.': '의무 표현이라 부탁 문맥과 다릅니다.',
+                    '그럼 택배를 찾을걸요.': '추측 느낌이어서 부탁으로 자연스럽지 않습니다.',
+                    '그럼 택배를 찾는 길에예요.': '표현 형태도 맞지 않고 뜻도 불분명합니다.'
+                }
+            },
+            {
+                type: 'mcq',
+                grammar: '문장 이해',
+                q: '“귀국하는 길에 면세점에서 화장품 좀 사다 줄래요?”의 상황으로 가장 알맞은 것은 무엇일까요?',
+                hintKo: '한국으로 돌아오는 동선 중간을 생각해 보세요.',
+                hintVi: 'Hãy nghĩ đến quãng đường quay về nước và ghé cửa hàng miễn thuế giữa đường.',
+                options: [
+                    '한국에 오기 전에 이미 집에 도착했어요.',
+                    '돌아오는 도중에 면세점에서 물건을 사 달라는 부탁이에요.',
+                    '면세점이 집 안에 있다는 설명이에요.',
+                    '화장품을 꼭 사지 않으면 안 된다는 규칙이에요.'
+                ],
+                answer: '돌아오는 도중에 면세점에서 물건을 사 달라는 부탁이에요.',
+                explainKo: '귀국하는 길에는 돌아오는 동선, 사다 줄래요는 부탁의 의미를 보여 줍니다.',
+                explainVi: '귀국하는 길에 cho biết là trên đường về nước, còn 사다 줄래요 thể hiện lời nhờ vả.',
+                mistakes: {
+                    '한국에 오기 전에 이미 집에 도착했어요.': '이 문장은 돌아오는 중간이라는 핵심이 빠졌습니다.',
+                    '면세점이 집 안에 있다는 설명이에요.': '장소 설명이 아니라 부탁 표현입니다.',
+                    '화장품을 꼭 사지 않으면 안 된다는 규칙이에요.': '필수 조건 문법과 혼동한 경우입니다.'
+                }
+            },
+            {
+                type: 'short',
+                grammar: '자유 응용',
+                q: '“퇴근하다 / 우유를 사다”를 사용해 문장을 만드세요.',
+                hintKo: '심부름이나 계획 문장으로 만들어 보세요.',
+                hintVi: 'Hãy tạo thành câu nhờ vả hoặc câu nói về kế hoạch.',
+                answers: [
+                    '퇴근하는 길에 우유를 사다 줄게요.',
+                    '퇴근하는 길에 우유 좀 사다 줄 수 있어요?',
+                    '퇴근하는 길에 우유를 살게요.'
+                ],
+                explainKo: '퇴근이라는 이동 동선에 우유를 사는 행동을 자연스럽게 붙인 응용입니다.',
+                explainVi: 'Đây là cách nối tự nhiên hành động mua sữa vào lộ trình tan làm.',
+                scaffoldKo: '퇴근하는 길에 우유를 사다 줄게요.'
+            }
+        ];
+
+        let activeQuiz = [];
+        const state = { idx: 0, answered: false, score: 0, logs: [], started: false, mode: 'main' };
+
+        function esc(text) {
+            return String(text == null ? '' : text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function normalize(text) {
+            return String(text || '').replace(/\s/g, '');
+        }
+
+        function shuffleArray(items) {
+            const copy = items.slice();
+            for (let i = copy.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const tmp = copy[i];
+                copy[i] = copy[j];
+                copy[j] = tmp;
+            }
+            return copy;
+        }
+
+        function resetMainRound() {
+            activeQuiz = shuffleArray(quiz);
+            state.mode = 'main';
+            state.idx = 0;
+            state.answered = false;
+            state.score = 0;
+            state.logs = [];
+        }
+
+        function startWrongReview(items) {
+            activeQuiz = shuffleArray(items);
+            state.mode = 'review';
+            state.idx = 0;
+            state.answered = false;
+            state.score = 0;
+            state.logs = [];
+            resultPanel.classList.add('hidden');
+            practiceCard.classList.remove('hidden');
+            showTab('practice');
+            renderQuestion();
+        }
+
+        function getWrongReason(q, user) {
+            if (q.mistakes && q.mistakes[user]) return q.mistakes[user];
+            return '이동 경로와 함께 쓰는 말맛을 다시 확인해 보세요.';
+        }
+
+        function lockInputs(q, user) {
+            if (q.type === 'mcq') {
+                Array.from(choices.querySelectorAll('button')).forEach(function (btn) {
+                    btn.disabled = true;
+                    if (btn.textContent === q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-blue-400 bg-blue-50 text-blue-800';
+                    } else if (btn.textContent === user && btn.textContent !== q.answer) {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-rose-400 bg-rose-50 text-rose-800';
+                    } else {
+                        btn.className = 'choice-btn w-full border rounded-xl px-4 py-3 text-left text-sm font-semibold border-slate-200 bg-slate-50 text-slate-400';
+                    }
+                });
+            } else {
+                shortInput.disabled = true;
+                checkShortBtn.disabled = true;
+                checkShortBtn.className = 'mt-2 w-full bg-slate-400 text-white py-3 rounded-xl text-sm font-bold cursor-not-allowed';
+            }
+        }
+
+        function feedbackHtml(ok, user, correct, q) {
+            let html = '<p class="text-sm font-bold ' + (ok ? 'text-blue-700' : 'text-rose-700') + '">'
+                + (ok ? '정답입니다.' : '오답입니다.')
+                + ' <span class="text-xs font-normal">(' + (ok ? 'Đúng' : 'Sai') + ')</span></p>'
+                + '<p class="text-xs text-slate-700 mt-2"><b>내 답:</b> ' + esc(user || '(무응답)') + '</p>'
+                + '<p class="text-xs text-slate-700 mt-1"><b>정답:</b> ' + esc(correct) + '</p>';
+
+            if (!ok) {
+                html += '<p class="text-xs text-rose-700 mt-2 safe"><b>왜 틀렸는지:</b> ' + esc(getWrongReason(q, user)) + '</p>';
+            }
+            if (!ok && q.scaffoldKo) {
+                html += '<p class="text-xs text-slate-600 mt-2 safe"><b>문장 틀:</b> ' + esc(q.scaffoldKo) + '</p>';
+            }
+
+            html += '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(q.explainKo) + '</p>'
+                + '<p class="text-xs text-blue-700 mt-1 safe"><b>VI:</b> ' + esc(q.explainVi) + '</p>';
+            return html;
+        }
+
+        function answerQuestion(user) {
+            if (state.answered) return;
+            const q = activeQuiz[state.idx];
+            const correct = q.type === 'mcq' ? q.answer : q.answers[0];
+            let ok;
+
+            if (q.type === 'mcq') {
+                ok = user === q.answer;
+            } else {
+                const normalizedUser = normalize(user);
+                ok = q.answers.some(function (answer) { return normalize(answer) === normalizedUser; });
+            }
+
+            state.answered = true;
+            if (ok) state.score += 1;
+            state.logs.push({
+                ok: ok,
+                user: user,
+                correct: correct,
+                item: q,
+                q: q.q,
+                explainKo: q.explainKo,
+                reasonKo: ok ? '' : getWrongReason(q, user)
+            });
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = 'mt-3 rounded-xl border p-3 ' + (ok ? 'bg-blue-50 border-blue-200' : 'bg-rose-50 border-rose-200');
+            feedbackBox.innerHTML = feedbackHtml(ok, user, correct, q);
+            nextBtn.classList.remove('hidden');
+            lockInputs(q, user);
+        }
+
+        function renderQuestion() {
+            if (state.idx >= activeQuiz.length) {
+                renderResult();
+                return;
+            }
+            const q = activeQuiz[state.idx];
+            state.answered = false;
+            progressEl.textContent = (state.mode === 'review' ? '오답 ' : '') + (state.idx + 1) + ' / ' + activeQuiz.length;
+            progressBar.style.width = (state.idx / activeQuiz.length * 100) + '%';
+            qGrammar.textContent = state.mode === 'review' ? '오답 다시 풀기 | ' + q.grammar : q.grammar;
+            qText.textContent = q.q;
+            qHintKo.textContent = '힌트: ' + q.hintKo;
+            qHintVi.textContent = 'Gợi ý: ' + q.hintVi;
+            choices.innerHTML = '';
+            feedbackBox.classList.add('hidden');
+            feedbackBox.innerHTML = '';
+            nextBtn.classList.add('hidden');
+            shortWrap.classList.add('hidden');
+            shortInput.value = '';
+            shortInput.disabled = false;
+            checkShortBtn.disabled = false;
+            checkShortBtn.className = 'mt-2 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold';
+            if (q.type === 'mcq') {
+                q.options.forEach(function (opt) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'choice-btn w-full border border-slate-300 rounded-xl px-4 py-3 text-left text-sm font-semibold text-slate-800';
+                    btn.textContent = opt;
+                    btn.addEventListener('click', function () { answerQuestion(opt); });
+                    choices.appendChild(btn);
+                });
+            } else {
+                shortWrap.classList.remove('hidden');
+                shortInput.focus();
+            }
+        }
+
+        shortInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') answerQuestion(shortInput.value.trim());
+        });
+
+        checkShortBtn.addEventListener('click', function () {
+            answerQuestion(shortInput.value.trim());
+        });
+
+        nextBtn.addEventListener('click', function () {
+            state.idx += 1;
+            renderQuestion();
+        });
+
+        function renderResult() {
+            practiceCard.classList.add('hidden');
+            resultPanel.classList.remove('hidden');
+            const total = activeQuiz.length;
+            const pct = Math.round(state.score / total * 100);
+            const wrongItems = state.logs.filter(function (log) { return !log.ok; });
+            let html = '';
+
+            if (state.mode === 'main') {
+                html += '<p class="text-lg font-black text-slate-800">결과: ' + state.score + ' / ' + total
+                    + ' <span class="text-blue-600">(' + pct + '%)</span></p>'
+                    + '<p class="text-xs text-slate-500 mt-1">Kết quả: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
+                if (pct >= 80) {
+                    html += '<p class="text-sm text-blue-700 font-bold mt-2">좋아요! 길 위 동선과 부탁 표현이 잘 연결되고 있어요.</p>'
+                        + '<p class="text-xs text-blue-600">Rất tốt! Bạn đang nối khá chắc lộ trình di chuyển với cách nhờ vả.</p>';
+                } else {
+                    html += '<p class="text-sm text-amber-700 font-bold mt-2">괜찮아요. 이동 동선을 떠올리면서 다시 보면 더 쉬워져요.</p>'
+                        + '<p class="text-xs text-amber-600">Không sao. Nếu hình dung đường đi rõ hơn, bạn sẽ thấy mẫu này dễ hơn nhiều.</p>';
+                }
+            } else {
+                html += '<p class="text-lg font-black text-slate-800">오답 다시 풀기: ' + state.score + ' / ' + total
+                    + ' <span class="text-blue-600">(' + pct + '%)</span></p>'
+                    + '<p class="text-xs text-slate-500 mt-1">Làm lại câu sai: ' + state.score + '/' + total + ' (' + pct + '%)</p>';
+                if (pct === 100) {
+                    html += '<p class="text-sm text-blue-700 font-bold mt-2">잘했어요! 길에 표현이 자연스럽게 잡혔습니다.</p>'
+                        + '<p class="text-xs text-blue-600">Tốt lắm! Cách dùng -는 길에 đã trở nên tự nhiên hơn rồi.</p>';
+                } else {
+                    html += '<p class="text-sm text-amber-700 font-bold mt-2">좋아요. 한 번 더 반복하면 부탁 문장도 금방 편해질 거예요.</p>'
+                        + '<p class="text-xs text-amber-600">Bạn đang tiến bộ. Luyện thêm một lần nữa là câu nhờ vả sẽ quen ngay.</p>';
+                }
+            }
+
+            if (wrongItems.length > 0) {
+                html += '<div class="mt-3 border-t pt-3"><p class="text-xs font-bold text-slate-700 mb-2">틀린 문제 복습 / Ôn lại câu sai:</p>';
+                wrongItems.forEach(function (log) {
+                    html += '<div class="mb-2 bg-rose-50 border border-rose-100 rounded-xl px-3 py-2">'
+                        + '<p class="text-xs text-slate-700 font-semibold safe">' + esc(log.q) + '</p>'
+                        + '<p class="text-xs text-rose-700 mt-1">내 답: ' + esc(log.user || '(무응답)') + '</p>'
+                        + '<p class="text-xs text-blue-700">정답: ' + esc(log.correct) + '</p>'
+                        + '<p class="text-xs text-slate-600 mt-1 safe">' + esc(log.reasonKo || log.explainKo) + '</p>'
+                        + '</div>';
+                });
+                html += '</div>';
+            }
+
+            if (state.mode === 'main' && wrongItems.length > 0) {
+                html += '<button id="reviewWrongBtn" class="mt-4 w-full bg-slate-800 text-white py-3 rounded-xl text-sm font-bold" type="button">틀린 문제 다시 풀기</button>';
+            }
+
+            html += '<button id="retryBtn" class="mt-3 w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-bold" type="button">'
+                + (state.mode === 'main' ? '전체 다시 풀기 / Làm lại' : '처음부터 다시 풀기 / Làm lại từ đầu')
+                + '</button>';
+            resultPanel.innerHTML = html;
+
+            const reviewWrongBtn = document.getElementById('reviewWrongBtn');
+            if (reviewWrongBtn) {
+                reviewWrongBtn.addEventListener('click', function () {
+                    startWrongReview(wrongItems.map(function (log) { return log.item; }));
+                });
+            }
+
+            document.getElementById('retryBtn').addEventListener('click', function () {
+                resetMainRound();
+                resultPanel.classList.add('hidden');
+                practiceCard.classList.remove('hidden');
+                showTab('practice');
+                renderQuestion();
+            });
+        }
+
+        function lockQuickButtons(card, selected, answer) {
+            Array.from(card.querySelectorAll('.quick-check-btn')).forEach(function (btn) {
+                btn.disabled = true;
+                if (btn.textContent === answer) {
+                    btn.classList.add('is-correct');
+                } else if (btn.textContent === selected) {
+                    btn.classList.add('is-wrong');
+                } else {
+                    btn.classList.add('is-muted');
+                }
+            });
+        }
+
+        function quickFeedbackHtml(ok, item, selected) {
+            let html = '<p class="text-sm font-bold ' + (ok ? 'text-blue-700' : 'text-rose-700') + '">'
+                + (ok ? '바로 이해했어요.' : '여기서 많이 헷갈려요. 지금 같이 정리할게요.')
+                + '</p>'
+                + '<p class="text-xs text-slate-700 mt-2"><b>정답:</b> ' + esc(item.answer) + '</p>';
+            if (!ok && item.mistakes && item.mistakes[selected]) {
+                html += '<p class="text-xs text-rose-700 mt-2 safe"><b>왜 틀렸는지:</b> ' + esc(item.mistakes[selected]) + '</p>';
+            }
+            html += '<p class="text-xs text-slate-700 mt-2 safe"><b>설명:</b> ' + esc(item.explainKo) + '</p>'
+                + '<p class="text-xs text-blue-700 mt-1 safe"><b>VI:</b> ' + esc(item.explainVi) + '</p>';
+            return html;
+        }
+
+        function answerQuickCheck(card, item, selected) {
+            if (card.dataset.done === '1') return;
+            card.dataset.done = '1';
+            const ok = selected === item.answer;
+            lockQuickButtons(card, selected, item.answer);
+            const feedback = card.querySelector('.quick-feedback');
+            feedback.classList.add('show');
+            feedback.innerHTML = quickFeedbackHtml(ok, item, selected);
+        }
+
+        function renderQuickChecks() {
+            const anchors = Array.from(learnPanel.querySelectorAll('article'));
+            quickChecks.slice().reverse().forEach(function (item) {
+                const article = document.createElement('article');
+                article.className = 'quick-check-card rounded-2xl p-4 shadow-sm';
+                article.innerHTML = '<div class="flex items-center justify-between gap-2">'
+                    + '<span class="quick-check-badge">바로 확인</span>'
+                    + '<span class="text-[11px] font-bold text-slate-500">' + esc(item.label) + '</span>'
+                    + '</div>'
+                    + '<p class="mt-3 text-sm font-bold text-slate-800 safe">' + esc(item.q) + '</p>'
+                    + '<div class="mt-3 space-y-2">'
+                    + item.options.map(function (opt) {
+                        return '<button type="button" class="quick-check-btn safe">' + esc(opt) + '</button>';
+                    }).join('')
+                    + '</div>'
+                    + '<div class="quick-feedback"></div>';
+                anchors[item.anchor].insertAdjacentElement('afterend', article);
+                Array.from(article.querySelectorAll('.quick-check-btn')).forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        answerQuickCheck(article, item, btn.textContent);
+                    });
+                });
+            });
+        }
+
+        renderQuickChecks();
+        resetMainRound();
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
