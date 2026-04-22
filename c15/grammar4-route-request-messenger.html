@@ -1,0 +1,2448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>15과 문법 4 보조 활동 | 가는 길에 부탁 메신저</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+    <style>
+        :root {
+            --bg-top: #eff6ff;
+            --bg-bottom: #fffaf0;
+            --surface: rgba(255, 255, 255, 0.94);
+            --surface-strong: #ffffff;
+            --surface-soft: #f8fafc;
+            --line: rgba(148, 163, 184, 0.22);
+            --line-strong: rgba(16, 185, 129, 0.28);
+            --text: #0f172a;
+            --muted: #475569;
+            --green: #2563eb;
+            --green-strong: #1d4ed8;
+            --green-soft: #dbeafe;
+            --green-line: #93c5fd;
+            --amber: #f59e0b;
+            --amber-soft: #fff7ed;
+            --amber-line: #fdba74;
+            --slate-soft: #f8fafc;
+            --shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+            --vocab-accent: #1d4ed8;
+            --vocab-soft: rgba(37, 99, 235, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100dvh;
+            font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30%),
+                linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+        }
+
+        button,
+        a {
+            font: inherit;
+        }
+
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px max(16px, env(safe-area-inset-left)) 12px max(16px, env(safe-area-inset-right));
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .global-nav a,
+        .global-nav span {
+            color: #1e293b;
+            text-decoration: none;
+            font-size: 0.94rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .nav-divider {
+            color: #94a3b8;
+        }
+
+        .shell {
+            width: min(1120px, calc(100% - 16px));
+            margin: 10px auto 36px;
+        }
+
+        .panel {
+            background: var(--surface);
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+        }
+
+        .hud-card {
+            padding: 18px;
+        }
+
+        .hud-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .eyebrow {
+            margin: 0;
+            font-size: 0.74rem;
+            font-weight: 900;
+            color: var(--green-strong);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 4px 0 0;
+            font-size: clamp(1.44rem, 3vw, 2.32rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .hud-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .pill-btn,
+        .footer-link {
+            appearance: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 38px;
+            padding: 0 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: rgba(255, 255, 255, 0.92);
+            color: #334155;
+            font-size: 0.84rem;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .pill-btn:hover,
+        .footer-link:hover {
+            transform: translateY(-1px);
+            border-color: rgba(37, 99, 235, 0.28);
+            background: rgba(239, 246, 255, 0.96);
+        }
+
+        .hud-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .stat-pill {
+            min-height: 58px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            display: grid;
+            place-items: center;
+            text-align: center;
+        }
+
+        .stat-pill strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #0f172a;
+        }
+
+        .stat-pill span {
+            display: block;
+            margin-top: 2px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .progress {
+            margin-top: 12px;
+            height: 10px;
+            border-radius: 999px;
+            background: #e2e8f0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #2563eb, #f59e0b);
+            transition: width 0.24s ease;
+        }
+
+        .flow-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .flow-step {
+            min-height: 54px;
+            padding: 11px 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            color: #64748b;
+            font-size: 0.83rem;
+            font-weight: 800;
+            text-align: center;
+            display: grid;
+            place-items: center;
+            line-height: 1.35;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-step.is-active {
+            background: var(--green-soft);
+            border-color: rgba(37, 99, 235, 0.24);
+            color: var(--green-strong);
+            box-shadow: 0 10px 22px rgba(37, 99, 235, 0.14);
+        }
+
+        .flow-step.is-active::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, transparent 18%, rgba(255, 255, 255, 0.54) 48%, transparent 82%);
+            transform: translateX(-120%);
+            pointer-events: none;
+            animation: flowScan 2.2s ease-in-out infinite;
+        }
+
+        .flow-step.is-done {
+            background: #fffbeb;
+            border-color: #fcd34d;
+            color: #92400e;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.95fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .scene-panel,
+        .mission-panel,
+        .task-panel,
+        .result-card,
+        .summary {
+            padding: 18px;
+        }
+
+        .scene-head,
+        .section-bar,
+        .result-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .scene-tag,
+        .state-badge,
+        .task-badge,
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 30px;
+            padding: 0 12px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+        }
+
+        .scene-tag {
+            background: rgba(37, 99, 235, 0.14);
+            color: var(--green-strong);
+        }
+
+        .state-badge,
+        .task-badge {
+            background: rgba(148, 163, 184, 0.12);
+            color: #475569;
+        }
+
+        .state-badge.is-open,
+        .task-badge.is-active {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .state-badge.is-done,
+        .result-badge {
+            background: #fffbeb;
+            color: #92400e;
+        }
+
+        .scene-wrap {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 14px;
+            align-items: start;
+            margin-top: 12px;
+        }
+
+        .scene-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(145deg, #dbeafe, #fef3c7);
+            color: var(--green-strong);
+            font-size: 1.38rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .scene-title {
+            margin: 0;
+            font-size: 1.28rem;
+            font-weight: 900;
+            line-height: 1.25;
+        }
+
+        .scene-prompt {
+            margin: 8px 0 0;
+            color: #334155;
+            font-size: 0.98rem;
+            font-weight: 700;
+            line-height: 1.68;
+        }
+
+        .scene-vi,
+        .mission-vi,
+        .result-vi {
+            margin: 6px 0 0;
+            color: #1d4ed8;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .notice-card {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 1px solid rgba(37, 99, 235, 0.18);
+        }
+
+        .notice-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 900;
+            color: var(--green-strong);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .notice-title {
+            margin: 6px 0 0;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .notice-body {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.58;
+        }
+
+        .mission-lock {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: #f8fafc;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .mission-lock.is-open {
+            background: #dbeafe;
+            border-color: #93c5fd;
+        }
+
+        .mission-lock.is-done {
+            background: #fffbeb;
+            border-color: #fcd34d;
+        }
+
+        .lock-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--green-strong);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .lock-copy strong {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 900;
+        }
+
+        .lock-copy span {
+            display: block;
+            margin-top: 3px;
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .mission-target {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .mini-label {
+            margin: 0 0 6px;
+            color: var(--green-strong);
+            font-size: 0.73rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .mission-target p {
+            margin: 0;
+            color: #334155;
+            font-size: 0.93rem;
+            font-weight: 700;
+            line-height: 1.64;
+        }
+
+        .compact-feedback {
+            min-height: 56px;
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(248, 250, 252, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            color: #475569;
+            font-size: 0.88rem;
+            font-weight: 800;
+            line-height: 1.5;
+            display: flex;
+            align-items: center;
+        }
+
+        .compact-feedback.is-positive {
+            background: #ecfdf5;
+            border-color: #86efac;
+            color: #166534;
+        }
+
+        .compact-feedback.is-negative {
+            background: #fff7ed;
+            border-color: #fdba74;
+            color: #9a3412;
+        }
+
+        .task-panel,
+        .result-card,
+        .summary {
+            position: relative;
+            margin-top: 12px;
+            overflow: visible;
+            isolation: isolate;
+            transition: transform 0.24s ease, opacity 0.24s ease, filter 0.24s ease, box-shadow 0.24s ease;
+        }
+
+        .task-panel.is-rest,
+        .result-card.is-rest {
+            opacity: 0.62;
+            filter: saturate(0.84);
+            transform: scale(0.994);
+        }
+
+        .task-panel.is-current,
+        .result-card.is-current {
+            border-color: rgba(37, 99, 235, 0.28);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12), 0 24px 60px rgba(15, 23, 42, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .task-panel.is-current::before,
+        .result-card.is-current::before {
+            content: attr(data-focus);
+            position: absolute;
+            top: -12px;
+            right: 18px;
+            z-index: 2;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #1d4ed8, #3b82f6);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+            animation: focusFlag 1.5s ease-in-out infinite;
+        }
+
+        .task-panel.is-current::after,
+        .result-card.is-current::after {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 24px;
+            border: 1px solid rgba(37, 99, 235, 0.42);
+            pointer-events: none;
+            animation: pulseRing 1.8s ease-out infinite;
+        }
+
+        .section-bar h3 {
+            margin: 0;
+            font-size: 1.08rem;
+            font-weight: 900;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .choice-card {
+            appearance: none;
+            width: 100%;
+            min-height: 118px;
+            padding: 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(255, 255, 255, 0.96);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        #choiceSection.is-current .choice-card:not(.is-wrong):not(.is-correct) {
+            border-color: #93c5fd;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+            animation: choiceFloat 2.8s ease-in-out infinite;
+            animation-delay: calc(var(--i, 0) * 0.08s);
+        }
+
+        #choiceSection.is-current .choice-card:not(.is-wrong):not(.is-correct) .choice-icon {
+            animation: iconPulse 1.5s ease-in-out infinite;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(37, 99, 235, 0.26);
+        }
+
+        .choice-card.is-correct {
+            background: #ecfdf5;
+            border-color: #34d399;
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.12);
+        }
+
+        .choice-card.is-wrong {
+            background: #fff7ed;
+            border-color: #fb923c;
+        }
+
+        .choice-card.is-dim {
+            opacity: 0.68;
+        }
+
+        .choice-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: #eff6ff;
+            color: var(--green-strong);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .choice-copy strong {
+            display: block;
+            font-size: 0.94rem;
+            font-weight: 900;
+            line-height: 1.46;
+            color: #0f172a;
+        }
+
+        .choice-copy span {
+            display: block;
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 0.82rem;
+            font-weight: 700;
+            line-height: 1.42;
+        }
+
+        .feedback-box {
+            margin-top: 12px;
+            padding: 13px 14px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .feedback-box.is-positive {
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+            color: #166534;
+        }
+
+        .feedback-box.is-negative {
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            color: #9a3412;
+        }
+
+        .sentence-preview {
+            min-height: 76px;
+            padding: 14px;
+            border-radius: 20px;
+            border: 1px dashed rgba(148, 163, 184, 0.7);
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sentence-placeholder {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .preview-chip,
+        .chunk-btn {
+            appearance: none;
+            min-height: 42px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .preview-chip {
+            border: 1px solid var(--green-line);
+            background: var(--green-soft);
+            color: var(--green-strong);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .chunk-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .chunk-btn {
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .chunk-btn:hover {
+            transform: translateY(-1px);
+            border-color: rgba(37, 99, 235, 0.26);
+            background: #eff6ff;
+        }
+
+        .chunk-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.44;
+            transform: none;
+            background: #f8fafc;
+        }
+
+        #builderSection.is-current .sentence-preview {
+            border-color: #93c5fd;
+            background: linear-gradient(180deg, #ffffff, #dbeafe);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8), 0 14px 30px rgba(15, 23, 42, 0.05);
+        }
+
+        #builderSection.is-current .sentence-placeholder {
+            color: var(--green-strong);
+            animation: softBlink 1.2s ease-in-out infinite;
+        }
+
+        #builderSection.is-current .preview-chip {
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.14);
+        }
+
+        #builderSection.is-current .chunk-btn:not(:disabled) {
+            border-color: #93c5fd;
+            background: #ffffff;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+            animation: chunkWave 2.2s ease-in-out infinite;
+            animation-delay: calc(var(--i, 0) * 0.08s);
+        }
+
+        .section-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .primary-btn,
+        .ghost-btn {
+            appearance: none;
+            min-height: 46px;
+            padding: 0 16px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            border: none;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: #ffffff;
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+        }
+
+        .primary-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
+            box-shadow: none;
+        }
+
+        .primary-btn.is-current {
+            position: relative;
+            isolation: isolate;
+            animation: buttonBob 1.35s ease-in-out infinite;
+        }
+
+        .primary-btn.is-current::before {
+            content: "";
+            position: absolute;
+            inset: -10px;
+            z-index: -1;
+            border-radius: 18px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.24), transparent 68%);
+            animation: pulseRing 1.8s ease-out infinite;
+        }
+
+        .primary-btn.is-current[data-hint]::after {
+            content: attr(data-hint);
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            padding: 5px 11px;
+            border-radius: 999px;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 900;
+            white-space: nowrap;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
+            animation: cueBlink 1.35s ease-in-out infinite;
+        }
+
+        .ghost-btn {
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: #ffffff;
+            color: #334155;
+        }
+
+        .result-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 251, 235, 0.98));
+            border-color: rgba(245, 158, 11, 0.26);
+        }
+
+        .result-sentence-label {
+            margin: 14px 0 0;
+            color: #92400e;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .result-sentence {
+            margin: 8px 0 0;
+            color: #0f172a;
+            font-size: 1.15rem;
+            font-weight: 900;
+            line-height: 1.62;
+        }
+
+        .result-card.is-current .result-sentence {
+            animation: resultGlow 1.5s ease-in-out infinite;
+        }
+
+        .result-tip {
+            margin: 12px 0 0;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #fde68a;
+            color: #92400e;
+            font-size: 0.88rem;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .summary-metric {
+            padding: 14px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            text-align: center;
+        }
+
+        .summary-metric strong {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .summary-metric span {
+            display: block;
+            margin-top: 4px;
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .summary-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .summary-item {
+            padding: 13px 14px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .summary-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .summary-item-top strong {
+            font-size: 0.94rem;
+            font-weight: 900;
+        }
+
+        .summary-pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 0 10px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.14);
+            color: var(--green-strong);
+            font-size: 0.74rem;
+            font-weight: 900;
+        }
+
+        .summary-answer {
+            margin: 8px 0 0;
+            color: #334155;
+            font-size: 0.88rem;
+            font-weight: 800;
+            line-height: 1.58;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .vocab-token {
+            display: inline;
+            padding: 0 0.08em;
+            border-radius: 0.35em;
+            font-weight: 900;
+            color: var(--vocab-accent);
+            text-decoration-line: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 0.16em;
+            text-decoration-color: currentColor;
+            background: linear-gradient(to top, var(--vocab-soft), transparent 68%);
+            cursor: pointer;
+            transition: background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+        }
+
+        .vocab-token:hover,
+        .vocab-token.is-active {
+            background: linear-gradient(to top, rgba(37, 99, 235, 0.24), transparent 72%);
+            box-shadow: inset 0 -1px 0 rgba(37, 99, 235, 0.2);
+        }
+
+        .vocab-token:focus-visible {
+            outline: 2px solid var(--vocab-accent);
+            outline-offset: 2px;
+        }
+
+        .vocab-card {
+            position: fixed;
+            left: 50%;
+            bottom: calc(12px + env(safe-area-inset-bottom));
+            z-index: 80;
+            width: min(420px, calc(100vw - 24px));
+            padding: 14px 15px 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            box-shadow: 0 18px 44px rgba(15, 23, 42, 0.16);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 14px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .vocab-card.is-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, 0);
+        }
+
+        .vocab-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .vocab-card-label {
+            color: var(--vocab-accent);
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .vocab-close {
+            appearance: none;
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(148, 163, 184, 0.14);
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .vocab-term {
+            margin: 8px 0 0;
+            color: #0f172a;
+            font-size: 1.04rem;
+            font-weight: 900;
+            line-height: 1.35;
+        }
+
+        .vocab-meaning {
+            margin: 6px 0 0;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .vi-text {
+            display: none;
+        }
+
+        .vi-on .vi-text {
+            display: block;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                opacity: 0;
+                transform: scale(0.985);
+            }
+            25% {
+                opacity: 0.88;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.012);
+            }
+        }
+
+        @keyframes buttonBob {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-2px);
+            }
+        }
+
+        @keyframes flowScan {
+            0% {
+                transform: translateX(-120%);
+            }
+            100% {
+                transform: translateX(120%);
+            }
+        }
+
+        @keyframes focusFlag {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-2px);
+            }
+        }
+
+        @keyframes choiceFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes chunkWave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes softBlink {
+            0%, 100% {
+                opacity: 0.58;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes cueBlink {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-2px);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes resultGlow {
+            0%, 100% {
+                text-shadow: 0 0 0 rgba(245, 158, 11, 0);
+            }
+            50% {
+                text-shadow: 0 0 16px rgba(245, 158, 11, 0.26);
+            }
+        }
+
+        @media (max-width: 860px) {
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .choice-grid,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .shell {
+                width: min(100% - 12px, 1120px);
+                margin: 8px auto 28px;
+            }
+
+            .hud-card,
+            .scene-panel,
+            .mission-panel,
+            .task-panel,
+            .result-card,
+            .summary {
+                padding: 16px;
+            }
+
+            .hud-top,
+            .scene-wrap,
+            .result-top {
+                grid-template-columns: 1fr;
+                display: grid;
+            }
+
+            .hud-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .hud-actions .pill-btn {
+                flex: 1 1 0;
+            }
+
+            .hud-strip {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .flow-strip {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .stat-pill {
+                min-height: 50px;
+                padding: 10px 8px;
+                border-radius: 16px;
+            }
+
+            .stat-pill strong {
+                font-size: 0.94rem;
+            }
+
+            .stat-pill span {
+                font-size: 0.7rem;
+            }
+
+            .flow-step {
+                min-height: 44px;
+                padding: 8px;
+                font-size: 0.74rem;
+                border-radius: 16px;
+            }
+
+            .section-actions .primary-btn,
+            .section-actions .ghost-btn {
+                flex: 1 1 calc(50% - 5px);
+            }
+
+            .footer-links .footer-link {
+                flex: 1 1 calc(50% - 5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">15과 목록</a>
+        <span class="nav-divider">|</span>
+        <a href="grammar4.html">문법 4</a>
+    </nav>
+
+    <main id="page" class="shell">
+        <section class="panel hud-card">
+            <div class="hud-top">
+                <div>
+                    <p class="eyebrow">15과 문법 4 보조 활동</p>
+                    <h1>가는 길에 부탁 메신저</h1>
+                </div>
+                <div class="hud-actions">
+                    <button id="viToggleBtn" class="pill-btn" type="button"><i class="fa-solid fa-language"></i>VI OFF</button>
+                    <button id="restartBtn" class="pill-btn" type="button"><i class="fa-solid fa-rotate-right"></i>처음부터</button>
+                </div>
+            </div>
+            <div class="hud-strip">
+                <div class="stat-pill">
+                    <div>
+                        <strong id="missionCount">1 / 8</strong>
+                        <span>현재 미션</span>
+                    </div>
+                </div>
+                <div class="stat-pill">
+                    <div>
+                        <strong id="solvedCount">0개</strong>
+                        <span>전송 완료</span>
+                    </div>
+                </div>
+                <div class="stat-pill">
+                    <div>
+                        <strong id="attemptCount">0번</strong>
+                        <span>총 시도</span>
+                    </div>
+                </div>
+            </div>
+            <div class="progress" aria-hidden="true">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+        </section>
+
+        <section id="flowStrip" class="flow-strip" aria-label="활동 단계">
+            <div id="flowStep1" class="flow-step">자연스러운 말 고르기</div>
+            <div id="flowStep2" class="flow-step">메시지 완성하기</div>
+            <div id="flowStep3" class="flow-step">전송 완료</div>
+        </section>
+
+        <section id="missionStage">
+            <div class="mission-grid">
+                <article class="panel scene-panel">
+                    <div class="scene-head">
+                        <span id="sceneTag" class="scene-tag">부탁하기</span>
+                        <span id="sceneState" class="state-badge">자연스러운 말 고르기</span>
+                    </div>
+                    <div class="scene-wrap">
+                        <div id="sceneIcon" class="scene-icon" aria-hidden="true">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </div>
+                        <div>
+                            <h2 id="sceneTitle" class="scene-title">나가는 중인 친구에게 부탁</h2>
+                            <p id="scenePrompt" class="scene-prompt"></p>
+                            <p id="scenePromptVi" class="scene-vi vi-text"></p>
+                        </div>
+                    </div>
+                    <div id="noticeCard" class="notice-card" aria-live="polite"></div>
+                </article>
+
+                <aside class="panel mission-panel">
+                    <div id="missionLock" class="mission-lock">
+                        <div id="lockIcon" class="lock-icon" aria-hidden="true">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <div class="lock-copy">
+                            <strong id="lockTitle">전송 잠금</strong>
+                            <span id="lockCopy">자연스러운 말과 문장을 모두 맞히면 전송됩니다.</span>
+                        </div>
+                    </div>
+
+                    <div class="mission-target">
+                        <p class="mini-label">지금 보내야 하는 말</p>
+                        <p id="missionNeed"></p>
+                        <p id="missionNeedVi" class="mission-vi vi-text"></p>
+                    </div>
+
+                    <div id="missionFeedback" class="compact-feedback" aria-live="polite"></div>
+                </aside>
+            </div>
+
+            <section id="choiceSection" class="panel task-panel">
+                <div class="section-bar">
+                    <h3>자연스러운 말</h3>
+                    <span id="choiceStatus" class="task-badge">Step 1</span>
+                </div>
+                <div id="choiceGrid" class="choice-grid"></div>
+                <div id="choiceFeedback" class="feedback-box hidden" aria-live="polite"></div>
+            </section>
+
+            <section id="builderSection" class="panel task-panel">
+                <div class="section-bar">
+                    <h3>문장 완성</h3>
+                    <span id="builderStatus" class="task-badge">대기</span>
+                </div>
+                <div id="sentencePreview" class="sentence-preview"></div>
+                <div id="chunkBank" class="chunk-bank"></div>
+                <div class="section-actions">
+                    <button id="checkSentenceBtn" class="primary-btn" type="button" disabled>메시지 확인</button>
+                    <button id="resetSentenceBtn" class="ghost-btn" type="button">다시 조합</button>
+                </div>
+                <div id="builderFeedback" class="feedback-box hidden" aria-live="polite"></div>
+            </section>
+
+            <section id="resultCard" class="panel result-card hidden">
+                <div class="result-top">
+                    <span class="result-badge">전송 완료</span>
+                    <button id="nextMissionBtn" class="primary-btn" type="button">다음 미션</button>
+                </div>
+                <p class="result-sentence-label">완성 메시지</p>
+                <p id="resultSentence" class="result-sentence"></p>
+                <p id="resultSentenceVi" class="result-vi vi-text"></p>
+                <p id="resultTip" class="result-tip"></p>
+            </section>
+        </section>
+
+        <section id="summarySection" class="panel summary hidden">
+            <div class="section-bar">
+                <h3>세션 완료</h3>
+                <span class="result-badge">대화 완료</span>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-metric">
+                    <strong id="summarySolved">0</strong>
+                    <span>보낸 메시지</span>
+                </div>
+                <div class="summary-metric">
+                    <strong id="summaryAttempts">0</strong>
+                    <span>총 시도</span>
+                </div>
+                <div class="summary-metric">
+                    <strong id="summaryFirstClear">0</strong>
+                    <span>한 번에 전송</span>
+                </div>
+            </div>
+            <div id="summaryList" class="summary-list"></div>
+            <div class="section-actions">
+                <button id="restartSummaryBtn" class="primary-btn" type="button">처음부터 다시</button>
+            </div>
+        </section>
+
+        <div class="footer-links">
+            <a class="footer-link" href="grammar4.html"><i class="fa-solid fa-arrow-left"></i>문법 4</a>
+            <a class="footer-link" href="index.html"><i class="fa-solid fa-book-open"></i>15과 목록</a>
+        </div>
+
+        <aside id="vocabCard" class="vocab-card" aria-live="polite" aria-hidden="true">
+            <div class="vocab-card-top">
+                <span class="vocab-card-label">어휘 도움</span>
+                <button id="vocabCloseBtn" class="vocab-close" type="button" aria-label="어휘 도움 닫기">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <p id="vocabTerm" class="vocab-term"></p>
+            <p id="vocabMeaning" class="vocab-meaning"></p>
+        </aside>
+    </main>
+
+    <script>
+        (function () {
+            "use strict";
+
+            const missions = [
+                {
+                    id: "g4-m1",
+                    tag: "부탁하기",
+                    title: "나가는 중인 친구에게 부탁",
+                    icon: "paper-plane",
+                    prompt: "친구가 “나 지금 나가는데, 뭐 부탁할 거 있어?”라고 보냈어요. 이미 있는 동선에 심부름을 붙이면 가장 자연스러워요.",
+                    promptVi: "Bạn vừa nhận được tin nhắn: “Mình đang ra ngoài, có cần nhờ gì không?” Đây là lúc gắn việc cần nhờ vào lộ trình sẵn có.",
+                    noticeLabel: "채팅",
+                    noticeTitle: "친구 메시지",
+                    noticeBody: "밖으로 나가는 길이 이미 열려 있어요. 그 길에 붙는 부탁을 골라야 해요.",
+                    need: "나가는 동선에 가장 잘 맞는 부탁을 고르세요.",
+                    needVi: "Hãy chọn lời nhờ phù hợp nhất với lộ trình đang đi ra ngoài.",
+                    options: [
+                        {
+                            icon: "trash",
+                            text: "나가는 길에 음식물 쓰레기 좀 버려 줄래요?",
+                            detail: "동선에 맞는 부탁",
+                            correct: true,
+                            reason: "이미 나가는 길이 있으니까 부탁이 아주 자연스럽게 들려요."
+                        },
+                        {
+                            icon: "triangle-exclamation",
+                            text: "음식물 쓰레기를 버리지 않으면 안 돼요.",
+                            detail: "규칙 말하기",
+                            correct: false,
+                            reason: "이건 부탁이 아니라 문법 3처럼 의무를 말하는 표현이에요."
+                        },
+                        {
+                            icon: "comment-dots",
+                            text: "음식물 쓰레기를 버릴걸요.",
+                            detail: "추측 반응",
+                            correct: false,
+                            reason: "추측처럼 들려서 부탁 메시지로는 자연스럽지 않아요."
+                        },
+                        {
+                            icon: "user",
+                            text: "음식물 쓰레기는 버리는 사람이에요.",
+                            detail: "문장 구조 어색함",
+                            correct: false,
+                            reason: "실제 부탁 문장처럼 들리지 않고, 이동 동선도 살아나지 않아요."
+                        }
+                    ],
+                    chunks: ["나가는 길에", "음식물 쓰레기 좀", "버려 줄래요?"],
+                    answer: "나가는 길에 음식물 쓰레기 좀 버려 줄래요?",
+                    answerVi: "Trên đường ra ngoài, cậu vứt giúp mình ít rác thực phẩm được không?",
+                    tip: "상대가 이미 움직이고 있을 때 -는 길에를 쓰면 부탁이 훨씬 가볍고 자연스럽게 들립니다."
+                },
+                {
+                    id: "g4-m2",
+                    tag: "부탁하기",
+                    title: "집에 들어오는 길에 택배 부탁",
+                    icon: "box-open",
+                    prompt: "친구가 “나 지금 집에 들어가.”라고 했어요. 경비실 택배를 찾아와 달라고 자연스럽게 부탁해 보세요.",
+                    promptVi: "Bạn của bạn nói: “Mình đang vào nhà.” Hãy chọn cách nhờ lấy hàng ở phòng bảo vệ thật tự nhiên.",
+                    noticeLabel: "생활 메모",
+                    noticeTitle: "경비실 택배 있음",
+                    noticeBody: "이미 집으로 들어오는 길이라서, 그 동선에 맞춰 부탁하면 부담이 적어요.",
+                    need: "들어오는 동선에 맞는 부탁을 고르세요.",
+                    needVi: "Hãy chọn lời nhờ phù hợp với lộ trình đang đi vào nhà.",
+                    options: [
+                        {
+                            icon: "box",
+                            text: "들어오는 길에 택배 좀 찾아 줄래요?",
+                            detail: "동선에 붙는 부탁",
+                            correct: true,
+                            reason: "집에 들어오는 길에 붙였기 때문에 가장 자연스러운 부탁이에요."
+                        },
+                        {
+                            icon: "circle-exclamation",
+                            text: "택배를 찾지 않으면 안 돼요.",
+                            detail: "규칙 표현",
+                            correct: false,
+                            reason: "부탁이 아니라 해야 하는 조건을 말하는 문장이라서 문맥이 달라요."
+                        },
+                        {
+                            icon: "message",
+                            text: "택배를 찾을걸요.",
+                            detail: "추측 표현",
+                            correct: false,
+                            reason: "상대에게 부탁하는 말이 아니라 혼잣말 같은 반응이에요."
+                        },
+                        {
+                            icon: "route",
+                            text: "택배를 찾는 길에예요.",
+                            detail: "형태가 맞지 않음",
+                            correct: false,
+                            reason: "표현 형태가 어색해서 자연스러운 메시지가 되지 않아요."
+                        }
+                    ],
+                    chunks: ["들어오는 길에", "택배 좀", "찾아 줄래요?"],
+                    answer: "들어오는 길에 택배 좀 찾아 줄래요?",
+                    answerVi: "Trên đường vào nhà, cậu lấy giúp mình gói hàng được không?",
+                    tip: "상대에게 이미 있는 동선을 이용해 부탁하면 훨씬 현실적인 한국어가 됩니다."
+                },
+                {
+                    id: "g4-m3",
+                    tag: "부탁하기",
+                    title: "퇴근 중인 동료에게 심부름 부탁",
+                    icon: "briefcase",
+                    prompt: "동료가 “이제 퇴근해요.”라고 했어요. 집에 오기 전에 우유를 부탁하고 싶어요.",
+                    promptVi: "Đồng nghiệp vừa nói: “Tôi tan làm rồi.” Bạn muốn nhờ mua sữa trước khi về nhà.",
+                    noticeLabel: "메신저",
+                    noticeTitle: "퇴근 중",
+                    noticeBody: "퇴근이라는 실제 이동 동선이 있으니까, 길에 붙는 부탁이 잘 어울려요.",
+                    need: "퇴근 동선에 맞는 부탁을 고르세요.",
+                    needVi: "Hãy chọn lời nhờ phù hợp với lộ trình tan làm.",
+                    options: [
+                        {
+                            icon: "cart-shopping",
+                            text: "퇴근하는 길에 우유 좀 사다 줄 수 있어요?",
+                            detail: "부드러운 부탁",
+                            correct: true,
+                            reason: "퇴근 동선과 심부름이 자연스럽게 이어져서 실생활 느낌이 좋아요."
+                        },
+                        {
+                            icon: "ban",
+                            text: "우유를 사지 않으면 안 돼요.",
+                            detail: "의무 표현",
+                            correct: false,
+                            reason: "부탁하고 싶은 상황인데 규칙처럼 들리기 때문에 어색해요."
+                        },
+                        {
+                            icon: "sparkles",
+                            text: "우유를 살걸요.",
+                            detail: "추측 반응",
+                            correct: false,
+                            reason: "상대에게 부탁하는 문장이 아니라 혼자 추측하는 말이에요."
+                        },
+                        {
+                            icon: "moon",
+                            text: "잠자는 길에 우유를 사 주세요.",
+                            detail: "이동 경로 아님",
+                            correct: false,
+                            reason: "잠자는 길에는 실제 이동 동선이 아니라서 -는 길에와 맞지 않아요."
+                        }
+                    ],
+                    chunks: ["퇴근하는 길에", "우유 좀", "사다 줄 수 있어요?"],
+                    answer: "퇴근하는 길에 우유 좀 사다 줄 수 있어요?",
+                    answerVi: "Trên đường tan làm, anh/chị mua giúp tôi ít sữa được không?",
+                    tip: "퇴근, 들어오다, 나가다처럼 길이 느껴지는 동사와 -는 길에가 특히 잘 어울립니다."
+                },
+                {
+                    id: "g4-m4",
+                    tag: "상황 설명",
+                    title: "생일 케이크를 산 이유 말하기",
+                    icon: "cake-candles",
+                    prompt: "오늘이 친구 생일이라서 케이크를 샀어요. 학교로 오면서 산 상황을 가장 자연스럽게 말해 보세요.",
+                    promptVi: "Hôm nay là sinh nhật của bạn nên bạn đã mua bánh kem. Hãy nói thật tự nhiên rằng bạn mua trên đường đến trường.",
+                    noticeLabel: "상황",
+                    noticeTitle: "학교 오는 길",
+                    noticeBody: "목적지는 학교이고, 그 길 중간에 케이크를 샀다는 장면이에요.",
+                    need: "생일 상황을 가장 자연스럽게 설명하는 문장을 고르세요.",
+                    needVi: "Hãy chọn câu diễn tả tự nhiên nhất tình huống sinh nhật này.",
+                    options: [
+                        {
+                            icon: "cake-candles",
+                            text: "학교에 오는 길에 케이크를 샀어요.",
+                            detail: "동선 + 추가 행동",
+                            correct: true,
+                            reason: "학교로 오는 동선 중간에 케이크를 샀다는 뜻이 가장 또렷하게 살아나요."
+                        },
+                        {
+                            icon: "triangle-exclamation",
+                            text: "학교에 오지 않으면 안 돼요.",
+                            detail: "문법 3과 혼동",
+                            correct: false,
+                            reason: "이건 반드시 와야 한다는 조건이라서, 오늘 문맥과는 완전히 달라요."
+                        },
+                        {
+                            icon: "comment",
+                            text: "학교에 올걸요.",
+                            detail: "추측 반응",
+                            correct: false,
+                            reason: "케이크를 산 사실을 설명하는 문장이 아니라 추측처럼 들려요."
+                        },
+                        {
+                            icon: "user-group",
+                            text: "학교에 온 사람이 케이크를 샀어요.",
+                            detail: "관형형 구조",
+                            correct: false,
+                            reason: "문장 구조가 바뀌어서 ‘오는 도중’이라는 뜻이 사라졌어요."
+                        }
+                    ],
+                    chunks: ["학교에 오는 길에", "케이크를", "샀어요."],
+                    answer: "학교에 오는 길에 케이크를 샀어요.",
+                    answerVi: "Tôi đã mua bánh kem trên đường đến trường.",
+                    tip: "이동 중에 다른 행동을 했다는 설명은 -는 길에로 가장 자연스럽게 연결됩니다."
+                },
+                {
+                    id: "g4-m5",
+                    tag: "계획 말하기",
+                    title: "부산 가는 길에 경주 들르기",
+                    icon: "train",
+                    prompt: "최종 목적지는 부산이에요. 그런데 가는 길에 경주도 잠깐 보고 싶어요.",
+                    promptVi: "Điểm đến cuối là Busan, nhưng trên đường đi bạn muốn ghé Gyeongju một chút.",
+                    noticeLabel: "여행 계획",
+                    noticeTitle: "경유 일정 있음",
+                    noticeBody: "부산이 최종 목적지이고, 경주는 중간에 잠깐 들르는 곳이에요.",
+                    need: "이 이동 계획을 가장 자연스럽게 말하는 문장을 고르세요.",
+                    needVi: "Hãy chọn câu diễn tả tự nhiên nhất kế hoạch di chuyển này.",
+                    options: [
+                        {
+                            icon: "landmark",
+                            text: "부산에 가는 길에 경주에 들러서 구경하려고 해요.",
+                            detail: "최종 목적지 + 중간 경유",
+                            correct: true,
+                            reason: "가는 길에와 들르다가 함께 들어가서 중간 방문 계획이 잘 살아나요."
+                        },
+                        {
+                            icon: "house",
+                            text: "경주에 살다가 부산으로 이사하려고 해요.",
+                            detail: "거주지 이동",
+                            correct: false,
+                            reason: "여행 동선이 아니라 사는 장소를 바꾸는 이야기로 들려요."
+                        },
+                        {
+                            icon: "map-location-dot",
+                            text: "부산에서 경주를 구경하려고 해요.",
+                            detail: "중간 경유 뜻 사라짐",
+                            correct: false,
+                            reason: "부산이 목적지라는 점은 남지만, 중간에 들른다는 뜻이 흐려져요."
+                        },
+                        {
+                            icon: "circle-question",
+                            text: "부산에 갈걸요.",
+                            detail: "추측 반응",
+                            correct: false,
+                            reason: "계획 설명이 아니라 막연한 추측처럼 들립니다."
+                        }
+                    ],
+                    chunks: ["부산에 가는 길에", "경주에 들러서", "구경하려고 해요."],
+                    answer: "부산에 가는 길에 경주에 들러서 구경하려고 해요.",
+                    answerVi: "Trên đường đi Busan, tôi định ghé Gyeongju để tham quan.",
+                    tip: "최종 목적지와 중간 방문지를 함께 말할 때 -는 길에가 아주 실용적입니다."
+                },
+                {
+                    id: "g4-m6",
+                    tag: "부탁하기",
+                    title: "귀국하는 길에 면세점 부탁",
+                    icon: "plane-arrival",
+                    prompt: "가족이 곧 귀국해요. 면세점에서 화장품을 부탁하고 싶어요.",
+                    promptVi: "Người nhà sắp về nước. Bạn muốn nhờ mua mỹ phẩm ở cửa hàng miễn thuế trên đường về.",
+                    noticeLabel: "가족 채팅",
+                    noticeTitle: "귀국 일정 공유",
+                    noticeBody: "이미 돌아오는 길이 예정되어 있으니, 그 길에 붙는 부탁이 가장 자연스러워요.",
+                    need: "귀국 동선에 맞는 부탁을 고르세요.",
+                    needVi: "Hãy chọn lời nhờ phù hợp với lộ trình đang về nước.",
+                    options: [
+                        {
+                            icon: "bag-shopping",
+                            text: "귀국하는 길에 면세점에서 화장품 좀 사다 줄래요?",
+                            detail: "돌아오는 길에 부탁",
+                            correct: true,
+                            reason: "귀국하는 길이라는 동선이 분명해서 부탁이 현실적으로 들려요."
+                        },
+                        {
+                            icon: "ban",
+                            text: "화장품을 사지 않으면 안 돼요.",
+                            detail: "의무 표현",
+                            correct: false,
+                            reason: "부탁하고 싶은 상황인데 규칙처럼 말하면 너무 딱딱해져요."
+                        },
+                        {
+                            icon: "face-smile",
+                            text: "화장품을 살걸요.",
+                            detail: "추측 반응",
+                            correct: false,
+                            reason: "사다 줄래요처럼 부탁하는 말이 아니라 혼자 예상하는 말이에요."
+                        },
+                        {
+                            icon: "person",
+                            text: "면세점은 사는 사람이에요.",
+                            detail: "문장 의미 불명확",
+                            correct: false,
+                            reason: "실제 부탁 문장으로 쓰기에는 뜻이 너무 불분명해요."
+                        }
+                    ],
+                    chunks: ["귀국하는 길에", "면세점에서", "화장품 좀 사다 줄래요?"],
+                    answer: "귀국하는 길에 면세점에서 화장품 좀 사다 줄래요?",
+                    answerVi: "Trên đường về nước, mua giúp mình ít mỹ phẩm ở cửa hàng miễn thuế được không?",
+                    tip: "귀국하다, 돌아오다 같은 동사와 -는 길에는 ‘돌아오는 길’의 느낌이 자연스럽게 살아 있습니다."
+                },
+                {
+                    id: "g4-m7",
+                    tag: "계획 말하기",
+                    title: "운동 다녀오면서 찾으러 가기",
+                    icon: "dumbbell",
+                    prompt: "운동을 다녀온 뒤 세탁소에 들러 옷을 찾으러 갈 계획이에요. 돌아오는 동선을 살려 말해 보세요.",
+                    promptVi: "Sau khi tập xong, bạn định ghé tiệm giặt đồ để lấy quần áo. Hãy diễn đạt theo lộ trình quay về.",
+                    noticeLabel: "일정 메모",
+                    noticeTitle: "운동 후 들를 곳 있음",
+                    noticeBody: "갔다 오는 길에는 ‘가서 다시 돌아오는 길’의 느낌이 함께 들어 있어요.",
+                    need: "운동 후 계획을 가장 자연스럽게 말하는 문장을 고르세요.",
+                    needVi: "Hãy chọn câu diễn tả tự nhiên nhất kế hoạch sau khi tập.",
+                    options: [
+                        {
+                            icon: "shirt",
+                            text: "운동 갔다 오는 길에 찾으러 올게요.",
+                            detail: "돌아오는 길 계획",
+                            correct: true,
+                            reason: "갔다 오는 길에가 들어가서 돌아오는 동선이 아주 분명해져요."
+                        },
+                        {
+                            icon: "person-running",
+                            text: "운동하러 가는 길에 먼저 들를게요.",
+                            detail: "갈 때로 뜻 변경",
+                            correct: false,
+                            reason: "연습문제의 핵심은 운동 후 돌아오는 동선이라서 방향이 달라져요."
+                        },
+                        {
+                            icon: "wand-magic-sparkles",
+                            text: "찾을걸요.",
+                            detail: "추측 반응",
+                            correct: false,
+                            reason: "구체적인 계획 설명이 아니라 짧은 추측처럼 들립니다."
+                        },
+                        {
+                            icon: "route",
+                            text: "찾는 길에예요.",
+                            detail: "형태가 어색함",
+                            correct: false,
+                            reason: "무엇을 찾는지, 어떤 길인지가 모두 불분명해서 어색해요."
+                        }
+                    ],
+                    chunks: ["운동 갔다 오는 길에", "찾으러", "올게요."],
+                    answer: "운동 갔다 오는 길에 찾으러 올게요.",
+                    answerVi: "Trên đường đi tập về, tôi sẽ ghé đến lấy đồ.",
+                    tip: "갔다 오는 길에는 ‘갔다가 돌아오는 도중’의 느낌이 함께 들어 있다는 점이 포인트예요."
+                },
+                {
+                    id: "g4-m8",
+                    tag: "생활 계획",
+                    title: "집에 돌아오기 전에 마지막 심부름",
+                    icon: "house-circle-check",
+                    prompt: "하루를 마무리하면서 집에 가기 전에 쓰레기를 버리고 싶어요. 실제 동선이 살아 있는 문장을 골라 보세요.",
+                    promptVi: "Bạn muốn kết thúc một ngày bằng việc vứt rác trước khi về nhà. Hãy chọn câu có lộ trình thật sự.",
+                    noticeLabel: "하루 마무리",
+                    noticeTitle: "집에 가기 전 체크",
+                    noticeBody: "집에 돌아오는 길이라는 실제 경로가 있어야 -는 길에가 자연스럽게 들려요.",
+                    need: "집에 가기 전 마지막 심부름을 가장 자연스럽게 말하는 문장을 고르세요.",
+                    needVi: "Hãy chọn câu tự nhiên nhất để nói về việc cuối cùng trước khi về nhà.",
+                    options: [
+                        {
+                            icon: "trash-can",
+                            text: "집에 돌아오는 길에 쓰레기를 버릴게요.",
+                            detail: "돌아오는 길 계획",
+                            correct: true,
+                            reason: "집으로 돌아오는 실제 동선이 있어서 -는 길에와 잘 맞아요."
+                        },
+                        {
+                            icon: "triangle-exclamation",
+                            text: "집에 돌아오지 않으면 안 돼요.",
+                            detail: "의무 표현",
+                            correct: false,
+                            reason: "반드시 돌아와야 한다는 뜻이라서 심부름 계획 문장과는 달라요."
+                        },
+                        {
+                            icon: "comment",
+                            text: "집에 돌아올걸요.",
+                            detail: "추측 반응",
+                            correct: false,
+                            reason: "미래를 예상하는 말이지, 계획을 구체적으로 설명하지는 못해요."
+                        },
+                        {
+                            icon: "brain",
+                            text: "생각하는 길에 쓰레기를 버릴게요.",
+                            detail: "이동 동선 아님",
+                            correct: false,
+                            reason: "생각하는 길에는 실제 이동 경로가 아니어서 문법 4와 맞지 않아요."
+                        }
+                    ],
+                    chunks: ["집에 돌아오는 길에", "쓰레기를", "버릴게요."],
+                    answer: "집에 돌아오는 길에 쓰레기를 버릴게요.",
+                    answerVi: "Trên đường về nhà, tôi sẽ vứt rác.",
+                    tip: "문법 4는 이렇게 하루 동선에 심부름이나 계획을 붙여 설명할 때 특히 쓸모가 큽니다."
+                }
+            ];
+
+            const vocabGlossary = {
+                "최종 목적지": "điểm đến cuối cùng, đích đến cuối",
+                "돌아오는 길": "đường về, lúc đang quay về",
+                "동선": "lộ trình di chuyển, đường đi",
+                "심부름": "việc được nhờ mua hộ, việc vặt",
+                "경비실": "phòng bảo vệ, chỗ trực bảo vệ",
+                "부담": "gánh nặng, cảm giác ngại",
+                "퇴근": "tan làm, hết giờ làm",
+                "의무": "nghĩa vụ, điều bắt buộc",
+                "추측": "phỏng đoán, suy đoán",
+                "관형형": "dạng bổ nghĩa danh từ, dạng định ngữ",
+                "목적지": "điểm đến, nơi đến",
+                "경유": "ghé qua, quá cảnh",
+                "귀국": "về nước, hồi hương",
+                "면세점": "cửa hàng miễn thuế, duty free",
+                "계획": "kế hoạch, dự định",
+                "경로": "lộ trình, tuyến đường",
+                "실용적": "thiết thực, hữu ích",
+                "자연스럽게": "một cách tự nhiên, trôi chảy",
+                "자연스러운": "tự nhiên, trôi chảy",
+                "동사": "động từ",
+                "현실적": "thực tế, sát với đời sống",
+                "포인트": "điểm mấu chốt, điểm cần nhớ",
+                "메시지": "tin nhắn, lời nhắn"
+            };
+
+            const vocabTerms = Object.keys(vocabGlossary).sort(function (a, b) {
+                return b.length - a.length;
+            });
+
+            const refs = {
+                page: document.getElementById("page"),
+                viToggleBtn: document.getElementById("viToggleBtn"),
+                restartBtn: document.getElementById("restartBtn"),
+                restartSummaryBtn: document.getElementById("restartSummaryBtn"),
+                missionCount: document.getElementById("missionCount"),
+                solvedCount: document.getElementById("solvedCount"),
+                attemptCount: document.getElementById("attemptCount"),
+                progressFill: document.getElementById("progressFill"),
+                flowStep1: document.getElementById("flowStep1"),
+                flowStep2: document.getElementById("flowStep2"),
+                flowStep3: document.getElementById("flowStep3"),
+                missionStage: document.getElementById("missionStage"),
+                sceneTag: document.getElementById("sceneTag"),
+                sceneState: document.getElementById("sceneState"),
+                sceneIcon: document.getElementById("sceneIcon"),
+                sceneTitle: document.getElementById("sceneTitle"),
+                scenePrompt: document.getElementById("scenePrompt"),
+                scenePromptVi: document.getElementById("scenePromptVi"),
+                noticeCard: document.getElementById("noticeCard"),
+                missionLock: document.getElementById("missionLock"),
+                lockIcon: document.getElementById("lockIcon"),
+                lockTitle: document.getElementById("lockTitle"),
+                lockCopy: document.getElementById("lockCopy"),
+                missionNeed: document.getElementById("missionNeed"),
+                missionNeedVi: document.getElementById("missionNeedVi"),
+                missionFeedback: document.getElementById("missionFeedback"),
+                choiceSection: document.getElementById("choiceSection"),
+                choiceStatus: document.getElementById("choiceStatus"),
+                choiceGrid: document.getElementById("choiceGrid"),
+                choiceFeedback: document.getElementById("choiceFeedback"),
+                builderSection: document.getElementById("builderSection"),
+                builderStatus: document.getElementById("builderStatus"),
+                sentencePreview: document.getElementById("sentencePreview"),
+                chunkBank: document.getElementById("chunkBank"),
+                checkSentenceBtn: document.getElementById("checkSentenceBtn"),
+                resetSentenceBtn: document.getElementById("resetSentenceBtn"),
+                builderFeedback: document.getElementById("builderFeedback"),
+                resultCard: document.getElementById("resultCard"),
+                resultSentence: document.getElementById("resultSentence"),
+                resultSentenceVi: document.getElementById("resultSentenceVi"),
+                resultTip: document.getElementById("resultTip"),
+                nextMissionBtn: document.getElementById("nextMissionBtn"),
+                summarySection: document.getElementById("summarySection"),
+                summarySolved: document.getElementById("summarySolved"),
+                summaryAttempts: document.getElementById("summaryAttempts"),
+                summaryFirstClear: document.getElementById("summaryFirstClear"),
+                summaryList: document.getElementById("summaryList"),
+                vocabCard: document.getElementById("vocabCard"),
+                vocabCloseBtn: document.getElementById("vocabCloseBtn"),
+                vocabTerm: document.getElementById("vocabTerm"),
+                vocabMeaning: document.getElementById("vocabMeaning")
+            };
+
+            function createBaseState() {
+                return {
+                    viOn: false,
+                    currentIndex: 0,
+                    totalAttempts: 0,
+                    clearedCount: 0,
+                    choiceCorrect: false,
+                    sentenceSolved: false,
+                    wrongChoiceIndexes: [],
+                    selectedChunks: [],
+                    chunkPool: [],
+                    choiceFeedback: null,
+                    builderFeedback: null,
+                    logs: [],
+                    summaryMode: false,
+                    choiceAttemptCount: 0,
+                    sentenceAttemptCount: 0
+                };
+            }
+
+            let state = createBaseState();
+            let activeVocabToken = null;
+
+            function shuffle(items) {
+                const cloned = items.slice();
+                for (let i = cloned.length - 1; i > 0; i -= 1) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    const temp = cloned[i];
+                    cloned[i] = cloned[j];
+                    cloned[j] = temp;
+                }
+                return cloned;
+            }
+
+            function currentMission() {
+                return missions[state.currentIndex];
+            }
+
+            function resetMissionState() {
+                const mission = currentMission();
+                state.choiceCorrect = false;
+                state.sentenceSolved = false;
+                state.wrongChoiceIndexes = [];
+                state.selectedChunks = [];
+                state.chunkPool = shuffle(
+                    mission.chunks.map(function (chunk, index) {
+                        return { id: mission.id + "-chunk-" + index, text: chunk };
+                    })
+                );
+                state.choiceFeedback = null;
+                state.builderFeedback = null;
+                state.choiceAttemptCount = 0;
+                state.sentenceAttemptCount = 0;
+                refs.resultCard.classList.add("hidden");
+            }
+
+            function hideFeedback(el) {
+                el.className = "feedback-box hidden";
+                el.innerHTML = "";
+            }
+
+            function setFeedback(el, type, text) {
+                el.className = "feedback-box " + (type === "positive" ? "is-positive" : "is-negative");
+                el.innerHTML = annotateText(text);
+            }
+
+            function setMissionFeedback(type, text) {
+                refs.missionFeedback.className = "compact-feedback" + (type ? " is-" + type : "");
+                refs.missionFeedback.innerHTML = annotateText(text);
+            }
+
+            function escapeHtml(text) {
+                return String(text == null ? "" : text)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function annotateText(text) {
+                const raw = String(text == null ? "" : text);
+                let html = "";
+                let index = 0;
+
+                while (index < raw.length) {
+                    const term = vocabTerms.find(function (item) {
+                        return raw.slice(index, index + item.length) === item;
+                    });
+
+                    if (term) {
+                        html += '<span class="vocab-token" role="button" tabindex="0" data-term="' + escapeHtml(term) + '" data-vi="' + escapeHtml(vocabGlossary[term]) + '">' + escapeHtml(term) + "</span>";
+                        index += term.length;
+                        continue;
+                    }
+
+                    html += escapeHtml(raw[index]);
+                    index += 1;
+                }
+
+                return html;
+            }
+
+            function hideVocabCard() {
+                if (activeVocabToken) {
+                    activeVocabToken.classList.remove("is-active");
+                }
+                activeVocabToken = null;
+                refs.vocabCard.classList.remove("is-visible");
+                refs.vocabCard.setAttribute("aria-hidden", "true");
+            }
+
+            function syncVocabCard() {
+                if (activeVocabToken && activeVocabToken.isConnected) {
+                    return;
+                }
+                hideVocabCard();
+            }
+
+            function toggleVocabCard(token) {
+                if (activeVocabToken === token && refs.vocabCard.classList.contains("is-visible")) {
+                    hideVocabCard();
+                    return;
+                }
+
+                if (activeVocabToken) {
+                    activeVocabToken.classList.remove("is-active");
+                }
+
+                activeVocabToken = token;
+                activeVocabToken.classList.add("is-active");
+                refs.vocabTerm.textContent = token.dataset.term || token.textContent.trim();
+                refs.vocabMeaning.textContent = token.dataset.vi || "";
+                refs.vocabCard.classList.add("is-visible");
+                refs.vocabCard.setAttribute("aria-hidden", "false");
+            }
+
+            function scrollToTarget(target) {
+                window.requestAnimationFrame(function () {
+                    target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                });
+            }
+
+            function pulseCurrentButton() {
+                refs.checkSentenceBtn.classList.remove("is-current");
+                refs.nextMissionBtn.classList.remove("is-current");
+                refs.checkSentenceBtn.removeAttribute("data-hint");
+                refs.nextMissionBtn.removeAttribute("data-hint");
+                if (!state.choiceCorrect) {
+                    return;
+                }
+                if (!state.sentenceSolved && !refs.checkSentenceBtn.disabled) {
+                    refs.checkSentenceBtn.classList.add("is-current");
+                    refs.checkSentenceBtn.dataset.hint = "지금 확인";
+                } else if (state.sentenceSolved) {
+                    refs.nextMissionBtn.classList.add("is-current");
+                    refs.nextMissionBtn.dataset.hint = "다음 이동";
+                }
+            }
+
+            function renderHud() {
+                const missionNumber = Math.min(state.currentIndex + 1, missions.length);
+                refs.missionCount.textContent = missionNumber + " / " + missions.length;
+                refs.solvedCount.textContent = state.clearedCount + "개";
+                refs.attemptCount.textContent = state.totalAttempts + "번";
+                refs.progressFill.style.width = ((state.summaryMode ? missions.length : state.currentIndex) / missions.length * 100) + "%";
+                refs.page.classList.toggle("vi-on", state.viOn);
+                refs.viToggleBtn.innerHTML = state.viOn
+                    ? '<i class="fa-solid fa-language"></i>VI ON'
+                    : '<i class="fa-solid fa-language"></i>VI OFF';
+            }
+
+            function renderFlow() {
+                refs.flowStep1.className = "flow-step";
+                refs.flowStep2.className = "flow-step";
+                refs.flowStep3.className = "flow-step";
+
+                if (state.summaryMode) {
+                    refs.flowStep1.classList.add("is-done");
+                    refs.flowStep2.classList.add("is-done");
+                    refs.flowStep3.classList.add("is-done");
+                    return;
+                }
+
+                refs.flowStep1.classList.add(state.choiceCorrect ? "is-done" : "is-active");
+                if (state.choiceCorrect && !state.sentenceSolved) {
+                    refs.flowStep2.classList.add("is-active");
+                } else if (state.sentenceSolved) {
+                    refs.flowStep2.classList.add("is-done");
+                }
+                if (state.sentenceSolved) {
+                    refs.flowStep3.classList.add("is-active");
+                }
+            }
+
+            function renderScene() {
+                const mission = currentMission();
+                refs.sceneTag.textContent = mission.tag;
+                refs.sceneTitle.innerHTML = annotateText(mission.title);
+                refs.scenePrompt.innerHTML = annotateText(mission.prompt);
+                refs.scenePromptVi.textContent = mission.promptVi;
+                refs.sceneIcon.innerHTML = '<i class="fa-solid fa-' + mission.icon + '"></i>';
+                refs.noticeCard.innerHTML =
+                    '<span class="notice-label"><i class="fa-solid fa-bell"></i>' + escapeHtml(mission.noticeLabel) + "</span>" +
+                    '<p class="notice-title">' + annotateText(mission.noticeTitle) + "</p>" +
+                    '<p class="notice-body">' + annotateText(mission.noticeBody) + "</p>";
+
+                if (state.sentenceSolved) {
+                    refs.sceneState.className = "state-badge is-done";
+                    refs.sceneState.textContent = "전송 완료";
+                } else if (state.choiceCorrect) {
+                    refs.sceneState.className = "state-badge is-open";
+                    refs.sceneState.textContent = "메시지 완성";
+                } else {
+                    refs.sceneState.className = "state-badge";
+                    refs.sceneState.textContent = "자연스러운 말 고르기";
+                }
+
+                refs.missionNeed.innerHTML = annotateText(mission.need);
+                refs.missionNeedVi.textContent = mission.needVi;
+
+                if (state.sentenceSolved) {
+                    refs.missionLock.className = "mission-lock is-done";
+                    refs.lockIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                    refs.lockTitle.textContent = "전송 완료";
+                    refs.lockCopy.innerHTML = annotateText("자연스러운 말과 문장을 모두 맞혀서 메시지를 보냈어요.");
+                    setMissionFeedback("positive", "메시지 전송이 끝났어요. 다음 상황으로 넘어갈 수 있어요.");
+                } else if (state.choiceCorrect) {
+                    refs.missionLock.className = "mission-lock is-open";
+                    refs.lockIcon.innerHTML = '<i class="fa-solid fa-lock-open"></i>';
+                    refs.lockTitle.textContent = "메시지만 남았어요";
+                    refs.lockCopy.innerHTML = annotateText("이제 메시지를 완성하면 바로 보내도 돼요.");
+                    setMissionFeedback("positive", "동선에 맞는 말을 골랐어요. 아래에서 메시지를 완성해 보세요.");
+                } else if (state.choiceFeedback && state.choiceFeedback.type === "negative") {
+                    refs.missionLock.className = "mission-lock";
+                    refs.lockIcon.innerHTML = '<i class="fa-solid fa-lock"></i>';
+                    refs.lockTitle.textContent = "아직 잠겨 있어요";
+                    refs.lockCopy.innerHTML = annotateText("동선과 맞지 않는 말을 고르면 메시지가 자연스럽게 이어지지 않아요.");
+                    setMissionFeedback("negative", "아직 동선에 맞는 말이 아니에요. 다시 골라 보세요.");
+                } else {
+                    refs.missionLock.className = "mission-lock";
+                    refs.lockIcon.innerHTML = '<i class="fa-solid fa-lock"></i>';
+                    refs.lockTitle.textContent = "전송 잠금";
+                    refs.lockCopy.innerHTML = annotateText("자연스러운 말과 문장을 모두 맞히면 전송됩니다.");
+                    setMissionFeedback("", "지금은 동선에 맞는 말을 고르는 단계예요.");
+                }
+            }
+
+            function renderChoices() {
+                const mission = currentMission();
+                refs.choiceStatus.className = "task-badge" + (state.choiceCorrect ? " is-active" : "");
+                refs.choiceStatus.textContent = state.choiceCorrect ? "선택 완료" : "Step 1";
+                refs.choiceGrid.innerHTML = mission.options.map(function (option, index) {
+                    let classes = "choice-card";
+                    if (state.choiceCorrect && option.correct) {
+                        classes += " is-correct";
+                    } else if (state.wrongChoiceIndexes.indexOf(index) > -1) {
+                        classes += " is-wrong";
+                    } else if (state.choiceCorrect && !option.correct) {
+                        classes += " is-dim";
+                    }
+
+                    return (
+                        '<button type="button" class="' + classes + '" data-choice-index="' + index + '" style="--i:' + index + '">' +
+                        '<div class="choice-icon" aria-hidden="true"><i class="fa-solid fa-' + escapeHtml(option.icon) + '"></i></div>' +
+                        '<div class="choice-copy"><strong>' + annotateText(option.text) + '</strong><span>' + annotateText(option.detail) + "</span></div>" +
+                        "</button>"
+                    );
+                }).join("");
+
+                refs.choiceGrid.querySelectorAll("[data-choice-index]").forEach(function (button) {
+                    button.addEventListener("click", function (event) {
+                        if (event.target.closest(".vocab-token")) {
+                            return;
+                        }
+                        const index = Number(button.dataset.choiceIndex);
+                        handleChoice(index);
+                    });
+                });
+
+                if (!state.choiceFeedback) {
+                    hideFeedback(refs.choiceFeedback);
+                    return;
+                }
+                setFeedback(refs.choiceFeedback, state.choiceFeedback.type, state.choiceFeedback.text);
+            }
+
+            function renderBuilder() {
+                const mission = currentMission();
+                refs.builderStatus.className = "task-badge" + (state.choiceCorrect && !state.sentenceSolved ? " is-active" : "");
+                refs.builderStatus.textContent = state.sentenceSolved ? "완성됨" : (state.choiceCorrect ? "Step 2" : "대기");
+
+                if (!state.selectedChunks.length) {
+                    refs.sentencePreview.innerHTML = '<span class="sentence-placeholder">메시지 조각을 순서대로 눌러서 완성하세요.</span>';
+                } else {
+                    refs.sentencePreview.innerHTML = state.selectedChunks.map(function (chunk, index) {
+                        return '<button type="button" class="preview-chip" data-preview-index="' + index + '">' +
+                            escapeHtml(chunk.text) + ' <i class="fa-solid fa-rotate-left" aria-hidden="true"></i></button>';
+                    }).join("");
+                }
+
+                refs.sentencePreview.querySelectorAll("[data-preview-index]").forEach(function (button) {
+                    button.addEventListener("click", function () {
+                        if (state.sentenceSolved) {
+                            return;
+                        }
+                        const index = Number(button.dataset.previewIndex);
+                        state.chunkPool.push(state.selectedChunks[index]);
+                        state.selectedChunks.splice(index, 1);
+                        render();
+                    });
+                });
+
+                refs.chunkBank.innerHTML = state.chunkPool.map(function (chunk, index) {
+                    return '<button type="button" class="chunk-btn" data-chunk-index="' + index + '" style="--i:' + index + '"' +
+                        (!state.choiceCorrect || state.sentenceSolved ? " disabled" : "") + ">" +
+                        escapeHtml(chunk.text) + "</button>";
+                }).join("");
+
+                refs.chunkBank.querySelectorAll("[data-chunk-index]").forEach(function (button) {
+                    button.addEventListener("click", function () {
+                        if (!state.choiceCorrect || state.sentenceSolved) {
+                            return;
+                        }
+                        const index = Number(button.dataset.chunkIndex);
+                        state.selectedChunks.push(state.chunkPool[index]);
+                        state.chunkPool.splice(index, 1);
+                        render();
+                    });
+                });
+
+                refs.checkSentenceBtn.disabled = !state.choiceCorrect || state.sentenceSolved || state.selectedChunks.length !== mission.chunks.length;
+
+                if (!state.builderFeedback) {
+                    hideFeedback(refs.builderFeedback);
+                    return;
+                }
+                setFeedback(refs.builderFeedback, state.builderFeedback.type, state.builderFeedback.text);
+            }
+
+            function renderCurrentSections() {
+                [refs.choiceSection, refs.builderSection, refs.resultCard].forEach(function (section) {
+                    section.classList.remove("is-current", "is-rest");
+                    section.removeAttribute("data-focus");
+                });
+
+                if (state.summaryMode) {
+                    return;
+                }
+                if (!state.choiceCorrect) {
+                    refs.choiceSection.classList.add("is-current");
+                    refs.choiceSection.dataset.focus = "지금 선택";
+                    refs.builderSection.classList.add("is-rest");
+                } else if (!state.sentenceSolved) {
+                    refs.builderSection.classList.add("is-current");
+                    refs.builderSection.dataset.focus = "지금 조합";
+                    refs.choiceSection.classList.add("is-rest");
+                } else {
+                    refs.resultCard.classList.add("is-current");
+                    refs.resultCard.dataset.focus = "지금 다음";
+                    refs.choiceSection.classList.add("is-rest");
+                    refs.builderSection.classList.add("is-rest");
+                }
+            }
+
+            function renderResult() {
+                const mission = currentMission();
+                if (!state.sentenceSolved) {
+                    refs.resultCard.classList.add("hidden");
+                    return;
+                }
+
+                refs.resultCard.classList.remove("hidden");
+                refs.resultSentence.innerHTML = annotateText(mission.answer);
+                refs.resultSentenceVi.textContent = mission.answerVi;
+                refs.resultTip.innerHTML = annotateText(mission.tip);
+                refs.nextMissionBtn.textContent = state.currentIndex === missions.length - 1 ? "결과 보기" : "다음 미션";
+            }
+
+            function renderSummary() {
+                const firstClearCount = state.logs.filter(function (log) {
+                    return log && log.wrongChoices === 0 && log.wrongSentence === 0;
+                }).length;
+
+                refs.summarySolved.textContent = String(state.clearedCount);
+                refs.summaryAttempts.textContent = String(state.totalAttempts);
+                refs.summaryFirstClear.textContent = String(firstClearCount);
+                refs.summaryList.innerHTML = state.logs.map(function (log) {
+                    return (
+                        '<div class="summary-item">' +
+                        '<div class="summary-item-top"><strong>' + escapeHtml(log.title) + '</strong>' +
+                        '<span class="summary-pill">시도 ' + escapeHtml(String(log.attempts)) + "번</span></div>" +
+                        '<p class="summary-answer">' + annotateText(log.answer) + "</p>" +
+                        "</div>"
+                    );
+                }).join("");
+            }
+
+            function render() {
+                renderHud();
+                renderFlow();
+
+                if (state.summaryMode) {
+                    refs.missionStage.classList.add("hidden");
+                    refs.summarySection.classList.remove("hidden");
+                    renderSummary();
+                    syncVocabCard();
+                    return;
+                }
+
+                refs.missionStage.classList.remove("hidden");
+                refs.summarySection.classList.add("hidden");
+                renderScene();
+                renderChoices();
+                renderBuilder();
+                renderResult();
+                renderCurrentSections();
+                pulseCurrentButton();
+                syncVocabCard();
+            }
+
+            function handleChoice(index) {
+                const mission = currentMission();
+                const option = mission.options[index];
+                if (state.choiceCorrect || state.summaryMode) {
+                    return;
+                }
+
+                state.totalAttempts += 1;
+                state.choiceAttemptCount += 1;
+
+                if (option.correct) {
+                    state.choiceCorrect = true;
+                    state.choiceFeedback = {
+                        type: "positive",
+                        text: option.reason + " 메시지 완성으로 바로 이어 가세요."
+                    };
+                    render();
+                    scrollToTarget(refs.builderSection);
+                    return;
+                }
+
+                if (state.wrongChoiceIndexes.indexOf(index) === -1) {
+                    state.wrongChoiceIndexes.push(index);
+                }
+                state.choiceFeedback = {
+                    type: "negative",
+                    text: option.reason
+                };
+                render();
+                scrollToTarget(refs.choiceSection);
+            }
+
+            function checkSentence() {
+                const mission = currentMission();
+                if (!state.choiceCorrect || state.sentenceSolved || state.selectedChunks.length !== mission.chunks.length) {
+                    return;
+                }
+
+                state.totalAttempts += 1;
+                state.sentenceAttemptCount += 1;
+
+                const selected = state.selectedChunks.map(function (chunk) { return chunk.text; });
+                const correct = selected.every(function (text, index) {
+                    return text === mission.chunks[index];
+                });
+
+                if (!correct) {
+                    state.builderFeedback = {
+                        type: "negative",
+                        text: "순서를 조금 바꾸면 돼요. 메시지 덩어리를 다시 맞춰 보세요."
+                    };
+                    render();
+                    scrollToTarget(refs.builderSection);
+                    return;
+                }
+
+                state.sentenceSolved = true;
+                state.clearedCount += 1;
+                state.builderFeedback = {
+                    type: "positive",
+                    text: "메시지가 완성됐어요. 지금 바로 보내도 아주 자연스러워요."
+                };
+                state.logs[state.currentIndex] = {
+                    title: mission.title,
+                    answer: mission.answer,
+                    attempts: state.choiceAttemptCount + state.sentenceAttemptCount,
+                    wrongChoices: state.wrongChoiceIndexes.length,
+                    wrongSentence: state.sentenceAttemptCount - 1
+                };
+                render();
+                scrollToTarget(refs.resultCard);
+            }
+
+            function resetSentenceBuilder() {
+                if (state.sentenceSolved) {
+                    return;
+                }
+                state.chunkPool = shuffle(state.chunkPool.concat(state.selectedChunks));
+                state.selectedChunks = [];
+                state.builderFeedback = null;
+                render();
+            }
+
+            function showSummary() {
+                state.summaryMode = true;
+                render();
+                scrollToTarget(refs.summarySection);
+            }
+
+            function nextMission() {
+                if (!state.sentenceSolved) {
+                    return;
+                }
+
+                if (state.currentIndex === missions.length - 1) {
+                    showSummary();
+                    return;
+                }
+
+                state.currentIndex += 1;
+                resetMissionState();
+                render();
+                scrollToTarget(refs.missionStage);
+            }
+
+            function restartSession() {
+                if (state.totalAttempts > 0 && !window.confirm("문법 4 보조 활동을 처음부터 다시 시작할까요?")) {
+                    return;
+                }
+                state = createBaseState();
+                resetMissionState();
+                render();
+                scrollToTarget(refs.page);
+            }
+
+            refs.viToggleBtn.addEventListener("click", function () {
+                state.viOn = !state.viOn;
+                renderHud();
+            });
+
+            refs.restartBtn.addEventListener("click", restartSession);
+            refs.restartSummaryBtn.addEventListener("click", restartSession);
+            refs.checkSentenceBtn.addEventListener("click", checkSentence);
+            refs.resetSentenceBtn.addEventListener("click", resetSentenceBuilder);
+            refs.nextMissionBtn.addEventListener("click", nextMission);
+            refs.vocabCloseBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                hideVocabCard();
+            });
+
+            document.addEventListener("click", function (event) {
+                const token = event.target.closest(".vocab-token");
+                if (token) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    toggleVocabCard(token);
+                    return;
+                }
+                if (!event.target.closest("#vocabCard")) {
+                    hideVocabCard();
+                }
+            });
+
+            document.addEventListener("keydown", function (event) {
+                const token = event.target.closest(".vocab-token");
+                if (token && (event.key === "Enter" || event.key === " ")) {
+                    event.preventDefault();
+                    toggleVocabCard(token);
+                    return;
+                }
+                if (event.key === "Escape") {
+                    hideVocabCard();
+                }
+            });
+
+            resetMissionState();
+            render();
+        })();
+    </script>
+</body>
+</html>

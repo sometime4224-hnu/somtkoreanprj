@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 2 | V-(으)ㄹ 만하다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: "Noto Sans KR", sans-serif;
+            color: #0f172a;
+            background:
+                radial-gradient(circle at top right, rgba(253, 186, 116, 0.18), transparent 26%),
+                radial-gradient(circle at top left, rgba(52, 211, 153, 0.18), transparent 22%),
+                linear-gradient(180deg, #fff8f1 0%, #fffdf9 42%, #f3fbf8 100%);
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 52px;
+            padding: 0 14px;
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid rgba(251, 191, 36, 0.42);
+            backdrop-filter: blur(10px);
+        }
+
+        .topbar a {
+            color: #c2410c;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .topbar span {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .topbar strong {
+            min-width: 0;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 900;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .shell {
+            width: min(1120px, calc(100% - 24px));
+            margin: 16px auto 40px;
+        }
+
+        .glass-card {
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.76);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 22px 46px rgba(15, 23, 42, 0.08);
+        }
+
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+            padding: 22px;
+            background:
+                radial-gradient(circle at top right, rgba(251, 191, 36, 0.20), transparent 28%),
+                linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(255,247,237,0.96) 48%, rgba(236,253,245,0.94) 100%);
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            right: -34px;
+            bottom: -64px;
+            width: 210px;
+            height: 210px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, rgba(16, 185, 129, 0) 72%);
+            pointer-events: none;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 13px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+        }
+
+        .pill-amber {
+            color: #c2410c;
+            background: #ffedd5;
+            border: 1px solid #fdba74;
+        }
+
+        .pill-soft {
+            color: #475569;
+            background: rgba(255,255,255,0.84);
+            border: 1px solid rgba(148,163,184,0.22);
+        }
+
+        .formula-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .formula-chip--amber {
+            color: #c2410c;
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+        }
+
+        .formula-chip--emerald {
+            color: #047857;
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+        }
+
+        .section-card {
+            padding: 18px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .eyebrow {
+            margin: 0 0 6px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: clamp(1.3rem, 2vw, 1.8rem);
+            line-height: 1.18;
+        }
+
+        .tone-panel {
+            border-radius: 22px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.94));
+            padding: 16px;
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .tone-panel--amber {
+            background: linear-gradient(180deg, #fffaf4 0%, #fff7ed 100%);
+            border-color: rgba(251, 191, 36, 0.52);
+        }
+
+        .tone-panel--emerald {
+            background: linear-gradient(180deg, #f7fefb 0%, #ecfdf5 100%);
+            border-color: rgba(134, 239, 172, 0.7);
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .feature-card {
+            padding: 16px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(148,163,184,0.18);
+            box-shadow: 0 12px 22px rgba(15, 23, 42, 0.05);
+        }
+
+        .feature-icon {
+            width: 54px;
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            font-size: 24px;
+        }
+
+        .feature-icon--amber {
+            color: #c2410c;
+            background: #ffedd5;
+        }
+
+        .feature-icon--emerald {
+            color: #047857;
+            background: #d1fae5;
+        }
+
+        .sentence-box {
+            margin-top: 10px;
+            padding: 14px;
+            border-radius: 18px;
+            font-weight: 700;
+            line-height: 1.65;
+        }
+
+        .sentence-box--amber {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+        }
+
+        .sentence-box--emerald {
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+            color: #166534;
+        }
+
+        .travel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+        }
+
+        .travel-card {
+            padding: 16px;
+            border-radius: 24px;
+            border: 1px solid rgba(148,163,184,0.18);
+            background: rgba(255,255,255,0.96);
+            box-shadow: 0 14px 24px rgba(15, 23, 42, 0.05);
+        }
+
+        .travel-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .travel-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            font-size: 20px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #f97316, #fb923c);
+        }
+
+        .travel-card ul {
+            margin: 12px 0 0;
+            padding-left: 18px;
+            color: #475569;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .roadmap {
+            display: grid;
+            gap: 12px;
+        }
+
+        .roadmap-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            align-items: start;
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.86);
+            border: 1px solid rgba(148,163,184,0.16);
+        }
+
+        .roadmap-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #047857;
+            background: #d1fae5;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .quiz-shell {
+            display: grid;
+            gap: 16px;
+        }
+
+        .quiz-progress {
+            height: 10px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+
+        .quiz-progress-bar {
+            width: 0;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #f97316, #f59e0b);
+            transition: width 0.24s ease;
+        }
+
+        .quiz-card {
+            padding: 18px;
+            border-radius: 24px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,250,245,0.96));
+            border: 1px solid rgba(148,163,184,0.18);
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .quiz-choice {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 18px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #0f172a;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .quiz-choice:hover {
+            transform: translateY(-1px);
+            border-color: #fdba74;
+            box-shadow: 0 10px 22px rgba(249, 115, 22, 0.08);
+        }
+
+        .quiz-choice:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .quiz-choice.correct {
+            border-color: #22c55e;
+            background: #ecfdf5;
+            color: #166534;
+        }
+
+        .quiz-choice.wrong {
+            border-color: #fb7185;
+            background: #fff1f2;
+            color: #be123c;
+        }
+
+        .quiz-choice.dimmed {
+            opacity: 0.68;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .action-btn-primary {
+            color: #ffffff;
+            background: linear-gradient(135deg, #ea580c, #c2410c);
+            box-shadow: 0 14px 24px rgba(234, 88, 12, 0.22);
+        }
+
+        .action-btn-secondary {
+            color: #047857;
+            background: #ecfdf5;
+            border-color: #86efac;
+        }
+
+        .action-btn-muted {
+            color: #475569;
+            background: #ffffff;
+            border-color: #cbd5e1;
+        }
+
+        .launch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .launch-card {
+            padding: 18px;
+            border-radius: 24px;
+            border: 1px solid rgba(251, 191, 36, 0.52);
+            background:
+                radial-gradient(circle at top right, rgba(254, 215, 170, 0.42), transparent 36%),
+                linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,247,237,0.96));
+            box-shadow: 0 18px 32px rgba(249, 115, 22, 0.08);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 720px) {
+            .shell {
+                width: min(100% - 18px, 1120px);
+                margin: 12px auto 28px;
+            }
+
+            .hero-card,
+            .section-card {
+                padding: 18px;
+            }
+
+            .footer-links {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+        <span>|</span>
+        <a href="index.html">16과 목록</a>
+        <span>|</span>
+        <strong>문법 2 | V-(으)ㄹ 만하다</strong>
+    </nav>
+
+    <main class="shell">
+        <section class="glass-card hero-card">
+            <span class="pill pill-amber"><i class="fa-solid fa-compass"></i> Grammar 2</span>
+            <h1 class="mt-4 mb-3 text-3xl sm:text-4xl font-black leading-tight">V-(으)ㄹ 만하다</h1>
+            <p class="m-0 text-[15px] leading-7 text-slate-700 max-w-3xl">
+                추천할 가치가 있거나 해 볼 만한 활동을 말할 때 쓰는 표현입니다.
+                동사 어간 뒤에 붙여 “한 번 해 볼 만하다”는 뜻을 만들고, 이유를 덧붙이면 더 설득력 있게 들립니다.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+                <span class="formula-chip formula-chip--amber"><i class="fa-solid fa-thumbs-up"></i> V-(으)ㄹ 만하다</span>
+                <span class="formula-chip formula-chip--emerald"><i class="fa-solid fa-star"></i> 진해 벚꽃 길은 가 볼 만해요.</span>
+            </div>
+        </section>
+
+        <section class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Quick Start</p>
+                    <h2 class="section-title">먼저 추천 표현을 골라 보세요</h2>
+                </div>
+                <span id="quizLabel" class="pill pill-soft"><i class="fa-solid fa-pen"></i> 1 / 5</span>
+            </div>
+
+            <div class="quiz-shell">
+                <div class="quiz-progress">
+                    <div id="quizProgressBar" class="quiz-progress-bar"></div>
+                </div>
+
+                <div id="quizCard" class="quiz-card">
+                    <p class="eyebrow">Prompt</p>
+                    <h3 id="quizPrompt" class="mt-0 text-xl font-black text-slate-800 leading-8"></h3>
+                    <p id="quizHint" class="mt-3 mb-0 text-sm leading-6 text-slate-600"></p>
+                    <div id="quizChoices" class="grid gap-3 mt-5"></div>
+                    <div id="quizFeedback" class="hidden mt-4 rounded-[20px] border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold leading-6 text-slate-700"></div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 justify-between">
+                    <button id="restartQuizBtn" class="action-btn action-btn-muted" type="button"><i class="fa-solid fa-rotate-right"></i> 다시 풀기</button>
+                    <button id="nextQuizBtn" class="action-btn action-btn-primary" type="button" disabled><i class="fa-solid fa-arrow-right"></i> 다음 문제</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Core Pattern</p>
+                    <h2 class="section-title">해 볼 가치가 있을 때 쓰는 말</h2>
+                </div>
+            </div>
+            <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-4">
+                <article class="tone-panel tone-panel--amber">
+                    <h3 class="mt-0 text-xl font-black text-slate-800">진해 벚꽃 길은 정말 가 볼 만해요.</h3>
+                    <p class="mt-3 mb-0 text-sm leading-7 text-slate-700">
+                        직접 해 보면 좋겠다, 추천할 만하다, 충분히 가치가 있다는 뜻을 담습니다.
+                        여행지, 활동, 음식, 체험을 소개할 때 특히 자주 씁니다.
+                    </p>
+                    <div class="sentence-box sentence-box--amber">주차가 조금 불편해도 풍경이 좋아서 한 번 가 볼 만해요.</div>
+                </article>
+
+                <article class="tone-panel tone-panel--emerald">
+                    <div class="roadmap">
+                        <div class="roadmap-item">
+                            <span class="roadmap-num">1</span>
+                            <div>
+                                <h3 class="m-0 text-base font-black text-slate-800">활동을 먼저 정해요</h3>
+                                <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">가 보다, 타 보다, 먹어 보다처럼 실제로 해 볼 행동이 들어가면 자연스럽습니다.</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-item">
+                            <span class="roadmap-num">2</span>
+                            <div>
+                                <h3 class="m-0 text-base font-black text-slate-800">가치를 뒷받침하는 이유를 붙여요</h3>
+                                <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">경치가 좋다, 시설이 편하다, 체험이 특별하다는 근거를 같이 말하면 설득력이 생깁니다.</p>
+                            </div>
+                        </div>
+                        <div class="roadmap-item">
+                            <span class="roadmap-num">3</span>
+                            <div>
+                                <h3 class="m-0 text-base font-black text-slate-800">권유 톤으로 마무리해요</h3>
+                                <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">상대에게 추천하는 장면에서는 “정말 해 볼 만해요”가 자연스럽습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="famous-expression" class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Extra Grammar</p>
+                    <h2 class="section-title">A/V-기로 유명하다 · N(으)로 유명하다</h2>
+                </div>
+            </div>
+            <div class="pattern-grid">
+                <article class="feature-card">
+                    <span class="feature-icon feature-icon--emerald"><i class="fa-solid fa-tree-city"></i></span>
+                    <h3 class="mt-4 mb-2 text-lg font-black text-slate-800">A/V-기로 유명하다</h3>
+                    <p class="m-0 text-sm leading-6 text-slate-600">어떤 특징, 상태, 평가로 알려져 있을 때 씁니다.</p>
+                    <div class="sentence-box sentence-box--emerald">한탄강 캠핑장은 시설이 좋기로 유명해요.</div>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-icon feature-icon--emerald"><i class="fa-solid fa-earth-asia"></i></span>
+                    <h3 class="mt-4 mb-2 text-lg font-black text-slate-800">N(으)로 유명하다</h3>
+                    <p class="m-0 text-sm leading-6 text-slate-600">대표 명사, 상징, 음식, 장소 이름으로 유명함을 말할 때 씁니다.</p>
+                    <div class="sentence-box sentence-box--emerald">중국은 만리장성으로 유명해요.</div>
+                </article>
+                <article class="feature-card">
+                    <span class="feature-icon feature-icon--amber"><i class="fa-solid fa-circle-info"></i></span>
+                    <h3 class="mt-4 mb-2 text-lg font-black text-slate-800">고르는 기준</h3>
+                    <p class="m-0 text-sm leading-6 text-slate-600"><code>좋기로 유명하다</code>는 평가를, <code>만리장성으로 유명하다</code>는 대표 명사를 중심으로 말합니다.</p>
+                    <div class="sentence-box sentence-box--amber">내장산은 단풍이 아름답기로 유명해요.</div>
+                </article>
+            </div>
+        </section>
+
+        <section class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Examples</p>
+                    <h2 class="section-title">추천과 이유를 함께 말해요</h2>
+                </div>
+            </div>
+            <div class="travel-grid">
+                <article class="travel-card">
+                    <div class="travel-top">
+                        <span class="travel-badge">🌸</span>
+                        <div>
+                            <h3 class="m-0 text-lg font-black text-slate-800">진해</h3>
+                            <p class="m-0 text-sm text-slate-500">벚꽃 길</p>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>정말 한 번 가 볼 만해요.</li>
+                        <li>벚꽃 경치가 아름답기로 유명해요.</li>
+                    </ul>
+                </article>
+                <article class="travel-card">
+                    <div class="travel-top">
+                        <span class="travel-badge">🏕️</span>
+                        <div>
+                            <h3 class="m-0 text-lg font-black text-slate-800">한탄강 캠핑장</h3>
+                            <p class="m-0 text-sm text-slate-500">캠핑 · 래프팅</p>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>주말에 놀러 가 볼 만해요.</li>
+                        <li>시설이 좋기로 유명해요.</li>
+                    </ul>
+                </article>
+                <article class="travel-card">
+                    <div class="travel-top">
+                        <span class="travel-badge">🍂</span>
+                        <div>
+                            <h3 class="m-0 text-lg font-black text-slate-800">내장산</h3>
+                            <p class="m-0 text-sm text-slate-500">전라도의 산</p>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>가을에 꼭 가 볼 만해요.</li>
+                        <li>단풍이 아름답기로 유명해요.</li>
+                    </ul>
+                </article>
+                <article class="travel-card">
+                    <div class="travel-top">
+                        <span class="travel-badge">🧱</span>
+                        <div>
+                            <h3 class="m-0 text-lg font-black text-slate-800">중국</h3>
+                            <p class="m-0 text-sm text-slate-500">만리장성</p>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>역사 여행지로 가 볼 만해요.</li>
+                        <li>만리장성으로 유명해요.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Speak</p>
+                    <h2 class="section-title">추천하고 이유를 덧붙여 말해 보세요</h2>
+                </div>
+            </div>
+            <div class="launch-grid">
+                <article class="launch-card">
+                    <span class="pill pill-amber"><i class="fa-solid fa-microphone-lines"></i> Speaking PRO</span>
+                    <h3 class="mt-4 mb-2 text-xl font-black text-slate-800">장소나 활동 하나를 골라 말하기</h3>
+                    <p class="m-0 text-sm leading-7 text-slate-700">
+                        장소나 활동 하나를 골라 <code>가 볼 만하다</code>로 추천하고,
+                        이어서 <code>좋기로 유명하다</code> 또는 <code>만리장성으로 유명하다</code>처럼 이유를 덧붙여 보세요.
+                    </p>
+                    <div class="mt-5 flex flex-wrap gap-2">
+                        <a class="action-btn action-btn-primary" href="grammar2-speaking-pro.html"><i class="fa-solid fa-play"></i> 말하기 PRO 열기</a>
+                    </div>
+                </article>
+
+                <article class="tone-panel tone-panel--emerald">
+                    <p class="eyebrow">Quick Tip</p>
+                    <h3 class="mt-0 text-lg font-black text-slate-800">추천 문장을 만들 때는 이렇게 묶어요</h3>
+                    <ol class="mt-3 mb-0 pl-5 text-sm leading-7 text-slate-700">
+                        <li>장소/활동: 진해 벚꽃 길은, 한탄강 캠핑장은</li>
+                        <li>평가: 가 볼 만해요 / 타 볼 만해요</li>
+                        <li>대표 특징: 단풍이 아름답기로 유명해요 / 만리장성으로 유명해요</li>
+                    </ol>
+                </article>
+            </div>
+
+            <div class="footer-links">
+                <a class="action-btn action-btn-muted" href="grammar1.html"><i class="fa-solid fa-arrow-left"></i> 문법 1로 이동</a>
+                <a class="action-btn action-btn-secondary" href="index.html">16과 목록으로 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quiz = [
+                {
+                    prompt: '친구에게 진해 벚꽃 길을 추천하고 싶어요.',
+                    hint: '직접 가 볼 가치가 있다는 뜻을 골라 보세요.',
+                    choices: [
+                        '진해 벚꽃 길은 정말 가 볼 만해요.',
+                        '진해 벚꽃 길은 만리장성으로 유명해요.',
+                        '진해 벚꽃 길은 사람 키만 해요.'
+                    ],
+                    answer: 0,
+                    explanation: '추천과 가치 평가는 `V-(으)ㄹ 만하다`가 가장 자연스럽습니다.'
+                },
+                {
+                    prompt: '한탄강 캠핑장은 시설이 좋은 것으로 잘 알려져 있어요.',
+                    hint: '평가 내용으로 유명함을 말해 보세요.',
+                    choices: [
+                        '한탄강 캠핑장은 시설이 좋기로 유명해요.',
+                        '한탄강 캠핑장은 시설을 가 볼 만해요.',
+                        '한탄강 캠핑장은 시설만 해요.'
+                    ],
+                    answer: 0,
+                    explanation: '형용사·동사 내용으로 알려진 특징은 `A/V-기로 유명하다`를 씁니다.'
+                },
+                {
+                    prompt: '중국을 대표하는 것으로 만리장성을 말하고 싶어요.',
+                    hint: '대표 명사로 유명함을 표현해 보세요.',
+                    choices: [
+                        '중국은 만리장성으로 유명해요.',
+                        '중국은 만리장성을 가 볼 만해요.',
+                        '중국은 만리장성만 해요.'
+                    ],
+                    answer: 0,
+                    explanation: '대표 명사 자체가 유명함의 근거일 때는 `N(으)로 유명하다`가 맞습니다.'
+                },
+                {
+                    prompt: '청평에서 수상 스키를 체험해 보라고 권하고 싶어요.',
+                    hint: '상대에게 “해 봐도 좋다”는 말을 골라 보세요.',
+                    choices: [
+                        '청평에서 수상 스키를 타 보기로 유명해요.',
+                        '청평에서 수상 스키를 타 볼 만해요.',
+                        '청평에서 수상 스키가 만리장성으로 유명해요.'
+                    ],
+                    answer: 1,
+                    explanation: '어떤 활동을 실제로 해 볼 가치가 있다는 추천은 `타 볼 만해요`가 자연스럽습니다.'
+                },
+                {
+                    prompt: '내장산은 단풍이 아름답기로 잘 알려져 있다고 말하고 싶어요.',
+                    hint: '특징을 이유로 유명함을 표현해 보세요.',
+                    choices: [
+                        '내장산은 단풍이 아름답기로 유명해요.',
+                        '내장산은 단풍을 가 볼 만해요.',
+                        '내장산은 단풍이 사람 키만 해요.'
+                    ],
+                    answer: 0,
+                    explanation: '장소가 가진 특징이나 평가를 이유로 소개할 때는 `A/V-기로 유명하다`를 씁니다.'
+                }
+            ];
+
+            const promptEl = document.getElementById('quizPrompt');
+            const hintEl = document.getElementById('quizHint');
+            const choicesEl = document.getElementById('quizChoices');
+            const feedbackEl = document.getElementById('quizFeedback');
+            const labelEl = document.getElementById('quizLabel');
+            const progressBarEl = document.getElementById('quizProgressBar');
+            const nextBtn = document.getElementById('nextQuizBtn');
+            const restartBtn = document.getElementById('restartQuizBtn');
+
+            const state = {
+                index: 0,
+                score: 0,
+                answered: false
+            };
+
+            function renderQuestion() {
+                const item = quiz[state.index];
+                state.answered = false;
+                promptEl.textContent = item.prompt;
+                hintEl.textContent = item.hint;
+                labelEl.innerHTML = '<i class="fa-solid fa-pen"></i> ' + (state.index + 1) + ' / ' + quiz.length;
+                progressBarEl.style.width = ((state.index / quiz.length) * 100) + '%';
+                feedbackEl.className = 'hidden mt-4 rounded-[20px] border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold leading-6 text-slate-700';
+                feedbackEl.textContent = '';
+                nextBtn.disabled = true;
+                nextBtn.textContent = state.index === quiz.length - 1 ? '결과 보기' : '다음 문제';
+
+                choicesEl.innerHTML = '';
+                item.choices.forEach(function (choice, choiceIndex) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'quiz-choice';
+                    button.textContent = choice;
+                    button.addEventListener('click', function () {
+                        if (state.answered) return;
+                        state.answered = true;
+                        const buttons = Array.from(choicesEl.querySelectorAll('button'));
+                        buttons.forEach(function (btn, idx) {
+                            btn.disabled = true;
+                            if (idx === item.answer) {
+                                btn.classList.add('correct');
+                            } else if (idx === choiceIndex) {
+                                btn.classList.add('wrong');
+                            } else {
+                                btn.classList.add('dimmed');
+                            }
+                        });
+
+                        if (choiceIndex === item.answer) {
+                            state.score += 1;
+                            feedbackEl.classList.remove('hidden');
+                            feedbackEl.classList.add('border-emerald-200', 'bg-emerald-50', 'text-emerald-800');
+                            feedbackEl.innerHTML = '<strong>정답!</strong> ' + item.explanation;
+                        } else {
+                            feedbackEl.classList.remove('hidden');
+                            feedbackEl.classList.add('border-rose-200', 'bg-rose-50', 'text-rose-800');
+                            feedbackEl.innerHTML = '<strong>다시 확인!</strong> ' + item.explanation;
+                        }
+
+                        nextBtn.disabled = false;
+                        progressBarEl.style.width = (((state.index + 1) / quiz.length) * 100) + '%';
+                    });
+                    choicesEl.appendChild(button);
+                });
+            }
+
+            function renderSummary() {
+                const percent = Math.round((state.score / quiz.length) * 100);
+                promptEl.textContent = '퀴즈 완료';
+                hintEl.textContent = '추천과 유명 표현의 말맛 차이가 잡혔는지 확인해 보세요.';
+                labelEl.innerHTML = '<i class="fa-solid fa-star"></i> 완료';
+                choicesEl.innerHTML = ''
+                    + '<div class="tone-panel tone-panel--emerald">'
+                    + '<p class="eyebrow">Result</p>'
+                    + '<h3 class="mt-0 text-3xl font-black text-slate-800">' + state.score + ' / ' + quiz.length + '</h3>'
+                    + '<p class="mt-2 mb-0 text-sm leading-7 text-slate-700">정답률 ' + percent + '%예요. 추천하고 싶으면 <code>V-(으)ㄹ 만하다</code>, 유명한 근거나 대표 명사를 말하고 싶으면 <code>유명하다</code> 계열 표현을 먼저 떠올리면 훨씬 빠르게 문장이 만들어집니다.</p>'
+                    + '</div>';
+                feedbackEl.className = 'hidden mt-4 rounded-[20px] border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold leading-6 text-slate-700';
+                nextBtn.disabled = true;
+                progressBarEl.style.width = '100%';
+            }
+
+            nextBtn.addEventListener('click', function () {
+                if (state.index === quiz.length - 1) {
+                    renderSummary();
+                    return;
+                }
+                state.index += 1;
+                renderQuestion();
+            });
+
+            restartBtn.addEventListener('click', function () {
+                state.index = 0;
+                state.score = 0;
+                renderQuestion();
+            });
+
+            renderQuestion();
+        });
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
