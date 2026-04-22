@@ -17,8 +17,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./mock-exam.css">
     <style>
-        .passage-card {
+        :root {
+            --topbar-height: 64px;
+        }
+
+        .exam-split {
+            display: grid;
+            gap: 16px;
             margin-top: 16px;
+        }
+
+        .split-pane {
+            display: grid;
+            gap: 8px;
+        }
+
+        .split-pane__label {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            min-height: 32px;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: rgba(180, 83, 9, 0.12);
+            color: var(--brand-deep);
+            font-size: 0.84rem;
+            font-weight: 900;
+        }
+
+        .split-pane > .shared-card,
+        .split-pane > .quiz-panel {
+            margin-top: 0;
+        }
+
+        .passage-card {
+            margin-top: 0;
         }
 
         .passage-card__head {
@@ -94,8 +127,46 @@
         }
 
         @media (max-width: 780px) {
+            .exam-split {
+                position: sticky;
+                top: calc(var(--topbar-height, 64px) + 8px);
+                grid-template-rows: minmax(0, 0.92fr) minmax(0, 1.08fr);
+                height: calc(100svh - var(--topbar-height, 64px) - 20px);
+                gap: 10px;
+                align-items: stretch;
+            }
+
+            .split-pane {
+                min-height: 0;
+                grid-template-rows: auto minmax(0, 1fr);
+            }
+
+            .split-pane__label {
+                min-height: 28px;
+                padding: 0 10px;
+                font-size: 0.78rem;
+            }
+
+            .passage-card,
+            .quiz-panel {
+                min-height: 0;
+                height: 100%;
+                overflow: auto;
+                overscroll-behavior: contain;
+                -webkit-overflow-scrolling: touch;
+            }
+
             .passage-body {
                 padding: 16px;
+            }
+
+            .passage-body p {
+                font-size: 1rem;
+                line-height: 1.82;
+            }
+
+            .guide-list {
+                margin-bottom: 0;
             }
         }
     </style>
@@ -119,18 +190,18 @@
         <section class="hero">
             <div class="hero__eyebrow">C14 Reading Mock</div>
             <h1>14과 읽기 모의시험</h1>
-            <p class="hero__lead">14과 읽기 지문 <strong>「도낏자루 썩는 줄 모른다」</strong>를 바탕으로 만든 읽기 전용 12문항 모의시험입니다. 세부 내용, 문장 삽입, 순서 파악, 제목과 주제, 속담 적용 유형까지 한 번에 점검해 보세요.</p>
+            <p class="hero__lead">14과 읽기 글 <strong>「도낏자루 썩는 줄 모른다」</strong>로 푸는 읽기 문제 12개입니다. 글 내용, 사건 순서, 제목, 속담 뜻을 쉽게 확인해 보세요.</p>
             <div class="hero__stats" id="heroStats"></div>
             <p class="hero__recent" id="recentScore" hidden></p>
         </section>
 
         <section class="shared-card intro-card">
             <h2>시험 안내</h2>
-            <p>아래 공통 지문을 먼저 읽고 1~12번에 답하세요. 모든 문항은 객관식 4지선다형이며, 채점하면 바로 정답과 해설을 확인할 수 있습니다.</p>
+            <p>아래 글을 먼저 읽고 1~12번을 푸세요. 모두 4지선다형이고, 채점하면 바로 정답과 해설을 볼 수 있습니다.</p>
             <ul>
-                <li>1~4번: 세부 내용과 표현 이해</li>
-                <li>5~8번: 이유, 추론, 인물 관계, 사건 순서</li>
-                <li>9~12번: 제목, 주제, 속담 적용, 전체 요약</li>
+                <li>1~4번: 글 내용과 표현 뜻</li>
+                <li>5~8번: 이유와 사건 순서</li>
+                <li>9~12번: 제목, 중심 내용, 속담 뜻</li>
             </ul>
             <div class="meta-grid">
                 <div class="meta-chip">
@@ -152,51 +223,59 @@
             </div>
         </section>
 
-        <section class="shared-card intro-card passage-card">
-            <div class="passage-card__head">
-                <div>
-                    <p class="passage-card__eyebrow">공통 지문</p>
-                    <h2 class="passage-title">도낏자루 썩는 줄 모른다</h2>
-                </div>
-                <span class="passage-card__tag">1~12번 공통</span>
-            </div>
-            <div class="passage-body">
-                <p>옛날에 어떤 나무꾼이 나무를 하러 산에 갔다가 동굴을 발견했다. <span class="passage-marker">(가)</span> 그 동굴은 입구는 작고 어두웠지만 들어가면 들어갈수록 점점 넓어지고 밝아졌다.</p>
-                <p>그리고 동굴 안에서 수염이 긴 노인들이 바둑을 두고 있었다. 나무꾼은 바둑이 하도 재미있어서 시간 가는 줄 모르고 구경을 했다.</p>
-                <p>얼마 후 나무꾼은 집에 돌아가려고 도끼를 들다가 깜짝 놀랐다. <span class="passage-marker">(나)</span> 그는 이상해하면서 자루가 없는 도끼를 들고 산을 내려왔다.</p>
-                <p>마을에 도착해 보니 집들이 완전히 변해 있었고 아는 사람도 전혀 없었다. <span class="passage-marker">(다)</span> 나무꾼의 집도 낡은 집이 되었고, 며칠 전에 심었던 나무가 크게 자라서 지붕을 덮고 있었다.</p>
-                <p>나무꾼은 지나가는 사람에게 자기 이름을 말하면서 그 사람을 아느냐고 물어보았다. 그 사람은 “그분은 제 아버지의 할아버지신데 나무하러 산에 갔다가 못 돌아오셨다고 들었습니다.” 하고 대답했다. 나무꾼이 봤던 노인들은 신선들이었다. 신선들의 바둑을 잠깐 구경하는 동안에 100년의 시간이 지난 것이다.</p>
-            </div>
-            <ul class="guide-list">
-                <li>1~8번은 공통 지문을 직접 읽고 답하는 유형입니다.</li>
-                <li>9~12번은 제목, 주제, 속담 의미를 적용해 푸는 읽기 유형입니다.</li>
-            </ul>
-        </section>
-
-        <section class="quiz-panel">
-            <div class="toolbar">
-                <div class="toolbar__status">
-                    <div id="progressText" class="toolbar__value">0 / 12</div>
-                    <div id="quizMeta" class="toolbar__meta">총 12문항</div>
-                    <div id="scoreText" class="toolbar__note">선택을 마친 뒤 채점하면 정답과 해설이 바로 표시됩니다.</div>
-                    <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
-                </div>
-                <div class="toolbar__actions">
-                    <button class="action-button action-button--primary" data-action="grade" type="button">채점</button>
-                    <button class="action-button" data-action="reset" type="button">다시 풀기</button>
-                </div>
+        <div class="exam-split">
+            <div class="split-pane">
+                <div class="split-pane__label">지문 창</div>
+                <section class="shared-card intro-card passage-card">
+                    <div class="passage-card__head">
+                        <div>
+                            <p class="passage-card__eyebrow">공통 지문</p>
+                            <h2 class="passage-title">도낏자루 썩는 줄 모른다</h2>
+                        </div>
+                        <span class="passage-card__tag">1~12번 공통</span>
+                    </div>
+                    <div class="passage-body">
+                        <p>옛날에 어떤 나무꾼이 나무를 하러 산에 갔다가 동굴을 발견했다. <span class="passage-marker">(가)</span> 그 동굴은 입구는 작고 어두웠지만 들어가면 들어갈수록 점점 넓어지고 밝아졌다.</p>
+                        <p>그리고 동굴 안에서 수염이 긴 노인들이 바둑을 두고 있었다. 나무꾼은 바둑이 하도 재미있어서 시간 가는 줄 모르고 구경을 했다.</p>
+                        <p>얼마 후 나무꾼은 집에 돌아가려고 도끼를 들다가 깜짝 놀랐다. <span class="passage-marker">(나)</span> 그는 이상해하면서 자루가 없는 도끼를 들고 산을 내려왔다.</p>
+                        <p>마을에 도착해 보니 집들이 완전히 변해 있었고 아는 사람도 전혀 없었다. <span class="passage-marker">(다)</span> 나무꾼의 집도 낡은 집이 되었고, 며칠 전에 심었던 나무가 크게 자라서 지붕을 덮고 있었다.</p>
+                        <p>나무꾼은 지나가는 사람에게 자기 이름을 말하면서 그 사람을 아느냐고 물어보았다. 그 사람은 “그분은 제 아버지의 할아버지신데 나무하러 산에 갔다가 못 돌아오셨다고 들었습니다.” 하고 대답했다. 나무꾼이 봤던 노인들은 신선들이었다. 신선들의 바둑을 잠깐 구경하는 동안에 100년의 시간이 지난 것이다.</p>
+                    </div>
+                    <ul class="guide-list">
+                        <li>1~8번은 글을 읽고 푸는 문제입니다.</li>
+                        <li>9~12번은 제목과 속담 뜻을 생각하는 문제입니다.</li>
+                    </ul>
+                </section>
             </div>
 
-            <section id="summaryCard" class="summary-card" hidden></section>
-            <div id="quizSections" class="section-stack"></div>
+            <div class="split-pane">
+                <div class="split-pane__label">문제 창</div>
+                <section class="quiz-panel">
+                    <div class="toolbar">
+                        <div class="toolbar__status">
+                            <div id="progressText" class="toolbar__value">0 / 12</div>
+                            <div id="quizMeta" class="toolbar__meta">총 12문항</div>
+                            <div id="scoreText" class="toolbar__note">답을 고른 뒤 채점하면 정답과 해설이 나옵니다.</div>
+                            <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+                        </div>
+                        <div class="toolbar__actions">
+                            <button class="action-button action-button--primary" data-action="grade" type="button">채점</button>
+                            <button class="action-button" data-action="reset" type="button">다시 풀기</button>
+                        </div>
+                    </div>
 
-            <div class="toolbar toolbar--bottom">
-                <div class="toolbar__actions">
-                    <button class="action-button action-button--primary" data-action="grade" type="button">채점</button>
-                    <button class="action-button" data-action="reset" type="button">다시 풀기</button>
-                </div>
+                    <section id="summaryCard" class="summary-card" hidden></section>
+                    <div id="quizSections" class="section-stack"></div>
+
+                    <div class="toolbar toolbar--bottom">
+                        <div class="toolbar__actions">
+                            <button class="action-button action-button--primary" data-action="grade" type="button">채점</button>
+                            <button class="action-button" data-action="reset" type="button">다시 풀기</button>
+                        </div>
+                    </div>
+                </section>
             </div>
-        </section>
+        </div>
     </main>
 
     <script src="../shared/text-markup.js"></script>
@@ -207,117 +286,117 @@
                 sections: [
                     {
                         title: "1부. 세부 내용과 표현 이해",
-                        description: "공통 지문에서 직접 드러난 정보와 표현의 뜻을 읽기 문제형으로 확인합니다.",
+                        description: "글에 바로 나오는 내용과 표현 뜻을 확인합니다.",
                         questions: [
                             {
                                 number: 1,
-                                kindLabel: "세부 내용",
+                                kindLabel: "내용",
                                 focus: "동굴 안 장면",
-                                stem: "공통 지문에서 나무꾼이 동굴 안에서 본 것으로 맞는 것을 고르십시오.",
+                                stem: "글에서 나무꾼이 동굴 안에서 본 것은 무엇입니까?",
                                 options: [
-                                    { letter: "A", text: "호랑이가 잠을 자고 있었다." },
-                                    { letter: "B", text: "신선 같은 노인들이 바둑을 두고 있었다." },
-                                    { letter: "C", text: "보물이 가득한 방이 있었다." },
-                                    { letter: "D", text: "가족들이 나무꾼을 기다리고 있었다." }
+                                    { letter: "A", text: "호랑이" },
+                                    { letter: "B", text: "바둑 두는 노인들" },
+                                    { letter: "C", text: "보물방" },
+                                    { letter: "D", text: "자기 가족" }
                                 ],
                                 correct: "B",
-                                explanation: "지문에 따르면 동굴 안에는 수염이 긴 노인들이 바둑을 두고 있었습니다. 나중에 이 노인들이 신선들이었다는 사실이 드러납니다."
+                                explanation: "동굴 안에는 수염이 긴 노인들이 바둑을 두고 있었습니다. 이 노인들은 뒤에서 신선들이었다는 것이 나옵니다."
                             },
                             {
                                 number: 2,
-                                kindLabel: "표현 이해",
+                                kindLabel: "뜻",
                                 focus: "시간 가는 줄 모르고",
-                                stem: "`나무꾼은 바둑이 하도 재미있어서 ==시간 가는 줄 모르고== 구경을 했다.`\n밑줄 친 표현과 가장 가까운 뜻을 고르십시오.",
+                                stem: "`나무꾼은 바둑이 하도 재미있어서 ==시간 가는 줄 모르고== 구경을 했다.`\n밑줄 친 말과 뜻이 비슷한 것을 고르세요.",
                                 options: [
-                                    { letter: "A", text: "시간이 얼마나 지났는지 의식하지 못했다." },
-                                    { letter: "B", text: "시간이 조금밖에 지나지 않았다." },
-                                    { letter: "C", text: "약속한 시간을 정확히 기억했다." },
-                                    { letter: "D", text: "시간을 빨리 되돌리고 싶었다." }
+                                    { letter: "A", text: "시간이 얼마나 지났는지 몰랐다." },
+                                    { letter: "B", text: "시간이 조금만 지났다." },
+                                    { letter: "C", text: "약속 시간을 잘 기억했다." },
+                                    { letter: "D", text: "시간을 되돌리고 싶었다." }
                                 ],
                                 correct: "A",
-                                explanation: "`시간 가는 줄 모르다`는 어떤 일에 빠져 시간이 지나는 것도 알아차리지 못한다는 뜻입니다."
+                                explanation: "`시간 가는 줄 모르다`는 어떤 일에 빠져서 시간이 지나가는 것도 모른다는 뜻입니다."
                             },
                             {
                                 number: 3,
-                                kindLabel: "문장 삽입",
+                                kindLabel: "문장 넣기",
                                 focus: "삽입 위치",
-                                stem: "다음 문장이 들어가기에 가장 알맞은 곳을 고르십시오.\n`도낏자루가 다 썩어서 없어졌기 때문이다.`",
+                                stem: "다음 문장은 어디에 들어가면 좋습니까?\n`도낏자루가 다 썩어서 없어졌기 때문이다.`",
                                 options: [
                                     { letter: "A", text: "(가)" },
                                     { letter: "B", text: "(나)" },
                                     { letter: "C", text: "(다)" },
-                                    { letter: "D", text: "어느 곳에도 들어가지 않는다." }
+                                    { letter: "D", text: "들어갈 곳이 없다." }
                                 ],
                                 correct: "B",
-                                explanation: "나무꾼이 도끼를 들다가 깜짝 놀란 이유를 설명하는 문장이므로 `(나)` 자리에 들어가는 것이 가장 자연스럽습니다."
+                                explanation: "이 문장은 나무꾼이 왜 놀랐는지 설명합니다. 그래서 `(나)`에 들어가는 것이 가장 자연스럽습니다."
                             },
                             {
                                 number: 4,
-                                kindLabel: "내용 일치",
+                                kindLabel: "맞는 내용",
                                 focus: "지문 사실 확인",
-                                stem: "공통 지문의 내용과 일치하는 것을 고르십시오.",
+                                stem: "글의 내용과 같은 것을 고르세요.",
                                 options: [
-                                    { letter: "A", text: "나무꾼은 신선들이 사는 세계를 잠시 경험했다." },
-                                    { letter: "B", text: "나무꾼은 동굴 안에서 신선들과 함께 바둑을 두었다." },
-                                    { letter: "C", text: "나무꾼이 산에서 내려왔을 때 마을은 예전 그대로였다." },
-                                    { letter: "D", text: "지나가는 사람은 나무꾼의 친구였다." }
+                                    { letter: "A", text: "나무꾼은 신선들의 세계를 잠깐 경험했다." },
+                                    { letter: "B", text: "나무꾼은 신선들과 같이 바둑을 두었다." },
+                                    { letter: "C", text: "산에서 내려오니 마을이 그대로였다." },
+                                    { letter: "D", text: "지나가던 사람은 나무꾼의 친구였다." }
                                 ],
                                 correct: "A",
-                                explanation: "나무꾼은 신선들의 바둑을 구경한 뒤 인간 세상으로 돌아왔고, 그동안 100년이 지나 있었다는 점에서 신선들의 세계를 잠시 경험한 셈입니다."
+                                explanation: "나무꾼은 신선들의 바둑을 구경했고, 인간 세상에서는 그동안 100년이 지났습니다. 그래서 신선들의 세계를 잠깐 경험했다고 볼 수 있습니다."
                             }
                         ]
                     },
                     {
-                        title: "2부. 이유, 추론, 순서 파악",
-                        description: "놀란 이유, 시간 변화, 인물 관계와 사건 순서를 읽기형으로 점검합니다.",
+                        title: "2부. 이유와 순서",
+                        description: "왜 그런지, 누가 누구인지, 무슨 일이 먼저인지 확인합니다.",
                         questions: [
                             {
                                 number: 5,
-                                kindLabel: "이유 파악",
+                                kindLabel: "이유",
                                 focus: "깜짝 놀란 이유",
-                                stem: "`나무꾼은 집에 돌아가려고 도끼를 들다가 깜짝 놀랐다.`\n나무꾼이 놀란 이유로 가장 알맞은 것을 고르십시오.",
+                                stem: "`나무꾼은 집에 돌아가려고 도끼를 들다가 깜짝 놀랐다.`\n나무꾼은 왜 놀랐습니까?",
                                 options: [
-                                    { letter: "A", text: "도끼를 누가 훔쳐 갔기 때문이다." },
-                                    { letter: "B", text: "도끼날이 금으로 바뀌었기 때문이다." },
-                                    { letter: "C", text: "도낏자루가 썩어 없어졌기 때문이다." },
-                                    { letter: "D", text: "신선들이 갑자기 사라졌기 때문이다." }
+                                    { letter: "A", text: "누가 도끼를 가져가서" },
+                                    { letter: "B", text: "도끼날이 금이 되어서" },
+                                    { letter: "C", text: "도낏자루가 썩어서 없어져서" },
+                                    { letter: "D", text: "신선들이 갑자기 없어져서" }
                                 ],
                                 correct: "C",
-                                explanation: "도낏자루가 다 썩어 없어졌기 때문에 도끼날만 남았고, 그래서 나무꾼이 놀랐습니다."
+                                explanation: "도낏자루가 썩어서 없어졌기 때문에 도끼날만 남았습니다. 그래서 나무꾼이 놀랐습니다."
                             },
                             {
                                 number: 6,
-                                kindLabel: "추론",
+                                kindLabel: "생각하기",
                                 focus: "시간 변화",
-                                stem: "`마을에 도착해 보니 집들이 완전히 변해 있었고 아는 사람도 전혀 없었다.`\n윗부분으로 알 수 있는 것으로 가장 알맞은 것을 고르십시오.",
+                                stem: "`마을에 도착해 보니 집들이 완전히 변해 있었고 아는 사람도 전혀 없었다.`\n이 문장으로 알 수 있는 것은 무엇입니까?",
                                 options: [
-                                    { letter: "A", text: "나무꾼이 다른 산으로 잘못 내려왔다." },
-                                    { letter: "B", text: "짧은 동안에 마을 사람들이 모두 이사했다." },
-                                    { letter: "C", text: "나무꾼이 잠깐 구경하는 사이에 아주 오랜 시간이 흘렀다." },
-                                    { letter: "D", text: "나무꾼이 집을 잃어버려서 찾지 못했다." }
+                                    { letter: "A", text: "나무꾼이 길을 잘못 들었다." },
+                                    { letter: "B", text: "마을 사람들이 갑자기 이사 갔다." },
+                                    { letter: "C", text: "짧게 느꼈지만 아주 긴 시간이 지났다." },
+                                    { letter: "D", text: "나무꾼이 자기 집을 잊어버렸다." }
                                 ],
                                 correct: "C",
-                                explanation: "집과 마을이 완전히 달라지고 아는 사람이 없었다는 점에서, 나무꾼이 느낀 짧은 시간과 달리 인간 세상에서는 매우 긴 시간이 흘렀음을 추론할 수 있습니다."
+                                explanation: "마을이 완전히 달라지고 아는 사람이 없었으므로, 나무꾼이 느낀 짧은 시간과 달리 실제로는 아주 긴 시간이 지난 것을 알 수 있습니다."
                             },
                             {
                                 number: 7,
-                                kindLabel: "인물 관계",
+                                kindLabel: "인물",
                                 focus: "제 아버지의 할아버지",
-                                stem: "지나가는 사람이 한 말 `그분은 제 아버지의 할아버지신데 ...`에서, 그 사람이 가리키는 대상을 고르십시오.",
+                                stem: "지나가는 사람이 말한 `그분`은 누구입니까?",
                                 options: [
-                                    { letter: "A", text: "함께 바둑을 두던 노인" },
+                                    { letter: "A", text: "바둑 두던 노인" },
                                     { letter: "B", text: "나무꾼" },
                                     { letter: "C", text: "마을 사람들" },
                                     { letter: "D", text: "나무꾼의 아버지" }
                                 ],
                                 correct: "B",
-                                explanation: "지나가는 사람은 자기 앞에 있는 나무꾼의 이름을 듣고, 그를 자신의 아버지의 할아버지라고 알고 있다고 말한 것입니다."
+                                explanation: "지나가는 사람은 눈앞에 있는 나무꾼을 자기 아버지의 할아버지라고 말하고 있습니다."
                             },
                             {
                                 number: 8,
-                                kindLabel: "순서 파악",
+                                kindLabel: "순서",
                                 focus: "사건 순서",
-                                stem: "다음 사건을 일어난 순서대로 바르게 나열한 것을 고르십시오.\nㄱ. 나무꾼이 달라진 집을 본다.\nㄴ. 나무꾼이 동굴을 발견한다.\nㄷ. 나무꾼이 도낏자루가 썩은 것을 안다.\nㄹ. 나무꾼이 신선들의 바둑을 구경한다.",
+                                stem: "다음 일을 순서대로 맞게 놓은 것을 고르세요.\nㄱ. 나무꾼이 달라진 집을 본다.\nㄴ. 나무꾼이 동굴을 발견한다.\nㄷ. 나무꾼이 도낏자루가 썩은 것을 안다.\nㄹ. 나무꾼이 신선들의 바둑을 구경한다.",
                                 options: [
                                     { letter: "A", text: "ㄴ → ㄹ → ㄷ → ㄱ" },
                                     { letter: "B", text: "ㄹ → ㄴ → ㄷ → ㄱ" },
@@ -325,19 +404,19 @@
                                     { letter: "D", text: "ㄹ → ㄷ → ㄴ → ㄱ" }
                                 ],
                                 correct: "A",
-                                explanation: "동굴 발견 → 신선들의 바둑 구경 → 도낏자루가 썩은 것을 발견 → 달라진 집을 봄의 순서로 전개됩니다."
+                                explanation: "순서는 `동굴 발견 → 바둑 구경 → 도낏자루가 썩은 것을 발견 → 달라진 집을 봄`입니다."
                             }
                         ]
                     },
                     {
-                        title: "3부. 제목, 주제, 속담 적용",
-                        description: "지문의 핵심 생각과 속담의 의미를 읽기 모의고사 유형으로 확인합니다.",
+                        title: "3부. 제목과 속담",
+                        description: "글 제목, 중심 생각, 속담 뜻을 확인합니다.",
                         questions: [
                             {
                                 number: 9,
-                                kindLabel: "제목 고르기",
+                                kindLabel: "제목",
                                 focus: "제목",
-                                stem: "이 글의 제목으로 가장 알맞은 것을 고르십시오.",
+                                stem: "이 글 제목으로 가장 알맞은 것은 무엇입니까?",
                                 options: [
                                     { letter: "A", text: "공기가 맑은 마을" },
                                     { letter: "B", text: "도낏자루 썩는 줄 모른다" },
@@ -345,49 +424,49 @@
                                     { letter: "D", text: "일주일 후에 돌아온 사람" }
                                 ],
                                 correct: "B",
-                                explanation: "나무꾼이 바둑 구경에 너무 빠져 도낏자루가 썩은 것도 모르고 있었다는 이야기의 핵심이 바로 제목에 담겨 있습니다."
+                                explanation: "나무꾼이 바둑 구경에 너무 빠져 도낏자루가 썩은 것도 몰랐다는 점이 이 글의 핵심입니다."
                             },
                             {
                                 number: 10,
-                                kindLabel: "주제 파악",
+                                kindLabel: "중심 내용",
                                 focus: "글의 중심 생각",
-                                stem: "이 글이 가장 잘 전하는 내용으로 알맞은 것을 고르십시오.",
+                                stem: "이 글이 말하고 싶은 것으로 가장 알맞은 것은 무엇입니까?",
                                 options: [
-                                    { letter: "A", text: "산에서는 누구나 신선을 만날 수 있다." },
-                                    { letter: "B", text: "오래된 집은 다시 지을 수 있다." },
-                                    { letter: "C", text: "재미있는 일에 정신이 팔리면 시간 흐름을 잊을 수 있다." },
-                                    { letter: "D", text: "동굴 안은 바깥보다 항상 더 안전하다." }
+                                    { letter: "A", text: "산에 가면 누구나 신선을 만난다." },
+                                    { letter: "B", text: "오래된 집은 다시 지으면 된다." },
+                                    { letter: "C", text: "재미있는 일에 빠지면 시간을 잊을 수 있다." },
+                                    { letter: "D", text: "동굴 안이 밖보다 더 안전하다." }
                                 ],
                                 correct: "C",
-                                explanation: "글 전체는 바둑 구경에 너무 몰입한 나머지 시간의 흐름조차 잊은 상황을 보여 줍니다. 이것이 속담의 중심 의미이기도 합니다."
+                                explanation: "이 글은 바둑 구경에 너무 빠져 시간 가는 것도 모른 상황을 보여 줍니다. 이것이 속담의 중심 뜻입니다."
                             },
                             {
                                 number: 11,
-                                kindLabel: "상황 적용",
+                                kindLabel: "맞는 상황",
                                 focus: "속담 적용",
-                                stem: "다음 중 `도낏자루 썩는 줄 모르다`라는 말이 가장 잘 어울리는 상황을 고르십시오.",
+                                stem: "`도낏자루 썩는 줄 모르다`와 가장 잘 맞는 상황은 무엇입니까?",
                                 options: [
-                                    { letter: "A", text: "처음 보는 음식은 무엇이든 꼭 맛보는 친구" },
-                                    { letter: "B", text: "일이 너무 많아 밤새 보고서를 쓰는 직장 동료" },
-                                    { letter: "C", text: "시험 전날에도 컴퓨터 게임만 하는 동생" },
-                                    { letter: "D", text: "여행 날짜를 꼼꼼히 비교하는 언니" }
+                                    { letter: "A", text: "처음 보는 음식은 꼭 먹어 보는 친구" },
+                                    { letter: "B", text: "일이 많아서 밤새 일하는 회사 사람" },
+                                    { letter: "C", text: "시험 전날에도 게임만 하는 동생" },
+                                    { letter: "D", text: "여행 날짜를 자세히 보는 언니" }
                                 ],
                                 correct: "C",
-                                explanation: "속담은 무언가에 푹 빠져 시간 가는 줄 모르는 상황을 말합니다. 게임에 몰입해 시험 전날 시간 관리에 실패한 경우가 가장 잘 맞습니다."
+                                explanation: "이 속담은 어떤 일에 너무 빠져 시간을 모르는 상황을 말합니다. 게임만 하는 동생이 가장 잘 맞습니다."
                             },
                             {
                                 number: 12,
-                                kindLabel: "요약",
+                                kindLabel: "한 줄 요약",
                                 focus: "전체 내용 요약",
-                                stem: "공통 지문을 한 문장으로 가장 잘 요약한 것을 고르십시오.",
+                                stem: "이 글을 가장 잘 정리한 것을 고르세요.",
                                 options: [
-                                    { letter: "A", text: "나무꾼은 산에서 길을 잃었지만 용감하게 집으로 돌아왔다." },
-                                    { letter: "B", text: "나무꾼은 신선들의 바둑을 구경하는 동안 100년이 지나 마을이 완전히 달라진 것을 알게 되었다." },
-                                    { letter: "C", text: "나무꾼은 동굴에서 보물을 찾아 부자가 되었다." },
-                                    { letter: "D", text: "나무꾼은 새 마을에서 다시 농사를 시작했다." }
+                                    { letter: "A", text: "나무꾼은 길을 잃었지만 집에 잘 돌아왔다." },
+                                    { letter: "B", text: "나무꾼은 신선들의 바둑을 보는 동안 100년이 지나 마을이 달라진 것을 알았다." },
+                                    { letter: "C", text: "나무꾼은 동굴에서 보물을 찾았다." },
+                                    { letter: "D", text: "나무꾼은 새 마을에서 다시 살았다." }
                                 ],
                                 correct: "B",
-                                explanation: "글의 사건 전개와 결말을 가장 정확하게 묶어 주는 요약은 ②입니다. 나무꾼이 잠깐이라고 느낀 시간과 인간 세상의 100년이 대비됩니다."
+                                explanation: "②가 글 전체를 가장 잘 보여 줍니다. 나무꾼은 잠깐이라고 느꼈지만 실제로는 100년이 지났습니다."
                             }
                         ]
                     }
@@ -413,6 +492,7 @@
             const refs = {};
 
             document.addEventListener("DOMContentLoaded", () => {
+                syncMobileLayout();
                 cacheRefs();
                 validateExam(allQuestions);
                 renderHeroStats();
@@ -422,6 +502,14 @@
                 renderRecentScore();
                 wireEvents();
             });
+
+            window.addEventListener("resize", syncMobileLayout);
+
+            function syncMobileLayout() {
+                const topbar = document.querySelector(".topbar");
+                if (!topbar) return;
+                document.documentElement.style.setProperty("--topbar-height", `${topbar.offsetHeight}px`);
+            }
 
             function cacheRefs() {
                 refs.heroStats = document.getElementById("heroStats");
@@ -580,8 +668,8 @@
                 const percent = Math.round((answeredCount / allQuestions.length) * 100);
                 refs.progressText.textContent = `${answeredCount} / ${allQuestions.length}`;
                 refs.scoreText.textContent = answeredCount === allQuestions.length
-                    ? "모든 문항을 선택했습니다. 채점해서 정답과 해설을 확인해 보세요."
-                    : "선택을 마친 뒤 채점하면 정답과 해설이 바로 표시됩니다.";
+                    ? "이제 채점해서 정답과 해설을 확인해 보세요."
+                    : "답을 고른 뒤 채점하면 정답과 해설이 나옵니다.";
                 refs.progressFill.style.width = `${percent}%`;
             }
 
@@ -692,10 +780,10 @@
                 const pillClass = status === "correct" ? "feedback-pill feedback-pill--good" : "feedback-pill feedback-pill--bad";
                 const pillText = status === "correct" ? "정답" : status === "incorrect" ? "오답" : "미응답";
                 const title = status === "correct"
-                    ? "지문 근거를 잘 찾았습니다."
+                    ? "잘했어요."
                     : status === "incorrect"
-                        ? "지문 근거를 다시 확인하세요."
-                        : "답을 고르지 않은 문항입니다.";
+                        ? "글을 다시 보고 풀어 보세요."
+                        : "답을 아직 고르지 않았어요.";
 
                 return `
                     <span class="${pillClass}">${pillText}</span>
@@ -756,8 +844,8 @@
                     </div>
                     <ol class="summary-list">
                         ${reviewItems.length
-                            ? reviewItems.map(([focus, count]) => `<li>${textMarkup.escapeHtml(focus)}: ${count}문항 다시 보기</li>`).join("")
-                            : "<li>읽기 핵심 근거를 안정적으로 파악했습니다.</li>"}
+                            ? reviewItems.map(([focus, count]) => `<li>${textMarkup.escapeHtml(focus)}: ${count}문제 다시 보기</li>`).join("")
+                            : "<li>글 내용을 잘 읽었습니다.</li>"}
                     </ol>
                 `;
             }
@@ -791,15 +879,15 @@
 
             function getBand(percent) {
                 if (percent >= 90) {
-                    return { message: "지문 근거와 속담 의미를 매우 안정적으로 읽었습니다. 실전형 읽기 감각이 잘 잡혀 있습니다." };
+                    return { message: "아주 잘했습니다. 글 내용과 속담 뜻을 잘 이해했습니다." };
                 }
                 if (percent >= 75) {
-                    return { message: "핵심 흐름은 잘 잡았습니다. 틀린 문항의 근거 문장을 다시 보면 더 단단해집니다." };
+                    return { message: "대체로 잘했습니다. 틀린 문제만 다시 보면 더 좋아집니다." };
                 }
                 if (percent >= 60) {
-                    return { message: "내용은 대체로 이해했지만 순서, 추론, 제목형에서 흔들린 부분이 있습니다. 근거 문장을 다시 찾아 보세요." };
+                    return { message: "글은 이해했지만 몇 문제는 다시 볼 필요가 있습니다." };
                 }
-                return { message: "우선 공통 지문을 다시 천천히 읽고 사건 순서와 결말부터 정리한 뒤 다시 풀어 보는 것이 좋습니다." };
+                return { message: "먼저 글을 다시 천천히 읽고 사건 순서를 정리한 뒤 다시 풀어 보세요." };
             }
 
             function renderStem(stem) {
