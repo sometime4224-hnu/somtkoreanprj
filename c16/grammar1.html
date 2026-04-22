@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 1 | N만 하다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: "Noto Sans KR", sans-serif;
+            color: #0f172a;
+            background:
+                radial-gradient(circle at top left, rgba(56, 189, 248, 0.20), transparent 26%),
+                radial-gradient(circle at top right, rgba(251, 191, 36, 0.18), transparent 24%),
+                linear-gradient(180deg, #eef6ff 0%, #f8fbff 46%, #fff9ef 100%);
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 52px;
+            padding: 0 14px;
+            background: rgba(255, 255, 255, 0.92);
+            border-bottom: 1px solid rgba(147, 197, 253, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .topbar a {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .topbar span {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .topbar strong {
+            min-width: 0;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 900;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .shell {
+            width: min(1120px, calc(100% - 24px));
+            margin: 16px auto 40px;
+        }
+
+        .glass-card {
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 22px 46px rgba(15, 23, 42, 0.08);
+        }
+
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+            padding: 22px;
+            background:
+                radial-gradient(circle at top right, rgba(96, 165, 250, 0.22), transparent 30%),
+                linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(239,246,255,0.96) 48%, rgba(255,247,237,0.94) 100%);
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            right: -40px;
+            bottom: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, rgba(59, 130, 246, 0) 74%);
+            pointer-events: none;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 13px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+        }
+
+        .pill-blue {
+            color: #1d4ed8;
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+        }
+
+        .pill-soft {
+            color: #475569;
+            background: rgba(255,255,255,0.84);
+            border: 1px solid rgba(148,163,184,0.22);
+        }
+
+        .formula-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            border: 1px solid #bfdbfe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .section-card {
+            padding: 18px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .eyebrow {
+            margin: 0 0 6px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            margin: 0;
+            font-size: clamp(1.3rem, 2vw, 1.8rem);
+            line-height: 1.18;
+        }
+
+        .tone-panel {
+            border-radius: 22px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.92));
+            padding: 16px;
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .tone-panel--blue {
+            background: linear-gradient(180deg, #f8fbff 0%, #eff6ff 100%);
+            border-color: rgba(147, 197, 253, 0.68);
+        }
+
+        .tone-panel--amber {
+            background: linear-gradient(180deg, #fffaf2 0%, #fff7ed 100%);
+            border-color: rgba(251, 191, 36, 0.52);
+        }
+
+        .pattern-track {
+            display: grid;
+            gap: 12px;
+        }
+
+        .pattern-step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            align-items: start;
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .step-badge {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 900;
+            color: #1d4ed8;
+            background: #dbeafe;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+        }
+
+        .compare-card {
+            padding: 16px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
+        }
+
+        .compare-icon {
+            width: 54px;
+            height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            font-size: 24px;
+            color: #1d4ed8;
+            background: #dbeafe;
+        }
+
+        .sentence-line {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .segment {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .segment-subject {
+            color: #1d4ed8;
+            background: #dbeafe;
+        }
+
+        .segment-base {
+            color: #9a3412;
+            background: #ffedd5;
+        }
+
+        .segment-target {
+            color: #047857;
+            background: #dcfce7;
+        }
+
+        .extension-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .extension-card {
+            padding: 16px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(148,163,184,0.18);
+            box-shadow: 0 12px 22px rgba(15, 23, 42, 0.05);
+        }
+
+        .quote-box {
+            margin-top: 10px;
+            padding: 14px;
+            border-radius: 18px;
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            font-weight: 700;
+            line-height: 1.65;
+        }
+
+        .quiz-shell {
+            display: grid;
+            gap: 16px;
+        }
+
+        .quiz-progress {
+            height: 10px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+
+        .quiz-progress-bar {
+            width: 0;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transition: width 0.24s ease;
+        }
+
+        .quiz-card {
+            padding: 18px;
+            border-radius: 24px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,250,252,0.96));
+            border: 1px solid rgba(148,163,184,0.18);
+            box-shadow: 0 16px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        .quiz-choice {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 18px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #0f172a;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .quiz-choice:hover {
+            transform: translateY(-1px);
+            border-color: #93c5fd;
+            box-shadow: 0 10px 22px rgba(59, 130, 246, 0.08);
+        }
+
+        .quiz-choice:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .quiz-choice.correct {
+            border-color: #22c55e;
+            background: #ecfdf5;
+            color: #166534;
+        }
+
+        .quiz-choice.wrong {
+            border-color: #fb7185;
+            background: #fff1f2;
+            color: #be123c;
+        }
+
+        .quiz-choice.dimmed {
+            opacity: 0.68;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 16px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .action-btn-primary {
+            color: #ffffff;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 14px 24px rgba(37, 99, 235, 0.22);
+        }
+
+        .action-btn-secondary {
+            color: #1d4ed8;
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+        .action-btn-muted {
+            color: #475569;
+            background: #ffffff;
+            border-color: #cbd5e1;
+        }
+
+        .launch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .launch-card {
+            padding: 18px;
+            border-radius: 24px;
+            border: 1px solid rgba(96, 165, 250, 0.4);
+            background:
+                radial-gradient(circle at top right, rgba(191, 219, 254, 0.38), transparent 34%),
+                linear-gradient(180deg, rgba(255,255,255,0.98), rgba(239,246,255,0.96));
+            box-shadow: 0 18px 32px rgba(37, 99, 235, 0.08);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 720px) {
+            .shell {
+                width: min(100% - 18px, 1120px);
+                margin: 12px auto 28px;
+            }
+
+            .hero-card,
+            .section-card {
+                padding: 18px;
+            }
+
+            .footer-links {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+        <span>|</span>
+        <a href="index.html">16과 목록</a>
+        <span>|</span>
+        <strong>문법 1 | N만 하다</strong>
+    </nav>
+
+    <main class="shell">
+        <section class="glass-card hero-card">
+            <span class="pill pill-blue"><i class="fa-solid fa-ruler-combined"></i> Grammar 1</span>
+            <h1 class="mt-4 mb-3 text-3xl sm:text-4xl font-black leading-tight">N만 하다</h1>
+            <p class="m-0 text-[15px] leading-7 text-slate-700 max-w-3xl">
+                사물의 크기나 정도를 익숙한 기준에 비유해서 말할 때 쓰는 표현입니다.
+                사람 키, 손바닥, 둥근 탁자처럼 눈에 바로 보이는 기준을 붙이면 뜻이 더 선명해집니다.
+            </p>
+            <div class="mt-5 flex flex-wrap gap-2">
+                <span class="formula-chip"><i class="fa-solid fa-arrow-right-arrow-left"></i> N1이/가 N2만 하다</span>
+                <span class="pill pill-soft"><i class="fa-solid fa-quote-left"></i> 가야금이 사람 키만 해요.</span>
+            </div>
+        </section>
+
+        <section class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Quick Start</p>
+                    <h2 class="section-title">먼저 표현을 골라 보세요</h2>
+                </div>
+                <span id="quizLabel" class="pill pill-soft"><i class="fa-solid fa-pen"></i> 1 / 5</span>
+            </div>
+
+            <div class="quiz-shell">
+                <div class="quiz-progress">
+                    <div id="quizProgressBar" class="quiz-progress-bar"></div>
+                </div>
+
+                <div id="quizCard" class="quiz-card">
+                    <p class="eyebrow">Prompt</p>
+                    <h3 id="quizPrompt" class="mt-0 text-xl font-black text-slate-800 leading-8"></h3>
+                    <p id="quizHint" class="mt-3 mb-0 text-sm leading-6 text-slate-600"></p>
+                    <div id="quizChoices" class="grid gap-3 mt-5"></div>
+                    <div id="quizFeedback" class="hidden mt-4 rounded-[20px] border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold leading-6 text-slate-700"></div>
+                </div>
+
+                <div class="flex flex-wrap gap-2 justify-between">
+                    <button id="restartQuizBtn" class="action-btn action-btn-muted" type="button"><i class="fa-solid fa-rotate-right"></i> 다시 풀기</button>
+                    <button id="nextQuizBtn" class="action-btn action-btn-primary" type="button" disabled><i class="fa-solid fa-arrow-right"></i> 다음 문제</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Pattern Map</p>
+                    <h2 class="section-title">크기 비교 문장을 만드는 순서</h2>
+                </div>
+            </div>
+            <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-4">
+                <article class="tone-panel tone-panel--blue">
+                    <div class="pattern-track">
+                        <div class="pattern-step">
+                            <span class="step-badge">1</span>
+                            <div>
+                                <h3 class="m-0 text-base font-black text-slate-800">비교할 대상을 먼저 잡아요</h3>
+                                <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">가야금, 장구, 눈사람처럼 설명하려는 대상을 문장 앞에 둡니다.</p>
+                            </div>
+                        </div>
+                        <div class="pattern-step">
+                            <span class="step-badge">2</span>
+                            <div>
+                                <h3 class="m-0 text-base font-black text-slate-800">익숙한 기준 명사를 붙여요</h3>
+                                <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">사람 키, 둥근 탁자, 손바닥처럼 바로 떠오르는 기준을 넣으면 장면이 선명해집니다.</p>
+                            </div>
+                        </div>
+                        <div class="pattern-step">
+                            <span class="step-badge">3</span>
+                            <div>
+                                <h3 class="m-0 text-base font-black text-slate-800"><code>만</code>으로 정도를 묶어요</h3>
+                                <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">정확한 숫자를 말하지 않아도 “그 정도로 크다”는 느낌을 자연스럽게 만들 수 있습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="tone-panel tone-panel--amber">
+                    <p class="eyebrow">Sentence Formula</p>
+                    <h3 class="mt-0 text-xl font-black text-slate-800">가야금이 사람 키만 해요.</h3>
+                    <div class="sentence-line">
+                        <span class="segment segment-subject">가야금이</span>
+                        <span class="segment segment-base">사람 키만</span>
+                        <span class="segment segment-target">해요</span>
+                    </div>
+                    <ul class="mt-4 mb-0 pl-5 text-sm leading-7 text-slate-700">
+                        <li>기준은 <strong>숫자</strong>보다 <strong>눈에 바로 보이는 명사</strong>를 쓰는 편이 자연스럽습니다.</li>
+                        <li>주로 크기, 길이, 높이, 넓이처럼 감각적으로 비교할 때 잘 어울립니다.</li>
+                        <li><code>N만 하다</code>는 “정확히 같다”보다 “그 정도로 느껴진다”에 가깝습니다.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Examples</p>
+                    <h2 class="section-title">눈에 보이는 기준으로 말해요</h2>
+                </div>
+            </div>
+            <div class="compare-grid">
+                <article class="compare-card">
+                    <span class="compare-icon"><i class="fa-solid fa-music"></i></span>
+                    <h3 class="mt-4 mb-2 text-lg font-black">가야금</h3>
+                    <p class="m-0 text-sm leading-6 text-slate-600">긴 네모 모양 나무판 위에 줄이 여러 개 있는 한국 전통 악기</p>
+                    <div class="quote-box">가야금이 사람 키만 해요.</div>
+                </article>
+                <article class="compare-card">
+                    <span class="compare-icon"><i class="fa-solid fa-drum"></i></span>
+                    <h3 class="mt-4 mb-2 text-lg font-black">장구</h3>
+                    <p class="m-0 text-sm leading-6 text-slate-600">모래시계 모양이고 둥근 부분을 채로 치는 타악기</p>
+                    <div class="quote-box">장구는 둥근 탁자만 해요.</div>
+                </article>
+                <article class="compare-card">
+                    <span class="compare-icon"><i class="fa-solid fa-snowman"></i></span>
+                    <h3 class="mt-4 mb-2 text-lg font-black">눈사람</h3>
+                    <p class="m-0 text-sm leading-6 text-slate-600">사람과 키를 비교하면 얼마나 큰지 바로 떠오르는 장면</p>
+                    <div class="quote-box">눈사람이 사람만 해요.</div>
+                </article>
+                <article class="compare-card">
+                    <span class="compare-icon"><i class="fa-solid fa-id-card"></i></span>
+                    <h3 class="mt-4 mb-2 text-lg font-black">학생증</h3>
+                    <p class="m-0 text-sm leading-6 text-slate-600">아주 작은 물건을 말할 때는 손바닥처럼 가까운 기준이 편합니다.</p>
+                    <div class="quote-box">학생증이 손바닥만 해요.</div>
+                </article>
+            </div>
+        </section>
+
+        <section id="thinking-impossible" class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Extra Grammar</p>
+                    <h2 class="section-title">V-(으)ㄹ 생각도 못 하다</h2>
+                </div>
+            </div>
+            <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-4">
+                <article class="tone-panel tone-panel--amber">
+                    <h3 class="mt-0 text-lg font-black text-slate-800">뜻과 느낌</h3>
+                    <p class="mt-3 mb-0 text-sm leading-7 text-slate-700">
+                        너무 바쁘거나 어렵거나 여건이 안 돼서 어떤 일을 할 여유나 엄두가 전혀 없을 때 씁니다.
+                        단순히 <code>못 하다</code>보다 “생각할 틈도 없다”는 뜻이 더 강하게 느껴집니다.
+                    </p>
+                    <div class="quote-box">요즘 일이 많아서 캠핑 갈 생각도 못 해요.</div>
+                </article>
+
+                <div class="extension-grid">
+                    <div class="extension-card">
+                        <p class="eyebrow">Form</p>
+                        <h3 class="mt-0 text-lg font-black text-slate-800"><code>V-(으)ㄹ 생각도 못 하다</code></h3>
+                        <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">
+                            받침이 없거나 <code>ㄹ</code> 받침이면 <code>-ㄹ 생각도 못 하다</code>, 받침이 있으면 <code>-을 생각도 못 하다</code>를 붙입니다.
+                            <code>가다 → 갈 생각도 못 하다</code>, <code>먹다 → 먹을 생각도 못 하다</code>.
+                        </p>
+                    </div>
+                    <div class="extension-card">
+                        <p class="eyebrow">Contrast</p>
+                        <h3 class="mt-0 text-lg font-black text-slate-800"><code>못 하다</code>와 차이</h3>
+                        <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">
+                            <code>못 하다</code>는 단순히 할 수 없다는 말이고, <code>생각도 못 하다</code>는 엄두조차 못 낼 만큼 여유가 없다는 뜻이 더 강합니다.
+                        </p>
+                        <div class="quote-box">수영은 못 해요. / 요즘 너무 바빠서 수영 갈 생각도 못 해요.</div>
+                    </div>
+                    <div class="extension-card">
+                        <p class="eyebrow">Usage</p>
+                        <h3 class="mt-0 text-lg font-black text-slate-800">자주 붙는 이유</h3>
+                        <p class="mt-2 mb-0 text-sm leading-6 text-slate-600">
+                            시간 부족, 비용 부담, 체력 저하, 시험 기간처럼 현실적인 제약을 앞에 두면 자연스럽습니다.
+                        </p>
+                        <div class="quote-box">시험 기간이라 주말 여행 갈 생각도 못 해요.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card section-card mt-4">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Speak</p>
+                    <h2 class="section-title">두 표현으로 이어 말해 보세요</h2>
+                </div>
+            </div>
+            <div class="launch-grid">
+                <article class="launch-card">
+                    <span class="pill pill-blue"><i class="fa-solid fa-microphone-lines"></i> Speaking PRO</span>
+                    <h3 class="mt-4 mb-2 text-xl font-black text-slate-800">한 장면으로 두 문장 만들기</h3>
+                    <p class="m-0 text-sm leading-7 text-slate-700">
+                        가야금, 장구, 여행 계획 같은 장면을 하나 고른 뒤 <code>N만 하다</code>로 크기나 정도를 말하고,
+                        이어서 <code>생각도 못 하다</code>로 상황을 덧붙여 보세요.
+                    </p>
+                    <div class="mt-5 flex flex-wrap gap-2">
+                        <a class="action-btn action-btn-primary" href="grammar1-speaking-pro.html"><i class="fa-solid fa-play"></i> 말하기 PRO 열기</a>
+                    </div>
+                </article>
+
+                <article class="tone-panel tone-panel--blue">
+                    <p class="eyebrow">Quick Tip</p>
+                    <h3 class="mt-0 text-lg font-black text-slate-800">말할 때 이 순서를 기억해요</h3>
+                    <ol class="mt-3 mb-0 pl-5 text-sm leading-7 text-slate-700">
+                        <li>대상 먼저: 가야금이, 장구가, 눈사람이</li>
+                        <li>비교 기준: 사람 키만, 둥근 탁자만, 손바닥만</li>
+                        <li>마무리: 해요 / 커요 / 길어요</li>
+                    </ol>
+                </article>
+            </div>
+
+            <div class="footer-links">
+                <a class="action-btn action-btn-muted" href="vocabulary.html"><i class="fa-solid fa-arrow-left"></i> 어휘 복습</a>
+                <a class="action-btn action-btn-secondary" href="grammar2.html">문법 2로 이동 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quiz = [
+                {
+                    prompt: '가야금의 크기를 사람 키에 비유해서 말해 보세요.',
+                    hint: '크기를 비교하는 기준 명사 뒤에 `만`을 붙여요.',
+                    choices: [
+                        '가야금이 사람 키만 해요.',
+                        '가야금이 사람 키로 유명해요.',
+                        '가야금 배울 생각도 못 해요.'
+                    ],
+                    answer: 0,
+                    explanation: '사람 키처럼 익숙한 기준을 붙여 크기를 비교할 때는 `N만 하다`를 씁니다.'
+                },
+                {
+                    prompt: '학비가 너무 비싸서 지금은 악기를 배울 여유가 전혀 없어요.',
+                    hint: '도저히 엄두를 못 내는 느낌을 강하게 말해 보세요.',
+                    choices: [
+                        '학비가 비싸서 악기를 배울 만해요.',
+                        '학비가 비싸서 악기를 배울 생각도 못 해요.',
+                        '학비가 비싸서 악기가 사람만 해요.'
+                    ],
+                    answer: 1,
+                    explanation: '현실적인 이유 때문에 도저히 못 한다는 뜻은 `V-(으)ㄹ 생각도 못 하다`가 가장 자연스럽습니다.'
+                },
+                {
+                    prompt: '친구가 만든 눈사람이 정말 커서 사람과 비슷해 보여요.',
+                    hint: '숫자 대신 눈으로 바로 보이는 기준을 써 보세요.',
+                    choices: [
+                        '눈사람이 사람만 해요.',
+                        '눈사람이 사람으로 유명해요.',
+                        '눈사람 만들 생각도 못 해요.'
+                    ],
+                    answer: 0,
+                    explanation: '사람처럼 커 보인다는 뜻을 비유로 말할 때 `사람만 해요`라고 할 수 있습니다.'
+                },
+                {
+                    prompt: '시험 기간이라 주말마다 가던 캠핑도 못 가고 있어요.',
+                    hint: '너무 바빠서 계획조차 못 한다는 느낌을 넣어 보세요.',
+                    choices: [
+                        '시험 기간이라 캠핑장이 유명해요.',
+                        '시험 기간이라 캠핑 갈 생각도 못 해요.',
+                        '시험 기간이라 텐트가 사람만 해요.'
+                    ],
+                    answer: 1,
+                    explanation: '강한 불가능과 여유 없음은 `갈 생각도 못 해요`가 잘 드러냅니다.'
+                },
+                {
+                    prompt: '길에서 본 고구마가 얼굴처럼 커 보여서 놀랐어요.',
+                    hint: '비교 기준이 되는 명사를 넣어 문장을 완성해 보세요.',
+                    choices: [
+                        '고구마가 얼굴만 해요.',
+                        '고구마가 얼굴로 유명해요.',
+                        '고구마를 먹을 생각도 못 해요.'
+                    ],
+                    answer: 0,
+                    explanation: '익숙한 명사로 크기를 비유하는 구조이므로 `얼굴만 해요`가 맞습니다.'
+                }
+            ];
+
+            const promptEl = document.getElementById('quizPrompt');
+            const hintEl = document.getElementById('quizHint');
+            const choicesEl = document.getElementById('quizChoices');
+            const feedbackEl = document.getElementById('quizFeedback');
+            const labelEl = document.getElementById('quizLabel');
+            const progressBarEl = document.getElementById('quizProgressBar');
+            const nextBtn = document.getElementById('nextQuizBtn');
+            const restartBtn = document.getElementById('restartQuizBtn');
+
+            const state = {
+                index: 0,
+                score: 0,
+                answered: false
+            };
+
+            function renderQuestion() {
+                const item = quiz[state.index];
+                state.answered = false;
+                promptEl.textContent = item.prompt;
+                hintEl.textContent = item.hint;
+                labelEl.innerHTML = '<i class="fa-solid fa-pen"></i> ' + (state.index + 1) + ' / ' + quiz.length;
+                progressBarEl.style.width = ((state.index / quiz.length) * 100) + '%';
+                feedbackEl.className = 'hidden mt-4 rounded-[20px] border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold leading-6 text-slate-700';
+                feedbackEl.textContent = '';
+                nextBtn.disabled = true;
+                nextBtn.textContent = state.index === quiz.length - 1 ? '결과 보기' : '다음 문제';
+
+                choicesEl.innerHTML = '';
+                item.choices.forEach(function (choice, choiceIndex) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'quiz-choice';
+                    button.textContent = choice;
+                    button.addEventListener('click', function () {
+                        if (state.answered) return;
+                        state.answered = true;
+                        const buttons = Array.from(choicesEl.querySelectorAll('button'));
+                        buttons.forEach(function (btn, idx) {
+                            btn.disabled = true;
+                            if (idx === item.answer) {
+                                btn.classList.add('correct');
+                            } else if (idx === choiceIndex) {
+                                btn.classList.add('wrong');
+                            } else {
+                                btn.classList.add('dimmed');
+                            }
+                        });
+
+                        if (choiceIndex === item.answer) {
+                            state.score += 1;
+                            feedbackEl.classList.remove('hidden');
+                            feedbackEl.classList.add('border-emerald-200', 'bg-emerald-50', 'text-emerald-800');
+                            feedbackEl.innerHTML = '<strong>정답!</strong> ' + item.explanation;
+                        } else {
+                            feedbackEl.classList.remove('hidden');
+                            feedbackEl.classList.add('border-rose-200', 'bg-rose-50', 'text-rose-800');
+                            feedbackEl.innerHTML = '<strong>다시 확인!</strong> ' + item.explanation;
+                        }
+
+                        nextBtn.disabled = false;
+                        progressBarEl.style.width = (((state.index + 1) / quiz.length) * 100) + '%';
+                    });
+                    choicesEl.appendChild(button);
+                });
+            }
+
+            function renderSummary() {
+                const percent = Math.round((state.score / quiz.length) * 100);
+                promptEl.textContent = '퀴즈 완료';
+                hintEl.textContent = 'N만 하다와 생각도 못 하다를 구분하는 감각이 잘 잡혔는지 확인해 보세요.';
+                labelEl.innerHTML = '<i class="fa-solid fa-star"></i> 완료';
+                choicesEl.innerHTML = ''
+                    + '<div class="tone-panel tone-panel--blue">'
+                    + '<p class="eyebrow">Result</p>'
+                    + '<h3 class="mt-0 text-3xl font-black text-slate-800">' + state.score + ' / ' + quiz.length + '</h3>'
+                    + '<p class="mt-2 mb-0 text-sm leading-7 text-slate-700">정답률 ' + percent + '%예요. 비교 기준을 바로 떠올리면 <code>N만 하다</code>가 쉬워지고, 바쁨·비용·상황 제약을 붙이면 <code>생각도 못 하다</code>가 훨씬 자연스럽게 나옵니다.</p>'
+                    + '</div>';
+                feedbackEl.className = 'hidden mt-4 rounded-[20px] border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold leading-6 text-slate-700';
+                nextBtn.disabled = true;
+                progressBarEl.style.width = '100%';
+            }
+
+            nextBtn.addEventListener('click', function () {
+                if (state.index === quiz.length - 1) {
+                    renderSummary();
+                    return;
+                }
+                state.index += 1;
+                renderQuestion();
+            });
+
+            restartBtn.addEventListener('click', function () {
+                state.index = 0;
+                state.score = 0;
+                renderQuestion();
+            });
+
+            renderQuestion();
+        });
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>

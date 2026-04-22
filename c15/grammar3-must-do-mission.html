@@ -1,0 +1,2455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>15과 문법 3 보조 활동 | 꼭 해야 해! 생활 조건 미션</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+    <style>
+        :root {
+            --bg-top: #ecfdf5;
+            --bg-bottom: #fffaf0;
+            --surface: rgba(255, 255, 255, 0.94);
+            --surface-strong: #ffffff;
+            --surface-soft: #f8fafc;
+            --line: rgba(148, 163, 184, 0.22);
+            --line-strong: rgba(16, 185, 129, 0.28);
+            --text: #0f172a;
+            --muted: #475569;
+            --green: #059669;
+            --green-strong: #047857;
+            --green-soft: #ecfdf5;
+            --green-line: #86efac;
+            --amber: #f59e0b;
+            --amber-soft: #fff7ed;
+            --amber-line: #fdba74;
+            --slate-soft: #f8fafc;
+            --shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+            --vocab-accent: #047857;
+            --vocab-soft: rgba(16, 185, 129, 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100dvh;
+            font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(16, 185, 129, 0.12), transparent 30%),
+                linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+        }
+
+        button,
+        a {
+            font: inherit;
+        }
+
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px max(16px, env(safe-area-inset-left)) 12px max(16px, env(safe-area-inset-right));
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .global-nav a,
+        .global-nav span {
+            color: #1e293b;
+            text-decoration: none;
+            font-size: 0.94rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .nav-divider {
+            color: #94a3b8;
+        }
+
+        .shell {
+            width: min(1120px, calc(100% - 16px));
+            margin: 10px auto 36px;
+        }
+
+        .panel {
+            background: var(--surface);
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+        }
+
+        .hud-card {
+            padding: 18px;
+        }
+
+        .hud-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .eyebrow {
+            margin: 0;
+            font-size: 0.74rem;
+            font-weight: 900;
+            color: var(--green-strong);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 4px 0 0;
+            font-size: clamp(1.44rem, 3vw, 2.32rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .hud-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .pill-btn,
+        .footer-link {
+            appearance: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 38px;
+            padding: 0 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: rgba(255, 255, 255, 0.92);
+            color: #334155;
+            font-size: 0.84rem;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .pill-btn:hover,
+        .footer-link:hover {
+            transform: translateY(-1px);
+            border-color: rgba(16, 185, 129, 0.28);
+            background: rgba(236, 253, 245, 0.96);
+        }
+
+        .hud-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .stat-pill {
+            min-height: 58px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            display: grid;
+            place-items: center;
+            text-align: center;
+        }
+
+        .stat-pill strong {
+            display: block;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #0f172a;
+        }
+
+        .stat-pill span {
+            display: block;
+            margin-top: 2px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .progress {
+            margin-top: 12px;
+            height: 10px;
+            border-radius: 999px;
+            background: #e2e8f0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #10b981, #f59e0b);
+            transition: width 0.24s ease;
+        }
+
+        .flow-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .flow-step {
+            min-height: 54px;
+            padding: 11px 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            color: #64748b;
+            font-size: 0.83rem;
+            font-weight: 800;
+            text-align: center;
+            display: grid;
+            place-items: center;
+            line-height: 1.35;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flow-step.is-active {
+            background: var(--green-soft);
+            border-color: rgba(16, 185, 129, 0.24);
+            color: var(--green-strong);
+            box-shadow: 0 10px 22px rgba(16, 185, 129, 0.14);
+        }
+
+        .flow-step.is-active::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, transparent 18%, rgba(255, 255, 255, 0.54) 48%, transparent 82%);
+            transform: translateX(-120%);
+            pointer-events: none;
+            animation: flowScan 2.2s ease-in-out infinite;
+        }
+
+        .flow-step.is-done {
+            background: #fffbeb;
+            border-color: #fcd34d;
+            color: #92400e;
+        }
+
+        .mission-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.95fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .scene-panel,
+        .mission-panel,
+        .task-panel,
+        .result-card,
+        .summary {
+            padding: 18px;
+        }
+
+        .scene-head,
+        .section-bar,
+        .result-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .scene-tag,
+        .state-badge,
+        .task-badge,
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 30px;
+            padding: 0 12px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+        }
+
+        .scene-tag {
+            background: rgba(16, 185, 129, 0.14);
+            color: var(--green-strong);
+        }
+
+        .state-badge,
+        .task-badge {
+            background: rgba(148, 163, 184, 0.12);
+            color: #475569;
+        }
+
+        .state-badge.is-open,
+        .task-badge.is-active {
+            background: #ecfdf5;
+            color: #166534;
+        }
+
+        .state-badge.is-done,
+        .result-badge {
+            background: #fffbeb;
+            color: #92400e;
+        }
+
+        .scene-wrap {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 14px;
+            align-items: start;
+            margin-top: 12px;
+        }
+
+        .scene-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(145deg, #d1fae5, #fef3c7);
+            color: var(--green-strong);
+            font-size: 1.38rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .scene-title {
+            margin: 0;
+            font-size: 1.28rem;
+            font-weight: 900;
+            line-height: 1.25;
+        }
+
+        .scene-prompt {
+            margin: 8px 0 0;
+            color: #334155;
+            font-size: 0.98rem;
+            font-weight: 700;
+            line-height: 1.68;
+        }
+
+        .scene-vi,
+        .mission-vi,
+        .result-vi {
+            margin: 6px 0 0;
+            color: #0f766e;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .notice-card {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 1px solid rgba(16, 185, 129, 0.18);
+        }
+
+        .notice-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 900;
+            color: var(--green-strong);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .notice-title {
+            margin: 6px 0 0;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .notice-body {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.58;
+        }
+
+        .mission-lock {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: #f8fafc;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .mission-lock.is-open {
+            background: #ecfdf5;
+            border-color: #86efac;
+        }
+
+        .mission-lock.is-done {
+            background: #fffbeb;
+            border-color: #fcd34d;
+        }
+
+        .lock-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--green-strong);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .lock-copy strong {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 900;
+        }
+
+        .lock-copy span {
+            display: block;
+            margin-top: 3px;
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 700;
+            line-height: 1.45;
+        }
+
+        .mission-target {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .mini-label {
+            margin: 0 0 6px;
+            color: var(--green-strong);
+            font-size: 0.73rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .mission-target p {
+            margin: 0;
+            color: #334155;
+            font-size: 0.93rem;
+            font-weight: 700;
+            line-height: 1.64;
+        }
+
+        .compact-feedback {
+            min-height: 56px;
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(248, 250, 252, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            color: #475569;
+            font-size: 0.88rem;
+            font-weight: 800;
+            line-height: 1.5;
+            display: flex;
+            align-items: center;
+        }
+
+        .compact-feedback.is-positive {
+            background: #ecfdf5;
+            border-color: #86efac;
+            color: #166534;
+        }
+
+        .compact-feedback.is-negative {
+            background: #fff7ed;
+            border-color: #fdba74;
+            color: #9a3412;
+        }
+
+        .task-panel,
+        .result-card,
+        .summary {
+            position: relative;
+            margin-top: 12px;
+            overflow: visible;
+            isolation: isolate;
+            transition: transform 0.24s ease, opacity 0.24s ease, filter 0.24s ease, box-shadow 0.24s ease;
+        }
+
+        .task-panel.is-rest,
+        .result-card.is-rest {
+            opacity: 0.62;
+            filter: saturate(0.84);
+            transform: scale(0.994);
+        }
+
+        .task-panel.is-current,
+        .result-card.is-current {
+            border-color: rgba(16, 185, 129, 0.28);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12), 0 24px 60px rgba(15, 23, 42, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .task-panel.is-current::before,
+        .result-card.is-current::before {
+            content: attr(data-focus);
+            position: absolute;
+            top: -12px;
+            right: 18px;
+            z-index: 2;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #047857, #10b981);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            box-shadow: 0 10px 22px rgba(16, 185, 129, 0.22);
+            animation: focusFlag 1.5s ease-in-out infinite;
+        }
+
+        .task-panel.is-current::after,
+        .result-card.is-current::after {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 24px;
+            border: 1px solid rgba(16, 185, 129, 0.42);
+            pointer-events: none;
+            animation: pulseRing 1.8s ease-out infinite;
+        }
+
+        .section-bar h3 {
+            margin: 0;
+            font-size: 1.08rem;
+            font-weight: 900;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .choice-card {
+            appearance: none;
+            width: 100%;
+            min-height: 118px;
+            padding: 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(255, 255, 255, 0.96);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        #choiceSection.is-current .choice-card:not(.is-wrong):not(.is-correct) {
+            border-color: #86efac;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+            animation: choiceFloat 2.8s ease-in-out infinite;
+            animation-delay: calc(var(--i, 0) * 0.08s);
+        }
+
+        #choiceSection.is-current .choice-card:not(.is-wrong):not(.is-correct) .choice-icon {
+            animation: iconPulse 1.5s ease-in-out infinite;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(16, 185, 129, 0.26);
+        }
+
+        .choice-card.is-correct {
+            background: #ecfdf5;
+            border-color: #34d399;
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.12);
+        }
+
+        .choice-card.is-wrong {
+            background: #fff7ed;
+            border-color: #fb923c;
+        }
+
+        .choice-card.is-dim {
+            opacity: 0.68;
+        }
+
+        .choice-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: #f0fdf4;
+            color: var(--green-strong);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .choice-copy strong {
+            display: block;
+            font-size: 0.94rem;
+            font-weight: 900;
+            line-height: 1.46;
+            color: #0f172a;
+        }
+
+        .choice-copy span {
+            display: block;
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 0.82rem;
+            font-weight: 700;
+            line-height: 1.42;
+        }
+
+        .feedback-box {
+            margin-top: 12px;
+            padding: 13px 14px;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .feedback-box.is-positive {
+            background: #ecfdf5;
+            border: 1px solid #86efac;
+            color: #166534;
+        }
+
+        .feedback-box.is-negative {
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            color: #9a3412;
+        }
+
+        .sentence-preview {
+            min-height: 76px;
+            padding: 14px;
+            border-radius: 20px;
+            border: 1px dashed rgba(148, 163, 184, 0.7);
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sentence-placeholder {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .preview-chip,
+        .chunk-btn {
+            appearance: none;
+            min-height: 42px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .preview-chip {
+            border: 1px solid var(--green-line);
+            background: var(--green-soft);
+            color: var(--green-strong);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .chunk-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .chunk-btn {
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .chunk-btn:hover {
+            transform: translateY(-1px);
+            border-color: rgba(16, 185, 129, 0.26);
+            background: #f0fdf4;
+        }
+
+        .chunk-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.44;
+            transform: none;
+            background: #f8fafc;
+        }
+
+        #builderSection.is-current .sentence-preview {
+            border-color: #86efac;
+            background: linear-gradient(180deg, #ffffff, #ecfdf5);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8), 0 14px 30px rgba(15, 23, 42, 0.05);
+        }
+
+        #builderSection.is-current .sentence-placeholder {
+            color: var(--green-strong);
+            animation: softBlink 1.2s ease-in-out infinite;
+        }
+
+        #builderSection.is-current .preview-chip {
+            box-shadow: 0 10px 24px rgba(16, 185, 129, 0.14);
+        }
+
+        #builderSection.is-current .chunk-btn:not(:disabled) {
+            border-color: #86efac;
+            background: #ffffff;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+            animation: chunkWave 2.2s ease-in-out infinite;
+            animation-delay: calc(var(--i, 0) * 0.08s);
+        }
+
+        .section-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .primary-btn,
+        .ghost-btn {
+            appearance: none;
+            min-height: 46px;
+            padding: 0 16px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            border: none;
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #ffffff;
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.22);
+        }
+
+        .primary-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
+            box-shadow: none;
+        }
+
+        .primary-btn.is-current {
+            position: relative;
+            isolation: isolate;
+            animation: buttonBob 1.35s ease-in-out infinite;
+        }
+
+        .primary-btn.is-current::before {
+            content: "";
+            position: absolute;
+            inset: -10px;
+            z-index: -1;
+            border-radius: 18px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.24), transparent 68%);
+            animation: pulseRing 1.8s ease-out infinite;
+        }
+
+        .primary-btn.is-current[data-hint]::after {
+            content: attr(data-hint);
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            padding: 5px 11px;
+            border-radius: 999px;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 900;
+            white-space: nowrap;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
+            animation: cueBlink 1.35s ease-in-out infinite;
+        }
+
+        .ghost-btn {
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: #ffffff;
+            color: #334155;
+        }
+
+        .result-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 251, 235, 0.98));
+            border-color: rgba(245, 158, 11, 0.26);
+        }
+
+        .result-sentence-label {
+            margin: 14px 0 0;
+            color: #92400e;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .result-sentence {
+            margin: 8px 0 0;
+            color: #0f172a;
+            font-size: 1.15rem;
+            font-weight: 900;
+            line-height: 1.62;
+        }
+
+        .result-card.is-current .result-sentence {
+            animation: resultGlow 1.5s ease-in-out infinite;
+        }
+
+        .result-tip {
+            margin: 12px 0 0;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #fde68a;
+            color: #92400e;
+            font-size: 0.88rem;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .summary-metric {
+            padding: 14px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffffff, #f8fafc);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            text-align: center;
+        }
+
+        .summary-metric strong {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .summary-metric span {
+            display: block;
+            margin-top: 4px;
+            color: #64748b;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .summary-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .summary-item {
+            padding: 13px 14px;
+            border-radius: 18px;
+            background: rgba(248, 250, 252, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .summary-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .summary-item-top strong {
+            font-size: 0.94rem;
+            font-weight: 900;
+        }
+
+        .summary-pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 0 10px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.14);
+            color: var(--green-strong);
+            font-size: 0.74rem;
+            font-weight: 900;
+        }
+
+        .summary-answer {
+            margin: 8px 0 0;
+            color: #334155;
+            font-size: 0.88rem;
+            font-weight: 800;
+            line-height: 1.58;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .vocab-token {
+            display: inline;
+            padding: 0 0.08em;
+            border-radius: 0.35em;
+            font-weight: 900;
+            color: var(--vocab-accent);
+            text-decoration-line: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 0.16em;
+            text-decoration-color: currentColor;
+            background: linear-gradient(to top, var(--vocab-soft), transparent 68%);
+            cursor: pointer;
+            transition: background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+        }
+
+        .vocab-token:hover,
+        .vocab-token.is-active {
+            background: linear-gradient(to top, rgba(16, 185, 129, 0.26), transparent 72%);
+            box-shadow: inset 0 -1px 0 rgba(16, 185, 129, 0.22);
+        }
+
+        .vocab-token:focus-visible {
+            outline: 2px solid var(--vocab-accent);
+            outline-offset: 2px;
+        }
+
+        .vocab-card {
+            position: fixed;
+            left: 50%;
+            bottom: calc(12px + env(safe-area-inset-bottom));
+            z-index: 80;
+            width: min(420px, calc(100vw - 24px));
+            padding: 14px 15px 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(16, 185, 129, 0.22);
+            box-shadow: 0 18px 44px rgba(15, 23, 42, 0.16);
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 14px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .vocab-card.is-visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, 0);
+        }
+
+        .vocab-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .vocab-card-label {
+            color: var(--vocab-accent);
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .vocab-close {
+            appearance: none;
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(148, 163, 184, 0.14);
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .vocab-term {
+            margin: 8px 0 0;
+            color: #0f172a;
+            font-size: 1.04rem;
+            font-weight: 900;
+            line-height: 1.35;
+        }
+
+        .vocab-meaning {
+            margin: 6px 0 0;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .vi-text {
+            display: none;
+        }
+
+        .vi-on .vi-text {
+            display: block;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes pulseRing {
+            0% {
+                opacity: 0;
+                transform: scale(0.985);
+            }
+            25% {
+                opacity: 0.88;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.012);
+            }
+        }
+
+        @keyframes buttonBob {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-2px);
+            }
+        }
+
+        @keyframes flowScan {
+            0% {
+                transform: translateX(-120%);
+            }
+            100% {
+                transform: translateX(120%);
+            }
+        }
+
+        @keyframes focusFlag {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-2px);
+            }
+        }
+
+        @keyframes choiceFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes iconPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes chunkWave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes softBlink {
+            0%, 100% {
+                opacity: 0.58;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes cueBlink {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-2px);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes resultGlow {
+            0%, 100% {
+                text-shadow: 0 0 0 rgba(245, 158, 11, 0);
+            }
+            50% {
+                text-shadow: 0 0 16px rgba(245, 158, 11, 0.26);
+            }
+        }
+
+        @media (max-width: 860px) {
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .choice-grid,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .shell {
+                width: min(100% - 12px, 1120px);
+                margin: 8px auto 28px;
+            }
+
+            .hud-card,
+            .scene-panel,
+            .mission-panel,
+            .task-panel,
+            .result-card,
+            .summary {
+                padding: 16px;
+            }
+
+            .hud-top,
+            .scene-wrap,
+            .result-top {
+                grid-template-columns: 1fr;
+                display: grid;
+            }
+
+            .hud-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .hud-actions .pill-btn {
+                flex: 1 1 0;
+            }
+
+            .hud-strip {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .flow-strip {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .stat-pill {
+                min-height: 50px;
+                padding: 10px 8px;
+                border-radius: 16px;
+            }
+
+            .stat-pill strong {
+                font-size: 0.94rem;
+            }
+
+            .stat-pill span {
+                font-size: 0.7rem;
+            }
+
+            .flow-step {
+                min-height: 44px;
+                padding: 8px;
+                font-size: 0.74rem;
+                border-radius: 16px;
+            }
+
+            .section-actions .primary-btn,
+            .section-actions .ghost-btn {
+                flex: 1 1 calc(50% - 5px);
+            }
+
+            .footer-links .footer-link {
+                flex: 1 1 calc(50% - 5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">15과 목록</a>
+        <span class="nav-divider">|</span>
+        <a href="grammar3.html">문법 3</a>
+    </nav>
+
+    <main id="page" class="shell">
+        <section class="panel hud-card">
+            <div class="hud-top">
+                <div>
+                    <p class="eyebrow">15과 문법 3 보조 활동</p>
+                    <h1>꼭 해야 해! 생활 조건 미션</h1>
+                </div>
+                <div class="hud-actions">
+                    <button id="viToggleBtn" class="pill-btn" type="button"><i class="fa-solid fa-language"></i>VI OFF</button>
+                    <button id="restartBtn" class="pill-btn" type="button"><i class="fa-solid fa-rotate-right"></i>처음부터</button>
+                </div>
+            </div>
+            <div class="hud-strip">
+                <div class="stat-pill">
+                    <div>
+                        <strong id="missionCount">1 / 8</strong>
+                        <span>현재 미션</span>
+                    </div>
+                </div>
+                <div class="stat-pill">
+                    <div>
+                        <strong id="solvedCount">0개</strong>
+                        <span>해결 완료</span>
+                    </div>
+                </div>
+                <div class="stat-pill">
+                    <div>
+                        <strong id="attemptCount">0번</strong>
+                        <span>총 시도</span>
+                    </div>
+                </div>
+            </div>
+            <div class="progress" aria-hidden="true">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+        </section>
+
+        <section id="flowStrip" class="flow-strip" aria-label="활동 단계">
+            <div id="flowStep1" class="flow-step">필수 행동 고르기</div>
+            <div id="flowStep2" class="flow-step">문장 완성하기</div>
+            <div id="flowStep3" class="flow-step">해결 완료</div>
+        </section>
+
+        <section id="missionStage">
+            <div class="mission-grid">
+                <article class="panel scene-panel">
+                    <div class="scene-head">
+                        <span id="sceneTag" class="scene-tag">주거 계약</span>
+                        <span id="sceneState" class="state-badge">필수 조건 찾기</span>
+                    </div>
+                    <div class="scene-wrap">
+                        <div id="sceneIcon" class="scene-icon" aria-hidden="true">
+                            <i class="fa-solid fa-house"></i>
+                        </div>
+                        <div>
+                            <h2 id="sceneTitle" class="scene-title">계약 전에 꼭 확인</h2>
+                            <p id="scenePrompt" class="scene-prompt"></p>
+                            <p id="scenePromptVi" class="scene-vi vi-text"></p>
+                        </div>
+                    </div>
+                    <div id="noticeCard" class="notice-card" aria-live="polite"></div>
+                </article>
+
+                <aside class="panel mission-panel">
+                    <div id="missionLock" class="mission-lock">
+                        <div id="lockIcon" class="lock-icon" aria-hidden="true">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <div class="lock-copy">
+                            <strong id="lockTitle">해결 잠금</strong>
+                            <span id="lockCopy">필수 행동과 문장을 모두 맞히면 해결됩니다.</span>
+                        </div>
+                    </div>
+
+                    <div class="mission-target">
+                        <p class="mini-label">지금 해결해야 하는 일</p>
+                        <p id="missionNeed"></p>
+                        <p id="missionNeedVi" class="mission-vi vi-text"></p>
+                    </div>
+
+                    <div id="missionFeedback" class="compact-feedback" aria-live="polite"></div>
+                </aside>
+            </div>
+
+            <section id="choiceSection" class="panel task-panel">
+                <div class="section-bar">
+                    <h3>필수 행동</h3>
+                    <span id="choiceStatus" class="task-badge">Step 1</span>
+                </div>
+                <div id="choiceGrid" class="choice-grid"></div>
+                <div id="choiceFeedback" class="feedback-box hidden" aria-live="polite"></div>
+            </section>
+
+            <section id="builderSection" class="panel task-panel">
+                <div class="section-bar">
+                    <h3>문장 완성</h3>
+                    <span id="builderStatus" class="task-badge">대기</span>
+                </div>
+                <div id="sentencePreview" class="sentence-preview"></div>
+                <div id="chunkBank" class="chunk-bank"></div>
+                <div class="section-actions">
+                    <button id="checkSentenceBtn" class="primary-btn" type="button" disabled>문장 확인</button>
+                    <button id="resetSentenceBtn" class="ghost-btn" type="button">다시 조합</button>
+                </div>
+                <div id="builderFeedback" class="feedback-box hidden" aria-live="polite"></div>
+            </section>
+
+            <section id="resultCard" class="panel result-card hidden">
+                <div class="result-top">
+                    <span class="result-badge">해결 완료</span>
+                    <button id="nextMissionBtn" class="primary-btn" type="button">다음 미션</button>
+                </div>
+                <p class="result-sentence-label">완성 문장</p>
+                <p id="resultSentence" class="result-sentence"></p>
+                <p id="resultSentenceVi" class="result-vi vi-text"></p>
+                <p id="resultTip" class="result-tip"></p>
+            </section>
+        </section>
+
+        <section id="summarySection" class="panel summary hidden">
+            <div class="section-bar">
+                <h3>세션 완료</h3>
+                <span class="result-badge">Mission Clear</span>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-metric">
+                    <strong id="summarySolved">0</strong>
+                    <span>해결한 미션</span>
+                </div>
+                <div class="summary-metric">
+                    <strong id="summaryAttempts">0</strong>
+                    <span>총 시도</span>
+                </div>
+                <div class="summary-metric">
+                    <strong id="summaryFirstClear">0</strong>
+                    <span>한 번에 해결</span>
+                </div>
+            </div>
+            <div id="summaryList" class="summary-list"></div>
+            <div class="section-actions">
+                <button id="restartSummaryBtn" class="primary-btn" type="button">처음부터 다시</button>
+            </div>
+        </section>
+
+        <div class="footer-links">
+            <a class="footer-link" href="grammar3.html"><i class="fa-solid fa-arrow-left"></i>문법 3</a>
+            <a class="footer-link" href="index.html"><i class="fa-solid fa-book-open"></i>15과 목록</a>
+        </div>
+
+        <aside id="vocabCard" class="vocab-card" aria-live="polite" aria-hidden="true">
+            <div class="vocab-card-top">
+                <span class="vocab-card-label">어휘 도움</span>
+                <button id="vocabCloseBtn" class="vocab-close" type="button" aria-label="어휘 도움 닫기">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <p id="vocabTerm" class="vocab-term"></p>
+            <p id="vocabMeaning" class="vocab-meaning"></p>
+        </aside>
+    </main>
+
+    <script>
+        (function () {
+            "use strict";
+
+            const missions = [
+                {
+                    id: "g3-m1",
+                    tag: "주거 계약",
+                    title: "계약 전에 꼭 확인",
+                    icon: "house",
+                    prompt: "원룸을 보러 왔어요. 예쁜 옵션보다 나중에 돈 문제가 생기지 않게 하는 확인이 더 중요해요.",
+                    promptVi: "Bạn đang đi xem phòng. Lúc này việc kiểm tra điều kiện tiền bạc quan trọng hơn sở thích.",
+                    noticeLabel: "계약 알림",
+                    noticeTitle: "월세 조건 확인 중",
+                    noticeBody: "집주인과 계약 이야기를 시작했어요. 빠뜨리면 안 되는 질문이 하나 있어요.",
+                    need: "계약 전에 꼭 확인해야 하는 질문을 고르세요.",
+                    needVi: "Hãy chọn câu hỏi bắt buộc trước khi ký hợp đồng.",
+                    options: [
+                        {
+                            icon: "bolt",
+                            text: "전기 요금이 월세에 포함되는지 물어보다",
+                            detail: "나중에 추가 비용이 생기지 않게 확인",
+                            correct: true,
+                            reason: "계약에서 가장 실용적인 필수 확인 항목이에요."
+                        },
+                        {
+                            icon: "bed",
+                            text: "침대 색깔이 마음에 드는지 확인하다",
+                            detail: "취향 확인",
+                            correct: false,
+                            reason: "취향은 중요할 수 있지만, 지금 필요한 필수 조건은 아니에요."
+                        },
+                        {
+                            icon: "users",
+                            text: "이웃이 몇 명인지 먼저 묻다",
+                            detail: "생활 정보",
+                            correct: false,
+                            reason: "도움이 될 수는 있지만, 연습문제의 핵심 필수 조건은 아니에요."
+                        },
+                        {
+                            icon: "palette",
+                            text: "벽지 색을 바꿀 수 있는지 묻다",
+                            detail: "선호도 확인",
+                            correct: false,
+                            reason: "지금은 취향보다 비용 조건 확인이 먼저예요."
+                        }
+                    ],
+                    chunks: ["전기 요금이 월세에 포함되는지", "물어보지 않으면", "안 됩니다."],
+                    answer: "전기 요금이 월세에 포함되는지 물어보지 않으면 안 됩니다.",
+                    answerVi: "Phải hỏi xem tiền điện có bao gồm trong tiền thuê hay không.",
+                    tip: "계약 상황에서는 좋아하는 것보다 돈과 조건을 먼저 확인해야 자연스럽습니다."
+                },
+                {
+                    id: "g3-m2",
+                    tag: "생활 문제",
+                    title: "전기를 다시 켜려면",
+                    icon: "plug-circle-bolt",
+                    prompt: "전기가 끊겼어요. 관리실에 연락하기 전에 먼저 해결해야 하는 조건이 있어요.",
+                    promptVi: "Điện đã bị cắt. Có một điều kiện cần xử lý trước cả khi gọi quản lý.",
+                    noticeLabel: "긴급 상황",
+                    noticeTitle: "미납 요금 확인",
+                    noticeBody: "지금 필요한 것은 희망이 아니라 전기를 다시 쓰게 하는 실제 조건이에요.",
+                    need: "전기를 다시 쓰려면 가장 먼저 해야 하는 행동을 고르세요.",
+                    needVi: "Hãy chọn việc phải làm trước tiên để có điện trở lại.",
+                    options: [
+                        {
+                            icon: "file-invoice-dollar",
+                            text: "밀린 요금을 빨리 내다",
+                            detail: "복구 조건 해결",
+                            correct: true,
+                            reason: "전기를 다시 사용하게 하는 직접적인 해결 조건이에요."
+                        },
+                        {
+                            icon: "window-maximize",
+                            text: "창문을 열어서 바람을 통하게 하다",
+                            detail: "잠깐 시원해지기",
+                            correct: false,
+                            reason: "잠깐 도움이 될 수 있지만, 전기 복구 조건은 아니에요."
+                        },
+                        {
+                            icon: "phone-volume",
+                            text: "친구에게 먼저 전화해서 하소연하다",
+                            detail: "감정 표현",
+                            correct: false,
+                            reason: "상황 설명은 가능하지만 해결 조건을 충족하지 못해요."
+                        },
+                        {
+                            icon: "lightbulb",
+                            text: "새 스탠드를 사 오다",
+                            detail: "대체 조명",
+                            correct: false,
+                            reason: "임시 대응일 뿐, 전기가 다시 들어오게 하지는 못해요."
+                        }
+                    ],
+                    chunks: ["밀린 요금을", "빨리 내지 않으면", "안 돼요."],
+                    answer: "밀린 요금을 빨리 내지 않으면 안 돼요.",
+                    answerVi: "Phải nhanh chóng nộp khoản tiền còn nợ.",
+                    tip: "문법 3은 이렇게 문제를 해결하기 위한 필수 조건을 말할 때 특히 잘 어울립니다."
+                },
+                {
+                    id: "g3-m3",
+                    tag: "면접 준비",
+                    title: "내일 중요한 면접",
+                    icon: "user-tie",
+                    prompt: "옷차림이 중요한 면접이에요. 편한 옷이 아니라 꼭 필요한 준비를 말해야 해요.",
+                    promptVi: "Ngày mai có buổi phỏng vấn quan trọng. Bạn cần nói về sự chuẩn bị bắt buộc, không phải đồ thoải mái.",
+                    noticeLabel: "준비 체크",
+                    noticeTitle: "면접 복장 점검",
+                    noticeBody: "지금은 선택 사항이 아니라, 꼭 갖춰야 하는 준비를 말하는 상황이에요.",
+                    need: "면접 전에 꼭 해야 하는 준비를 고르세요.",
+                    needVi: "Hãy chọn sự chuẩn bị bắt buộc trước buổi phỏng vấn.",
+                    options: [
+                        {
+                            icon: "shirt",
+                            text: "이 양복을 입다",
+                            detail: "면접용 복장 준비",
+                            correct: true,
+                            reason: "면접 상황에 맞는 복장을 갖추는 것이 핵심 준비예요."
+                        },
+                        {
+                            icon: "shoe-prints",
+                            text: "운동화를 새로 사다",
+                            detail: "선택 가능한 소비",
+                            correct: false,
+                            reason: "있으면 좋을 수 있지만, 지금 문맥의 직접적인 필수 조건은 아니에요."
+                        },
+                        {
+                            icon: "gamepad",
+                            text: "긴장을 풀려고 게임을 하다",
+                            detail: "기분 전환",
+                            correct: false,
+                            reason: "긴장 완화는 가능하지만, 면접 준비 조건을 직접 말하지는 못해요."
+                        },
+                        {
+                            icon: "mug-hot",
+                            text: "카페에서 음료를 사 마시다",
+                            detail: "개인 선택",
+                            correct: false,
+                            reason: "개인 선택일 뿐, 꼭 해야 하는 준비는 아니에요."
+                        }
+                    ],
+                    chunks: ["이 양복을", "입지 않으면", "안 돼요."],
+                    answer: "이 양복을 입지 않으면 안 돼요.",
+                    answerVi: "Phải mặc bộ com-lê này.",
+                    tip: "규칙이 아니어도, 중요한 일정 때문에 꼭 필요한 준비를 말할 수 있어요."
+                },
+                {
+                    id: "g3-m4",
+                    tag: "학교 공지",
+                    title: "신입생 수강 신청",
+                    icon: "graduation-cap",
+                    prompt: "학과 공지가 왔어요. 1학년 신입생은 최소 신청 기준을 반드시 맞춰야 해요.",
+                    promptVi: "Khoa vừa gửi thông báo. Sinh viên năm nhất bắt buộc phải đạt số môn đăng ký tối thiểu.",
+                    noticeLabel: "수강 공지",
+                    noticeTitle: "신청 기준 있음",
+                    noticeBody: "신입생은 한국사 개론을 포함해서 최소 기준을 채워야 수강 신청이 완료돼요.",
+                    need: "신입생이 꼭 지켜야 하는 신청 조건을 고르세요.",
+                    needVi: "Hãy chọn điều kiện đăng ký mà sinh viên năm nhất bắt buộc phải tuân theo.",
+                    options: [
+                        {
+                            icon: "list-check",
+                            text: "한국사 개론을 포함해서 세 과목 이상 신청하다",
+                            detail: "최소 기준 충족",
+                            correct: true,
+                            reason: "공지문에 나온 직접적인 필수 조건이에요."
+                        },
+                        {
+                            icon: "people-group",
+                            text: "동아리를 먼저 고르다",
+                            detail: "교내 활동",
+                            correct: false,
+                            reason: "중요할 수는 있지만, 수강 신청 최소 조건은 아니에요."
+                        },
+                        {
+                            icon: "book-open-reader",
+                            text: "도서관 카드부터 만들다",
+                            detail: "학교 생활 준비",
+                            correct: false,
+                            reason: "학교 생활에는 필요할 수 있지만, 현재 공지의 핵심은 아니에요."
+                        },
+                        {
+                            icon: "pen",
+                            text: "공책을 여러 권 사다",
+                            detail: "학습 준비물",
+                            correct: false,
+                            reason: "준비물이지 신청 규정은 아니에요."
+                        }
+                    ],
+                    chunks: ["한국사 개론을 포함해서", "세 과목 이상", "신청하지 않으면", "안 돼요."],
+                    answer: "한국사 개론을 포함해서 세 과목 이상 신청하지 않으면 안 돼요.",
+                    answerVi: "Phải đăng ký từ ba môn trở lên, bao gồm cả Nhập môn Lịch sử Hàn Quốc.",
+                    tip: "안내문과 규정에서는 이렇게 ‘하지 않으면 안 되다’가 아주 자주 나옵니다."
+                },
+                {
+                    id: "g3-m5",
+                    tag: "생활 규칙",
+                    title: "재활용 버리는 날",
+                    icon: "recycle",
+                    prompt: "아파트 분리수거 날이에요. 한 봉지에 섞어 버리면 안 되고, 방식이 정해져 있어요.",
+                    promptVi: "Hôm nay là ngày phân loại rác tái chế. Không thể bỏ lẫn mà phải làm theo quy định.",
+                    noticeLabel: "관리 공지",
+                    noticeTitle: "분리수거 규칙",
+                    noticeBody: "편한 방법이 아니라, 정해진 규칙에 맞는 행동을 골라야 해요.",
+                    need: "재활용 쓰레기를 버릴 때 꼭 지켜야 하는 방식을 고르세요.",
+                    needVi: "Hãy chọn cách bắt buộc phải làm khi bỏ rác tái chế.",
+                    options: [
+                        {
+                            icon: "layer-group",
+                            text: "종류별로 모아서 버리다",
+                            detail: "분류 후 배출",
+                            correct: true,
+                            reason: "연습문제에서 강조한 대표 생활 규칙이에요."
+                        },
+                        {
+                            icon: "trash",
+                            text: "모든 쓰레기를 한 봉지에 넣다",
+                            detail: "한 번에 처리",
+                            correct: false,
+                            reason: "오히려 규칙을 어기는 행동이에요."
+                        },
+                        {
+                            icon: "door-open",
+                            text: "현관 앞에 그냥 두다",
+                            detail: "임시 보관",
+                            correct: false,
+                            reason: "정해진 배출 방법을 충족하지 못해요."
+                        },
+                        {
+                            icon: "sink",
+                            text: "손부터 씻고 생각하다",
+                            detail: "위생은 좋지만 별개",
+                            correct: false,
+                            reason: "좋은 습관일 수 있지만, 분리수거 조건 자체는 아니에요."
+                        }
+                    ],
+                    chunks: ["재활용 쓰레기는", "종류별로 모아서", "버리지 않으면", "안 돼요."],
+                    answer: "재활용 쓰레기는 종류별로 모아서 버리지 않으면 안 돼요.",
+                    answerVi: "Rác tái chế phải được gom và bỏ theo từng loại.",
+                    tip: "생활 규칙에서는 행동 방식 전체가 필수 조건으로 들어가는 경우가 많아요."
+                },
+                {
+                    id: "g3-m6",
+                    tag: "건강",
+                    title: "황사가 심한 날",
+                    icon: "wind",
+                    prompt: "밖에 나가야 해요. 오늘은 선택이 아니라 몸을 지키기 위한 조건을 말해야 해요.",
+                    promptVi: "Bạn phải ra ngoài. Hôm nay cần nói về điều kiện để bảo vệ sức khỏe, không phải lựa chọn tùy ý.",
+                    noticeLabel: "날씨 경보",
+                    noticeTitle: "미세먼지 매우 나쁨",
+                    noticeBody: "이럴 때는 그냥 참고 나가는 것이 아니라, 꼭 해야 하는 보호 행동이 있어요.",
+                    need: "황사가 심할 때 꼭 해야 하는 행동을 고르세요.",
+                    needVi: "Hãy chọn hành động bắt buộc khi bụi vàng rất nặng.",
+                    options: [
+                        {
+                            icon: "mask-face",
+                            text: "마스크를 쓰다",
+                            detail: "호흡기 보호",
+                            correct: true,
+                            reason: "연습문제의 핵심처럼 건강을 지키는 필수 조건이에요."
+                        },
+                        {
+                            icon: "mug-saucer",
+                            text: "커피를 사 마시다",
+                            detail: "기분 전환",
+                            correct: false,
+                            reason: "밖에서 할 수는 있지만, 건강 보호 조건은 아니에요."
+                        },
+                        {
+                            icon: "camera",
+                            text: "하늘 사진을 찍다",
+                            detail: "기록 남기기",
+                            correct: false,
+                            reason: "상황 기록일 뿐, 꼭 해야 하는 조치는 아니에요."
+                        },
+                        {
+                            icon: "window-open",
+                            text: "창문을 크게 열다",
+                            detail: "환기하기",
+                            correct: false,
+                            reason: "오히려 좋지 않을 수 있어서 필수 조건과 반대예요."
+                        }
+                    ],
+                    chunks: ["황사가 심할 때는", "마스크를", "쓰지 않으면", "안 돼요."],
+                    answer: "황사가 심할 때는 마스크를 쓰지 않으면 안 돼요.",
+                    answerVi: "Khi bụi vàng nặng thì phải đeo khẩu trang.",
+                    tip: "건강 상황에서는 ‘하지 않으면 곤란하다’는 말맛이 더 또렷하게 들립니다."
+                },
+                {
+                    id: "g3-m7",
+                    tag: "위생",
+                    title: "집에 돌아온 직후",
+                    icon: "hands-bubbles",
+                    prompt: "밖에 다녀왔어요. 바로 쉬기 전에 꼭 해야 하는 행동을 말해 보세요.",
+                    promptVi: "Bạn vừa đi ngoài về. Hãy nói hành động bắt buộc phải làm trước khi nghỉ.",
+                    noticeLabel: "생활 습관",
+                    noticeTitle: "외출 후 기본 수칙",
+                    noticeBody: "지금은 하고 싶은 일을 말하는 게 아니라, 반드시 먼저 해야 하는 행동을 찾는 문제예요.",
+                    need: "외출 후 꼭 해야 하는 위생 행동을 고르세요.",
+                    needVi: "Hãy chọn hành động vệ sinh bắt buộc sau khi ra ngoài về.",
+                    options: [
+                        {
+                            icon: "hands-bubbles",
+                            text: "손을 씻다",
+                            detail: "기본 위생",
+                            correct: true,
+                            reason: "문법 3의 대표 예문처럼 ‘하지 않으면 안 되는’ 기본 습관이에요."
+                        },
+                        {
+                            icon: "tv",
+                            text: "TV를 먼저 켜다",
+                            detail: "쉬기 시작",
+                            correct: false,
+                            reason: "가능한 행동이지만, 지금 문맥의 필수 조건은 아니에요."
+                        },
+                        {
+                            icon: "cookie-bite",
+                            text: "간식을 꺼내 먹다",
+                            detail: "개인 선택",
+                            correct: false,
+                            reason: "오히려 위생 행동보다 뒤로 가야 하는 일이에요."
+                        },
+                        {
+                            icon: "mobile-screen-button",
+                            text: "휴대폰부터 확인하다",
+                            detail: "습관적 행동",
+                            correct: false,
+                            reason: "많이 하는 행동일 수 있지만, 필수 위생 조건은 아니에요."
+                        }
+                    ],
+                    chunks: ["외출 후에는", "손을", "씻지 않으면", "안 돼요."],
+                    answer: "외출 후에는 손을 씻지 않으면 안 돼요.",
+                    answerVi: "Sau khi ra ngoài về thì phải rửa tay.",
+                    tip: "짧은 생활 수칙도 문법 3으로 말하면 ‘필수 조건’이 더 분명해집니다."
+                },
+                {
+                    id: "g3-m8",
+                    tag: "생활비",
+                    title: "이번 달 예산 부족",
+                    icon: "wallet",
+                    prompt: "생활비가 빠듯해요. 하고 싶은 일이 아니라, 지금 반드시 바꿔야 하는 습관을 말해야 해요.",
+                    promptVi: "Tiền sinh hoạt tháng này đang thiếu. Bạn cần nói về thói quen bắt buộc phải thay đổi ngay.",
+                    noticeLabel: "예산 경고",
+                    noticeTitle: "생활비 부족",
+                    noticeBody: "돈이 모자랄 때는 바람을 말하기보다 꼭 지켜야 하는 조건을 말하는 게 자연스러워요.",
+                    need: "생활비가 부족할 때 꼭 해야 하는 행동을 고르세요.",
+                    needVi: "Hãy chọn việc bắt buộc phải làm khi tiền sinh hoạt thiếu.",
+                    options: [
+                        {
+                            icon: "piggy-bank",
+                            text: "돈을 아끼다",
+                            detail: "예산 조절",
+                            correct: true,
+                            reason: "교재형 예문 그대로, 부족한 생활비 상황의 핵심 조건이에요."
+                        },
+                        {
+                            icon: "cart-shopping",
+                            text: "배달 음식을 더 자주 시키다",
+                            detail: "지출 증가",
+                            correct: false,
+                            reason: "오히려 생활비 부족 문제를 더 키울 수 있어요."
+                        },
+                        {
+                            icon: "bed",
+                            text: "더 큰 침대를 사다",
+                            detail: "지출 선택",
+                            correct: false,
+                            reason: "원하는 물건일 수는 있지만, 지금 필요한 조건과는 반대예요."
+                        },
+                        {
+                            icon: "plane-departure",
+                            text: "짧은 여행을 계획하다",
+                            detail: "하고 싶은 일",
+                            correct: false,
+                            reason: "희망 사항일 뿐, 생활비 부족을 해결하는 조건은 아니에요."
+                        }
+                    ],
+                    chunks: ["요즘 생활비가 모자라서", "돈을", "아끼지 않으면", "안 돼요."],
+                    answer: "요즘 생활비가 모자라서 돈을 아끼지 않으면 안 돼요.",
+                    answerVi: "Dạo này tiền sinh hoạt thiếu nên phải tiết kiệm tiền.",
+                    tip: "문법 3은 규칙뿐 아니라 이렇게 현실적인 생활 조건을 말할 때도 아주 자주 씁니다."
+                }
+            ];
+
+            const vocabGlossary = {
+                "수강 신청": "đăng ký môn học, ghi danh lớp",
+                "최소 기준": "mức tối thiểu, chuẩn tối thiểu",
+                "한국사 개론": "nhập môn lịch sử Hàn Quốc, môn cơ sở về lịch sử Hàn Quốc",
+                "분리수거": "phân loại rác, bỏ rác theo loại",
+                "재활용": "tái chế, dùng lại",
+                "생활비": "tiền sinh hoạt, chi phí sinh hoạt",
+                "미세먼지": "bụi mịn, bụi siêu nhỏ",
+                "호흡기": "đường hô hấp, cơ quan hô hấp",
+                "위생": "vệ sinh, sạch sẽ",
+                "예산": "ngân sách, khoản tiền dự định",
+                "계약": "hợp đồng, ký kết",
+                "조건": "điều kiện, tiêu chuẩn",
+                "포함": "bao gồm, tính vào",
+                "비용": "chi phí, khoản tiền",
+                "해결": "giải quyết, xử lý xong",
+                "복구": "khôi phục, sửa lại như cũ",
+                "면접": "phỏng vấn, buổi tuyển chọn",
+                "복장": "trang phục, quần áo mặc",
+                "공지": "thông báo, tin báo",
+                "신입생": "tân sinh viên, sinh viên mới",
+                "최소": "tối thiểu, ít nhất",
+                "기준": "tiêu chuẩn, mức chuẩn",
+                "개론": "nhập môn, tổng quan cơ bản",
+                "미납": "chưa nộp, còn nợ",
+                "필수": "bắt buộc, nhất thiết cần có",
+                "규정": "quy định, điều lệ",
+                "충족": "đáp ứng đủ, làm cho đủ",
+                "황사": "bụi vàng, cát bụi sa mạc",
+                "보호": "bảo vệ, che chắn",
+                "현실적": "thực tế, sát với hoàn cảnh"
+            };
+
+            const vocabTerms = Object.keys(vocabGlossary).sort(function (a, b) {
+                return b.length - a.length;
+            });
+
+            const refs = {
+                page: document.getElementById("page"),
+                viToggleBtn: document.getElementById("viToggleBtn"),
+                restartBtn: document.getElementById("restartBtn"),
+                restartSummaryBtn: document.getElementById("restartSummaryBtn"),
+                missionCount: document.getElementById("missionCount"),
+                solvedCount: document.getElementById("solvedCount"),
+                attemptCount: document.getElementById("attemptCount"),
+                progressFill: document.getElementById("progressFill"),
+                flowStep1: document.getElementById("flowStep1"),
+                flowStep2: document.getElementById("flowStep2"),
+                flowStep3: document.getElementById("flowStep3"),
+                missionStage: document.getElementById("missionStage"),
+                sceneTag: document.getElementById("sceneTag"),
+                sceneState: document.getElementById("sceneState"),
+                sceneIcon: document.getElementById("sceneIcon"),
+                sceneTitle: document.getElementById("sceneTitle"),
+                scenePrompt: document.getElementById("scenePrompt"),
+                scenePromptVi: document.getElementById("scenePromptVi"),
+                noticeCard: document.getElementById("noticeCard"),
+                missionLock: document.getElementById("missionLock"),
+                lockIcon: document.getElementById("lockIcon"),
+                lockTitle: document.getElementById("lockTitle"),
+                lockCopy: document.getElementById("lockCopy"),
+                missionNeed: document.getElementById("missionNeed"),
+                missionNeedVi: document.getElementById("missionNeedVi"),
+                missionFeedback: document.getElementById("missionFeedback"),
+                choiceSection: document.getElementById("choiceSection"),
+                choiceStatus: document.getElementById("choiceStatus"),
+                choiceGrid: document.getElementById("choiceGrid"),
+                choiceFeedback: document.getElementById("choiceFeedback"),
+                builderSection: document.getElementById("builderSection"),
+                builderStatus: document.getElementById("builderStatus"),
+                sentencePreview: document.getElementById("sentencePreview"),
+                chunkBank: document.getElementById("chunkBank"),
+                checkSentenceBtn: document.getElementById("checkSentenceBtn"),
+                resetSentenceBtn: document.getElementById("resetSentenceBtn"),
+                builderFeedback: document.getElementById("builderFeedback"),
+                resultCard: document.getElementById("resultCard"),
+                resultSentence: document.getElementById("resultSentence"),
+                resultSentenceVi: document.getElementById("resultSentenceVi"),
+                resultTip: document.getElementById("resultTip"),
+                nextMissionBtn: document.getElementById("nextMissionBtn"),
+                summarySection: document.getElementById("summarySection"),
+                summarySolved: document.getElementById("summarySolved"),
+                summaryAttempts: document.getElementById("summaryAttempts"),
+                summaryFirstClear: document.getElementById("summaryFirstClear"),
+                summaryList: document.getElementById("summaryList"),
+                vocabCard: document.getElementById("vocabCard"),
+                vocabCloseBtn: document.getElementById("vocabCloseBtn"),
+                vocabTerm: document.getElementById("vocabTerm"),
+                vocabMeaning: document.getElementById("vocabMeaning")
+            };
+
+            function createBaseState() {
+                return {
+                    viOn: false,
+                    currentIndex: 0,
+                    totalAttempts: 0,
+                    clearedCount: 0,
+                    choiceCorrect: false,
+                    sentenceSolved: false,
+                    wrongChoiceIndexes: [],
+                    selectedChunks: [],
+                    chunkPool: [],
+                    choiceFeedback: null,
+                    builderFeedback: null,
+                    logs: [],
+                    summaryMode: false,
+                    choiceAttemptCount: 0,
+                    sentenceAttemptCount: 0
+                };
+            }
+
+            let state = createBaseState();
+            let activeVocabToken = null;
+
+            function shuffle(items) {
+                const cloned = items.slice();
+                for (let i = cloned.length - 1; i > 0; i -= 1) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    const temp = cloned[i];
+                    cloned[i] = cloned[j];
+                    cloned[j] = temp;
+                }
+                return cloned;
+            }
+
+            function currentMission() {
+                return missions[state.currentIndex];
+            }
+
+            function resetMissionState() {
+                const mission = currentMission();
+                state.choiceCorrect = false;
+                state.sentenceSolved = false;
+                state.wrongChoiceIndexes = [];
+                state.selectedChunks = [];
+                state.chunkPool = shuffle(
+                    mission.chunks.map(function (chunk, index) {
+                        return { id: mission.id + "-chunk-" + index, text: chunk };
+                    })
+                );
+                state.choiceFeedback = null;
+                state.builderFeedback = null;
+                state.choiceAttemptCount = 0;
+                state.sentenceAttemptCount = 0;
+                refs.resultCard.classList.add("hidden");
+            }
+
+            function hideFeedback(el) {
+                el.className = "feedback-box hidden";
+                el.innerHTML = "";
+            }
+
+            function setFeedback(el, type, text) {
+                el.className = "feedback-box " + (type === "positive" ? "is-positive" : "is-negative");
+                el.innerHTML = annotateText(text);
+            }
+
+            function setMissionFeedback(type, text) {
+                refs.missionFeedback.className = "compact-feedback" + (type ? " is-" + type : "");
+                refs.missionFeedback.innerHTML = annotateText(text);
+            }
+
+            function escapeHtml(text) {
+                return String(text == null ? "" : text)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function annotateText(text) {
+                const raw = String(text == null ? "" : text);
+                let html = "";
+                let index = 0;
+
+                while (index < raw.length) {
+                    const term = vocabTerms.find(function (item) {
+                        return raw.slice(index, index + item.length) === item;
+                    });
+
+                    if (term) {
+                        html += '<span class="vocab-token" role="button" tabindex="0" data-term="' + escapeHtml(term) + '" data-vi="' + escapeHtml(vocabGlossary[term]) + '">' + escapeHtml(term) + "</span>";
+                        index += term.length;
+                        continue;
+                    }
+
+                    html += escapeHtml(raw[index]);
+                    index += 1;
+                }
+
+                return html;
+            }
+
+            function hideVocabCard() {
+                if (activeVocabToken) {
+                    activeVocabToken.classList.remove("is-active");
+                }
+                activeVocabToken = null;
+                refs.vocabCard.classList.remove("is-visible");
+                refs.vocabCard.setAttribute("aria-hidden", "true");
+            }
+
+            function syncVocabCard() {
+                if (activeVocabToken && activeVocabToken.isConnected) {
+                    return;
+                }
+                hideVocabCard();
+            }
+
+            function toggleVocabCard(token) {
+                if (activeVocabToken === token && refs.vocabCard.classList.contains("is-visible")) {
+                    hideVocabCard();
+                    return;
+                }
+
+                if (activeVocabToken) {
+                    activeVocabToken.classList.remove("is-active");
+                }
+
+                activeVocabToken = token;
+                activeVocabToken.classList.add("is-active");
+                refs.vocabTerm.textContent = token.dataset.term || token.textContent.trim();
+                refs.vocabMeaning.textContent = token.dataset.vi || "";
+                refs.vocabCard.classList.add("is-visible");
+                refs.vocabCard.setAttribute("aria-hidden", "false");
+            }
+
+            function scrollToTarget(target) {
+                window.requestAnimationFrame(function () {
+                    target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                });
+            }
+
+            function pulseCurrentButton() {
+                refs.checkSentenceBtn.classList.remove("is-current");
+                refs.nextMissionBtn.classList.remove("is-current");
+                refs.checkSentenceBtn.removeAttribute("data-hint");
+                refs.nextMissionBtn.removeAttribute("data-hint");
+                if (!state.choiceCorrect) {
+                    return;
+                }
+                if (!state.sentenceSolved && !refs.checkSentenceBtn.disabled) {
+                    refs.checkSentenceBtn.classList.add("is-current");
+                    refs.checkSentenceBtn.dataset.hint = "지금 확인";
+                } else if (state.sentenceSolved) {
+                    refs.nextMissionBtn.classList.add("is-current");
+                    refs.nextMissionBtn.dataset.hint = "다음 이동";
+                }
+            }
+
+            function renderHud() {
+                const missionNumber = Math.min(state.currentIndex + 1, missions.length);
+                refs.missionCount.textContent = missionNumber + " / " + missions.length;
+                refs.solvedCount.textContent = state.clearedCount + "개";
+                refs.attemptCount.textContent = state.totalAttempts + "번";
+                refs.progressFill.style.width = ((state.summaryMode ? missions.length : state.currentIndex) / missions.length * 100) + "%";
+                refs.page.classList.toggle("vi-on", state.viOn);
+                refs.viToggleBtn.innerHTML = state.viOn
+                    ? '<i class="fa-solid fa-language"></i>VI ON'
+                    : '<i class="fa-solid fa-language"></i>VI OFF';
+            }
+
+            function renderFlow() {
+                refs.flowStep1.className = "flow-step";
+                refs.flowStep2.className = "flow-step";
+                refs.flowStep3.className = "flow-step";
+
+                if (state.summaryMode) {
+                    refs.flowStep1.classList.add("is-done");
+                    refs.flowStep2.classList.add("is-done");
+                    refs.flowStep3.classList.add("is-done");
+                    return;
+                }
+
+                refs.flowStep1.classList.add(state.choiceCorrect ? "is-done" : "is-active");
+                if (state.choiceCorrect && !state.sentenceSolved) {
+                    refs.flowStep2.classList.add("is-active");
+                } else if (state.sentenceSolved) {
+                    refs.flowStep2.classList.add("is-done");
+                }
+                if (state.sentenceSolved) {
+                    refs.flowStep3.classList.add("is-active");
+                }
+            }
+
+            function renderScene() {
+                const mission = currentMission();
+                refs.sceneTag.textContent = mission.tag;
+                refs.sceneTitle.innerHTML = annotateText(mission.title);
+                refs.scenePrompt.innerHTML = annotateText(mission.prompt);
+                refs.scenePromptVi.textContent = mission.promptVi;
+                refs.sceneIcon.innerHTML = '<i class="fa-solid fa-' + mission.icon + '"></i>';
+                refs.noticeCard.innerHTML =
+                    '<span class="notice-label"><i class="fa-solid fa-bell"></i>' + escapeHtml(mission.noticeLabel) + "</span>" +
+                    '<p class="notice-title">' + annotateText(mission.noticeTitle) + "</p>" +
+                    '<p class="notice-body">' + annotateText(mission.noticeBody) + "</p>";
+
+                if (state.sentenceSolved) {
+                    refs.sceneState.className = "state-badge is-done";
+                    refs.sceneState.textContent = "해결 완료";
+                } else if (state.choiceCorrect) {
+                    refs.sceneState.className = "state-badge is-open";
+                    refs.sceneState.textContent = "문장 완성";
+                } else {
+                    refs.sceneState.className = "state-badge";
+                    refs.sceneState.textContent = "필수 조건 찾기";
+                }
+
+                refs.missionNeed.innerHTML = annotateText(mission.need);
+                refs.missionNeedVi.textContent = mission.needVi;
+
+                if (state.sentenceSolved) {
+                    refs.missionLock.className = "mission-lock is-done";
+                    refs.lockIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                    refs.lockTitle.textContent = "해결 완료";
+                    refs.lockCopy.innerHTML = annotateText("필수 행동과 문장을 모두 맞혀서 미션을 끝냈어요.");
+                    setMissionFeedback("positive", "이 미션은 해결 완료예요. 다음 상황으로 넘어갈 수 있어요.");
+                } else if (state.choiceCorrect) {
+                    refs.missionLock.className = "mission-lock is-open";
+                    refs.lockIcon.innerHTML = '<i class="fa-solid fa-lock-open"></i>';
+                    refs.lockTitle.textContent = "문장만 남았어요";
+                    refs.lockCopy.innerHTML = annotateText("이제 문장을 완성하면 해결이 열립니다.");
+                    setMissionFeedback("positive", "필수 행동을 찾았어요. 아래에서 문장을 완성해 보세요.");
+                } else if (state.choiceFeedback && state.choiceFeedback.type === "negative") {
+                    refs.missionLock.className = "mission-lock";
+                    refs.lockIcon.innerHTML = '<i class="fa-solid fa-lock"></i>';
+                    refs.lockTitle.textContent = "아직 잠겨 있어요";
+                    refs.lockCopy.innerHTML = annotateText("필수 조건이 아닌 행동을 고르면 해결이 열리지 않아요.");
+                    setMissionFeedback("negative", "아직 해결 조건이 아니에요. 다시 골라 보세요.");
+                } else {
+                    refs.missionLock.className = "mission-lock";
+                    refs.lockIcon.innerHTML = '<i class="fa-solid fa-lock"></i>';
+                    refs.lockTitle.textContent = "해결 잠금";
+                    refs.lockCopy.innerHTML = annotateText("필수 행동과 문장을 모두 맞히면 해결됩니다.");
+                    setMissionFeedback("", "지금은 해결 조건을 찾는 단계예요.");
+                }
+            }
+
+            function renderChoices() {
+                const mission = currentMission();
+                refs.choiceStatus.className = "task-badge" + (state.choiceCorrect ? " is-active" : "");
+                refs.choiceStatus.textContent = state.choiceCorrect ? "선택 완료" : "Step 1";
+                refs.choiceGrid.innerHTML = mission.options.map(function (option, index) {
+                    let classes = "choice-card";
+                    if (state.choiceCorrect && option.correct) {
+                        classes += " is-correct";
+                    } else if (state.wrongChoiceIndexes.indexOf(index) > -1) {
+                        classes += " is-wrong";
+                    } else if (state.choiceCorrect && !option.correct) {
+                        classes += " is-dim";
+                    }
+
+                    return (
+                        '<button type="button" class="' + classes + '" data-choice-index="' + index + '" style="--i:' + index + '">' +
+                        '<div class="choice-icon" aria-hidden="true"><i class="fa-solid fa-' + escapeHtml(option.icon) + '"></i></div>' +
+                        '<div class="choice-copy"><strong>' + annotateText(option.text) + '</strong><span>' + annotateText(option.detail) + "</span></div>" +
+                        "</button>"
+                    );
+                }).join("");
+
+                refs.choiceGrid.querySelectorAll("[data-choice-index]").forEach(function (button) {
+                    button.addEventListener("click", function (event) {
+                        if (event.target.closest(".vocab-token")) {
+                            return;
+                        }
+                        const index = Number(button.dataset.choiceIndex);
+                        handleChoice(index);
+                    });
+                });
+
+                if (!state.choiceFeedback) {
+                    hideFeedback(refs.choiceFeedback);
+                    return;
+                }
+                setFeedback(refs.choiceFeedback, state.choiceFeedback.type, state.choiceFeedback.text);
+            }
+
+            function renderBuilder() {
+                const mission = currentMission();
+                refs.builderStatus.className = "task-badge" + (state.choiceCorrect && !state.sentenceSolved ? " is-active" : "");
+                refs.builderStatus.textContent = state.sentenceSolved ? "완성됨" : (state.choiceCorrect ? "Step 2" : "대기");
+
+                if (!state.selectedChunks.length) {
+                    refs.sentencePreview.innerHTML = '<span class="sentence-placeholder">문장 조각을 순서대로 눌러서 완성하세요.</span>';
+                } else {
+                    refs.sentencePreview.innerHTML = state.selectedChunks.map(function (chunk, index) {
+                        return '<button type="button" class="preview-chip" data-preview-index="' + index + '">' +
+                            escapeHtml(chunk.text) + ' <i class="fa-solid fa-rotate-left" aria-hidden="true"></i></button>';
+                    }).join("");
+                }
+
+                refs.sentencePreview.querySelectorAll("[data-preview-index]").forEach(function (button) {
+                    button.addEventListener("click", function () {
+                        if (state.sentenceSolved) {
+                            return;
+                        }
+                        const index = Number(button.dataset.previewIndex);
+                        state.chunkPool.push(state.selectedChunks[index]);
+                        state.selectedChunks.splice(index, 1);
+                        render();
+                    });
+                });
+
+                refs.chunkBank.innerHTML = state.chunkPool.map(function (chunk, index) {
+                    return '<button type="button" class="chunk-btn" data-chunk-index="' + index + '" style="--i:' + index + '"' +
+                        (!state.choiceCorrect || state.sentenceSolved ? " disabled" : "") + ">" +
+                        escapeHtml(chunk.text) + "</button>";
+                }).join("");
+
+                refs.chunkBank.querySelectorAll("[data-chunk-index]").forEach(function (button) {
+                    button.addEventListener("click", function () {
+                        if (!state.choiceCorrect || state.sentenceSolved) {
+                            return;
+                        }
+                        const index = Number(button.dataset.chunkIndex);
+                        state.selectedChunks.push(state.chunkPool[index]);
+                        state.chunkPool.splice(index, 1);
+                        render();
+                    });
+                });
+
+                refs.checkSentenceBtn.disabled = !state.choiceCorrect || state.sentenceSolved || state.selectedChunks.length !== mission.chunks.length;
+
+                if (!state.builderFeedback) {
+                    hideFeedback(refs.builderFeedback);
+                    return;
+                }
+                setFeedback(refs.builderFeedback, state.builderFeedback.type, state.builderFeedback.text);
+            }
+
+            function renderCurrentSections() {
+                [refs.choiceSection, refs.builderSection, refs.resultCard].forEach(function (section) {
+                    section.classList.remove("is-current", "is-rest");
+                    section.removeAttribute("data-focus");
+                });
+
+                if (state.summaryMode) {
+                    return;
+                }
+                if (!state.choiceCorrect) {
+                    refs.choiceSection.classList.add("is-current");
+                    refs.choiceSection.dataset.focus = "지금 선택";
+                    refs.builderSection.classList.add("is-rest");
+                } else if (!state.sentenceSolved) {
+                    refs.builderSection.classList.add("is-current");
+                    refs.builderSection.dataset.focus = "지금 조합";
+                    refs.choiceSection.classList.add("is-rest");
+                } else {
+                    refs.resultCard.classList.add("is-current");
+                    refs.resultCard.dataset.focus = "지금 다음";
+                    refs.choiceSection.classList.add("is-rest");
+                    refs.builderSection.classList.add("is-rest");
+                }
+            }
+
+            function renderResult() {
+                const mission = currentMission();
+                if (!state.sentenceSolved) {
+                    refs.resultCard.classList.add("hidden");
+                    return;
+                }
+
+                refs.resultCard.classList.remove("hidden");
+                refs.resultSentence.innerHTML = annotateText(mission.answer);
+                refs.resultSentenceVi.textContent = mission.answerVi;
+                refs.resultTip.innerHTML = annotateText(mission.tip);
+                refs.nextMissionBtn.textContent = state.currentIndex === missions.length - 1 ? "결과 보기" : "다음 미션";
+            }
+
+            function renderSummary() {
+                const firstClearCount = state.logs.filter(function (log) {
+                    return log && log.wrongChoices === 0 && log.wrongSentence === 0;
+                }).length;
+
+                refs.summarySolved.textContent = String(state.clearedCount);
+                refs.summaryAttempts.textContent = String(state.totalAttempts);
+                refs.summaryFirstClear.textContent = String(firstClearCount);
+                refs.summaryList.innerHTML = state.logs.map(function (log) {
+                    return (
+                        '<div class="summary-item">' +
+                        '<div class="summary-item-top"><strong>' + escapeHtml(log.title) + '</strong>' +
+                        '<span class="summary-pill">시도 ' + escapeHtml(String(log.attempts)) + "번</span></div>" +
+                        '<p class="summary-answer">' + annotateText(log.answer) + "</p>" +
+                        "</div>"
+                    );
+                }).join("");
+            }
+
+            function render() {
+                renderHud();
+                renderFlow();
+
+                if (state.summaryMode) {
+                    refs.missionStage.classList.add("hidden");
+                    refs.summarySection.classList.remove("hidden");
+                    renderSummary();
+                    syncVocabCard();
+                    return;
+                }
+
+                refs.missionStage.classList.remove("hidden");
+                refs.summarySection.classList.add("hidden");
+                renderScene();
+                renderChoices();
+                renderBuilder();
+                renderResult();
+                renderCurrentSections();
+                pulseCurrentButton();
+                syncVocabCard();
+            }
+
+            function handleChoice(index) {
+                const mission = currentMission();
+                const option = mission.options[index];
+                if (state.choiceCorrect || state.summaryMode) {
+                    return;
+                }
+
+                state.totalAttempts += 1;
+                state.choiceAttemptCount += 1;
+
+                if (option.correct) {
+                    state.choiceCorrect = true;
+                    state.choiceFeedback = {
+                        type: "positive",
+                        text: option.reason + " 문장 완성으로 바로 이어 가세요."
+                    };
+                    render();
+                    scrollToTarget(refs.builderSection);
+                    return;
+                }
+
+                if (state.wrongChoiceIndexes.indexOf(index) === -1) {
+                    state.wrongChoiceIndexes.push(index);
+                }
+                state.choiceFeedback = {
+                    type: "negative",
+                    text: option.reason
+                };
+                render();
+                scrollToTarget(refs.choiceSection);
+            }
+
+            function checkSentence() {
+                const mission = currentMission();
+                if (!state.choiceCorrect || state.sentenceSolved || state.selectedChunks.length !== mission.chunks.length) {
+                    return;
+                }
+
+                state.totalAttempts += 1;
+                state.sentenceAttemptCount += 1;
+
+                const selected = state.selectedChunks.map(function (chunk) { return chunk.text; });
+                const correct = selected.every(function (text, index) {
+                    return text === mission.chunks[index];
+                });
+
+                if (!correct) {
+                    state.builderFeedback = {
+                        type: "negative",
+                        text: "순서를 조금 바꾸면 돼요. 문장 덩어리를 다시 맞춰 보세요."
+                    };
+                    render();
+                    scrollToTarget(refs.builderSection);
+                    return;
+                }
+
+                state.sentenceSolved = true;
+                state.clearedCount += 1;
+                state.builderFeedback = {
+                    type: "positive",
+                    text: "문장이 완성됐어요. 이제 실제 상황에서도 그대로 쓸 수 있어요."
+                };
+                state.logs[state.currentIndex] = {
+                    title: mission.title,
+                    answer: mission.answer,
+                    attempts: state.choiceAttemptCount + state.sentenceAttemptCount,
+                    wrongChoices: state.wrongChoiceIndexes.length,
+                    wrongSentence: state.sentenceAttemptCount - 1
+                };
+                render();
+                scrollToTarget(refs.resultCard);
+            }
+
+            function resetSentenceBuilder() {
+                if (state.sentenceSolved) {
+                    return;
+                }
+                state.chunkPool = shuffle(state.chunkPool.concat(state.selectedChunks));
+                state.selectedChunks = [];
+                state.builderFeedback = null;
+                render();
+            }
+
+            function showSummary() {
+                state.summaryMode = true;
+                render();
+                scrollToTarget(refs.summarySection);
+            }
+
+            function nextMission() {
+                if (!state.sentenceSolved) {
+                    return;
+                }
+
+                if (state.currentIndex === missions.length - 1) {
+                    showSummary();
+                    return;
+                }
+
+                state.currentIndex += 1;
+                resetMissionState();
+                render();
+                scrollToTarget(refs.missionStage);
+            }
+
+            function restartSession() {
+                if (state.totalAttempts > 0 && !window.confirm("문법 3 보조 활동을 처음부터 다시 시작할까요?")) {
+                    return;
+                }
+                state = createBaseState();
+                resetMissionState();
+                render();
+                scrollToTarget(refs.page);
+            }
+
+            refs.viToggleBtn.addEventListener("click", function () {
+                state.viOn = !state.viOn;
+                renderHud();
+            });
+
+            refs.restartBtn.addEventListener("click", restartSession);
+            refs.restartSummaryBtn.addEventListener("click", restartSession);
+            refs.checkSentenceBtn.addEventListener("click", checkSentence);
+            refs.resetSentenceBtn.addEventListener("click", resetSentenceBuilder);
+            refs.nextMissionBtn.addEventListener("click", nextMission);
+            refs.vocabCloseBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                hideVocabCard();
+            });
+
+            document.addEventListener("click", function (event) {
+                const token = event.target.closest(".vocab-token");
+                if (token) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    toggleVocabCard(token);
+                    return;
+                }
+                if (!event.target.closest("#vocabCard")) {
+                    hideVocabCard();
+                }
+            });
+
+            document.addEventListener("keydown", function (event) {
+                const token = event.target.closest(".vocab-token");
+                if (token && (event.key === "Enter" || event.key === " ")) {
+                    event.preventDefault();
+                    toggleVocabCard(token);
+                    return;
+                }
+                if (event.key === "Escape") {
+                    hideVocabCard();
+                }
+            });
+
+            resetMissionState();
+            render();
+        })();
+    </script>
+</body>
+</html>

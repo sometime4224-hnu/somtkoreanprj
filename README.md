@@ -30,5 +30,6 @@ When a page renders authored question text, use the shared inline markup rule de
 ## Shared Page Standards
 
 - All learner-facing pages should follow the shared design rules in [PAGE_DESIGN_GUIDELINES.md](PAGE_DESIGN_GUIDELINES.md).
+- Grammar main pages should keep target-grammar explanations thorough, easy, and clear as required by [PAGE_DESIGN_GUIDELINES.md](PAGE_DESIGN_GUIDELINES.md).
 - Speaking pages should follow the shared standard described in [SPEAKING_PAGE_GUIDELINES.md](SPEAKING_PAGE_GUIDELINES.md).
 - The current official speaking-page reference is the `c15` speaking PRO format and its shared implementation files.

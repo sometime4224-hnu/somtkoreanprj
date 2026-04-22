@@ -26,6 +26,21 @@ This includes:
 
 If a line does not directly help the learner answer, listen, speak, read, or interact, remove it by default.
 
+## Grammar Main Page Exception
+
+Grammar main pages must keep grammar-learning explanations sufficiently complete.
+
+For grammar main pages:
+
+- Provide enough explanation for the learner to understand the grammar point itself, not just the activity flow.
+- Explain grammar meaning, form, usage, and key contrasts as clearly and simply as possible.
+- Prefer easy, learner-friendly wording and structured chunks over compressed or overly abstract summaries.
+- Do not remove essential grammar explanations in the name of efficiency.
+- If space must be saved, reduce decorative chrome, repeated framing text, or non-learning UI before cutting grammar instruction.
+
+The meta-description ban does not apply to explanation that is directly needed for grammar learning.
+On grammar main pages, explanation related to the target grammar should be thorough, easy, and clear.
+
 ## Space Efficiency Rules
 
 - Use the top portion of the page for the core task, not for decoration or explanation.

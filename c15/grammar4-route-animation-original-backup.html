@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>15과 문법 4 보조 자료 | V-는 길에</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg-top: #fff9ef;
+            --bg-bottom: #eff6ff;
+            --ink: #142132;
+            --muted: #64748b;
+            --line: rgba(148, 163, 184, 0.24);
+            --route: #2563eb;
+            --route-soft: rgba(37, 99, 235, 0.12);
+            --action: #f97316;
+            --action-soft: rgba(249, 115, 22, 0.14);
+            --traveler-x: 10%;
+            --progress-width: 0%;
+            --mid-pop: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: "Noto Sans KR", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 12%, rgba(249, 115, 22, 0.16), transparent 24%),
+                radial-gradient(circle at 86% 18%, rgba(37, 99, 235, 0.14), transparent 26%),
+                linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+        }
+
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 18px;
+            background: rgba(255, 255, 255, 0.82);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(14px);
+        }
+
+        .global-nav a {
+            color: #1d4ed8;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 800;
+        }
+
+        .nav-divider {
+            color: #cbd5e1;
+            font-weight: 800;
+        }
+
+        .shell {
+            width: min(1120px, calc(100% - 24px));
+            margin: 20px auto 34px;
+        }
+
+        .hero {
+            padding: 8px 2px 18px;
+        }
+
+        .hero__eyebrow {
+            margin: 0;
+            color: #9a3412;
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin: 8px 0 0;
+            font-family: "Black Han Sans", sans-serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1.06;
+            letter-spacing: 0.01em;
+        }
+
+        .vi-text {
+            display: none;
+        }
+
+        .vi-on .vi-text {
+            display: block;
+        }
+
+        .formula {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .formula__item {
+            display: inline-flex;
+            align-items: center;
+            min-height: 46px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            color: #334155;
+            font-weight: 800;
+        }
+
+        .formula__item strong {
+            color: #0f172a;
+        }
+
+        .controls,
+        .scenario-strip,
+        .phase-strip,
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .controls {
+            margin-top: 18px;
+        }
+
+        .btn,
+        .scenario-chip,
+        .phase-item,
+        .footer-link {
+            appearance: none;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 999px;
+            min-height: 44px;
+            padding: 10px 16px;
+            font: inherit;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.9);
+            color: #334155;
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .btn,
+        .scenario-chip {
+            cursor: pointer;
+        }
+
+        .btn:hover,
+        .scenario-chip:hover,
+        .footer-link:hover {
+            transform: translateY(-1px);
+            border-color: rgba(37, 99, 235, 0.32);
+            background: rgba(239, 246, 255, 0.96);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            border-color: rgba(30, 64, 175, 0.24);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0f172a, #1d4ed8);
+        }
+
+        .btn.is-active,
+        .scenario-chip.is-active {
+            border-color: rgba(37, 99, 235, 0.34);
+            background: rgba(239, 246, 255, 0.96);
+            color: #1e3a8a;
+        }
+
+        .scenario-strip {
+            margin-top: 10px;
+        }
+
+        .stage {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.86);
+            box-shadow: 0 22px 40px rgba(15, 23, 42, 0.08);
+        }
+
+        .stage__top {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .stage__top h2 {
+            margin: 0;
+            font-size: 1.14rem;
+        }
+
+        .stage__meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 38px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            color: #334155;
+            font-size: 0.86rem;
+            font-weight: 800;
+        }
+
+        .route-map {
+            position: relative;
+            margin-top: 16px;
+            min-height: 356px;
+            padding: 18px 14px 94px;
+            border-radius: 28px;
+            background:
+                linear-gradient(180deg, rgba(248, 250, 252, 0.98), rgba(255, 255, 255, 0.96));
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            overflow: hidden;
+        }
+
+        .route-map::before {
+            content: "";
+            position: absolute;
+            inset: 44px 32px auto;
+            height: 8px;
+            border-radius: 999px;
+            background:
+                repeating-linear-gradient(90deg, rgba(148, 163, 184, 0.24), rgba(148, 163, 184, 0.24) 18px, transparent 18px, transparent 30px),
+                rgba(226, 232, 240, 0.62);
+        }
+
+        .route-progress {
+            position: absolute;
+            top: 44px;
+            left: 32px;
+            height: 8px;
+            width: calc(var(--progress-width) - 32px);
+            min-width: 0;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #2563eb, #38bdf8, #10b981);
+            transition: width 0.82s ease;
+        }
+
+        .route-node {
+            position: absolute;
+            top: 22px;
+            transform: translateX(-50%);
+            display: grid;
+            gap: 10px;
+            justify-items: center;
+        }
+
+        .route-node__dot {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            box-shadow: 0 10px 18px rgba(15, 23, 42, 0.07);
+            font-size: 1.1rem;
+        }
+
+        .route-node__dot::after {
+            content: "";
+            position: absolute;
+            inset: -7px;
+            border-radius: 22px;
+            border: 1px solid rgba(59, 130, 246, 0.26);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.24s ease, transform 0.24s ease;
+        }
+
+        .route-node.is-active .route-node__dot::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .route-node__label {
+            min-width: 94px;
+            padding: 8px 12px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            box-shadow: 0 10px 18px rgba(15, 23, 42, 0.05);
+            text-align: center;
+        }
+
+        .route-node__label strong {
+            display: block;
+            color: var(--ink);
+            font-size: 0.94rem;
+        }
+
+        .route-node__label span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .route-start {
+            left: 10%;
+        }
+
+        .route-mid {
+            left: 52%;
+        }
+
+        .route-end {
+            left: 90%;
+        }
+
+        .traveler {
+            position: absolute;
+            top: 84px;
+            left: var(--traveler-x);
+            transform: translateX(-50%);
+            width: 62px;
+            height: 62px;
+            display: grid;
+            place-items: center;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #0f172a, #2563eb);
+            color: #fff;
+            font-size: 1.35rem;
+            box-shadow: 0 16px 26px rgba(37, 99, 235, 0.2);
+            transition: left 0.9s ease;
+            animation: travelerBob 2.1s ease-in-out infinite;
+        }
+
+        .traveler::after {
+            content: "";
+            position: absolute;
+            inset: auto 14px -10px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.18);
+            filter: blur(4px);
+        }
+
+        .action-cloud {
+            position: absolute;
+            top: 132px;
+            left: 52%;
+            transform: translateX(-50%) scale(calc(0.92 + var(--mid-pop) * 0.08));
+            width: min(240px, calc(100% - 32px));
+            padding: 12px 14px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 247, 237, 0.98), rgba(255, 255, 255, 0.98));
+            border: 1px solid rgba(249, 115, 22, 0.22);
+            box-shadow: 0 16px 24px rgba(249, 115, 22, 0.08);
+            opacity: calc(0.2 + var(--mid-pop) * 0.8);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            text-align: center;
+        }
+
+        .action-cloud strong {
+            display: block;
+            color: #9a3412;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .action-cloud p {
+            margin: 6px 0 0;
+            color: #7c2d12;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .sentence {
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            padding: 16px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.94));
+            box-shadow: 0 14px 22px rgba(15, 23, 42, 0.18);
+        }
+
+        .sentence__parts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sentence__part {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.92);
+            transition: border-color 0.18s ease, background 0.18s ease;
+        }
+
+        .sentence__part.is-active {
+            background: rgba(191, 219, 254, 0.18);
+            border-color: rgba(191, 219, 254, 0.44);
+        }
+
+        .sentence__full {
+            margin: 12px 0 0;
+            color: #fff;
+            font-size: 1.08rem;
+            font-weight: 900;
+            line-height: 1.68;
+        }
+
+        .phase-strip {
+            margin-top: 14px;
+        }
+
+        .phase-item {
+            min-height: 40px;
+            color: #64748b;
+        }
+
+        .phase-item.is-active {
+            border-color: rgba(37, 99, 235, 0.32);
+            background: rgba(239, 246, 255, 0.96);
+            color: #1e3a8a;
+        }
+
+        .status-line {
+            margin: 14px 0 0;
+            color: #334155;
+            font-size: 0.98rem;
+            font-weight: 700;
+            line-height: 1.7;
+        }
+
+        .status-line.vi-text {
+            margin-top: 6px;
+            color: #1d4ed8;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            margin-top: 18px;
+            justify-content: space-between;
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        @keyframes travelerBob {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-4px);
+            }
+        }
+
+        @media (max-width: 720px) {
+            .global-nav {
+                padding: 13px 14px;
+            }
+
+            .shell {
+                width: min(100% - 18px, 1120px);
+                margin: 14px auto 28px;
+            }
+
+            .stage {
+                padding: 14px;
+                border-radius: 24px;
+            }
+
+            .route-map {
+                min-height: 390px;
+                padding-bottom: 112px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+            }
+
+            .footer-link {
+                justify-content: center;
+            }
+        }
+    </style>
+        <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="global-nav" aria-label="상단 이동">
+        <a href="../index.html">메인</a>
+        <span class="nav-divider">|</span>
+        <a href="index.html">15과 목록</a>
+        <span class="nav-divider">|</span>
+        <a href="grammar4.html">문법 4</a>
+    </nav>
+
+    <main id="page" class="shell">
+        <header class="hero">
+            <p class="hero__eyebrow">15과 문법 4</p>
+            <h1>V-는 길에</h1>
+
+            <div class="formula" aria-label="문형 구조">
+                <span id="routeVerbFocus" class="formula__item"><strong>오다</strong></span>
+                <span id="routeFormFocus" class="formula__item"><strong>오는 길에</strong></span>
+                <span id="actionFocus" class="formula__item"><strong>케이크를 사다</strong></span>
+                <span id="finishFocus" class="formula__item"><strong>학교에 오는 길에 케이크를 샀어요.</strong></span>
+            </div>
+
+            <div class="controls">
+                <button id="playToggleBtn" class="btn btn-primary" type="button"><i class="fa-solid fa-pause"></i> 자동 재생 중</button>
+                <button id="nextScenarioBtn" class="btn" type="button"><i class="fa-solid fa-forward-step"></i> 다음 상황</button>
+                <button id="viToggleBtn" class="btn" type="button"><i class="fa-solid fa-language"></i> 베트남어 OFF</button>
+            </div>
+
+            <p id="fullSentenceVi" class="status-line vi-text">Trên đường đến trường, tôi đã mua bánh kem.</p>
+        </header>
+
+        <div id="scenarioStrip" class="scenario-strip" role="tablist" aria-label="상황 선택"></div>
+
+        <section class="stage">
+            <div class="stage__top">
+                <h2 id="sceneTitle">학교에 오는 길</h2>
+                <div class="stage__meta">
+                    <span id="sceneBadge" class="meta-pill"><i class="fa-solid fa-location-arrow"></i> 오는 길</span>
+                    <span id="phaseMetric" class="meta-pill"><i class="fa-solid fa-wave-square"></i> 출발 단계</span>
+                </div>
+            </div>
+
+            <div id="routeMap" class="route-map" aria-live="polite">
+                <div class="route-progress"></div>
+
+                <div id="startNode" class="route-node route-start">
+                    <div class="route-node__dot"><i class="fa-solid fa-house"></i></div>
+                    <div class="route-node__label">
+                        <strong id="startLabel">집</strong>
+                        <span>출발</span>
+                    </div>
+                </div>
+
+                <div id="midNode" class="route-node route-mid">
+                    <div class="route-node__dot"><i class="fa-solid fa-bag-shopping"></i></div>
+                    <div class="route-node__label">
+                        <strong id="midLabel">빵집</strong>
+                        <span>중간</span>
+                    </div>
+                </div>
+
+                <div id="endNode" class="route-node route-end">
+                    <div class="route-node__dot"><i class="fa-solid fa-school"></i></div>
+                    <div class="route-node__label">
+                        <strong id="endLabel">학교</strong>
+                        <span>도착</span>
+                    </div>
+                </div>
+
+                <div class="traveler" aria-hidden="true"><i class="fa-solid fa-person-walking"></i></div>
+
+                <div class="action-cloud">
+                    <strong>추가 행동</strong>
+                    <p id="actionCloudText">케이크를 사다</p>
+                </div>
+
+                <div class="sentence">
+                    <div class="sentence__parts">
+                        <span id="partRoute" class="sentence__part">학교에 오는</span>
+                        <span id="partJoint" class="sentence__part">길에</span>
+                        <span id="partAction" class="sentence__part">케이크를</span>
+                        <span id="partResult" class="sentence__part">샀어요</span>
+                    </div>
+                    <p id="mapSentenceFull" class="sentence__full">학교에 오는 길에 케이크를 샀어요.</p>
+                </div>
+            </div>
+
+            <div id="phaseStrip" class="phase-strip" aria-label="단계"></div>
+            <p id="statusCopy" class="status-line">먼저 이동 동사를 떠올립니다.</p>
+            <p id="statusCopyVi" class="status-line vi-text">Trước hết nghĩ đến động từ di chuyển.</p>
+        </section>
+
+        <div class="footer-links">
+            <a class="footer-link" href="grammar4.html"><i class="fa-solid fa-arrow-left"></i> 문법 4</a>
+            <a class="footer-link" href="index.html"><i class="fa-solid fa-book-open"></i> 15과 목록</a>
+        </div>
+    </main>
+
+    <script>
+        (function () {
+            "use strict";
+
+            const scenarios = [
+                {
+                    chip: "학교에 오는 길",
+                    badge: "오는 길",
+                    title: "학교에 오는 길",
+                    routeVerb: "오다",
+                    routeForm: "오는 길에",
+                    routePhrase: "학교에 오는",
+                    action: "케이크를 사다",
+                    actionObject: "케이크를",
+                    result: "샀어요",
+                    sentence: "학교에 오는 길에 케이크를 샀어요.",
+                    sentenceVi: "Trên đường đến trường, tôi đã mua bánh kem.",
+                    startIcon: "house",
+                    startLabel: "집",
+                    midIcon: "cake-candles",
+                    midLabel: "빵집",
+                    endIcon: "school",
+                    endLabel: "학교"
+                },
+                {
+                    chip: "부산에 가는 길",
+                    badge: "가는 길",
+                    title: "부산에 가는 길",
+                    routeVerb: "가다",
+                    routeForm: "가는 길에",
+                    routePhrase: "부산에 가는",
+                    action: "경주에 들르다",
+                    actionObject: "경주에 들러서",
+                    result: "구경하려고 해요",
+                    sentence: "부산에 가는 길에 경주에 들러서 구경하려고 해요.",
+                    sentenceVi: "Trên đường đi Busan, tôi định ghé Gyeongju để tham quan.",
+                    startIcon: "train-subway",
+                    startLabel: "서울",
+                    midIcon: "landmark",
+                    midLabel: "경주",
+                    endIcon: "water",
+                    endLabel: "부산"
+                },
+                {
+                    chip: "퇴근하는 길",
+                    badge: "퇴근길",
+                    title: "퇴근하는 길",
+                    routeVerb: "퇴근하다",
+                    routeForm: "퇴근하는 길에",
+                    routePhrase: "퇴근하는",
+                    action: "우유를 사다",
+                    actionObject: "우유를",
+                    result: "샀어요",
+                    sentence: "퇴근하는 길에 우유를 샀어요.",
+                    sentenceVi: "Trên đường tan làm, tôi đã mua sữa.",
+                    startIcon: "building",
+                    startLabel: "회사",
+                    midIcon: "store",
+                    midLabel: "마트",
+                    endIcon: "house",
+                    endLabel: "집"
+                },
+                {
+                    chip: "나가는 길",
+                    badge: "나가는 길",
+                    title: "나가는 길",
+                    routeVerb: "나가다",
+                    routeForm: "나가는 길에",
+                    routePhrase: "나가는",
+                    action: "음식물 쓰레기를 버리다",
+                    actionObject: "음식물 쓰레기를",
+                    result: "버려 줄래요?",
+                    sentence: "나가는 길에 음식물 쓰레기 좀 버려 줄래요?",
+                    sentenceVi: "Lúc đi ra ngoài, bạn tiện đổ giúp rác thức ăn được không?",
+                    startIcon: "house",
+                    startLabel: "집 안",
+                    midIcon: "trash-can",
+                    midLabel: "분리수거장",
+                    endIcon: "tree-city",
+                    endLabel: "밖"
+                }
+            ];
+
+            const phases = [
+                {
+                    label: "출발",
+                    metric: "출발 단계",
+                    traveler: "10%",
+                    progress: "32px",
+                    activeNode: "start",
+                    midPop: 0,
+                    status: "먼저 이동 동사를 떠올립니다.",
+                    statusVi: "Trước hết nghĩ đến động từ di chuyển."
+                },
+                {
+                    label: "이동",
+                    metric: "이동 중",
+                    traveler: "34%",
+                    progress: "35%",
+                    activeNode: "start",
+                    midPop: 0.18,
+                    status: "길 위에 들어오면 앞부분이 유지됩니다.",
+                    statusVi: "Khi đã vào đường đi, phần đầu câu được giữ nguyên."
+                },
+                {
+                    label: "중간 행동",
+                    metric: "추가 행동",
+                    traveler: "52%",
+                    progress: "55%",
+                    activeNode: "mid",
+                    midPop: 1,
+                    status: "길 중간에 추가 행동이 붙습니다.",
+                    statusVi: "Ở giữa đường, hành động thêm được gắn vào."
+                },
+                {
+                    label: "완성",
+                    metric: "문장 완성",
+                    traveler: "90%",
+                    progress: "calc(100% - 32px)",
+                    activeNode: "end",
+                    midPop: 0.48,
+                    status: "이동과 행동이 한 문장으로 묶입니다.",
+                    statusVi: "Đường đi và hành động được gộp thành một câu."
+                }
+            ];
+
+            const refs = {
+                page: document.getElementById("page"),
+                routeVerbFocus: document.getElementById("routeVerbFocus"),
+                routeFormFocus: document.getElementById("routeFormFocus"),
+                actionFocus: document.getElementById("actionFocus"),
+                finishFocus: document.getElementById("finishFocus"),
+                playToggleBtn: document.getElementById("playToggleBtn"),
+                nextScenarioBtn: document.getElementById("nextScenarioBtn"),
+                viToggleBtn: document.getElementById("viToggleBtn"),
+                fullSentenceVi: document.getElementById("fullSentenceVi"),
+                scenarioStrip: document.getElementById("scenarioStrip"),
+                sceneTitle: document.getElementById("sceneTitle"),
+                sceneBadge: document.getElementById("sceneBadge"),
+                phaseMetric: document.getElementById("phaseMetric"),
+                routeMap: document.getElementById("routeMap"),
+                startNode: document.getElementById("startNode"),
+                midNode: document.getElementById("midNode"),
+                endNode: document.getElementById("endNode"),
+                startLabel: document.getElementById("startLabel"),
+                midLabel: document.getElementById("midLabel"),
+                endLabel: document.getElementById("endLabel"),
+                actionCloudText: document.getElementById("actionCloudText"),
+                partRoute: document.getElementById("partRoute"),
+                partJoint: document.getElementById("partJoint"),
+                partAction: document.getElementById("partAction"),
+                partResult: document.getElementById("partResult"),
+                mapSentenceFull: document.getElementById("mapSentenceFull"),
+                phaseStrip: document.getElementById("phaseStrip"),
+                statusCopy: document.getElementById("statusCopy"),
+                statusCopyVi: document.getElementById("statusCopyVi")
+            };
+
+            const state = {
+                viOn: false,
+                playing: true,
+                scenarioIndex: 0,
+                phaseIndex: 0,
+                timer: null
+            };
+
+            function getScenario() {
+                return scenarios[state.scenarioIndex];
+            }
+
+            function getPhase() {
+                return phases[state.phaseIndex];
+            }
+
+            function escapeHtml(text) {
+                return String(text == null ? "" : text)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function setNodeIcon(node, iconName) {
+                const dot = node.querySelector(".route-node__dot");
+                dot.innerHTML = '<i class="fa-solid fa-' + iconName + '"></i>';
+            }
+
+            function setActiveNodes(activeNode) {
+                refs.startNode.classList.toggle("is-active", activeNode === "start");
+                refs.midNode.classList.toggle("is-active", activeNode === "mid");
+                refs.endNode.classList.toggle("is-active", activeNode === "end");
+            }
+
+            function setSentenceHighlights(phaseIndex) {
+                const isRoute = phaseIndex >= 0;
+                const isAction = phaseIndex >= 2;
+                const isFinish = phaseIndex >= 3;
+
+                refs.partRoute.classList.toggle("is-active", isRoute);
+                refs.partJoint.classList.toggle("is-active", isAction || isFinish);
+                refs.partAction.classList.toggle("is-active", isAction || isFinish);
+                refs.partResult.classList.toggle("is-active", isFinish);
+            }
+
+            function renderScenarioStrip() {
+                refs.scenarioStrip.innerHTML = scenarios.map(function (scenario, index) {
+                    const active = index === state.scenarioIndex ? " is-active" : "";
+                    return '<button type="button" class="scenario-chip' + active + '" data-scenario-index="' + index + '">' +
+                        '<i class="fa-solid fa-location-dot"></i>' +
+                        escapeHtml(scenario.chip) +
+                        '</button>';
+                }).join("");
+
+                refs.scenarioStrip.querySelectorAll("[data-scenario-index]").forEach(function (button) {
+                    button.addEventListener("click", function () {
+                        state.scenarioIndex = Number(button.dataset.scenarioIndex);
+                        state.phaseIndex = 0;
+                        render();
+                    });
+                });
+            }
+
+            function renderPhaseStrip() {
+                refs.phaseStrip.innerHTML = phases.map(function (phase, index) {
+                    const active = index === state.phaseIndex ? " is-active" : "";
+                    return '<span class="phase-item' + active + '">' + escapeHtml(phase.label) + '</span>';
+                }).join("");
+            }
+
+            function render() {
+                const scenario = getScenario();
+                const phase = getPhase();
+
+                renderScenarioStrip();
+                renderPhaseStrip();
+
+                refs.routeVerbFocus.innerHTML = "<strong>" + escapeHtml(scenario.routeVerb) + "</strong>";
+                refs.routeFormFocus.innerHTML = "<strong>" + escapeHtml(scenario.routeForm) + "</strong>";
+                refs.actionFocus.innerHTML = "<strong>" + escapeHtml(scenario.action) + "</strong>";
+                refs.finishFocus.innerHTML = "<strong>" + escapeHtml(scenario.sentence) + "</strong>";
+                refs.fullSentenceVi.textContent = scenario.sentenceVi;
+
+                refs.sceneTitle.textContent = scenario.title;
+                refs.sceneBadge.innerHTML = '<i class="fa-solid fa-location-arrow"></i> ' + escapeHtml(scenario.badge);
+                refs.phaseMetric.innerHTML = '<i class="fa-solid fa-wave-square"></i> ' + escapeHtml(phase.metric);
+
+                refs.startLabel.textContent = scenario.startLabel;
+                refs.midLabel.textContent = scenario.midLabel;
+                refs.endLabel.textContent = scenario.endLabel;
+                refs.actionCloudText.textContent = scenario.action;
+
+                refs.partRoute.textContent = scenario.routePhrase;
+                refs.partJoint.textContent = "길에";
+                refs.partAction.textContent = scenario.actionObject;
+                refs.partResult.textContent = scenario.result;
+                refs.mapSentenceFull.textContent = scenario.sentence;
+                refs.statusCopy.textContent = phase.status;
+                refs.statusCopyVi.textContent = phase.statusVi;
+
+                setNodeIcon(refs.startNode, scenario.startIcon);
+                setNodeIcon(refs.midNode, scenario.midIcon);
+                setNodeIcon(refs.endNode, scenario.endIcon);
+                setActiveNodes(phase.activeNode);
+                setSentenceHighlights(state.phaseIndex);
+
+                refs.routeMap.style.setProperty("--traveler-x", phase.traveler);
+                refs.routeMap.style.setProperty("--progress-width", phase.progress);
+                refs.routeMap.style.setProperty("--mid-pop", String(phase.midPop));
+
+                refs.playToggleBtn.classList.toggle("is-active", state.playing);
+                refs.playToggleBtn.innerHTML = state.playing
+                    ? '<i class="fa-solid fa-pause"></i> 자동 재생 중'
+                    : '<i class="fa-solid fa-play"></i> 자동 재생';
+            }
+
+            function stepScene() {
+                if (state.phaseIndex < phases.length - 1) {
+                    state.phaseIndex += 1;
+                } else {
+                    state.phaseIndex = 0;
+                    state.scenarioIndex = (state.scenarioIndex + 1) % scenarios.length;
+                }
+                render();
+            }
+
+            function stopPlayback() {
+                if (state.timer) {
+                    window.clearInterval(state.timer);
+                    state.timer = null;
+                }
+                state.playing = false;
+            }
+
+            function startPlayback() {
+                stopPlayback();
+                state.timer = window.setInterval(stepScene, 1800);
+                state.playing = true;
+                render();
+            }
+
+            refs.playToggleBtn.addEventListener("click", function () {
+                if (state.playing) {
+                    stopPlayback();
+                    render();
+                } else {
+                    startPlayback();
+                }
+            });
+
+            refs.nextScenarioBtn.addEventListener("click", function () {
+                state.phaseIndex = 0;
+                state.scenarioIndex = (state.scenarioIndex + 1) % scenarios.length;
+                render();
+            });
+
+            refs.viToggleBtn.addEventListener("click", function () {
+                state.viOn = !state.viOn;
+                refs.page.classList.toggle("vi-on", state.viOn);
+                refs.viToggleBtn.innerHTML = state.viOn
+                    ? '<i class="fa-solid fa-language"></i> 베트남어 ON'
+                    : '<i class="fa-solid fa-language"></i> 베트남어 OFF';
+            });
+
+            render();
+            startPlayback();
+        })();
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
