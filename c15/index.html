@@ -315,6 +315,36 @@
             color: #475569;
         }
 
+        .lesson-mini-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: -2px;
+            padding-left: 12px;
+        }
+
+        .lesson-mini-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 11px;
+            border-radius: 999px;
+            text-decoration: none;
+            color: #475569;
+            font-size: 0.78rem;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04);
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .lesson-mini-link:hover {
+            transform: translateY(-1px);
+            border-color: rgba(79, 70, 229, 0.28);
+            box-shadow: 0 12px 22px rgba(15, 23, 42, 0.06);
+        }
+
         .lesson-link > div {
             display: flex;
             align-items: center;
@@ -594,6 +624,23 @@
                             </div>
                             <i class="fa-solid fa-chevron-right lesson-arrow"></i>
                         </a>
+                        <a class="lesson-link" href="../assets/c15/grammar/images/infographics/lesson15-grammar34-infographic-ko.webp" target="_blank" rel="noopener">
+                            <div>
+                                <span class="lesson-kind">보조 자료</span>
+                                <span class="lesson-title">문법 3·4 핵심 정리 인포그래픽</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right lesson-arrow"></i>
+                        </a>
+                        <div class="lesson-mini-row" aria-label="문법 3 인포그래픽 언어 선택">
+                            <a class="lesson-mini-link" href="../assets/c15/grammar/images/infographics/lesson15-grammar34-infographic-ko.webp" target="_blank" rel="noopener">
+                                <i class="fa-regular fa-image" aria-hidden="true"></i>
+                                <span>한국어 버전</span>
+                            </a>
+                            <a class="lesson-mini-link" href="../assets/c15/grammar/images/infographics/lesson15-grammar34-infographic-vi.webp" target="_blank" rel="noopener">
+                                <i class="fa-regular fa-image" aria-hidden="true"></i>
+                                <span>베트남어 버전</span>
+                            </a>
+                        </div>
                         <a class="lesson-link" href="grammar4-route-animation.html">
                             <div>
                                 <span class="lesson-kind">보조 자료</span>
