@@ -280,6 +280,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
+            position: relative;
         }
 
         .scene-tag,
@@ -521,7 +522,7 @@
 
         .task-panel.is-current::before,
         .result-card.is-current::before {
-            content: attr(data-focus);
+            content: "↓ " attr(data-focus);
             position: absolute;
             top: -12px;
             right: 18px;
@@ -558,6 +559,37 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
+            position: relative;
+        }
+
+        #choiceSection.is-current .choice-grid::before,
+        #choiceSection.is-current .choice-grid::after,
+        #builderSection.is-current .chunk-bank::before,
+        #builderSection.is-current .chunk-bank::after {
+            position: absolute;
+            color: var(--green-strong);
+            font-size: 1.12rem;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: 0 8px 16px rgba(37, 99, 235, 0.2);
+            pointer-events: none;
+        }
+
+        #choiceSection.is-current .choice-grid::before,
+        #builderSection.is-current .chunk-bank::before {
+            content: "↓";
+            top: -20px;
+            left: 14px;
+            animation: guideArrowDrop 1.05s ease-in-out infinite;
+        }
+
+        #choiceSection.is-current .choice-grid::after,
+        #builderSection.is-current .chunk-bank::after {
+            content: "↓";
+            top: -8px;
+            left: 32px;
+            opacity: 0.76;
+            animation: guideArrowDrop 1.05s ease-in-out infinite 0.18s;
         }
 
         .choice-card {
@@ -701,6 +733,7 @@
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 12px;
+            position: relative;
         }
 
         .chunk-btn {
@@ -794,7 +827,7 @@
         }
 
         .primary-btn.is-current[data-hint]::after {
-            content: attr(data-hint);
+            content: "↓ " attr(data-hint);
             position: absolute;
             top: -12px;
             right: 12px;
@@ -839,6 +872,32 @@
 
         .result-card.is-current .result-sentence {
             animation: resultGlow 1.5s ease-in-out infinite;
+        }
+
+        .result-card.is-current .result-top::before,
+        .result-card.is-current .result-top::after {
+            position: absolute;
+            right: 28px;
+            color: #b45309;
+            font-size: 1.08rem;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: 0 8px 16px rgba(245, 158, 11, 0.22);
+            pointer-events: none;
+        }
+
+        .result-card.is-current .result-top::before {
+            content: "↓";
+            top: -20px;
+            animation: guideArrowDrop 1.05s ease-in-out infinite;
+        }
+
+        .result-card.is-current .result-top::after {
+            content: "↓";
+            top: -8px;
+            right: 12px;
+            opacity: 0.76;
+            animation: guideArrowDrop 1.05s ease-in-out infinite 0.18s;
         }
 
         .result-tip {
@@ -1058,6 +1117,17 @@
             }
             50% {
                 transform: translateY(-2px);
+            }
+        }
+
+        @keyframes guideArrowDrop {
+            0%, 100% {
+                transform: translateY(-3px);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateY(6px);
+                opacity: 1;
             }
         }
 
