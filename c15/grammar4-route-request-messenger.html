@@ -96,13 +96,13 @@
 
         .panel {
             background: var(--surface);
-            border-radius: 24px;
+            border-radius: 22px;
             border: 1px solid var(--line);
             box-shadow: var(--shadow);
         }
 
         .hud-card {
-            padding: 18px;
+            padding: 16px;
         }
 
         .hud-top {
@@ -135,6 +135,20 @@
             gap: 8px;
         }
 
+        .hud-dashboard {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(250px, 0.8fr);
+            gap: 12px;
+            margin-top: 14px;
+            align-items: stretch;
+        }
+
+        .hud-status {
+            display: grid;
+            gap: 10px;
+            min-width: 0;
+        }
+
         .pill-btn,
         .footer-link {
             appearance: none;
@@ -165,14 +179,14 @@
         .hud-strip {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-            margin-top: 14px;
+            gap: 8px;
+            margin-top: 0;
         }
 
         .stat-pill {
-            min-height: 58px;
-            padding: 12px 14px;
-            border-radius: 18px;
+            min-height: 52px;
+            padding: 10px 12px;
+            border-radius: 16px;
             background: linear-gradient(180deg, #ffffff, #f8fafc);
             border: 1px solid rgba(148, 163, 184, 0.18);
             display: grid;
@@ -196,8 +210,8 @@
         }
 
         .progress {
-            margin-top: 12px;
-            height: 10px;
+            margin-top: 0;
+            height: 8px;
             border-radius: 999px;
             background: #e2e8f0;
             overflow: hidden;
@@ -215,24 +229,38 @@
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 10px;
-            margin-top: 12px;
+            margin-top: 0;
         }
 
         .flow-step {
-            min-height: 54px;
-            padding: 11px 14px;
-            border-radius: 18px;
+            min-height: 48px;
+            padding: 10px 12px;
+            border-radius: 16px;
             background: rgba(255, 255, 255, 0.72);
             border: 1px solid rgba(148, 163, 184, 0.18);
             color: #64748b;
-            font-size: 0.83rem;
+            font-size: 0.8rem;
             font-weight: 800;
             text-align: center;
             display: grid;
             place-items: center;
-            line-height: 1.35;
+            line-height: 1.3;
             position: relative;
             overflow: hidden;
+        }
+
+        .hud-dashboard .flow-strip {
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .hud-dashboard .flow-step {
+            min-height: 0;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: left;
         }
 
         .flow-step.is-active {
@@ -265,12 +293,23 @@
             margin-top: 12px;
         }
 
+        .activity-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
+            grid-template-areas:
+                "choice builder"
+                "choice result";
+            gap: 12px;
+            margin-top: 12px;
+            align-items: start;
+        }
+
         .scene-panel,
         .mission-panel,
         .task-panel,
         .result-card,
         .summary {
-            padding: 18px;
+            padding: 16px;
         }
 
         .scene-head,
@@ -324,36 +363,36 @@
         .scene-wrap {
             display: grid;
             grid-template-columns: auto minmax(0, 1fr);
-            gap: 14px;
+            gap: 12px;
             align-items: start;
-            margin-top: 12px;
+            margin-top: 10px;
         }
 
         .scene-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 20px;
+            width: 54px;
+            height: 54px;
+            border-radius: 18px;
             display: grid;
             place-items: center;
             background: linear-gradient(145deg, #dbeafe, #fef3c7);
             color: var(--green-strong);
-            font-size: 1.38rem;
+            font-size: 1.2rem;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
         .scene-title {
             margin: 0;
-            font-size: 1.28rem;
+            font-size: 1.18rem;
             font-weight: 900;
             line-height: 1.25;
         }
 
         .scene-prompt {
-            margin: 8px 0 0;
+            margin: 6px 0 0;
             color: #334155;
-            font-size: 0.98rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            line-height: 1.68;
+            line-height: 1.56;
         }
 
         .scene-vi,
@@ -366,9 +405,9 @@
         }
 
         .notice-card {
-            margin-top: 14px;
-            padding: 14px 16px;
-            border-radius: 18px;
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
             background: linear-gradient(135deg, #ffffff, #f8fafc);
             border: 1px solid rgba(37, 99, 235, 0.18);
         }
@@ -401,8 +440,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 14px;
-            border-radius: 18px;
+            padding: 11px 12px;
+            border-radius: 16px;
             background: #f8fafc;
             border: 1px solid rgba(148, 163, 184, 0.18);
         }
@@ -445,9 +484,9 @@
         }
 
         .mission-target {
-            margin-top: 14px;
-            padding: 14px;
-            border-radius: 18px;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 16px;
             background: rgba(248, 250, 252, 0.92);
             border: 1px solid rgba(148, 163, 184, 0.16);
         }
@@ -470,16 +509,16 @@
         }
 
         .compact-feedback {
-            min-height: 56px;
-            margin-top: 12px;
-            padding: 12px 14px;
+            min-height: 50px;
+            margin-top: 10px;
+            padding: 10px 12px;
             border-radius: 16px;
             background: rgba(248, 250, 252, 0.9);
             border: 1px solid rgba(148, 163, 184, 0.12);
             color: #475569;
-            font-size: 0.88rem;
+            font-size: 0.84rem;
             font-weight: 800;
-            line-height: 1.5;
+            line-height: 1.45;
             display: flex;
             align-items: center;
         }
@@ -504,6 +543,23 @@
             overflow: visible;
             isolation: isolate;
             transition: transform 0.24s ease, opacity 0.24s ease, filter 0.24s ease, box-shadow 0.24s ease;
+        }
+
+        .activity-grid > .task-panel,
+        .activity-grid > .result-card {
+            margin-top: 0;
+        }
+
+        #choiceSection {
+            grid-area: choice;
+        }
+
+        #builderSection {
+            grid-area: builder;
+        }
+
+        #resultCard {
+            grid-area: result;
         }
 
         .task-panel.is-rest,
@@ -595,14 +651,14 @@
         .choice-card {
             appearance: none;
             width: 100%;
-            min-height: 118px;
-            padding: 14px;
+            min-height: 104px;
+            padding: 12px;
             border-radius: 20px;
             border: 1px solid rgba(148, 163, 184, 0.2);
             background: rgba(255, 255, 255, 0.96);
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 10px;
             text-align: left;
             cursor: pointer;
             transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
@@ -640,41 +696,41 @@
         }
 
         .choice-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             display: grid;
             place-items: center;
             background: #eff6ff;
             color: var(--green-strong);
-            font-size: 1rem;
+            font-size: 0.92rem;
             flex-shrink: 0;
         }
 
         .choice-copy strong {
             display: block;
-            font-size: 0.94rem;
+            font-size: 0.9rem;
             font-weight: 900;
-            line-height: 1.46;
+            line-height: 1.4;
             color: #0f172a;
         }
 
         .choice-copy span {
             display: block;
-            margin-top: 5px;
+            margin-top: 4px;
             color: #64748b;
-            font-size: 0.82rem;
+            font-size: 0.79rem;
             font-weight: 700;
-            line-height: 1.42;
+            line-height: 1.38;
         }
 
         .feedback-box {
-            margin-top: 12px;
-            padding: 13px 14px;
-            border-radius: 18px;
-            font-size: 0.9rem;
+            margin-top: 10px;
+            padding: 11px 12px;
+            border-radius: 16px;
+            font-size: 0.86rem;
             font-weight: 800;
-            line-height: 1.6;
+            line-height: 1.52;
         }
 
         .feedback-box.is-positive {
@@ -690,9 +746,9 @@
         }
 
         .sentence-preview {
-            min-height: 76px;
-            padding: 14px;
-            border-radius: 20px;
+            min-height: 64px;
+            padding: 12px;
+            border-radius: 18px;
             border: 1px dashed rgba(148, 163, 184, 0.7);
             background: #f8fafc;
             display: flex;
@@ -710,10 +766,10 @@
         .preview-chip,
         .chunk-btn {
             appearance: none;
-            min-height: 42px;
-            padding: 10px 14px;
+            min-height: 38px;
+            padding: 9px 12px;
             border-radius: 999px;
-            font-size: 0.88rem;
+            font-size: 0.83rem;
             font-weight: 800;
             transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
         }
@@ -731,8 +787,8 @@
         .chunk-bank {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 12px;
+            gap: 8px;
+            margin-top: 10px;
             position: relative;
         }
 
@@ -782,17 +838,17 @@
         .section-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 12px;
+            gap: 8px;
+            margin-top: 10px;
         }
 
         .primary-btn,
         .ghost-btn {
             appearance: none;
-            min-height: 46px;
-            padding: 0 16px;
-            border-radius: 14px;
-            font-size: 0.9rem;
+            min-height: 42px;
+            padding: 0 14px;
+            border-radius: 12px;
+            font-size: 0.86rem;
             font-weight: 900;
             cursor: pointer;
         }
@@ -854,7 +910,7 @@
         }
 
         .result-sentence-label {
-            margin: 14px 0 0;
+            margin: 12px 0 0;
             color: #92400e;
             font-size: 0.72rem;
             font-weight: 900;
@@ -863,11 +919,11 @@
         }
 
         .result-sentence {
-            margin: 8px 0 0;
+            margin: 6px 0 0;
             color: #0f172a;
-            font-size: 1.15rem;
+            font-size: 1.06rem;
             font-weight: 900;
-            line-height: 1.62;
+            line-height: 1.48;
         }
 
         .result-card.is-current .result-sentence {
@@ -901,15 +957,15 @@
         }
 
         .result-tip {
-            margin: 12px 0 0;
-            padding: 12px 14px;
+            margin: 10px 0 0;
+            padding: 10px 12px;
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid #fde68a;
             color: #92400e;
-            font-size: 0.88rem;
+            font-size: 0.84rem;
             font-weight: 800;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         .summary-grid {
@@ -943,6 +999,7 @@
 
         .summary-list {
             display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 10px;
             margin-top: 14px;
         }
@@ -1205,6 +1262,29 @@
             }
         }
 
+        @media (max-width: 980px) {
+            .hud-dashboard,
+            .activity-grid {
+                grid-template-columns: 1fr;
+                grid-template-areas: none;
+            }
+
+            .hud-dashboard .flow-strip {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .hud-dashboard .flow-step {
+                justify-content: center;
+                text-align: center;
+            }
+
+            #choiceSection,
+            #builderSection,
+            #resultCard {
+                grid-area: auto;
+            }
+        }
+
         @media (max-width: 860px) {
             .mission-grid {
                 grid-template-columns: 1fr;
@@ -1213,7 +1293,8 @@
 
         @media (max-width: 720px) {
             .choice-grid,
-            .summary-grid {
+            .summary-grid,
+            .summary-list {
                 grid-template-columns: 1fr;
             }
         }
@@ -1257,6 +1338,11 @@
             .flow-strip {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 8px;
+            }
+
+            .hud-dashboard .flow-step {
+                justify-content: center;
+                text-align: center;
             }
 
             .stat-pill {
@@ -1317,35 +1403,38 @@
                     <button id="restartBtn" class="pill-btn" type="button"><i class="fa-solid fa-rotate-right"></i>처음부터</button>
                 </div>
             </div>
-            <div class="hud-strip">
-                <div class="stat-pill">
-                    <div>
-                        <strong id="missionCount">1 / 8</strong>
-                        <span>현재 미션</span>
+            <div class="hud-dashboard">
+                <div class="hud-status">
+                    <div class="hud-strip">
+                        <div class="stat-pill">
+                            <div>
+                                <strong id="missionCount">1 / 8</strong>
+                                <span>현재 미션</span>
+                            </div>
+                        </div>
+                        <div class="stat-pill">
+                            <div>
+                                <strong id="solvedCount">0개</strong>
+                                <span>전송 완료</span>
+                            </div>
+                        </div>
+                        <div class="stat-pill">
+                            <div>
+                                <strong id="attemptCount">0번</strong>
+                                <span>총 시도</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress" aria-hidden="true">
+                        <div id="progressFill" class="progress-fill"></div>
                     </div>
                 </div>
-                <div class="stat-pill">
-                    <div>
-                        <strong id="solvedCount">0개</strong>
-                        <span>전송 완료</span>
-                    </div>
-                </div>
-                <div class="stat-pill">
-                    <div>
-                        <strong id="attemptCount">0번</strong>
-                        <span>총 시도</span>
-                    </div>
-                </div>
+                <section id="flowStrip" class="flow-strip" aria-label="활동 단계">
+                    <div id="flowStep1" class="flow-step">자연스러운 말 고르기</div>
+                    <div id="flowStep2" class="flow-step">메시지 완성하기</div>
+                    <div id="flowStep3" class="flow-step">전송 완료</div>
+                </section>
             </div>
-            <div class="progress" aria-hidden="true">
-                <div id="progressFill" class="progress-fill"></div>
-            </div>
-        </section>
-
-        <section id="flowStrip" class="flow-strip" aria-label="활동 단계">
-            <div id="flowStep1" class="flow-step">자연스러운 말 고르기</div>
-            <div id="flowStep2" class="flow-step">메시지 완성하기</div>
-            <div id="flowStep3" class="flow-step">전송 완료</div>
         </section>
 
         <section id="missionStage">
@@ -1389,39 +1478,41 @@
                 </aside>
             </div>
 
-            <section id="choiceSection" class="panel task-panel">
-                <div class="section-bar">
-                    <h3>자연스러운 말</h3>
-                    <span id="choiceStatus" class="task-badge">Step 1</span>
-                </div>
-                <div id="choiceGrid" class="choice-grid"></div>
-                <div id="choiceFeedback" class="feedback-box hidden" aria-live="polite"></div>
-            </section>
+            <div class="activity-grid">
+                <section id="choiceSection" class="panel task-panel">
+                    <div class="section-bar">
+                        <h3>자연스러운 말</h3>
+                        <span id="choiceStatus" class="task-badge">Step 1</span>
+                    </div>
+                    <div id="choiceGrid" class="choice-grid"></div>
+                    <div id="choiceFeedback" class="feedback-box hidden" aria-live="polite"></div>
+                </section>
 
-            <section id="builderSection" class="panel task-panel">
-                <div class="section-bar">
-                    <h3>문장 완성</h3>
-                    <span id="builderStatus" class="task-badge">대기</span>
-                </div>
-                <div id="sentencePreview" class="sentence-preview"></div>
-                <div id="chunkBank" class="chunk-bank"></div>
-                <div class="section-actions">
-                    <button id="checkSentenceBtn" class="primary-btn" type="button" disabled>메시지 확인</button>
-                    <button id="resetSentenceBtn" class="ghost-btn" type="button">다시 조합</button>
-                </div>
-                <div id="builderFeedback" class="feedback-box hidden" aria-live="polite"></div>
-            </section>
+                <section id="builderSection" class="panel task-panel">
+                    <div class="section-bar">
+                        <h3>문장 완성</h3>
+                        <span id="builderStatus" class="task-badge">대기</span>
+                    </div>
+                    <div id="sentencePreview" class="sentence-preview"></div>
+                    <div id="chunkBank" class="chunk-bank"></div>
+                    <div class="section-actions">
+                        <button id="checkSentenceBtn" class="primary-btn" type="button" disabled>메시지 확인</button>
+                        <button id="resetSentenceBtn" class="ghost-btn" type="button">다시 조합</button>
+                    </div>
+                    <div id="builderFeedback" class="feedback-box hidden" aria-live="polite"></div>
+                </section>
 
-            <section id="resultCard" class="panel result-card hidden">
-                <div class="result-top">
-                    <span class="result-badge">전송 완료</span>
-                    <button id="nextMissionBtn" class="primary-btn" type="button">다음 미션</button>
-                </div>
-                <p class="result-sentence-label">완성 메시지</p>
-                <p id="resultSentence" class="result-sentence"></p>
-                <p id="resultSentenceVi" class="result-vi vi-text"></p>
-                <p id="resultTip" class="result-tip"></p>
-            </section>
+                <section id="resultCard" class="panel result-card hidden">
+                    <div class="result-top">
+                        <span class="result-badge">전송 완료</span>
+                        <button id="nextMissionBtn" class="primary-btn" type="button">다음 미션</button>
+                    </div>
+                    <p class="result-sentence-label">완성 메시지</p>
+                    <p id="resultSentence" class="result-sentence"></p>
+                    <p id="resultSentenceVi" class="result-vi vi-text"></p>
+                    <p id="resultTip" class="result-tip"></p>
+                </section>
+            </div>
         </section>
 
         <section id="summarySection" class="panel summary hidden">
