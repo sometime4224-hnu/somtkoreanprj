@@ -3,7 +3,9 @@ const { test, expect } = require('@playwright/test');
 const writingCutPages = [
   '/c10/writing-cut.html',
   '/c11/writing-cut.html',
-  '/c12/writing-cut.html'
+  '/c12/writing-cut.html',
+  '/c14/writing-cut.html',
+  '/c15/writing-cut.html'
 ];
 
 async function blockExternalRequests(page) {

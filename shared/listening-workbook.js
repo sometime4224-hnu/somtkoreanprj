@@ -2370,14 +2370,15 @@
     }
 
     function buildLessonVisual(lesson) {
-        if (!lesson.activityImage || !lesson.activityImage.src) return "";
+        if (!lesson.activityImage) return "";
 
+        const imageSrc = lesson.activityImage.src || "";
         const caption = getLocalizedField(lesson.activityImage, "caption", "");
         const pendingLabel = getLocalizedField(lesson.activityImage, "pendingLabel", "이미지를 준비 중입니다.");
         const pendingHint = getLocalizedField(lesson.activityImage, "pendingHint", "이미지 파일을 추가하면 이 영역에 자동으로 표시됩니다.");
         return `
-            <figure class="lw-lesson-visual" data-image-status="ready">
-                <img src="${escapeHtml(lesson.activityImage.src)}" alt="${escapeHtml(getLocalizedField(lesson.activityImage, "alt", lesson.title || "학습 그림"))}" loading="lazy" decoding="async" onerror="const figure=this.closest('.lw-lesson-visual'); if(figure){figure.setAttribute('data-image-status','missing');} this.remove();">
+            <figure class="lw-lesson-visual" data-image-status="${imageSrc ? "ready" : "missing"}">
+                ${imageSrc ? `<img src="${escapeHtml(imageSrc)}" alt="${escapeHtml(getLocalizedField(lesson.activityImage, "alt", lesson.title || "학습 그림"))}" loading="lazy" decoding="async" onerror="const figure=this.closest('.lw-lesson-visual'); if(figure){figure.setAttribute('data-image-status','missing');} this.remove();">` : ""}
                 <div class="lw-lesson-visual-placeholder" aria-live="polite">
                     <strong>${escapeHtml(pendingLabel)}</strong>
                     <span>${escapeHtml(pendingHint)}</span>
