@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>15과 읽기 컷툰 | 돈을 아끼는 방법</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7f1;
+      --paper: #fffdf7;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #d8ded1;
+      --accent: #0f766e;
+      --accent-soft: #dff7f1;
+      --gold: #f59e0b;
+      --shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans KR", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(120deg, rgba(245, 158, 11, 0.12), transparent 34%),
+        linear-gradient(300deg, rgba(15, 118, 110, 0.12), transparent 38%),
+        var(--bg);
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(216, 222, 209, 0.9);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar a {
+      color: #0f766e;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .topbar span {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 24px auto 48px;
+    }
+
+    .hero {
+      margin-bottom: 18px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 253, 247, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    .badge {
+      display: inline-flex;
+      width: max-content;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.12;
+      word-break: keep-all;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #475569;
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+
+    .sheet-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .sheet-card,
+    .sentence-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .sheet-card h2,
+    .sentence-card h2 {
+      margin: 0;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      font-size: 1.15rem;
+    }
+
+    .sheet-card img {
+      width: 100%;
+      background: white;
+    }
+
+    .sentence-card {
+      margin-top: 18px;
+      padding-bottom: 8px;
+    }
+
+    .sentence-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 16px 20px;
+      list-style: none;
+      counter-reset: sentence;
+    }
+
+    .sentence-list li {
+      counter-increment: sentence;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 12px 14px;
+      border: 1px solid #e4e8de;
+      border-radius: 16px;
+      background: #fffdf8;
+      line-height: 1.65;
+    }
+
+    .sentence-list li::before {
+      content: counter(sentence);
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: white;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 20px, 1180px);
+        margin-top: 14px;
+      }
+
+      .hero,
+      .sheet-card,
+      .sentence-card {
+        border-radius: 20px;
+      }
+
+      .hero {
+        padding: 18px;
+      }
+
+      .topbar {
+        padding: 10px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a href="./index.html">15과 홈</a>
+    <a href="./writing-cut.html">컷 쓰기</a>
+    <span>읽기 컷툰</span>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <span class="badge">15과 읽고 쓰기</span>
+      <h1>돈을 아끼는 방법</h1>
+      <p>읽기 지문을 1문장 1컷으로 나누어 만든 컷툰 초안입니다. 이후 컷쓰기 활동에서는 개별 컷 이미지를 문장 선택, 어휘 넣기, 순서 배열 단계에 연결할 수 있습니다.</p>
+    </section>
+
+    <section class="sheet-stack" aria-label="15과 읽기 컷툰 시트">
+      <article class="sheet-card">
+        <h2>컷 1-7</h2>
+        <img src="../assets/c15/reading-writing/images/cuttoon/c15-reading-cuttoon-sheet-1.webp" alt="15과 읽기 컷툰 1쪽, 컷 1부터 7까지">
+      </article>
+
+      <article class="sheet-card">
+        <h2>컷 8-14</h2>
+        <img src="../assets/c15/reading-writing/images/cuttoon/c15-reading-cuttoon-sheet-2.webp" alt="15과 읽기 컷툰 2쪽, 컷 8부터 14까지">
+      </article>
+    </section>
+
+    <section class="sentence-card">
+      <h2>문장 분할</h2>
+      <ol class="sentence-list">
+        <li>부자가 되려면 작은 돈부터 아껴 써야 합니다.</li>
+        <li>'티끌 모아 태산'이라는 말도 있지요?</li>
+        <li>그럼 어떻게 해야 돈을 아낄 수 있을까요?</li>
+        <li>첫째, 영수증을 모으고 가계부를 씁니다.</li>
+        <li>어디에 어떻게 돈을 사용하고 있는지 알아야 돈을 절약할 수 있습니다.</li>
+        <li>둘째, 관리비를 줄이지 않으면 안 됩니다.</li>
+        <li>사용하지 않는 전기 플러그를 뽑아 두고, 설거지할 때에는 물을 계속 틀어 놓지 않습니다.</li>
+        <li>그리고 사람이 없는 방의 불도 끕니다.</li>
+        <li>특히 겨울철에 가족들에게 내복을 입게 하면 난방비를 아낄 수 있습니다.</li>
+        <li>셋째, 알뜰하게 쇼핑합니다.</li>
+        <li>퇴근하는 길에 마트에 들러서 세일하는 식품을 사면 식비를 절약할 수 있습니다.</li>
+        <li>직접 요리해서 먹으면 외식비도 아낄 수 있고 건강에도 좋습니다.</li>
+        <li>돈을 아끼는 방법, 모두가 알고 있는 쉬운 것들이지만 실천하기는 쉽지 않습니다.</li>
+        <li>미리 목표를 정하고 작은 것부터 실천합시다.</li>
+      </ol>
+    </section>
+  </main>
+
+  <script src="../shared/site-copyright.js"></script>
+</body>
+</html>

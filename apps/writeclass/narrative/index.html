@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>그림을 보고 서사 쓰기</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+}
+
+:root {
+  --navy: #1A3D6E;
+  --navy-deep: #0F2340;
+  --navy-soft: #7AAAD8;
+  --orange: #E07B1A;
+  --teal: #0D9488;
+  --white: rgba(255,255,255,.97);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(34, 197, 94, 0.12), transparent 26%),
+    radial-gradient(circle at top right, rgba(224, 123, 26, 0.14), transparent 24%),
+    linear-gradient(180deg, #102746 0%, var(--navy-deep) 100%);
+}
+
+header {
+  flex-shrink: 0;
+  min-height: 56px;
+  background: var(--navy);
+  border-bottom: 3px solid var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 18px;
+}
+
+.h-left {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.h-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.h-sub {
+  font-size: 0.76rem;
+  color: var(--navy-soft);
+  white-space: nowrap;
+}
+
+.h-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.h-divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(255,255,255,.22);
+}
+
+.toggle-group {
+  display: flex;
+  background: rgba(255,255,255,.1);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.tg-btn {
+  padding: 5px 14px;
+  border: none;
+  border-radius: 16px;
+  background: transparent;
+  color: var(--navy-soft);
+  font-size: 0.82rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .18s ease;
+  white-space: nowrap;
+}
+
+.tg-btn.active-ov { background: var(--orange); color: #fff; }
+.tg-btn.active-dt { background: var(--teal); color: #fff; }
+.tg-btn.active-mode { background: #2563EB; color: #fff; }
+
+.quick-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.95);
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all .18s ease;
+}
+
+.quick-link:hover {
+  background: #2563EB;
+  color: #fff;
+}
+
+.tab-bar {
+  flex-shrink: 0;
+  height: 42px;
+  background: #162E54;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 14px;
+  gap: 2px;
+  border-bottom: 2px solid var(--navy-deep);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  background: transparent;
+  color: #4A7AAE;
+  font-size: 0.88rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all .15s ease;
+}
+
+.tab-btn:hover { color: #CAE2FA; }
+.tab-btn.active {
+  color: #fff;
+  background: var(--navy);
+  border-bottom-color: var(--orange);
+}
+
+#slides-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide-panel {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+.slide-panel.active { display: block; }
+
+.photo-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 130px 18px 18px;
+  overflow: hidden;
+}
+
+.stage-shell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artboard {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.artboard img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(100%, 1040px);
+  max-height: 100%;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 18px 40px rgba(0,0,0,.32);
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pin {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 0 3px 12px rgba(0,0,0,.42);
+  position: relative;
+  z-index: 2;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.ov-pin { background: var(--orange); }
+.dt-pin {
+  width: 32px;
+  height: 32px;
+  font-size: 0.74rem;
+  background: var(--teal);
+}
+
+.pin-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  animation: pulse 2s ease-out infinite;
+}
+
+.ov-pulse {
+  width: 38px;
+  height: 38px;
+  background: rgba(224,123,26,.36);
+}
+
+.dt-pulse {
+  width: 32px;
+  height: 32px;
+  background: rgba(13,148,136,.34);
+}
+
+.hotspot:hover .pin { transform: scale(1.16); }
+
+.hotspot.active .pin {
+  transform: scale(1.28);
+  box-shadow: 0 0 0 6px rgba(255,255,255,.18), 0 4px 18px rgba(0,0,0,.45);
+}
+
+.hotspot.active .pin-pulse {
+  animation: none;
+  opacity: 0;
+}
+
+.pin-label {
+  margin-top: 5px;
+  padding: 2px 8px;
+  border-radius: 9px;
+  background: rgba(13,148,136,.94);
+  color: #fff;
+  font-size: 0.69rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0,0,0,.22);
+}
+
+.bubble {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: min(940px, calc(100% - 38px));
+  transform: translate(-50%, -14px);
+  background: var(--white);
+  border: 3px solid var(--navy);
+  border-radius: 18px;
+  padding: 16px 24px 14px;
+  box-shadow: 0 12px 36px rgba(0,0,0,.38);
+  opacity: 0;
+  transition: opacity .22s ease, transform .22s ease;
+  pointer-events: none;
+  z-index: 50;
+  --tail-x: 50%;
+  --tail-color: var(--navy);
+}
+
+.bubble.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -24px;
+  left: var(--tail-x);
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 24px solid var(--tail-color);
+}
+
+.bubble::before {
+  content: "";
+  position: absolute;
+  bottom: -17px;
+  left: var(--tail-x);
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 18px solid var(--white);
+  z-index: 1;
+}
+
+.b-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: .2px;
+  margin-bottom: 8px;
+}
+
+.b-label.dt { color: var(--teal); }
+
+.b-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.b-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 1.22rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #1A2535;
+}
+
+.blt {
+  color: var(--orange);
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-size: 1rem;
+}
+
+.blt.dt { color: var(--teal); }
+
+.b-footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #E7EEF8;
+  display: flex;
+  align-items: center;
+}
+
+.b-to-detail-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--teal);
+  color: #fff;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.b-reveal-btn,
+.b-retry-btn {
+  margin-top: 10px;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.b-reveal-btn {
+  border: none;
+  background: var(--navy);
+  color: #fff;
+}
+
+.b-retry-btn {
+  border: 2px solid var(--navy);
+  background: transparent;
+  color: var(--navy);
+}
+
+.b-prompt {
+  font-size: 1.08rem;
+  color: #52667C;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.b-prompt strong { color: var(--navy); }
+
+.b-answer-head {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  letter-spacing: .4px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: .8; }
+  100% { transform: scale(2.3); opacity: 0; }
+}
+
+@media (max-width: 1100px) {
+  header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 12px 14px;
+  }
+
+  .h-left,
+  .h-right {
+    width: 100%;
+  }
+
+  .h-right { justify-content: flex-start; }
+
+  .photo-wrap { padding-top: 170px; }
+
+  .bubble { width: calc(100% - 28px); }
+  .b-list li { font-size: 1.05rem; }
+}
+
+@media (max-width: 720px) {
+  .h-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .h-sub { white-space: normal; }
+  .h-divider { display: none; }
+
+  .tab-bar {
+    height: auto;
+    padding: 6px 10px 0;
+  }
+
+  .tab-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .photo-wrap {
+    padding: 196px 10px 10px;
+  }
+
+  .artboard img {
+    max-width: 100%;
+    border-radius: 18px;
+  }
+
+  .bubble {
+    top: 10px;
+    padding: 14px 16px 12px;
+  }
+
+  .b-list li {
+    font-size: 0.93rem;
+    gap: 8px;
+  }
+
+  .pin-label {
+    font-size: 0.62rem;
+    padding: 2px 6px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+  <div class="h-left">
+    <span class="h-title">그림을 보고 서사 쓰기</span>
+    <span class="h-sub">쓰기 클래스 11과 | 사건 흐름과 서사 문형 지도</span>
+  </div>
+  <div class="h-right">
+    <div class="toggle-group">
+      <button class="tg-btn active-ov" id="btn-ov" onclick="setStage('overview')">이야기 흐름</button>
+      <button class="tg-btn" id="btn-dt" onclick="setStage('detail')">문형 지도</button>
+    </div>
+    <div class="h-divider"></div>
+    <div class="toggle-group">
+      <button class="tg-btn active-mode" id="btn-view" onclick="setMode('view')">바로 보기</button>
+      <button class="tg-btn" id="btn-practice" onclick="setMode('practice')">연습 모드</button>
+    </div>
+    <div class="h-divider"></div>
+    <a class="quick-link" href="student-practice/index.html">학생 연습</a>
+  </div>
+</header>
+
+<div class="tab-bar" id="tab-bar"></div>
+<div id="slides-wrap"></div>
+
+</div>
+
+<script>
+const NUMS = ["1", "2", "3", "4", "5", "6", "7", "8"];
+
+const SLIDES = [
+  {
+    title: "버스 이야기",
+    image: "story_bus.webp",
+    alt: "버스를 잘못 탄 이야기",
+    overview: [
+      {
+        label: "1. 시작",
+        x: 22,
+        y: 23,
+        s: [
+          "아침 8시 45분에 늦게 일어났습니다.",
+          "그래서 급하게 준비하고 집을 나갔습니다.",
+          "이 장면에서 이야기의 시작과 첫 행동을 제시합니다."
+        ]
+      },
+      {
+        label: "2. 급한 행동",
+        x: 77,
+        y: 24,
+        s: [
+          "버스가 떠나려고 하고 있었습니다.",
+          "학생은 뛰어가서 급히 버스를 탔습니다.",
+          "문제의 원인이 되는 행동이 여기서 나옵니다."
+        ]
+      },
+      {
+        label: "3. 문제 인식",
+        x: 22,
+        y: 75,
+        s: [
+          "잠시 후 창문 밖을 봤는데 길이 이상했습니다.",
+          "그때 뭔가 잘못되었다는 것을 느꼈습니다.",
+          "이 장면에서 이야기의 문제가 드러납니다."
+        ]
+      },
+      {
+        label: "4. 결과",
+        x: 77,
+        y: 76,
+        s: [
+          "알고 보니 110번 버스를 탄 것이었습니다.",
+          "원래 타려던 버스는 101번이었습니다.",
+          "너무 당황해서 다음 정류장에서 내렸습니다."
+        ]
+      }
+    ],
+    detail: [
+      {
+        label: "시작 문형",
+        x: 22,
+        y: 23,
+        s: [
+          "시간 표현: 아침 8시 45분에",
+          "연결 표현: 늦게 일어나서 급하게 준비했어요.",
+          "서사의 시작에서는 배경과 첫 행동을 함께 말합니다."
+        ]
+      },
+      {
+        label: "행동 연결",
+        x: 77,
+        y: 24,
+        s: [
+          "진행 직전: 버스가 떠나려고 하고 있었어요.",
+          "연속 동작: 뛰어가서 버스를 탔어요.",
+          "급한 상황은 -려고 하고 있다, -아서/어서로 연결합니다."
+        ]
+      },
+      {
+        label: "문제 인식",
+        x: 22,
+        y: 75,
+        s: [
+          "순서 표현: 잠시 후",
+          "발견 표현: 창문 밖을 봤는데 길이 이상했어요.",
+          "문제 인식은 -는데를 써서 자연스럽게 보여 줍니다."
+        ]
+      },
+      {
+        label: "결과와 반응",
+        x: 77,
+        y: 76,
+        s: [
+          "반전 표현: 알고 보니",
+          "비교 표현: 원래 타려던 버스는 101번이었어요.",
+          "감정과 결과는 너무 당황해서 내렸어요처럼 씁니다."
+        ]
+      }
+    ]
+  },
+  {
+    title: "지홍이 이야기",
+    image: "story_jihong.webp",
+    alt: "점퍼를 잃어버렸다가 찾은 이야기",
+    overview: [
+      {
+        label: "1. 배경",
+        x: 49,
+        y: 12,
+        s: [
+          "어머니가 새 점퍼를 사 주셨습니다.",
+          "지홍이는 새 점퍼가 아주 마음에 들었습니다.",
+          "이 장면은 이야기의 배경과 중요한 물건을 소개합니다."
+        ]
+      },
+      {
+        label: "2. 사건 발생",
+        x: 49,
+        y: 35,
+        s: [
+          "다음 날 축구를 하다가 점퍼를 벤치에 벗어 놓았습니다.",
+          "잠시 후 돌아와 보니 점퍼가 없었습니다.",
+          "이 장면에서 문제가 생깁니다."
+        ]
+      },
+      {
+        label: "3. 반응",
+        x: 49,
+        y: 59,
+        s: [
+          "지홍이는 교실과 복도를 찾아봤지만 찾지 못했습니다.",
+          "너무 속상해서 결국 울었습니다.",
+          "문제 뒤의 행동과 감정 반응을 보여 주는 장면입니다."
+        ]
+      },
+      {
+        label: "4. 해결과 마무리",
+        x: 49,
+        y: 83,
+        s: [
+          "다행히 친구가 점퍼를 찾아 주었습니다.",
+          "그 후 점퍼 안쪽에 이름을 써 놓았습니다.",
+          "해결과 후속 행동으로 이야기를 마무리합니다."
+        ]
+      }
+    ],
+    detail: [
+      {
+        label: "배경 소개",
+        x: 49,
+        y: 12,
+        s: [
+          "수혜 표현: 사 주셨어요",
+          "평가 표현: 마음에 들었어요",
+          "서사의 앞부분에서는 인물과 배경 정보를 먼저 줍니다."
+        ]
+      },
+      {
+        label: "사건 연결",
+        x: 49,
+        y: 35,
+        s: [
+          "시간 표현: 다음 날, 잠시 후",
+          "동작 연결: 축구를 하다가 벗어 놓았어요.",
+          "사건 변화는 -다가, -아/어 놓다로 잇습니다."
+        ]
+      },
+      {
+        label: "반응 표현",
+        x: 49,
+        y: 59,
+        s: [
+          "대조 연결: 찾아봤지만 찾지 못했어요.",
+          "감정 표현: 너무 속상해서 울었어요.",
+          "문제 뒤에는 행동과 감정을 함께 씁니다."
+        ]
+      },
+      {
+        label: "결말 문형",
+        x: 49,
+        y: 83,
+        s: [
+          "해결 표현: 다행히 친구가 찾아 주었어요.",
+          "후속 행동: 그 후 이름을 써 놓았어요.",
+          "서사의 끝에서는 해결과 대비 행동을 정리합니다."
+        ]
+      }
+    ]
+  }
+];
+
+let curSlide = 0;
+let curStage = "overview";
+let curMode = "view";
+let activeHS = null;
+
+init();
+
+function init() {
+  const tabBar = document.getElementById("tab-bar");
+  const wrap = document.getElementById("slides-wrap");
+
+  SLIDES.forEach((slide, s) => {
+    const tab = document.createElement("button");
+    tab.className = "tab-btn" + (s === 0 ? " active" : "");
+    tab.textContent = slide.title;
+    tab.onclick = () => showSlide(s);
+    tabBar.appendChild(tab);
+
+    const panel = document.createElement("div");
+    panel.className = "slide-panel" + (s === 0 ? " active" : "");
+    panel.id = "slide-" + s;
+
+    const overviewPins = slide.overview.map((hs, i) => `
+      <div class="hotspot ov-hs" style="left:${hs.x}%;top:${hs.y}%"
+           data-s="${s}" data-i="${i}" data-stage="overview">
+        <div class="pin-pulse ov-pulse"></div>
+        <div class="pin ov-pin">${NUMS[i]}</div>
+      </div>
+    `).join("");
+
+    const detailPins = slide.detail.map((hs, i) => `
+      <div class="hotspot dt-hs" style="left:${hs.x}%;top:${hs.y}%;display:none"
+           data-s="${s}" data-i="${i}" data-stage="detail">
+        <div class="pin-pulse dt-pulse"></div>
+        <div class="pin dt-pin">${NUMS[i]}</div>
+        <div class="pin-label">${hs.label}</div>
+      </div>
+    `).join("");
+
+    panel.innerHTML = `
+      <div class="photo-wrap" id="stage-${s}" onclick="clearSel(${s})">
+        <div class="bubble" id="bubble-${s}">
+          <div class="b-label" id="blbl-${s}"></div>
+          <div id="bcont-${s}"></div>
+        </div>
+        <div class="stage-shell">
+          <div class="artboard" id="art-${s}">
+            <img src="${slide.image}" alt="${slide.alt}" draggable="false">
+            ${overviewPins}
+            ${detailPins}
+          </div>
+        </div>
+      </div>
+    `;
+    wrap.appendChild(panel);
+  });
+
+  document.querySelectorAll(".hotspot").forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const s = Number(el.dataset.s);
+      const i = Number(el.dataset.i);
+      const stage = el.dataset.stage;
+
+      if (activeHS && activeHS.s === s && activeHS.i === i && activeHS.stage === stage) {
+        clearSel(s);
+        return;
+      }
+
+      activate(s, i, stage, el);
+    });
+  });
+}
+
+function showSlide(n) {
+  document.querySelectorAll(".slide-panel").forEach((el, i) => el.classList.toggle("active", i === n));
+  document.querySelectorAll(".tab-btn").forEach((el, i) => el.classList.toggle("active", i === n));
+  curSlide = n;
+  clearSel(n);
+}
+
+function setStage(stage) {
+  curStage = stage;
+  document.getElementById("btn-ov").className = "tg-btn" + (stage === "overview" ? " active-ov" : "");
+  document.getElementById("btn-dt").className = "tg-btn" + (stage === "detail" ? " active-dt" : "");
+
+  document.querySelectorAll(".ov-hs").forEach((el) => { el.style.display = stage === "overview" ? "" : "none"; });
+  document.querySelectorAll(".dt-hs").forEach((el) => { el.style.display = stage === "detail" ? "" : "none"; });
+
+  clearSel(curSlide);
+}
+
+function setMode(mode) {
+  curMode = mode;
+  document.getElementById("btn-view").className = "tg-btn" + (mode === "view" ? " active-mode" : "");
+  document.getElementById("btn-practice").className = "tg-btn" + (mode === "practice" ? " active-mode" : "");
+
+  if (activeHS) {
+    const el = document.querySelector(`[data-s="${activeHS.s}"][data-i="${activeHS.i}"][data-stage="${activeHS.stage}"]`);
+    activate(activeHS.s, activeHS.i, activeHS.stage, el);
+  }
+}
+
+function activate(s, i, stage, el) {
+  document.querySelectorAll(".hotspot").forEach((hs) => hs.classList.remove("active"));
+  if (el) el.classList.add("active");
+
+  activeHS = { s, i, stage };
+  const data = stage === "overview" ? SLIDES[s].overview[i] : SLIDES[s].detail[i];
+  const bubble = document.getElementById("bubble-" + s);
+  const lbl = document.getElementById("blbl-" + s);
+
+  const stageRect = document.getElementById("stage-" + s).getBoundingClientRect();
+  const pinRect = el.getBoundingClientRect();
+  const tailPct = ((pinRect.left + pinRect.width / 2) - stageRect.left) / stageRect.width * 100;
+
+  bubble.style.setProperty("--tail-x", `${Math.max(8, Math.min(92, tailPct))}%`);
+  bubble.style.setProperty("--tail-color", stage === "detail" ? "var(--teal)" : "var(--navy)");
+  bubble.style.borderColor = stage === "detail" ? "var(--teal)" : "var(--navy)";
+
+  lbl.textContent = data.label;
+  lbl.className = "b-label" + (stage === "detail" ? " dt" : "");
+
+  if (curMode === "view") renderView(s, data, stage);
+  else renderPractice(s, data, stage);
+
+  bubble.classList.add("show");
+}
+
+function renderView(s, data, stage) {
+  const bltClass = stage === "detail" ? "blt dt" : "blt";
+  const items = data.s.map((sentence) => `
+    <li><span class="${bltClass}">●</span><span>${sentence}</span></li>
+  `).join("");
+
+  const footer = stage === "overview"
+    ? `<div class="b-footer"><button class="b-to-detail-btn" onclick="setStage('detail')">문형 보기</button></div>`
+    : "";
+
+  document.getElementById("bcont-" + s).innerHTML = `<ul class="b-list">${items}</ul>${footer}`;
+}
+
+function renderPractice(s, data, stage) {
+  document.getElementById("bcont-" + s).innerHTML = `
+    <p class="b-prompt"><strong>${data.label}</strong> 장면을 보고 서사 문장으로 말해 보세요.</p>
+    <button class="b-reveal-btn" onclick="revealPractice(${s})">예문 보기</button>
+  `;
+}
+
+function revealPractice(s) {
+  if (!activeHS) return;
+  const { i, stage } = activeHS;
+  const data = stage === "overview" ? SLIDES[s].overview[i] : SLIDES[s].detail[i];
+  const bltClass = stage === "detail" ? "blt dt" : "blt";
+  const items = data.s.map((sentence) => `
+    <li><span class="${bltClass}">●</span><span>${sentence}</span></li>
+  `).join("");
+
+  const footer = stage === "overview"
+    ? `<div class="b-footer"><button class="b-to-detail-btn" onclick="setStage('detail')">문형 보기</button></div>`
+    : "";
+
+  document.getElementById("bcont-" + s).innerHTML = `
+    <div class="b-answer-head">예시 답안</div>
+    <ul class="b-list">${items}</ul>
+    <button class="b-retry-btn" onclick="renderPractice(${s}, SLIDES[${s}].${stage}[${i}], '${stage}')">다시 보기</button>
+    ${footer}
+  `;
+}
+
+function clearSel(s) {
+  document.querySelectorAll(`#slide-${s} .hotspot`).forEach((hs) => hs.classList.remove("active"));
+  const bubble = document.getElementById("bubble-" + s);
+  if (bubble) {
+    bubble.classList.remove("show");
+    bubble.style.borderColor = "var(--navy)";
+    bubble.style.setProperty("--tail-color", "var(--navy)");
+  }
+  activeHS = null;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서사 쓰기 문형 연습</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  background: #EEF4FB;
+  color: #1E2B3C;
+}
+
+:root {
+  --navy: #1A3D6E;
+  --orange: #E07B1A;
+  --teal: #0D9488;
+}
+
+header {
+  background: var(--navy);
+  min-height: 58px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.h-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.h-div {
+  width: 1px;
+  height: 22px;
+  background: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  min-width: 0;
+}
+
+.tab-btn {
+  padding: 4px 14px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  background: transparent;
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.tab-btn.active {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+}
+
+.spacer { flex: 1; }
+
+.legend {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.72);
+  white-space: nowrap;
+}
+
+.leg-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stage-ctrl {
+  display: flex;
+  background: rgba(0,0,0,0.25);
+  border-radius: 18px;
+  padding: 3px;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.stg-btn {
+  padding: 3px 14px;
+  border-radius: 14px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.58);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+
+.stg-btn.active {
+  background: #fff;
+  color: var(--navy);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+
+.ghost-link,
+.toggle-btn {
+  padding: 4px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.ghost-link {
+  border: 1.5px solid rgba(255,255,255,0.34);
+  color: rgba(255,255,255,0.84);
+  text-decoration: none;
+}
+
+.ghost-link:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.toggle-btn {
+  border: 1.5px solid var(--orange);
+  background: var(--orange);
+  color: #fff;
+  cursor: pointer;
+}
+
+.toggle-btn.off {
+  background: transparent;
+  border-color: rgba(255,255,255,0.32);
+  color: rgba(255,255,255,0.55);
+}
+
+.main {
+  flex: 1;
+  padding: 14px 16px;
+  position: relative;
+  overflow: auto;
+  min-height: 0;
+}
+
+#guide-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+.slide {
+  display: none;
+}
+
+.slide.active {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 980px;
+  min-height: 100%;
+}
+
+.panel {
+  flex: 0 0 228px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  z-index: 20;
+}
+
+.panel-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #7AAAD8;
+  letter-spacing: 1.2px;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed #B8D0E8;
+  margin-bottom: 2px;
+}
+
+.expr-card {
+  background: #fff;
+  border-radius: 9px;
+  padding: 9px 12px;
+  border-left: 4px solid #B0BEC5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+  position: relative;
+  user-select: none;
+}
+
+.expr-card:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+  z-index: 1;
+}
+
+.panel-left .expr-card:hover { transform: translateX(3px); }
+.panel-right .expr-card:hover { transform: translateX(-3px); }
+
+.panel-left .expr-card.card-active {
+  transform: translateX(5px) !important;
+  background: #EFF7FF;
+}
+
+.panel-right .expr-card.card-active {
+  transform: translateX(-5px) !important;
+  background: #EFF7FF;
+}
+
+.expr-card.card-active {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.16) !important;
+}
+
+.panel-right .expr-card {
+  border-left: none;
+  border-right: 4px solid #B0BEC5;
+}
+
+.t-flow { border-color: var(--navy) !important; }
+.t-time { border-color: var(--orange) !important; }
+.t-react { border-color: var(--teal) !important; }
+
+.e-tag {
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  opacity: 0.78;
+}
+
+.t-flow .e-tag { color: var(--navy); }
+.t-time .e-tag { color: #BF6010; }
+.t-react .e-tag { color: var(--teal); }
+
+.s1-view { display: block; }
+.s2-view { display: none; }
+body.stage2 .s1-view { display: none; }
+body.stage2 .s2-view { display: block; }
+
+.keys-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.key-chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.t-flow .key-chip {
+  background: rgba(26,61,110,0.09);
+  color: var(--navy);
+}
+
+.t-time .key-chip {
+  background: rgba(224,123,26,0.12);
+  color: #BF6010;
+}
+
+.t-react .key-chip {
+  background: rgba(13,148,136,0.11);
+  color: #0A7A71;
+}
+
+.gram-hint {
+  font-size: 11px;
+  color: #8A9DB5;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.e-text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #1E2B3C;
+  word-break: keep-all;
+}
+
+.panel-left .expr-card::after {
+  content: "";
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #B0BEC5;
+}
+
+.panel-right .expr-card::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #B0BEC5;
+}
+
+.panel-left .t-flow::after,
+.panel-right .t-flow::before { background: var(--navy); }
+
+.panel-left .t-time::after,
+.panel-right .t-time::before { background: var(--orange); }
+
+.panel-left .t-react::after,
+.panel-right .t-react::before { background: var(--teal); }
+
+.photo-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+}
+
+.photo-wrap {
+  position: relative;
+  display: inline-flex;
+  line-height: 0;
+}
+
+.photo-wrap img {
+  display: block;
+  max-height: calc(100vh - 120px);
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.22);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+#coord-hud {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  background: rgba(15,25,40,0.85);
+  color: #7EE8A2;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: "Courier New", monospace;
+  display: none;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@media (max-width: 1160px) {
+  header {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .spacer { display: none; }
+  .legend { width: 100%; }
+}
+
+@media (max-width: 760px) {
+  body { overflow: auto; }
+
+  header {
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .h-div { display: none; }
+  .tab-btn,
+  .stg-btn,
+  .ghost-link,
+  .toggle-btn { font-size: 12px; }
+
+  .main { padding: 10px; }
+  .slide.active { min-width: 900px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="h-title">서사 쓰기 문형 연습</span>
+  <div class="h-div"></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="spacer"></div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#1A3D6E"></div>이야기 흐름</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#E07B1A"></div>순서 표현</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#0D9488"></div>반응·결과</div>
+  </div>
+  <div class="h-div"></div>
+  <div class="stage-ctrl">
+    <button class="stg-btn active" id="stg1-btn" onclick="setStage(1)">1단계 문형</button>
+    <button class="stg-btn" id="stg2-btn" onclick="setStage(2)">2단계 예문</button>
+  </div>
+  <a class="ghost-link" href="../index.html">교사 보기</a>
+  <button class="toggle-btn" id="toggle-btn" onclick="toggleLines()">가이드선 ON</button>
+</header>
+
+<div class="main" id="main">
+  <svg id="guide-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+
+<div id="coord-hud">px: 0.0  py: 0.0</div>
+
+<script>
+const S = { flow: "t-flow", time: "t-time", react: "t-react" };
+const TAG = {
+  "t-flow": "이야기 흐름",
+  "t-time": "순서 표현",
+  "t-react": "반응·결과"
+};
+const CLR = {
+  "t-flow": "#1A3D6E",
+  "t-time": "#E07B1A",
+  "t-react": "#0D9488"
+};
+
+const SLIDES = [
+  {
+    title: "버스 이야기",
+    img: "../story_bus.webp",
+    left: [
+      {
+        text: "아침 8시 45분에 늦게 일어났습니다.",
+        keys: ["아침 8시 45분", "늦게 일어나다"],
+        gram: "시간 표현 + 과거 시제",
+        type: S.time,
+        px: 17,
+        py: 15
+      },
+      {
+        text: "그래서 급하게 준비하고 집을 나갔습니다.",
+        keys: ["그래서", "급하게 준비하다", "집을 나가다"],
+        gram: "사건 연결: -고",
+        type: S.flow,
+        px: 27,
+        py: 29
+      },
+      {
+        text: "버스가 떠나려고 하고 있었습니다.",
+        keys: ["떠나려고 하고 있었다"],
+        gram: "진행 직전 상황",
+        type: S.flow,
+        px: 72,
+        py: 19
+      },
+      {
+        text: "그래서 뛰어가서 버스를 탔습니다.",
+        keys: ["뛰어가서", "버스를 타다"],
+        gram: "연속 동작: -아서/어서",
+        type: S.flow,
+        px: 78,
+        py: 31
+      }
+    ],
+    right: [
+      {
+        text: "잠시 후 창문 밖을 봤는데 길이 이상했습니다.",
+        keys: ["잠시 후", "창문 밖", "-는데"],
+        gram: "순서 표현 + 발견",
+        type: S.time,
+        px: 20,
+        py: 67
+      },
+      {
+        text: "알고 보니 110번 버스를 탄 것이었습니다.",
+        keys: ["알고 보니", "110번 버스"],
+        gram: "뒤늦은 깨달음",
+        type: S.react,
+        px: 77,
+        py: 71
+      },
+      {
+        text: "원래 타려던 버스는 101번이었습니다.",
+        keys: ["원래", "101번 버스"],
+        gram: "비교하며 설명하기",
+        type: S.flow,
+        px: 71,
+        py: 85
+      },
+      {
+        text: "너무 당황해서 다음 정류장에서 내렸습니다.",
+        keys: ["너무 당황해서", "다음 정류장", "내리다"],
+        gram: "감정 + 결과",
+        type: S.react,
+        px: 77,
+        py: 88
+      }
+    ]
+  },
+  {
+    title: "지홍이 이야기",
+    img: "../story_jihong.webp",
+    left: [
+      {
+        text: "어머니가 새 점퍼를 사 주셨습니다.",
+        keys: ["어머니가", "새 점퍼", "사 주시다"],
+        gram: "수혜 표현: -아/어 주다",
+        type: S.flow,
+        px: 22,
+        py: 8
+      },
+      {
+        text: "지홍이는 새 점퍼가 아주 마음에 들었습니다.",
+        keys: ["아주", "마음에 들다"],
+        gram: "평가 표현",
+        type: S.react,
+        px: 76,
+        py: 8
+      },
+      {
+        text: "다음 날 축구를 하다가 점퍼를 벤치에 벗어 놓았습니다.",
+        keys: ["다음 날", "-다가", "벗어 놓다"],
+        gram: "순서 표현 + 동작 연결",
+        type: S.time,
+        px: 23,
+        py: 33
+      },
+      {
+        text: "잠시 후 돌아와 보니 점퍼가 없었습니다.",
+        keys: ["잠시 후", "돌아와 보니", "없었다"],
+        gram: "발견 장면 쓰기",
+        type: S.time,
+        px: 76,
+        py: 33
+      }
+    ],
+    right: [
+      {
+        text: "교실과 복도를 찾아봤지만 찾지 못했습니다.",
+        keys: ["찾아보다", "-지만", "찾지 못하다"],
+        gram: "대조 연결",
+        type: S.flow,
+        px: 23,
+        py: 58
+      },
+      {
+        text: "너무 속상해서 울었습니다.",
+        keys: ["너무 속상해서", "울다"],
+        gram: "감정 + 결과",
+        type: S.react,
+        px: 76,
+        py: 58
+      },
+      {
+        text: "다행히 친구가 점퍼를 찾아 주었습니다.",
+        keys: ["다행히", "친구가", "찾아 주다"],
+        gram: "해결 표현",
+        type: S.react,
+        px: 23,
+        py: 82
+      },
+      {
+        text: "그 후 점퍼 안쪽에 이름을 써 놓았습니다.",
+        keys: ["그 후", "이름을 쓰다", "써 놓다"],
+        gram: "후속 행동 정리",
+        type: S.time,
+        px: 76,
+        py: 82
+      }
+    ]
+  }
+];
+
+let cur = 0;
+let linesOn = true;
+const activeSet = new Set();
+
+init();
+
+function init() {
+  const tabsEl = document.getElementById("tabs");
+  const mainEl = document.getElementById("main");
+
+  SLIDES.forEach((slide, i) => {
+    const tab = document.createElement("button");
+    tab.className = "tab-btn" + (i === 0 ? " active" : "");
+    tab.textContent = slide.title;
+    tab.onclick = () => goSlide(i);
+    tabsEl.appendChild(tab);
+
+    const panel = document.createElement("div");
+    panel.className = "slide" + (i === 0 ? " active" : "");
+    panel.id = "slide-" + i;
+
+    const makeCard = (item, side, idx) => {
+      const chips = item.keys.map((key) => `<span class="key-chip">${key}</span>`).join("");
+      return `
+        <div class="expr-card ${item.type}" id="${side}c-${i}-${idx}" onclick="onCardClick('${side}', ${idx})">
+          <div class="e-tag">${TAG[item.type]}</div>
+          <div class="s1-view">
+            <div class="keys-wrap">${chips}</div>
+            <div class="gram-hint">${item.gram}</div>
+          </div>
+          <div class="s2-view">
+            <div class="e-text">${item.text}</div>
+          </div>
+        </div>
+      `;
+    };
+
+    panel.innerHTML = `
+      <div class="panel panel-left">
+        <div class="panel-label">왼쪽 문형 카드</div>
+        ${slide.left.map((item, idx) => makeCard(item, "l", idx)).join("")}
+      </div>
+      <div class="photo-area">
+        <div class="photo-wrap">
+          <img id="img-${i}" src="${slide.img}" alt="${slide.title}" draggable="false">
+        </div>
+      </div>
+      <div class="panel panel-right">
+        <div class="panel-label">오른쪽 문형 카드</div>
+        ${slide.right.map((item, idx) => makeCard(item, "r", idx)).join("")}
+      </div>
+    `;
+
+    mainEl.appendChild(panel);
+  });
+
+  window.addEventListener("resize", () => {
+    clearTimeout(window._lineResizeTimer);
+    window._lineResizeTimer = setTimeout(() => redrawAll(false), 80);
+  });
+}
+
+function setStage(n) {
+  document.body.classList.toggle("stage2", n === 2);
+  document.getElementById("stg1-btn").classList.toggle("active", n === 1);
+  document.getElementById("stg2-btn").classList.toggle("active", n === 2);
+}
+
+function onCardClick(side, idx) {
+  const key = side + idx;
+  const cardEl = document.getElementById(`${side}c-${cur}-${idx}`);
+
+  if (activeSet.has(key)) {
+    activeSet.delete(key);
+    removeSVGElements(key);
+    if (cardEl) cardEl.classList.remove("card-active");
+    return;
+  }
+
+  activeSet.add(key);
+  if (cardEl) cardEl.classList.add("card-active");
+  if (linesOn) {
+    requestAnimationFrame(() => requestAnimationFrame(() => drawOneLine(side, idx, true)));
+  }
+}
+
+function goSlide(i) {
+  document.querySelectorAll(`#slide-${cur} .expr-card`).forEach((card) => card.classList.remove("card-active"));
+  activeSet.clear();
+  clearSVG();
+
+  document.querySelectorAll(".tab-btn").forEach((tab, idx) => tab.classList.toggle("active", idx === i));
+  document.querySelectorAll(".slide").forEach((slide, idx) => slide.classList.toggle("active", idx === i));
+  cur = i;
+}
+
+function toggleLines() {
+  linesOn = !linesOn;
+  const btn = document.getElementById("toggle-btn");
+  btn.textContent = linesOn ? "가이드선 ON" : "가이드선 OFF";
+  btn.classList.toggle("off", !linesOn);
+  if (linesOn) redrawAll(false);
+  else clearSVG();
+}
+
+function redrawAll(animate = false) {
+  clearSVG();
+  if (!linesOn) return;
+  activeSet.forEach((key) => drawOneLine(key[0], Number(key.slice(1)), animate));
+}
+
+function drawOneLine(side, idx, animate) {
+  const key = side + idx;
+  removeSVGElements(key);
+
+  const svgEl = document.getElementById("guide-svg");
+  const svgRect = svgEl.getBoundingClientRect();
+  if (!svgRect.width) return;
+  svgEl.setAttribute("viewBox", `0 0 ${svgRect.width} ${svgRect.height}`);
+
+  const isLeft = side === "l";
+  const items = isLeft ? SLIDES[cur].left : SLIDES[cur].right;
+  if (idx >= items.length) return;
+  const item = items[idx];
+
+  const cardEl = document.getElementById(`${side}c-${cur}-${idx}`);
+  const imgEl = document.getElementById(`img-${cur}`);
+  if (!cardEl || !imgEl) return;
+
+  const cRect = cardEl.getBoundingClientRect();
+  const iRect = imgEl.getBoundingClientRect();
+  if (!iRect.width) return;
+
+  const x1 = (isLeft ? cRect.right : cRect.left) - svgRect.left;
+  const y1 = (cRect.top + cRect.height / 2) - svgRect.top;
+  const x2 = (iRect.left + item.px / 100 * iRect.width) - svgRect.left;
+  const y2 = (iRect.top + item.py / 100 * iRect.height) - svgRect.top;
+
+  addCurveSVG(svgEl, key, x1, y1, x2, y2, CLR[item.type], isLeft, animate, item, imgEl);
+}
+
+function addCurveSVG(svgEl, key, x1, y1, x2, y2, color, fromLeft, animate, item, imgEl) {
+  const ns = "http://www.w3.org/2000/svg";
+
+  function makeD(ax2, ay2) {
+    const dx = Math.abs(ax2 - x1) * 0.55;
+    const cp1x = fromLeft ? x1 + dx : x1 - dx;
+    const cp2x = fromLeft ? ax2 - dx * 0.35 : ax2 + dx * 0.35;
+    return `M${x1},${y1} C${cp1x},${y1} ${cp2x},${ay2} ${ax2},${ay2}`;
+  }
+
+  const path = document.createElementNS(ns, "path");
+  path.setAttribute("stroke", color);
+  path.setAttribute("stroke-width", "2.5");
+  path.setAttribute("fill", "none");
+  path.setAttribute("opacity", "0.9");
+  path.setAttribute("data-k", key);
+  path.setAttribute("d", makeD(x2, y2));
+
+  if (animate) {
+    svgEl.appendChild(path);
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = `${len} ${len}`;
+    path.style.strokeDashoffset = `${len}`;
+    requestAnimationFrame(() => {
+      path.style.transition = "stroke-dashoffset 0.55s cubic-bezier(0.22, 1, 0.36, 1)";
+      path.style.strokeDashoffset = "0";
+    });
+    setTimeout(() => {
+      path.style.transition = "none";
+      path.style.strokeDasharray = "8 5";
+      path.style.strokeDashoffset = "";
+    }, 650);
+  } else {
+    path.setAttribute("stroke-dasharray", "8 5");
+    svgEl.appendChild(path);
+  }
+
+  const anchor = document.createElementNS(ns, "circle");
+  anchor.setAttribute("cx", x1);
+  anchor.setAttribute("cy", y1);
+  anchor.setAttribute("r", "4");
+  anchor.setAttribute("fill", color);
+  anchor.setAttribute("data-k", key);
+  if (animate) {
+    anchor.style.opacity = "0";
+    setTimeout(() => {
+      anchor.style.transition = "opacity 0.2s";
+      anchor.style.opacity = "1";
+    }, 80);
+  }
+  svgEl.appendChild(anchor);
+
+  const glow = document.createElementNS(ns, "circle");
+  const ring = document.createElementNS(ns, "circle");
+  const center = document.createElementNS(ns, "circle");
+
+  [[glow, 13, color, "0.18"], [ring, 7, color, "0.82"], [center, 2.8, "#fff", "1"]].forEach(([el, r, fill, op]) => {
+    el.setAttribute("cx", x2);
+    el.setAttribute("cy", y2);
+    el.setAttribute("r", r);
+    el.setAttribute("fill", fill);
+    el.setAttribute("data-k", key);
+    if (!animate) {
+      el.setAttribute("opacity", op);
+    } else {
+      el.style.opacity = "0";
+      setTimeout(() => {
+        el.style.transition = "opacity 0.3s";
+        el.style.opacity = op;
+      }, 500);
+    }
+    svgEl.appendChild(el);
+  });
+
+  [glow, ring].forEach((circle) => {
+    circle.style.cursor = "grab";
+    circle.style.pointerEvents = "auto";
+  });
+
+  function startDrag(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    [glow, ring].forEach((circle) => { circle.style.cursor = "grabbing"; });
+    const hud = document.getElementById("coord-hud");
+    hud.style.display = "block";
+
+    function onMove(moveEvent) {
+      const iRect = imgEl.getBoundingClientRect();
+      const sRect = svgEl.getBoundingClientRect();
+      const newPx = Math.max(1, Math.min(99, (moveEvent.clientX - iRect.left) / iRect.width * 100));
+      const newPy = Math.max(1, Math.min(99, (moveEvent.clientY - iRect.top) / iRect.height * 100));
+      item.px = newPx;
+      item.py = newPy;
+      const nx = iRect.left + newPx / 100 * iRect.width - sRect.left;
+      const ny = iRect.top + newPy / 100 * iRect.height - sRect.top;
+      path.setAttribute("d", makeD(nx, ny));
+      [glow, ring, center].forEach((circle) => {
+        circle.setAttribute("cx", nx);
+        circle.setAttribute("cy", ny);
+      });
+      hud.textContent = `px: ${newPx.toFixed(1)}  py: ${newPy.toFixed(1)}`;
+    }
+
+    function onUp() {
+      [glow, ring].forEach((circle) => { circle.style.cursor = "grab"; });
+      document.getElementById("coord-hud").style.display = "none";
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+    }
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  }
+
+  [glow, ring].forEach((circle) => circle.addEventListener("mousedown", startDrag));
+}
+
+function removeSVGElements(key) {
+  document.querySelectorAll(`[data-k="${key}"]`).forEach((el) => el.remove());
+}
+
+function clearSVG() {
+  document.getElementById("guide-svg").innerHTML = "";
+}
+</script>
+</body>
+</html>
