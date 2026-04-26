@@ -1024,7 +1024,7 @@ function markAttentionTargets() {
 
   if (state.currentStep === 0) {
     if (response.step1.selected === null) {
-      setAttentionWave(app.querySelectorAll('[data-action="select-choice"]'));
+      setAttentionWave([app.querySelector('[data-step1-choice-list]')]);
     } else {
       setAttentionWave([app.querySelector('[data-action="check-step1"]')]);
     }
