@@ -556,6 +556,80 @@
       box-shadow: 0 14px 28px rgba(15, 118, 110, 0.18);
     }
 
+    .attention-wave:not(:disabled) {
+      position: relative;
+      isolation: isolate;
+      outline: 3px solid rgba(251, 191, 36, 0.96);
+      outline-offset: 4px;
+      box-shadow:
+        0 0 0 6px rgba(251, 191, 36, 0.3),
+        0 0 36px rgba(249, 115, 22, 0.58),
+        0 18px 36px rgba(15, 118, 110, 0.28);
+      animation: attentionWaveButton 0.86s ease-in-out infinite;
+    }
+
+    .attention-wave:not(:disabled)::before,
+    .attention-wave:not(:disabled)::after {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      z-index: -1;
+      border: 4px solid rgba(249, 115, 22, 0.72);
+      border-radius: inherit;
+      pointer-events: none;
+      animation: attentionWaveRing 1.08s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+    }
+
+    .attention-wave:not(:disabled)::after {
+      inset: -18px;
+      border-color: rgba(14, 165, 233, 0.58);
+      animation-delay: 0.32s;
+    }
+
+    @keyframes attentionWaveButton {
+      0%, 100% {
+        filter: saturate(1.08);
+        box-shadow:
+          0 0 0 6px rgba(251, 191, 36, 0.3),
+          0 0 36px rgba(249, 115, 22, 0.58),
+          0 18px 36px rgba(15, 118, 110, 0.28);
+      }
+      45% {
+        filter: saturate(1.34) brightness(1.04);
+        box-shadow:
+          0 0 0 10px rgba(251, 191, 36, 0.42),
+          0 0 54px rgba(249, 115, 22, 0.72),
+          0 20px 42px rgba(15, 118, 110, 0.34);
+      }
+    }
+
+    @keyframes attentionWaveRing {
+      0% { opacity: 0.95; transform: scale(0.92); }
+      70% { opacity: 0.16; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(1.32); }
+    }
+
+    .floating-image-preview.attention-wave:not(:disabled) {
+      animation-name: attentionWaveFloating;
+    }
+
+    @keyframes attentionWaveFloating {
+      0%, 100% {
+        filter: saturate(1.08);
+        box-shadow:
+          0 0 0 6px rgba(251, 191, 36, 0.3),
+          0 0 36px rgba(249, 115, 22, 0.58),
+          0 18px 36px rgba(15, 118, 110, 0.28);
+      }
+      45% {
+        filter: saturate(1.34) brightness(1.04);
+        box-shadow:
+          0 0 0 10px rgba(251, 191, 36, 0.42),
+          0 0 54px rgba(249, 115, 22, 0.72),
+          0 20px 42px rgba(15, 118, 110, 0.34);
+      }
+    }
+
     button:disabled {
       opacity: 0.45;
       cursor: not-allowed;
@@ -838,6 +912,21 @@
 
       .workspace > .panel:last-child > .actions:last-child {
         margin-top: 160px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .attention-wave:not(:disabled),
+      .attention-wave:not(:disabled)::before,
+      .attention-wave:not(:disabled)::after {
+        animation: none;
+      }
+
+      .attention-wave:not(:disabled) {
+        box-shadow:
+          0 0 0 8px rgba(251, 191, 36, 0.36),
+          0 0 38px rgba(249, 115, 22, 0.54),
+          0 18px 36px rgba(15, 118, 110, 0.24);
       }
     }
   </style>

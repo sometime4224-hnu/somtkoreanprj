@@ -852,6 +852,7 @@ function renderApp() {
   app.innerHTML = `${mainView}${state.passageOpen ? renderPassageModal() : ''}`;
   setupFloatingPreview();
   refreshLiveButtons();
+  markAttentionTargets();
   syncPassageUi();
   saveState();
 }
@@ -991,6 +992,67 @@ function scheduleCheckActionToNextScroll(checkAction) {
     startElement: app.querySelector(`[data-action="${checkAction}"]`),
     endElement: app.querySelector('[data-action="next"]')
   }));
+}
+
+function clearAttentionWaves() {
+  app.querySelectorAll('[data-attention-wave="true"]').forEach((element) => {
+    element.classList.remove('attention-wave');
+    element.removeAttribute('data-attention-wave');
+  });
+}
+
+function setAttentionWave(elements) {
+  [...elements].forEach((element) => {
+    if (!element || element.disabled) return;
+    element.classList.add('attention-wave');
+    element.setAttribute('data-attention-wave', 'true');
+  });
+}
+
+function markAttentionTargets() {
+  clearAttentionWaves();
+  if (state.view !== 'activity' || state.passageOpen) return;
+
+  const response = getCurrentResponse();
+  const stepResponse = getStepResponse(response, state.currentStep);
+  const floatingPreview = app.querySelector('[data-floating-preview]');
+
+  if (stepResponse.checked) {
+    setAttentionWave([app.querySelector('[data-action="next"]'), floatingPreview]);
+    return;
+  }
+
+  if (state.currentStep === 0) {
+    if (response.step1.selected === null) {
+      setAttentionWave(app.querySelectorAll('[data-action="select-choice"]'));
+    } else {
+      setAttentionWave([app.querySelector('[data-action="check-step1"]')]);
+    }
+  } else if (state.currentStep === 1) {
+    const complete = response.step2.placements.every((value) => value !== null);
+    if (complete) {
+      setAttentionWave([app.querySelector('[data-action="check-step2"]')]);
+    } else {
+      setAttentionWave([
+        app.querySelector(`[data-action="activate-slot"][data-slot="${state.activeSlot}"]`)
+      ]);
+      setAttentionWave(app.querySelectorAll('[data-action="use-word"]:not(:disabled)'));
+    }
+  } else if (state.currentStep === 2) {
+    const complete = response.step3.arranged.length === getCurrentCut().orderTokens.length;
+    if (complete) {
+      setAttentionWave([app.querySelector('[data-action="check-step3"]')]);
+    } else {
+      setAttentionWave(app.querySelectorAll('[data-action="pick-order"]:not(:disabled)'));
+    }
+  } else if (state.currentStep === 3) {
+    const complete = !response.step4.inputs.some((value) => !value.trim());
+    if (complete) setAttentionWave([app.querySelector('[data-action="check-step4"]')]);
+  } else if (state.currentStep === 4) {
+    if (response.step5.text.trim()) setAttentionWave([app.querySelector('[data-action="check-step5"]')]);
+  }
+
+  setAttentionWave([floatingPreview]);
 }
 
 function refreshLiveButtons() {
@@ -1257,6 +1319,7 @@ app.addEventListener('input', (event) => {
     updateFullText(target.value);
   }
   refreshLiveButtons();
+  markAttentionTargets();
   saveState();
 });
 
