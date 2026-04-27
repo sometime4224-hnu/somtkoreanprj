@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>15과 문법 1 보조 게임 | -게 하다 개선판</title>
+    <style>
+        :root {
+            --bg: #f6f8fb;
+            --panel: #ffffff;
+            --line: #d7dee8;
+            --text: #172033;
+            --muted: #667085;
+            --blue: #2563eb;
+            --blue-soft: #e5efff;
+            --green: #12805c;
+            --green-soft: #e3f7ee;
+            --amber: #b45309;
+            --amber-soft: #fff2d5;
+            --rose: #be123c;
+            --rose-soft: #ffe6ee;
+            --shadow: 0 12px 32px rgba(23, 32, 51, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .app {
+            width: min(100%, 920px);
+            margin: 0 auto;
+            padding: 10px 10px calc(22px + env(safe-area-inset-bottom));
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 8px 0 10px;
+            background: rgba(246, 248, 251, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .back-link {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .progress {
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 900;
+        }
+
+        .mission {
+            display: grid;
+            gap: 6px;
+            padding: 8px 0 12px;
+        }
+
+        .mission h1 {
+            margin: 0;
+            font-size: 1.55rem;
+            line-height: 1.25;
+            letter-spacing: 0;
+        }
+
+        .mission p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.98rem;
+            font-weight: 800;
+            line-height: 1.4;
+            word-break: keep-all;
+        }
+
+        .stage-shell {
+            position: relative;
+        }
+
+        .stage {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(52px, 76px) minmax(0, 1fr);
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .route-rail {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 190px;
+            border-radius: 8px;
+            border: 1px dashed #cbd5e1;
+            background: rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+        }
+
+        .route-rail::before {
+            content: "";
+            position: absolute;
+            top: 18px;
+            bottom: 18px;
+            left: 50%;
+            width: 2px;
+            background: linear-gradient(180deg, transparent, #94a3b8, transparent);
+            transform: translateX(-50%);
+        }
+
+        .route-arrow {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            border: 2px solid #bfdbfe;
+            background: #ffffff;
+            color: var(--blue);
+            font-size: 1.3rem;
+            font-weight: 900;
+            box-shadow: 0 8px 18px rgba(37, 99, 235, 0.14);
+        }
+
+        .zone {
+            position: relative;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            min-height: 265px;
+            padding: 10px;
+            border: 2px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+            color: inherit;
+            cursor: pointer;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 8px 22px rgba(23, 32, 51, 0.06);
+            touch-action: manipulation;
+            transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+        }
+
+        .zone:hover,
+        .zone.is-hover {
+            border-color: var(--blue);
+            box-shadow: 0 12px 28px rgba(37, 99, 235, 0.14);
+            transform: translateY(-2px);
+        }
+
+        .zone.is-pass {
+            border-color: var(--amber);
+            background: linear-gradient(180deg, #ffffff 0%, var(--amber-soft) 100%);
+        }
+
+        .zone.is-result {
+            border-color: var(--green);
+            background: linear-gradient(180deg, #ffffff 0%, var(--green-soft) 100%);
+            animation: zonePop 0.52s ease both;
+        }
+
+        .zone.is-command {
+            border-color: var(--blue);
+            background: linear-gradient(180deg, #ffffff 0%, var(--blue-soft) 100%);
+        }
+
+        .zone.is-stimulus-host {
+            border-color: #f59e0b;
+            background: linear-gradient(180deg, #ffffff 0%, #fff7ed 100%);
+        }
+
+        .zone.is-stimulus-host .zone__image-wrap {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .zone.is-stimulus-host .zone__role {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .zone.is-stimulus-host .zone__name {
+            color: #92400e;
+        }
+
+        .zone.is-stimulus-host .zone__line {
+            color: #9a3412;
+        }
+
+        .zone__role {
+            justify-self: start;
+            display: inline-flex;
+            align-items: center;
+            min-height: 26px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 0.78rem;
+            font-weight: 900;
+            line-height: 1.15;
+        }
+
+        .zone__image-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 0;
+        }
+
+        .zone img {
+            display: block;
+            width: min(100%, 245px);
+            height: auto;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .zone__stimulus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 32;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            width: min(68%, 150px);
+            min-height: 92px;
+            padding: 12px 14px;
+            border: 1px solid rgba(180, 83, 9, 0.45);
+            border-radius: 8px;
+            background: rgba(255, 247, 237, 0.88);
+            color: #92400e;
+            font-size: 1.05rem;
+            font-weight: 900;
+            line-height: 1.2;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(180, 83, 9, 0.14);
+            backdrop-filter: blur(8px);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+
+        .zone__stimulus.is-visible {
+            display: inline-flex;
+            animation: stimulusPop 0.28s ease both;
+        }
+
+        .zone.is-stimulus-host .zone__stimulus {
+            top: 50px;
+            right: 12px;
+            bottom: 72px;
+            left: 12px;
+            width: auto;
+            min-height: 0;
+            padding: 16px;
+            border-color: rgba(180, 83, 9, 0.32);
+            background: rgba(255, 247, 237, 0.94);
+            font-size: 1.24rem;
+            box-shadow: 0 12px 24px rgba(180, 83, 9, 0.16);
+            transform: none;
+        }
+
+        .zone.is-stimulus-host .zone__stimulus-icon {
+            font-size: 3rem;
+        }
+
+        .zone__stimulus-icon {
+            font-size: 2rem;
+            line-height: 1;
+        }
+
+        .zone__name {
+            display: block;
+            color: var(--text);
+            font-size: 1.35rem;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .zone__line {
+            display: block;
+            min-height: 22px;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 0.86rem;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .other-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 7px;
+            margin: 8px 0 0;
+        }
+
+        .other-tab {
+            appearance: none;
+            min-height: 40px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .other-tab[aria-pressed="true"] {
+            border-color: var(--blue);
+            background: var(--blue);
+            color: #ffffff;
+        }
+
+        .popup-layer {
+            pointer-events: none;
+            position: absolute;
+            top: 8px;
+            left: 0;
+            right: 0;
+            z-index: 25;
+            display: flex;
+            justify-content: center;
+            padding: 0 6px;
+            transform: none;
+        }
+
+        .result-popup {
+            pointer-events: none;
+            width: min(100%, 820px);
+            border: 1px solid rgba(37, 99, 235, 0.34);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.72);
+            box-shadow: none;
+            backdrop-filter: blur(8px);
+            transform: translateY(-8px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+        }
+
+        .result-popup.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .result-popup__sentence {
+            margin: 0;
+            padding: 12px 18px;
+            color: var(--text);
+            font-size: clamp(1.45rem, 4.8vw, 2.3rem);
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: 0;
+            text-align: center;
+            word-break: keep-all;
+        }
+
+        .composer {
+            position: sticky;
+            bottom: 0;
+            z-index: 30;
+            display: grid;
+            gap: 9px;
+            margin-top: 10px;
+            padding: 9px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 -6px 24px rgba(23, 32, 51, 0.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .sentence-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 62px;
+            padding: 10px 12px;
+            border: 2px solid #93c5fd;
+            border-radius: 8px;
+            background: var(--blue-soft);
+            color: var(--blue);
+            font-size: 1.35rem;
+            font-weight: 900;
+            line-height: 1.3;
+            text-align: center;
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .sentence-card:active,
+        .sentence-card.is-dragging {
+            cursor: grabbing;
+        }
+
+        .sentence-card__icon {
+            flex: 0 0 auto;
+            font-size: 1.55rem;
+            line-height: 1;
+        }
+
+        .sentence-card__icon.is-hidden {
+            display: none;
+        }
+
+        .sentence-card__text {
+            min-width: 0;
+            word-break: keep-all;
+        }
+
+        .token-row {
+            display: flex;
+            gap: 7px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .token-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .token-row.is-muted {
+            opacity: 0.45;
+        }
+
+        .token {
+            flex: 0 0 auto;
+            appearance: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-width: 76px;
+            min-height: 70px;
+            padding: 9px 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .token.is-selected {
+            border-color: #60a5fa;
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .token.is-stimulus-option {
+            border-color: #f59e0b;
+            background: #fff7ed;
+            color: #92400e;
+        }
+
+        .token.is-stimulus-option.is-selected {
+            border-color: #d97706;
+            background: #f59e0b;
+            color: #ffffff;
+        }
+
+        .token.is-unavailable {
+            opacity: 0.34;
+            background: #f8fafc;
+            color: #94a3b8;
+        }
+
+        .token__icon {
+            display: block;
+            font-size: 1.35rem;
+            line-height: 1;
+        }
+
+        .token__text {
+            display: block;
+            line-height: 1.15;
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .tense-toggle {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .tense-btn {
+            appearance: none;
+            min-height: 42px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .tense-btn[aria-pressed="true"] {
+            border-color: var(--green);
+            background: var(--green);
+            color: #ffffff;
+        }
+
+        .control-btn {
+            appearance: none;
+            min-height: 42px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .control-btn.primary {
+            border-color: var(--blue);
+            background: var(--blue);
+            color: #ffffff;
+        }
+
+        .drag-ghost {
+            position: fixed;
+            z-index: 120;
+            left: 0;
+            top: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            max-width: min(78vw, 460px);
+            min-height: 56px;
+            padding: 10px 14px;
+            border: 1px solid rgba(37, 99, 235, 0.48);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.82);
+            color: var(--blue);
+            font-size: 1.12rem;
+            font-weight: 900;
+            line-height: 1.25;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+
+        .drag-ghost__icon {
+            font-size: 1.35rem;
+            line-height: 1;
+        }
+
+        .finger-cue,
+        .command-beam {
+            position: fixed;
+            z-index: 18;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.12s ease;
+        }
+
+        .finger-cue {
+            width: 48px;
+            height: 48px;
+            transform: translate(-50%, -50%) rotate(var(--hand-rotation, 90deg));
+            font-size: 2.1rem;
+            line-height: 48px;
+            text-align: center;
+            filter: drop-shadow(0 10px 14px rgba(37, 99, 235, 0.24));
+        }
+
+        .command-beam {
+            height: 6px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0), rgba(37, 99, 235, 0.85), rgba(18, 128, 92, 0.85));
+            transform-origin: left center;
+        }
+
+        .command-beam.is-active {
+            height: 8px;
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.12), rgba(37, 99, 235, 0.95), rgba(18, 128, 92, 0.95));
+            animation: commandPulse 0.82s ease-in-out both;
+        }
+
+        .finger-cue.is-active {
+            animation: fingerPulse 0.82s ease-in-out both;
+        }
+
+        .finger-cue.is-visible,
+        .command-beam.is-visible {
+            opacity: 1;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        @keyframes zonePop {
+            0% { transform: translateY(0) scale(1); }
+            42% { transform: translateY(-5px) scale(1.02); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        @keyframes stimulusPop {
+            0% { transform: translateY(4px) scale(0.94); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes commandPulse {
+            0% { filter: brightness(1); }
+            40% { filter: brightness(1.35); }
+            100% { filter: brightness(1); }
+        }
+
+        @keyframes fingerPulse {
+            0% { transform: translate(-50%, -50%) rotate(var(--hand-rotation, 90deg)) scale(0.88); }
+            42% { transform: translate(-50%, -50%) rotate(var(--hand-rotation, 90deg)) scale(1.2); }
+            100% { transform: translate(-50%, -50%) rotate(var(--hand-rotation, 90deg)) scale(1); }
+        }
+
+        @media (max-width: 720px) {
+            .app {
+                padding-inline: 8px;
+            }
+
+            .mission h1 {
+                font-size: 1.28rem;
+            }
+
+            .mission p {
+                font-size: 0.92rem;
+            }
+
+            .stage {
+                grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+                gap: 6px;
+            }
+
+            .route-rail {
+                min-height: 170px;
+            }
+
+            .route-arrow {
+                width: 32px;
+                height: 32px;
+                font-size: 1.05rem;
+            }
+
+            .zone {
+                min-height: 214px;
+                padding: 8px 6px;
+            }
+
+            .zone img {
+                width: min(100%, 170px);
+            }
+
+            .zone__role {
+                font-size: 0.7rem;
+                padding-inline: 6px;
+            }
+
+            .zone__name {
+                font-size: 1.05rem;
+            }
+
+            .zone__line {
+                font-size: 0.73rem;
+            }
+
+            .result-popup__sentence {
+                font-size: 1.45rem;
+            }
+
+            .sentence-card {
+                min-height: 58px;
+                font-size: 1.08rem;
+            }
+
+            .token {
+                min-width: 68px;
+                min-height: 64px;
+                font-size: 0.82rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .stage {
+                grid-template-columns: minmax(0, 1fr) 32px minmax(0, 1fr);
+            }
+
+            .route-arrow {
+                width: 28px;
+                height: 28px;
+                font-size: 0.95rem;
+            }
+
+            .zone {
+                min-height: 190px;
+            }
+
+            .zone img {
+                width: min(100%, 145px);
+            }
+
+            .other-tabs,
+            .tense-toggle,
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <main class="app">
+        <div class="topbar">
+            <a class="back-link" href="grammar1.html">문법 1로</a>
+            <div class="progress" id="progressText">-게 하다 개선판</div>
+        </div>
+
+        <section class="mission" aria-labelledby="pageTitle">
+            <h1 id="pageTitle">누가 하게 할까요?</h1>
+            <p id="statusText">명사와 동사를 고른 뒤 문장 카드를 옮겨 보세요.</p>
+        </section>
+
+        <section class="stage-shell" aria-label="문장 이동 무대">
+            <div class="stage" id="stageBoard">
+                <button class="zone zone--self" type="button" id="selfZone" data-drop-zone="self" aria-label="나">
+                    <span class="zone__role" id="selfRole">지시자</span>
+                    <span class="zone__image-wrap">
+                        <img
+                            id="selfImage"
+                            src="../assets/c15/grammar/images/ge-hada-cast/self_main_01.webp"
+                            alt="나 캐릭터"
+                            width="1012"
+                            height="1012"
+                        />
+                    </span>
+                    <span class="zone__stimulus" id="selfStimulus" aria-hidden="true"></span>
+                    <span>
+                        <span class="zone__name" id="selfName">나</span>
+                        <span class="zone__line" id="selfLine">내가 직접 해요</span>
+                    </span>
+                </button>
+
+                <div class="route-rail" aria-hidden="true">
+                    <span class="route-arrow">→</span>
+                </div>
+
+                <button class="zone zone--other" type="button" id="otherZone" data-drop-zone="other" aria-label="친구">
+                    <span class="zone__role" id="otherRole">행위자</span>
+                    <span class="zone__image-wrap">
+                        <img
+                            id="otherImage"
+                            src="../assets/c15/grammar/images/ge-hada-cast/friend_female_01.webp"
+                            alt="친구 캐릭터"
+                            width="1012"
+                            height="1012"
+                        />
+                    </span>
+                    <span class="zone__stimulus" id="otherStimulus" aria-hidden="true"></span>
+                    <span>
+                        <span class="zone__name" id="otherName">친구</span>
+                        <span class="zone__line" id="otherLine">친구가 직접 해요</span>
+                    </span>
+                </button>
+            </div>
+
+            <div class="popup-layer" aria-live="polite">
+                <section class="result-popup" id="resultPopup" aria-label="완성 문장">
+                    <p class="result-popup__sentence" id="resultSentence">내가 케이크를 먹어요.</p>
+                </section>
+            </div>
+        </section>
+
+        <div class="other-tabs" role="group" aria-label="타인 선택">
+            <button class="other-tab" type="button" data-other="friend" aria-pressed="true">친구</button>
+            <button class="other-tab" type="button" data-other="sibling" aria-pressed="false">동생</button>
+            <button class="other-tab" type="button" data-other="staff" aria-pressed="false">부하직원</button>
+        </div>
+
+        <section class="composer" aria-label="문장 만들기">
+            <div class="sentence-card" id="sentenceCard" role="button" tabindex="0" aria-label="문장 카드">
+                <span class="sentence-card__icon" id="nounIcon" aria-hidden="true">🍰</span>
+                <span class="sentence-card__text" id="sentenceText">케이크를 먹다</span>
+                <span class="sentence-card__icon" id="verbIcon" aria-hidden="true">🍽️</span>
+            </div>
+
+            <div class="token-row" id="nounRow">
+                <button class="token is-selected" type="button" data-kind="noun" data-value="케이크" data-particle="를" data-icon="🍰"><span class="token__icon" aria-hidden="true">🍰</span><span class="token__text">케이크</span></button>
+                <button class="token" type="button" data-kind="noun" data-value="빵" data-particle="을" data-icon="🥖"><span class="token__icon" aria-hidden="true">🥖</span><span class="token__text">빵</span></button>
+                <button class="token" type="button" data-kind="noun" data-value="밥" data-particle="을" data-icon="🍚"><span class="token__icon" aria-hidden="true">🍚</span><span class="token__text">밥</span></button>
+                <button class="token" type="button" data-kind="noun" data-value="물" data-particle="을" data-icon="💧"><span class="token__icon" aria-hidden="true">💧</span><span class="token__text">물</span></button>
+                <button class="token" type="button" data-kind="noun" data-value="책" data-particle="을" data-icon="📘"><span class="token__icon" aria-hidden="true">📘</span><span class="token__text">책</span></button>
+                <button class="token" type="button" data-kind="noun" data-value="신문" data-particle="을" data-icon="📰"><span class="token__icon" aria-hidden="true">📰</span><span class="token__text">신문</span></button>
+                <button class="token" type="button" data-kind="noun" data-value="영화" data-particle="를" data-icon="🎬"><span class="token__icon" aria-hidden="true">🎬</span><span class="token__text">영화</span></button>
+                <button class="token" type="button" data-kind="noun" data-value="드라마" data-particle="를" data-icon="📺"><span class="token__icon" aria-hidden="true">📺</span><span class="token__text">드라마</span></button>
+            </div>
+
+            <div class="token-row" id="verbRow">
+                <button class="token is-selected" type="button" data-kind="verb" data-value="먹다" data-present="먹어요" data-past="먹었어요" data-ge="먹게" data-icon="🍽️"><span class="token__icon" aria-hidden="true">🍽️</span><span class="token__text">먹다</span></button>
+                <button class="token" type="button" data-kind="verb" data-value="마시다" data-present="마셔요" data-past="마셨어요" data-ge="마시게" data-icon="🥤"><span class="token__icon" aria-hidden="true">🥤</span><span class="token__text">마시다</span></button>
+                <button class="token" type="button" data-kind="verb" data-value="읽다" data-present="읽어요" data-past="읽었어요" data-ge="읽게" data-icon="📖"><span class="token__icon" aria-hidden="true">📖</span><span class="token__text">읽다</span></button>
+                <button class="token" type="button" data-kind="verb" data-value="보다" data-present="봐요" data-past="봤어요" data-ge="보게" data-icon="👀"><span class="token__icon" aria-hidden="true">👀</span><span class="token__text">보다</span></button>
+                <button class="token" type="button" data-kind="verb" data-value="고르다" data-present="골라요" data-past="골랐어요" data-ge="고르게" data-icon="☝️"><span class="token__icon" aria-hidden="true">☝️</span><span class="token__text">고르다</span></button>
+                <button class="token" type="button" data-kind="verb" data-value="사다" data-present="사요" data-past="샀어요" data-ge="사게" data-icon="🛍️"><span class="token__icon" aria-hidden="true">🛍️</span><span class="token__text">사다</span></button>
+                <button class="token" type="button" data-kind="verb" data-value="웃다" data-present="웃어요" data-past="웃었어요" data-ge="웃게" data-icon="😄" data-no-object="true"><span class="token__icon" aria-hidden="true">😄</span><span class="token__text">웃다</span></button>
+                <button class="token" type="button" data-kind="verb" data-value="울다" data-present="울어요" data-past="울었어요" data-ge="울게" data-icon="😢" data-no-object="true"><span class="token__icon" aria-hidden="true">😢</span><span class="token__text">울다</span></button>
+            </div>
+
+            <div class="tense-toggle" role="group" aria-label="시제 선택">
+                <button class="tense-btn" type="button" data-tense="present" aria-pressed="true">현재</button>
+                <button class="tense-btn" type="button" data-tense="past" aria-pressed="false">과거</button>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" type="button" id="exampleSelfBtn">나</button>
+                <button class="control-btn primary" type="button" id="exampleCausativeBtn">나 → 타인</button>
+                <button class="control-btn primary" type="button" id="exampleReverseCausativeBtn">타인 → 나</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="command-beam" id="commandBeam" aria-hidden="true"></div>
+    <div class="finger-cue" id="fingerCue" aria-hidden="true">☝️</div>
+
+    <script>
+        (function () {
+            const STIMULUS_NOUNS = new Set(["책", "신문", "영화", "드라마"]);
+
+            const castAssets = {
+                self: {
+                    normal: "../assets/c15/grammar/images/ge-hada-cast/self_main_01.webp",
+                    laugh: "../assets/c15/grammar/images/ge-hada-cast-laugh/self_main_01_laugh.webp",
+                    sad: "../assets/c15/grammar/images/ge-hada-cast-sad/self_main_01_sad.webp",
+                    alt: "나 캐릭터"
+                },
+                friend: {
+                    label: "친구",
+                    normal: "../assets/c15/grammar/images/ge-hada-cast/friend_female_01.webp",
+                    laugh: "../assets/c15/grammar/images/ge-hada-cast-laugh/friend_female_01_laugh.webp",
+                    sad: "../assets/c15/grammar/images/ge-hada-cast-sad/friend_female_01_sad.webp",
+                    alt: "친구 캐릭터"
+                },
+                sibling: {
+                    label: "동생",
+                    normal: "../assets/c15/grammar/images/ge-hada-cast/boy_02.webp",
+                    laugh: "../assets/c15/grammar/images/ge-hada-cast-laugh/boy_02_laugh.webp",
+                    sad: "../assets/c15/grammar/images/ge-hada-cast-sad/boy_02_sad.webp",
+                    alt: "동생 캐릭터"
+                },
+                staff: {
+                    label: "부하직원",
+                    normal: "../assets/c15/grammar/images/ge-hada-cast/office_man_glasses_01.webp",
+                    laugh: "../assets/c15/grammar/images/ge-hada-cast-laugh/office_man_glasses_01_laugh.webp",
+                    sad: "../assets/c15/grammar/images/ge-hada-cast-sad/office_man_glasses_01_sad.webp",
+                    alt: "부하직원 캐릭터"
+                }
+            };
+
+            const statusText = document.getElementById("statusText");
+            const selfZone = document.getElementById("selfZone");
+            const otherZone = document.getElementById("otherZone");
+            const selfImage = document.getElementById("selfImage");
+            const otherImage = document.getElementById("otherImage");
+            const selfName = document.getElementById("selfName");
+            const otherName = document.getElementById("otherName");
+            const selfRole = document.getElementById("selfRole");
+            const otherRole = document.getElementById("otherRole");
+            const selfLine = document.getElementById("selfLine");
+            const otherLine = document.getElementById("otherLine");
+            const selfStimulus = document.getElementById("selfStimulus");
+            const otherStimulus = document.getElementById("otherStimulus");
+            const otherTabs = Array.from(document.querySelectorAll(".other-tab"));
+            const sentenceCard = document.getElementById("sentenceCard");
+            const sentenceText = document.getElementById("sentenceText");
+            const nounIcon = document.getElementById("nounIcon");
+            const verbIcon = document.getElementById("verbIcon");
+            const nounRow = document.getElementById("nounRow");
+            const nounButtons = Array.from(document.querySelectorAll('[data-kind="noun"]'));
+            const verbButtons = Array.from(document.querySelectorAll('[data-kind="verb"]'));
+            const tenseButtons = Array.from(document.querySelectorAll(".tense-btn"));
+            const resultPopup = document.getElementById("resultPopup");
+            const resultSentence = document.getElementById("resultSentence");
+            const exampleSelfBtn = document.getElementById("exampleSelfBtn");
+            const exampleCausativeBtn = document.getElementById("exampleCausativeBtn");
+            const exampleReverseCausativeBtn = document.getElementById("exampleReverseCausativeBtn");
+            const fingerCue = document.getElementById("fingerCue");
+            const commandBeam = document.getElementById("commandBeam");
+
+            let selectedNoun = nounButtons[0];
+            let selectedStimulus = null;
+            let currentStimulusHost = "self";
+            let selectedVerb = verbButtons[0];
+            let selectedOther = "friend";
+            let currentTense = "present";
+            let lastResultType = null;
+            let dragState = null;
+            let resultResetTimer = null;
+
+            function hasFinalConsonant(word) {
+                const text = String(word || "").trim();
+                if (!text) {
+                    return false;
+                }
+
+                const code = text.charCodeAt(text.length - 1);
+                if (code < 0xac00 || code > 0xd7a3) {
+                    return false;
+                }
+
+                return ((code - 0xac00) % 28) !== 0;
+            }
+
+            function subjectParticle(word) {
+                return hasFinalConsonant(word) ? "이" : "가";
+            }
+
+            function objectParticle(word) {
+                return hasFinalConsonant(word) ? "을" : "를";
+            }
+
+            function isObjectless() {
+                return selectedVerb.dataset.noObject === "true";
+            }
+
+            function isStimulusNoun(button) {
+                return Boolean(button && STIMULUS_NOUNS.has(button.dataset.value));
+            }
+
+            function isCryAction() {
+                return selectedVerb.dataset.value === "울다";
+            }
+
+            function actionMoodImage(castKey) {
+                const cast = castAssets[castKey];
+                return isCryAction() ? (cast.sad || cast.laugh) : cast.laugh;
+            }
+
+            function objectPhrase() {
+                if (isObjectless()) {
+                    return "";
+                }
+
+                return selectedNoun.dataset.value + selectedNoun.dataset.particle + " ";
+            }
+
+            function actionDictionaryText() {
+                return objectPhrase() + selectedVerb.dataset.value;
+            }
+
+            function verbForm() {
+                return selectedVerb.dataset[currentTense] || selectedVerb.dataset.present;
+            }
+
+            function hadaForm() {
+                return currentTense === "past" ? "했어요" : "해요";
+            }
+
+            function parenthesizedSubject(word) {
+                return "(" + word + subjectParticle(word) + ")";
+            }
+
+            function stimulusSubjectPhrase() {
+                if (!selectedStimulus) {
+                    return "";
+                }
+
+                const stimulus = selectedStimulus.dataset.value;
+                return stimulus + subjectParticle(stimulus);
+            }
+
+            function stimulusCausativeClause(sourceHost) {
+                const target = sourceHost === "self" ? castAssets[selectedOther].label : "나";
+                return stimulusSubjectPhrase() + " " + target + objectParticle(target) + " " + selectedVerb.dataset.ge + " " + hadaForm();
+            }
+
+            function directSelfSentence() {
+                return "내가 " + objectPhrase() + verbForm() + ".";
+            }
+
+            function directOtherSentence() {
+                const actor = castAssets[selectedOther].label;
+                return actor + subjectParticle(actor) + " " + objectPhrase() + verbForm() + ".";
+            }
+
+            function causativeSentence() {
+                const actor = castAssets[selectedOther].label;
+                if (isObjectless()) {
+                    if (selectedStimulus) {
+                        return stimulusCausativeClause("self") + ".";
+                    }
+
+                    return parenthesizedSubject("내") + " " + actor + objectParticle(actor) + " " + selectedVerb.dataset.ge + " " + hadaForm() + ".";
+                }
+
+                return parenthesizedSubject("내") + " " + actor + subjectParticle(actor) + " " + objectPhrase() + selectedVerb.dataset.ge + " " + hadaForm() + ".";
+            }
+
+            function reverseCausativeSentence() {
+                const actor = castAssets[selectedOther].label;
+                if (isObjectless()) {
+                    if (selectedStimulus) {
+                        return stimulusCausativeClause("other") + ".";
+                    }
+
+                    return parenthesizedSubject(actor) + " 나를 " + selectedVerb.dataset.ge + " " + hadaForm() + ".";
+                }
+
+                return parenthesizedSubject(actor) + " 내가 " + objectPhrase() + selectedVerb.dataset.ge + " " + hadaForm() + ".";
+            }
+
+            function resultSentenceFor(type) {
+                if (type === "self") {
+                    return directSelfSentence();
+                }
+
+                if (type === "other") {
+                    return directOtherSentence();
+                }
+
+                if (type === "reverse-causative") {
+                    return reverseCausativeSentence();
+                }
+
+                return causativeSentence();
+            }
+
+            function clearResultTimer() {
+                if (resultResetTimer) {
+                    window.clearTimeout(resultResetTimer);
+                    resultResetTimer = null;
+                }
+            }
+
+            function clearZoneResult() {
+                selfZone.classList.remove("is-hover", "is-pass", "is-result", "is-command");
+                otherZone.classList.remove("is-hover", "is-pass", "is-result", "is-command");
+                selfImage.src = castAssets.self.normal;
+                otherImage.src = castAssets[selectedOther].normal;
+                updateStimulusDisplay();
+            }
+
+            function setSelected(buttons, selected) {
+                buttons.forEach(function (button) {
+                    button.classList.toggle("is-selected", button === selected);
+                });
+            }
+
+            function setStimulusContent(node) {
+                node.replaceChildren();
+                if (!selectedStimulus) {
+                    return;
+                }
+
+                const iconNode = document.createElement("span");
+                iconNode.className = "zone__stimulus-icon";
+                iconNode.textContent = selectedStimulus.dataset.icon;
+
+                const textNode = document.createElement("span");
+                textNode.textContent = selectedStimulus.dataset.value;
+
+                node.append(iconNode, textNode);
+            }
+
+            function updateStimulusDisplay(sourceKey) {
+                if (sourceKey) {
+                    currentStimulusHost = sourceKey;
+                }
+
+                const shouldShow = isObjectless() && selectedStimulus;
+                const host = currentStimulusHost || "self";
+                const actor = castAssets[selectedOther].label;
+
+                selfStimulus.classList.toggle("is-visible", Boolean(shouldShow && host === "self"));
+                otherStimulus.classList.toggle("is-visible", Boolean(shouldShow && host === "other"));
+                selfZone.classList.toggle("is-stimulus-host", Boolean(shouldShow && host === "self"));
+                otherZone.classList.toggle("is-stimulus-host", Boolean(shouldShow && host === "other"));
+                selfName.textContent = "나";
+                otherName.textContent = actor;
+                selfLine.textContent = "내가 " + verbForm();
+                otherLine.textContent = actor + subjectParticle(actor) + " " + verbForm();
+                selfZone.setAttribute("aria-label", "나");
+                otherZone.setAttribute("aria-label", actor);
+                selfRole.textContent = shouldShow ? (host === "self" ? "영향주" : "행위자") : "지시자";
+                otherRole.textContent = shouldShow ? (host === "other" ? "영향주" : "행위자") : "행위자";
+
+                if (shouldShow) {
+                    setStimulusContent(selfStimulus);
+                    setStimulusContent(otherStimulus);
+
+                    if (host === "self") {
+                        selfName.textContent = selectedStimulus.dataset.value;
+                        selfLine.textContent = stimulusCausativeClause("self");
+                        selfZone.setAttribute("aria-label", selectedStimulus.dataset.value + " 영향주");
+                    } else {
+                        otherName.textContent = selectedStimulus.dataset.value;
+                        otherLine.textContent = stimulusCausativeClause("other");
+                        otherZone.setAttribute("aria-label", selectedStimulus.dataset.value + " 영향주");
+                    }
+                } else {
+                    selfStimulus.textContent = "";
+                    otherStimulus.textContent = "";
+                }
+            }
+
+            function updateNounButtonState() {
+                const objectless = isObjectless();
+                nounButtons.forEach(function (button) {
+                    const stimulusOption = objectless && isStimulusNoun(button);
+                    button.classList.toggle("is-stimulus-option", stimulusOption);
+                    button.classList.toggle("is-unavailable", objectless && !stimulusOption);
+                    button.classList.toggle("is-selected", objectless ? button === selectedStimulus : button === selectedNoun);
+                    button.setAttribute("aria-disabled", String(objectless && !stimulusOption));
+                });
+            }
+
+            function ensureStimulusSelection() {
+                if (!isObjectless() || selectedStimulus || !isStimulusNoun(selectedNoun)) {
+                    return;
+                }
+
+                selectedStimulus = selectedNoun;
+            }
+
+            function updatePreview() {
+                ensureStimulusSelection();
+                sentenceText.textContent = actionDictionaryText();
+                nounIcon.textContent = isObjectless() ? "" : selectedNoun.dataset.icon;
+                nounIcon.classList.toggle("is-hidden", isObjectless());
+                verbIcon.textContent = selectedVerb.dataset.icon;
+                nounRow.classList.remove("is-muted");
+                selfLine.textContent = "내가 " + verbForm();
+                otherLine.textContent = castAssets[selectedOther].label + subjectParticle(castAssets[selectedOther].label) + " " + verbForm();
+                sentenceCard.setAttribute("aria-label", actionDictionaryText() + " 문장 카드");
+                updateNounButtonState();
+                updateStimulusDisplay();
+            }
+
+            function updateOtherCharacter() {
+                const actor = castAssets[selectedOther];
+                otherName.textContent = actor.label;
+                otherZone.setAttribute("aria-label", actor.label);
+                otherImage.src = actor.normal;
+                otherImage.alt = actor.alt;
+                otherTabs.forEach(function (tab) {
+                    tab.setAttribute("aria-pressed", String(tab.dataset.other === selectedOther));
+                });
+                updatePreview();
+            }
+
+            function closePopup() {
+                resultPopup.classList.remove("is-visible", "is-self", "is-other", "is-causative", "is-reverse-causative");
+                lastResultType = null;
+            }
+
+            function showPopup(type) {
+                clearResultTimer();
+                lastResultType = type;
+                resultPopup.classList.remove("is-self", "is-other", "is-causative", "is-reverse-causative");
+                resultPopup.classList.add("is-visible", "is-" + type);
+                resultSentence.textContent = resultSentenceFor(type);
+            }
+
+            function refreshVisiblePopup() {
+                if (!lastResultType || !resultPopup.classList.contains("is-visible")) {
+                    return;
+                }
+
+                resultSentence.textContent = resultSentenceFor(lastResultType);
+            }
+
+            function resetImagesLater() {
+                clearResultTimer();
+                resultResetTimer = window.setTimeout(function () {
+                    resultResetTimer = null;
+                    clearZoneResult();
+                }, 1600);
+            }
+
+            function isStimulusMode() {
+                return isObjectless() && selectedStimulus;
+            }
+
+            function markDirectSelf() {
+                if (isStimulusMode()) {
+                    markReverseCausative();
+                    return;
+                }
+
+                clearZoneResult();
+                selfZone.classList.add("is-result");
+                selfImage.src = actionMoodImage("self");
+                updateStimulusDisplay("self");
+                showPopup("self");
+                statusText.textContent = "내가 직접 행동하는 문장이 완성됐어요.";
+                resetImagesLater();
+            }
+
+            function markDirectOther() {
+                const actor = castAssets[selectedOther].label;
+                if (isStimulusMode()) {
+                    markCausative();
+                    return;
+                }
+
+                clearZoneResult();
+                otherZone.classList.add("is-result");
+                otherImage.src = actionMoodImage(selectedOther);
+                updateStimulusDisplay("other");
+                showPopup("other");
+                statusText.textContent = actor + subjectParticle(actor) + " 직접 행동하는 문장이 완성됐어요.";
+                resetImagesLater();
+            }
+
+            function markCausative() {
+                const actor = castAssets[selectedOther].label;
+                const stimulusMode = isStimulusMode();
+                clearZoneResult();
+                selfZone.classList.add("is-command");
+                otherZone.classList.add("is-result");
+                selfImage.src = stimulusMode ? castAssets.self.normal : castAssets.self.laugh;
+                otherImage.src = actionMoodImage(selectedOther);
+                updateStimulusDisplay("self");
+                pulseCommandCue(selfZone, otherZone);
+                showPopup("causative");
+                statusText.textContent = stimulusMode
+                    ? selectedStimulus.dataset.value + subjectParticle(selectedStimulus.dataset.value) + " " + actor + objectParticle(actor) + " " + selectedVerb.dataset.ge + " 하는 문장이 완성됐어요."
+                    : "나를 거쳐서 행위자가 바뀌었어요.";
+                resetImagesLater();
+            }
+
+            function markReverseCausative() {
+                const actor = castAssets[selectedOther].label;
+                const stimulusMode = isStimulusMode();
+                clearZoneResult();
+                otherZone.classList.add("is-command");
+                selfZone.classList.add("is-result");
+                otherImage.src = stimulusMode ? castAssets[selectedOther].normal : castAssets[selectedOther].laugh;
+                selfImage.src = actionMoodImage("self");
+                updateStimulusDisplay("other");
+                pulseCommandCue(otherZone, selfZone);
+                showPopup("reverse-causative");
+                statusText.textContent = stimulusMode
+                    ? selectedStimulus.dataset.value + subjectParticle(selectedStimulus.dataset.value) + " 나를 " + selectedVerb.dataset.ge + " 하는 문장이 완성됐어요."
+                    : actor + subjectParticle(actor) + " 내가 하게 하는 문장이 완성됐어요.";
+                resetImagesLater();
+            }
+
+            function getZoneAtPoint(x, y) {
+                const element = document.elementFromPoint(x, y);
+                if (!element) {
+                    return null;
+                }
+
+                return element.closest("[data-drop-zone]");
+            }
+
+            function centerOf(element) {
+                const rect = element.getBoundingClientRect();
+                return {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+            }
+
+            function edgePointToward(rect, target) {
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const dx = target.x - centerX;
+                const dy = target.y - centerY;
+                const angle = Math.atan2(dy, dx);
+                const cos = Math.cos(angle);
+                const sin = Math.sin(angle);
+                const xLimit = Math.abs(cos) < 0.001 ? Infinity : (rect.width / 2) / Math.abs(cos);
+                const yLimit = Math.abs(sin) < 0.001 ? Infinity : (rect.height / 2) / Math.abs(sin);
+                const distance = Math.min(xLimit, yLimit) + 4;
+
+                return {
+                    x: centerX + cos * distance,
+                    y: centerY + sin * distance
+                };
+            }
+
+            function drawCommandCue(start, end, options) {
+                const dx = end.x - start.x;
+                const dy = end.y - start.y;
+                const distance = Math.hypot(dx, dy);
+
+                if (distance < 28) {
+                    hideCommandCue();
+                    return;
+                }
+
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                const angleRad = angle * Math.PI / 180;
+                const lineLength = Math.max(distance, 36);
+                const handDistance = Math.max(distance - 8, 24);
+                const handX = start.x + Math.cos(angleRad) * handDistance;
+                const handY = start.y + Math.sin(angleRad) * handDistance;
+
+                commandBeam.style.left = start.x + "px";
+                commandBeam.style.top = start.y + "px";
+                commandBeam.style.width = lineLength + "px";
+                commandBeam.style.transform = "rotate(" + angle + "deg)";
+                commandBeam.classList.toggle("is-active", Boolean(options && options.active));
+                commandBeam.classList.add("is-visible");
+
+                fingerCue.style.left = handX + "px";
+                fingerCue.style.top = handY + "px";
+                fingerCue.style.setProperty("--hand-rotation", (angle + 90) + "deg");
+                fingerCue.classList.toggle("is-active", Boolean(options && options.active));
+                fingerCue.classList.add("is-visible");
+            }
+
+            function updateCommandCueFromSourceToGhost(sourceElement, ghost) {
+                if (!sourceElement || !ghost) {
+                    hideCommandCue();
+                    return;
+                }
+
+                const start = centerOf(sourceElement);
+                const end = edgePointToward(ghost.getBoundingClientRect(), start);
+                drawCommandCue(start, end);
+            }
+
+            function hideCommandCue() {
+                fingerCue.classList.remove("is-visible");
+                commandBeam.classList.remove("is-visible");
+                fingerCue.classList.remove("is-active");
+                commandBeam.classList.remove("is-active");
+            }
+
+            function pulseCommandCue(sourceElement, targetElement) {
+                const start = centerOf(sourceElement);
+                const end = centerOf(targetElement);
+                drawCommandCue(start, end, { active: true });
+                window.setTimeout(hideCommandCue, 1050);
+            }
+
+            function makeGhost(x, y) {
+                const ghost = document.createElement("div");
+                ghost.className = "drag-ghost";
+                ghost.innerHTML = '<span class="drag-ghost__icon" aria-hidden="true">' + (isObjectless() ? "" : selectedNoun.dataset.icon) + '</span><span>' + actionDictionaryText() + '</span><span class="drag-ghost__icon" aria-hidden="true">' + selectedVerb.dataset.icon + '</span>';
+                document.body.appendChild(ghost);
+                moveGhost(ghost, x, y);
+                return ghost;
+            }
+
+            function moveGhost(ghost, x, y) {
+                ghost.style.transform = "translate(" + x + "px, " + y + "px) translate(-50%, -50%)";
+            }
+
+            function clearHover() {
+                selfZone.classList.remove("is-hover");
+                otherZone.classList.remove("is-hover");
+            }
+
+            function startDrag(event) {
+                if (event.button != null && event.button !== 0) {
+                    return;
+                }
+
+                closePopup();
+                clearResultTimer();
+                dragState = {
+                    pointerId: event.pointerId,
+                    startX: event.clientX,
+                    startY: event.clientY,
+                    x: event.clientX,
+                    y: event.clientY,
+                    active: false,
+                    commandSource: null,
+                    ghost: null
+                };
+
+                sentenceCard.setPointerCapture(event.pointerId);
+                document.addEventListener("pointermove", moveDrag);
+                document.addEventListener("pointerup", endDrag);
+                document.addEventListener("pointercancel", cancelDrag);
+                event.preventDefault();
+            }
+
+            function activateDrag() {
+                if (!dragState || dragState.active) {
+                    return;
+                }
+
+                dragState.active = true;
+                dragState.ghost = makeGhost(dragState.x, dragState.y);
+                sentenceCard.classList.add("is-dragging");
+                statusText.textContent = "나 또는 타인을 지나 반대편에 놓으면 '-게 해요' 문장이 돼요.";
+            }
+
+            function moveDrag(event) {
+                if (!dragState || event.pointerId !== dragState.pointerId) {
+                    return;
+                }
+
+                dragState.x = event.clientX;
+                dragState.y = event.clientY;
+
+                const movement = Math.hypot(dragState.x - dragState.startX, dragState.y - dragState.startY);
+                if (!dragState.active && movement > 5) {
+                    activateDrag();
+                }
+
+                if (!dragState.active) {
+                    return;
+                }
+
+                moveGhost(dragState.ghost, dragState.x, dragState.y);
+                const zone = getZoneAtPoint(dragState.x, dragState.y);
+                clearHover();
+
+                if (zone) {
+                    zone.classList.add("is-hover");
+                }
+
+                if (zone === selfZone && !dragState.commandSource) {
+                    dragState.commandSource = "self";
+                    selfZone.classList.add("is-pass");
+                    updateStimulusDisplay("self");
+                }
+
+                if (zone === otherZone && !dragState.commandSource) {
+                    dragState.commandSource = "other";
+                    otherZone.classList.add("is-pass");
+                    updateStimulusDisplay("other");
+                }
+
+                if (dragState.commandSource === "self" && zone !== selfZone) {
+                    updateCommandCueFromSourceToGhost(selfZone, dragState.ghost);
+                } else if (dragState.commandSource === "other" && zone !== otherZone) {
+                    updateCommandCueFromSourceToGhost(otherZone, dragState.ghost);
+                } else {
+                    hideCommandCue();
+                }
+
+                event.preventDefault();
+            }
+
+            function cleanupDrag() {
+                document.removeEventListener("pointermove", moveDrag);
+                document.removeEventListener("pointerup", endDrag);
+                document.removeEventListener("pointercancel", cancelDrag);
+                sentenceCard.classList.remove("is-dragging");
+                clearHover();
+                selfZone.classList.remove("is-pass");
+                otherZone.classList.remove("is-pass");
+                hideCommandCue();
+                updateStimulusDisplay();
+
+                if (dragState && dragState.ghost) {
+                    dragState.ghost.remove();
+                }
+
+                dragState = null;
+            }
+
+            function endDrag(event) {
+                if (!dragState || event.pointerId !== dragState.pointerId) {
+                    return;
+                }
+
+                const wasActive = dragState.active;
+                const commandSource = dragState.commandSource;
+                const zone = wasActive ? getZoneAtPoint(event.clientX, event.clientY) : null;
+
+                cleanupDrag();
+
+                if (!wasActive) {
+                    statusText.textContent = "문장 카드를 캐릭터에게 끌어다 놓아 보세요.";
+                    return;
+                }
+
+                if (zone === selfZone) {
+                    if (commandSource === "other") {
+                        markReverseCausative();
+                        return;
+                    }
+
+                    markDirectSelf();
+                    return;
+                }
+
+                if (zone === otherZone) {
+                    if (commandSource === "self") {
+                        markCausative();
+                    } else {
+                        markDirectOther();
+                    }
+                    return;
+                }
+
+                statusText.textContent = "문장이 캐릭터 위에 놓이지 않았어요.";
+            }
+
+            function cancelDrag(event) {
+                if (!dragState || event.pointerId !== dragState.pointerId) {
+                    return;
+                }
+
+                cleanupDrag();
+            }
+
+            nounButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    if (isObjectless()) {
+                        if (!isStimulusNoun(button)) {
+                            statusText.textContent = "웃다/울다에서는 책, 신문, 영화, 드라마를 지시자 카드로 쓸 수 있어요.";
+                            return;
+                        }
+
+                        selectedStimulus = button;
+                        closePopup();
+                        updatePreview();
+                        updateStimulusDisplay("self");
+                        statusText.textContent = button.dataset.value + " 카드가 지시자 쪽에 놓였어요.";
+                        return;
+                    }
+
+                    selectedNoun = button;
+                    setSelected(nounButtons, selectedNoun);
+                    closePopup();
+                    updatePreview();
+                });
+            });
+
+            verbButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    selectedVerb = button;
+                    setSelected(verbButtons, selectedVerb);
+                    closePopup();
+                    updatePreview();
+                });
+            });
+
+            tenseButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    currentTense = button.dataset.tense;
+                    tenseButtons.forEach(function (tenseButton) {
+                        tenseButton.setAttribute("aria-pressed", String(tenseButton === button));
+                    });
+                    updatePreview();
+                    refreshVisiblePopup();
+                });
+            });
+
+            otherTabs.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    selectedOther = button.dataset.other;
+                    closePopup();
+                    clearZoneResult();
+                    updateOtherCharacter();
+                });
+            });
+
+            sentenceCard.addEventListener("pointerdown", startDrag);
+
+            sentenceCard.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    markDirectSelf();
+                }
+            });
+
+            selfZone.addEventListener("click", markDirectSelf);
+            otherZone.addEventListener("click", markDirectOther);
+            exampleSelfBtn.addEventListener("click", markDirectSelf);
+            exampleCausativeBtn.addEventListener("click", markCausative);
+            exampleReverseCausativeBtn.addEventListener("click", markReverseCausative);
+
+            updateOtherCharacter();
+            updatePreview();
+        })();
+    </script>
+</body>
+</html>

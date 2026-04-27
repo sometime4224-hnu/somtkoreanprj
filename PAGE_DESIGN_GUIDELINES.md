@@ -86,6 +86,11 @@ On grammar main pages, explanation related to the target grammar should be thoro
 - Question tags should show only broad, useful categories such as `어휘` and `문법`.
 - Do not show the target vocabulary word, target grammar pattern, focus label, or answer clue as a pre-answer question tag.
 - Target/focus labels may appear after grading in feedback or review summaries when they help the learner decide what to study next.
+- Multiple-choice quizzes must not reveal a pattern through answer placement. For fixed 4-choice quizzes, distribute correct answers across `A`, `B`, `C`, and `D` as evenly as possible. For 20 or more questions, the largest and smallest answer-letter counts should normally differ by no more than 1; if content constraints make that impossible, the difference must not exceed 2.
+- For short fixed quizzes, avoid obvious answer-key patterns: do not let one answer letter dominate, and avoid long runs of the same correct letter. As a rule of thumb, no answer letter should appear more than about half the quiz, and three or more identical correct letters in a row should be treated as a content bug unless there is a deliberate reason.
+- Randomized multiple-choice pages must use constrained randomness, not unconstrained per-question shuffling. Each generated attempt should still have a reasonably balanced answer-key distribution. Prefer assigning target correct-answer positions evenly across the whole quiz, then shuffling distractors around that target position; alternatively, reroll/repair the shuffle until the final answer key meets the balance rules.
+- When shuffling options, keep the correct-answer metadata tied to the option content after the shuffle. Never assume the correct answer is still the original letter.
+- Add or update a validation test for every multiple-choice mock exam or quiz page. The test should check that option letters are valid, the stored correct letters match available options, grading still works, and the final answer-key distribution is balanced. For randomized pages, test several seeded/generated attempts rather than only one render.
 
 ## Standardization Rules
 

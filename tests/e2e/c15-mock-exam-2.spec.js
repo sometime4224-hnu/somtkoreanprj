@@ -24,8 +24,22 @@ test('renders and grades the second c15 vocabulary grammar mock exam', async ({ 
   const questions = await page.evaluate(() =>
     window.C15_MOCK_EXAM.sections
       .flatMap((section) => section.questions)
-      .map((question) => ({ number: question.number, correct: question.correct }))
+      .map((question) => ({
+        number: question.number,
+        correct: question.correct,
+        optionLetters: question.options.map((option) => option.letter)
+      }))
   );
+
+  const answerCounts = questions.reduce((counts, question) => {
+    counts[question.correct] = (counts[question.correct] || 0) + 1;
+    return counts;
+  }, {});
+
+  expect(answerCounts).toEqual({ A: 5, B: 5, C: 5, D: 5 });
+  for (const question of questions) {
+    expect(question.optionLetters).toEqual(['A', 'B', 'C', 'D']);
+  }
 
   for (const question of questions) {
     await page.locator(`#q${question.number}-${question.correct}`).check({ force: true });

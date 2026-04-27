@@ -10,22 +10,20 @@
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>16과 문법 2 | V-(으)ㄹ 생각도 못 하다</title>
+    <title>16과 문법 4 | A/V-기로 유명하다 · N(으)로 유명하다</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         :root {
-            --bg: #fff7ed;
+            --bg: #f0f9ff;
             --surface: rgba(255, 255, 255, 0.94);
-            --line: #fed7aa;
+            --line: #bae6fd;
             --ink: #0f172a;
-            --muted: #64748b;
-            --accent: #ea580c;
-            --accent-soft: #ffedd5;
-            --ok: #059669;
-            --bad: #e11d48;
+            --accent: #0284c7;
+            --accent-dark: #0369a1;
+            --accent-soft: #e0f2fe;
         }
 
         * { box-sizing: border-box; }
@@ -36,8 +34,8 @@
             color: var(--ink);
             font-family: "Noto Sans KR", sans-serif;
             background:
-                radial-gradient(circle at top left, rgba(251, 146, 60, 0.22), transparent 26%),
-                linear-gradient(180deg, var(--bg) 0%, #f8fafc 70%, #ffffff 100%);
+                radial-gradient(circle at top left, rgba(56, 189, 248, 0.20), transparent 28%),
+                linear-gradient(180deg, var(--bg) 0%, #f8fafc 72%, #ffffff 100%);
         }
 
         .topbar {
@@ -57,7 +55,7 @@
         }
 
         .topbar a {
-            color: var(--accent);
+            color: var(--accent-dark);
             text-decoration: none;
         }
 
@@ -77,20 +75,17 @@
 
         .hero,
         .card,
-        .quiz-card {
-            border: 1px solid rgba(251, 146, 60, 0.28);
+        .quiz {
+            border: 1px solid rgba(14, 165, 233, 0.25);
             border-radius: 24px;
+            padding: 18px;
             background: var(--surface);
             box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
         }
 
-        .hero {
-            padding: 22px;
-        }
-
         .eyebrow {
             margin: 0 0 7px;
-            color: var(--accent);
+            color: var(--accent-dark);
             font-size: 12px;
             font-weight: 900;
             letter-spacing: 0.02em;
@@ -99,8 +94,8 @@
 
         h1 {
             margin: 0;
-            font-size: clamp(28px, 6vw, 42px);
-            line-height: 1.12;
+            font-size: clamp(27px, 5.6vw, 40px);
+            line-height: 1.14;
             letter-spacing: 0;
         }
 
@@ -123,14 +118,14 @@
         code {
             border-radius: 8px;
             padding: 1px 6px;
-            background: #fff7ed;
-            color: #9a3412;
+            background: #e0f2fe;
+            color: #0369a1;
             font-family: inherit;
             font-weight: 900;
         }
 
         .lead {
-            max-width: 720px;
+            max-width: 760px;
             margin: 10px 0 0;
             color: #475569;
             font-size: 15px;
@@ -149,13 +144,17 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            border: 1px solid #fdba74;
+            border: 1px solid #7dd3fc;
             border-radius: 999px;
             padding: 8px 11px;
-            background: #fff7ed;
-            color: #9a3412;
+            background: #f0f9ff;
+            color: #0369a1;
             font-size: 13px;
             font-weight: 900;
+        }
+
+        .section {
+            margin-top: 14px;
         }
 
         .grid {
@@ -165,11 +164,8 @@
             margin-top: 12px;
         }
 
-        .card {
-            padding: 16px;
-        }
-
-        .card p {
+        .card p,
+        .mini p {
             margin: 0;
             color: #475569;
             font-size: 14px;
@@ -179,18 +175,14 @@
 
         .sentence {
             margin-top: 12px;
-            border: 1px solid #fed7aa;
+            border: 1px solid #bae6fd;
             border-radius: 18px;
             padding: 13px;
-            background: #fff7ed;
-            color: #7c2d12;
+            background: #f0f9ff;
+            color: #0c4a6e;
             font-size: 15px;
             font-weight: 900;
             line-height: 1.55;
-        }
-
-        .section {
-            margin-top: 14px;
         }
 
         .examples {
@@ -200,30 +192,23 @@
             margin-top: 12px;
         }
 
-        .example {
+        .mini {
             border: 1px solid #e2e8f0;
             border-radius: 20px;
             padding: 14px;
             background: #ffffff;
         }
 
-        .example strong {
+        .mini strong {
             display: block;
             margin-bottom: 5px;
-            color: #0f172a;
             font-size: 14px;
         }
 
-        .example span {
-            color: #475569;
-            font-size: 14px;
-            font-weight: 700;
-            line-height: 1.55;
-        }
-
-        .quiz-card {
-            margin-top: 14px;
-            padding: 18px;
+        .split {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
         }
 
         .quiz-head {
@@ -234,14 +219,14 @@
             margin-bottom: 12px;
         }
 
-        .quiz-count {
-            flex: 0 0 auto;
+        .count {
             border-radius: 999px;
             padding: 6px 10px;
             background: var(--accent-soft);
-            color: #9a3412;
+            color: #0369a1;
             font-size: 12px;
             font-weight: 900;
+            white-space: nowrap;
         }
 
         #prompt {
@@ -271,13 +256,11 @@
             font-weight: 800;
             line-height: 1.5;
             text-align: left;
-            transition: transform 0.16s, border-color 0.16s, background 0.16s;
         }
 
         .choice:hover {
-            transform: translateY(-1px);
-            border-color: #fb923c;
-            background: #fff7ed;
+            border-color: #38bdf8;
+            background: #f0f9ff;
         }
 
         .choice.correct {
@@ -318,11 +301,16 @@
             color: #be123c;
         }
 
-        .actions {
+        .actions,
+        .footer {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-top: 14px;
+        }
+
+        .footer {
+            justify-content: space-between;
         }
 
         .btn {
@@ -331,11 +319,11 @@
             justify-content: center;
             gap: 7px;
             min-height: 42px;
-            border: 1px solid #fdba74;
+            border: 1px solid #7dd3fc;
             border-radius: 999px;
             padding: 0 15px;
             background: #ffffff;
-            color: #9a3412;
+            color: #0369a1;
             cursor: pointer;
             font: inherit;
             font-size: 13px;
@@ -353,14 +341,6 @@
             opacity: 0.45;
         }
 
-        .footer {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 8px;
-            margin-top: 14px;
-        }
-
         @media (max-width: 720px) {
             .shell {
                 width: min(100% - 16px, 930px);
@@ -369,19 +349,20 @@
 
             .hero,
             .card,
-            .quiz-card {
+            .quiz {
                 border-radius: 18px;
                 padding: 14px;
             }
 
             .grid,
-            .examples {
+            .examples,
+            .split {
                 grid-template-columns: 1fr;
             }
 
             .lead,
             .card p,
-            .example span,
+            .mini p,
             .choice,
             .sentence {
                 font-size: 13px;
@@ -406,72 +387,87 @@
         <span>|</span>
         <a href="index.html">16과 목록</a>
         <span>|</span>
-        <strong>문법 2 | V-(으)ㄹ 생각도 못 하다</strong>
+        <strong>문법 4 | A/V-기로 유명하다 · N(으)로 유명하다</strong>
     </nav>
 
     <main class="shell">
         <section class="hero">
-            <p class="eyebrow">Grammar 2</p>
-            <h1>V-(으)ㄹ 생각도 못 하다</h1>
-            <p class="lead">시간, 돈, 체력, 상황 때문에 어떤 일을 할 엄두조차 못 낼 때 쓰는 표현입니다. 단순히 “안 해요”보다 훨씬 강하게, 현실적으로 여유가 없다는 느낌을 줍니다.</p>
+            <p class="eyebrow">Grammar 4</p>
+            <h1>A/V-기로 유명하다 · N(으)로 유명하다</h1>
+            <p class="lead">어떤 장소나 대상이 무엇 때문에 잘 알려져 있는지 소개할 때 쓰는 표현입니다. 특징이나 평가를 말하면 <code>기로 유명하다</code>, 대표 명사를 말하면 <code>(으)로 유명하다</code>를 씁니다.</p>
             <div class="chips">
-                <span class="chip"><i class="fa-solid fa-ban"></i> 갈 생각도 못 해요</span>
-                <span class="chip"><i class="fa-solid fa-wallet"></i> 배울 생각도 못 해요</span>
-                <span class="chip"><i class="fa-solid fa-battery-quarter"></i> 할 생각도 못 했어요</span>
+                <span class="chip"><i class="fa-solid fa-star"></i> 아름답기로 유명해요</span>
+                <span class="chip"><i class="fa-solid fa-landmark"></i> 만리장성으로 유명해요</span>
+                <span class="chip"><i class="fa-solid fa-location-dot"></i> 스킨스쿠버로 유명해요</span>
             </div>
+        </section>
+
+        <section class="section split">
+            <article class="card">
+                <p class="eyebrow">A/V-기로 유명하다</p>
+                <h2>특징이나 평가</h2>
+                <p>어떤 상태, 성격, 평가, 행동으로 잘 알려져 있을 때 씁니다.</p>
+                <div class="sentence">내장산은 단풍이 아름답기로 유명해요.</div>
+            </article>
+            <article class="card">
+                <p class="eyebrow">N(으)로 유명하다</p>
+                <h2>대표 명사나 상징</h2>
+                <p>명사 자체가 유명함의 이유일 때 씁니다. 받침이 있으면 <code>으로</code>, 없거나 ㄹ 받침이면 <code>로</code>를 씁니다.</p>
+                <div class="sentence">중국은 만리장성으로 유명해요.</div>
+            </article>
         </section>
 
         <section class="section grid">
             <article class="card">
-                <p class="eyebrow">Meaning</p>
-                <h2>엄두가 안 나요</h2>
-                <p>하고 싶은 마음이 있어도 현실적인 이유 때문에 시작조차 못 하는 상황에 어울립니다.</p>
-                <div class="sentence">요즘 너무 바빠서 캠핑 갈 생각도 못 해요.</div>
+                <p class="eyebrow">평가</p>
+                <h2>좋기로 유명해요</h2>
+                <p>한탄강 캠핑장은 시설이 좋아서 사람들이 많이 찾습니다.</p>
+                <div class="sentence">한탄강 캠핑장은 시설이 좋기로 유명해요.</div>
             </article>
             <article class="card">
-                <p class="eyebrow">Form</p>
-                <h2>V + (으)ㄹ 생각도 못 하다</h2>
-                <p>받침이 없으면 <code>갈</code>, 받침이 있으면 <code>먹을</code>처럼 만들어 뒤에 붙입니다.</p>
-                <div class="sentence">가다 → 갈 생각도 못 해요<br />먹다 → 먹을 생각도 못 해요</div>
+                <p class="eyebrow">특징</p>
+                <h2>아름답기로 유명해요</h2>
+                <p>장소가 가진 특징을 문장으로 풀어 말할 수 있습니다.</p>
+                <div class="sentence">진해는 벚꽃이 아름답기로 유명해요.</div>
             </article>
             <article class="card">
-                <p class="eyebrow">Tone</p>
-                <h2>강한 불가능</h2>
-                <p>“안 해요”가 선택에 가깝다면, 이 표현은 여유가 전혀 없어서 못 한다는 쪽에 가깝습니다.</p>
-                <div class="sentence">피곤해서 운동할 생각도 못 했어요.</div>
+                <p class="eyebrow">대표 명사</p>
+                <h2>김치로 유명해요</h2>
+                <p>음식, 활동, 유적, 물건 이름처럼 명사로 바로 소개합니다.</p>
+                <div class="sentence">전주는 비빔밥으로 유명해요.</div>
             </article>
         </section>
 
         <section class="section card">
             <p class="eyebrow">Examples</p>
-            <h2>이유를 앞에 두면 자연스러워요</h2>
+            <h2>소개 글에 바로 넣어 보세요</h2>
             <div class="examples">
-                <div class="example">
-                    <strong>시간</strong>
-                    <span>시험이 가까워서 여행 갈 생각도 못 해요.</span>
+                <div class="mini">
+                    <strong>내장산</strong>
+                    <p>내장산은 단풍이 아름답기로 유명해요.</p>
                 </div>
-                <div class="example">
-                    <strong>비용</strong>
-                    <span>학비가 비싸서 악기를 배울 생각도 못 해요.</span>
+                <div class="mini">
+                    <strong>제주도</strong>
+                    <p>제주도는 스킨스쿠버로 유명해요.</p>
                 </div>
-                <div class="example">
-                    <strong>공간</strong>
-                    <span>방이 너무 작아서 큰 책상을 놓을 생각도 못 해요.</span>
+                <div class="mini">
+                    <strong>한탄강 캠핑장</strong>
+                    <p>한탄강 캠핑장은 시설이 좋기로 유명해요.</p>
                 </div>
-                <div class="example">
-                    <strong>상황</strong>
-                    <span>비가 너무 많이 와서 등산할 생각도 못 했어요.</span>
+                <div class="mini">
+                    <strong>중국</strong>
+                    <p>중국은 만리장성으로 유명해요.</p>
                 </div>
             </div>
         </section>
 
-        <section class="quiz-card" aria-labelledby="quizTitle">
+        <section class="section quiz" aria-labelledby="quizTitle">
             <div class="quiz-head">
                 <div>
                     <p class="eyebrow">Quick Check</p>
-                    <h2 id="quizTitle">문장 감각 확인</h2>
+                    <h2 id="quizTitle">유명함 표현 고르기</h2>
                 </div>
-                <span id="count" class="quiz-count">1 / 4</span>
+                <span id="count" class="count">1 / 4</span>
             </div>
             <p id="prompt"></p>
             <div id="choices" class="choices"></div>
@@ -483,47 +479,46 @@
         </section>
 
         <section class="section card">
-            <p class="eyebrow">Compare</p>
-            <h2>문법 3과 말맛이 달라요</h2>
-            <p><code>가 볼 만해요</code>는 추천이고, <code>갈 생각도 못 해요</code>는 여유가 전혀 없다는 뜻입니다.</p>
-            <div class="sentence">이번 주말에는 가 볼 만해요. / 이번 주말에는 갈 생각도 못 해요.</div>
+            <p class="eyebrow">Speaking</p>
+            <h2>한 줄 소개로 연습해요</h2>
+            <p>장소를 말한 뒤, 특징이면 <code>기로 유명해요</code>, 대표 명사면 <code>(으)로 유명해요</code>를 고르면 됩니다.</p>
+            <div class="sentence">우리 고향은 음식이 맛있기로 유명해요. / 우리 고향은 사과로 유명해요.</div>
             <div class="actions">
-                <a class="btn primary" href="grammar2-speaking-pro.html"><i class="fa-solid fa-microphone-lines"></i> 문법 2 말하기 PRO</a>
-                <a class="btn" href="grammar3.html">문법 3 보기</a>
+                <a class="btn primary" href="grammar4-speaking-pro.html"><i class="fa-solid fa-microphone-lines"></i> 문법 4 말하기 PRO</a>
             </div>
         </section>
 
         <nav class="footer" aria-label="문법 이동">
-            <a class="btn" href="grammar1.html"><i class="fa-solid fa-arrow-left"></i> 문법 1</a>
-            <a class="btn primary" href="grammar3.html">문법 3 <i class="fa-solid fa-arrow-right"></i></a>
+            <a class="btn" href="grammar3.html"><i class="fa-solid fa-arrow-left"></i> 문법 3</a>
+            <a class="btn primary" href="index.html">16과 목록 <i class="fa-solid fa-arrow-right"></i></a>
         </nav>
     </main>
 
     <script>
         const quiz = [
             {
-                prompt: '일이 너무 많아서 캠핑은 엄두도 못 내는 상황입니다.',
-                choices: ['요즘 일이 많아서 캠핑 갈 생각도 못 해요.', '요즘 일이 많아서 캠핑이 바빠요.', '요즘 일이 많아서 캠핑을 해요.'],
+                prompt: '내장산은 단풍이 아름다운 것으로 잘 알려져 있어요.',
+                choices: ['내장산은 단풍이 아름답기로 유명해요.', '내장산은 단풍으로 아름답기로 유명해요.', '내장산은 단풍을 가 볼 만해요.'],
                 answer: 0,
-                feedback: '시간이 없어서 엄두를 못 내므로 “갈 생각도 못 해요”가 자연스럽습니다.'
+                feedback: '특징이나 평가를 문장으로 말하므로 “아름답기로 유명해요”가 자연스럽습니다.'
             },
             {
-                prompt: '학비가 비싸서 악기를 배우기 어렵다고 말하고 싶어요.',
-                choices: ['학비가 비싸서 악기를 배울 생각도 못 해요.', '학비가 비싸서 악기를 배워요.', '학비가 비싸서 악기를 생각해요.'],
+                prompt: '중국을 대표하는 상징으로 만리장성을 말하고 싶어요.',
+                choices: ['중국은 만리장성으로 유명해요.', '중국은 만리장성으로 아름다워요.', '중국은 만리장성이 있어요.'],
                 answer: 0,
-                feedback: '비용 부담 때문에 시작조차 못 하므로 “배울 생각도 못 해요”가 맞습니다.'
+                feedback: '대표 명사 자체가 이유라서 “만리장성으로 유명해요”가 맞습니다.'
             },
             {
-                prompt: '너무 피곤해서 운동은 시작할 여유가 없었어요.',
-                choices: ['너무 피곤해서 운동할 생각도 못 했어요.', '너무 피곤해서 운동을 했어요.', '너무 피곤해서 운동이 많았어요.'],
+                prompt: '한탄강 캠핑장은 시설이 좋아서 유명해요.',
+                choices: ['한탄강 캠핑장은 시설이 좋기로 유명해요.', '한탄강 캠핑장은 시설로 좋기로 유명해요.', '한탄강 캠핑장은 시설이 가 볼 만해요.'],
                 answer: 0,
-                feedback: '체력이나 상황 때문에 못 했다는 강한 느낌을 줍니다.'
+                feedback: '평가 내용은 “좋기로 유명해요”처럼 씁니다.'
             },
             {
-                prompt: '비가 많이 와서 등산을 할 수 없었어요. 강하게 말해 보세요.',
-                choices: ['비가 너무 많이 와서 등산할 생각도 못 했어요.', '비가 너무 많이 와서 등산을 했어요.', '비가 너무 많이 와서 등산이 많았어요.'],
+                prompt: '전주는 대표 음식인 비빔밥으로 잘 알려져 있어요.',
+                choices: ['전주는 비빔밥으로 유명해요.', '전주는 비빔밥이 맛있기로만 해요.', '전주는 비빔밥이 있어요.'],
                 answer: 0,
-                feedback: '상황 때문에 엄두도 못 냈다는 뜻이므로 “등산할 생각도 못 했어요”가 자연스럽습니다.'
+                feedback: '대표 명사인 “비빔밥”이 이유이므로 “비빔밥으로 유명해요”가 자연스럽습니다.'
             }
         ];
 
@@ -533,7 +528,6 @@
         const countEl = document.getElementById('count');
         const nextBtn = document.getElementById('nextBtn');
         const resetBtn = document.getElementById('resetBtn');
-
         const state = { index: 0, score: 0, answered: false };
 
         function render() {
@@ -570,7 +564,7 @@
 
         function summary() {
             promptEl.textContent = '완료: ' + state.score + ' / ' + quiz.length;
-            choicesEl.innerHTML = '<div class="sentence">이 표현은 “하고 싶어도 현실적으로 시작조차 못 한다”는 느낌을 잡으면 됩니다.</div>';
+            choicesEl.innerHTML = '<div class="sentence">특징이면 “기로 유명해요”, 대표 명사이면 “(으)로 유명해요”를 고르면 됩니다.</div>';
             feedbackEl.className = 'feedback';
             feedbackEl.textContent = '';
             countEl.textContent = '완료';

@@ -1,7 +1,7 @@
 # 16과 소스 정리
 
-- 기준 PDF: `C:\Users\somet\Desktop\00.my_app_project\snukorean\3B\서울대 한국어 students book 3B.pdf`
-- 확인 페이지: PDF 166-169쪽
+- 기준 PDF: `C:\Users\somet\Desktop\00.my_app_project\snukorean\3B\students_book_3B_split_by_lesson\16_lesson_16.pdf`
+- 확인 페이지: 16과 분할 PDF의 `문법과 표현 1`·`문법과 표현 2` 페이지
 - 단원 제목: 가야금이 사람 키만 해요
 
 ## 개요
@@ -57,10 +57,9 @@
 - 부드럽다
 - 거칠다
 
-## 대상 표현
+## 문법 구조
 
-- N만 하다
-- V-(으)ㄹ 생각도 못 하다
-- V-(으)ㄹ 만하다
-- A/V-기로 유명하다
-- N(으)로 유명하다
+- 문법 1: N만 하다
+- 문법 2: V-(으)ㄹ 생각도 못 하다
+- 문법 3: V-(으)ㄹ 만하다
+- 문법 4: A/V-기로 유명하다, N(으)로 유명하다

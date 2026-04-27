@@ -72,6 +72,7 @@
     }
 
     .topbar a,
+    .mode-btn,
     .sound-btn,
     .mic-btn {
       min-height: 34px;
@@ -90,6 +91,7 @@
       cursor: pointer;
     }
 
+    .mode-btn.is-on,
     .sound-btn.is-on,
     .mic-btn.is-on {
       background: #1f7a54;
@@ -303,6 +305,7 @@
       }
 
       .topbar a,
+      .mode-btn,
       .sound-btn,
       .mic-btn {
         min-height: 32px;
@@ -370,6 +373,7 @@
       <strong id="verbLabel" class="verb-pill__verb">치다</strong>
     </div>
     <div class="topbar__links">
+      <button id="modeBtn" class="mode-btn" type="button" aria-pressed="false">동사</button>
       <button id="soundBtn" class="sound-btn" type="button" aria-pressed="false">소리</button>
       <button id="micBtn" class="mic-btn" type="button" aria-pressed="false">마이크</button>
     </div>
@@ -396,6 +400,7 @@
       const verbPill = document.getElementById('verbPill');
       const verbLabel = document.getElementById('verbLabel');
       const instrumentLabel = document.getElementById('instrumentLabel');
+      const modeBtn = document.getElementById('modeBtn');
       const soundBtn = document.getElementById('soundBtn');
       const micBtn = document.getElementById('micBtn');
       const toast = document.getElementById('toast');
@@ -470,6 +475,7 @@
 
       const state = {
         activeInstrument: 'piano',
+        textMode: 'verb',
         width: 0,
         height: 0,
         dpr: 1,
@@ -483,6 +489,8 @@
         heldPiano: new Map(),
         pianoPress: new Map(),
         drumHits: new Map(),
+        funObjectHits: new Map(),
+        funObjectMotion: new Map(),
         stringImpulse: new Map(),
         guitarGrabs: new Map(),
         violinBow: null,
@@ -492,6 +500,25 @@
         trumpetHead: null,
         trumpetLastBreathAt: 0,
         sparkleSeed: 1
+      };
+
+      const actionSentences = {
+        piano: {
+          '치다': '피아노를 치다',
+          '누르다': '건반을 누르다'
+        },
+        violin: {
+          '켜다': '바이올린을 켜다'
+        },
+        trumpet: {
+          '불다': '트럼펫을 불다'
+        },
+        guitar: {
+          '튕기다': '기타를 튕기다'
+        },
+        drums: {
+          '치다': '드럼을 치다'
+        }
       };
 
       const audio = {
@@ -558,6 +585,95 @@
         ctx.closePath();
       }
 
+      function drawSoftEllipseShadow(x, y, rx, ry, alpha = 0.22) {
+        ctx.save();
+        const shadow = ctx.createRadialGradient(x, y, 0, x, y, rx);
+        shadow.addColorStop(0, `rgba(0, 0, 0, ${alpha})`);
+        shadow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = shadow;
+        ctx.beginPath();
+        ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function drawWoodGrainRect(x, y, w, h, radius, alpha = 0.22) {
+        ctx.save();
+        roundedRect(ctx, x, y, w, h, radius);
+        ctx.clip();
+        ctx.globalAlpha = alpha;
+        ctx.lineCap = 'round';
+        for (let i = 0; i < 13; i += 1) {
+          const yy = y + h * (0.1 + i * 0.07);
+          ctx.strokeStyle = i % 2 ? 'rgba(255, 219, 143, 0.42)' : 'rgba(64, 24, 15, 0.42)';
+          ctx.lineWidth = 1 + (i % 3) * 0.45;
+          ctx.beginPath();
+          ctx.moveTo(x + w * 0.04, yy);
+          ctx.bezierCurveTo(
+            x + w * 0.25,
+            yy + Math.sin(i * 1.8) * h * 0.035,
+            x + w * 0.72,
+            yy - Math.cos(i * 1.2) * h * 0.04,
+            x + w * 0.96,
+            yy + Math.sin(i * 0.9) * h * 0.02
+          );
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawWoodGrainOval(cx, cy, rx, ry, angle = 0, alpha = 0.22) {
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.globalAlpha = alpha;
+        ctx.lineCap = 'round';
+        for (let i = -5; i <= 5; i += 1) {
+          const yy = (i / 6) * ry;
+          ctx.strokeStyle = i % 2 ? 'rgba(255, 225, 156, 0.5)' : 'rgba(82, 30, 16, 0.5)';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(-rx * 0.9, yy);
+          ctx.bezierCurveTo(-rx * 0.45, yy - ry * 0.12, rx * 0.1, yy + ry * 0.14, rx * 0.9, yy - ry * 0.04);
+          ctx.stroke();
+        }
+        for (let i = 0; i < 3; i += 1) {
+          ctx.strokeStyle = 'rgba(255, 238, 188, 0.2)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.ellipse(-rx * 0.24 + i * rx * 0.16, -ry * 0.04 + i * ry * 0.1, rx * (0.22 + i * 0.04), ry * 0.18, 0.12, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function strokeMetalPath(pathFn, width, base = '#d99b24', shade = '#87500d', shine = '#fff1a8') {
+        ctx.save();
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.42)';
+        ctx.shadowBlur = width * 1.2;
+        ctx.shadowOffsetY = width * 0.7;
+        ctx.strokeStyle = shade;
+        ctx.lineWidth = width * 1.18;
+        pathFn();
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = base;
+        ctx.lineWidth = width;
+        pathFn();
+        ctx.stroke();
+        ctx.strokeStyle = shine;
+        ctx.globalAlpha = 0.46;
+        ctx.lineWidth = width * 0.25;
+        pathFn();
+        ctx.stroke();
+        ctx.restore();
+      }
+
       function drawText(text, x, y, size, color, align = 'center', weight = 900) {
         ctx.save();
         ctx.font = `${weight} ${size}px "Noto Sans KR", "Malgun Gothic", sans-serif`;
@@ -582,9 +698,42 @@
         return state.sparkleSeed / 4294967296;
       }
 
-      function updateVerb(verb, instrumentName, color) {
-        verbLabel.textContent = verb;
-        instrumentLabel.textContent = instrumentName || instruments[state.activeInstrument].name;
+      function objectPhrase(noun) {
+        const last = noun.charCodeAt(noun.length - 1);
+        const hasBatchim = last >= 0xac00 && last <= 0xd7a3 && (last - 0xac00) % 28 !== 0;
+        return `${noun}${hasBatchim ? '을' : '를'}`;
+      }
+
+      function sentenceForAction(verb, instrumentName, requestedText) {
+        if (requestedText && requestedText !== verb) return requestedText;
+        const instrumentKey = state.activeInstrument;
+        return actionSentences[instrumentKey]?.[verb]
+          || `${objectPhrase(instrumentName || instruments[instrumentKey].name)} ${verb}`;
+      }
+
+      function outputTextForAction(verb, instrumentName, requestedText) {
+        return state.textMode === 'sentence'
+          ? sentenceForAction(verb, instrumentName, requestedText)
+          : verb;
+      }
+
+      function setTextMode(mode) {
+        state.textMode = mode === 'sentence' ? 'sentence' : 'verb';
+        const isSentence = state.textMode === 'sentence';
+        modeBtn.textContent = isSentence ? '문장' : '동사';
+        modeBtn.classList.toggle('is-on', isSentence);
+        modeBtn.setAttribute('aria-pressed', String(isSentence));
+      }
+
+      function updateVerb(verb, instrumentName, color, outputText = null) {
+        if (state.textMode === 'sentence' && outputText?.includes(' ')) {
+          const parts = outputText.split(' ');
+          instrumentLabel.textContent = parts.slice(0, -1).join(' ');
+          verbLabel.textContent = parts[parts.length - 1];
+        } else {
+          verbLabel.textContent = verb;
+          instrumentLabel.textContent = instrumentName || instruments[state.activeInstrument].name;
+        }
         verbLabel.style.background = color || instruments[state.activeInstrument].color;
         verbPill.classList.add('is-active');
         verbPill.classList.remove('pulse');
@@ -608,19 +757,34 @@
           || state.trumpetHead?.blowing;
       }
 
-      function flashVerb(verb, x, y, instrumentName, color, force = false) {
+      function flashVerb(verb, x, y, instrumentName, color, force = false, displayText = null, options = {}) {
         const now = performance.now();
-        updateVerb(verb, instrumentName, color);
+        const outputText = outputTextForAction(verb, instrumentName, displayText);
+        updateVerb(verb, instrumentName, color, outputText);
         if (!force && now - state.lastWordAt < 230) return;
         state.lastWordAt = now;
+        const baseTextSize = outputText.length > 4
+          ? clamp(state.width / (outputText.length * 1.45), 36, 104)
+          : clamp(state.width * 0.105, 48, 104);
+        const textSize = baseTextSize * (options.sizeScale || 1);
+        const halfTextWidth = outputText.length * textSize * 0.58;
+        const safeX = halfTextWidth > state.width * 0.46
+          ? state.width / 2
+          : clamp(x, halfTextWidth + 12, state.width - halfTextWidth - 12);
         addEffect({
           type: 'word',
-          text: verb,
-          x: clamp(x, state.width * 0.16, state.width * 0.84),
+          text: outputText,
+          phrase: outputText.includes(' ')
+            ? {
+                prefix: outputText.split(' ').slice(0, -1).join(' '),
+                verb: outputText.split(' ').slice(-1)[0]
+              }
+            : null,
+          x: safeX,
           y: clamp(y, state.height * 0.15, state.height * 0.76),
-          duration: 680,
+          duration: options.duration || 680,
           color: color || instruments[state.activeInstrument].color,
-          size: Math.max(48, Math.min(104, state.width * 0.105))
+          size: textSize
         });
       }
 
@@ -684,6 +848,11 @@
         state.pointers.clear();
         state.effects = [];
         state.guitarGrabs.clear();
+        state.layout.funObjects = [];
+        state.funObjectMotion.clear();
+        if (key === 'trumpet' || key === 'guitar' || key === 'drums') {
+          setFunObjectLayout(key);
+        }
         if (key === 'violin') {
           state.violinBow = null;
         }
@@ -894,6 +1063,134 @@
           toneGain.connect(audio.master);
           osc.start(now);
           osc.stop(now + 0.52);
+        }
+      }
+
+      function playWindBurst(intensity = 0.72, duration = 0.72) {
+        const ctx = ensureAudio();
+        if (!ctx) return;
+        const buffer = noiseBuffer(duration + 0.1);
+        if (!buffer) return;
+        const now = ctx.currentTime;
+        const noise = ctx.createBufferSource();
+        const highpass = ctx.createBiquadFilter();
+        const lowpass = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+        noise.buffer = buffer;
+        highpass.type = 'highpass';
+        highpass.frequency.setValueAtTime(240, now);
+        lowpass.type = 'lowpass';
+        lowpass.frequency.setValueAtTime(1800 + intensity * 900, now);
+        lowpass.frequency.exponentialRampToValueAtTime(520, now + duration);
+        lowpass.Q.value = 0.55;
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.18 * intensity, now + 0.045);
+        gain.gain.setTargetAtTime(0.0001, now + duration * 0.42, duration * 0.18);
+        noise.connect(highpass);
+        highpass.connect(lowpass);
+        lowpass.connect(gain);
+        gain.connect(audio.master);
+        noise.start(now);
+        noise.stop(now + duration + 0.12);
+      }
+
+      function playFunTone(freq, options = {}) {
+        const ctx = ensureAudio();
+        if (!ctx) return;
+        const duration = options.duration ?? 0.28;
+        const delay = options.delay ?? 0;
+        const attack = options.attack ?? 0.006;
+        const volume = options.volume ?? 0.1;
+        const now = ctx.currentTime + delay;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = options.filter ? ctx.createBiquadFilter() : null;
+        osc.type = options.type || 'sine';
+        osc.frequency.setValueAtTime(Math.max(1, freq), now);
+        if (options.endFreq) {
+          osc.frequency.exponentialRampToValueAtTime(Math.max(1, options.endFreq), now + duration);
+        }
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(volume, now + attack);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        if (filter) {
+          filter.type = options.filter.type || 'lowpass';
+          filter.frequency.setValueAtTime(options.filter.frequency || 1800, now);
+          if (options.filter.endFrequency) {
+            filter.frequency.exponentialRampToValueAtTime(options.filter.endFrequency, now + duration);
+          }
+          filter.Q.value = options.filter.q ?? 0.8;
+          osc.connect(filter);
+          filter.connect(gain);
+        } else {
+          osc.connect(gain);
+        }
+        gain.connect(audio.master);
+        osc.start(now);
+        osc.stop(now + duration + 0.04);
+      }
+
+      function playFunNoise(options = {}) {
+        const ctx = ensureAudio();
+        if (!ctx) return;
+        const duration = options.duration ?? 0.16;
+        const delay = options.delay ?? 0;
+        const buffer = noiseBuffer(duration + 0.05);
+        if (!buffer) return;
+        const now = ctx.currentTime + delay;
+        const noise = ctx.createBufferSource();
+        const filter = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+        noise.buffer = buffer;
+        filter.type = options.filterType || 'bandpass';
+        filter.frequency.setValueAtTime(options.frequency || 1600, now);
+        if (options.endFrequency) {
+          filter.frequency.exponentialRampToValueAtTime(options.endFrequency, now + duration);
+        }
+        filter.Q.value = options.q ?? 1.1;
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(options.volume ?? 0.08, now + 0.004);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audio.master);
+        noise.start(now);
+        noise.stop(now + duration + 0.04);
+      }
+
+      function playFunObjectSound(object) {
+        if (object.kind === 'pinwheel') {
+          playWindBurst(0.74, 0.62);
+          [760, 980, 1240].forEach((freq, index) => {
+            playFunTone(freq, { type: 'triangle', duration: 0.08, volume: 0.035, delay: 0.05 + index * 0.075 });
+          });
+        } else if (object.kind === 'bubbles') {
+          playFunTone(720, { endFreq: 1180, type: 'sine', duration: 0.22, volume: 0.075 });
+          playFunTone(1260, { endFreq: 940, type: 'triangle', duration: 0.16, volume: 0.045, delay: 0.08 });
+          playFunNoise({ duration: 0.08, volume: 0.025, filterType: 'highpass', frequency: 5200, delay: 0.04 });
+        } else if (object.kind === 'feather') {
+          playWindBurst(0.36, 0.58);
+          playFunTone(460, { endFreq: 260, type: 'triangle', duration: 0.42, volume: 0.035, filter: { type: 'lowpass', frequency: 1200, endFrequency: 520 } });
+        } else if (object.kind === 'basketball') {
+          playFunTone(148, { endFreq: 74, type: 'sine', duration: 0.24, volume: 0.16 });
+          playFunNoise({ duration: 0.055, volume: 0.045, filterType: 'lowpass', frequency: 520 });
+        } else if (object.kind === 'rubberband') {
+          playPluck(238, 0.38);
+          playFunTone(540, { endFreq: 360, type: 'sawtooth', duration: 0.24, volume: 0.052, filter: { type: 'lowpass', frequency: 1900, endFrequency: 780 } });
+        } else if (object.kind === 'spring') {
+          playFunTone(240, { endFreq: 430, type: 'sine', duration: 0.22, volume: 0.08 });
+          playFunTone(520, { endFreq: 310, type: 'triangle', duration: 0.34, volume: 0.06, delay: 0.055 });
+        } else if (object.kind === 'bell') {
+          playFunTone(1046, { type: 'sine', duration: 0.78, volume: 0.09 });
+          playFunTone(1568, { type: 'sine', duration: 0.66, volume: 0.045 });
+          playFunTone(2093, { type: 'triangle', duration: 0.42, volume: 0.024 });
+        } else if (object.kind === 'ball') {
+          playDrum('tom', 0.36);
+          playFunTone(285, { endFreq: 168, type: 'sine', duration: 0.18, volume: 0.07, delay: 0.015 });
+        } else if (object.kind === 'button') {
+          playFunNoise({ duration: 0.05, volume: 0.04, filterType: 'highpass', frequency: 2800 });
+          playFunTone(520, { endFreq: 360, type: 'square', duration: 0.08, volume: 0.035 });
+          playFunTone(260, { type: 'sine', duration: 0.09, volume: 0.025, delay: 0.055 });
         }
       }
 
@@ -1173,6 +1470,42 @@
         return distance(x, y, head.x, head.y) <= head.r * 1.28;
       }
 
+      function trumpetWindEmojiPoint(head = getTrumpetHead()) {
+        return {
+          x: head.homeX,
+          y: head.homeY,
+          r: head.r * 0.96
+        };
+      }
+
+      function hitTrumpetWindEmoji(x, y) {
+        const head = getTrumpetHead();
+        if (!head.attached) return false;
+        const wind = trumpetWindEmojiPoint(head);
+        return distance(x, y, wind.x, wind.y) <= wind.r * 1.38;
+      }
+
+      function triggerTrumpetWindEmoji(forceVerb = false) {
+        const head = getTrumpetHead();
+        const wind = trumpetWindEmojiPoint(head);
+        playWindBurst(0.78, 0.72);
+        flashVerb('불다', wind.x + wind.r * 1.45, wind.y - wind.r * 1.25, '바람', '#8de7dd', forceVerb, '바람을 불다', {
+          sizeScale: 0.5,
+          duration: 560
+        });
+        setGestureActive('길게');
+        addEffect({ type: 'funGust', x: wind.x + wind.r * 0.4, y: wind.y, duration: 620, color: '#dff8ff', strength: 1.1 });
+        emitTrumpetBreath(
+          {
+            x: wind.x - wind.r * 0.28,
+            y: wind.y - wind.r * 0.04,
+            r: wind.r
+          },
+          { x: wind.x + wind.r * 2.2, y: wind.y + (seededRandom() - 0.5) * wind.r * 0.4 },
+          0.9
+        );
+      }
+
       function setTrumpetHeadBlowing(isBlowing, forceVerb = false) {
         const head = getTrumpetHead();
         head.blowing = isBlowing;
@@ -1267,7 +1600,124 @@
         scheduleGestureHide(260);
       }
 
+      function funObjectSpecs(instrument) {
+        const w = state.width;
+        const h = state.height;
+        const r = clamp(Math.min(w, h) * 0.052, 22, 40);
+        const keepTop = Math.max(r + 22, h * 0.14);
+        const keepBottom = Math.min(h - r - 26, h * 0.82);
+        const keepLeft = r + 24;
+        const keepRight = w - r - 24;
+        if (instrument === 'trumpet') {
+          return [
+            { id: 'pinwheel', kind: 'pinwheel', name: '바람개비', verb: '불다', color: '#e6b84d', x: keepRight - r * 1.6, y: keepTop + r * 0.8, r },
+            { id: 'bubbles', kind: 'bubbles', name: '비눗방울', verb: '불다', color: '#8de7dd', x: keepLeft + r * 1.6, y: keepBottom - r * 0.8, r: r * 0.86 },
+            { id: 'feather', kind: 'feather', name: '깃털', verb: '불다', color: '#dff8ff', x: keepRight - r * 2.6, y: keepBottom - r * 0.7, r: r * 0.86 }
+          ];
+        }
+        if (instrument === 'guitar') {
+          return [
+            { id: 'basketball', kind: 'basketball', name: '농구공', verb: '튕기다', color: '#e28d40', x: keepLeft + r * 1.4, y: keepTop + r * 0.9, r },
+            { id: 'rubberband', kind: 'rubberband', name: '고무줄', verb: '튕기다', color: '#75d0c8', x: keepLeft + r * 1.8, y: keepBottom - r * 0.7, r: r * 0.92 },
+            { id: 'spring', kind: 'spring', name: '스프링', verb: '튕기다', color: '#b9a7ff', x: keepRight - r * 1.7, y: keepTop + r * 0.65, r: r * 0.9 }
+          ];
+        }
+        if (instrument === 'drums') {
+          return [
+            { id: 'bell', kind: 'bell', name: '종', verb: '치다', color: '#d9b548', x: keepLeft + r * 1.55, y: keepTop + r * 1.1, r },
+            { id: 'ball', kind: 'ball', name: '공', verb: '치다', color: '#6fc08d', x: keepRight - r * 1.55, y: keepTop + r * 1.05, r: r * 0.92 },
+            { id: 'button', kind: 'button', name: '버튼', verb: '치다', color: '#4fb8d1', x: keepRight - r * 1.85, y: keepBottom - r * 0.9, r: r * 0.88 }
+          ];
+        }
+        return [];
+      }
+
+      function setFunObjectLayout(instrument) {
+        state.layout.funObjects = funObjectSpecs(instrument).map((object) => ({
+          ...object,
+          hitR: object.r * 1.35
+        }));
+      }
+
+      function hitFunObject(x, y) {
+        const objects = state.layout.funObjects || [];
+        for (let i = objects.length - 1; i >= 0; i -= 1) {
+          const object = objects[i];
+          if (distance(x, y, object.x, object.y) <= object.hitR) return object;
+        }
+        return null;
+      }
+
+      function triggerFunObjectMotion(object) {
+        const durations = {
+          pinwheel: 1180,
+          bubbles: 920,
+          feather: 1050,
+          basketball: 820,
+          rubberband: 760,
+          spring: 880,
+          bell: 980,
+          ball: 720,
+          button: 430
+        };
+        state.funObjectMotion.set(object.id, {
+          kind: object.kind,
+          age: 0,
+          duration: durations[object.kind] || 720,
+          seed: seededRandom()
+        });
+      }
+
+      function interactFunObject(pointer, object) {
+        pointer.funObject = object;
+        state.funObjectHits.set(object.id, 1);
+        triggerFunObjectMotion(object);
+        const phrase = `${objectPhrase(object.name)} ${object.verb}`;
+        flashVerb(object.verb, object.x, object.y - object.r * 1.25, object.name, object.color, true, phrase, {
+          sizeScale: 0.46,
+          duration: 520
+        });
+
+        addFunObjectEffect(object);
+        playFunObjectSound(object);
+        setGestureActive(['pinwheel', 'bubbles', 'feather'].includes(object.kind) ? '\uAE38\uAC8C' : '\uC9E7\uAC8C');
+      }
+
+      function addFunObjectEffect(object) {
+        if (object.kind === 'pinwheel') {
+          addEffect({ type: 'funGust', x: object.x - object.r * 0.4, y: object.y, duration: 650, color: object.color, strength: 1.2 });
+          addEffect({ type: 'spinSpark', x: object.x, y: object.y, duration: 520, color: '#fff8ec', radius: object.r * 0.9 });
+        } else if (object.kind === 'bubbles') {
+          addEffect({ type: 'funBubbles', x: object.x, y: object.y, duration: 860, color: object.color, radius: object.r });
+        } else if (object.kind === 'feather') {
+          addEffect({ type: 'funFeather', x: object.x, y: object.y, duration: 820, color: object.color, radius: object.r });
+          addEffect({ type: 'funGust', x: object.x - object.r * 0.35, y: object.y, duration: 620, color: '#dff8ff', strength: 0.8 });
+        } else if (object.kind === 'basketball') {
+          addEffect({ type: 'funBounce', x: object.x, y: object.y + object.r * 0.64, duration: 540, color: object.color, radius: object.r });
+          addEffect({ type: 'impactDust', x: object.x, y: object.y + object.r * 0.58, duration: 420, color: '#ffd28d', radius: object.r });
+        } else if (object.kind === 'ball') {
+          addEffect({ type: 'funBounce', x: object.x, y: object.y + object.r * 0.64, duration: 540, color: object.color, radius: object.r });
+          addEffect({ type: 'impactDust', x: object.x, y: object.y + object.r * 0.55, duration: 390, color: object.color, radius: object.r * 0.82 });
+        } else if (object.kind === 'rubberband') {
+          addEffect({ type: 'funStretch', x: object.x, y: object.y, duration: 520, color: object.color, radius: object.r });
+          addEffect({ type: 'pluck', x: object.x, y: object.y, duration: 420, color: object.color });
+        } else if (object.kind === 'spring') {
+          addEffect({ type: 'funSpring', x: object.x, y: object.y, duration: 560, color: object.color, radius: object.r });
+          addEffect({ type: 'pluck', x: object.x, y: object.y, duration: 420, color: object.color });
+        } else if (object.kind === 'bell') {
+          addEffect({ type: 'funChime', x: object.x, y: object.y, duration: 650, color: object.color, radius: object.r });
+          addEffect({ type: 'ring', x: object.x, y: object.y, radius: object.r * 0.42, duration: 480, color: object.color });
+        } else if (object.kind === 'button') {
+          addEffect({ type: 'funButton', x: object.x, y: object.y, duration: 460, color: object.color, radius: object.r });
+        }
+      }
+
       function dispatchInstrumentDown(pointer) {
+        const funObject = hitFunObject(pointer.x, pointer.y);
+        if (funObject) {
+          interactFunObject(pointer, funObject);
+          return;
+        }
         if (state.activeInstrument === 'piano') return pianoDown(pointer);
         if (state.activeInstrument === 'violin') return violinDown(pointer);
         if (state.activeInstrument === 'trumpet') return trumpetDown(pointer);
@@ -1277,6 +1727,7 @@
 
       function dispatchInstrumentMove(pointer) {
         if (pointer.instrument !== state.activeInstrument) return;
+        if (pointer.funObject) return;
         if (state.activeInstrument === 'piano') return pianoMove(pointer);
         if (state.activeInstrument === 'violin') return violinMove(pointer);
         if (state.activeInstrument === 'trumpet') return trumpetMove(pointer);
@@ -1285,6 +1736,10 @@
 
       function dispatchInstrumentUp(pointer) {
         if (pointer.instrument !== state.activeInstrument) return;
+        if (pointer.funObject) {
+          pointer.funObject = null;
+          return;
+        }
         if (state.activeInstrument === 'piano') return pianoUp(pointer);
         if (state.activeInstrument === 'violin') return violinUp(pointer);
         if (state.activeInstrument === 'trumpet') return trumpetUp(pointer);
@@ -1308,14 +1763,22 @@
         return null;
       }
 
+      function findPianoKeyById(id) {
+        const layout = state.layout.piano;
+        if (!layout) return null;
+        return [...layout.blackKeys, ...layout.whiteKeys].find((key) => key.id === id) || null;
+      }
+
       function pianoDown(pointer) {
         const key = hitPianoKey(pointer.x, pointer.y);
         if (!key) return;
         pointer.keyId = key.id;
         pointer.lastKeyId = key.id;
+        pointer.pianoDownAt = performance.now();
+        pointer.pianoLongFired = false;
+        pointer.pianoMoved = false;
         startPianoVoice(pointer.id, key);
         state.pianoPress.set(key.id, { amount: 1, label: key.name, color: key.black ? '#201a17' : '#d7483f' });
-        flashVerb('치다', key.x + key.w / 2, key.y - 18, '피아노', instruments.piano.color, true);
         setGestureActive('짧게');
         addEffect({ type: 'burst', x: key.x + key.w / 2, y: key.y + key.h * 0.35, duration: 460, color: '#ffd36a' });
       }
@@ -1325,15 +1788,24 @@
         if (!key || key.id === pointer.lastKeyId) return;
         releasePianoVoice(pointer.id);
         pointer.lastKeyId = key.id;
+        pointer.pianoDownAt = performance.now();
+        pointer.pianoLongFired = false;
+        pointer.pianoMoved = true;
         startPianoVoice(pointer.id, key);
         state.pianoPress.set(key.id, { amount: 1, label: key.name, color: key.black ? '#201a17' : '#d7483f' });
-        flashVerb('치다', key.x + key.w / 2, key.y - 18, '피아노', instruments.piano.color);
+        flashVerb('치다', key.x + key.w / 2, key.y - 18, '피아노', instruments.piano.color, false, '피아노를 치다');
         setGestureActive('드래그');
         addEffect({ type: 'spark', x: key.x + key.w / 2, y: key.y + key.h * 0.26, duration: 380, color: '#fff1a8' });
       }
 
       function pianoUp(pointer) {
         releasePianoVoice(pointer.id);
+        const held = performance.now() - (pointer.pianoDownAt || pointer.startTime);
+        const key = findPianoKeyById(pointer.lastKeyId);
+        if (key && !pointer.pianoLongFired && held < 430) {
+          flashVerb('치다', key.x + key.w / 2, key.y - 18, '피아노', instruments.piano.color, true, '피아노를 치다');
+          setGestureActive('짧게');
+        }
         if (pointer.lastKeyId) {
           const pressed = state.pianoPress.get(pointer.lastKeyId);
           if (pressed) pressed.amount = Math.min(pressed.amount, 0.45);
@@ -1608,6 +2080,12 @@
 
       function trumpetDown(pointer) {
         const head = getTrumpetHead();
+        if (hitTrumpetWindEmoji(pointer.x, pointer.y)) {
+          pointer.trumpetTarget = 'windEmoji';
+          pointer.lastWindEmojiAt = performance.now();
+          triggerTrumpetWindEmoji(true);
+          return;
+        }
         if (hitTrumpetHead(pointer.x, pointer.y)) {
           pointer.trumpetTarget = 'head';
           pointer.headWasAttached = head.attached;
@@ -1638,6 +2116,16 @@
 
       function trumpetMove(pointer) {
         const head = getTrumpetHead();
+        if (pointer.trumpetTarget === 'windEmoji') {
+          const now = performance.now();
+          if (now - (pointer.lastWindEmojiAt || 0) > 120) {
+            pointer.lastWindEmojiAt = now;
+            const wind = trumpetWindEmojiPoint(head);
+            playWindBurst(0.38, 0.36);
+            addEffect({ type: 'funGust', x: wind.x + wind.r * 0.4, y: wind.y, duration: 420, color: '#dff8ff', strength: 0.7 });
+          }
+          return;
+        }
         if (pointer.trumpetTarget === 'head') {
           if (!head.attached) {
             head.dragging = true;
@@ -1671,6 +2159,10 @@
 
       function trumpetUp(pointer) {
         const head = getTrumpetHead();
+        if (pointer.trumpetTarget === 'windEmoji') {
+          pointer.trumpetTarget = null;
+          return;
+        }
         if (pointer.trumpetTarget === 'head') {
           const moved = distance(pointer.x, pointer.y, pointer.headStartX, pointer.headStartY);
           if (head.attached && !pointer.attachedDuringDrag && moved < head.r * 0.42) {
@@ -1704,6 +2196,13 @@
             setGestureActive(pointer.guitarGrab.hasPulled ? '드래그' : '길게');
           }
           if (pointer.instrument === 'piano' && pointer.lastKeyId && held > 430) {
+            if (!pointer.pianoLongFired) {
+              const key = findPianoKeyById(pointer.lastKeyId);
+              if (key) {
+                flashVerb('누르다', key.x + key.w / 2, key.y - 18, '피아노', instruments.piano.color, true, '건반을 누르다');
+              }
+              pointer.pianoLongFired = true;
+            }
             setGestureActive('길게');
           }
         }
@@ -1767,6 +2266,256 @@
         ctx.fillRect(0, 0, w, h);
       }
 
+      function funObjectTransform(object) {
+        const motion = state.funObjectMotion.get(object.id);
+        const transform = {
+          dx: 0,
+          dy: 0,
+          rotation: 0,
+          scaleX: 1,
+          scaleY: 1,
+          extraSpin: 0
+        };
+        if (!motion) return transform;
+
+        const t = clamp(motion.age / motion.duration, 0, 1);
+        const fade = 1 - t;
+        const pulse = Math.sin(t * Math.PI);
+        const out = 1 - Math.pow(1 - t, 3);
+        const wobble = Math.sin(t * Math.PI * 5 + motion.seed * Math.PI) * fade;
+
+        if (object.kind === 'pinwheel') {
+          transform.extraSpin = fade * Math.PI * 8.5;
+          transform.rotation = wobble * 0.08;
+          transform.scaleX = 1 + pulse * 0.08;
+          transform.scaleY = 1 + pulse * 0.08;
+        } else if (object.kind === 'bubbles') {
+          transform.dx = Math.sin(t * Math.PI * 2.5 + motion.seed * 3) * object.r * 0.1 * fade;
+          transform.dy = -pulse * object.r * 0.36;
+          transform.scaleX = 1 + pulse * 0.18;
+          transform.scaleY = 1 + pulse * 0.18;
+        } else if (object.kind === 'feather') {
+          transform.dx = out * object.r * 0.5;
+          transform.dy = -pulse * object.r * 0.58;
+          transform.rotation = -0.12 + Math.sin(t * Math.PI * 2.4) * 0.32 * fade;
+        } else if (object.kind === 'basketball') {
+          const hop = Math.abs(Math.sin(t * Math.PI * 1.55)) * fade;
+          const land = Math.max(0, (t - 0.62) / 0.38);
+          const squash = Math.sin(land * Math.PI) * 0.22;
+          transform.dy = -hop * object.r * 1.16;
+          transform.rotation = out * Math.PI * 1.8;
+          transform.scaleX = 1 + squash;
+          transform.scaleY = 1 - squash * 0.55;
+        } else if (object.kind === 'rubberband') {
+          const stretch = Math.abs(Math.sin(t * Math.PI * 2.25)) * fade;
+          transform.rotation = Math.sin(t * Math.PI * 4.5) * 0.12 * fade;
+          transform.scaleX = 1 + stretch * 0.44;
+          transform.scaleY = 1 - stretch * 0.2;
+        } else if (object.kind === 'spring') {
+          const boing = Math.sin(t * Math.PI * 5.2) * fade;
+          transform.dx = Math.sin(t * Math.PI * 7) * object.r * 0.08 * fade;
+          transform.scaleX = 1 + boing * 0.24;
+          transform.scaleY = 1 - boing * 0.18;
+        } else if (object.kind === 'bell') {
+          transform.rotation = Math.sin(t * Math.PI * 7.2) * 0.38 * fade;
+          transform.dx = Math.sin(t * Math.PI * 4) * object.r * 0.05 * fade;
+        } else if (object.kind === 'ball') {
+          const hop = Math.sin(t * Math.PI) * fade;
+          const squash = Math.sin(Math.max(0, t - 0.52) / 0.48 * Math.PI) * 0.18;
+          transform.dy = -hop * object.r * 0.78;
+          transform.rotation = out * Math.PI * 1.15;
+          transform.scaleX = 1 + squash;
+          transform.scaleY = 1 - squash * 0.5;
+        } else if (object.kind === 'button') {
+          const press = Math.max(0, 1 - t * 3.2);
+          transform.dy = press * object.r * 0.16;
+          transform.scaleX = 1 + press * 0.08;
+          transform.scaleY = 1 - press * 0.14;
+        }
+        return transform;
+      }
+
+      function drawFunObjects(now) {
+        const objects = state.layout.funObjects || [];
+        objects.forEach((object) => {
+          const hit = state.funObjectHits.get(object.id) || 0;
+          const motion = funObjectTransform(object);
+          const wobble = Math.sin(now * 0.006 + object.x * 0.02) * object.r * 0.04;
+          const scale = 1 + hit * 0.12;
+          drawTouchableGlow(object.x, object.y, object.hitR * 0.72, object.color, now, 0.09 + hit * 0.14);
+
+          ctx.save();
+          ctx.translate(object.x + motion.dx, object.y + motion.dy + wobble - hit * object.r * 0.12);
+          ctx.rotate(motion.rotation);
+          ctx.scale(scale * motion.scaleX, scale * motion.scaleY);
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.34)';
+          ctx.shadowBlur = object.r * 0.5;
+          ctx.shadowOffsetY = object.r * 0.18;
+
+          if (object.kind === 'pinwheel') {
+            ctx.strokeStyle = 'rgba(255, 248, 236, 0.62)';
+            ctx.lineWidth = Math.max(2, object.r * 0.08);
+            ctx.beginPath();
+            ctx.moveTo(0, object.r * 0.1);
+            ctx.lineTo(0, object.r * 1.45);
+            ctx.stroke();
+            ctx.rotate(now * 0.004 + hit * 1.3 + motion.extraSpin);
+            ['#e75d4f', '#f4c64b', '#55bfa3', '#7b91e8'].forEach((color, index) => {
+              ctx.rotate(Math.PI / 2);
+              ctx.fillStyle = color;
+              ctx.beginPath();
+              ctx.moveTo(0, 0);
+              ctx.quadraticCurveTo(object.r * 0.46, -object.r * 0.14, object.r * 0.86, -object.r * 0.58);
+              ctx.quadraticCurveTo(object.r * 0.42, -object.r * 0.3, object.r * 0.1, 0);
+              ctx.fill();
+            });
+            ctx.fillStyle = '#fff8ec';
+            ctx.beginPath();
+            ctx.arc(0, 0, object.r * 0.16, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (object.kind === 'bubbles') {
+            ctx.shadowBlur = 0;
+            for (let i = 0; i < 4; i += 1) {
+              const angle = i * 1.7 + now * 0.0015;
+              const bx = Math.cos(angle) * object.r * (0.16 + i * 0.12);
+              const by = Math.sin(angle) * object.r * (0.2 + i * 0.1) - hit * object.r * 0.28;
+              const br = object.r * (0.22 + (i % 2) * 0.08);
+              ctx.strokeStyle = 'rgba(223, 248, 255, 0.78)';
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.arc(bx, by, br, 0, Math.PI * 2);
+              ctx.stroke();
+              ctx.fillStyle = 'rgba(141, 231, 221, 0.12)';
+              ctx.fill();
+            }
+          } else if (object.kind === 'feather') {
+            ctx.rotate(-0.42 + hit * 0.35);
+            ctx.strokeStyle = '#fff8ec';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-object.r * 0.65, object.r * 0.58);
+            ctx.quadraticCurveTo(0, -object.r * 0.05, object.r * 0.72, -object.r * 0.66);
+            ctx.stroke();
+            const feather = ctx.createLinearGradient(-object.r, object.r, object.r, -object.r);
+            feather.addColorStop(0, '#9edee6');
+            feather.addColorStop(1, '#fff8ec');
+            ctx.fillStyle = feather;
+            ctx.beginPath();
+            ctx.ellipse(0, -object.r * 0.08, object.r * 0.28, object.r * 0.82, -0.82, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(45, 72, 80, 0.42)';
+            ctx.lineWidth = 1;
+            for (let i = -3; i <= 3; i += 1) {
+              ctx.beginPath();
+              ctx.moveTo(i * object.r * 0.05, -object.r * 0.08);
+              ctx.lineTo(i * object.r * 0.18, -object.r * 0.46 + Math.abs(i) * object.r * 0.08);
+              ctx.stroke();
+            }
+          } else if (object.kind === 'basketball') {
+            const ball = ctx.createRadialGradient(-object.r * 0.24, -object.r * 0.3, 2, 0, 0, object.r);
+            ball.addColorStop(0, '#ffd28d');
+            ball.addColorStop(0.42, '#e9862d');
+            ball.addColorStop(1, '#8d3f16');
+            ctx.fillStyle = ball;
+            ctx.beginPath();
+            ctx.arc(0, 0, object.r * 0.72, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#4c2214';
+            ctx.lineWidth = Math.max(2, object.r * 0.06);
+            ctx.beginPath();
+            ctx.arc(0, 0, object.r * 0.72, 0, Math.PI * 2);
+            ctx.moveTo(-object.r * 0.7, 0);
+            ctx.lineTo(object.r * 0.7, 0);
+            ctx.moveTo(0, -object.r * 0.7);
+            ctx.lineTo(0, object.r * 0.7);
+            ctx.ellipse(-object.r * 0.28, 0, object.r * 0.28, object.r * 0.72, 0, 0, Math.PI * 2);
+            ctx.ellipse(object.r * 0.28, 0, object.r * 0.28, object.r * 0.72, 0, 0, Math.PI * 2);
+            ctx.stroke();
+          } else if (object.kind === 'rubberband') {
+            ctx.rotate(-0.15 + hit * 0.25);
+            ctx.strokeStyle = '#75d0c8';
+            ctx.lineWidth = Math.max(5, object.r * 0.14);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, object.r * 0.92 + hit * object.r * 0.16, object.r * 0.38 - hit * object.r * 0.04, 0, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.strokeStyle = 'rgba(255, 248, 236, 0.58)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          } else if (object.kind === 'spring') {
+            ctx.strokeStyle = '#d9ccff';
+            ctx.lineWidth = Math.max(3, object.r * 0.09);
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            for (let i = 0; i <= 28; i += 1) {
+              const t = i / 28;
+              const x = lerp(-object.r * 0.8, object.r * 0.8, t);
+              const y = Math.sin(t * Math.PI * 9 + hit * 1.6) * object.r * 0.28;
+              if (i === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.fillStyle = '#b9a7ff';
+            ctx.beginPath();
+            ctx.arc(-object.r * 0.92, 0, object.r * 0.12, 0, Math.PI * 2);
+            ctx.arc(object.r * 0.92, 0, object.r * 0.12, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (object.kind === 'bell') {
+            const bell = ctx.createRadialGradient(-object.r * 0.18, -object.r * 0.28, 2, 0, 0, object.r);
+            bell.addColorStop(0, '#fff1a8');
+            bell.addColorStop(0.52, '#d9b548');
+            bell.addColorStop(1, '#86540b');
+            ctx.fillStyle = bell;
+            ctx.beginPath();
+            ctx.moveTo(-object.r * 0.5, object.r * 0.34);
+            ctx.quadraticCurveTo(-object.r * 0.34, -object.r * 0.52, 0, -object.r * 0.56);
+            ctx.quadraticCurveTo(object.r * 0.34, -object.r * 0.52, object.r * 0.5, object.r * 0.34);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 248, 236, 0.58)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = '#6d3a08';
+            ctx.beginPath();
+            ctx.arc(0, object.r * 0.44 + hit * object.r * 0.08, object.r * 0.14, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (object.kind === 'ball') {
+            const ball = ctx.createRadialGradient(-object.r * 0.28, -object.r * 0.32, 2, 0, 0, object.r);
+            ball.addColorStop(0, '#fff8ec');
+            ball.addColorStop(0.45, '#6fc08d');
+            ball.addColorStop(1, '#1d6f4c');
+            ctx.fillStyle = ball;
+            ctx.beginPath();
+            ctx.arc(0, 0, object.r * 0.68, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 248, 236, 0.66)';
+            ctx.lineWidth = Math.max(2, object.r * 0.06);
+            ctx.beginPath();
+            ctx.arc(0, 0, object.r * 0.68, 0, Math.PI * 2);
+            ctx.moveTo(-object.r * 0.58, -object.r * 0.2);
+            ctx.quadraticCurveTo(0, object.r * 0.18, object.r * 0.58, -object.r * 0.2);
+            ctx.stroke();
+          } else if (object.kind === 'button') {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+            ctx.beginPath();
+            ctx.ellipse(0, object.r * 0.22, object.r * 0.78, object.r * 0.32, 0, 0, Math.PI * 2);
+            ctx.fill();
+            const button = ctx.createRadialGradient(-object.r * 0.22, -object.r * 0.26, 2, 0, 0, object.r);
+            button.addColorStop(0, '#dff8ff');
+            button.addColorStop(0.48, '#4fb8d1');
+            button.addColorStop(1, '#176177');
+            ctx.fillStyle = button;
+            ctx.beginPath();
+            ctx.arc(0, -hit * object.r * 0.16, object.r * 0.58, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 248, 236, 0.64)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+          }
+
+          ctx.restore();
+        });
+      }
+
       function drawPiano(now) {
         const w = state.width;
         const h = state.height;
@@ -1779,6 +2528,8 @@
         const whiteW = boardW / pianoWhite.length;
 
         state.layout.piano = { whiteKeys: [], blackKeys: [] };
+
+        drawSoftEllipseShadow(x + boardW * 0.5, y + boardH + 40, boardW * 0.58, boardH * 0.16, 0.24);
 
         ctx.save();
         ctx.shadowColor = 'rgba(0,0,0,0.36)';
@@ -1793,9 +2544,40 @@
         ctx.fill();
         ctx.restore();
 
-        ctx.fillStyle = '#0e0c0b';
+        drawWoodGrainRect(x - 18, y - 42, boardW + 36, boardH + 66, 24, 0.24);
+
+        ctx.save();
+        const lidGradient = ctx.createLinearGradient(x, y - 28, x, y + boardH * 0.2);
+        lidGradient.addColorStop(0, '#18110e');
+        lidGradient.addColorStop(0.55, '#0e0c0b');
+        lidGradient.addColorStop(1, '#24120f');
+        ctx.fillStyle = lidGradient;
         roundedRect(ctx, x + 18, y - 18, boardW - 36, boardH * 0.2, 12);
         ctx.fill();
+        ctx.globalAlpha = 0.64;
+        ctx.strokeStyle = '#b78545';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(x + 30, y + boardH * 0.15);
+        ctx.lineTo(x + boardW - 30, y + boardH * 0.15);
+        ctx.stroke();
+        ctx.globalAlpha = 0.25;
+        ctx.strokeStyle = '#fff1a8';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x + 42, y - 2);
+        ctx.bezierCurveTo(x + boardW * 0.3, y - 20, x + boardW * 0.78, y - 8, x + boardW - 42, y - 12);
+        ctx.stroke();
+        ctx.restore();
+
+        const keyBedGradient = ctx.createLinearGradient(x, keyY - 16, x, keyY + keyH);
+        keyBedGradient.addColorStop(0, '#3a1c16');
+        keyBedGradient.addColorStop(0.28, '#17110f');
+        keyBedGradient.addColorStop(1, '#070605');
+        ctx.fillStyle = keyBedGradient;
+        roundedRect(ctx, x - 4, keyY - 16, boardW + 8, keyH + 24, 14);
+        ctx.fill();
+
         ctx.save();
         ctx.globalAlpha = 0.16 + Math.sin(now * 0.004) * 0.04;
         ctx.strokeStyle = '#fff1a8';
@@ -1803,6 +2585,7 @@
         roundedRect(ctx, x + 4, keyY + 3, boardW - 8, keyH - 6, 12);
         ctx.stroke();
         ctx.restore();
+
         for (let i = 0; i < pianoWhite.length; i += 1) {
           const press = state.pianoPress.get(`w${i}`)?.amount || 0;
           const keyX = x + i * whiteW;
@@ -1818,13 +2601,27 @@
           state.layout.piano.whiteKeys.push(key);
           const gradient = ctx.createLinearGradient(0, key.y, 0, key.y + key.h);
           gradient.addColorStop(0, press ? '#fff0c2' : '#fffdf7');
+          gradient.addColorStop(0.62, press ? '#f6dda7' : '#eee8dc');
           gradient.addColorStop(1, press ? '#f0d19a' : '#d8cfc0');
+          ctx.save();
+          ctx.shadowColor = press ? 'rgba(255, 241, 168, 0.42)' : 'rgba(0, 0, 0, 0.22)';
+          ctx.shadowBlur = press ? 14 : 7;
+          ctx.shadowOffsetY = press ? 2 : 5;
           ctx.fillStyle = gradient;
           roundedRect(ctx, key.x, key.y, key.w, key.h, 8);
           ctx.fill();
           ctx.strokeStyle = 'rgba(44, 30, 22, 0.24)';
           ctx.lineWidth = 1.5;
           ctx.stroke();
+          ctx.globalAlpha = 0.55;
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.72)';
+          roundedRect(ctx, key.x + key.w * 0.12, key.y + key.h * 0.06, key.w * 0.2, key.h * 0.72, key.w * 0.08);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          ctx.fillStyle = press ? 'rgba(141, 82, 36, 0.28)' : 'rgba(74, 44, 25, 0.18)';
+          roundedRect(ctx, key.x + 1, key.y + key.h - 18, key.w - 2, 18, 5);
+          ctx.fill();
+          ctx.restore();
         }
 
         pianoBlack.forEach((black, index) => {
@@ -1843,14 +2640,45 @@
           state.layout.piano.blackKeys.push(key);
           const gradient = ctx.createLinearGradient(0, key.y, 0, key.y + key.h);
           gradient.addColorStop(0, press ? '#4a3029' : '#1e1815');
+          gradient.addColorStop(0.5, press ? '#211410' : '#0f0d0c');
           gradient.addColorStop(1, press ? '#0b0908' : '#050505');
+          ctx.save();
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+          ctx.shadowBlur = 12;
+          ctx.shadowOffsetY = 8;
           ctx.fillStyle = gradient;
           roundedRect(ctx, key.x, key.y, key.w, key.h, 7);
           ctx.fill();
-          ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+          ctx.shadowBlur = 0;
+          ctx.strokeStyle = 'rgba(255,255,255,0.14)';
           ctx.stroke();
+          ctx.fillStyle = 'rgba(255, 248, 236, 0.18)';
+          roundedRect(ctx, key.x + key.w * 0.18, key.y + key.h * 0.08, key.w * 0.18, key.h * 0.68, 4);
+          ctx.fill();
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
+          roundedRect(ctx, key.x + 2, key.y + key.h - 16, key.w - 4, 16, 4);
+          ctx.fill();
+          ctx.restore();
         });
 
+        if (h > 560) {
+          ctx.save();
+          ctx.strokeStyle = 'rgba(231, 190, 112, 0.72)';
+          ctx.lineWidth = Math.max(3, boardH * 0.012);
+          ctx.lineCap = 'round';
+          for (let i = -1; i <= 1; i += 1) {
+            const px = x + boardW * (0.5 + i * 0.055);
+            ctx.beginPath();
+            ctx.moveTo(px, y + boardH + 16);
+            ctx.quadraticCurveTo(px + i * 7, y + boardH + 44, px - i * 4, y + boardH + 66);
+            ctx.stroke();
+            ctx.fillStyle = '#d8a64d';
+            ctx.beginPath();
+            ctx.ellipse(px - i * 4, y + boardH + 70, boardH * 0.025, boardH * 0.012, -0.18, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
       }
 
       function drawDrums(now) {
@@ -1869,48 +2697,187 @@
         ];
         state.layout.drums = drums;
 
-        ctx.save();
-        ctx.strokeStyle = 'rgba(255, 248, 236, 0.26)';
-        ctx.lineWidth = Math.max(5, r * 0.08);
-        drums.forEach((drum) => {
-          if (drum.kind === 'kick') return;
-          ctx.beginPath();
-          ctx.moveTo(drum.x, drum.y + drum.r * 0.7);
-          ctx.lineTo(drum.x - drum.r * 0.34, h * 0.9);
-          ctx.moveTo(drum.x, drum.y + drum.r * 0.7);
-          ctx.lineTo(drum.x + drum.r * 0.34, h * 0.9);
-          ctx.stroke();
-        });
-        ctx.restore();
-
-        drums.forEach((drum) => {
-          const hit = state.drumHits.get(drum.id) || 0;
-          const squash = 1 - hit * 0.12;
-          if (hit < 0.08) {
-            drawTouchableGlow(drum.x, drum.y, drum.r * 0.92, drum.color, now, 0.16);
-          }
+        function drawChromeLine(x1, y1, x2, y2, width = r * 0.045) {
           ctx.save();
-          ctx.translate(drum.x, drum.y);
-          ctx.scale(1 + hit * 0.04, squash);
-          ctx.shadowColor = 'rgba(0,0,0,0.4)';
-          ctx.shadowBlur = 24;
-          ctx.shadowOffsetY = 12;
+          ctx.lineCap = 'round';
+          ctx.lineWidth = width;
+          ctx.strokeStyle = 'rgba(255, 248, 236, 0.28)';
           ctx.beginPath();
-          ctx.ellipse(0, 0, drum.r, drum.r * (drum.kind === 'crash' || drum.kind === 'hihat' ? 0.28 : 0.76), 0, 0, Math.PI * 2);
-          const gradient = ctx.createRadialGradient(-drum.r * 0.28, -drum.r * 0.12, 2, 0, 0, drum.r);
-          gradient.addColorStop(0, '#fff8ec');
-          gradient.addColorStop(0.2, drum.color);
-          gradient.addColorStop(1, '#221713');
-          ctx.fillStyle = gradient;
-          ctx.fill();
-          ctx.lineWidth = Math.max(3, drum.r * 0.06);
-          ctx.strokeStyle = 'rgba(255,248,236,0.72)';
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+          ctx.lineWidth = width * 0.42;
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.42)';
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
           ctx.stroke();
           ctx.restore();
-          if (hit > 0.12) {
-            drawText(drum.label, drum.x, drum.y - drum.r * 1.08, Math.max(16, drum.r * 0.34), '#fff8ec');
+        }
+
+        function drawFloorShadow(x, y, rx, ry, alpha = 0.2) {
+          ctx.save();
+          const shadow = ctx.createRadialGradient(x, y, 0, x, y, rx);
+          shadow.addColorStop(0, `rgba(0, 0, 0, ${alpha})`);
+          shadow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+          ctx.fillStyle = shadow;
+          ctx.beginPath();
+          ctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        function drawCymbal(drum) {
+          const hit = state.drumHits.get(drum.id) || 0;
+          const wobble = Math.sin(now * 0.034) * hit * drum.r * 0.05;
+          const tilt = drum.kind === 'crash' ? -0.08 : 0.05;
+          if (hit < 0.08) {
+            drawTouchableGlow(drum.x, drum.y, drum.r * 0.82, '#ffe28a', now, 0.13);
           }
-        });
+          drawChromeLine(drum.x, drum.y + drum.r * 0.28, drum.x, h * 0.88, r * 0.052);
+          drawChromeLine(drum.x, drum.y + drum.r * 0.52, drum.x - drum.r * 0.38, h * 0.9, r * 0.034);
+          drawChromeLine(drum.x, drum.y + drum.r * 0.52, drum.x + drum.r * 0.38, h * 0.9, r * 0.034);
+
+          ctx.save();
+          ctx.translate(drum.x, drum.y + wobble);
+          ctx.rotate(tilt);
+          ctx.scale(1 + hit * 0.05, 1 - hit * 0.08);
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.42)';
+          ctx.shadowBlur = 22;
+          ctx.shadowOffsetY = 10;
+          const metal = ctx.createRadialGradient(-drum.r * 0.22, -drum.r * 0.12, 2, 0, 0, drum.r);
+          metal.addColorStop(0, '#fff7b8');
+          metal.addColorStop(0.22, '#f1c545');
+          metal.addColorStop(0.64, drum.color);
+          metal.addColorStop(1, '#7e4a08');
+          ctx.fillStyle = metal;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, drum.r, drum.r * 0.28, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          for (let i = 1; i <= 4; i += 1) {
+            ctx.strokeStyle = `rgba(255, 248, 236, ${0.26 - i * 0.035})`;
+            ctx.lineWidth = 1.2;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, drum.r * (0.26 + i * 0.14), drum.r * (0.07 + i * 0.04), 0, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+          const bell = ctx.createRadialGradient(-drum.r * 0.05, -drum.r * 0.06, 2, 0, 0, drum.r * 0.28);
+          bell.addColorStop(0, '#fff8d8');
+          bell.addColorStop(0.55, '#df9c19');
+          bell.addColorStop(1, '#8a5209');
+          ctx.fillStyle = bell;
+          ctx.beginPath();
+          ctx.ellipse(0, -drum.r * 0.02, drum.r * 0.24, drum.r * 0.12, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(255, 248, 236, 0.64)';
+          ctx.lineWidth = Math.max(2, drum.r * 0.035);
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        function drawDrumShell(drum) {
+          const hit = state.drumHits.get(drum.id) || 0;
+          const squash = 1 - hit * 0.1;
+          const isKick = drum.kind === 'kick';
+          const headH = isKick ? drum.r * 1.02 : drum.r * 0.68;
+          const shellH = isKick ? drum.r * 1.56 : drum.r * 1.08;
+          const shellY = isKick ? drum.y + drum.r * 0.02 : drum.y + drum.r * 0.22;
+          const shellColor = drum.color;
+          if (hit < 0.08) {
+            drawTouchableGlow(drum.x, drum.y, drum.r * (isKick ? 0.82 : 0.92), shellColor, now, 0.14);
+          }
+          drawFloorShadow(drum.x, drum.y + shellH * 0.54, drum.r * 1.45, drum.r * 0.34, isKick ? 0.28 : 0.18);
+
+          ctx.save();
+          ctx.translate(drum.x, drum.y);
+          ctx.scale(1 + hit * 0.035, squash);
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.42)';
+          ctx.shadowBlur = 28;
+          ctx.shadowOffsetY = 16;
+
+          const shell = ctx.createLinearGradient(-drum.r, -drum.r * 0.35, drum.r, shellH * 0.58);
+          shell.addColorStop(0, '#2a1614');
+          shell.addColorStop(0.18, shellColor);
+          shell.addColorStop(0.54, '#241310');
+          shell.addColorStop(1, '#120c0a');
+          ctx.fillStyle = shell;
+          ctx.beginPath();
+          ctx.ellipse(0, isKick ? 0 : drum.r * 0.2, drum.r * (isKick ? 0.98 : 0.96), shellH * 0.5, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.shadowBlur = 0;
+          const rim = ctx.createRadialGradient(-drum.r * 0.24, -headH * 0.2, 2, 0, 0, drum.r * 1.1);
+          rim.addColorStop(0, '#fff8ec');
+          rim.addColorStop(0.18, '#d6c8b6');
+          rim.addColorStop(0.38, shellColor);
+          rim.addColorStop(1, '#16100f');
+          ctx.fillStyle = rim;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, drum.r, headH * 0.55, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          const head = ctx.createRadialGradient(-drum.r * 0.22, -headH * 0.18, 2, 0, 0, drum.r * 0.94);
+          head.addColorStop(0, hit > 0.08 ? '#fff6d5' : '#fffdf7');
+          head.addColorStop(0.58, '#d8d1c4');
+          head.addColorStop(1, '#8b8175');
+          ctx.fillStyle = head;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, drum.r * 0.76, headH * 0.4, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (isKick) {
+            ctx.fillStyle = 'rgba(18, 12, 10, 0.82)';
+            ctx.beginPath();
+            ctx.ellipse(drum.r * 0.27, drum.r * 0.1, drum.r * 0.2, drum.r * 0.27, 0, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          ctx.strokeStyle = 'rgba(255, 248, 236, 0.76)';
+          ctx.lineWidth = Math.max(3, drum.r * 0.055);
+          ctx.beginPath();
+          ctx.ellipse(0, 0, drum.r, headH * 0.55, 0, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.strokeStyle = 'rgba(255, 248, 236, 0.34)';
+          ctx.lineWidth = Math.max(1.4, drum.r * 0.018);
+          for (let i = 0; i < 8; i += 1) {
+            const angle = (Math.PI * 2 * i) / 8;
+            const lugX = Math.cos(angle) * drum.r * 0.86;
+            const lugY = Math.sin(angle) * headH * 0.45;
+            ctx.beginPath();
+            ctx.moveTo(lugX, lugY);
+            ctx.lineTo(lugX * 0.88, lugY + (isKick ? drum.r * 0.28 : drum.r * 0.18));
+            ctx.stroke();
+            ctx.fillStyle = '#e7d8bd';
+            roundedRect(ctx, lugX - drum.r * 0.045, lugY - drum.r * 0.035, drum.r * 0.09, drum.r * 0.07, drum.r * 0.02);
+            ctx.fill();
+          }
+
+          if (hit > 0.12) {
+            ctx.globalAlpha = Math.min(0.75, hit);
+            ctx.strokeStyle = '#fff1a8';
+            ctx.lineWidth = Math.max(2, drum.r * 0.04);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, drum.r * (0.45 + hit * 0.28), headH * (0.22 + hit * 0.16), 0, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+          ctx.restore();
+
+          if (!isKick) {
+            drawChromeLine(drum.x - drum.r * 0.35, drum.y + drum.r * 0.66, drum.x - drum.r * 0.68, h * 0.9, r * 0.03);
+            drawChromeLine(drum.x + drum.r * 0.35, drum.y + drum.r * 0.66, drum.x + drum.r * 0.68, h * 0.9, r * 0.03);
+          } else {
+            drawChromeLine(drum.x - drum.r * 0.62, drum.y + drum.r * 0.48, drum.x - drum.r * 1.02, h * 0.88, r * 0.035);
+            drawChromeLine(drum.x + drum.r * 0.62, drum.y + drum.r * 0.48, drum.x + drum.r * 1.02, h * 0.88, r * 0.035);
+          }
+        }
+
+        drawFloorShadow(centerX, h * 0.86, r * 4.2, r * 0.52, 0.18);
+        drums.filter((drum) => drum.kind !== 'crash' && drum.kind !== 'hihat').forEach(drawDrumShell);
+        drums.filter((drum) => drum.kind === 'crash' || drum.kind === 'hihat').forEach(drawCymbal);
+        setFunObjectLayout('drums');
+        drawFunObjects(now);
 
       }
 
@@ -1936,13 +2903,56 @@
         }));
         state.layout.guitar = { stringStart, stringEnd, strings, stringGap };
 
+        const headW = Math.max(48, neckH * 0.9);
+        const headX = Math.min(w - headW - 18, stringEnd - headW * 0.38);
+        const bodyPath = () => {
+          ctx.beginPath();
+          ctx.moveTo(centerX - bodyW * 0.42, centerY - bodyH * 0.18);
+          ctx.bezierCurveTo(centerX - bodyW * 0.53, centerY - bodyH * 0.48, centerX - bodyW * 0.16, centerY - bodyH * 0.58, centerX + bodyW * 0.02, centerY - bodyH * 0.34);
+          ctx.bezierCurveTo(centerX + bodyW * 0.14, centerY - bodyH * 0.2, centerX + bodyW * 0.18, centerY - bodyH * 0.18, centerX + bodyW * 0.31, centerY - bodyH * 0.28);
+          ctx.bezierCurveTo(centerX + bodyW * 0.62, centerY - bodyH * 0.5, centerX + bodyW * 0.66, centerY + bodyH * 0.08, centerX + bodyW * 0.36, centerY + bodyH * 0.34);
+          ctx.bezierCurveTo(centerX + bodyW * 0.18, centerY + bodyH * 0.52, centerX - bodyW * 0.24, centerY + bodyH * 0.58, centerX - bodyW * 0.42, centerY + bodyH * 0.28);
+          ctx.bezierCurveTo(centerX - bodyW * 0.56, centerY + bodyH * 0.06, centerX - bodyW * 0.52, centerY - bodyH * 0.02, centerX - bodyW * 0.42, centerY - bodyH * 0.18);
+          ctx.closePath();
+        };
+
+        drawSoftEllipseShadow(centerX + bodyW * 0.12, centerY + bodyH * 0.5, bodyW * 0.72, bodyH * 0.18, 0.24);
+
         ctx.save();
         ctx.shadowColor = 'rgba(0,0,0,0.42)';
         ctx.shadowBlur = 30;
         ctx.shadowOffsetY = 18;
-        ctx.fillStyle = '#6c321c';
+        const neckGradient = ctx.createLinearGradient(neckX, neckY, neckX, neckY + neckH);
+        neckGradient.addColorStop(0, '#8a4a28');
+        neckGradient.addColorStop(0.48, '#512617');
+        neckGradient.addColorStop(1, '#24110c');
+        ctx.fillStyle = neckGradient;
         roundedRect(ctx, neckX, neckY, neckW, neckH, 9);
         ctx.fill();
+        ctx.restore();
+
+        drawWoodGrainRect(neckX, neckY, neckW, neckH, 9, 0.28);
+
+        ctx.save();
+        ctx.fillStyle = '#3b1e14';
+        roundedRect(ctx, headX + headW * 0.14, neckY - neckH * 0.2, headW, neckH * 1.4, 12);
+        ctx.fill();
+        drawWoodGrainRect(headX + headW * 0.14, neckY - neckH * 0.2, headW, neckH * 1.4, 12, 0.22);
+        for (let i = 0; i < 3; i += 1) {
+          const pegY = neckY + neckH * (0.02 + i * 0.44);
+          [-1, 1].forEach((side) => {
+            ctx.strokeStyle = '#d8c7a4';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(headX + headW * (side < 0 ? 0.18 : 1.08), pegY);
+            ctx.lineTo(headX + headW * (side < 0 ? -0.1 : 1.36), pegY + side * 2);
+            ctx.stroke();
+            ctx.fillStyle = '#f0d083';
+            ctx.beginPath();
+            ctx.ellipse(headX + headW * (side < 0 ? -0.14 : 1.4), pegY + side * 2, headW * 0.1, headW * 0.06, 0, 0, Math.PI * 2);
+            ctx.fill();
+          });
+        }
         ctx.restore();
 
         for (let i = 1; i <= 8; i += 1) {
@@ -1954,29 +2964,86 @@
           ctx.lineTo(fretX, neckY + neckH - 4);
           ctx.stroke();
         }
+        [3, 5, 7].forEach((fret) => {
+          ctx.fillStyle = 'rgba(255, 241, 168, 0.46)';
+          ctx.beginPath();
+          ctx.arc(neckX + (fret + 0.5) * (neckW / 9), centerY, Math.max(3, neckH * 0.055), 0, Math.PI * 2);
+          ctx.fill();
+        });
 
         ctx.save();
         ctx.shadowColor = 'rgba(0,0,0,0.42)';
         ctx.shadowBlur = 34;
         ctx.shadowOffsetY = 18;
-        const bodyGradient = ctx.createRadialGradient(centerX - bodyW * 0.18, centerY - bodyH * 0.18, 8, centerX, centerY, bodyW * 0.58);
-        bodyGradient.addColorStop(0, '#f0a94e');
-        bodyGradient.addColorStop(0.44, '#bf5b29');
-        bodyGradient.addColorStop(1, '#4a2217');
+        const bodyGradient = ctx.createRadialGradient(centerX - bodyW * 0.2, centerY - bodyH * 0.22, 8, centerX, centerY, bodyW * 0.72);
+        bodyGradient.addColorStop(0, '#ffbf68');
+        bodyGradient.addColorStop(0.38, '#c8652e');
+        bodyGradient.addColorStop(0.72, '#6f321d');
+        bodyGradient.addColorStop(1, '#2b120f');
         ctx.fillStyle = bodyGradient;
-        ctx.beginPath();
-        ctx.ellipse(centerX - bodyW * 0.17, centerY, bodyW * 0.34, bodyH * 0.44, -0.18, 0, Math.PI * 2);
-        ctx.ellipse(centerX + bodyW * 0.13, centerY + bodyH * 0.02, bodyW * 0.34, bodyH * 0.46, 0.16, 0, Math.PI * 2);
+        bodyPath();
         ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        bodyPath();
+        ctx.clip();
+        drawWoodGrainOval(centerX - bodyW * 0.08, centerY + bodyH * 0.03, bodyW * 0.58, bodyH * 0.45, -0.05, 0.34);
+        ctx.globalAlpha = 0.32;
+        ctx.fillStyle = '#fff2c2';
+        ctx.beginPath();
+        ctx.ellipse(centerX - bodyW * 0.18, centerY - bodyH * 0.25, bodyW * 0.2, bodyH * 0.07, -0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255, 231, 175, 0.58)';
+        ctx.lineWidth = Math.max(3, bodyW * 0.018);
+        bodyPath();
+        ctx.stroke();
+        ctx.strokeStyle = 'rgba(54, 23, 14, 0.54)';
+        ctx.lineWidth = Math.max(1.5, bodyW * 0.008);
+        bodyPath();
+        ctx.stroke();
         ctx.restore();
 
         ctx.beginPath();
         ctx.arc(centerX, centerY, bodyH * 0.13, 0, Math.PI * 2);
         ctx.fillStyle = '#251512';
         ctx.fill();
-        ctx.strokeStyle = 'rgba(255,248,236,0.48)';
-        ctx.lineWidth = 5;
-        ctx.stroke();
+        for (let i = 0; i < 3; i += 1) {
+          ctx.strokeStyle = i % 2 ? 'rgba(95, 43, 22, 0.78)' : 'rgba(255,248,236,0.52)';
+          ctx.lineWidth = Math.max(2, bodyH * (0.012 - i * 0.002));
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, bodyH * (0.15 + i * 0.025), 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        ctx.save();
+        ctx.fillStyle = 'rgba(54, 21, 14, 0.58)';
+        ctx.beginPath();
+        ctx.moveTo(centerX + bodyW * 0.08, centerY + bodyH * 0.06);
+        ctx.bezierCurveTo(centerX + bodyW * 0.3, centerY + bodyH * 0.06, centerX + bodyW * 0.32, centerY + bodyH * 0.26, centerX + bodyW * 0.12, centerY + bodyH * 0.3);
+        ctx.bezierCurveTo(centerX + bodyW * 0.02, centerY + bodyH * 0.22, centerX + bodyW * 0.02, centerY + bodyH * 0.12, centerX + bodyW * 0.08, centerY + bodyH * 0.06);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        const bridgeW = bodyW * 0.24;
+        const bridgeH = bodyH * 0.1;
+        ctx.fillStyle = '#3b1a12';
+        roundedRect(ctx, stringStart - bridgeW * 0.42, centerY - bridgeH * 0.5, bridgeW, bridgeH, 8);
+        ctx.fill();
+        ctx.fillStyle = '#f2d8a4';
+        roundedRect(ctx, stringStart - bridgeW * 0.38, centerY - bridgeH * 0.16, bridgeW * 0.82, bridgeH * 0.22, 5);
+        ctx.fill();
+        strings.forEach((string) => {
+          ctx.fillStyle = '#d8c7a4';
+          ctx.beginPath();
+          ctx.arc(stringStart - bridgeW * 0.22, string.y, Math.max(2, stringGap * 0.12), 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.restore();
 
         const activeGuitarGrabs = Array.from(state.guitarGrabs.values());
         if (!activeGuitarGrabs.length) {
@@ -2011,7 +3078,10 @@
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
           }
+          ctx.shadowColor = impulse > 0.05 || grab ? 'rgba(255, 241, 168, 0.5)' : 'transparent';
+          ctx.shadowBlur = impulse > 0.05 || grab ? 10 : 0;
           ctx.stroke();
+          ctx.shadowBlur = 0;
         });
 
         activeGuitarGrabs.forEach((grab) => {
@@ -2028,6 +3098,8 @@
           ctx.restore();
         });
 
+        setFunObjectLayout('guitar');
+        drawFunObjects(now);
       }
 
       function drawViolinBowTool(now) {
@@ -2046,31 +3118,60 @@
 
         ctx.save();
         ctx.lineCap = 'round';
-        ctx.shadowColor = bow.active ? 'rgba(255, 244, 199, 0.85)' : 'rgba(185, 167, 255, 0.42)';
-        ctx.shadowBlur = bow.active ? 18 : 10;
-        ctx.strokeStyle = bow.active ? 'rgba(255, 248, 236, 0.96)' : 'rgba(255, 248, 236, 0.86)';
-        ctx.lineWidth = 4 + bow.pressure * 2.4;
-        ctx.beginPath();
-        ctx.moveTo(ends.x1, ends.y1);
-        ctx.lineTo(ends.x2, ends.y2);
-        ctx.stroke();
-
+        ctx.lineJoin = 'round';
         const normalX = -Math.sin(bow.angle);
         const normalY = Math.cos(bow.angle);
+        const alongX = Math.cos(bow.angle);
+        const alongY = Math.sin(bow.angle);
+
+        ctx.shadowColor = bow.active ? 'rgba(255, 244, 199, 0.85)' : 'rgba(185, 167, 255, 0.42)';
+        ctx.shadowBlur = bow.active ? 18 : 10;
+        ctx.strokeStyle = '#5b2d1f';
+        ctx.lineWidth = bow.thickness * 0.72;
+        ctx.beginPath();
+        ctx.moveTo(ends.x1 - normalX * bow.thickness * 0.95, ends.y1 - normalY * bow.thickness * 0.95);
+        ctx.quadraticCurveTo(bow.x - normalX * bow.thickness * 1.4, bow.y - normalY * bow.thickness * 1.4, ends.x2 - normalX * bow.thickness * 0.95, ends.y2 - normalY * bow.thickness * 0.95);
+        ctx.stroke();
+
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = 'rgba(255, 198, 116, 0.55)';
+        ctx.lineWidth = Math.max(1.4, bow.thickness * 0.16);
+        ctx.beginPath();
+        ctx.moveTo(ends.x1 - normalX * bow.thickness * 1.15, ends.y1 - normalY * bow.thickness * 1.15);
+        ctx.quadraticCurveTo(bow.x - normalX * bow.thickness * 1.58, bow.y - normalY * bow.thickness * 1.58, ends.x2 - normalX * bow.thickness * 1.15, ends.y2 - normalY * bow.thickness * 1.15);
+        ctx.stroke();
+
+        ctx.shadowColor = bow.active ? 'rgba(255, 244, 199, 0.85)' : 'rgba(185, 167, 255, 0.42)';
+        ctx.shadowBlur = bow.active ? 18 : 8;
+        ctx.strokeStyle = bow.active ? 'rgba(255, 248, 236, 0.98)' : 'rgba(255, 248, 236, 0.86)';
+        ctx.lineWidth = 4 + bow.pressure * 2.4;
+        ctx.beginPath();
+        ctx.moveTo(ends.x1 + normalX * bow.thickness * 0.55, ends.y1 + normalY * bow.thickness * 0.55);
+        ctx.lineTo(ends.x2 + normalX * bow.thickness * 0.55, ends.y2 + normalY * bow.thickness * 0.55);
+        ctx.stroke();
+
         ctx.shadowBlur = 0;
         ctx.strokeStyle = 'rgba(255, 244, 199, 0.65)';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(ends.x1 + normalX * bow.thickness * 0.9, ends.y1 + normalY * bow.thickness * 0.9);
-        ctx.lineTo(ends.x2 + normalX * bow.thickness * 0.9, ends.y2 + normalY * bow.thickness * 0.9);
+        ctx.moveTo(ends.x1 + normalX * bow.thickness * 1.05, ends.y1 + normalY * bow.thickness * 1.05);
+        ctx.lineTo(ends.x2 + normalX * bow.thickness * 1.05, ends.y2 + normalY * bow.thickness * 1.05);
         ctx.stroke();
 
-        ctx.strokeStyle = '#5b2d1f';
-        ctx.lineWidth = bow.thickness;
+        ctx.fillStyle = '#26120d';
+        roundedRect(
+          ctx,
+          ends.x1 + alongX * bow.thickness * 0.4 - bow.thickness * 0.65,
+          ends.y1 + alongY * bow.thickness * 0.4 - bow.thickness * 0.65,
+          bow.thickness * 1.35,
+          bow.thickness * 1.35,
+          bow.thickness * 0.28
+        );
+        ctx.fill();
+        ctx.fillStyle = '#d7b06a';
         ctx.beginPath();
-        ctx.moveTo(ends.x1 - Math.cos(bow.angle) * 4, ends.y1 - Math.sin(bow.angle) * 4);
-        ctx.lineTo(ends.x1 + Math.cos(bow.angle) * 34, ends.y1 + Math.sin(bow.angle) * 34);
-        ctx.stroke();
+        ctx.arc(ends.x1 + alongX * bow.thickness * 2.5, ends.y1 + alongY * bow.thickness * 2.5, bow.thickness * 0.42, 0, Math.PI * 2);
+        ctx.fill();
 
         ctx.fillStyle = bow.active ? '#fff1a8' : '#b9a7ff';
         ctx.beginPath();
@@ -2083,8 +3184,8 @@
         const w = state.width;
         const h = state.height;
         const centerX = w / 2;
-        const centerY = h * 0.56;
-        const bodyH = Math.min(h * 0.65, w * 0.62, 460);
+        const centerY = h * 0.59;
+        const bodyH = Math.min(h * 0.56, w * 0.58, 400);
         const bodyW = bodyH * 0.48;
         const topY = centerY - bodyH * 0.58;
         const bottomY = centerY + bodyH * 0.54;
@@ -2101,47 +3202,160 @@
           bridgeBottom: bottomY - bodyH * 0.1
         };
 
+        const bodyPath = () => {
+          ctx.beginPath();
+          ctx.moveTo(centerX, topY + bodyH * 0.05);
+          ctx.bezierCurveTo(centerX - bodyW * 0.52, topY + bodyH * 0.06, centerX - bodyW * 0.5, centerY - bodyH * 0.22, centerX - bodyW * 0.22, centerY - bodyH * 0.14);
+          ctx.bezierCurveTo(centerX - bodyW * 0.48, centerY - bodyH * 0.02, centerX - bodyW * 0.58, centerY + bodyH * 0.4, centerX, bottomY);
+          ctx.bezierCurveTo(centerX + bodyW * 0.58, centerY + bodyH * 0.4, centerX + bodyW * 0.48, centerY - bodyH * 0.02, centerX + bodyW * 0.22, centerY - bodyH * 0.14);
+          ctx.bezierCurveTo(centerX + bodyW * 0.5, centerY - bodyH * 0.22, centerX + bodyW * 0.52, topY + bodyH * 0.06, centerX, topY + bodyH * 0.05);
+          ctx.closePath();
+        };
+
+        drawSoftEllipseShadow(centerX, bottomY + bodyH * 0.04, bodyW * 0.84, bodyH * 0.12, 0.25);
+
+        ctx.save();
+        const neckGradient = ctx.createLinearGradient(centerX - bodyW * 0.1, topY - bodyH * 0.34, centerX + bodyW * 0.1, topY + bodyH * 0.2);
+        neckGradient.addColorStop(0, '#5f2f1d');
+        neckGradient.addColorStop(0.58, '#341811');
+        neckGradient.addColorStop(1, '#160b08');
+        ctx.fillStyle = neckGradient;
+        roundedRect(ctx, centerX - bodyW * 0.09, topY - bodyH * 0.34, bodyW * 0.18, bodyH * 0.56, 12);
+        ctx.fill();
+        ctx.fillStyle = '#21100c';
+        roundedRect(ctx, centerX - bodyW * 0.18, topY - bodyH * 0.41, bodyW * 0.36, bodyH * 0.12, 16);
+        ctx.fill();
+        for (let i = 0; i < 4; i += 1) {
+          const side = i % 2 ? 1 : -1;
+          const pegY = topY - bodyH * (0.36 - Math.floor(i / 2) * 0.055);
+          ctx.strokeStyle = '#d6b16b';
+          ctx.lineWidth = Math.max(2, bodyW * 0.018);
+          ctx.beginPath();
+          ctx.moveTo(centerX + side * bodyW * 0.13, pegY);
+          ctx.lineTo(centerX + side * bodyW * 0.29, pegY - bodyH * 0.015);
+          ctx.stroke();
+          ctx.fillStyle = '#4a2216';
+          ctx.beginPath();
+          ctx.ellipse(centerX + side * bodyW * 0.32, pegY - bodyH * 0.015, bodyW * 0.065, bodyW * 0.035, 0.15 * side, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
         ctx.save();
         ctx.shadowColor = 'rgba(0,0,0,0.44)';
         ctx.shadowBlur = 34;
         ctx.shadowOffsetY = 20;
-        const bodyGradient = ctx.createRadialGradient(centerX - bodyW * 0.14, centerY - bodyH * 0.2, 6, centerX, centerY, bodyW * 0.9);
-        bodyGradient.addColorStop(0, '#dd8550');
-        bodyGradient.addColorStop(0.5, '#974129');
-        bodyGradient.addColorStop(1, '#361714');
+        const bodyGradient = ctx.createRadialGradient(centerX - bodyW * 0.17, centerY - bodyH * 0.22, 6, centerX, centerY, bodyW * 0.95);
+        bodyGradient.addColorStop(0, '#f3a86c');
+        bodyGradient.addColorStop(0.42, '#a84b2d');
+        bodyGradient.addColorStop(0.74, '#5b2418');
+        bodyGradient.addColorStop(1, '#24100d');
         ctx.fillStyle = bodyGradient;
-        ctx.beginPath();
-        ctx.ellipse(centerX, centerY - bodyH * 0.18, bodyW * 0.42, bodyH * 0.24, 0, 0, Math.PI * 2);
-        ctx.ellipse(centerX, centerY + bodyH * 0.17, bodyW * 0.5, bodyH * 0.3, 0, 0, Math.PI * 2);
+        bodyPath();
         ctx.fill();
         ctx.restore();
 
-        ctx.fillStyle = '#452016';
-        roundedRect(ctx, centerX - bodyW * 0.1, topY - bodyH * 0.34, bodyW * 0.2, bodyH * 0.58, 12);
-        ctx.fill();
-        ctx.fillStyle = '#22110d';
-        roundedRect(ctx, centerX - bodyW * 0.18, topY - bodyH * 0.4, bodyW * 0.36, bodyH * 0.1, 14);
-        ctx.fill();
-
-        ctx.strokeStyle = 'rgba(255,248,236,0.65)';
-        ctx.lineWidth = 7;
-        ctx.lineCap = 'round';
+        ctx.save();
+        bodyPath();
+        ctx.clip();
+        drawWoodGrainOval(centerX, centerY + bodyH * 0.04, bodyW * 0.48, bodyH * 0.54, Math.PI * 0.5, 0.36);
+        ctx.globalAlpha = 0.34;
+        ctx.strokeStyle = '#fff1a8';
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(centerX - bodyW * 0.2, centerY + bodyH * 0.08);
-        ctx.quadraticCurveTo(centerX - bodyW * 0.34, centerY + bodyH * 0.02, centerX - bodyW * 0.28, centerY - bodyH * 0.1);
-        ctx.moveTo(centerX + bodyW * 0.2, centerY + bodyH * 0.08);
-        ctx.quadraticCurveTo(centerX + bodyW * 0.34, centerY + bodyH * 0.02, centerX + bodyW * 0.28, centerY - bodyH * 0.1);
+        ctx.moveTo(centerX, topY + bodyH * 0.08);
+        ctx.lineTo(centerX, bottomY - bodyH * 0.05);
         ctx.stroke();
-
-        ctx.fillStyle = '#e8c08a';
-        roundedRect(ctx, centerX - bodyW * 0.28, centerY + bodyH * 0.02, bodyW * 0.56, bodyH * 0.055, 8);
+        ctx.globalAlpha = 0.22;
+        ctx.fillStyle = '#fff8dc';
+        ctx.beginPath();
+        ctx.ellipse(centerX - bodyW * 0.16, centerY - bodyH * 0.2, bodyW * 0.12, bodyH * 0.24, -0.28, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255, 224, 163, 0.58)';
+        ctx.lineWidth = Math.max(3, bodyW * 0.022);
+        bodyPath();
+        ctx.stroke();
+        ctx.strokeStyle = 'rgba(42, 16, 11, 0.72)';
+        ctx.lineWidth = Math.max(1.4, bodyW * 0.01);
+        bodyPath();
+        ctx.stroke();
+        ctx.restore();
+
+        function drawFHole(side) {
+          ctx.save();
+          ctx.translate(centerX + side * bodyW * 0.25, centerY + bodyH * 0.01);
+          ctx.scale(side, 1);
+          ctx.strokeStyle = 'rgba(37, 15, 10, 0.82)';
+          ctx.lineWidth = Math.max(3, bodyW * 0.028);
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(0, -bodyH * 0.13);
+          ctx.bezierCurveTo(-bodyW * 0.12, -bodyH * 0.08, bodyW * 0.12, bodyH * 0.02, -bodyW * 0.04, bodyH * 0.13);
+          ctx.stroke();
+          ctx.fillStyle = 'rgba(33, 13, 9, 0.92)';
+          ctx.beginPath();
+          ctx.ellipse(-bodyW * 0.045, -bodyH * 0.155, bodyW * 0.035, bodyH * 0.018, -0.35, 0, Math.PI * 2);
+          ctx.ellipse(bodyW * 0.035, bodyH * 0.155, bodyW * 0.035, bodyH * 0.018, -0.35, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+        drawFHole(-1);
+        drawFHole(1);
+
+        ctx.save();
+        const bridgeY = centerY + bodyH * 0.02;
+        const bridgeW = bodyW * 0.5;
+        const bridgeH = bodyH * 0.13;
+        const bridgeGradient = ctx.createLinearGradient(centerX, bridgeY - bridgeH, centerX, bridgeY + bridgeH);
+        bridgeGradient.addColorStop(0, '#ffe0ad');
+        bridgeGradient.addColorStop(0.58, '#c98d4f');
+        bridgeGradient.addColorStop(1, '#7b3a20');
+        ctx.fillStyle = bridgeGradient;
+        ctx.beginPath();
+        ctx.moveTo(centerX - bridgeW * 0.5, bridgeY + bridgeH * 0.26);
+        ctx.quadraticCurveTo(centerX, bridgeY - bridgeH * 0.65, centerX + bridgeW * 0.5, bridgeY + bridgeH * 0.26);
+        ctx.lineTo(centerX + bridgeW * 0.38, bridgeY + bridgeH * 0.54);
+        ctx.lineTo(centerX - bridgeW * 0.38, bridgeY + bridgeH * 0.54);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = 'rgba(62, 25, 13, 0.44)';
+        ctx.beginPath();
+        ctx.ellipse(centerX - bridgeW * 0.16, bridgeY + bridgeH * 0.12, bridgeW * 0.07, bridgeH * 0.15, 0, 0, Math.PI * 2);
+        ctx.ellipse(centerX + bridgeW * 0.16, bridgeY + bridgeH * 0.12, bridgeW * 0.07, bridgeH * 0.15, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.save();
+        const tailY = bottomY - bodyH * 0.12;
+        const tailGradient = ctx.createLinearGradient(centerX, tailY - bodyH * 0.08, centerX, tailY + bodyH * 0.14);
+        tailGradient.addColorStop(0, '#3a1911');
+        tailGradient.addColorStop(1, '#100807');
+        ctx.fillStyle = tailGradient;
+        ctx.beginPath();
+        ctx.moveTo(centerX - bodyW * 0.17, tailY - bodyH * 0.02);
+        ctx.quadraticCurveTo(centerX, tailY - bodyH * 0.12, centerX + bodyW * 0.17, tailY - bodyH * 0.02);
+        ctx.lineTo(centerX + bodyW * 0.1, tailY + bodyH * 0.17);
+        ctx.quadraticCurveTo(centerX, tailY + bodyH * 0.22, centerX - bodyW * 0.1, tailY + bodyH * 0.17);
+        ctx.closePath();
+        ctx.fill();
+        for (let i = 0; i < 4; i += 1) {
+          ctx.fillStyle = '#d8b46a';
+          ctx.beginPath();
+          ctx.arc(centerX + (i - 1.5) * stringGap, tailY + bodyH * 0.045, Math.max(2, stringGap * 0.13), 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
 
         strings.forEach((string, index) => {
           const impulse = state.stringImpulse.get(`v${index}`) || 0;
           ctx.beginPath();
-          ctx.lineWidth = 2.2 - index * 0.12;
-          ctx.strokeStyle = '#fff5da';
+          ctx.lineWidth = 2.5 - index * 0.14;
+          ctx.strokeStyle = index < 2 ? '#fff5da' : '#d9e7e5';
+          ctx.shadowColor = impulse > 0.05 ? 'rgba(255, 241, 168, 0.55)' : 'transparent';
+          ctx.shadowBlur = impulse > 0.05 ? 10 : 0;
           const segments = 30;
           for (let i = 0; i <= segments; i += 1) {
             const t = i / segments;
@@ -2152,6 +3366,7 @@
             else ctx.lineTo(x, y);
           }
           ctx.stroke();
+          ctx.shadowBlur = 0;
         });
 
         drawViolinBowTool(now);
@@ -2163,6 +3378,37 @@
           const lock = trumpetLockPoint();
           head.x = lock.x;
           head.y = lock.y;
+        }
+
+        if (head.attached) {
+          const wind = trumpetWindEmojiPoint(head);
+          drawTouchableGlow(wind.x, wind.y, wind.r * 1.08, '#8de7dd', now, 0.18);
+          ctx.save();
+          ctx.translate(wind.x, wind.y);
+          const breathPulse = 1 + Math.sin(now * 0.008) * 0.035;
+          ctx.scale(breathPulse, breathPulse);
+          ctx.shadowColor = 'rgba(141, 231, 221, 0.55)';
+          ctx.shadowBlur = wind.r * 0.42;
+          ctx.fillStyle = 'rgba(223, 248, 255, 0.18)';
+          ctx.beginPath();
+          ctx.arc(0, 0, wind.r * 1.08, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.font = `${wind.r * 1.58}px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('🌬️', 0, wind.r * 0.02);
+          ctx.shadowBlur = 0;
+          ctx.strokeStyle = 'rgba(223, 248, 255, 0.58)';
+          ctx.lineWidth = Math.max(1.6, wind.r * 0.045);
+          ctx.lineCap = 'round';
+          for (let i = 0; i < 3; i += 1) {
+            const y = (i - 1) * wind.r * 0.26 + Math.sin(now * 0.005 + i) * 2;
+            ctx.beginPath();
+            ctx.moveTo(wind.r * 0.42, y);
+            ctx.quadraticCurveTo(wind.r * 0.82, y - wind.r * 0.22, wind.r * 1.22, y + wind.r * 0.02);
+            ctx.stroke();
+          }
+          ctx.restore();
         }
 
         const mouth = trumpetMouthPoint(head);
@@ -2211,8 +3457,8 @@
         const h = state.height;
         const centerX = w * 0.5;
         const centerY = h * 0.52;
-        const length = Math.min(w * 0.78, 860);
-        const height = Math.min(h * 0.42, 250);
+        const length = Math.min(w * 0.72, 860);
+        const height = Math.min(h * 0.42, w * 0.4, 250);
         const startX = centerX - length * 0.48;
         const bellX = centerX + length * 0.43;
         const tubeY = centerY;
@@ -2230,41 +3476,108 @@
           mouthpiece
         };
 
+        const tubeW = Math.max(15, height * 0.105);
+        drawSoftEllipseShadow(centerX + length * 0.06, tubeY + height * 0.34, length * 0.44, height * 0.12, 0.24);
+
+        if (!getTrumpetHead().attached) {
+          drawTouchableGlow(mouthpiece.x, mouthpiece.y, mouthpiece.r * 1.05, '#fff1a8', now, 0.13);
+        }
+
+        strokeMetalPath(() => {
+          ctx.beginPath();
+          ctx.moveTo(startX, tubeY);
+          ctx.lineTo(bellX - height * 0.22, tubeY);
+        }, tubeW, '#d99b24', '#7c3f08', '#fff6bb');
+
+        strokeMetalPath(() => {
+          ctx.beginPath();
+          ctx.moveTo(startX + length * 0.18, tubeY + height * 0.17);
+          ctx.quadraticCurveTo(centerX - length * 0.04, tubeY + height * 0.43, bellX - height * 0.22, tubeY + height * 0.12);
+        }, Math.max(10, height * 0.066), '#c47c17', '#6f3608', '#ffe4a0');
+
+        strokeMetalPath(() => {
+          ctx.beginPath();
+          ctx.moveTo(startX + length * 0.12, tubeY - height * 0.15);
+          ctx.quadraticCurveTo(centerX + length * 0.05, tubeY - height * 0.34, centerX + length * 0.22, tubeY - height * 0.06);
+        }, Math.max(8, height * 0.046), '#efb63e', '#84500b', '#fff2b5');
+
         ctx.save();
-        ctx.shadowColor = 'rgba(0,0,0,0.42)';
-        ctx.shadowBlur = 32;
-        ctx.shadowOffsetY = 18;
-        ctx.strokeStyle = '#d99b24';
-        ctx.lineWidth = Math.max(16, height * 0.12);
+        ctx.strokeStyle = 'rgba(255, 239, 178, 0.58)';
+        ctx.lineWidth = Math.max(3, height * 0.018);
         ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(startX, tubeY);
-        ctx.lineTo(bellX - height * 0.18, tubeY);
-        ctx.stroke();
-        ctx.strokeStyle = '#b97718';
-        ctx.lineWidth = Math.max(10, height * 0.07);
-        ctx.beginPath();
-        ctx.moveTo(startX + length * 0.2, tubeY + height * 0.16);
-        ctx.quadraticCurveTo(centerX, tubeY + height * 0.42, bellX - height * 0.2, tubeY + height * 0.1);
-        ctx.stroke();
+        [
+          [startX + length * 0.22, tubeY - height * 0.02, startX + length * 0.22, tubeY + height * 0.17],
+          [centerX + length * 0.15, tubeY - height * 0.01, centerX + length * 0.18, tubeY + height * 0.18],
+          [bellX - height * 0.33, tubeY - height * 0.01, bellX - height * 0.27, tubeY + height * 0.12]
+        ].forEach(([x1, y1, x2, y2]) => {
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.stroke();
+        });
         ctx.restore();
 
         const bellGradient = ctx.createRadialGradient(bellX - height * 0.12, tubeY - height * 0.08, 6, bellX, tubeY, height * 0.52);
         bellGradient.addColorStop(0, '#fff1a8');
-        bellGradient.addColorStop(0.45, '#d99b24');
-        bellGradient.addColorStop(1, '#7c3f08');
+        bellGradient.addColorStop(0.34, '#e3a32c');
+        bellGradient.addColorStop(0.68, '#b66b12');
+        bellGradient.addColorStop(1, '#633006');
         ctx.fillStyle = bellGradient;
         ctx.beginPath();
         ctx.ellipse(bellX, tubeY, height * 0.36 + state.trumpetAir * 4, height * 0.45 + state.trumpetAir * 5, 0, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = '#2b1608';
+        ctx.strokeStyle = 'rgba(255, 246, 187, 0.78)';
+        ctx.lineWidth = Math.max(5, height * 0.034);
+        ctx.stroke();
+        ctx.save();
+        ctx.globalAlpha = 0.42;
+        ctx.strokeStyle = '#fff8d2';
+        ctx.lineWidth = Math.max(2, height * 0.012);
+        ctx.beginPath();
+        ctx.ellipse(bellX - height * 0.06, tubeY - height * 0.08, height * 0.2, height * 0.28, -0.1, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+        const innerBell = ctx.createRadialGradient(bellX + height * 0.04, tubeY, 4, bellX + height * 0.04, tubeY, height * 0.28);
+        innerBell.addColorStop(0, '#110805');
+        innerBell.addColorStop(0.62, '#3d1b08');
+        innerBell.addColorStop(1, '#b16a13');
+        ctx.fillStyle = innerBell;
         ctx.beginPath();
         ctx.ellipse(bellX + height * 0.04, tubeY, height * 0.19, height * 0.28, 0, 0, Math.PI * 2);
         ctx.fill();
+        ctx.strokeStyle = 'rgba(255, 232, 152, 0.46)';
+        ctx.lineWidth = Math.max(2, height * 0.012);
+        ctx.stroke();
 
-        ctx.fillStyle = '#f0c05c';
-        roundedRect(ctx, startX - 24, tubeY - height * 0.1, height * 0.22, height * 0.2, 8);
+        const mouthGradient = ctx.createLinearGradient(startX - 38, tubeY - height * 0.12, startX + height * 0.18, tubeY + height * 0.12);
+        mouthGradient.addColorStop(0, '#fff1a8');
+        mouthGradient.addColorStop(0.38, '#d99b24');
+        mouthGradient.addColorStop(1, '#7c3f08');
+        ctx.fillStyle = mouthGradient;
+        roundedRect(ctx, startX - 38, tubeY - height * 0.105, height * 0.33, height * 0.21, 8);
         ctx.fill();
+        ctx.fillStyle = 'rgba(43, 22, 8, 0.72)';
+        ctx.beginPath();
+        ctx.ellipse(startX - 34, tubeY, height * 0.055, height * 0.105, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255, 248, 213, 0.58)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        valves.forEach((valve) => {
+          ctx.save();
+          const casingGradient = ctx.createLinearGradient(valve.x - valve.r, tubeY - height * 0.18, valve.x + valve.r, tubeY + height * 0.08);
+          casingGradient.addColorStop(0, '#fff0a8');
+          casingGradient.addColorStop(0.34, '#d99b24');
+          casingGradient.addColorStop(1, '#7b3f08');
+          ctx.fillStyle = casingGradient;
+          roundedRect(ctx, valve.x - valve.r * 0.46, tubeY - height * 0.24, valve.r * 0.92, height * 0.3, valve.r * 0.18);
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(255, 246, 199, 0.42)';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.restore();
+        });
 
         valves.forEach((valve) => {
           const pressed = state.trumpetValves.has(valve.index);
@@ -2273,17 +3586,33 @@
           }
           ctx.save();
           ctx.translate(valve.x, valve.y + (pressed ? valve.r * 0.18 : 0));
-          ctx.fillStyle = pressed ? '#fff1a8' : '#e0a735';
+          const valveGradient = ctx.createLinearGradient(-valve.r, -valve.r * 1.5, valve.r, valve.r * 0.5);
+          valveGradient.addColorStop(0, pressed ? '#fff8ec' : '#ffe18a');
+          valveGradient.addColorStop(0.42, pressed ? '#fff1a8' : '#d99b24');
+          valveGradient.addColorStop(1, '#7c3f08');
+          ctx.fillStyle = valveGradient;
           roundedRect(ctx, -valve.r * 0.54, -valve.r * 1.48, valve.r * 1.08, valve.r * 1.9, 9);
           ctx.fill();
+          ctx.strokeStyle = 'rgba(255, 248, 213, 0.42)';
+          ctx.lineWidth = 2;
+          ctx.stroke();
           ctx.beginPath();
           ctx.arc(0, -valve.r * 1.44, valve.r * 0.72, 0, Math.PI * 2);
-          ctx.fillStyle = pressed ? '#fff8ec' : '#c78218';
+          const capGradient = ctx.createRadialGradient(-valve.r * 0.18, -valve.r * 1.6, 2, 0, -valve.r * 1.44, valve.r * 0.76);
+          capGradient.addColorStop(0, '#fff8ec');
+          capGradient.addColorStop(0.56, pressed ? '#ffe9a8' : '#c78218');
+          capGradient.addColorStop(1, '#74400b');
+          ctx.fillStyle = capGradient;
           ctx.fill();
+          ctx.strokeStyle = 'rgba(255, 248, 213, 0.52)';
+          ctx.lineWidth = 2;
+          ctx.stroke();
           ctx.restore();
         });
 
         drawTrumpetHead(now);
+        setFunObjectLayout('trumpet');
+        drawFunObjects(now);
       }
 
       function drawEffects(dt) {
@@ -2319,25 +3648,58 @@
             const lift = -34 * t;
             ctx.translate(effect.x, effect.y + lift);
             ctx.scale(pop, pop);
-            ctx.font = `900 ${effect.size}px "Noto Sans KR", "Malgun Gothic", sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.lineJoin = 'round';
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
-            ctx.shadowBlur = 18;
-            ctx.shadowOffsetY = 8;
-            ctx.strokeStyle = 'rgba(255, 248, 236, 0.98)';
-            ctx.lineWidth = Math.max(6, effect.size * 0.09);
-            ctx.strokeText(effect.text, 0, 0);
-            ctx.shadowColor = effect.color;
-            ctx.shadowBlur = 24;
-            ctx.shadowOffsetY = 0;
-            ctx.fillStyle = '#15110e';
-            ctx.fillText(effect.text, 0, 0);
-            ctx.shadowBlur = 0;
-            ctx.fillStyle = effect.color;
-            ctx.globalAlpha *= 0.9;
-            ctx.fillText(effect.text, 0, -effect.size * 0.02);
+            if (effect.phrase) {
+              const prefixSize = effect.size * 0.72;
+              const verbSize = effect.size * 1.16;
+              const gap = effect.size * 0.12;
+              ctx.font = `900 ${prefixSize}px "Noto Sans KR", "Malgun Gothic", sans-serif`;
+              const prefixWidth = ctx.measureText(effect.phrase.prefix).width;
+              ctx.font = `900 ${verbSize}px "Noto Sans KR", "Malgun Gothic", sans-serif`;
+              const verbWidth = ctx.measureText(effect.phrase.verb).width;
+              const startX = -(prefixWidth + gap + verbWidth) / 2;
+
+              function drawPhrasePart(text, x, size, fillColor, glowColor, yOffset = 0) {
+                ctx.font = `900 ${size}px "Noto Sans KR", "Malgun Gothic", sans-serif`;
+                ctx.textAlign = 'left';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
+                ctx.shadowBlur = 14;
+                ctx.shadowOffsetY = 7;
+                ctx.strokeStyle = 'rgba(255, 248, 236, 0.94)';
+                ctx.lineWidth = Math.max(4, size * 0.09);
+                ctx.strokeText(text, x, yOffset);
+                ctx.shadowColor = glowColor;
+                ctx.shadowBlur = size * 0.32;
+                ctx.shadowOffsetY = 0;
+                ctx.fillStyle = '#15110e';
+                ctx.fillText(text, x, yOffset);
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = fillColor;
+                ctx.fillText(text, x, yOffset - size * 0.02);
+              }
+
+              drawPhrasePart(effect.phrase.prefix, startX, prefixSize, '#fff1a8', '#fff1a8', effect.size * 0.04);
+              drawPhrasePart(effect.phrase.verb, startX + prefixWidth + gap, verbSize, effect.color, effect.color, 0);
+            } else {
+              ctx.font = `900 ${effect.size}px "Noto Sans KR", "Malgun Gothic", sans-serif`;
+              ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
+              ctx.shadowBlur = 18;
+              ctx.shadowOffsetY = 8;
+              ctx.strokeStyle = 'rgba(255, 248, 236, 0.98)';
+              ctx.lineWidth = Math.max(6, effect.size * 0.09);
+              ctx.strokeText(effect.text, 0, 0);
+              ctx.shadowColor = effect.color;
+              ctx.shadowBlur = 24;
+              ctx.shadowOffsetY = 0;
+              ctx.fillStyle = '#15110e';
+              ctx.fillText(effect.text, 0, 0);
+              ctx.shadowBlur = 0;
+              ctx.fillStyle = effect.color;
+              ctx.globalAlpha *= 0.9;
+              ctx.fillText(effect.text, 0, -effect.size * 0.02);
+            }
           } else if (effect.type === 'rosin') {
             ctx.fillStyle = effect.color;
             for (let i = 0; i < 8; i += 1) {
@@ -2376,6 +3738,136 @@
             ctx.moveTo(effect.x - t * 58, effect.y + Math.sin(t * 8) * 10);
             ctx.quadraticCurveTo(effect.x - t * 26, effect.y - 16, effect.x + t * 60, effect.y + Math.sin(t * 11) * 14);
             ctx.stroke();
+          } else if (effect.type === 'funGust') {
+            ctx.strokeStyle = effect.color;
+            ctx.lineWidth = 2.6 * (1 - t) + 0.8;
+            ctx.lineCap = 'round';
+            const strength = effect.strength || 1;
+            for (let i = 0; i < 4; i += 1) {
+              const y = effect.y + (i - 1.5) * 9 + Math.sin(t * 10 + i) * 8;
+              const startX = effect.x - t * 18;
+              const endX = effect.x + (48 + i * 12) * t * strength;
+              ctx.beginPath();
+              ctx.moveTo(startX, y);
+              ctx.quadraticCurveTo(effect.x + 18 * t, y - 18 * Math.sin(t * Math.PI + i), endX, y + Math.sin(t * 12 + i) * 10);
+              ctx.stroke();
+            }
+          } else if (effect.type === 'spinSpark') {
+            ctx.strokeStyle = effect.color;
+            ctx.lineWidth = 2.2 * (1 - t);
+            ctx.lineCap = 'round';
+            for (let i = 0; i < 8; i += 1) {
+              const angle = i * Math.PI * 0.25 + t * Math.PI * 1.8;
+              const radius = (effect.radius || 28) * (0.36 + t * 0.75);
+              ctx.beginPath();
+              ctx.moveTo(effect.x + Math.cos(angle) * radius * 0.75, effect.y + Math.sin(angle) * radius * 0.75);
+              ctx.lineTo(effect.x + Math.cos(angle) * radius, effect.y + Math.sin(angle) * radius);
+              ctx.stroke();
+            }
+          } else if (effect.type === 'funBubbles') {
+            ctx.strokeStyle = effect.color;
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 7; i += 1) {
+              const drift = Math.sin(i * 1.7 + t * 5) * (effect.radius || 28) * 0.34;
+              const x = effect.x + drift + (i - 3) * 4;
+              const y = effect.y - t * (46 + i * 9) - i * 2;
+              const r = (effect.radius || 28) * (0.12 + (i % 3) * 0.035) * (1 - t * 0.35);
+              ctx.beginPath();
+              ctx.arc(x, y, r, 0, Math.PI * 2);
+              ctx.stroke();
+              ctx.fillStyle = 'rgba(223, 248, 255, 0.12)';
+              ctx.fill();
+            }
+          } else if (effect.type === 'funFeather') {
+            ctx.save();
+            ctx.translate(effect.x + t * 52, effect.y - Math.sin(t * Math.PI) * 34);
+            ctx.rotate(-0.45 + t * 1.1);
+            ctx.strokeStyle = 'rgba(255, 248, 236, 0.65)';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(-(effect.radius || 26) * 0.45, (effect.radius || 26) * 0.32);
+            ctx.lineTo((effect.radius || 26) * 0.55, -(effect.radius || 26) * 0.32);
+            ctx.stroke();
+            ctx.fillStyle = effect.color;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, (effect.radius || 26) * 0.16, (effect.radius || 26) * 0.46, -0.7, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          } else if (effect.type === 'funBounce') {
+            const radius = effect.radius || 30;
+            ctx.strokeStyle = effect.color;
+            ctx.lineWidth = 3 * (1 - t);
+            ctx.beginPath();
+            ctx.ellipse(effect.x, effect.y, radius * (0.42 + t * 0.6), radius * (0.15 + t * 0.16), 0, 0, Math.PI * 2);
+            ctx.stroke();
+            for (let i = -1; i <= 1; i += 1) {
+              ctx.beginPath();
+              ctx.moveTo(effect.x + i * radius * 0.28, effect.y - radius * (0.28 + t * 0.16));
+              ctx.lineTo(effect.x + i * radius * 0.44, effect.y - radius * (0.74 + t * 0.2));
+              ctx.stroke();
+            }
+          } else if (effect.type === 'impactDust') {
+            const radius = effect.radius || 28;
+            ctx.fillStyle = effect.color;
+            for (let i = 0; i < 7; i += 1) {
+              const spread = radius * (0.18 + t * 0.9);
+              const x = effect.x + (i - 3) * radius * 0.16 + Math.cos(i * 1.7) * spread;
+              const y = effect.y + Math.sin(i * 1.3) * radius * 0.08 + t * radius * 0.12;
+              ctx.globalAlpha = (1 - t) * (0.22 + (i % 2) * 0.08);
+              ctx.beginPath();
+              ctx.ellipse(x, y, radius * (0.05 + i * 0.006), radius * 0.028, 0, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          } else if (effect.type === 'funStretch') {
+            const radius = effect.radius || 28;
+            ctx.strokeStyle = effect.color;
+            ctx.lineWidth = 4 * (1 - t) + 1;
+            ctx.beginPath();
+            ctx.ellipse(effect.x, effect.y, radius * (0.82 + t * 0.58), radius * (0.32 - t * 0.08), -0.15, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.strokeStyle = 'rgba(255, 248, 236, 0.65)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(effect.x - radius * (0.85 + t * 0.4), effect.y);
+            ctx.lineTo(effect.x + radius * (0.85 + t * 0.4), effect.y);
+            ctx.stroke();
+          } else if (effect.type === 'funSpring') {
+            const radius = effect.radius || 28;
+            ctx.strokeStyle = effect.color;
+            ctx.lineWidth = 3 * (1 - t) + 1;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            for (let i = 0; i <= 26; i += 1) {
+              const p = i / 26;
+              const x = effect.x - radius * 0.9 + p * radius * (1.8 + t * 0.8);
+              const y = effect.y + Math.sin(p * Math.PI * 8 + t * Math.PI * 2) * radius * (0.24 + t * 0.2);
+              if (i === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+          } else if (effect.type === 'funChime') {
+            const radius = effect.radius || 28;
+            ctx.strokeStyle = effect.color;
+            ctx.lineWidth = 2.5 * (1 - t) + 0.8;
+            for (let i = 0; i < 3; i += 1) {
+              ctx.beginPath();
+              ctx.arc(effect.x, effect.y, radius * (0.55 + i * 0.26 + t * 0.55), -Math.PI * 0.78, -Math.PI * 0.22);
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.arc(effect.x, effect.y, radius * (0.55 + i * 0.26 + t * 0.55), Math.PI * 0.22, Math.PI * 0.78);
+              ctx.stroke();
+            }
+          } else if (effect.type === 'funButton') {
+            const radius = effect.radius || 28;
+            ctx.fillStyle = effect.color;
+            ctx.beginPath();
+            ctx.arc(effect.x, effect.y, radius * (0.35 + t * 0.55), 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 248, 236, 0.75)';
+            ctx.lineWidth = 2 * (1 - t) + 1;
+            ctx.beginPath();
+            ctx.arc(effect.x, effect.y, radius * (0.6 + t * 0.58), 0, Math.PI * 2);
+            ctx.stroke();
           } else if (effect.type === 'sticks') {
             ctx.strokeStyle = effect.color;
             ctx.lineWidth = 4;
@@ -2404,6 +3896,15 @@
           if (next < 0.02) state.drumHits.delete(key);
           else state.drumHits.set(key, next);
         });
+        state.funObjectHits.forEach((value, key) => {
+          const next = value * Math.pow(0.8, dt / 16.67);
+          if (next < 0.02) state.funObjectHits.delete(key);
+          else state.funObjectHits.set(key, next);
+        });
+        state.funObjectMotion.forEach((motion, key) => {
+          motion.age += dt;
+          if (motion.age >= motion.duration) state.funObjectMotion.delete(key);
+        });
         state.stringImpulse.forEach((value, key) => {
           const next = value * Math.pow(0.86, dt / 16.67);
           if (next < 0.02) state.stringImpulse.delete(key);
@@ -2430,6 +3931,10 @@
 
       instrumentButtons.forEach((button) => {
         button.addEventListener('click', () => setInstrument(button.dataset.instrument));
+      });
+
+      modeBtn.addEventListener('click', () => {
+        setTextMode(state.textMode === 'sentence' ? 'verb' : 'sentence');
       });
 
       soundBtn.addEventListener('click', () => {
@@ -2467,6 +3972,7 @@
       }
 
       resizeCanvas();
+      setTextMode('verb');
       setInstrument('piano');
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.isSecureContext) {
         micBtn.textContent = '터치';

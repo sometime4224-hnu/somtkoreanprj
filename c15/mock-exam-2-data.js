@@ -119,12 +119,12 @@ window.C15_MOCK_EXAM = {
                     focus: "저축하다",
                     stem: "월급을 받으면 먼저 20만 원을 은행 계좌에 모아 둡니다. 빈칸에 알맞은 말은 무엇일까요?\n`매달 20만 원을 ________.`",
                     options: [
-                        { letter: "A", text: "저축해요" },
-                        { letter: "B", text: "새요" },
-                        { letter: "C", text: "나가요" },
-                        { letter: "D", text: "막혀요" }
+                        { letter: "A", text: "새요" },
+                        { letter: "B", text: "나가요" },
+                        { letter: "C", text: "막혀요" },
+                        { letter: "D", text: "저축해요" }
                     ],
-                    correct: "A",
+                    correct: "D",
                     explanation: "돈을 쓰지 않고 모아 두는 것은 `저축하다`입니다."
                 },
                 {
@@ -134,12 +134,12 @@ window.C15_MOCK_EXAM = {
                     focus: "계약하다",
                     stem: "집주인과 조건을 정하고 계약서에 서명했습니다. 이 행동을 나타내는 표현으로 알맞은 것은 무엇일까요?",
                     options: [
-                        { letter: "A", text: "집을 계약했어요" },
-                        { letter: "B", text: "집이 밀렸어요" },
+                        { letter: "A", text: "집이 밀렸어요" },
+                        { letter: "B", text: "집을 계약했어요" },
                         { letter: "C", text: "집이 절약됐어요" },
                         { letter: "D", text: "집이 납부됐어요" }
                     ],
-                    correct: "A",
+                    correct: "B",
                     explanation: "조건을 정하고 약속을 맺는 것은 `계약하다`입니다."
                 },
                 {
@@ -149,12 +149,12 @@ window.C15_MOCK_EXAM = {
                     focus: "공과금",
                     stem: "월세와 별도로 전기, 수도, 가스 요금을 내야 해요. 이런 요금을 한꺼번에 무엇이라고 하나요?",
                     options: [
-                        { letter: "A", text: "보증금" },
-                        { letter: "B", text: "계약 기간" },
-                        { letter: "C", text: "공과금" },
+                        { letter: "A", text: "공과금" },
+                        { letter: "B", text: "보증금" },
+                        { letter: "C", text: "계약 기간" },
                         { letter: "D", text: "수입" }
                     ],
-                    correct: "C",
+                    correct: "A",
                     explanation: "전기, 수도, 가스처럼 생활하면서 내는 공공요금은 `공과금`입니다."
                 }
             ]
@@ -170,12 +170,12 @@ window.C15_MOCK_EXAM = {
                     focus: "V-게 하다",
                     stem: "관리인이 세입자들에게 이번 주 안에 밀린 관리비를 내도록 안내했습니다. 가장 자연스러운 문장은 무엇일까요?",
                     options: [
-                        { letter: "A", text: "관리인이 세입자들에게 관리비를 납부하게 했어요." },
-                        { letter: "B", text: "관리인이 세입자들에게 관리비를 납부할걸요." },
-                        { letter: "C", text: "관리인이 세입자들에게 관리비를 납부하는 길에예요." },
+                        { letter: "A", text: "관리인이 세입자들에게 관리비를 납부할걸요." },
+                        { letter: "B", text: "관리인이 세입자들에게 관리비를 납부하는 길에예요." },
+                        { letter: "C", text: "관리인이 세입자들에게 관리비를 납부하게 했어요." },
                         { letter: "D", text: "관리인이 세입자들에게 관리비를 납부하지 않으면 길이에요." }
                     ],
-                    correct: "A",
+                    correct: "C",
                     explanation: "누가 다른 사람이 어떤 행동을 하도록 만드는 상황이므로 `V-게 하다`가 맞습니다."
                 },
                 {
@@ -202,10 +202,10 @@ window.C15_MOCK_EXAM = {
                     options: [
                         { letter: "A", text: "난방 문제는 가족들이 두꺼운 옷을 입는 길에예요." },
                         { letter: "B", text: "난방 문제는 가족들이 두꺼운 옷을 입을걸요." },
-                        { letter: "C", text: "난방 문제가 가족들을 두꺼운 옷을 입게 했어요." },
-                        { letter: "D", text: "난방 문제가 가족들을 두꺼운 옷을 입지 않으면 안 돼요." }
+                        { letter: "C", text: "난방 문제가 가족들을 두꺼운 옷을 입지 않으면 안 돼요." },
+                        { letter: "D", text: "난방 문제가 가족들을 두꺼운 옷을 입게 했어요." }
                     ],
-                    correct: "C",
+                    correct: "D",
                     explanation: "어떤 원인이 사람에게 행동을 일으킬 때도 `V-게 하다`를 사용할 수 있습니다."
                 },
                 {
@@ -232,10 +232,10 @@ window.C15_MOCK_EXAM = {
                     options: [
                         { letter: "A", text: "비싸게 했어요" },
                         { letter: "B", text: "비싸는 길이에요" },
-                        { letter: "C", text: "비싸지 않으면 안 돼요" },
-                        { letter: "D", text: "비쌀걸요" }
+                        { letter: "C", text: "비쌀걸요" },
+                        { letter: "D", text: "비싸지 않으면 안 돼요" }
                     ],
-                    correct: "D",
+                    correct: "C",
                     explanation: "`비싸다`의 어간 `비싸-`에 `-ㄹ걸요`가 붙으면 `비쌀걸요`가 됩니다."
                 },
                 {
@@ -245,12 +245,12 @@ window.C15_MOCK_EXAM = {
                     focus: "A/V-지 않으면 안 되다",
                     stem: "연체료를 내지 않으려면 공과금을 오늘 꼭 내야 합니다. 빈칸에 알맞은 표현을 고르세요.\n`공과금을 오늘 ________.`",
                     options: [
-                        { letter: "A", text: "내지 않으면 안 돼요" },
-                        { letter: "B", text: "내는 길에예요" },
-                        { letter: "C", text: "낼걸요" },
-                        { letter: "D", text: "내게 했어요" }
+                        { letter: "A", text: "내는 길에예요" },
+                        { letter: "B", text: "낼걸요" },
+                        { letter: "C", text: "내게 했어요" },
+                        { letter: "D", text: "내지 않으면 안 돼요" }
                     ],
-                    correct: "A",
+                    correct: "D",
                     explanation: "반드시 해야 하는 일을 말하므로 `내지 않으면 안 돼요`가 가장 알맞습니다."
                 },
                 {
@@ -260,12 +260,12 @@ window.C15_MOCK_EXAM = {
                     focus: "A/V-지 않으면 안 되다 의미",
                     stem: "`계약서를 자세히 읽지 않으면 안 돼요.`의 뜻으로 가장 가까운 것을 고르세요.",
                     options: [
-                        { letter: "A", text: "계약서를 자세히 읽을 것 같아요." },
-                        { letter: "B", text: "계약서를 자세히 읽도록 만들었어요." },
-                        { letter: "C", text: "계약서를 자세히 읽는 중에 다른 일을 해요." },
-                        { letter: "D", text: "계약서를 자세히 꼭 읽어야 해요." }
+                        { letter: "A", text: "계약서를 자세히 꼭 읽어야 해요." },
+                        { letter: "B", text: "계약서를 자세히 읽을 것 같아요." },
+                        { letter: "C", text: "계약서를 자세히 읽도록 만들었어요." },
+                        { letter: "D", text: "계약서를 자세히 읽는 중에 다른 일을 해요." }
                     ],
-                    correct: "D",
+                    correct: "A",
                     explanation: "`-지 않으면 안 되다`는 결국 꼭 해야 한다는 의미를 나타냅니다."
                 },
                 {
@@ -275,12 +275,12 @@ window.C15_MOCK_EXAM = {
                     focus: "V-는 길에",
                     stem: "집으로 돌아오는 도중 관리실에 들러 택배를 찾았습니다. 가장 자연스러운 문장은 무엇일까요?",
                     options: [
-                        { letter: "A", text: "집에 돌아오는 길에 관리실에서 택배를 찾았어요." },
-                        { letter: "B", text: "집에 돌아오게 관리실에서 택배를 찾았어요." },
+                        { letter: "A", text: "집에 돌아오게 관리실에서 택배를 찾았어요." },
+                        { letter: "B", text: "집에 돌아오는 길에 관리실에서 택배를 찾았어요." },
                         { letter: "C", text: "집에 돌아올걸요 관리실에서 택배를 찾았어요." },
                         { letter: "D", text: "집에 돌아오지 않으면 택배 길이에요." }
                     ],
-                    correct: "A",
+                    correct: "B",
                     explanation: "이동 도중에 다른 행동을 한 상황이므로 `집에 돌아오는 길에`가 자연스럽습니다."
                 },
                 {
@@ -291,11 +291,11 @@ window.C15_MOCK_EXAM = {
                     stem: "친구가 편의점 쪽으로 가고 있습니다. 그 친구에게 쓰레기봉투를 사 달라고 부탁할 때 가장 자연스러운 말은 무엇일까요?",
                     options: [
                         { letter: "A", text: "편의점에 가지 않으면 쓰레기봉투를 안 돼요?" },
-                        { letter: "B", text: "편의점에 가는 길에 쓰레기봉투 좀 사다 줄래요?" },
-                        { letter: "C", text: "편의점에 갈걸요 쓰레기봉투 좀 사요?" },
-                        { letter: "D", text: "편의점에 가게 쓰레기봉투가 샀어요?" }
+                        { letter: "B", text: "편의점에 갈걸요 쓰레기봉투 좀 사요?" },
+                        { letter: "C", text: "편의점에 가게 쓰레기봉투가 샀어요?" },
+                        { letter: "D", text: "편의점에 가는 길에 쓰레기봉투 좀 사다 줄래요?" }
                     ],
-                    correct: "B",
+                    correct: "D",
                     explanation: "상대가 이동하는 길에 부탁하는 상황이므로 `가는 길에`를 쓰는 문장이 맞습니다."
                 },
                 {

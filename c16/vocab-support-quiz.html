@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>16과 어휘 보조자료 퀴즈</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1f2528;
+      --muted: #667479;
+      --paper: #fffdf8;
+      --page: #f4f7f2;
+      --line: rgba(31, 37, 40, 0.14);
+      --calm: #237f7a;
+      --room: #577f2b;
+      --joy: #d65a3d;
+      --power: #d49325;
+      --pulse: #bf3f57;
+      --wait: #4569b2;
+      --brass: #d99b24;
+      --violet: #6551b4;
+      --green: #238757;
+      --red: #d7483f;
+      --topbar-height: 48px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--page);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, #fbfdfb 0%, #edf5f4 48%, #f6f2e9 100%);
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: var(--topbar-height);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      background: rgba(255, 253, 248, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar__links {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .topbar a,
+    .topbar button {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(31, 37, 40, 0.1);
+      border-radius: 8px;
+      background: rgba(31, 37, 40, 0.06);
+      color: var(--ink);
+      padding: 0 10px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .topbar__title {
+      min-width: 0;
+      overflow: hidden;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .shell {
+      width: min(1120px, 100% - 28px);
+      margin: 0 auto;
+      padding: 16px 0 32px;
+    }
+
+    .quiz-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      min-height: calc(100vh - var(--topbar-height) - 48px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.9);
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(31, 37, 40, 0.08);
+    }
+
+    .quiz-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+      padding: 18px;
+      border-bottom: 1px solid rgba(31, 37, 40, 0.1);
+      background: rgba(255, 255, 255, 0.64);
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.32rem, 3vw, 2.1rem);
+      line-height: 1.08;
+      font-weight: 900;
+    }
+
+    .scorebox {
+      min-width: 148px;
+      display: grid;
+      gap: 6px;
+      text-align: right;
+    }
+
+    .scorebox strong {
+      font-size: 1.65rem;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .scorebox span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .progress {
+      grid-column: 1 / -1;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(31, 37, 40, 0.08);
+      overflow: hidden;
+    }
+
+    .progress__fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--calm), var(--brass), var(--wait));
+      transition: width 0.25s ease;
+    }
+
+    .quiz-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.03fr) minmax(340px, 0.97fr);
+      min-height: 0;
+    }
+
+    .prompt-pane {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 14px;
+      padding: 18px;
+      border-right: 1px solid rgba(31, 37, 40, 0.1);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 253, 248, 0.42));
+    }
+
+    .round-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .category-pill {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--category-color) 14%, #ffffff);
+      color: var(--category-color);
+      padding: 0 11px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .count-label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .visual-stage {
+      position: relative;
+      min-height: 390px;
+      border: 1px solid rgba(31, 37, 40, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.64)),
+        linear-gradient(135deg, color-mix(in srgb, var(--category-color) 11%, #ffffff), #ffffff 68%);
+    }
+
+    .question-pane {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .question-title {
+      margin: 0;
+      font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+      line-height: 1.34;
+      font-weight: 900;
+      word-break: keep-all;
+    }
+
+    .options {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+    }
+
+    .option-btn {
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(31, 37, 40, 0.14);
+      border-radius: 8px;
+      background: #fffdf8;
+      color: var(--ink);
+      padding: 10px 13px;
+      text-align: left;
+      font-weight: 900;
+      cursor: pointer;
+      transition: border-color 0.16s ease, background 0.16s ease, transform 0.16s ease;
+    }
+
+    .option-btn:hover,
+    .option-btn:focus-visible {
+      border-color: var(--category-color);
+      transform: translateY(-1px);
+      outline: 0;
+    }
+
+    .option-btn[disabled] {
+      cursor: default;
+      transform: none;
+    }
+
+    .option-btn.is-correct {
+      border-color: #238757;
+      background: #eef9f2;
+      color: #17643c;
+    }
+
+    .option-btn.is-wrong {
+      border-color: #c84c3f;
+      background: #fff0ee;
+      color: #9a3228;
+    }
+
+    .option-index {
+      width: 32px;
+      height: 32px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 8px;
+      background: rgba(31, 37, 40, 0.06);
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .option-btn.is-correct .option-index {
+      background: #238757;
+      color: #fff;
+    }
+
+    .option-btn.is-wrong .option-index {
+      background: #c84c3f;
+      color: #fff;
+    }
+
+    .feedback {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid rgba(31, 37, 40, 0.1);
+      padding-top: 13px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .next-btn,
+    .restart-btn {
+      min-height: 42px;
+      border: 0;
+      border-radius: 8px;
+      background: #1f2528;
+      color: #fffdf8;
+      padding: 0 16px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .restart-btn {
+      background: var(--category-color);
+    }
+
+    .next-btn:disabled {
+      opacity: 0.42;
+      cursor: default;
+    }
+
+    .result-view {
+      display: none;
+      min-height: 100%;
+      align-content: center;
+      justify-items: center;
+      gap: 18px;
+      padding: 26px;
+      text-align: center;
+    }
+
+    .result-view.is-visible {
+      display: grid;
+    }
+
+    .result-score {
+      font-size: clamp(2.5rem, 7vw, 4.8rem);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .result-breakdown {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .breakdown-pill {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 8px;
+      background: rgba(31, 37, 40, 0.06);
+      padding: 0 11px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .visual-stage[data-kind="emotion"] {
+      --category-color: var(--calm);
+    }
+
+    .visual-stage[data-kind="instrument"] {
+      --category-color: var(--brass);
+    }
+
+    .visual-stage[data-kind="shape"] {
+      --category-color: #8a6d1f;
+    }
+
+    .emotion-figure {
+      position: absolute;
+      left: 50%;
+      bottom: 5%;
+      width: min(260px, 58%);
+      opacity: 0.2;
+      clip-path: inset(31% 0 0 0);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .motion-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .calm-ring,
+    .room-frame,
+    .heart-shape,
+    .wait-clock,
+    .wait-door,
+    .energy-battery {
+      position: absolute;
+    }
+
+    .calm-ring {
+      left: 50%;
+      top: 39%;
+      width: 132px;
+      height: 132px;
+      border: 4px solid rgba(190, 75, 67, 0.78);
+      border-radius: 46% 54% 44% 56% / 56% 42% 58% 44%;
+      transform: translate(-50%, -50%);
+      animation: calmSettle 5.4s ease-in-out infinite;
+    }
+
+    .calm-wave {
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      top: 50%;
+      height: 92px;
+    }
+
+    .calm-wave path {
+      fill: none;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .calm-wave .rough {
+      stroke: rgba(190, 75, 67, 0.82);
+      animation: waveFade 5.4s ease-in-out infinite;
+    }
+
+    .calm-wave .flat {
+      stroke: rgba(35, 127, 122, 0.88);
+      opacity: 0;
+      transform-origin: center;
+      animation: flatArrive 5.4s ease-in-out infinite;
+    }
+
+    .room-frame {
+      left: 50%;
+      top: 45%;
+      width: 82px;
+      height: 82px;
+      border: 4px solid rgba(190, 75, 67, 0.78);
+      border-radius: 8px;
+      transform: translate(-50%, -50%);
+      animation: roomOpen 5.8s ease-in-out infinite;
+    }
+
+    .room-dot,
+    .calm-dot,
+    .wait-step,
+    .tension-dot {
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .room-dot {
+      left: 50%;
+      top: 45%;
+      width: 14px;
+      height: 14px;
+      background: rgba(190, 75, 67, 0.76);
+      animation: roomDot 5.8s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .joy-body {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: 80px;
+      height: 80px;
+      border-radius: 50% 50% 44% 44%;
+      background: var(--joy);
+      transform: translate(-50%, -50%);
+      animation: joyJump 0.88s cubic-bezier(0.28, 0.8, 0.38, 1) infinite;
+    }
+
+    .joy-body::before,
+    .joy-body::after {
+      content: "";
+      position: absolute;
+      top: 33px;
+      width: 38px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--joy);
+    }
+
+    .joy-body::before {
+      left: -28px;
+      transform: rotate(-32deg);
+    }
+
+    .joy-body::after {
+      right: -28px;
+      transform: rotate(32deg);
+    }
+
+    .burst {
+      position: absolute;
+      left: 50%;
+      top: 39%;
+      width: 9px;
+      height: 21px;
+      border-radius: 999px;
+      background: var(--joy);
+      transform: translate(-50%, -50%);
+      animation: burstPop 1.18s ease-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .energy-battery {
+      left: 50%;
+      top: 48%;
+      width: 158px;
+      height: 82px;
+      border: 5px solid rgba(154, 74, 71, 0.78);
+      border-radius: 8px;
+      transform: translate(-50%, -50%);
+      animation: batteryCase 2.8s ease-in-out infinite;
+    }
+
+    .energy-battery::after {
+      content: "";
+      position: absolute;
+      right: -17px;
+      top: 23px;
+      width: 10px;
+      height: 30px;
+      border-radius: 0 5px 5px 0;
+      background: rgba(154, 74, 71, 0.78);
+      animation: batteryTip 2.8s ease-in-out infinite;
+    }
+
+    .energy-fill {
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      bottom: 8px;
+      width: 18%;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #b84942, #d06a58);
+      animation: batteryFill 2.8s ease-in-out infinite;
+    }
+
+    .energy-bolt {
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 45px;
+      height: 80px;
+      background: #d9715f;
+      clip-path: polygon(55% 0, 18% 44%, 45% 44%, 30% 100%, 84% 36%, 56% 36%);
+      transform: translate(-50%, -50%);
+      animation: boltPulse 1.2s ease-in-out infinite, boltColor 2.8s ease-in-out infinite;
+    }
+
+    .heart-shape {
+      left: 50%;
+      top: 40%;
+      width: 68px;
+      height: 68px;
+      background: var(--pulse);
+      transform: translate(-50%, -50%) rotate(-45deg);
+      animation: heartBeat 0.82s ease-in-out infinite;
+    }
+
+    .heart-shape::before,
+    .heart-shape::after {
+      content: "";
+      position: absolute;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--pulse);
+    }
+
+    .heart-shape::before {
+      top: -34px;
+      left: 0;
+    }
+
+    .heart-shape::after {
+      top: 0;
+      left: 34px;
+    }
+
+    .heart-line {
+      position: absolute;
+      left: 14%;
+      right: 14%;
+      bottom: 24%;
+      height: 74px;
+    }
+
+    .heart-line polyline {
+      fill: none;
+      stroke: var(--pulse);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 310;
+      stroke-dashoffset: 310;
+      animation: heartbeatLine 1.1s linear infinite;
+    }
+
+    .wait-clock {
+      left: 25%;
+      top: 25%;
+      width: 78px;
+      height: 78px;
+      border: 4px solid rgba(69, 105, 178, 0.56);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.52);
+    }
+
+    .wait-clock::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--wait);
+      transform: translate(-50%, -50%);
+    }
+
+    .wait-hand {
+      position: absolute;
+      left: calc(50% - 2px);
+      top: 17px;
+      width: 4px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--wait);
+      transform-origin: 50% 21px;
+      animation: waitHand 4.8s linear infinite;
+    }
+
+    .wait-track {
+      position: absolute;
+      left: 21%;
+      right: 21%;
+      bottom: 30%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(69, 105, 178, 0.2);
+    }
+
+    .arrival-dot {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #f3c84b;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 8px rgba(243, 200, 75, 0.16);
+      animation: arrivalMove 4.8s ease-in-out infinite;
+    }
+
+    .wait-heart {
+      position: absolute;
+      left: 51%;
+      top: 46%;
+      width: 36px;
+      height: 36px;
+      background: var(--pulse);
+      transform: translate(-50%, -50%) rotate(-45deg);
+      animation: waitHeart 4.8s ease-in-out infinite;
+    }
+
+    .wait-heart::before,
+    .wait-heart::after {
+      content: "";
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--pulse);
+    }
+
+    .wait-heart::before {
+      top: -18px;
+      left: 0;
+    }
+
+    .wait-heart::after {
+      top: 0;
+      left: 18px;
+    }
+
+    .shape-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.98) contrast(1);
+    }
+
+    .shape-badge {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.92);
+      padding: 0 14px;
+      color: #4b3e11;
+      font-size: 0.9rem;
+      font-weight: 900;
+      box-shadow: 0 10px 24px rgba(31, 37, 40, 0.12);
+    }
+
+    .instrument-cue {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 44%, color-mix(in srgb, var(--instrument-color) 16%, transparent), transparent 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.18));
+    }
+
+    .instrument-label {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 8px;
+      background: rgba(255, 253, 248, 0.92);
+      color: var(--instrument-color);
+      padding: 0 14px;
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .keys {
+      width: min(320px, 72%);
+      height: 150px;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-items: stretch;
+      gap: 5px;
+      padding: 14px;
+      border: 5px solid #26211e;
+      border-radius: 8px;
+      background: #26211e;
+      transform: perspective(420px) rotateX(7deg);
+    }
+
+    .key {
+      border-radius: 4px 4px 7px 7px;
+      background: #fff8ec;
+      box-shadow: inset 0 -10px 0 rgba(31, 37, 40, 0.08);
+    }
+
+    .key:nth-child(3) {
+      animation: keyPress 0.9s ease-in-out infinite;
+    }
+
+    .violin {
+      position: relative;
+      width: min(320px, 70%);
+      height: 170px;
+    }
+
+    .violin::before,
+    .violin::after {
+      content: "";
+      position: absolute;
+      top: 55px;
+      width: 94px;
+      height: 94px;
+      border-radius: 50%;
+      background: #7b4a22;
+    }
+
+    .violin::before {
+      left: 64px;
+    }
+
+    .violin::after {
+      right: 64px;
+    }
+
+    .violin-neck {
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      width: 18px;
+      height: 124px;
+      border-radius: 999px;
+      background: #402616;
+      transform: translateX(-50%) rotate(90deg);
+    }
+
+    .bow {
+      position: absolute;
+      left: 18%;
+      top: 46%;
+      width: 66%;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--violet);
+      transform: rotate(-18deg);
+      animation: bowMove 1.3s ease-in-out infinite;
+    }
+
+    .trumpet {
+      position: relative;
+      width: min(330px, 76%);
+      height: 160px;
+    }
+
+    .trumpet-body {
+      position: absolute;
+      left: 42px;
+      right: 72px;
+      top: 74px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--brass);
+      box-shadow: 0 -26px 0 -5px var(--brass), 0 26px 0 -5px var(--brass);
+    }
+
+    .trumpet-bell {
+      position: absolute;
+      right: 26px;
+      top: 47px;
+      width: 82px;
+      height: 74px;
+      border-radius: 55% 45% 45% 55%;
+      background: var(--brass);
+      clip-path: polygon(0 26%, 100% 0, 100% 100%, 0 74%);
+      animation: bellPulse 1.2s ease-in-out infinite;
+    }
+
+    .guitar {
+      position: relative;
+      width: min(330px, 74%);
+      height: 180px;
+    }
+
+    .guitar-body {
+      position: absolute;
+      left: 44px;
+      top: 42px;
+      width: 128px;
+      height: 100px;
+      border-radius: 44% 54% 52% 46%;
+      background: #b56a2d;
+    }
+
+    .guitar-neck {
+      position: absolute;
+      left: 153px;
+      top: 85px;
+      width: 128px;
+      height: 18px;
+      border-radius: 999px;
+      background: #4b2a17;
+    }
+
+    .guitar-string {
+      position: absolute;
+      left: 88px;
+      right: 44px;
+      top: calc(82px + var(--n) * 7px);
+      height: 2px;
+      background: rgba(255, 248, 236, 0.86);
+      animation: stringPluck 1s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .drums {
+      position: relative;
+      width: min(330px, 76%);
+      height: 180px;
+    }
+
+    .drum {
+      position: absolute;
+      border: 5px solid var(--green);
+      border-radius: 50%;
+      background: rgba(255, 253, 248, 0.82);
+      animation: drumHit 0.9s ease-in-out infinite;
+    }
+
+    .drum:nth-child(1) {
+      left: 44px;
+      top: 58px;
+      width: 88px;
+      height: 88px;
+    }
+
+    .drum:nth-child(2) {
+      right: 52px;
+      top: 44px;
+      width: 104px;
+      height: 104px;
+      animation-delay: 0.22s;
+    }
+
+    .stick {
+      position: absolute;
+      left: 46%;
+      top: 22%;
+      width: 8px;
+      height: 110px;
+      border-radius: 999px;
+      background: #9a6a38;
+      transform-origin: bottom center;
+      animation: stickHit 0.9s ease-in-out infinite;
+    }
+
+    .stick:nth-child(4) {
+      left: 58%;
+      animation-delay: 0.2s;
+    }
+
+    @keyframes calmSettle {
+      0%, 30%, 100% {
+        border-color: rgba(190, 75, 67, 0.82);
+        border-radius: 43% 57% 48% 52% / 62% 41% 59% 38%;
+        transform: translate(-50%, -50%) rotate(-10deg) scale(0.9, 1.08);
+      }
+      66%, 88% {
+        border-color: rgba(35, 127, 122, 0.82);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+      }
+    }
+
+    @keyframes waveFade {
+      0%, 30%, 100% { opacity: 0.96; transform: scaleY(1); }
+      66%, 88% { opacity: 0; transform: scaleY(0.18); }
+    }
+
+    @keyframes flatArrive {
+      0%, 30%, 100% { opacity: 0; transform: scaleX(0.42); }
+      66%, 88% { opacity: 0.96; transform: scaleX(1); }
+    }
+
+    @keyframes roomOpen {
+      0%, 34%, 100% {
+        width: 82px;
+        height: 82px;
+        border-color: rgba(190, 75, 67, 0.82);
+        transform: translate(-50%, -50%) rotate(-1.3deg);
+      }
+      62%, 88% {
+        width: 184px;
+        height: 142px;
+        border-color: rgba(87, 127, 43, 0.86);
+        transform: translate(-50%, -50%) rotate(0);
+      }
+    }
+
+    @keyframes roomDot {
+      0%, 34%, 100% {
+        transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) scale(0.8);
+        background: rgba(190, 75, 67, 0.78);
+      }
+      62%, 88% {
+        transform: translate(calc(-50% + var(--ex)), calc(-50% + var(--ey))) scale(1);
+        background: rgba(87, 127, 43, 0.84);
+      }
+    }
+
+    @keyframes joyJump {
+      0%, 100% { transform: translate(-50%, -34%) scale(1.02, 0.96); }
+      48% { transform: translate(-50%, -92%) scale(0.94, 1.08); }
+    }
+
+    @keyframes burstPop {
+      0% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(8px) scaleY(0.36); opacity: 0; }
+      28% { opacity: 1; }
+      78%, 100% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-92px) scaleY(1); opacity: 0; }
+    }
+
+    @keyframes batteryCase {
+      0%, 100% { border-color: rgba(154, 74, 71, 0.78); }
+      52%, 72% { border-color: rgba(46, 137, 76, 0.74); }
+    }
+
+    @keyframes batteryTip {
+      0%, 100% { background: rgba(154, 74, 71, 0.78); }
+      52%, 72% { background: rgba(46, 137, 76, 0.74); }
+    }
+
+    @keyframes batteryFill {
+      0%, 100% { width: 18%; background: linear-gradient(90deg, #b84942, #d06a58); }
+      52%, 72% { width: 88%; background: linear-gradient(90deg, #e7b13e, #3c9b61); }
+    }
+
+    @keyframes boltPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.72; }
+      34% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
+    }
+
+    @keyframes boltColor {
+      0%, 100% { background: #d9715f; }
+      52%, 72% { background: #fff4c2; }
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: translate(-50%, -50%) rotate(-45deg) scale(0.86); }
+      17% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.12); }
+      32% { transform: translate(-50%, -50%) rotate(-45deg) scale(0.92); }
+      48% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.24); }
+      68% { transform: translate(-50%, -50%) rotate(-45deg) scale(0.9); }
+    }
+
+    @keyframes heartbeatLine {
+      0% { stroke-dashoffset: 310; opacity: 0.36; }
+      38% { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0.36; }
+    }
+
+    @keyframes waitHand {
+      from { transform: rotate(-42deg); }
+      to { transform: rotate(318deg); }
+    }
+
+    @keyframes arrivalMove {
+      0%, 14% { left: 0; opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+      25% { opacity: 1; }
+      76% { left: 88%; transform: translate(-50%, -50%) scale(1); }
+      90%, 100% { left: 100%; opacity: 0; transform: translate(-50%, -50%) scale(0.86); }
+    }
+
+    @keyframes waitHeart {
+      0%, 20%, 100% { transform: translate(-50%, -50%) rotate(-45deg) scale(0.78); opacity: 0.58; }
+      58% { transform: translate(-50%, -54%) rotate(-45deg) scale(1); opacity: 0.88; }
+      76% { transform: translate(-50%, -54%) rotate(-45deg) scale(1.2); opacity: 1; }
+    }
+
+    @keyframes keyPress {
+      0%, 100% { transform: translateY(0); background: #fff8ec; }
+      45% { transform: translateY(16px); background: #f2d18c; }
+    }
+
+    @keyframes bowMove {
+      0%, 100% { transform: translateX(-38px) rotate(-18deg); }
+      50% { transform: translateX(38px) rotate(-18deg); }
+    }
+
+    @keyframes bellPulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(217, 155, 36, 0)); }
+      50% { transform: scale(1.08); filter: drop-shadow(0 0 18px rgba(217, 155, 36, 0.42)); }
+    }
+
+    @keyframes stringPluck {
+      0%, 100% { transform: translateY(0); }
+      44% { transform: translateY(calc((var(--n) - 2.5) * 2px)); }
+    }
+
+    @keyframes drumHit {
+      0%, 100% { transform: scale(1); }
+      45% { transform: scale(1.08); background: rgba(235, 250, 241, 0.94); }
+    }
+
+    @keyframes stickHit {
+      0%, 100% { transform: rotate(-28deg); }
+      48% { transform: rotate(18deg); }
+    }
+
+    @media (max-width: 840px) {
+      .shell {
+        width: min(100% - 18px, 1120px);
+        padding: 10px 0 24px;
+      }
+
+      .quiz-panel {
+        min-height: auto;
+      }
+
+      .quiz-head {
+        grid-template-columns: 1fr;
+        align-items: start;
+        padding: 14px;
+      }
+
+      .scorebox {
+        width: 100%;
+        grid-template-columns: auto 1fr;
+        align-items: end;
+        text-align: left;
+      }
+
+      .scorebox span {
+        text-align: right;
+      }
+
+      .quiz-body {
+        grid-template-columns: 1fr;
+      }
+
+      .prompt-pane {
+        padding: 14px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(31, 37, 40, 0.1);
+      }
+
+      .visual-stage {
+        min-height: 330px;
+      }
+
+      .question-pane {
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar {
+        padding: 7px 8px;
+      }
+
+      .topbar a,
+      .topbar button {
+        padding: 0 8px;
+        font-size: 0.75rem;
+      }
+
+      .topbar__title {
+        font-size: 0.82rem;
+      }
+
+      .visual-stage {
+        min-height: 286px;
+      }
+
+      .option-btn {
+        min-height: 54px;
+        grid-template-columns: 30px minmax(0, 1fr);
+      }
+
+      .feedback {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .next-btn,
+      .restart-btn {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <header class="topbar">
+    <div class="topbar__links">
+      <a href="../index.html">메인</a>
+      <a href="index.html">16과</a>
+    </div>
+    <div class="topbar__title">어휘 보조자료 퀴즈</div>
+    <button type="button" id="reshuffleBtn">섞기</button>
+  </header>
+
+  <main class="shell">
+    <section class="quiz-panel" id="quizPanel" aria-live="polite">
+      <div class="quiz-head">
+        <div>
+          <p class="eyebrow">16과 어휘</p>
+          <h1>보면서 고르기</h1>
+        </div>
+        <div class="scorebox">
+          <strong id="scoreText">0</strong>
+          <span id="scoreDetail">0 / 18</span>
+        </div>
+        <div class="progress" aria-hidden="true"><div class="progress__fill" id="progressFill"></div></div>
+      </div>
+
+      <div class="quiz-body" id="quizBody">
+        <section class="prompt-pane">
+          <div class="round-meta">
+            <span class="category-pill" id="categoryPill">심리 상태</span>
+            <span class="count-label" id="countLabel">1 / 18</span>
+          </div>
+          <div class="visual-stage" id="visualStage"></div>
+        </section>
+
+        <section class="question-pane">
+          <h2 class="question-title" id="questionTitle">알맞은 표현을 고르세요.</h2>
+          <div class="options" id="options"></div>
+          <div class="feedback">
+            <span id="feedbackText">보기 순서는 매번 바뀝니다.</span>
+            <button class="next-btn" type="button" id="nextBtn" disabled>다음</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="result-view" id="resultView">
+        <p class="eyebrow">완료</p>
+        <div class="result-score" id="resultScore">0 / 18</div>
+        <div class="result-breakdown" id="resultBreakdown"></div>
+        <button class="restart-btn" type="button" id="restartBtn">다시 풀기</button>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const emotionBase = '../assets/c16/vocabulary/images/split-variants/full/';
+      const shapeBase = '../assets/c16/vocabulary/shape-texture-game/';
+
+      const categoryMeta = {
+        emotion: { label: '심리 상태', color: '#237f7a' },
+        instrument: { label: '악기 연주', color: '#d99b24' },
+        shape: { label: '모양 · 촉감', color: '#8a6d1f' }
+      };
+
+      const allQuestions = [
+        { category: 'emotion', cue: 'calm', answer: '마음이 편안해지다', prompt: '움직임에 맞는 표현은?', choices: ['마음에 여유가 생기다', '가슴이 뛰다', '신이 나다'], image: 's01_tl_n01.webp' },
+        { category: 'emotion', cue: 'room', answer: '마음에 여유가 생기다', prompt: '움직임에 맞는 표현은?', choices: ['마음이 편안해지다', '힘이 나다', '마음이 설레다'], image: 's01_tr_n02.webp' },
+        { category: 'emotion', cue: 'joy', answer: '신이 나다', prompt: '움직임에 맞는 표현은?', choices: ['힘이 나다', '가슴이 뛰다', '마음이 편안해지다'], image: 's01_bl_n03.webp' },
+        { category: 'emotion', cue: 'power', answer: '힘이 나다', prompt: '움직임에 맞는 표현은?', choices: ['신이 나다', '마음에 여유가 생기다', '가슴이 뛰다'], image: 's01_br_n04.webp' },
+        { category: 'emotion', cue: 'pulse', answer: '가슴이 뛰다', prompt: '움직임에 맞는 표현은?', choices: ['마음이 설레다', '마음이 편안해지다', '힘이 나다'], image: 's02_tl_n05.webp' },
+        { category: 'emotion', cue: 'wait', answer: '마음이 설레다', prompt: '기다림과 기대가 보이는 표현은?', choices: ['가슴이 뛰다', '신이 나다', '마음에 여유가 생기다'], image: 's02_tr_n06.webp' },
+
+        { category: 'instrument', cue: 'piano', answer: '피아노', prompt: '보이는 악기는?', choices: ['기타', '트럼펫', '드럼'], label: '누르다 · 치다' },
+        { category: 'instrument', cue: 'violin', answer: '켜다', prompt: '바이올린 동작은?', choices: ['불다', '튕기다', '누르다'], label: '바이올린' },
+        { category: 'instrument', cue: 'trumpet', answer: '불다', prompt: '트럼펫 동작은?', choices: ['켜다', '치다', '튕기다'], label: '트럼펫' },
+        { category: 'instrument', cue: 'guitar', answer: '튕기다', prompt: '기타 줄 동작은?', choices: ['불다', '누르다', '켜다'], label: '기타' },
+        { category: 'instrument', cue: 'drums', answer: '드럼', prompt: '보이는 악기는?', choices: ['피아노', '바이올린', '트럼펫'], label: '치다' },
+
+        { category: 'shape', image: 'triangle-metal.webp', answer: '세모', prompt: '가장 알맞은 모양은?', choices: ['네모', '동그라미', '마름모'], label: '모양' },
+        { category: 'shape', image: 'square-glass-tile.webp', answer: '매끄럽다', prompt: '가장 알맞은 촉감은?', choices: ['거칠다', '부드럽다', '울퉁불퉁하다'], label: '촉감' },
+        { category: 'shape', image: 'circle-cushion.webp', answer: '부드럽다', prompt: '가장 알맞은 촉감은?', choices: ['딱딱하다', '거칠다', '뾰족하다'], label: '촉감' },
+        { category: 'shape', image: 'diamond-stone-tile.webp', answer: '마름모', prompt: '가장 알맞은 모양은?', choices: ['세모', '동그라미', '네모'], label: '모양' },
+        { category: 'shape', image: 'concrete-block.webp', answer: '거칠다', prompt: '가장 알맞은 촉감은?', choices: ['매끄럽다', '부드럽다', '둥글다'], label: '촉감' },
+        { category: 'shape', image: 'circle-wood-stand.webp', answer: '동그라미', prompt: '가장 알맞은 모양은?', choices: ['세모', '네모', '마름모'], label: '모양' },
+        { category: 'shape', image: 'diamond-mirror.webp', answer: '평평하다', prompt: '가장 알맞은 형태는?', choices: ['울퉁불퉁하다', '둥글다', '부드럽다'], label: '형태' }
+      ];
+
+      const elements = {
+        quizBody: document.getElementById('quizBody'),
+        resultView: document.getElementById('resultView'),
+        categoryPill: document.getElementById('categoryPill'),
+        countLabel: document.getElementById('countLabel'),
+        visualStage: document.getElementById('visualStage'),
+        questionTitle: document.getElementById('questionTitle'),
+        options: document.getElementById('options'),
+        feedbackText: document.getElementById('feedbackText'),
+        nextBtn: document.getElementById('nextBtn'),
+        scoreText: document.getElementById('scoreText'),
+        scoreDetail: document.getElementById('scoreDetail'),
+        progressFill: document.getElementById('progressFill'),
+        resultScore: document.getElementById('resultScore'),
+        resultBreakdown: document.getElementById('resultBreakdown'),
+        restartBtn: document.getElementById('restartBtn'),
+        reshuffleBtn: document.getElementById('reshuffleBtn')
+      };
+
+      const state = {
+        questions: [],
+        index: 0,
+        score: 0,
+        answered: false,
+        categoryScores: {}
+      };
+
+      function shuffle(items) {
+        const next = [...items];
+        for (let i = next.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [next[i], next[j]] = [next[j], next[i]];
+        }
+        return next;
+      }
+
+      function balancedSlots(count, slotCount) {
+        const slots = [];
+        for (let i = 0; i < count; i += 1) slots.push(i % slotCount);
+        return shuffle(slots);
+      }
+
+      function buildQuestions() {
+        const questionOrder = shuffle(allQuestions);
+        const slots = balancedSlots(questionOrder.length, 4);
+        return questionOrder.map((question, index) => {
+          const options = shuffle(question.choices);
+          options.splice(slots[index], 0, question.answer);
+          return { ...question, options, answerIndex: slots[index] };
+        });
+      }
+
+      function categoryColor(category) {
+        return categoryMeta[category].color;
+      }
+
+      function renderVisual(question) {
+        elements.visualStage.innerHTML = '';
+        elements.visualStage.dataset.kind = question.category;
+        elements.visualStage.style.setProperty('--category-color', categoryColor(question.category));
+        if (question.category === 'emotion') renderEmotion(question);
+        if (question.category === 'instrument') renderInstrument(question);
+        if (question.category === 'shape') renderShape(question);
+      }
+
+      function renderEmotion(question) {
+        const image = document.createElement('img');
+        image.className = 'emotion-figure';
+        image.src = `${emotionBase}${question.image}`;
+        image.alt = '';
+        elements.visualStage.append(image);
+
+        const layer = document.createElement('div');
+        layer.className = 'motion-layer';
+        const cue = question.cue;
+        if (cue === 'calm') {
+          layer.innerHTML = `
+            <span class="calm-ring"></span>
+            <svg class="calm-wave" viewBox="0 0 260 92" preserveAspectRatio="none" focusable="false">
+              <path class="rough" d="M0,48 C18,14 34,78 52,46 S84,16 102,48 S136,76 154,44 S188,18 206,48 S240,76 260,46"></path>
+              <path class="flat" d="M0,48 L260,48"></path>
+            </svg>`;
+        }
+        if (cue === 'room') {
+          layer.innerHTML = `
+            <span class="room-frame"></span>
+            <span class="room-dot" style="--sx: -18px; --sy: -16px; --ex: -72px; --ey: -46px; --delay: 0s;"></span>
+            <span class="room-dot" style="--sx: 18px; --sy: -13px; --ex: 70px; --ey: -38px; --delay: 0.06s;"></span>
+            <span class="room-dot" style="--sx: -14px; --sy: 18px; --ex: -55px; --ey: 48px; --delay: 0.12s;"></span>
+            <span class="room-dot" style="--sx: 20px; --sy: 17px; --ex: 72px; --ey: 46px; --delay: 0.18s;"></span>`;
+        }
+        if (cue === 'joy') {
+          layer.innerHTML = `
+            <span class="joy-body"></span>
+            <span class="burst" style="--angle: -64deg; --delay: 0s;"></span>
+            <span class="burst" style="--angle: -28deg; --delay: 0.12s;"></span>
+            <span class="burst" style="--angle: 18deg; --delay: 0.05s;"></span>
+            <span class="burst" style="--angle: 58deg; --delay: 0.18s;"></span>`;
+        }
+        if (cue === 'power') {
+          layer.innerHTML = `
+            <span class="energy-battery"><span class="energy-fill"></span></span>
+            <span class="energy-bolt"></span>`;
+        }
+        if (cue === 'pulse') {
+          layer.innerHTML = `
+            <span class="heart-shape"></span>
+            <svg class="heart-line" viewBox="0 0 260 80" preserveAspectRatio="none" focusable="false">
+              <polyline points="0,45 42,45 58,12 79,68 100,45 130,45 146,25 164,58 182,45 260,45"></polyline>
+            </svg>`;
+        }
+        if (cue === 'wait') {
+          layer.innerHTML = `
+            <span class="wait-clock"><span class="wait-hand"></span></span>
+            <span class="wait-heart"></span>
+            <span class="wait-track"><span class="arrival-dot"></span></span>`;
+        }
+        elements.visualStage.append(layer);
+      }
+
+      function renderInstrument(question) {
+        const cue = document.createElement('div');
+        cue.className = 'instrument-cue';
+        const colorMap = {
+          piano: '#d7483f',
+          violin: '#6551b4',
+          trumpet: '#d99b24',
+          guitar: '#0f8a83',
+          drums: '#238757'
+        };
+        cue.style.setProperty('--instrument-color', colorMap[question.cue]);
+
+        if (question.cue === 'piano') {
+          cue.innerHTML = `<div class="keys">${Array.from({ length: 7 }, () => '<span class="key"></span>').join('')}</div>`;
+        }
+        if (question.cue === 'violin') {
+          cue.innerHTML = '<div class="violin"><span class="violin-neck"></span><span class="bow"></span></div>';
+        }
+        if (question.cue === 'trumpet') {
+          cue.innerHTML = '<div class="trumpet"><span class="trumpet-body"></span><span class="trumpet-bell"></span></div>';
+        }
+        if (question.cue === 'guitar') {
+          cue.innerHTML = `
+            <div class="guitar">
+              <span class="guitar-body"></span><span class="guitar-neck"></span>
+              <span class="guitar-string" style="--n: 0; --delay: 0s;"></span>
+              <span class="guitar-string" style="--n: 1; --delay: 0.04s;"></span>
+              <span class="guitar-string" style="--n: 2; --delay: 0.08s;"></span>
+              <span class="guitar-string" style="--n: 3; --delay: 0.12s;"></span>
+            </div>`;
+        }
+        if (question.cue === 'drums') {
+          cue.innerHTML = '<div class="drums"><span class="drum"></span><span class="drum"></span><span class="stick"></span><span class="stick"></span></div>';
+        }
+        cue.insertAdjacentHTML('beforeend', `<span class="instrument-label">${question.label}</span>`);
+        elements.visualStage.append(cue);
+      }
+
+      function renderShape(question) {
+        const image = document.createElement('img');
+        image.className = 'shape-photo';
+        image.src = `${shapeBase}${question.image}`;
+        image.alt = '';
+        elements.visualStage.append(image);
+        const badge = document.createElement('span');
+        badge.className = 'shape-badge';
+        badge.textContent = question.label;
+        elements.visualStage.append(badge);
+      }
+
+      function renderOptions(question) {
+        elements.options.innerHTML = '';
+        question.options.forEach((option, index) => {
+          const button = document.createElement('button');
+          button.className = 'option-btn';
+          button.type = 'button';
+          button.dataset.index = String(index);
+          button.innerHTML = `<span class="option-index">${index + 1}</span><span>${option}</span>`;
+          button.addEventListener('click', () => checkAnswer(button, option, question));
+          elements.options.append(button);
+        });
+      }
+
+      function renderQuestion() {
+        const question = state.questions[state.index];
+        const meta = categoryMeta[question.category];
+        document.documentElement.style.setProperty('--category-color', meta.color);
+        elements.categoryPill.textContent = meta.label;
+        elements.categoryPill.style.setProperty('--category-color', meta.color);
+        elements.countLabel.textContent = `${state.index + 1} / ${state.questions.length}`;
+        elements.questionTitle.textContent = question.prompt;
+        elements.feedbackText.textContent = '알맞은 보기를 고르세요.';
+        elements.nextBtn.disabled = true;
+        state.answered = false;
+        renderVisual(question);
+        renderOptions(question);
+        updateScore();
+      }
+
+      function checkAnswer(button, option, question) {
+        if (state.answered) return;
+        state.answered = true;
+        const correct = option === question.answer;
+        if (correct) {
+          state.score += 1;
+          state.categoryScores[question.category] += 1;
+          elements.feedbackText.textContent = '정답입니다.';
+        } else {
+          elements.feedbackText.textContent = `정답: ${question.answer}`;
+        }
+        Array.from(elements.options.children).forEach((item) => {
+          item.disabled = true;
+          const chosenOption = question.options[Number(item.dataset.index)];
+          if (chosenOption === question.answer) item.classList.add('is-correct');
+        });
+        if (!correct) button.classList.add('is-wrong');
+        elements.nextBtn.disabled = false;
+        updateScore();
+      }
+
+      function updateScore() {
+        const answeredCount = state.index + (state.answered ? 1 : 0);
+        elements.scoreText.textContent = String(state.score);
+        elements.scoreDetail.textContent = `${answeredCount} / ${state.questions.length}`;
+        elements.progressFill.style.width = `${(answeredCount / state.questions.length) * 100}%`;
+      }
+
+      function showResult() {
+        elements.quizBody.style.display = 'none';
+        elements.resultView.classList.add('is-visible');
+        elements.progressFill.style.width = '100%';
+        elements.scoreText.textContent = String(state.score);
+        elements.scoreDetail.textContent = `${state.questions.length} / ${state.questions.length}`;
+        elements.resultScore.textContent = `${state.score} / ${state.questions.length}`;
+        elements.resultBreakdown.innerHTML = '';
+        Object.entries(categoryMeta).forEach(([key, meta]) => {
+          const total = state.questions.filter((question) => question.category === key).length;
+          const pill = document.createElement('span');
+          pill.className = 'breakdown-pill';
+          pill.textContent = `${meta.label} ${state.categoryScores[key]} / ${total}`;
+          elements.resultBreakdown.append(pill);
+        });
+      }
+
+      function nextQuestion() {
+        if (!state.answered) return;
+        state.index += 1;
+        if (state.index >= state.questions.length) {
+          showResult();
+        } else {
+          renderQuestion();
+        }
+      }
+
+      function restart() {
+        state.questions = buildQuestions();
+        state.index = 0;
+        state.score = 0;
+        state.answered = false;
+        state.categoryScores = { emotion: 0, instrument: 0, shape: 0 };
+        elements.quizBody.style.display = '';
+        elements.resultView.classList.remove('is-visible');
+        renderQuestion();
+      }
+
+      elements.nextBtn.addEventListener('click', nextQuestion);
+      elements.restartBtn.addEventListener('click', restart);
+      elements.reshuffleBtn.addEventListener('click', restart);
+
+      restart();
+    })();
+  </script>
+  <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
