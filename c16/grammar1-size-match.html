@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>크기 맞추기 | 16과 문법 1 보조자료 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #66747c;
+      --page: #f5f8f4;
+      --paper: #fffefa;
+      --line: rgba(31, 41, 51, 0.14);
+      --teal: #0f766e;
+      --teal-soft: #e6f5f2;
+      --teal-line: #8fd3c8;
+      --coral: #d95d39;
+      --coral-soft: #fff0ea;
+      --amber: #b7791f;
+      --amber-soft: #fff7dc;
+      --blue: #2563eb;
+      --blue-soft: #eaf1ff;
+      --good: #15803d;
+      --bad: #c2410c;
+      --shadow: 0 12px 26px rgba(24, 39, 49, 0.08);
+      --topbar-height: 38px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--page);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background: linear-gradient(180deg, #fbfdf8 0%, #eef6f3 56%, #f8f1e7 100%);
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      touch-action: manipulation;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      min-height: var(--topbar-height);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 5px 10px;
+      background: rgba(255, 254, 250, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--teal);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .topbar span {
+      color: #a0a8ad;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .topbar strong {
+      min-width: 0;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 900;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 12px));
+      margin: 6px auto 12px;
+    }
+
+    .eyebrow {
+      margin: 0 0 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h2,
+    h3,
+    p {
+      overflow-wrap: anywhere;
+    }
+
+    .progress-chip {
+      min-width: 86px;
+      display: grid;
+      gap: 5px;
+      padding: 6px 8px;
+      border: 1px solid var(--teal-line);
+      border-radius: 8px;
+      background: var(--teal-soft);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .progress-track {
+      height: 7px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.16);
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--teal);
+      transition: width 0.24s ease;
+    }
+
+    .game-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 254, 250, 0.96);
+      box-shadow: var(--shadow);
+    }
+
+    .game-card {
+      position: relative;
+      min-height: calc(100dvh - var(--topbar-height) - 18px);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .wrong-sentence-pop {
+      position: absolute;
+      left: 50%;
+      top: 76px;
+      z-index: 20;
+      min-width: min(420px, calc(100% - 32px));
+      padding: 14px 22px;
+      border: 2px solid rgba(194, 65, 12, 0.38);
+      border-radius: 8px;
+      background: rgba(255, 247, 237, 0.98);
+      color: #9a3412;
+      box-shadow: 0 18px 42px rgba(124, 45, 18, 0.18);
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -8px) scale(0.96);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .wrong-sentence-pop.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    .wrong-sentence-pop strong {
+      position: relative;
+      z-index: 1;
+      display: block;
+      color: #7c2d12;
+      font-size: clamp(1.15rem, 3vw, 1.75rem);
+      line-height: 1.25;
+      font-weight: 900;
+      word-break: keep-all;
+    }
+
+    .wrong-question {
+      position: absolute;
+      color: rgba(194, 65, 12, 0.46);
+      font-size: 18px;
+      font-weight: 900;
+      animation: questionFloat 0.72s ease-in-out infinite alternate;
+    }
+
+    .wrong-question:nth-child(1) { left: 12px; top: 8px; }
+    .wrong-question:nth-child(2) { right: 16px; top: 10px; animation-delay: 0.08s; }
+    .wrong-question:nth-child(3) { left: 30px; bottom: 7px; animation-delay: 0.15s; }
+    .wrong-question:nth-child(4) { right: 34px; bottom: 8px; animation-delay: 0.22s; }
+    .wrong-question:nth-child(5) { left: 48%; top: -10px; animation-delay: 0.3s; }
+    .wrong-question:nth-child(6) { left: -8px; top: 44%; animation-delay: 0.36s; }
+    .wrong-question:nth-child(7) { right: -8px; top: 46%; animation-delay: 0.44s; }
+
+    .sentence-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #fffefa 0%, #f7fbf7 100%);
+    }
+
+    .sentence-panel h2 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.8vw, 2.1rem);
+      line-height: 1.2;
+      font-weight: 900;
+      word-break: keep-all;
+    }
+
+    .sentence-target {
+      color: var(--blue);
+    }
+
+    .sentence-standard {
+      color: var(--coral);
+      text-decoration: underline;
+      text-decoration-thickness: 0.18em;
+      text-underline-offset: 0.18em;
+    }
+
+    .game-card[data-step="choice"] .sentence-standard {
+      animation: underlinePulse 1.12s ease-in-out infinite;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: minmax(200px, 0.62fr) minmax(0, 1.38fr);
+      min-height: 0;
+    }
+
+    .choice-panel {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 8px;
+      padding: 10px;
+      border-right: 1px solid var(--line);
+      background: #fbf9f2;
+      transition: background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .choice-panel.is-focus {
+      background: #eefaf7;
+      box-shadow: inset 0 0 0 2px rgba(15, 118, 110, 0.32);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .panel-head h3 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .mini-hint {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .choice-list {
+      display: grid;
+      align-content: start;
+      gap: 7px;
+    }
+
+    .choice-card {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      min-height: 68px;
+      padding: 7px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--ink);
+      text-align: left;
+      box-shadow: 0 8px 16px rgba(24, 39, 49, 0.06);
+      cursor: pointer;
+      transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .choice-panel.is-focus .choice-card:not(.is-selected) {
+      animation: choicePulse 1.18s ease-in-out infinite;
+    }
+
+    .choice-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(15, 118, 110, 0.34);
+    }
+
+    .choice-card.is-selected {
+      border-color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .choice-card.is-wrong {
+      border-color: var(--bad);
+      background: #fff4ec;
+    }
+
+    .choice-visual,
+    .object-frame {
+      display: grid;
+      place-items: center;
+      overflow: visible;
+      border: 1px dashed rgba(31, 41, 51, 0.18);
+      border-radius: 8px;
+      background: #fffefa;
+    }
+
+    .choice-visual {
+      width: 58px;
+      height: 52px;
+    }
+
+    .choice-emoji {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      transform: scale(var(--scale));
+      transform-origin: center;
+    }
+
+    .choice-label {
+      display: block;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .choice-note {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .compare-panel {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      min-height: 0;
+      background: linear-gradient(180deg, #ffffff 0%, #f6faf9 100%);
+    }
+
+    .compare-stage {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+      min-height: 0;
+      gap: 8px;
+      padding: 10px;
+    }
+
+    .object-card {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto minmax(150px, 1fr);
+      gap: 8px;
+      min-height: 0;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 254, 250, 0.98);
+      transition: box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .object-card[data-kind="standard"] {
+      border-color: rgba(217, 93, 57, 0.28);
+    }
+
+    .object-card[data-kind="target"] {
+      border-color: rgba(37, 99, 235, 0.25);
+    }
+
+    .game-card[data-step="size"] .object-card[data-kind="target"],
+    .control-panel.is-focus {
+      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.22);
+    }
+
+    .game-card[data-step="size"] .object-card[data-kind="target"] .object-frame {
+      animation: framePulse 1.18s ease-in-out infinite;
+    }
+
+    .object-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .object-label {
+      min-height: 25px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 7px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .object-frame {
+      min-height: 150px;
+      position: relative;
+      background:
+        linear-gradient(90deg, transparent calc(50% - 1px), rgba(31, 41, 51, 0.08) calc(50% - 1px), rgba(31, 41, 51, 0.08) calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(180deg, #fffefa 0%, #f6f8f4 100%);
+    }
+
+    .object-frame::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 22px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(31, 41, 51, 0.14);
+    }
+
+    .object-emoji {
+      position: relative;
+      z-index: 1;
+      display: block;
+      font-size: 66px;
+      line-height: 1;
+      transform: scale(var(--scale));
+      transform-origin: center bottom;
+      transition: transform 0.16s ease;
+    }
+
+    .placeholder {
+      color: #9aa4ab;
+      font-size: 42px;
+      font-weight: 900;
+    }
+
+    .size-caption {
+      display: none;
+      min-height: 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .control-panel {
+      padding: 10px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 254, 250, 0.98);
+      transition: background 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .control-panel.is-focus {
+      background: #eef4ff;
+    }
+
+    .slider-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn,
+    .primary-btn,
+    .secondary-btn {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+    }
+
+    .icon-btn {
+      width: 38px;
+      color: var(--teal);
+      background: var(--teal-soft);
+      border-color: rgba(15, 118, 110, 0.22);
+    }
+
+    .icon-btn:hover,
+    .primary-btn:hover,
+    .secondary-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .size-slider {
+      width: 100%;
+      accent-color: var(--teal);
+    }
+
+    .size-readout {
+      min-width: 58px;
+      padding: 7px 8px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .meter-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      margin-top: 7px;
+    }
+
+    .match-meter {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #e2e8f0;
+    }
+
+    .match-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--coral), var(--amber), var(--teal));
+      transition: width 0.16s ease;
+    }
+
+    .meter-label {
+      min-width: 86px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .feedback {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.45;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .feedback[data-tone="good"] {
+      background: #ecfdf5;
+      color: var(--good);
+    }
+
+    .feedback[data-tone="bad"] {
+      background: #fff7ed;
+      color: var(--bad);
+    }
+
+    .primary-btn {
+      padding: 0 16px;
+      color: #ffffff;
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .secondary-btn {
+      padding: 0 14px;
+      color: var(--teal);
+      background: #ffffff;
+      border-color: var(--teal-line);
+    }
+
+    .primary-btn[hidden],
+    .secondary-btn[hidden] {
+      display: none;
+    }
+
+    .object-emoji.is-success {
+      animation: pop 0.34s ease;
+    }
+
+    .next-ready {
+      animation: nextPulse 1.08s ease-in-out infinite;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(var(--scale));
+      }
+      45% {
+        transform: scale(calc(var(--scale) + 0.12));
+      }
+      100% {
+        transform: scale(var(--scale));
+      }
+    }
+
+    @keyframes underlinePulse {
+      0%, 100% {
+        text-decoration-color: rgba(217, 93, 57, 0.48);
+        filter: none;
+      }
+      50% {
+        text-decoration-color: var(--coral);
+        filter: drop-shadow(0 0 9px rgba(217, 93, 57, 0.34));
+      }
+    }
+
+    @keyframes choicePulse {
+      0%, 100% {
+        border-color: transparent;
+      }
+      50% {
+        border-color: rgba(15, 118, 110, 0.46);
+      }
+    }
+
+    @keyframes framePulse {
+      0%, 100% {
+        border-color: rgba(37, 99, 235, 0.2);
+      }
+      50% {
+        border-color: rgba(37, 99, 235, 0.62);
+      }
+    }
+
+    @keyframes nextPulse {
+      0%, 100% {
+        box-shadow: none;
+      }
+      50% {
+        box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.16);
+      }
+    }
+
+    @keyframes questionFloat {
+      from {
+        transform: translateY(0) rotate(-8deg);
+      }
+      to {
+        transform: translateY(-5px) rotate(8deg);
+      }
+    }
+
+    @media (max-width: 840px) {
+      .action-row {
+        grid-template-columns: 1fr;
+      }
+
+      .work-grid {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .choice-panel {
+        grid-template-rows: auto auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .choice-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .choice-card {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .choice-note {
+        display: none;
+      }
+
+      .compare-stage {
+        padding: 8px;
+      }
+
+      .object-card {
+        grid-template-rows: auto minmax(140px, 1fr);
+      }
+
+      .object-frame {
+        min-height: 140px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .shell {
+        width: 100%;
+        margin: 0;
+      }
+
+      .topbar strong {
+        display: none;
+      }
+
+      .game-card {
+        min-height: calc(100dvh - 40px);
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+      }
+
+      .wrong-sentence-pop {
+        top: 62px;
+        min-width: calc(100% - 22px);
+        padding: 12px 18px;
+      }
+
+      .sentence-panel {
+        padding: 8px 10px;
+      }
+
+      .sentence-panel h2 {
+        font-size: 1.24rem;
+      }
+
+      .progress-chip {
+        min-width: 70px;
+        padding: 5px 7px;
+      }
+
+      .work-grid {
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+      }
+
+      .choice-panel {
+        gap: 5px;
+        padding: 6px;
+      }
+
+      .panel-head h3,
+      .mini-hint {
+        font-size: 11px;
+      }
+
+      .choice-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 5px;
+      }
+
+      .choice-card {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 3px;
+        min-height: 58px;
+        padding: 5px 3px;
+        text-align: center;
+      }
+
+      .choice-visual {
+        width: 38px;
+        height: 30px;
+      }
+
+      .choice-emoji {
+        font-size: 21px;
+      }
+
+      .choice-label {
+        font-size: 12px;
+      }
+
+      .compare-stage {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+        padding: 6px;
+      }
+
+      .object-card {
+        grid-template-rows: auto minmax(112px, 1fr);
+        gap: 5px;
+        padding: 6px;
+      }
+
+      .object-title {
+        font-size: 10px;
+      }
+
+      .object-label {
+        min-height: 22px;
+        padding: 3px 6px;
+        font-size: 11px;
+      }
+
+      .object-frame {
+        min-height: 112px;
+      }
+
+      .object-emoji {
+        font-size: 54px;
+      }
+
+      .placeholder {
+        font-size: 34px;
+      }
+
+      .control-panel {
+        padding: 6px;
+      }
+
+      .slider-row {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+
+      .size-readout {
+        min-width: 52px;
+        padding: 5px 6px;
+      }
+
+      .meter-row {
+        margin-top: 5px;
+        gap: 6px;
+      }
+
+      .meter-label {
+        min-width: 58px;
+        font-size: 11px;
+      }
+
+      .action-row {
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        gap: 6px;
+        margin-top: 6px;
+      }
+
+      .feedback {
+        min-height: 34px;
+        padding: 6px 8px;
+        font-size: 11px;
+      }
+
+      .icon-btn,
+      .primary-btn,
+      .secondary-btn {
+        min-height: 34px;
+      }
+
+      .icon-btn {
+        width: 34px;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        padding: 0 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <nav class="topbar">
+    <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+    <span>|</span>
+    <a href="index.html">16과 목록</a>
+    <span>|</span>
+    <a href="grammar1.html">문법 1</a>
+    <span>|</span>
+    <strong>크기 맞추기</strong>
+  </nav>
+
+  <main class="shell">
+    <section id="gameCard" class="game-card" aria-labelledby="sentenceTitle" data-step="choice">
+      <div id="wrongSentencePop" class="wrong-sentence-pop" role="status" aria-hidden="true">
+        <span class="wrong-question" aria-hidden="true">?</span>
+        <span class="wrong-question" aria-hidden="true">?</span>
+        <span class="wrong-question" aria-hidden="true">?</span>
+        <span class="wrong-question" aria-hidden="true">?</span>
+        <span class="wrong-question" aria-hidden="true">?</span>
+        <span class="wrong-question" aria-hidden="true">?</span>
+        <span class="wrong-question" aria-hidden="true">?</span>
+        <strong id="wrongSentenceText"></strong>
+      </div>
+
+      <div class="sentence-panel">
+        <h2 id="sentenceTitle"></h2>
+        <div class="progress-chip" aria-live="polite">
+          <span id="progressText">1 / 6</span>
+          <div class="progress-track" aria-hidden="true">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="work-grid">
+        <aside id="choicePanel" class="choice-panel" aria-labelledby="choiceTitle">
+          <div class="panel-head">
+            <h3 id="choiceTitle">기준 선택</h3>
+            <span class="mini-hint">만 앞 명사</span>
+          </div>
+          <div id="choiceList" class="choice-list"></div>
+        </aside>
+
+        <div class="compare-panel">
+          <div class="compare-stage" aria-label="크기 비교 영역">
+            <article class="object-card" data-kind="standard">
+              <div class="object-title">
+                <span>기준</span>
+                <span id="standardLabel" class="object-label">?</span>
+              </div>
+              <div class="object-frame">
+                <span id="standardEmoji" class="object-emoji placeholder" style="--scale: 1">?</span>
+              </div>
+              <div id="standardCaption" class="size-caption">문장 속 기준을 먼저 고르세요.</div>
+            </article>
+
+            <article class="object-card" data-kind="target">
+              <div class="object-title">
+                <span>대상</span>
+                <span id="targetLabel" class="object-label"></span>
+              </div>
+              <div class="object-frame">
+                <span id="targetEmoji" class="object-emoji" style="--scale: 1"></span>
+              </div>
+              <div id="targetCaption" class="size-caption"></div>
+            </article>
+          </div>
+
+          <div id="controlPanel" class="control-panel">
+            <div class="slider-row">
+              <button id="smallerBtn" class="icon-btn" type="button" aria-label="대상 작게">
+                <i class="fa-solid fa-minus" aria-hidden="true"></i>
+              </button>
+              <input id="sizeSlider" class="size-slider" type="range" min="0.45" max="2.45" step="0.05" value="1" aria-label="대상 크기" />
+              <button id="largerBtn" class="icon-btn" type="button" aria-label="대상 크게">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+              </button>
+              <span id="sizeReadout" class="size-readout">x1.00</span>
+            </div>
+
+            <div class="meter-row" aria-hidden="true">
+              <div class="match-meter">
+                <div id="matchFill" class="match-fill"></div>
+              </div>
+              <span id="meterLabel" class="meter-label">기준 대기</span>
+            </div>
+
+            <div class="action-row">
+              <div id="feedback" class="feedback" role="status">기준을 선택하고 크기를 조절해 보세요.</div>
+              <button id="checkBtn" class="primary-btn" type="button">
+                <i class="fa-solid fa-check" aria-hidden="true"></i> 확인
+              </button>
+              <button id="nextBtn" class="secondary-btn" type="button" hidden>
+                다음 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const rounds = [
+      {
+        id: "snowman",
+        target: "눈사람",
+        particle: "이",
+        standard: "사람",
+        emoji: "☃️",
+        startScale: 0.65,
+        references: [
+          { id: "house", label: "집", emoji: "🏠", scale: 2.15, note: "훨씬 큰 기준" },
+          { id: "person", label: "사람", emoji: "🧍", scale: 1.15, note: "문장의 기준", correct: true },
+          { id: "pencil", label: "연필", emoji: "✏️", scale: 0.55, note: "작은 기준" }
+        ]
+      },
+      {
+        id: "watermelon",
+        target: "수박",
+        particle: "이",
+        standard: "축구공",
+        emoji: "🍉",
+        startScale: 1.85,
+        references: [
+          { id: "ball", label: "축구공", emoji: "⚽", scale: 0.95, note: "문장의 기준", correct: true },
+          { id: "table", label: "책상", emoji: "▰", scale: 1.75, note: "큰 기준" },
+          { id: "eraser", label: "지우개", emoji: "▭", scale: 0.48, note: "작은 기준" }
+        ]
+      },
+      {
+        id: "apple",
+        target: "사과",
+        particle: "가",
+        standard: "주먹",
+        emoji: "🍎",
+        startScale: 1.7,
+        references: [
+          { id: "door", label: "문", emoji: "🚪", scale: 2.1, note: "아주 큰 기준" },
+          { id: "mug", label: "머그컵", emoji: "☕", scale: 1.2, note: "조금 큰 기준" },
+          { id: "fist", label: "주먹", emoji: "✊", scale: 0.88, note: "문장의 기준", correct: true }
+        ]
+      },
+      {
+        id: "card",
+        target: "학생증",
+        particle: "이",
+        standard: "손바닥",
+        emoji: "💳",
+        startScale: 0.45,
+        references: [
+          { id: "coin", label: "동전", emoji: "🪙", scale: 0.45, note: "더 작은 기준" },
+          { id: "palm", label: "손바닥", emoji: "✋", scale: 0.82, note: "문장의 기준", correct: true },
+          { id: "board", label: "칠판", emoji: "▮", scale: 2.25, note: "아주 큰 기준" }
+        ]
+      },
+      {
+        id: "drum",
+        target: "장구",
+        particle: "가",
+        standard: "탁자",
+        emoji: "🥁",
+        startScale: 0.72,
+        references: [
+          { id: "cup", label: "컵", emoji: "🥤", scale: 0.68, note: "작은 기준" },
+          { id: "table-standard", label: "탁자", emoji: "◯", scale: 1.45, note: "문장의 기준", correct: true },
+          { id: "yard", label: "운동장", emoji: "▭", scale: 2.35, note: "아주 큰 기준" }
+        ]
+      },
+      {
+        id: "rock",
+        target: "바위",
+        particle: "가",
+        standard: "자동차",
+        emoji: "🪨",
+        startScale: 0.6,
+        references: [
+          { id: "notebook", label: "공책", emoji: "📓", scale: 0.78, note: "작은 기준" },
+          { id: "car", label: "자동차", emoji: "🚗", scale: 1.72, note: "문장의 기준", correct: true },
+          { id: "building", label: "건물", emoji: "🏢", scale: 2.35, note: "큰 기준" }
+        ]
+      },
+      {
+        id: "face",
+        target: "얼굴",
+        particle: "이",
+        standard: "산",
+        emoji: "😀",
+        startScale: 0.85,
+        references: [
+          { id: "접시", label: "접시", emoji: "🍽️", scale: 0.9, note: "작은 기준" },
+          { id: "mountain-standard", label: "산", emoji: "⛰️", scale: 2.3, note: "문장의 기준", correct: true },
+          { id: "coin-face", label: "동전", emoji: "🪙", scale: 0.55, note: "아주 작은 기준" }
+        ]
+      },
+      {
+        id: "book",
+        target: "책",
+        particle: "이",
+        standard: "집",
+        emoji: "📕",
+        startScale: 0.65,
+        references: [
+          { id: "wallet", label: "지갑", emoji: "👛", scale: 0.7, note: "작은 기준" },
+          { id: "house-standard", label: "집", emoji: "🏠", scale: 2.15, note: "문장의 기준", correct: true },
+          { id: "desk", label: "책상", emoji: "▰", scale: 1.5, note: "큰 기준" }
+        ]
+      },
+      {
+        id: "shoe",
+        target: "신발",
+        particle: "이",
+        standard: "버스",
+        emoji: "👟",
+        startScale: 0.75,
+        references: [
+          { id: "cup-shoe", label: "컵", emoji: "🥤", scale: 0.65, note: "작은 기준" },
+          { id: "bus-shoe", label: "버스", emoji: "🚌", scale: 1.65, note: "문장의 기준", correct: true },
+          { id: "needle", label: "바늘", emoji: "▏", scale: 0.45, note: "아주 작은 기준" }
+        ]
+      },
+      {
+        id: "bag",
+        target: "가방",
+        particle: "가",
+        standard: "냉장고",
+        emoji: "🎒",
+        startScale: 0.8,
+        references: [
+          { id: "box", label: "상자", emoji: "📦", scale: 1.15, note: "작은 기준" },
+          { id: "fridge-bag", label: "냉장고", emoji: "▯", scale: 1.95, note: "문장의 기준", correct: true },
+          { id: "coin-bag", label: "동전", emoji: "🪙", scale: 0.5, note: "아주 작은 기준" }
+        ]
+      },
+      {
+        id: "cup",
+        target: "컵",
+        particle: "이",
+        standard: "우산",
+        emoji: "🥤",
+        startScale: 0.55,
+        references: [
+          { id: "hand", label: "손", emoji: "✋", scale: 0.85, note: "작은 기준" },
+          { id: "umbrella-cup", label: "우산", emoji: "☂️", scale: 1.55, note: "문장의 기준", correct: true },
+          { id: "tree", label: "나무", emoji: "🌳", scale: 2.15, note: "큰 기준" }
+        ]
+      },
+      {
+        id: "pencil-giant",
+        target: "연필",
+        particle: "이",
+        standard: "기둥",
+        emoji: "✏️",
+        startScale: 0.55,
+        references: [
+          { id: "needle-pencil", label: "바늘", emoji: "▏", scale: 0.45, note: "작은 기준" },
+          { id: "pillar", label: "기둥", emoji: "▮", scale: 2.05, note: "문장의 기준", correct: true },
+          { id: "comb", label: "빗", emoji: "▰", scale: 0.85, note: "작은 기준" }
+        ]
+      },
+      {
+        id: "cat",
+        target: "고양이",
+        particle: "가",
+        standard: "말",
+        emoji: "🐈",
+        startScale: 0.7,
+        references: [
+          { id: "mouse-cat", label: "쥐", emoji: "🐁", scale: 0.55, note: "작은 기준" },
+          { id: "horse", label: "말", emoji: "🐎", scale: 1.85, note: "문장의 기준", correct: true },
+          { id: "chair", label: "의자", emoji: "🪑", scale: 1.15, note: "중간 기준" }
+        ]
+      },
+      {
+        id: "potato",
+        target: "감자",
+        particle: "가",
+        standard: "바위",
+        emoji: "🥔",
+        startScale: 0.65,
+        references: [
+          { id: "bead", label: "구슬", emoji: "🔵", scale: 0.5, note: "작은 기준" },
+          { id: "rock-potato", label: "바위", emoji: "🪨", scale: 1.9, note: "문장의 기준", correct: true },
+          { id: "ball-potato", label: "공", emoji: "⚽", scale: 0.95, note: "중간 기준" }
+        ]
+      },
+      {
+        id: "phone",
+        target: "전화기",
+        particle: "가",
+        standard: "베개",
+        emoji: "📱",
+        startScale: 0.55,
+        references: [
+          { id: "card-phone", label: "카드", emoji: "💳", scale: 0.55, note: "작은 기준" },
+          { id: "pillow", label: "베개", emoji: "🛏️", scale: 1.35, note: "문장의 기준", correct: true },
+          { id: "door-phone", label: "문", emoji: "🚪", scale: 2.1, note: "큰 기준" }
+        ]
+      }
+    ];
+
+    const state = {
+      index: 0,
+      selectedId: null,
+      currentScale: 1,
+      locked: false
+    };
+
+    const gameCard = document.getElementById("gameCard");
+    const sentenceTitle = document.getElementById("sentenceTitle");
+    const progressText = document.getElementById("progressText");
+    const progressFill = document.getElementById("progressFill");
+    const choicePanel = document.getElementById("choicePanel");
+    const choiceList = document.getElementById("choiceList");
+    const standardLabel = document.getElementById("standardLabel");
+    const standardEmoji = document.getElementById("standardEmoji");
+    const standardCaption = document.getElementById("standardCaption");
+    const targetLabel = document.getElementById("targetLabel");
+    const targetEmoji = document.getElementById("targetEmoji");
+    const targetCaption = document.getElementById("targetCaption");
+    const sizeSlider = document.getElementById("sizeSlider");
+    const sizeReadout = document.getElementById("sizeReadout");
+    const matchFill = document.getElementById("matchFill");
+    const meterLabel = document.getElementById("meterLabel");
+    const feedback = document.getElementById("feedback");
+    const wrongSentencePop = document.getElementById("wrongSentencePop");
+    const wrongSentenceText = document.getElementById("wrongSentenceText");
+    const controlPanel = document.getElementById("controlPanel");
+    const checkBtn = document.getElementById("checkBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const smallerBtn = document.getElementById("smallerBtn");
+    const largerBtn = document.getElementById("largerBtn");
+    let wrongPopupTimer = null;
+
+    function currentRound() {
+      return rounds[state.index];
+    }
+
+    function selectedReference() {
+      return currentRound().references.find((item) => item.id === state.selectedId) || null;
+    }
+
+    function correctReference() {
+      return currentRound().references.find((item) => item.correct);
+    }
+
+    function renderRound() {
+      const round = currentRound();
+      state.selectedId = null;
+      state.currentScale = round.startScale;
+      state.locked = false;
+      hideWrongSentence();
+
+      sentenceTitle.innerHTML = `<span class="sentence-target">${round.target}${round.particle}</span> <span class="sentence-standard">${round.standard}만</span> 해요.`;
+      progressText.textContent = `${state.index + 1} / ${rounds.length}`;
+      progressFill.style.width = `${(state.index / rounds.length) * 100}%`;
+
+      targetLabel.textContent = round.target;
+      targetEmoji.textContent = round.emoji;
+      targetCaption.textContent = `${round.target}${round.particle} 얼마나 큰가요?`;
+      sizeSlider.value = String(state.currentScale);
+
+      choiceList.innerHTML = "";
+      round.references.forEach((item) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-card";
+        button.dataset.id = item.id;
+        button.innerHTML = `
+          <span class="choice-visual" aria-hidden="true">
+            <span class="choice-emoji" style="--scale: ${item.scale}">${item.emoji}</span>
+          </span>
+          <span>
+            <span class="choice-label">${item.label}</span>
+            <span class="choice-note">${item.note}</span>
+          </span>
+        `;
+        button.addEventListener("click", () => chooseReference(item.id));
+        choiceList.appendChild(button);
+      });
+
+      nextBtn.hidden = true;
+      nextBtn.classList.remove("next-ready");
+      checkBtn.hidden = false;
+      setFeedback("밑줄 친 기준을 고르세요.", "");
+      renderSelectedReference();
+      updateScale();
+      updateFocus();
+    }
+
+    function chooseReference(id) {
+      if (state.locked) return;
+      state.selectedId = id;
+      renderSelectedReference();
+      updateChoiceStates();
+      setFeedback("크기를 맞춰요.", "");
+      updateFocus();
+    }
+
+    function renderSelectedReference() {
+      const selected = selectedReference();
+      if (!selected) {
+        standardLabel.textContent = "?";
+        standardEmoji.textContent = "?";
+        standardEmoji.className = "object-emoji placeholder";
+        standardEmoji.style.setProperty("--scale", "1");
+        standardCaption.textContent = "문장 속 기준을 먼저 고르세요.";
+        updateMeter();
+        return;
+      }
+
+      standardLabel.textContent = selected.label;
+      standardEmoji.textContent = selected.emoji;
+      standardEmoji.className = "object-emoji";
+      standardEmoji.style.setProperty("--scale", selected.scale);
+      standardCaption.textContent = `${selected.label}만큼 보이게 맞춰요.`;
+      updateMeter();
+    }
+
+    function updateChoiceStates() {
+      [...choiceList.children].forEach((button) => {
+        button.classList.toggle("is-selected", button.dataset.id === state.selectedId);
+        button.classList.remove("is-wrong");
+      });
+    }
+
+    function updateScale() {
+      state.currentScale = Number(sizeSlider.value);
+      targetEmoji.style.setProperty("--scale", state.currentScale);
+      sizeReadout.textContent = `x${state.currentScale.toFixed(2)}`;
+      updateMeter();
+    }
+
+    function nudgeSize(delta) {
+      const next = Math.min(Number(sizeSlider.max), Math.max(Number(sizeSlider.min), state.currentScale + delta));
+      sizeSlider.value = next.toFixed(2);
+      updateScale();
+    }
+
+    function updateMeter() {
+      const selected = selectedReference();
+      if (!selected) {
+        matchFill.style.width = "0%";
+        meterLabel.textContent = "선택";
+        return;
+      }
+
+      const diff = Math.abs(state.currentScale - selected.scale);
+      const score = Math.max(0, Math.round(100 - (diff / 0.75) * 100));
+      matchFill.style.width = `${Math.min(100, score)}%`;
+      meterLabel.textContent = score >= 84 ? "비슷해요" : state.currentScale < selected.scale ? "더 크게" : "더 작게";
+    }
+
+    function updateFocus() {
+      const step = state.locked ? "next" : state.selectedId ? "size" : "choice";
+      gameCard.dataset.step = step;
+      choicePanel.classList.toggle("is-focus", step === "choice");
+      controlPanel.classList.toggle("is-focus", step === "size");
+    }
+
+    function showWrongSentence(selected) {
+      const round = currentRound();
+      wrongSentenceText.textContent = `${round.target}${round.particle} ${selected.label}만 해요`;
+      wrongSentencePop.setAttribute("aria-hidden", "false");
+      wrongSentencePop.classList.remove("is-visible");
+      void wrongSentencePop.offsetWidth;
+      wrongSentencePop.classList.add("is-visible");
+      window.clearTimeout(wrongPopupTimer);
+      wrongPopupTimer = window.setTimeout(hideWrongSentence, 1700);
+    }
+
+    function hideWrongSentence() {
+      window.clearTimeout(wrongPopupTimer);
+      wrongSentencePop.classList.remove("is-visible");
+      wrongSentencePop.setAttribute("aria-hidden", "true");
+    }
+
+    function checkAnswer() {
+      if (state.locked) return;
+      const selected = selectedReference();
+      const correct = correctReference();
+
+      if (!selected) {
+        setFeedback("밑줄 친 기준을 먼저 고르세요.", "bad");
+        updateFocus();
+        return;
+      }
+
+      if (!selected.correct) {
+        showWrongSentence(selected);
+        setFeedback("기준이 달라요.", "bad");
+        const wrongButton = choiceList.querySelector(`[data-id="${selected.id}"]`);
+        if (wrongButton) wrongButton.classList.add("is-wrong");
+        gameCard.dataset.step = "choice";
+        choicePanel.classList.add("is-focus");
+        controlPanel.classList.remove("is-focus");
+        return;
+      }
+
+      const diff = Math.abs(state.currentScale - correct.scale);
+      if (diff > 0.16) {
+        const direction = state.currentScale < correct.scale ? "더 크게" : "더 작게";
+        setFeedback(`기준 OK. ${direction}.`, "bad");
+        updateFocus();
+        return;
+      }
+
+      state.locked = true;
+      setFeedback(`정답: ${currentRound().target}${currentRound().particle} ${correct.label}만 해요.`, "good");
+      targetEmoji.classList.remove("is-success");
+      void targetEmoji.offsetWidth;
+      targetEmoji.classList.add("is-success");
+      checkBtn.hidden = true;
+      nextBtn.hidden = false;
+      nextBtn.classList.add("next-ready");
+      progressFill.style.width = `${((state.index + 1) / rounds.length) * 100}%`;
+      nextBtn.innerHTML = state.index === rounds.length - 1
+        ? `다시 하기 <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>`
+        : `다음 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>`;
+      updateFocus();
+    }
+
+    function goNext() {
+      if (state.index === rounds.length - 1) {
+        state.index = 0;
+      } else {
+        state.index += 1;
+      }
+      renderRound();
+    }
+
+    function setFeedback(message, tone) {
+      feedback.textContent = message;
+      if (tone) {
+        feedback.dataset.tone = tone;
+      } else {
+        delete feedback.dataset.tone;
+      }
+    }
+
+    sizeSlider.addEventListener("input", updateScale);
+    smallerBtn.addEventListener("click", () => nudgeSize(-0.05));
+    largerBtn.addEventListener("click", () => nudgeSize(0.05));
+    checkBtn.addEventListener("click", checkAnswer);
+    nextBtn.addEventListener("click", goNext);
+
+    renderRound();
+  </script>
+</body>
+</html>

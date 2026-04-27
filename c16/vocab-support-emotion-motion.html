@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>심리 상태 움직임 | 16과 어휘 보조자료</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #20272b;
+      --muted: #647176;
+      --page: #f6f9f7;
+      --paper: #fffdf9;
+      --line: rgba(32, 39, 43, 0.14);
+      --calm: #237f7a;
+      --room: #577f2b;
+      --joy: #d65a3d;
+      --power: #d49325;
+      --pulse: #bf3f57;
+      --flutter: #4569b2;
+      --topbar-height: 48px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--page);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, #fbfdfb 0%, #edf5f4 48%, #f6f2e9 100%);
+      font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: var(--topbar-height);
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      background: rgba(255, 253, 249, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar__links {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .topbar a,
+    .motion-toggle {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(32, 39, 43, 0.1);
+      border-radius: 8px;
+      background: rgba(32, 39, 43, 0.06);
+      color: var(--ink);
+      padding: 0 10px;
+      font-size: 0.8rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .topbar__title {
+      min-width: 0;
+      overflow: hidden;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    .shell {
+      width: min(1180px, 100% - 28px);
+      margin: 0 auto;
+      padding: 18px 0 32px;
+    }
+
+    .hero-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 18px;
+      padding: 12px 0 18px;
+      border-bottom: 1px solid rgba(32, 39, 43, 0.1);
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.15rem;
+      line-height: 1.08;
+      font-weight: 900;
+    }
+
+    .motion-key {
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .key-item {
+      display: inline-grid;
+      grid-template-columns: 28px auto;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .key-icon {
+      width: 28px;
+      height: 16px;
+      position: relative;
+    }
+
+    .key-icon::before,
+    .key-icon::after {
+      content: "";
+      position: absolute;
+      inset: auto;
+    }
+
+    .key-icon--stable::before {
+      left: 0;
+      right: 0;
+      top: 7px;
+      height: 2px;
+      background: var(--calm);
+    }
+
+    .key-icon--stable::after {
+      width: 10px;
+      height: 10px;
+      left: 9px;
+      top: 3px;
+      border-radius: 50%;
+      background: var(--calm);
+      animation: keyBreathe 3.2s ease-in-out infinite;
+    }
+
+    .key-icon--up::before {
+      left: 6px;
+      bottom: 0;
+      width: 5px;
+      height: 10px;
+      background: var(--joy);
+      box-shadow: 8px -3px 0 var(--power), 16px -8px 0 var(--joy);
+    }
+
+    .key-icon--up::after {
+      right: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 10px solid var(--power);
+      transform: rotate(22deg);
+    }
+
+    .key-icon--pulse::before {
+      left: 0;
+      right: 0;
+      top: 7px;
+      height: 2px;
+      background: var(--pulse);
+      clip-path: polygon(0 45%, 20% 45%, 28% 0, 39% 100%, 49% 45%, 100% 45%, 100% 62%, 0 62%);
+      animation: keyPulse 0.82s ease-in-out infinite;
+    }
+
+    .motion-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding-top: 18px;
+    }
+
+    .motion-card {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 253, 249, 0.86);
+      overflow: hidden;
+      box-shadow: 0 14px 28px rgba(32, 39, 43, 0.07);
+      cursor: pointer;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .motion-card:hover,
+    .motion-card:focus-visible,
+    .motion-card.is-active {
+      border-color: var(--tone);
+      box-shadow: 0 18px 34px rgba(32, 39, 43, 0.12);
+      transform: translateY(-2px);
+      outline: 0;
+    }
+
+    .motion-card[data-tone="calm"] { --tone: var(--calm); }
+    .motion-card[data-tone="room"] { --tone: var(--room); }
+    .motion-card[data-tone="joy"] { --tone: var(--joy); }
+    .motion-card[data-tone="power"] { --tone: var(--power); }
+    .motion-card[data-tone="pulse"] { --tone: var(--pulse); }
+    .motion-card[data-tone="flutter"] { --tone: var(--flutter); }
+
+    .motion-stage {
+      position: relative;
+      min-height: 238px;
+      aspect-ratio: 1.18 / 1;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.68)),
+        linear-gradient(135deg, color-mix(in srgb, var(--tone) 14%, #ffffff), #ffffff 68%);
+    }
+
+    .motion-stage::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(32, 39, 43, 0.08);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .motion-figure {
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      z-index: 1;
+      width: 62%;
+      max-height: 82%;
+      object-fit: contain;
+      opacity: 0.24;
+      clip-path: inset(31% 0 0 0);
+      filter: saturate(0.86) contrast(0.98);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .motion-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .motion-card[data-tone="calm"] .motion-layer::before,
+    .motion-card[data-tone="room"] .motion-layer::before,
+    .motion-card[data-tone="power"] .motion-layer::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .motion-card[data-tone="calm"] .motion-layer::before {
+      animation: calmColorField 5.4s ease-in-out infinite;
+    }
+
+    .motion-card[data-tone="room"] .motion-layer::before {
+      animation: roomColorField 5.8s ease-in-out infinite;
+    }
+
+    .motion-card[data-tone="power"] .motion-layer::before {
+      animation: powerColorField 2.8s ease-in-out infinite;
+    }
+
+    .caption {
+      min-height: 92px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 14px 15px;
+      border-top: 1px solid rgba(32, 39, 43, 0.08);
+      background: rgba(255, 253, 249, 0.94);
+    }
+
+    .caption h2 {
+      margin: 0;
+      min-width: 0;
+      color: #1f2528;
+      font-size: 1.02rem;
+      line-height: 1.32;
+      font-weight: 900;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .easy-word {
+      min-width: 58px;
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--tone) 12%, #ffffff);
+      color: var(--tone);
+      padding: 0 9px;
+      font-size: 0.86rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .calm-ring {
+      position: absolute;
+      left: 50%;
+      top: 43%;
+      width: 120px;
+      height: 120px;
+      border: 3px solid rgba(35, 127, 122, 0.72);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: calmRingSettle 5.4s ease-in-out infinite;
+    }
+
+    .calm-wave {
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      top: 53%;
+      height: 92px;
+      overflow: visible;
+    }
+
+    .calm-wave path {
+      fill: none;
+      stroke: rgba(35, 127, 122, 0.82);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .calm-wave__rough {
+      animation: roughWaveFade 5.4s ease-in-out infinite;
+    }
+
+    .calm-wave__flat {
+      opacity: 0;
+      transform-origin: center;
+      animation: flatWaveArrive 5.4s ease-in-out infinite;
+    }
+
+    .calm-dot {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(35, 127, 122, 0.68);
+      animation: settleDot 5.4s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .room-frame {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: 86px;
+      height: 86px;
+      border: 3px solid rgba(87, 127, 43, 0.7);
+      border-radius: 8px;
+      transform: translate(-50%, -50%);
+      animation: roomFrameSettle 5.8s ease-in-out infinite;
+    }
+
+    .room-dot {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: rgba(87, 127, 43, 0.78);
+      transform: translate(-50%, -50%);
+      animation: roomDotSettle 5.8s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .room-space {
+      position: absolute;
+      left: 23%;
+      right: 23%;
+      top: 72%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(87, 127, 43, 0.18);
+      overflow: hidden;
+    }
+
+    .room-space::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: rgba(87, 127, 43, 0.82);
+      transform-origin: center;
+      animation: roomSpace 5.8s ease-in-out infinite;
+    }
+
+    .joy-shadow {
+      position: absolute;
+      left: 50%;
+      top: 70%;
+      width: 82px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(32, 39, 43, 0.14);
+      transform: translateX(-50%);
+      animation: joyShadow 0.88s ease-in-out infinite;
+    }
+
+    .joy-body {
+      position: absolute;
+      left: 50%;
+      top: 51%;
+      width: 68px;
+      height: 68px;
+      border-radius: 50% 50% 44% 44%;
+      background: var(--joy);
+      transform: translate(-50%, -50%);
+      animation: joyJump 0.88s cubic-bezier(0.28, 0.8, 0.38, 1) infinite;
+      box-shadow: 0 12px 0 rgba(214, 90, 61, 0.18);
+    }
+
+    .joy-body::before,
+    .joy-body::after {
+      content: "";
+      position: absolute;
+      top: 28px;
+      width: 32px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--joy);
+      transform-origin: center;
+    }
+
+    .joy-body::before {
+      left: -24px;
+      transform: rotate(-32deg);
+    }
+
+    .joy-body::after {
+      right: -24px;
+      transform: rotate(32deg);
+    }
+
+    .burst {
+      position: absolute;
+      left: 50%;
+      top: 44%;
+      width: 8px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--joy);
+      transform: translate(-50%, -50%);
+      animation: burstPop 1.18s ease-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .energy-battery {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      width: 142px;
+      height: 74px;
+      border: 4px solid rgba(32, 39, 43, 0.54);
+      border-radius: 8px;
+      transform: translate(-50%, -50%);
+      animation: batteryCaseCharge 2.8s ease-in-out infinite;
+    }
+
+    .energy-battery::after {
+      content: "";
+      position: absolute;
+      right: -16px;
+      top: 20px;
+      width: 10px;
+      height: 28px;
+      border-radius: 0 5px 5px 0;
+      background: rgba(32, 39, 43, 0.54);
+      animation: batteryTipCharge 2.8s ease-in-out infinite;
+    }
+
+    .energy-fill {
+      position: absolute;
+      left: 7px;
+      top: 7px;
+      bottom: 7px;
+      width: 36%;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #e7b13e, var(--power));
+      animation: batteryFill 2.8s ease-in-out infinite;
+    }
+
+    .energy-bolt {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: 42px;
+      height: 76px;
+      background: #fff4c2;
+      clip-path: polygon(55% 0, 18% 44%, 45% 44%, 30% 100%, 84% 36%, 56% 36%);
+      transform: translate(-50%, -50%);
+      animation: boltPulse 1.2s ease-in-out infinite, boltColorCharge 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 0 14px rgba(212, 147, 37, 0.42));
+    }
+
+    .energy-arrow {
+      position: absolute;
+      left: 50%;
+      bottom: 24px;
+      width: 86px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--power);
+      transform: translateX(-50%) rotate(-25deg);
+      animation: arrowRise 1.8s ease-in-out infinite, arrowColorCharge 2.8s ease-in-out infinite;
+    }
+
+    .energy-arrow::after {
+      content: "";
+      position: absolute;
+      right: -3px;
+      top: -6px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 13px solid var(--power);
+      animation: arrowHeadColorCharge 2.8s ease-in-out infinite;
+    }
+
+    .heart-shape {
+      position: absolute;
+      left: 50%;
+      top: 43%;
+      width: 58px;
+      height: 58px;
+      background: var(--pulse);
+      transform: translate(-50%, -50%) rotate(-45deg);
+      animation: heartBeat 0.82s ease-in-out infinite;
+    }
+
+    .heart-shape::before,
+    .heart-shape::after {
+      content: "";
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--pulse);
+    }
+
+    .heart-shape::before {
+      top: -29px;
+      left: 0;
+    }
+
+    .heart-shape::after {
+      top: 0;
+      left: 29px;
+    }
+
+    .heart-line {
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      bottom: 36px;
+      height: 72px;
+    }
+
+    .heart-line polyline {
+      fill: none;
+      stroke: var(--pulse);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 310;
+      stroke-dashoffset: 310;
+      animation: heartbeatLine 1.1s linear infinite;
+    }
+
+    .tension-dot {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(69, 105, 178, 0.72);
+      animation: tensionPing 1.1s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .wait-clock {
+      position: absolute;
+      left: 26%;
+      top: 29%;
+      width: 72px;
+      height: 72px;
+      border: 3px solid rgba(69, 105, 178, 0.58);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.54);
+      transform: translate(-50%, -50%);
+      animation: waitClockBreathe 4.8s ease-in-out infinite;
+    }
+
+    .wait-clock::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--flutter);
+      transform: translate(-50%, -50%);
+    }
+
+    .wait-hand {
+      position: absolute;
+      left: calc(50% - 2px);
+      top: 16px;
+      width: 4px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--flutter);
+      transform-origin: 50% 20px;
+      animation: waitHandTurn 4.8s linear infinite;
+    }
+
+    .wait-door {
+      position: absolute;
+      right: 20%;
+      top: 43%;
+      width: 52px;
+      height: 86px;
+      border: 3px solid rgba(69, 105, 178, 0.5);
+      border-bottom: 0;
+      border-radius: 28px 28px 0 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(69, 105, 178, 0.07));
+      animation: waitDoorGlow 4.8s ease-in-out infinite;
+    }
+
+    .wait-track {
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: 28%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(69, 105, 178, 0.16);
+      overflow: visible;
+    }
+
+    .wait-track::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: rgba(69, 105, 178, 0.72);
+      transform-origin: left center;
+      animation: waitLineFill 4.8s ease-in-out infinite;
+    }
+
+    .waiter {
+      position: absolute;
+      left: 0;
+      bottom: 11px;
+      width: 22px;
+      height: 30px;
+      border-radius: 12px 12px 8px 8px;
+      background: rgba(69, 105, 178, 0.74);
+      transform: translateX(-50%);
+      animation: waitSway 2.4s ease-in-out infinite;
+    }
+
+    .waiter::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -14px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(69, 105, 178, 0.74);
+      transform: translateX(-50%);
+    }
+
+    .arrival-dot {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #f3c84b;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 8px rgba(243, 200, 75, 0.16);
+      animation: arrivalMove 4.8s ease-in-out infinite;
+    }
+
+    .wait-step {
+      position: absolute;
+      left: var(--left);
+      top: var(--top);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(69, 105, 178, 0.58);
+      animation: waitStep 1.6s ease-in-out infinite;
+      animation-delay: var(--delay);
+    }
+
+    .wait-heart {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: 30px;
+      height: 30px;
+      background: var(--pulse);
+      transform: translate(-50%, -50%) rotate(-45deg);
+      animation: waitHeart 4.8s ease-in-out infinite;
+    }
+
+    .wait-heart::before,
+    .wait-heart::after {
+      content: "";
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--pulse);
+    }
+
+    .wait-heart::before {
+      top: -15px;
+      left: 0;
+    }
+
+    .wait-heart::after {
+      top: 0;
+      left: 15px;
+    }
+
+    body.is-paused *,
+    body.is-paused *::before,
+    body.is-paused *::after {
+      animation-play-state: paused !important;
+    }
+
+    @keyframes keyBreathe {
+      0%, 100% { transform: scale(0.88); opacity: 0.72; }
+      50% { transform: scale(1.12); opacity: 1; }
+    }
+
+    @keyframes keyPulse {
+      0%, 100% { transform: scaleX(0.9); opacity: 0.72; }
+      36% { transform: scaleX(1.08); opacity: 1; }
+    }
+
+    @keyframes calmColorField {
+      0%, 30%, 100% {
+        background:
+          radial-gradient(circle at 40% 45%, rgba(195, 78, 68, 0.16), transparent 42%),
+          linear-gradient(180deg, rgba(231, 118, 92, 0.12), rgba(255, 255, 255, 0));
+      }
+      64%, 88% {
+        background:
+          radial-gradient(circle at 50% 48%, rgba(35, 127, 122, 0.16), transparent 48%),
+          linear-gradient(180deg, rgba(35, 127, 122, 0.06), rgba(255, 255, 255, 0));
+      }
+    }
+
+    @keyframes roomColorField {
+      0%, 34%, 100% {
+        background:
+          radial-gradient(circle at 50% 48%, rgba(191, 78, 66, 0.14), transparent 38%),
+          linear-gradient(180deg, rgba(222, 99, 72, 0.11), rgba(255, 255, 255, 0));
+      }
+      62%, 88% {
+        background:
+          radial-gradient(circle at 50% 48%, rgba(87, 127, 43, 0.18), transparent 52%),
+          linear-gradient(180deg, rgba(87, 127, 43, 0.07), rgba(255, 255, 255, 0));
+      }
+    }
+
+    @keyframes powerColorField {
+      0%, 100% {
+        background:
+          radial-gradient(circle at 50% 50%, rgba(184, 73, 66, 0.16), transparent 36%),
+          linear-gradient(180deg, rgba(184, 73, 66, 0.1), rgba(255, 255, 255, 0));
+      }
+      54%, 72% {
+        background:
+          radial-gradient(circle at 50% 45%, rgba(212, 147, 37, 0.2), transparent 43%),
+          linear-gradient(180deg, rgba(46, 137, 76, 0.1), rgba(255, 255, 255, 0));
+      }
+    }
+
+    @keyframes calmRingSettle {
+      0% {
+        border-color: rgba(190, 75, 67, 0.84);
+        box-shadow: 0 0 0 7px rgba(190, 75, 67, 0.08);
+        border-radius: 43% 57% 48% 52% / 62% 41% 59% 38%;
+        transform: translate(-50%, -50%) rotate(-10deg) scale(0.88, 1.08);
+        opacity: 0.5;
+      }
+      28% {
+        border-color: rgba(190, 75, 67, 0.72);
+        box-shadow: 0 0 0 5px rgba(190, 75, 67, 0.06);
+        border-radius: 56% 44% 58% 42% / 45% 61% 39% 55%;
+        transform: translate(-50%, -50%) rotate(8deg) scale(1.08, 0.9);
+        opacity: 0.78;
+      }
+      62%, 88% {
+        border-color: rgba(35, 127, 122, 0.82);
+        box-shadow: 0 0 0 10px rgba(35, 127, 122, 0.05);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        opacity: 0.96;
+      }
+      100% {
+        border-color: rgba(190, 75, 67, 0.84);
+        box-shadow: 0 0 0 7px rgba(190, 75, 67, 0.08);
+        border-radius: 43% 57% 48% 52% / 62% 41% 59% 38%;
+        transform: translate(-50%, -50%) rotate(-10deg) scale(0.88, 1.08);
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes roughWaveFade {
+      0% {
+        opacity: 0.96;
+        transform: translateY(0) scaleY(1);
+        stroke-dasharray: 0 0;
+        stroke: rgba(190, 75, 67, 0.86);
+      }
+      34% {
+        opacity: 0.72;
+        transform: translateY(0) scaleY(0.62);
+        stroke: rgba(190, 75, 67, 0.72);
+      }
+      68%, 88% {
+        opacity: 0;
+        transform: translateY(0) scaleY(0.18);
+        stroke: rgba(35, 127, 122, 0.42);
+      }
+      100% {
+        opacity: 0.96;
+        transform: translateY(0) scaleY(1);
+        stroke: rgba(190, 75, 67, 0.86);
+      }
+    }
+
+    @keyframes flatWaveArrive {
+      0%, 28% {
+        opacity: 0;
+        transform: scaleX(0.42);
+        stroke: rgba(190, 75, 67, 0.32);
+      }
+      66%, 88% {
+        opacity: 0.95;
+        transform: scaleX(1);
+        stroke: rgba(35, 127, 122, 0.88);
+      }
+      100% {
+        opacity: 0;
+        transform: scaleX(0.42);
+        stroke: rgba(190, 75, 67, 0.32);
+      }
+    }
+
+    @keyframes settleDot {
+      0% {
+        transform: translate(var(--move-x), var(--move-y)) scale(0.7);
+        background: rgba(190, 75, 67, 0.74);
+        opacity: 0.25;
+      }
+      34% {
+        transform: translate(var(--mid-x), var(--mid-y)) scale(1.05);
+        background: rgba(190, 75, 67, 0.68);
+        opacity: 0.86;
+      }
+      68%, 88% {
+        transform: translate(0, 0) scale(0.92);
+        background: rgba(35, 127, 122, 0.72);
+        opacity: 0.82;
+      }
+      100% {
+        transform: translate(var(--move-x), var(--move-y)) scale(0.7);
+        background: rgba(190, 75, 67, 0.74);
+        opacity: 0.25;
+      }
+    }
+
+    @keyframes roomFrameSettle {
+      0% {
+        border-color: rgba(190, 75, 67, 0.82);
+        box-shadow: 0 0 0 8px rgba(190, 75, 67, 0.07);
+        width: 82px;
+        height: 82px;
+        transform: translate(-50%, -50%) rotate(-1.4deg);
+        opacity: 0.54;
+      }
+      10% {
+        border-color: rgba(190, 75, 67, 0.82);
+        width: 84px;
+        height: 82px;
+        transform: translate(calc(-50% + 2px), calc(-50% - 1px)) rotate(1.2deg);
+        opacity: 0.66;
+      }
+      20% {
+        border-color: rgba(190, 75, 67, 0.78);
+        width: 81px;
+        height: 84px;
+        transform: translate(calc(-50% - 2px), calc(-50% + 1px)) rotate(-0.9deg);
+        opacity: 0.66;
+      }
+      36% {
+        border-color: rgba(179, 96, 60, 0.74);
+        width: 88px;
+        height: 86px;
+        transform: translate(-50%, -50%) rotate(0.6deg);
+        opacity: 0.76;
+      }
+      62%, 88% {
+        border-color: rgba(87, 127, 43, 0.86);
+        box-shadow: 0 0 0 10px rgba(87, 127, 43, 0.06);
+        width: 172px;
+        height: 138px;
+        transform: translate(-50%, -50%) rotate(0deg);
+        opacity: 0.96;
+      }
+      100% {
+        border-color: rgba(190, 75, 67, 0.82);
+        box-shadow: 0 0 0 8px rgba(190, 75, 67, 0.07);
+        width: 82px;
+        height: 82px;
+        transform: translate(-50%, -50%) rotate(-1.4deg);
+        opacity: 0.54;
+      }
+    }
+
+    @keyframes roomDotSettle {
+      0% {
+        transform: translate(calc(-50% + var(--start-x) - 4px), calc(-50% + var(--start-y) + 2px)) scale(0.76);
+        background: rgba(190, 75, 67, 0.78);
+        opacity: 0.5;
+      }
+      10% {
+        transform: translate(calc(-50% + var(--start-x) + 4px), calc(-50% + var(--start-y) - 3px)) scale(0.86);
+        background: rgba(190, 75, 67, 0.78);
+        opacity: 0.68;
+      }
+      20% {
+        transform: translate(calc(-50% + var(--start-x) - 2px), calc(-50% + var(--start-y) + 4px)) scale(0.84);
+        background: rgba(190, 75, 67, 0.72);
+        opacity: 0.7;
+      }
+      36% {
+        transform: translate(calc(-50% + var(--start-x) + 2px), calc(-50% + var(--start-y) - 1px)) scale(0.9);
+        background: rgba(179, 96, 60, 0.74);
+        opacity: 0.78;
+      }
+      62% {
+        transform: translate(calc(-50% + var(--end-x) + 3px), calc(-50% + var(--end-y) - 2px)) scale(1);
+        background: rgba(87, 127, 43, 0.84);
+        opacity: 0.92;
+      }
+      76%, 88% {
+        transform: translate(calc(-50% + var(--end-x)), calc(-50% + var(--end-y))) scale(0.98);
+        background: rgba(87, 127, 43, 0.84);
+        opacity: 0.92;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--start-x) - 4px), calc(-50% + var(--start-y) + 2px)) scale(0.76);
+        background: rgba(190, 75, 67, 0.78);
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes roomSpace {
+      0%, 32%, 100% {
+        transform: scaleX(0.28);
+        background: rgba(190, 75, 67, 0.78);
+        opacity: 0.38;
+      }
+      62%, 88% {
+        transform: scaleX(1);
+        background: rgba(87, 127, 43, 0.86);
+        opacity: 0.95;
+      }
+    }
+
+    @keyframes joyJump {
+      0%, 100% { transform: translate(-50%, -38%) scale(1.02, 0.96); }
+      48% { transform: translate(-50%, -93%) scale(0.94, 1.08); }
+    }
+
+    @keyframes joyShadow {
+      0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.22; }
+      48% { transform: translateX(-50%) scaleX(0.55); opacity: 0.08; }
+    }
+
+    @keyframes burstPop {
+      0% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(8px) scaleY(0.36); opacity: 0; }
+      28% { opacity: 1; }
+      78%, 100% { transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-86px) scaleY(1); opacity: 0; }
+    }
+
+    @keyframes batteryCaseCharge {
+      0%, 100% {
+        border-color: rgba(154, 74, 71, 0.78);
+        box-shadow: 0 0 0 7px rgba(154, 74, 71, 0.08);
+      }
+      52%, 72% {
+        border-color: rgba(46, 137, 76, 0.74);
+        box-shadow: 0 0 0 10px rgba(46, 137, 76, 0.08);
+      }
+    }
+
+    @keyframes batteryTipCharge {
+      0%, 100% { background: rgba(154, 74, 71, 0.78); }
+      52%, 72% { background: rgba(46, 137, 76, 0.74); }
+    }
+
+    @keyframes batteryFill {
+      0%, 100% {
+        width: 18%;
+        background: linear-gradient(90deg, #b84942, #d06a58);
+        opacity: 0.62;
+      }
+      52%, 72% {
+        width: 88%;
+        background: linear-gradient(90deg, #e7b13e, #3c9b61);
+        opacity: 1;
+      }
+    }
+
+    @keyframes boltPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.72; }
+      34% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
+    }
+
+    @keyframes boltColorCharge {
+      0%, 100% {
+        background: #d9715f;
+        filter: drop-shadow(0 0 10px rgba(184, 73, 66, 0.24));
+      }
+      52%, 72% {
+        background: #fff4c2;
+        filter: drop-shadow(0 0 18px rgba(212, 147, 37, 0.55));
+      }
+    }
+
+    @keyframes arrowRise {
+      0%, 100% { transform: translateX(-50%) translateY(12px) rotate(-25deg); opacity: 0.42; }
+      50% { transform: translateX(-50%) translateY(-12px) rotate(-25deg); opacity: 1; }
+    }
+
+    @keyframes arrowColorCharge {
+      0%, 100% { background: rgba(184, 73, 66, 0.76); }
+      52%, 72% { background: rgba(212, 147, 37, 0.95); }
+    }
+
+    @keyframes arrowHeadColorCharge {
+      0%, 100% { border-left-color: rgba(184, 73, 66, 0.76); }
+      52%, 72% { border-left-color: rgba(212, 147, 37, 0.95); }
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: translate(-50%, -50%) rotate(-45deg) scale(0.86); }
+      17% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.12); }
+      32% { transform: translate(-50%, -50%) rotate(-45deg) scale(0.92); }
+      48% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.24); }
+      68% { transform: translate(-50%, -50%) rotate(-45deg) scale(0.9); }
+    }
+
+    @keyframes heartbeatLine {
+      0% { stroke-dashoffset: 310; opacity: 0.36; }
+      38% { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0.36; }
+    }
+
+    @keyframes tensionPing {
+      0%, 100% { transform: scale(0.6); opacity: 0.14; }
+      45% { transform: scale(1.25); opacity: 0.72; }
+    }
+
+    @keyframes waitClockBreathe {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.72; }
+      46% { transform: translate(-50%, -50%) scale(1.04); opacity: 0.96; }
+    }
+
+    @keyframes waitHandTurn {
+      0% { transform: rotate(-42deg); }
+      100% { transform: rotate(318deg); }
+    }
+
+    @keyframes waitDoorGlow {
+      0%, 100% { box-shadow: 0 0 0 rgba(243, 200, 75, 0); opacity: 0.54; }
+      62%, 80% { box-shadow: 0 0 28px rgba(243, 200, 75, 0.36); opacity: 0.94; }
+    }
+
+    @keyframes waitLineFill {
+      0%, 14% { transform: scaleX(0.04); opacity: 0.38; }
+      76% { transform: scaleX(0.88); opacity: 0.88; }
+      100% { transform: scaleX(1); opacity: 0.38; }
+    }
+
+    @keyframes waitSway {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    @keyframes arrivalMove {
+      0%, 14% { left: 0; opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+      25% { opacity: 1; }
+      76% { left: 88%; transform: translate(-50%, -50%) scale(1); }
+      90%, 100% { left: 100%; opacity: 0; transform: translate(-50%, -50%) scale(0.86); }
+    }
+
+    @keyframes waitStep {
+      0%, 100% { transform: scale(0.62); opacity: 0.22; }
+      50% { transform: scale(1.16); opacity: 0.86; }
+    }
+
+    @keyframes waitHeart {
+      0%, 20%, 100% { transform: translate(-50%, -50%) rotate(-45deg) scale(0.78); opacity: 0.58; }
+      58% { transform: translate(-50%, -54%) rotate(-45deg) scale(1); opacity: 0.88; }
+      76% { transform: translate(-50%, -54%) rotate(-45deg) scale(1.22); opacity: 1; }
+    }
+
+    @media (max-width: 920px) {
+      .hero-band {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .motion-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .topbar {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        padding: 7px 9px;
+      }
+
+      .topbar a,
+      .motion-toggle {
+        padding: 0 8px;
+        font-size: 0.75rem;
+      }
+
+      .topbar__title {
+        font-size: 0.82rem;
+      }
+
+      .shell {
+        width: min(100% - 18px, 1180px);
+        padding-top: 12px;
+      }
+
+      .hero-band {
+        gap: 12px;
+        padding-bottom: 14px;
+      }
+
+      h1 {
+        font-size: 1.55rem;
+      }
+
+      .motion-key {
+        width: 100%;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        font-size: 0.76rem;
+      }
+
+      .key-item {
+        grid-template-columns: 24px auto;
+        gap: 5px;
+      }
+
+      .motion-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .motion-stage {
+        min-height: 214px;
+        aspect-ratio: 1.35 / 1;
+      }
+
+      .caption {
+        min-height: 76px;
+        padding: 12px;
+      }
+
+      .caption h2 {
+        font-size: 0.92rem;
+      }
+
+      .easy-word {
+        min-width: 52px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <header class="topbar">
+    <div class="topbar__links">
+      <a href="../index.html">메인</a>
+      <a href="index.html">16과</a>
+    </div>
+    <div class="topbar__title">심리 상태 움직임</div>
+    <button class="motion-toggle" type="button" id="motionToggle" aria-pressed="false">정지</button>
+  </header>
+
+  <main class="shell">
+    <section class="hero-band" aria-labelledby="pageTitle">
+      <div>
+        <p class="eyebrow">16과 어휘</p>
+        <h1 id="pageTitle">마음의 움직임</h1>
+      </div>
+      <div class="motion-key" aria-label="움직임 분류">
+        <span class="key-item"><span class="key-icon key-icon--stable"></span>안정</span>
+        <span class="key-item"><span class="key-icon key-icon--up"></span>에너지</span>
+        <span class="key-item"><span class="key-icon key-icon--pulse"></span>두근</span>
+      </div>
+    </section>
+
+    <section class="motion-grid" aria-label="심리 상태 어휘 움직임 카드">
+      <article class="motion-card" data-tone="calm" tabindex="0" aria-label="마음이 편안해지다">
+        <div class="motion-stage">
+          <img class="motion-figure" src="../assets/c16/vocabulary/images/split-variants/full/s01_tl_n01.webp" alt="">
+          <div class="motion-layer" aria-hidden="true">
+            <span class="calm-ring"></span>
+            <svg class="calm-wave" viewBox="0 0 260 92" preserveAspectRatio="none" focusable="false">
+              <path class="calm-wave__rough" d="M0,48 C18,14 34,78 52,46 S84,16 102,48 S136,76 154,44 S188,18 206,48 S240,76 260,46"></path>
+              <path class="calm-wave__flat" d="M0,48 L260,48"></path>
+            </svg>
+            <span class="calm-dot" style="--x: 24%; --y: 33%; --move-x: -24px; --move-y: -18px; --mid-x: 14px; --mid-y: 8px; --delay: 0s;"></span>
+            <span class="calm-dot" style="--x: 71%; --y: 30%; --move-x: 22px; --move-y: -24px; --mid-x: -12px; --mid-y: 12px; --delay: 0.12s;"></span>
+            <span class="calm-dot" style="--x: 35%; --y: 72%; --move-x: -18px; --move-y: 28px; --mid-x: 10px; --mid-y: -10px; --delay: 0.24s;"></span>
+            <span class="calm-dot" style="--x: 66%; --y: 72%; --move-x: 25px; --move-y: 22px; --mid-x: -14px; --mid-y: -8px; --delay: 0.06s;"></span>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>마음이 편안해지다</h2>
+          <span class="easy-word">편하다</span>
+        </div>
+      </article>
+
+      <article class="motion-card" data-tone="room" tabindex="0" aria-label="마음에 여유가 생기다">
+        <div class="motion-stage">
+          <img class="motion-figure" src="../assets/c16/vocabulary/images/split-variants/full/s01_tr_n02.webp" alt="">
+          <div class="motion-layer" aria-hidden="true">
+            <span class="room-frame"></span>
+            <span class="room-dot" style="--start-x: -18px; --start-y: -16px; --end-x: -66px; --end-y: -44px; --delay: 0s;"></span>
+            <span class="room-dot" style="--start-x: 18px; --start-y: -13px; --end-x: 64px; --end-y: -36px; --delay: 0.06s;"></span>
+            <span class="room-dot" style="--start-x: -14px; --start-y: 18px; --end-x: -50px; --end-y: 46px; --delay: 0.12s;"></span>
+            <span class="room-dot" style="--start-x: 20px; --start-y: 17px; --end-x: 68px; --end-y: 44px; --delay: 0.18s;"></span>
+            <span class="room-space"></span>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>마음에 여유가 생기다</h2>
+          <span class="easy-word">느긋</span>
+        </div>
+      </article>
+
+      <article class="motion-card" data-tone="joy" tabindex="0" aria-label="신이 나다">
+        <div class="motion-stage">
+          <img class="motion-figure" src="../assets/c16/vocabulary/images/split-variants/full/s01_bl_n03.webp" alt="">
+          <div class="motion-layer" aria-hidden="true">
+            <span class="joy-shadow"></span>
+            <span class="joy-body"></span>
+            <span class="burst" style="--angle: -64deg; --delay: 0s;"></span>
+            <span class="burst" style="--angle: -28deg; --delay: 0.12s;"></span>
+            <span class="burst" style="--angle: 18deg; --delay: 0.05s;"></span>
+            <span class="burst" style="--angle: 58deg; --delay: 0.18s;"></span>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>신이 나다</h2>
+          <span class="easy-word">즐겁다</span>
+        </div>
+      </article>
+
+      <article class="motion-card" data-tone="power" tabindex="0" aria-label="힘이 나다">
+        <div class="motion-stage">
+          <img class="motion-figure" src="../assets/c16/vocabulary/images/split-variants/full/s01_br_n04.webp" alt="">
+          <div class="motion-layer" aria-hidden="true">
+            <span class="energy-battery"><span class="energy-fill"></span></span>
+            <span class="energy-bolt"></span>
+            <span class="energy-arrow"></span>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>힘이 나다</h2>
+          <span class="easy-word">기운</span>
+        </div>
+      </article>
+
+      <article class="motion-card" data-tone="pulse" tabindex="0" aria-label="가슴이 뛰다">
+        <div class="motion-stage">
+          <img class="motion-figure" src="../assets/c16/vocabulary/images/split-variants/full/s02_tl_n05.webp" alt="">
+          <div class="motion-layer" aria-hidden="true">
+            <span class="heart-shape"></span>
+            <svg class="heart-line" viewBox="0 0 260 80" preserveAspectRatio="none" focusable="false">
+              <polyline points="0,45 42,45 58,12 79,68 100,45 130,45 146,25 164,58 182,45 260,45"></polyline>
+            </svg>
+            <span class="tension-dot" style="left: 18%; top: 25%; width: 10px; height: 10px; --delay: 0s;"></span>
+            <span class="tension-dot" style="right: 20%; top: 31%; width: 14px; height: 14px; --delay: 0.18s;"></span>
+            <span class="tension-dot" style="left: 28%; bottom: 22%; width: 8px; height: 8px; --delay: 0.34s;"></span>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>가슴이 뛰다</h2>
+          <span class="easy-word">두근</span>
+        </div>
+      </article>
+
+      <article class="motion-card" data-tone="flutter" tabindex="0" aria-label="마음이 설레다">
+        <div class="motion-stage">
+          <img class="motion-figure" src="../assets/c16/vocabulary/images/split-variants/full/s02_tr_n06.webp" alt="">
+          <div class="motion-layer" aria-hidden="true">
+            <span class="wait-clock"><span class="wait-hand"></span></span>
+            <span class="wait-door"></span>
+            <span class="wait-heart"></span>
+            <span class="wait-track">
+              <span class="waiter"></span>
+              <span class="arrival-dot"></span>
+            </span>
+            <span class="wait-step" style="--left: 36%; --top: 31%; --delay: 0s;"></span>
+            <span class="wait-step" style="--left: 47%; --top: 26%; --delay: 0.18s;"></span>
+            <span class="wait-step" style="--left: 58%; --top: 31%; --delay: 0.36s;"></span>
+          </div>
+        </div>
+        <div class="caption">
+          <h2>마음이 설레다</h2>
+          <span class="easy-word">기다림</span>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const motionToggle = document.getElementById('motionToggle');
+    const cards = Array.from(document.querySelectorAll('.motion-card'));
+
+    motionToggle.addEventListener('click', () => {
+      const paused = document.body.classList.toggle('is-paused');
+      motionToggle.textContent = paused ? '재생' : '정지';
+      motionToggle.setAttribute('aria-pressed', String(paused));
+    });
+
+    function setActiveCard(card) {
+      cards.forEach((item) => item.classList.toggle('is-active', item === card));
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => setActiveCard(card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          setActiveCard(card);
+        }
+      });
+    });
+  </script>
+  <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
