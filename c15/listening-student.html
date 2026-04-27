@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>15과 듣기 학생용 | 그림 보며 듣기</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/project-topbar-compact.css">
+  <style>
+    :root {
+      --bg: #eff6ff;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #dbe7e7;
+      --accent: #0f766e;
+      --accent-dark: #115e59;
+      --accent-soft: #ccfbf1;
+      --orange: #f97316;
+      --orange-soft: #ffedd5;
+      --success: #15803d;
+      --wrong: #b42318;
+      --shadow: 0 18px 42px rgba(15, 23, 42, 0.1);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Noto Sans KR", sans-serif;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(249, 115, 22, 0.13), transparent 26%),
+        radial-gradient(circle at 88% 12%, rgba(20, 184, 166, 0.15), transparent 30%),
+        linear-gradient(180deg, #f0fdfa 0%, var(--bg) 48%, #f8fafc 100%);
+    }
+
+    button, input { font: inherit; }
+    button { border: 0; cursor: pointer; }
+    img { display: block; max-width: 100%; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(153, 246, 228, 0.72);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar a,
+    .topbar span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      font-size: 0.9rem;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .topbar a:hover,
+    .topbar a[aria-current="page"] {
+      background: var(--accent-soft);
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 28px));
+      margin: 18px auto 48px;
+    }
+
+    .hero,
+    .panel {
+      border: 1px solid rgba(219, 231, 231, 0.9);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .hero h1 {
+      margin: 4px 0 8px;
+      font-size: clamp(1.75rem, 4vw, 2.8rem);
+      line-height: 1.12;
+    }
+
+    .eyebrow {
+      color: var(--accent-dark);
+      font-size: 0.84rem;
+      font-weight: 900;
+    }
+
+    .hero p,
+    .lesson-summary,
+    .caption,
+    .help {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .lesson-switcher {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .lesson-tab,
+    .action-btn,
+    .ghost-btn,
+    .frame-btn,
+    .quiz-option {
+      border-radius: 999px;
+      font-weight: 900;
+      transition: 0.18s ease;
+    }
+
+    .lesson-tab {
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid #a7f3d0;
+      background: white;
+      color: var(--accent-dark);
+    }
+
+    .lesson-tab.is-active {
+      background: linear-gradient(135deg, #0f766e, #0891b2);
+      color: white;
+      box-shadow: 0 12px 26px rgba(15, 118, 110, 0.24);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.82fr);
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .visual-card {
+      position: relative;
+    }
+
+    .film {
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: var(--film-ratio, 1.08 / 1);
+      min-height: 320px;
+      border: 1px solid #d8e8e5;
+      border-radius: 20px;
+      background: #f8fafc;
+    }
+
+    .film img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      max-width: none;
+      transform-origin: top left;
+      will-change: transform;
+      transition: transform 0.42s ease;
+    }
+
+    .film-focus {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 4px solid rgba(249, 115, 22, 0.86);
+      border-radius: 16px;
+      box-shadow: 0 0 0 999px rgba(15, 23, 42, 0.18);
+      pointer-events: none;
+      transition: transform 0.42s ease, width 0.42s ease, height 0.42s ease;
+    }
+
+    .caption {
+      min-height: 62px;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: #f0fdfa;
+      border: 1px solid #c4f1e9;
+    }
+
+    .caption strong {
+      display: block;
+      color: var(--accent-dark);
+      margin-bottom: 4px;
+    }
+
+    .frame-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .frame-btn {
+      min-width: 42px;
+      min-height: 38px;
+      padding: 0 12px;
+      border: 1px solid #d6dedc;
+      background: white;
+      color: #475569;
+    }
+
+    .frame-btn.is-active {
+      border-color: #f97316;
+      background: var(--orange-soft);
+      color: #9a3412;
+      box-shadow: 0 8px 18px rgba(249, 115, 22, 0.16);
+    }
+
+    .listen-panel {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ecfdf5, #eff6ff);
+      border: 1px solid #c7e8e3;
+    }
+
+    .audio-row,
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .audio-row input[type="file"] {
+      width: min(100%, 360px);
+      padding: 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      background: white;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    audio {
+      width: 100%;
+      min-height: 42px;
+    }
+
+    .action-btn,
+    .ghost-btn {
+      min-height: 44px;
+      padding: 0 15px;
+    }
+
+    .action-btn {
+      background: linear-gradient(135deg, #0f766e, #0891b2);
+      color: white;
+      box-shadow: 0 12px 24px rgba(15, 118, 110, 0.2);
+    }
+
+    .ghost-btn {
+      border: 1px solid #cbd5e1;
+      background: white;
+      color: #475569;
+    }
+
+    .quiz-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .quiz-card {
+      padding: 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      background: white;
+    }
+
+    .quiz-card strong {
+      display: block;
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid #d8dedc;
+      background: #fbfefa;
+      color: #263247;
+      line-height: 1.5;
+    }
+
+    .quiz-option input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .quiz-card.is-correct {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .quiz-card.is-wrong {
+      border-color: #fda29b;
+      background: #fff1f0;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 10px;
+      color: #475569;
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .quiz-card.is-correct .feedback,
+    .quiz-card.is-wrong .feedback {
+      display: block;
+    }
+
+    .score {
+      min-height: 42px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .score[data-tone="success"] {
+      background: #dcfce7;
+      color: var(--success);
+    }
+
+    .score[data-tone="warn"] {
+      background: #fff7ed;
+      color: #9a3412;
+    }
+
+    .mobile-image-overlay {
+      position: fixed;
+      top: calc(54px + env(safe-area-inset-top, 0px));
+      left: 50%;
+      z-index: 46;
+      display: none;
+      width: min(360px, calc(100vw - 18px));
+      padding: 8px;
+      border: 1px solid rgba(15, 118, 110, 0.24);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.97);
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.22);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -12px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .mobile-image-overlay.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
+    }
+
+    .mobile-image-overlay .film {
+      min-height: 118px;
+      max-height: 148px;
+      border-radius: 14px;
+      aspect-ratio: 2.42 / 1;
+    }
+
+    .mobile-image-overlay .film-focus {
+      border-width: 3px;
+      border-radius: 12px;
+      box-shadow: 0 0 0 999px rgba(15, 23, 42, 0.1);
+    }
+
+    .mobile-image-overlay__label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 4px 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .mobile-image-overlay__label strong {
+      color: var(--accent-dark);
+      font-size: 0.86rem;
+    }
+
+    @media (max-width: 880px) {
+      .hero {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .mobile-image-overlay {
+        display: block;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .shell {
+        width: calc(100% - 18px);
+        margin-top: 12px;
+      }
+
+      .topbar {
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .hero,
+      .panel {
+        border-radius: 20px;
+        padding: 14px;
+      }
+
+      .film {
+        min-height: 288px;
+      }
+
+      .lesson-tab {
+        flex: 1 1 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <nav class="topbar" aria-label="페이지 이동">
+    <a href="../index.html">메인</a>
+    <a href="index.html">15과 홈</a>
+    <a href="listening1.html">듣기 1 원본</a>
+    <a href="listening2.html">듣기 2 원본</a>
+    <span aria-current="page">학생용 듣기</span>
+  </nav>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">15과 듣기 학생용</div>
+        <h1>그림 보며 듣고 문제 풀기</h1>
+        <p>필요한 활동만 남긴 학생용 화면입니다. 그림을 보며 듣고, 바로 문제를 풀어 확인합니다.</p>
+      </div>
+      <div class="lesson-switcher" id="lesson-tabs" aria-label="듣기 선택"></div>
+    </section>
+
+    <div class="layout">
+      <section class="panel visual-card" id="visual-card">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow" id="lesson-label"></div>
+            <h2 id="lesson-title"></h2>
+          </div>
+        </div>
+        <p class="lesson-summary" id="lesson-summary"></p>
+
+        <div class="film" id="main-film">
+          <img id="film-image" alt="">
+          <div class="film-focus" id="film-focus" aria-hidden="true"></div>
+        </div>
+        <div class="caption" id="frame-caption" aria-live="polite"></div>
+        <div class="frame-strip" id="frame-strip" aria-label="장면 선택"></div>
+
+        <div class="listen-panel">
+          <div class="audio-row">
+            <label class="help" for="audio-file">교재 MP3 선택: <strong id="expected-file"></strong></label>
+            <input id="audio-file" type="file" accept="audio/*">
+          </div>
+          <audio id="lesson-audio" controls preload="metadata"></audio>
+          <div class="button-row">
+            <button type="button" class="action-btn" id="play-audio">처음부터 듣기</button>
+            <button type="button" class="ghost-btn" id="play-tts">음원 없이 대화 듣기</button>
+            <button type="button" class="ghost-btn" id="stop-audio">정지</button>
+          </div>
+          <p class="help" id="audio-help">원음 파일이 없으면 브라우저 음성으로 대화를 들으며 그림 흐름을 확인할 수 있습니다.</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <div class="eyebrow">문제 풀기</div>
+            <h2>이해 확인</h2>
+          </div>
+        </div>
+        <div class="quiz-list" id="quiz-list"></div>
+        <div class="button-row" style="margin-top: 14px;">
+          <button type="button" class="action-btn" id="check-quiz">정답 확인</button>
+          <button type="button" class="ghost-btn" id="reset-quiz">다시 풀기</button>
+        </div>
+        <div class="score" id="quiz-score" data-tone="info">문제를 풀고 정답 확인을 누르세요.</div>
+      </section>
+    </div>
+  </main>
+
+  <button type="button" class="mobile-image-overlay" id="mobile-overlay" aria-label="현재 그림으로 이동">
+    <div class="film" id="overlay-film">
+      <img id="overlay-image" alt="">
+      <div class="film-focus" id="overlay-focus" aria-hidden="true"></div>
+    </div>
+    <span class="mobile-image-overlay__label">
+      <strong id="overlay-title">현재 그림</strong>
+      <span>누르면 그림으로 이동</span>
+    </span>
+  </button>
+
+  <script>
+    const lessons = [
+      {
+        id: "track63",
+        label: "Track 63",
+        track: 63,
+        title: "듣기 1: 화장실 천장에서 물이 새요",
+        summary: "아래층 사람이 화장실 천장에서 물이 샌다고 말하자, 윗집 사람은 처음에는 자기 집 문제가 아닐 거라고 생각하지만 결국 수리 기사를 부르기로 합니다.",
+        image: "../assets/c15/listening/images/lesson15-listening1-cuttoon.webp",
+        aspectRatio: "1.08 / 1",
+        frames: [
+          { start: 0, end: 19.05, x: 12, y: 14, width: 507, height: 484, label: "1", title: "아랫집 사람이 윗집을 찾아옴", caption: "누군가 문을 두드리고, 아래층에 사는 사람이라고 소개합니다." },
+          { start: 19.05, end: 25.85, x: 528, y: 14, width: 512, height: 484, label: "2", title: "천장에서 물이 샌다고 설명함", caption: "아랫집 화장실 천장에서 물이 떨어져 윗집 화장실 문제 같다고 말합니다." },
+          { start: 25.85, end: 34.25, x: 12, y: 508, width: 507, height: 462, label: "3", title: "처음에는 자기 집 문제가 아니라고 생각함", caption: "윗집 사람은 자기 집 화장실에는 문제가 없다고 말합니다." },
+          { start: 34.25, end: 40.2, x: 528, y: 508, width: 512, height: 462, label: "4", title: "하수구 문제일 가능성을 떠올림", caption: "하수구가 막혔을 가능성을 말하고, 요즘 물이 잘 안 내려갔던 일을 떠올립니다." },
+          { start: 40.2, end: 52.35, x: 12, y: 981, width: 507, height: 494, label: "5", title: "아랫집 피해가 심각함", caption: "직접 보면 알 수 있을 만큼 천장에서 물이 뚝뚝 떨어지고 있습니다." },
+          { start: 52.35, end: 69.46, x: 528, y: 981, width: 512, height: 494, label: "6", title: "수리 기사를 부르기로 함", caption: "수리 기사를 불러 확인하기로 하고, 윗집 사람이 사과하며 마무리합니다." }
+        ],
+        transcript: [
+          { speaker: "안내", text: "잘 듣고 질문에 답하세요.", start: 3.9, end: 6.62 },
+          { speaker: "남", text: "누구세요?", start: 7.84, end: 9.75 },
+          { speaker: "여", text: "안녕하세요? 아래층에 사는 사람인데요.", start: 10.45, end: 15.38 },
+          { speaker: "남", text: "네, 무슨 일이세요?", start: 16.43, end: 17.39 },
+          { speaker: "여", text: "우리 집 화장실 천장에서 물이 새서 왔어요. 여기 화장실에 무슨 문제가 있는 것 같은데요.", start: 18.33, end: 23.96 },
+          { speaker: "남", text: "우리 집 화장실은 아무 문제가 없는데요. 우리 집 문제가 아닐걸요.", start: 24.53, end: 31.39 },
+          { speaker: "여", text: "혹시 하수구가 막힌 건 아닐까요?", start: 32.02, end: 33.58 },
+          { speaker: "남", text: "그러고 보니 요즘 물이 잘 안 내려가긴 했는데…….", start: 34.65, end: 37.77 },
+          { speaker: "여", text: "와서 보시면 아시겠지만 천장에서 물이 뚝뚝 떨어져요.", start: 38.79, end: 42.2 },
+          { speaker: "남", text: "그 정도예요? 그러면 어떻게 하죠?", start: 43.23, end: 47.63 },
+          { speaker: "여", text: "수리 기사를 불러서 무슨 문제가 있는지 확인해 주세요.", start: 48.65, end: 52.59 },
+          { speaker: "남", text: "네, 그럼 바로 전화하겠습니다. 불편하게 해 드려서 죄송합니다.", start: 52.59, end: 60.3 },
+          { speaker: "여", text: "아니에요. 그럴 수도 있죠. 그럼 부탁드립니다.", start: 60.82, end: 67.55 }
+        ],
+        tfQuestions: [
+          { statement: "여자는 윗집 화장실에 문제가 있는 것 같다고 말한다.", answer: true, explanation: "여자는 아래층 화장실 천장에서 물이 새기 때문에 윗집 화장실 문제일 수 있다고 말합니다." },
+          { statement: "남자는 처음부터 자기 집 문제라고 확신한다.", answer: false, explanation: "남자는 처음에는 자기 집 문제가 아닐 거라고 말합니다." },
+          { statement: "남자는 수리 기사에게 바로 전화하겠다고 한다.", answer: true, explanation: "마지막에 남자는 바로 전화하겠다고 약속합니다." }
+        ],
+        questions: [
+          {
+            prompt: "여자는 왜 윗집에 찾아왔습니까?",
+            answer: "2",
+            explanation: "여자는 아래층 화장실 천장에서 물이 샌다고 말합니다.",
+            options: [
+              { value: "1", label: "화장실 변기가 막혀서" },
+              { value: "2", label: "화장실 천장에서 물이 새서" },
+              { value: "3", label: "화장실 물이 잘 안 내려가서" }
+            ]
+          },
+          {
+            prompt: "남자는 앞으로 무엇을 할 것 같습니까?",
+            answer: "1",
+            explanation: "남자는 바로 전화하겠다고 했으므로 수리 기사를 부를 것입니다.",
+            options: [
+              { value: "1", label: "수리 기사를 부른다." },
+              { value: "2", label: "직접 화장실을 수리한다." },
+              { value: "3", label: "아랫집 화장실에 가 본다." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "track64",
+        label: "Track 64",
+        track: 64,
+        title: "듣기 2: 계약 기간 전에 방을 빼야 해요",
+        summary: "바바라 학생은 사정이 생겨 갑자기 귀국해야 해서 이번 달까지만 살고 이사하려고 합니다. 남자는 새로 들어올 사람을 구하지 않으면 방세를 계속 내야 한다고 설명합니다.",
+        image: "../assets/c15/listening/images/lesson15-listening2-cuttoon.webp",
+        aspectRatio: "1.18 / 1",
+        frames: [
+          { start: 0, end: 17.75, x: 9, y: 9, width: 343, height: 515, label: "1", title: "학생이 찾아와 조심스럽게 인사함", caption: "아래층에 사는 학생이 찾아와 이야기를 시작합니다." },
+          { start: 17.75, end: 27.55, x: 364, y: 9, width: 335, height: 515, label: "2", title: "이번 달까지만 살고 이사해야 한다고 말함", caption: "사정이 생겨 이번 달까지만 살고 방을 빼야 할 것 같다고 말합니다." },
+          { start: 27.55, end: 35.35, x: 711, y: 9, width: 335, height: 515, label: "3", title: "계약 기간이 남아 있어 곤란함", caption: "상대방은 아직 계약 기간이 많이 남았는데 갑자기 나가면 곤란하다고 설명합니다." },
+          { start: 35.35, end: 43.15, x: 9, y: 538, width: 309, height: 472, label: "4", title: "갑자기 귀국하게 된 사정", caption: "학생은 갑자기 귀국하게 되어 어쩔 수 없다고 말합니다." },
+          { start: 43.15, end: 52.45, x: 324, y: 538, width: 348, height: 472, label: "5", title: "대신 들어올 사람을 구해야 함", caption: "방을 빼려면 대신 들어올 사람을 구해 놓고 나가야 합니다." },
+          { start: 52.45, end: 67.35, x: 681, y: 538, width: 365, height: 472, label: "6", title: "부동산과 인터넷 광고를 활용함", caption: "부동산에 연락하고 인터넷에 광고 글을 올리면 빨리 사람을 구할 수 있습니다." },
+          { start: 67.35, end: 87.62, x: 9, y: 1029, width: 1037, height: 455, label: "7", title: "못 구하면 방세를 계속 내야 함", caption: "새 사람이 들어오기 전까지는 계약 때문에 방세를 계속 내야 하므로 서둘러야 합니다." }
+        ],
+        transcript: [
+          { speaker: "안내", text: "잘 듣고 질문에 답하세요.", start: 0, end: 3.62 },
+          { speaker: "남", text: "누구세요?", start: 3.62, end: 5.5 },
+          { speaker: "여", text: "안녕하세요? 저 아래층 사는 학생인데요.", start: 5.5, end: 10 },
+          { speaker: "남", text: "바바라 학생이 무슨 일이에요? 집에 무슨 문제라도 있어요?", start: 12, end: 17 },
+          { speaker: "여", text: "저기…… 이번 달까지만 살고 이사해야 될 것 같아서요.", start: 17, end: 22 },
+          { speaker: "남", text: "방을 빼겠다고요? 아직 계약 기간도 많이 남았는데…… 이렇게 갑자기 나가겠다고 하면 곤란하죠.", start: 22, end: 35 },
+          { speaker: "여", text: "죄송해요. 사정이 생겨서 갑자기 귀국하게 됐어요.", start: 35, end: 40 },
+          { speaker: "남", text: "그럼 어쩔 수 없죠. 그런데 대신 들어올 사람을 구해 놓고 나가지 않으면 안 돼요.", start: 40, end: 48 },
+          { speaker: "여", text: "그럼 제가 어떻게 하면 될까요?", start: 48, end: 52 },
+          { speaker: "남", text: "나도 부동산에 전화하겠지만 바바라 학생도 다른 부동산에 말해 놓으세요. 그리고 인터넷에 광고 글을 올려놓으면 빨리 사람을 구할 수 있을걸요.", start: 52, end: 65 },
+          { speaker: "여", text: "네, 알겠습니다. 만약 제가 이사 가기 전까지 사람을 못 구하면 어떻게 되는 거죠?", start: 65, end: 72 },
+          { speaker: "남", text: "계약 기간이 끝나기 전에 나가는 거니까 다른 사람이 들어오기 전까지 방세를 내야 돼요.", start: 72, end: 80 },
+          { speaker: "여", text: "그래요? 그럼 빨리 서둘러야겠네요.", start: 80, end: 86 }
+        ],
+        tfQuestions: [
+          { statement: "여자는 계약 기간이 끝나서 자연스럽게 이사하려고 한다.", answer: false, explanation: "계약 기간이 아직 많이 남았지만 사정이 생겨 갑자기 귀국하게 됐습니다." },
+          { statement: "여자는 대신 들어올 사람을 구해야 한다.", answer: true, explanation: "남자는 대신 들어올 사람을 구해 놓고 나가지 않으면 안 된다고 말합니다." },
+          { statement: "사람을 못 구하면 방세를 계속 내야 한다.", answer: true, explanation: "다른 사람이 들어오기 전까지 방세를 내야 한다고 했습니다." }
+        ],
+        questions: [
+          {
+            prompt: "여자는 왜 남자를 찾아갔습니까?",
+            answer: "2",
+            explanation: "여자는 이번 달까지만 살고 이사해야 할 것 같다고 말합니다.",
+            options: [
+              { value: "1", label: "방에 물이 새서" },
+              { value: "2", label: "방을 일찍 빼려고" },
+              { value: "3", label: "귀국 인사를 하려고" }
+            ]
+          },
+          {
+            prompt: "문제를 해결하기 위해 여자가 할 일은 무엇입니까?",
+            answer: "3",
+            explanation: "새로 들어올 사람을 구해야 방세 부담을 피할 수 있습니다.",
+            options: [
+              { value: "1", label: "집주인에게 잘 이야기한다." },
+              { value: "2", label: "부동산에 이사 갈 집을 알아본다." },
+              { value: "3", label: "새로운 세입자를 구한다." }
+            ]
+          },
+          {
+            prompt: "여자가 문제를 해결하지 못하면 어떻게 됩니까?",
+            answer: "3",
+            explanation: "다른 사람이 들어오기 전까지 방세를 내야 한다고 했습니다.",
+            options: [
+              { value: "1", label: "이사하지 못한다." },
+              { value: "2", label: "귀국하지 못한다." },
+              { value: "3", label: "방세를 계속 내야 한다." }
+            ]
+          }
+        ]
+      }
+    ];
+
+    const elements = {
+      tabs: document.getElementById("lesson-tabs"),
+      lessonLabel: document.getElementById("lesson-label"),
+      lessonTitle: document.getElementById("lesson-title"),
+      lessonSummary: document.getElementById("lesson-summary"),
+      mainFilm: document.getElementById("main-film"),
+      filmImage: document.getElementById("film-image"),
+      filmFocus: document.getElementById("film-focus"),
+      caption: document.getElementById("frame-caption"),
+      frameStrip: document.getElementById("frame-strip"),
+      expectedFile: document.getElementById("expected-file"),
+      audioFile: document.getElementById("audio-file"),
+      audio: document.getElementById("lesson-audio"),
+      playAudio: document.getElementById("play-audio"),
+      playTts: document.getElementById("play-tts"),
+      stopAudio: document.getElementById("stop-audio"),
+      audioHelp: document.getElementById("audio-help"),
+      quizList: document.getElementById("quiz-list"),
+      checkQuiz: document.getElementById("check-quiz"),
+      resetQuiz: document.getElementById("reset-quiz"),
+      quizScore: document.getElementById("quiz-score"),
+      visualCard: document.getElementById("visual-card"),
+      overlay: document.getElementById("mobile-overlay"),
+      overlayFilm: document.getElementById("overlay-film"),
+      overlayImage: document.getElementById("overlay-image"),
+      overlayFocus: document.getElementById("overlay-focus"),
+      overlayTitle: document.getElementById("overlay-title")
+    };
+
+    let activeLessonIndex = 0;
+    let activeFrameIndex = 0;
+    let audioObjectUrl = "";
+    let rafId = 0;
+    let ttsStopped = false;
+    let overlayObserver = null;
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function getLesson() {
+      return lessons[activeLessonIndex];
+    }
+
+    function getExpectedAudioFile(lesson) {
+      return `Seoul Univ_3B_Trk_${String(lesson.track).padStart(2, "0")}.mp3`;
+    }
+
+    function getFrameIndexByTime(lesson, time) {
+      const safeTime = Number.isFinite(time) ? time : 0;
+      const index = lesson.frames.findIndex((frame) => safeTime >= frame.start && safeTime < frame.end);
+      if (index >= 0) return index;
+      return safeTime < lesson.frames[0].start ? 0 : lesson.frames.length - 1;
+    }
+
+    function setFrame(index, force = false) {
+      const lesson = getLesson();
+      activeFrameIndex = Math.max(0, Math.min(index, lesson.frames.length - 1));
+      const frame = lesson.frames[activeFrameIndex];
+      applyFrame(elements.mainFilm, elements.filmImage, elements.filmFocus, frame, force);
+      applyFrame(elements.overlayFilm, elements.overlayImage, elements.overlayFocus, frame, force);
+      elements.caption.innerHTML = `<strong>${escapeHtml(frame.label)}. ${escapeHtml(frame.title)}</strong><span>${escapeHtml(frame.caption)}</span>`;
+      elements.overlayTitle.textContent = `현재 그림 ${frame.label}`;
+      elements.frameStrip.querySelectorAll("[data-frame-index]").forEach((button) => {
+        button.classList.toggle("is-active", Number(button.dataset.frameIndex) === activeFrameIndex);
+      });
+    }
+
+    function applyFrame(viewport, image, focus, frame, force = false) {
+      if (!viewport || !image || !focus || !image.complete || !image.naturalWidth || !image.naturalHeight) return;
+      const viewportWidth = viewport.clientWidth;
+      const viewportHeight = viewport.clientHeight;
+      if (!viewportWidth || !viewportHeight) return;
+      const scale = Math.min(viewportWidth / frame.width, viewportHeight / frame.height);
+      const translateX = ((viewportWidth - frame.width * scale) / 2) - frame.x * scale;
+      const translateY = ((viewportHeight - frame.height * scale) / 2) - frame.y * scale;
+      const focusX = frame.x * scale + translateX;
+      const focusY = frame.y * scale + translateY;
+      if (force) image.style.transition = "none";
+      image.style.width = `${image.naturalWidth}px`;
+      image.style.height = `${image.naturalHeight}px`;
+      image.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+      focus.style.width = `${frame.width * scale}px`;
+      focus.style.height = `${frame.height * scale}px`;
+      focus.style.transform = `translate(${focusX}px, ${focusY}px)`;
+      if (force) requestAnimationFrame(() => { image.style.transition = ""; });
+    }
+
+    function renderTabs() {
+      elements.tabs.innerHTML = lessons.map((lesson, index) => `
+        <button type="button" class="lesson-tab${index === activeLessonIndex ? " is-active" : ""}" data-lesson-index="${index}">
+          ${escapeHtml(lesson.label)} · ${index + 1}번
+        </button>
+      `).join("");
+    }
+
+    function renderFrameButtons() {
+      const lesson = getLesson();
+      elements.frameStrip.innerHTML = lesson.frames.map((frame, index) => `
+        <button type="button" class="frame-btn${index === activeFrameIndex ? " is-active" : ""}" data-frame-index="${index}">
+          ${escapeHtml(frame.label)}
+        </button>
+      `).join("");
+    }
+
+    function renderQuiz() {
+      const lesson = getLesson();
+      const tfMarkup = lesson.tfQuestions.map((question, index) => `
+        <article class="quiz-card" data-quiz-card data-type="tf" data-index="${index}" data-answer="${question.answer ? "O" : "X"}">
+          <strong>O/X ${index + 1}. ${escapeHtml(question.statement)}</strong>
+          <div class="quiz-options">
+            <label class="quiz-option"><input type="radio" name="${lesson.id}-tf-${index}" value="O"> O</label>
+            <label class="quiz-option"><input type="radio" name="${lesson.id}-tf-${index}" value="X"> X</label>
+          </div>
+          <div class="feedback">${escapeHtml(question.explanation)}</div>
+        </article>
+      `).join("");
+      const choiceMarkup = lesson.questions.map((question, index) => `
+        <article class="quiz-card" data-quiz-card data-type="choice" data-index="${index}" data-answer="${escapeHtml(question.answer)}">
+          <strong>문제 ${index + 1}. ${escapeHtml(question.prompt)}</strong>
+          <div class="quiz-options">
+            ${question.options.map((option) => `
+              <label class="quiz-option">
+                <input type="radio" name="${lesson.id}-choice-${index}" value="${escapeHtml(option.value)}">
+                ${escapeHtml(option.value)}. ${escapeHtml(option.label)}
+              </label>
+            `).join("")}
+          </div>
+          <div class="feedback">${escapeHtml(question.explanation)}</div>
+        </article>
+      `).join("");
+      elements.quizList.innerHTML = tfMarkup + choiceMarkup;
+      elements.quizScore.textContent = "문제를 풀고 정답 확인을 누르세요.";
+      elements.quizScore.dataset.tone = "info";
+    }
+
+    function clearAudioObjectUrl() {
+      if (audioObjectUrl) URL.revokeObjectURL(audioObjectUrl);
+      audioObjectUrl = "";
+    }
+
+    function stopPlayback() {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+      elements.audio.pause();
+      if ("speechSynthesis" in window) {
+        ttsStopped = true;
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    function syncFromAudio() {
+      const lesson = getLesson();
+      const nextFrameIndex = getFrameIndexByTime(lesson, elements.audio.currentTime);
+      if (nextFrameIndex !== activeFrameIndex) setFrame(nextFrameIndex);
+      if (!elements.audio.paused && !elements.audio.ended) {
+        rafId = requestAnimationFrame(syncFromAudio);
+      }
+    }
+
+    function speakLine(line) {
+      return new Promise((resolve) => {
+        if (!("speechSynthesis" in window) || ttsStopped) {
+          resolve();
+          return;
+        }
+        const utterance = new SpeechSynthesisUtterance(line.text);
+        utterance.lang = "ko-KR";
+        utterance.rate = 0.92;
+        utterance.pitch = line.speaker === "남" ? 0.88 : 1.06;
+        utterance.onend = resolve;
+        utterance.onerror = resolve;
+        window.speechSynthesis.speak(utterance);
+      });
+    }
+
+    async function playTts() {
+      stopPlayback();
+      ttsStopped = false;
+      const lesson = getLesson();
+      for (const line of lesson.transcript) {
+        if (ttsStopped) break;
+        setFrame(getFrameIndexByTime(lesson, line.start));
+        await speakLine(line);
+      }
+    }
+
+    function checkQuiz() {
+      const cards = [...elements.quizList.querySelectorAll("[data-quiz-card]")];
+      let score = 0;
+      cards.forEach((card) => {
+        const checked = card.querySelector("input:checked");
+        const correct = Boolean(checked && checked.value === card.dataset.answer);
+        card.classList.toggle("is-correct", correct);
+        card.classList.toggle("is-wrong", !correct);
+        if (correct) score += 1;
+      });
+      elements.quizScore.textContent = `${cards.length}문제 중 ${score}문제를 맞혔습니다.`;
+      elements.quizScore.dataset.tone = score === cards.length ? "success" : "warn";
+    }
+
+    function resetQuiz() {
+      elements.quizList.querySelectorAll("input").forEach((input) => { input.checked = false; });
+      elements.quizList.querySelectorAll("[data-quiz-card]").forEach((card) => {
+        card.classList.remove("is-correct", "is-wrong");
+      });
+      elements.quizScore.textContent = "문제를 풀고 정답 확인을 누르세요.";
+      elements.quizScore.dataset.tone = "info";
+    }
+
+    function setupOverlayObserver() {
+      if (overlayObserver) overlayObserver.disconnect();
+      elements.overlay.classList.remove("is-visible");
+      if (!("IntersectionObserver" in window)) return;
+      overlayObserver = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        const show = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        elements.overlay.classList.toggle("is-visible", show);
+      }, { threshold: [0, 0.2, 0.6, 1], rootMargin: "-64px 0px 0px 0px" });
+      overlayObserver.observe(elements.visualCard);
+    }
+
+    function loadLesson(index) {
+      stopPlayback();
+      clearAudioObjectUrl();
+      activeLessonIndex = index;
+      activeFrameIndex = 0;
+      const lesson = getLesson();
+      renderTabs();
+      elements.lessonLabel.textContent = lesson.label;
+      elements.lessonTitle.textContent = lesson.title;
+      elements.lessonSummary.textContent = lesson.summary;
+      elements.expectedFile.textContent = getExpectedAudioFile(lesson);
+      elements.audio.removeAttribute("src");
+      elements.audio.load();
+      elements.audioFile.value = "";
+      elements.audioHelp.textContent = "원음 파일이 없으면 브라우저 음성으로 대화를 들으며 그림 흐름을 확인할 수 있습니다.";
+      elements.mainFilm.style.setProperty("--film-ratio", lesson.aspectRatio);
+      elements.overlayFilm.style.setProperty("--film-ratio", "2.42 / 1");
+      elements.filmImage.src = lesson.image;
+      elements.overlayImage.src = lesson.image;
+      elements.filmImage.alt = `${lesson.title} 그림`;
+      elements.overlayImage.alt = "";
+      renderFrameButtons();
+      renderQuiz();
+      setFrame(0, true);
+      setupOverlayObserver();
+    }
+
+    elements.tabs.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-lesson-index]");
+      if (!button) return;
+      loadLesson(Number(button.dataset.lessonIndex));
+    });
+
+    elements.frameStrip.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-frame-index]");
+      if (!button) return;
+      setFrame(Number(button.dataset.frameIndex));
+    });
+
+    elements.audioFile.addEventListener("change", () => {
+      stopPlayback();
+      clearAudioObjectUrl();
+      const file = elements.audioFile.files && elements.audioFile.files[0];
+      if (!file) return;
+      audioObjectUrl = URL.createObjectURL(file);
+      elements.audio.src = audioObjectUrl;
+      elements.audio.load();
+      elements.audioHelp.textContent = `${file.name} 파일을 연결했습니다. 재생하면 그림 장면이 함께 움직입니다.`;
+    });
+
+    elements.audio.addEventListener("play", () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(syncFromAudio);
+    });
+
+    ["timeupdate", "seeked", "loadedmetadata"].forEach((eventName) => {
+      elements.audio.addEventListener(eventName, () => {
+        setFrame(getFrameIndexByTime(getLesson(), elements.audio.currentTime));
+      });
+    });
+
+    elements.playAudio.addEventListener("click", () => {
+      if (!elements.audio.src) {
+        elements.audioHelp.textContent = "먼저 교재 MP3를 선택하거나, 음원 없이 대화 듣기를 사용하세요.";
+        playTts();
+        return;
+      }
+      stopPlayback();
+      elements.audio.currentTime = 0;
+      elements.audio.play().catch(() => {
+        elements.audioHelp.textContent = "브라우저가 자동 재생을 막았습니다. 오디오 플레이어의 재생 버튼을 눌러 주세요.";
+      });
+    });
+
+    elements.playTts.addEventListener("click", playTts);
+    elements.stopAudio.addEventListener("click", stopPlayback);
+    elements.checkQuiz.addEventListener("click", checkQuiz);
+    elements.resetQuiz.addEventListener("click", resetQuiz);
+    elements.overlay.addEventListener("click", () => {
+      elements.visualCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    window.addEventListener("resize", () => setFrame(activeFrameIndex, true));
+    elements.filmImage.addEventListener("load", () => setFrame(activeFrameIndex, true));
+    elements.overlayImage.addEventListener("load", () => setFrame(activeFrameIndex, true));
+
+    loadLesson(0);
+  </script>
+  <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
