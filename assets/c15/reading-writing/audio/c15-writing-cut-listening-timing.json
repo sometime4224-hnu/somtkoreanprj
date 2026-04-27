@@ -1,0 +1,107 @@
+{
+  "audio": "../assets/c15/reading-writing/audio/c15-writing-cut-listening.mp3",
+  "voice": "ko-KR-SunHiNeural",
+  "rate": "-4%",
+  "pause": 0.48,
+  "duration": 75.36,
+  "timings": [
+    {
+      "index": 1,
+      "start": 0.0,
+      "end": 4.272,
+      "duration": 4.272,
+      "sentence": "부자가 되려면 작은 돈부터 아껴 써야 합니다."
+    },
+    {
+      "index": 2,
+      "start": 4.752,
+      "end": 8.064,
+      "duration": 3.312,
+      "sentence": "'티끌 모아 태산'이라는 말도 있지요?"
+    },
+    {
+      "index": 3,
+      "start": 8.544,
+      "end": 12.384,
+      "duration": 3.84,
+      "sentence": "그럼 어떻게 해야 돈을 아낄 수 있을까요?"
+    },
+    {
+      "index": 4,
+      "start": 12.864,
+      "end": 17.112,
+      "duration": 4.248,
+      "sentence": "첫째, 영수증을 모으고 가계부를 씁니다."
+    },
+    {
+      "index": 5,
+      "start": 17.592,
+      "end": 23.376,
+      "duration": 5.784,
+      "sentence": "어디에 어떻게 돈을 사용하고 있는지 알아야 돈을 절약할 수 있습니다."
+    },
+    {
+      "index": 6,
+      "start": 23.856,
+      "end": 27.96,
+      "duration": 4.104,
+      "sentence": "둘째, 관리비를 줄이지 않으면 안 됩니다."
+    },
+    {
+      "index": 7,
+      "start": 28.44,
+      "end": 35.496,
+      "duration": 7.056,
+      "sentence": "사용하지 않는 전기 플러그를 뽑아 두고, 설거지할 때에는 물을 계속 틀어 놓지 않습니다."
+    },
+    {
+      "index": 8,
+      "start": 35.976,
+      "end": 39.552,
+      "duration": 3.576,
+      "sentence": "그리고 사람이 없는 방의 불도 끕니다."
+    },
+    {
+      "index": 9,
+      "start": 40.032,
+      "end": 45.936,
+      "duration": 5.904,
+      "sentence": "특히 겨울철에 가족들에게 내복을 입게 하면 난방비를 아낄 수 있습니다."
+    },
+    {
+      "index": 10,
+      "start": 46.416,
+      "end": 50.04,
+      "duration": 3.624,
+      "sentence": "셋째, 알뜰하게 쇼핑합니다."
+    },
+    {
+      "index": 11,
+      "start": 50.52,
+      "end": 56.808,
+      "duration": 6.288,
+      "sentence": "퇴근하는 길에 마트에 들러서 세일하는 식품을 사면 식비를 절약할 수 있습니다."
+    },
+    {
+      "index": 12,
+      "start": 57.288,
+      "end": 63.192,
+      "duration": 5.904,
+      "sentence": "직접 요리해서 먹으면 외식비도 아낄 수 있고 건강에도 좋습니다."
+    },
+    {
+      "index": 13,
+      "start": 63.672,
+      "end": 70.584,
+      "duration": 6.912,
+      "sentence": "돈을 아끼는 방법, 모두가 알고 있는 쉬운 것들이지만 실천하기는 쉽지 않습니다."
+    },
+    {
+      "index": 14,
+      "start": 71.064,
+      "end": 75.36,
+      "duration": 4.296,
+      "sentence": "미리 목표를 정하고 작은 것부터 실천합시다."
+    }
+  ]
+}

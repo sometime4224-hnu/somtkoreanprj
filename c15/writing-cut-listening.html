@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>15과 쓰기 컷 듣기 | 돈을 아끼는 방법</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-soft: #f0fdfa;
+      --line: #d0d7de;
+      --text: #172033;
+      --muted: #5f6b7a;
+      --accent: #0f766e;
+      --accent-dark: #115e59;
+      --accent-soft: #ccfbf1;
+      --gold: #b45309;
+      --gold-soft: #fef3c7;
+      --shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      background: linear-gradient(180deg, #fffdf5 0%, #f0fdfa 48%, var(--bg) 100%);
+    }
+
+    button {
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.48;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 54px;
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(15, 118, 110, 0.18);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar a {
+      color: var(--accent-dark);
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .topbar .divider {
+      color: #9aa4b2;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 20px 0 42px;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: end;
+      padding: 12px 0 18px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: var(--gold-soft);
+      color: var(--gold);
+      font-size: 0.84rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 12px 0 8px;
+      font-size: clamp(1.9rem, 4vw, 3.15rem);
+      line-height: 1.08;
+      word-break: keep-all;
+    }
+
+    .lead {
+      max-width: 720px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+
+    .status-pill {
+      min-width: 160px;
+      padding: 12px 16px;
+      border: 1px solid #99f6e4;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--accent-dark);
+      font-weight: 900;
+      text-align: center;
+      box-shadow: 0 10px 26px rgba(15, 118, 110, 0.12);
+      white-space: nowrap;
+    }
+
+    .stage {
+      overflow: hidden;
+      border: 1px solid rgba(15, 118, 110, 0.22);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .image-wrap {
+      position: relative;
+      background: #101828;
+      aspect-ratio: 16 / 9;
+    }
+
+    .cut-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #101828;
+      transition: opacity 220ms ease, transform 320ms ease;
+    }
+
+    .cut-image.is-changing {
+      opacity: 0.55;
+      transform: scale(0.992);
+    }
+
+    .progress-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    .progress-text {
+      min-width: 64px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      overflow: hidden;
+      flex: 1;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .progress-bar {
+      width: 7.14%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #f59e0b, #14b8a6);
+      transition: width 260ms ease;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      min-height: 44px;
+      padding: 0 16px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-weight: 900;
+      transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .btn:hover:not(:disabled),
+    .btn:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.13);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      border-color: #b8c2cc;
+      background: #ffffff;
+      color: #253041;
+    }
+
+    .btn-quiet {
+      border-color: #99f6e4;
+      background: var(--surface-soft);
+      color: var(--accent-dark);
+    }
+
+    .audio-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(360px, 100%);
+      min-height: 44px;
+      padding: 0 14px;
+      border: 1px solid #99f6e4;
+      border-radius: 8px;
+      background: var(--surface-soft);
+      color: var(--accent-dark);
+      font-size: 0.92rem;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .rail {
+      display: grid;
+      grid-template-columns: repeat(14, 1fr);
+      gap: 6px;
+      padding: 14px 16px 18px;
+      border-top: 1px solid var(--line);
+      background: #f8fafc;
+    }
+
+    .rail-button {
+      min-width: 0;
+      height: 34px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #334155;
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .rail-button[aria-current="true"] {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      box-shadow: inset 0 -3px 0 rgba(15, 118, 110, 0.22);
+    }
+
+    .notice {
+      margin: 14px 0 0;
+      padding: 12px 14px;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      background: #fffbeb;
+      color: #78350f;
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .sr-only {
+      position: absolute;
+      overflow: hidden;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      border: 0;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 820px) {
+      .page {
+        width: min(100% - 24px, 1120px);
+        padding-top: 14px;
+      }
+
+      .header,
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .status-pill {
+        justify-self: start;
+      }
+
+      .audio-meta {
+        justify-content: flex-start;
+      }
+
+      .rail {
+        grid-template-columns: repeat(7, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topbar {
+        padding: 0 12px;
+      }
+
+      .control-group {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .btn {
+        padding: 0 10px;
+      }
+
+      .rail {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="페이지 이동">
+    <a href="../index.html">메인으로</a>
+    <span class="divider" aria-hidden="true">|</span>
+    <a href="index.html">15과 목록</a>
+  </nav>
+
+  <main class="page">
+    <header class="header">
+      <div>
+        <span class="eyebrow">고품질 생성 음성</span>
+        <h1>15과 쓰기 컷 듣기</h1>
+        <p class="lead">쓰기 컷의 지문을 생성 음성으로 들려주고, 음성 흐름에 맞춰 기존 쓰기 컷 이미지가 넘어갑니다.</p>
+      </div>
+      <div class="status-pill" id="playStatus">대기 중</div>
+    </header>
+
+    <section class="stage" aria-label="쓰기 컷 듣기 자료">
+      <div class="image-wrap">
+        <img id="cutImage" class="cut-image" src="" alt="">
+      </div>
+
+      <audio id="narrationAudio" preload="auto" src="../assets/c15/reading-writing/audio/c15-writing-cut-listening.mp3"></audio>
+
+      <div class="progress-strip" aria-label="진행 상황">
+        <span class="progress-text" id="progressText">1 / 14</span>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="control-group" aria-label="재생 조작">
+          <button class="btn btn-primary" type="button" data-action="play">재생</button>
+          <button class="btn btn-secondary" type="button" data-action="pause" disabled>일시정지</button>
+          <button class="btn btn-secondary" type="button" data-action="restart">처음부터</button>
+          <button class="btn btn-quiet" type="button" data-action="prev">이전 컷</button>
+          <button class="btn btn-quiet" type="button" data-action="next">다음 컷</button>
+        </div>
+
+        <div class="audio-meta" id="audioMeta">
+          ko-KR-SunHiNeural · 75초
+        </div>
+
+        <div class="sr-only" id="liveRegion" aria-live="polite"></div>
+      </div>
+
+      <div class="rail" id="cutRail" aria-label="컷 바로가기"></div>
+    </section>
+
+    <p class="notice" id="supportNotice" hidden>
+      생성 음성을 불러오지 못했습니다. 오디오 파일 경로를 확인해 주세요.
+    </p>
+  </main>
+
+  <script>
+    const IMAGE_BASE = '../assets/c15/reading-writing/images/writing-cut/';
+    const AUDIO_SRC = '../assets/c15/reading-writing/audio/c15-writing-cut-listening.mp3';
+    const AUDIO_DURATION = 75.36;
+
+    const CUTS = [
+      {
+        image: 'c15-cut01.webp',
+        start: 0.0,
+        end: 4.272,
+        sentence: '부자가 되려면 작은 돈부터 아껴 써야 합니다.',
+        alt: '작은 돈을 저금통에 넣어 돈을 아끼는 모습을 보여 주는 컷'
+      },
+      {
+        image: 'c15-cut02.webp',
+        start: 4.752,
+        end: 8.064,
+        sentence: "'티끌 모아 태산'이라는 말도 있지요?",
+        alt: '티끌이 모여 큰 산이 되는 속담을 보여 주는 컷'
+      },
+      {
+        image: 'c15-cut03.webp',
+        start: 8.544,
+        end: 12.384,
+        sentence: '그럼 어떻게 해야 돈을 아낄 수 있을까요?',
+        alt: '돈을 아끼는 방법을 질문하는 컷'
+      },
+      {
+        image: 'c15-cut04.webp',
+        start: 12.864,
+        end: 17.112,
+        sentence: '첫째, 영수증을 모으고 가계부를 씁니다.',
+        alt: '영수증을 모으고 가계부를 쓰는 컷'
+      },
+      {
+        image: 'c15-cut05.webp',
+        start: 17.592,
+        end: 23.376,
+        sentence: '어디에 어떻게 돈을 사용하고 있는지 알아야 돈을 절약할 수 있습니다.',
+        alt: '돈을 어디에 쓰는지 확인하고 절약하는 컷'
+      },
+      {
+        image: 'c15-cut06.webp',
+        start: 23.856,
+        end: 27.96,
+        sentence: '둘째, 관리비를 줄이지 않으면 안 됩니다.',
+        alt: '관리비를 줄여야 한다고 알려 주는 컷'
+      },
+      {
+        image: 'c15-cut07.webp',
+        start: 28.44,
+        end: 35.496,
+        sentence: '사용하지 않는 전기 플러그를 뽑아 두고, 설거지할 때에는 물을 계속 틀어 놓지 않습니다.',
+        alt: '전기 플러그를 뽑고 설거지 물을 아끼는 컷'
+      },
+      {
+        image: 'c15-cut08.webp',
+        start: 35.976,
+        end: 39.552,
+        sentence: '그리고 사람이 없는 방의 불도 끕니다.',
+        alt: '사람이 없는 방의 불을 끄는 컷'
+      },
+      {
+        image: 'c15-cut09.webp',
+        start: 40.032,
+        end: 45.936,
+        sentence: '특히 겨울철에 가족들에게 내복을 입게 하면 난방비를 아낄 수 있습니다.',
+        alt: '겨울철에 내복을 입고 난방비를 아끼는 가족 컷'
+      },
+      {
+        image: 'c15-cut10.webp',
+        start: 46.416,
+        end: 50.04,
+        sentence: '셋째, 알뜰하게 쇼핑합니다.',
+        alt: '알뜰하게 쇼핑하는 방법을 소개하는 컷'
+      },
+      {
+        image: 'c15-cut11.webp',
+        start: 50.52,
+        end: 56.808,
+        sentence: '퇴근하는 길에 마트에 들러서 세일하는 식품을 사면 식비를 절약할 수 있습니다.',
+        alt: '퇴근길에 마트에서 세일 식품을 사는 컷'
+      },
+      {
+        image: 'c15-cut12.webp',
+        start: 57.288,
+        end: 63.192,
+        sentence: '직접 요리해서 먹으면 외식비도 아낄 수 있고 건강에도 좋습니다.',
+        alt: '직접 요리해서 먹으며 외식비를 아끼는 컷'
+      },
+      {
+        image: 'c15-cut13.webp',
+        start: 63.672,
+        end: 70.584,
+        sentence: '돈을 아끼는 방법, 모두가 알고 있는 쉬운 것들이지만 실천하기는 쉽지 않습니다.',
+        alt: '돈을 아끼는 방법은 쉽지만 실천이 어렵다고 정리하는 컷'
+      },
+      {
+        image: 'c15-cut14.webp',
+        start: 71.064,
+        end: 75.36,
+        sentence: '미리 목표를 정하고 작은 것부터 실천합시다.',
+        alt: '목표를 정하고 작은 것부터 실천하자고 마무리하는 컷'
+      }
+    ];
+
+    window.C15_WRITING_CUT_LISTENING = {
+      imageBase: IMAGE_BASE,
+      audioSrc: AUDIO_SRC,
+      voice: 'ko-KR-SunHiNeural',
+      rate: '-4%',
+      duration: AUDIO_DURATION,
+      cuts: CUTS.map((cut) => ({
+        image: cut.image,
+        imageSrc: IMAGE_BASE + cut.image,
+        start: cut.start,
+        end: cut.end,
+        sentence: cut.sentence,
+        alt: cut.alt
+      }))
+    };
+
+    const state = {
+      index: 0,
+      playState: 'idle',
+      hasAudioError: false,
+      animationFrame: null
+    };
+
+    const audio = document.getElementById('narrationAudio');
+    const image = document.getElementById('cutImage');
+    const progressText = document.getElementById('progressText');
+    const progressBar = document.getElementById('progressBar');
+    const playStatus = document.getElementById('playStatus');
+    const liveRegion = document.getElementById('liveRegion');
+    const audioMeta = document.getElementById('audioMeta');
+    const rail = document.getElementById('cutRail');
+    const supportNotice = document.getElementById('supportNotice');
+    const playButton = document.querySelector('[data-action="play"]');
+    const pauseButton = document.querySelector('[data-action="pause"]');
+    const restartButton = document.querySelector('[data-action="restart"]');
+    const prevButton = document.querySelector('[data-action="prev"]');
+    const nextButton = document.querySelector('[data-action="next"]');
+
+    function isAudioPlaying() {
+      return !audio.paused && !audio.ended && !state.hasAudioError;
+    }
+
+    function formatTime(seconds) {
+      const total = Math.max(0, Math.round(seconds || 0));
+      const minutes = Math.floor(total / 60);
+      const rest = String(total % 60).padStart(2, '0');
+      return `${minutes}:${rest}`;
+    }
+
+    function getStatusText() {
+      if (state.hasAudioError) return '오디오 오류';
+      if (audio.ended || state.playState === 'ended') return '완료';
+      if (isAudioPlaying()) return '재생 중';
+      if (state.playState === 'paused') return '일시정지';
+      return '대기 중';
+    }
+
+    function setButtons() {
+      const playing = isAudioPlaying();
+      playButton.disabled = playing || state.hasAudioError;
+      pauseButton.disabled = !playing || state.hasAudioError;
+      restartButton.disabled = state.hasAudioError;
+      prevButton.disabled = state.index === 0 || state.hasAudioError;
+      nextButton.disabled = state.index === CUTS.length - 1 || state.hasAudioError;
+    }
+
+    function renderRail() {
+      rail.innerHTML = '';
+      CUTS.forEach((_, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'rail-button';
+        button.textContent = String(index + 1);
+        button.setAttribute('aria-label', `${index + 1}번 컷으로 이동`);
+        button.dataset.index = String(index);
+        button.setAttribute('aria-current', index === state.index ? 'true' : 'false');
+        button.addEventListener('click', () => moveTo(index, { keepPlaying: isAudioPlaying() }));
+        rail.append(button);
+      });
+    }
+
+    function render(options = {}) {
+      const animate = options.animate !== false;
+      const cut = CUTS[state.index];
+      const imageChanged = image.dataset.index !== String(state.index);
+
+      if (imageChanged) {
+        if (animate) {
+          image.classList.add('is-changing');
+          window.setTimeout(() => image.classList.remove('is-changing'), 180);
+        } else {
+          image.classList.remove('is-changing');
+        }
+        image.src = IMAGE_BASE + cut.image;
+        image.alt = cut.alt;
+        image.dataset.index = String(state.index);
+        liveRegion.textContent = `${state.index + 1}번 컷`;
+      }
+
+      const duration = Number.isFinite(audio.duration) ? audio.duration : AUDIO_DURATION;
+      const progress = duration ? Math.min(Math.max(audio.currentTime / duration, 0), 1) : 0;
+      progressText.textContent = `${state.index + 1} / ${CUTS.length}`;
+      progressBar.style.width = `${Math.max(progress * 100, state.index === 0 ? 0 : 1)}%`;
+      playStatus.textContent = getStatusText();
+      renderRail();
+      setButtons();
+    }
+
+    function findCutIndex(time) {
+      let nextIndex = 0;
+      for (let index = 0; index < CUTS.length; index += 1) {
+        if (time + 0.04 >= CUTS[index].start) {
+          nextIndex = index;
+        } else {
+          break;
+        }
+      }
+      return nextIndex;
+    }
+
+    function syncToAudioTime(options = {}) {
+      const nextIndex = findCutIndex(audio.currentTime);
+      const changed = nextIndex !== state.index;
+      state.index = nextIndex;
+      render({ animate: changed && options.animate !== false });
+    }
+
+    function startSyncLoop() {
+      if (state.animationFrame) return;
+      const tick = () => {
+        syncToAudioTime();
+        if (isAudioPlaying()) {
+          state.animationFrame = window.requestAnimationFrame(tick);
+        } else {
+          state.animationFrame = null;
+        }
+      };
+      state.animationFrame = window.requestAnimationFrame(tick);
+    }
+
+    async function play() {
+      if (audio.ended || audio.currentTime >= AUDIO_DURATION - 0.05) {
+        audio.currentTime = 0;
+        state.index = 0;
+        render({ animate: false });
+      }
+
+      try {
+        await audio.play();
+      } catch (error) {
+        state.hasAudioError = true;
+        supportNotice.hidden = false;
+        render({ animate: false });
+      }
+    }
+
+    function pause() {
+      audio.pause();
+    }
+
+    function restart() {
+      state.playState = 'idle';
+      audio.currentTime = 0;
+      state.index = 0;
+      render({ animate: false });
+      play();
+    }
+
+    function moveTo(index, options = {}) {
+      const nextIndex = Math.min(Math.max(index, 0), CUTS.length - 1);
+      const keepPlaying = Boolean(options.keepPlaying);
+      state.index = nextIndex;
+      audio.currentTime = CUTS[nextIndex].start + 0.02;
+      render();
+      if (keepPlaying) {
+        play();
+      }
+    }
+
+    playButton.addEventListener('click', play);
+    pauseButton.addEventListener('click', pause);
+    restartButton.addEventListener('click', restart);
+    prevButton.addEventListener('click', () => moveTo(state.index - 1, { keepPlaying: isAudioPlaying() }));
+    nextButton.addEventListener('click', () => moveTo(state.index + 1, { keepPlaying: isAudioPlaying() }));
+
+    audio.addEventListener('loadedmetadata', () => {
+      audioMeta.textContent = `ko-KR-SunHiNeural · ${formatTime(audio.duration)}`;
+      render({ animate: false });
+    });
+
+    audio.addEventListener('play', () => {
+      state.playState = 'playing';
+      startSyncLoop();
+      render({ animate: false });
+    });
+
+    audio.addEventListener('pause', () => {
+      if (!audio.ended) state.playState = 'paused';
+      render({ animate: false });
+    });
+
+    audio.addEventListener('ended', () => {
+      state.playState = 'ended';
+      state.index = CUTS.length - 1;
+      render({ animate: false });
+    });
+
+    audio.addEventListener('timeupdate', () => syncToAudioTime());
+    audio.addEventListener('seeked', () => syncToAudioTime({ animate: false }));
+    audio.addEventListener('error', () => {
+      state.hasAudioError = true;
+      supportNotice.hidden = false;
+      render({ animate: false });
+    });
+
+    window.__C15WritingCutListeningApi = {
+      getState: () => ({
+        index: state.index,
+        playState: state.playState,
+        isPlaying: isAudioPlaying(),
+        isPaused: state.playState === 'paused',
+        currentTime: audio.currentTime,
+        currentImage: image.getAttribute('src'),
+        audioSrc: audio.getAttribute('src')
+      }),
+      moveTo
+    };
+
+    renderRail();
+    render({ animate: false });
+  </script>
+</body>
+</html>

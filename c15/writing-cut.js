@@ -1,6 +1,7 @@
 const IMG_BASE = '../assets/c15/reading-writing/images/writing-cut/';
 const IMG_VERSION = '?v=masked1';
-const LS_KEY = 'writing_cut_c15_modern_v1';
+const IS_TEACHER = Boolean(window.C15_WRITING_CUT_TEACHER);
+const LS_KEY = IS_TEACHER ? 'writing_cut_c15_teacher_v1' : 'writing_cut_c15_modern_v1';
 const STEP_LABELS = ['문장 고르기', '어휘 넣기', '순서 배열', '빈칸 쓰기', '전체 문장 쓰기'];
 const STEP_GUIDES = [
   '그림에 맞는 문장을 먼저 찾아 보세요.',
@@ -412,6 +413,7 @@ function getStepResponse(response, stepIndex) {
 }
 
 function canGoNext() {
+  if (IS_TEACHER) return state.view !== 'summary';
   if (state.view === 'summary') return false;
   return getStepResponse(getCurrentResponse(), state.currentStep).checked;
 }
@@ -489,6 +491,9 @@ function renderStepPills() {
   return STEP_LABELS.map((label, index) => {
     const done = state.responses.every((response) => getStepResponse(response, index).checked);
     const active = index === state.currentStep;
+    if (IS_TEACHER) {
+      return `<button type="button" class="step-pill ${done ? 'done' : ''} ${active ? 'active' : ''}" data-action="jump-to-step" data-step-index="${index}" aria-current="${active ? 'step' : 'false'}">${index + 1}. ${escapeHtml(label)}</button>`;
+    }
     return `<div class="step-pill ${done ? 'done' : ''} ${active ? 'active' : ''}">${index + 1}. ${escapeHtml(label)}</div>`;
   }).join('');
 }
@@ -498,6 +503,9 @@ function renderCutPills() {
     const response = state.responses[index];
     const done = getStepResponse(response, state.currentStep).checked;
     const active = index === state.currentCut;
+    if (IS_TEACHER) {
+      return `<button type="button" class="cut-pill ${done ? 'done' : ''} ${active ? 'active' : ''}" data-action="jump-to-cut" data-cut-index="${index}" aria-current="${active ? 'page' : 'false'}">컷 ${index + 1}</button>`;
+    }
     return `<div class="cut-pill ${done ? 'done' : ''} ${active ? 'active' : ''}">컷 ${index + 1}</div>`;
   }).join('');
 }
@@ -734,23 +742,28 @@ function renderStepPanel(cut, response) {
     ? (state.currentStep === STEP_LABELS.length - 1 ? '마지막이면 종합 피드백으로 넘어갑니다' : '이 단계가 끝나면 다음 단계로 이동합니다')
     : '이 컷이 끝나면 다음 컷으로 이동합니다';
   const nextButton = `<button type="button" class="nav-btn" data-action="next" ${canGoNext() ? '' : 'disabled'}>${nextLabel}</button>`;
+  const nextGuideMessage = IS_TEACHER || canGoNext()
+    ? nextGuide
+    : '먼저 위 활동을 끝내면 진행할 수 있어요';
+  const nextGuideTone = IS_TEACHER || canGoNext() ? 'success' : 'primary';
 
   return `
     <section class="panel">
       <div class="panel-head">
         <div>
           <h3>${state.currentStep + 1}단계 · ${STEP_LABELS[state.currentStep]}</h3>
-          <p>${STEP_GUIDES[state.currentStep]} 지금은 이 단계로 모든 컷을 차례대로 연습하는 중입니다.</p>
+          <p>${STEP_GUIDES[state.currentStep]} ${IS_TEACHER ? '교사용 페이지에서는 진행도와 상관없이 모든 단계와 컷을 바로 열 수 있습니다.' : '지금은 이 단계로 모든 컷을 차례대로 연습하는 중입니다.'}</p>
         </div>
-        <span class="highlight-tag">지금 하기</span>
+        <span class="highlight-tag">${IS_TEACHER ? '교사용' : '지금 하기'}</span>
       </div>
       ${content}
       <div class="actions">
         <div class="action-group">
           <button type="button" class="ghost-btn" data-action="prev" ${(state.currentCut === 0 && state.currentStep === 0) ? 'disabled' : ''}>이전</button>
           <button type="button" class="reset-btn" data-action="restart">처음부터</button>
+          ${IS_TEACHER ? '<button type="button" class="show-answer-btn" data-action="show-answer">정답 보기</button>' : ''}
         </div>
-        ${renderGuideZone(nextButton, canGoNext() ? nextGuide : '먼저 위 활동을 끝내면 진행할 수 있어요', canGoNext() ? 'success' : 'primary', true)}
+        ${renderGuideZone(nextButton, nextGuideMessage, nextGuideTone, true)}
       </div>
     </section>
   `;
@@ -820,6 +833,9 @@ function renderSummary() {
 function renderActivity() {
   const cut = getCurrentCut();
   const response = getCurrentResponse();
+  const progressDescription = IS_TEACHER
+    ? `교사용 바로가기입니다. 현재 ${state.currentStep + 1}단계에서 컷 ${state.currentCut + 1} / ${cuts.length}을 보고 있으며, 아래 단계와 컷을 모두 바로 열 수 있습니다.`
+    : `현재 컷 ${state.currentCut + 1} / ${cuts.length}을 ${STEP_LABELS[state.currentStep]} 단계에서 연습하고 있습니다. 모든 컷이 끝나면 다음 단계로 넘어갑니다.`;
   return `
     <div class="activity-layout">
       <div class="activity-secondary">
@@ -828,7 +844,7 @@ function renderActivity() {
             <div>
               <div class="eyebrow">${state.currentStep + 1}단계 / ${STEP_LABELS.length}단계</div>
               <h2 class="progress-title">${STEP_LABELS[state.currentStep]}</h2>
-              <p class="progress-desc">현재 컷 ${state.currentCut + 1} / ${cuts.length}을 ${STEP_LABELS[state.currentStep]} 단계에서 연습하고 있습니다. 모든 컷이 끝나면 다음 단계로 넘어갑니다.</p>
+              <p class="progress-desc">${progressDescription}</p>
             </div>
             ${renderTopTools(`컷 ${state.currentCut + 1}`)}
           </div>
@@ -1225,6 +1241,44 @@ function restartAll() {
   state = buildInitialState();
 }
 
+function jumpToStep(stepIndex) {
+  state.view = 'activity';
+  state.currentStep = Number(stepIndex);
+  state.activeSlot = 0;
+}
+
+function jumpToCut(cutIndex) {
+  state.view = 'activity';
+  state.currentCut = Number(cutIndex);
+  state.activeSlot = 0;
+}
+
+function showAnswer() {
+  const cut = getCurrentCut();
+  const response = getCurrentResponse();
+
+  if (state.currentStep === 0) {
+    const correctOption = response.step1.optionOrder.find((option) => option.label === cut.sentence);
+    if (correctOption) response.step1.selected = correctOption.id;
+    checkStep1();
+  } else if (state.currentStep === 1) {
+    response.step2.placements = cut.dropAnswers.map((answer) => {
+      const match = response.step2.choiceOrder.find((choice) => normalizeText(choice.label) === normalizeText(answer));
+      return match ? match.id : null;
+    });
+    checkStep2();
+  } else if (state.currentStep === 2) {
+    response.step3.arranged = cut.orderTokens.map((_, index) => index);
+    checkStep3();
+  } else if (state.currentStep === 3) {
+    response.step4.inputs = cut.fillBlanks.map((blank) => blank.answers[0]);
+    checkStep4();
+  } else if (state.currentStep === 4) {
+    response.step5.text = cut.sentence;
+    checkStep5();
+  }
+}
+
 function reviewCut(index) {
   state.view = 'activity';
   state.currentCut = Number(index);
@@ -1291,6 +1345,14 @@ app.addEventListener('click', (event) => {
     restartAll();
   } else if (action === 'review-cut') {
     reviewCut(target.dataset.cutIndex);
+  } else if (action === 'jump-to-step') {
+    jumpToStep(target.dataset.stepIndex);
+  } else if (action === 'jump-to-cut') {
+    jumpToCut(target.dataset.cutIndex);
+    shouldScrollToImagePanel = true;
+  } else if (action === 'show-answer') {
+    showAnswer();
+    checkActionToScroll = `check-step${state.currentStep + 1}`;
   } else if (action === 'scroll-to-image') {
     scrollToImagePanel();
     shouldRender = false;
