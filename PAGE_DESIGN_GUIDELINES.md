@@ -81,6 +81,12 @@ On grammar main pages, explanation related to the target grammar should be thoro
 - Remove duplicate labels, repeated explanations, and redundant status text.
 - If a learner has likely done the activity type before, default to less explanation, not more.
 
+## Mock Exam Pages
+
+- Question tags should show only broad, useful categories such as `어휘` and `문법`.
+- Do not show the target vocabulary word, target grammar pattern, focus label, or answer clue as a pre-answer question tag.
+- Target/focus labels may appear after grading in feedback or review summaries when they help the learner decide what to study next.
+
 ## Standardization Rules
 
 - When a page type already has a project standard, extend that standard instead of inventing a new layout.
