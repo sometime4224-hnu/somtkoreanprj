@@ -110,12 +110,10 @@
     function renderHeroStats() {
         const vocabCount = allQuestions.filter((question) => question.kind === "vocab").length;
         const grammarCount = allQuestions.filter((question) => question.kind === "grammar").length;
-        const focusCount = new Set(allQuestions.map((question) => question.focus)).size;
 
         refs.heroStats.innerHTML = [
             `${allQuestions.length}문항`,
             `어휘 ${vocabCount} · 문법 ${grammarCount}`,
-            `핵심 표현 ${focusCount}개`,
             "자동 채점·해설"
         ].map((text) => `<span>${textMarkup.escapeHtml(text)}</span>`).join("");
 
@@ -153,7 +151,6 @@
                     <div class="question-card__topline">
                         <span class="question-number">Q${question.number}</span>
                         <span class="question-chip${kindClass}">${kindLabel}</span>
-                        <span class="question-chip question-focus">${textMarkup.escapeHtml(question.focus)}</span>
                     </div>
                     <div class="question-stem">${renderStem(question.stem)}</div>
                 </div>

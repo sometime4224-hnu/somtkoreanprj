@@ -7,20 +7,19 @@ async function blockExternalRequests(page) {
   await page.route('https://cdnjs.cloudflare.com/**', (route) => route.abort());
 }
 
-test('renders and grades the c15 vocabulary grammar mock exam', async ({ page }) => {
+test('renders and grades the second c15 vocabulary grammar mock exam', async ({ page }) => {
   await blockExternalRequests(page);
   await page.addInitScript(() => {
     window.localStorage.clear();
   });
 
-  await page.goto('/c15/mock-exam.html', { waitUntil: 'domcontentloaded' });
+  await page.goto('/c15/mock-exam-2.html', { waitUntil: 'domcontentloaded' });
 
-  await expect(page.locator('h1')).toHaveText('15과 어휘·문법 30문제 모의고사');
-  await expect(page.locator('.question-card')).toHaveCount(30);
-  await expect(page.locator('#heroStats')).toContainText('어휘 15 · 문법 15');
+  await expect(page.locator('h1')).toHaveText('15과 어휘·문법 20문제 모의고사 2');
+  await expect(page.locator('.question-card')).toHaveCount(20);
+  await expect(page.locator('#heroStats')).toContainText('어휘 10 · 문법 10');
   await expect(page.locator('.question-card[data-question="1"] .question-chip')).toHaveText('어휘');
-  await expect(page.locator('.question-card[data-question="16"] .question-chip')).toHaveText('문법');
-  await expect(page.locator('.question-card[data-question="11"] .question-underline')).toHaveText('들어 있어요');
+  await expect(page.locator('.question-card[data-question="11"] .question-chip')).toHaveText('문법');
 
   const questions = await page.evaluate(() =>
     window.C15_MOCK_EXAM.sections
@@ -34,7 +33,6 @@ test('renders and grades the c15 vocabulary grammar mock exam', async ({ page })
 
   await page.locator('[data-action="grade"]').first().click();
 
-  await expect(page.locator('#progressText')).toHaveText('30 / 30');
-  await expect(page.locator('#summaryCard')).toContainText('30 / 30');
-  await expect(page.locator('body')).not.toContainText('==');
+  await expect(page.locator('#progressText')).toHaveText('20 / 20');
+  await expect(page.locator('#summaryCard')).toContainText('20 / 20');
 });

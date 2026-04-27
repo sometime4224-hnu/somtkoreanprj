@@ -383,11 +383,6 @@ a {
     color: #c2410c;
 }
 
-.question-focus {
-    color: #64748b;
-    background: rgba(148, 163, 184, 0.14);
-}
-
 .question-stem {
     font-size: 1rem;
     line-height: 1.8;
