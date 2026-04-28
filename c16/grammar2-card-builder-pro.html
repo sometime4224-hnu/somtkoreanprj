@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 2 보조자료 | 카드 문장 빌더 PRO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #fff7ed;
+            --surface: rgba(255, 255, 255, 0.96);
+            --surface-soft: #fffaf5;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #fed7aa;
+            --line-soft: #e2e8f0;
+            --accent: #ea580c;
+            --accent-dark: #9a3412;
+            --accent-soft: #ffedd5;
+            --blue: #2563eb;
+            --blue-soft: #eff6ff;
+            --green: #059669;
+            --green-soft: #ecfdf5;
+            --red: #e11d48;
+            --red-soft: #fff1f2;
+            --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Noto Sans KR", sans-serif;
+            background:
+                radial-gradient(circle at 8% 12%, rgba(251, 146, 60, 0.16), transparent 24%),
+                linear-gradient(180deg, var(--bg) 0%, #f8fafc 64%, #ffffff 100%);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        .safe {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 42px;
+            padding: 0 14px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+        }
+
+        .topbar a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .shell {
+            width: min(1180px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 12px 0 26px;
+        }
+
+        .panel,
+        .sentence-strip,
+        .practice-panel {
+            border: 1px solid rgba(251, 146, 60, 0.32);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .eyebrow {
+            margin: 0 0 8px;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 22px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.35;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 14px;
+            align-items: start;
+        }
+
+        .workspace {
+            display: grid;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .sentence-strip {
+            position: relative;
+            display: grid;
+            gap: 10px;
+            padding: 16px;
+        }
+
+        .sentence-tools {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .sentence {
+            margin: 0;
+            color: #0f172a;
+            font-size: 27px;
+            font-weight: 900;
+            line-height: 1.45;
+        }
+
+        .sentence small {
+            display: none;
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 34px;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 0 10px;
+            background: #fff7ed;
+            color: var(--accent-dark);
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .mode-toggle {
+            display: inline-grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            overflow: hidden;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .mode-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-width: 84px;
+            min-height: 36px;
+            border: 0;
+            border-right: 1px solid #fed7aa;
+            padding: 0 10px;
+            background: transparent;
+            color: var(--accent-dark);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .mode-button:last-child {
+            border-right: 0;
+        }
+
+        .mode-button.is-active {
+            background: var(--accent-soft);
+            color: #c2410c;
+        }
+
+        .panel {
+            padding: 12px;
+        }
+
+        .panel-pick {
+            position: relative;
+            padding-top: 44px;
+        }
+
+        .panel-pick::before {
+            content: attr(data-step);
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 900;
+            box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.36);
+            animation: stepPulse 1.9s ease-in-out infinite;
+        }
+
+        .panel-pick::after {
+            content: "";
+            position: absolute;
+            top: 18px;
+            left: 52px;
+            width: 52px;
+            height: 14px;
+            border-top: 3px solid rgba(234, 88, 12, 0.62);
+            border-right: 3px solid rgba(234, 88, 12, 0.62);
+            transform: skewX(24deg);
+            opacity: 0.72;
+            pointer-events: none;
+        }
+
+        .panel-tools {
+            position: absolute;
+            top: 9px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .pick-card {
+            position: relative;
+            display: block;
+            min-height: 0;
+            overflow: hidden;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            padding: 6px;
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.16s, background 0.16s, transform 0.16s, box-shadow 0.16s;
+        }
+
+        .pick-card:hover {
+            transform: translateY(-1px);
+            border-color: #fdba74;
+            background: #fff7ed;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+        }
+
+        .pick-card.is-selected {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            color: var(--accent-dark);
+            box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.24), 0 16px 28px rgba(15, 23, 42, 0.1);
+            animation: selectedGlow 1.6s ease-in-out infinite;
+        }
+
+        .pick-card.has-image {
+            min-height: 0;
+        }
+
+        .pick-image {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .pick-card.is-selected .pick-image {
+            border-color: #fdba74;
+            filter: saturate(1.08) contrast(1.03);
+        }
+
+        .pick-check {
+            position: absolute;
+            right: 11px;
+            bottom: 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #ffffff;
+            opacity: 0;
+            transform: scale(0.72);
+            transition: opacity 0.16s, transform 0.16s;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.16);
+        }
+
+        .pick-card.is-selected .pick-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .pick-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--accent);
+        }
+
+        .pick-card strong,
+        .pick-card span:not(.pick-check):not(.pick-icon) {
+            display: none;
+        }
+
+        .custom-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .custom-input {
+            min-height: 42px;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            padding: 0 12px;
+            background: #ffffff;
+            color: #0f172a;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .custom-input:focus {
+            outline: 2px solid rgba(251, 146, 60, 0.28);
+            border-color: #fdba74;
+        }
+
+        .practice-panel {
+            position: sticky;
+            top: 60px;
+            display: grid;
+            gap: 14px;
+            overflow: hidden;
+            padding: 16px;
+        }
+
+        .practice-panel::before {
+            content: "\f130";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
+            background: var(--green);
+            color: #ffffff;
+            font-family: "Font Awesome 6 Free";
+            font-size: 16px;
+            font-weight: 900;
+            box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.35);
+            animation: micPulse 1.9s ease-in-out infinite;
+        }
+
+        .pro-target {
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 14px;
+            background: var(--blue-soft);
+        }
+
+        .pro-target p {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 17px;
+            font-weight: 900;
+            line-height: 1.55;
+        }
+
+        .status-box,
+        .transcript-box,
+        .score-box {
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            padding: 13px;
+            background: #ffffff;
+        }
+
+        .status-box p,
+        .transcript-box p,
+        .score-box p {
+            margin: 0;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .feedback-card {
+            position: relative;
+            cursor: pointer;
+            transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+        }
+
+        .feedback-card:focus-visible {
+            outline: 3px solid rgba(37, 99, 235, 0.26);
+            outline-offset: 2px;
+        }
+
+        .feedback-card[data-ready="true"] {
+            border-color: #86efac;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.08);
+        }
+
+        .feedback-card[data-ready="true"]:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(5, 150, 105, 0.14);
+        }
+
+        .score-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .feedback-cue {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 999px;
+            background: var(--green-soft);
+            color: var(--green);
+            opacity: 0;
+            transform: translateY(2px);
+            transition: opacity 0.16s, transform 0.16s;
+        }
+
+        .feedback-card[data-ready="true"] .feedback-cue {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feedback-card.is-open .feedback-cue {
+            color: #ffffff;
+            background: var(--green);
+            transform: rotate(180deg);
+        }
+
+        .feedback-detail {
+            display: grid;
+            gap: 10px;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 12px;
+            background: #f0fdf4;
+        }
+
+        .feedback-message {
+            margin: 0;
+            color: #14532d;
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.55;
+        }
+
+        .feedback-lines {
+            display: grid;
+            gap: 7px;
+        }
+
+        .feedback-line {
+            display: grid;
+            gap: 3px;
+        }
+
+        .feedback-line span {
+            color: #15803d;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .feedback-line strong {
+            color: #0f172a;
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.45;
+        }
+
+        .match-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 6px;
+        }
+
+        .match-pill {
+            display: grid;
+            gap: 3px;
+            min-width: 0;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 7px;
+            background: #ffffff;
+            color: var(--accent-dark);
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .match-pill.is-good {
+            border-color: #86efac;
+            color: #047857;
+            background: #ecfdf5;
+        }
+
+        .match-pill i {
+            font-size: 12px;
+        }
+
+        .match-pill b,
+        .match-pill em {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .match-pill em {
+            font-style: normal;
+            opacity: 0.78;
+        }
+
+        .feedback-detail[hidden] {
+            display: none;
+        }
+
+        @keyframes stepPulse {
+            0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.34); }
+            70% { box-shadow: 0 0 0 10px rgba(234, 88, 12, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+        }
+
+        @keyframes selectedGlow {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.2), 0 12px 22px rgba(15, 23, 42, 0.07); }
+            50% { box-shadow: 0 0 0 5px rgba(251, 146, 60, 0.34), 0 18px 30px rgba(15, 23, 42, 0.12); }
+        }
+
+        @keyframes micPulse {
+            0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.34); }
+            70% { box-shadow: 0 0 0 12px rgba(5, 150, 105, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+        }
+
+        @keyframes speechWave {
+            0%, 100% {
+                height: 12px;
+                opacity: 0.5;
+                box-shadow:
+                    -30px 0 0 rgba(255, 255, 255, 0.42),
+                    -20px -3px 0 rgba(255, 255, 255, 0.7),
+                    -10px 3px 0 rgba(255, 255, 255, 0.58),
+                    10px -4px 0 rgba(255, 255, 255, 0.74),
+                    20px 2px 0 rgba(255, 255, 255, 0.56),
+                    30px -1px 0 rgba(255, 255, 255, 0.44);
+            }
+
+            50% {
+                height: 25px;
+                opacity: 0.95;
+                box-shadow:
+                    -30px 5px 0 rgba(255, 255, 255, 0.7),
+                    -20px -8px 0 rgba(255, 255, 255, 0.95),
+                    -10px 7px 0 rgba(255, 255, 255, 0.78),
+                    10px -9px 0 rgba(255, 255, 255, 0.98),
+                    20px 8px 0 rgba(255, 255, 255, 0.82),
+                    30px -6px 0 rgba(255, 255, 255, 0.72);
+            }
+        }
+
+        @keyframes speechWaveMobile {
+            0%, 100% {
+                height: 10px;
+                opacity: 0.58;
+                box-shadow:
+                    -10px 0 0 rgba(255, 255, 255, 0.58),
+                    -5px -3px 0 rgba(255, 255, 255, 0.78),
+                    5px 3px 0 rgba(255, 255, 255, 0.78),
+                    10px -1px 0 rgba(255, 255, 255, 0.58);
+            }
+
+            50% {
+                height: 19px;
+                opacity: 0.96;
+                box-shadow:
+                    -10px 4px 0 rgba(255, 255, 255, 0.8),
+                    -5px -6px 0 rgba(255, 255, 255, 0.96),
+                    5px 6px 0 rgba(255, 255, 255, 0.9),
+                    10px -4px 0 rgba(255, 255, 255, 0.82);
+            }
+        }
+
+        @keyframes recordHalo {
+            0% {
+                opacity: 0.9;
+                transform: scale(1);
+            }
+
+            70% {
+                opacity: 0;
+                transform: scale(1.16);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.16);
+            }
+        }
+
+        .score-number {
+            margin: 0 0 6px;
+            color: var(--green);
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .meter {
+            height: 10px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+
+        .meter-fill {
+            width: 0;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent), var(--green));
+            transition: width 0.25s ease;
+        }
+
+        .btn-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 42px;
+            border: 1px solid #fdba74;
+            border-radius: 8px;
+            padding: 0 14px;
+            background: #ffffff;
+            color: var(--accent-dark);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        .btn.icon-only {
+            min-width: 42px;
+            padding: 0;
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .btn.blue {
+            border-color: #bfdbfe;
+            background: var(--blue);
+            color: #ffffff;
+        }
+
+        .btn.green {
+            border-color: #86efac;
+            background: var(--green);
+            color: #ffffff;
+        }
+
+        #recordBtn {
+            position: relative;
+            overflow: visible;
+            isolation: isolate;
+            box-shadow: 0 10px 22px rgba(5, 150, 105, 0.18);
+        }
+
+        #recordBtn i {
+            position: relative;
+            z-index: 3;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.18);
+        }
+
+        #recordBtn::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 1;
+            width: 4px;
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.86);
+            transform: translate(-50%, -50%);
+            animation: speechWave 1.1s ease-in-out infinite;
+        }
+
+        #recordBtn::after {
+            content: "";
+            position: absolute;
+            inset: -5px;
+            z-index: -1;
+            border: 2px solid rgba(5, 150, 105, 0.4);
+            border-radius: 10px;
+            animation: recordHalo 1.55s ease-out infinite;
+        }
+
+        #recordBtn.recording::before {
+            animation-duration: 0.58s;
+        }
+
+        #recordBtn.recording::after {
+            border-color: rgba(225, 29, 72, 0.48);
+            animation-duration: 0.86s;
+        }
+
+        .btn.ghost {
+            border-color: #cbd5e1;
+            color: #475569;
+        }
+
+        .btn.recording {
+            border-color: #fda4af;
+            background: var(--red);
+            color: #ffffff;
+        }
+
+        .btn:disabled {
+            cursor: default;
+            opacity: 0.52;
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        #scoreNote:empty {
+            display: none;
+        }
+
+        @media (max-width: 1040px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .practice-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding-bottom: 138px;
+            }
+
+            body.feedback-open {
+                padding-bottom: 280px;
+            }
+
+            .shell {
+                width: min(100% - 12px, 1180px);
+                padding: 8px 0 138px;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .workspace {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+
+            .sentence-strip {
+                grid-column: 1 / -1;
+                gap: 8px;
+                padding: 12px;
+            }
+
+            .sentence-tools {
+                justify-content: stretch;
+            }
+
+            .sentence {
+                font-size: 20px;
+                line-height: 1.36;
+            }
+
+            .chip-row {
+                gap: 5px;
+            }
+
+            .chip {
+                min-height: 28px;
+                padding: 0 8px;
+                font-size: 11px;
+            }
+
+            .panel {
+                min-width: 0;
+                padding: 8px;
+            }
+
+            .panel-pick {
+                padding-top: 34px;
+            }
+
+            .panel-pick::before {
+                top: 8px;
+                left: 8px;
+                width: 26px;
+                height: 26px;
+                font-size: 13px;
+            }
+
+            .panel-pick::after {
+                top: 15px;
+                left: 42px;
+                width: 26px;
+                height: 10px;
+                border-top-width: 2px;
+                border-right-width: 2px;
+            }
+
+            .panel-tools {
+                top: 6px;
+                right: 6px;
+            }
+
+            .panel-tools .btn.icon-only {
+                min-width: 30px;
+                min-height: 30px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 7px;
+            }
+
+            .pick-card {
+                padding: 4px;
+            }
+
+            .pick-image {
+                border-radius: 6px;
+            }
+
+            .pick-check {
+                right: 7px;
+                bottom: 7px;
+                width: 24px;
+                height: 24px;
+                font-size: 11px;
+            }
+
+            .custom-row {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                margin-top: 8px;
+            }
+
+            .custom-input {
+                min-height: 36px;
+                padding: 0 8px;
+                font-size: 12px;
+            }
+
+            .mode-toggle,
+            .mode-button {
+                width: 100%;
+            }
+
+            .practice-panel {
+                position: fixed;
+                top: auto;
+                right: 6px;
+                bottom: max(6px, env(safe-area-inset-bottom));
+                left: 6px;
+                z-index: 50;
+                display: grid;
+                grid-template-areas:
+                    "mic target listen record"
+                    "status status score actions";
+                grid-template-columns: 34px minmax(0, 1fr) 76px 38px;
+                gap: 6px;
+                overflow: hidden;
+                padding: 8px;
+                border-color: rgba(251, 146, 60, 0.46);
+                background: rgba(255, 255, 255, 0.97);
+                box-shadow: 0 14px 34px rgba(15, 23, 42, 0.18);
+                backdrop-filter: blur(14px);
+            }
+
+            .practice-panel.detail-open {
+                grid-template-areas:
+                    "mic target listen record"
+                    "status status score actions"
+                    "detail detail detail detail";
+            }
+
+            .practice-panel::before {
+                grid-area: mic;
+                align-self: center;
+                width: 34px;
+                height: 34px;
+                font-size: 15px;
+            }
+
+            .pro-target {
+                grid-area: target;
+                align-self: stretch;
+                padding: 8px 9px;
+            }
+
+            .pro-target p {
+                display: -webkit-box;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                font-size: 12px;
+                line-height: 1.3;
+            }
+
+            .practice-listen-row {
+                grid-area: listen;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 4px;
+            }
+
+            .practice-listen-row .btn,
+            .practice-save-row .btn,
+            #recordBtn {
+                min-width: 0;
+                min-height: 34px;
+            }
+
+            #recordBtn {
+                grid-area: record;
+                align-self: stretch;
+            }
+
+            #recordBtn::before {
+                width: 3px;
+                animation-name: speechWaveMobile;
+            }
+
+            #recordBtn::after {
+                inset: -3px;
+                border-radius: 8px;
+            }
+
+            .status-box {
+                grid-area: status;
+                display: flex;
+                align-items: center;
+                padding: 6px 8px;
+            }
+
+            .status-box p {
+                overflow: hidden;
+                font-size: 11px;
+                line-height: 1.2;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .transcript-box {
+                display: none;
+            }
+
+            .score-box {
+                grid-area: score;
+                padding: 6px 7px;
+            }
+
+            .score-head {
+                gap: 4px;
+            }
+
+            .score-number {
+                margin: 0 0 4px;
+                font-size: 18px;
+            }
+
+            .feedback-cue {
+                width: 18px;
+                height: 18px;
+                font-size: 10px;
+            }
+
+            .meter {
+                height: 5px;
+            }
+
+            #scoreNote {
+                display: none;
+            }
+
+            .feedback-detail {
+                grid-area: detail;
+                max-height: 154px;
+                overflow: auto;
+                padding: 9px;
+            }
+
+            .feedback-message {
+                font-size: 12px;
+                line-height: 1.42;
+            }
+
+            .feedback-lines {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 6px;
+            }
+
+            .feedback-line span {
+                font-size: 10px;
+            }
+
+            .feedback-line strong {
+                display: -webkit-box;
+                overflow: hidden;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                font-size: 11px;
+            }
+
+            .match-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .match-pill {
+                padding: 6px 5px;
+                font-size: 10px;
+            }
+
+            .practice-save-row {
+                grid-area: actions;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 4px;
+            }
+
+            .footer {
+                justify-content: center;
+                margin-top: 8px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar" aria-label="페이지 이동">
+        <a href="../index.html" aria-label="메인" title="메인"><i class="fa-solid fa-house"></i></a>
+        <a href="index.html" aria-label="16과 목록" title="16과 목록"><i class="fa-solid fa-list"></i></a>
+    </nav>
+
+    <main class="shell">
+        <section class="layout" aria-label="카드 문장 빌더">
+            <div class="workspace">
+                <section class="sentence-strip" aria-live="polite">
+                    <div class="sentence-tools">
+                        <div class="mode-toggle" role="group" aria-label="시제 선택">
+                            <button class="mode-button is-active" type="button" data-tense="present" aria-pressed="true">
+                                <i class="fa-solid fa-calendar-day"></i> 현재
+                            </button>
+                            <button class="mode-button" type="button" data-tense="past" aria-pressed="false">
+                                <i class="fa-solid fa-clock-rotate-left"></i> 과거
+                            </button>
+                        </div>
+                    </div>
+                    <p class="sentence" id="sentenceText"></p>
+                    <div class="chip-row" id="sentenceChips"></div>
+                </section>
+
+                <section class="panel panel-pick" data-step="1" aria-label="이유 카드">
+                    <div class="panel-tools">
+                        <button class="btn ghost icon-only" type="button" id="randomBtn" aria-label="랜덤 조합" title="랜덤 조합"><i class="fa-solid fa-shuffle"></i></button>
+                    </div>
+                    <div class="card-grid" id="reasonGrid"></div>
+                    <div class="custom-row">
+                        <input class="custom-input" id="customReasonInput" type="text" aria-label="내 이유" placeholder="이유" />
+                        <input class="custom-input" id="customActionInput" type="text" aria-label="내 행동" placeholder="행동" />
+                        <button class="btn icon-only" type="button" id="customApplyBtn" aria-label="직접 입력 적용" title="적용"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </section>
+
+                <section class="panel panel-pick" data-step="2" aria-label="행동 카드">
+                    <div class="panel-tools">
+                        <button class="btn ghost icon-only" type="button" id="copyBtn" aria-label="문장 복사" title="문장 복사"><i class="fa-solid fa-copy"></i></button>
+                    </div>
+                    <div class="card-grid" id="actionGrid"></div>
+                </section>
+            </div>
+
+            <aside class="practice-panel" aria-label="말하기 PRO">
+                <div class="pro-target">
+                    <p id="proTargetText"></p>
+                </div>
+
+                <div class="btn-row practice-listen-row">
+                    <button class="btn blue icon-only" type="button" id="listenBtn" aria-label="듣기" title="듣기"><i class="fa-solid fa-volume-high"></i></button>
+                    <button class="btn icon-only" type="button" id="slowBtn" aria-label="천천히 듣기" title="천천히"><i class="fa-solid fa-person-walking"></i></button>
+                </div>
+
+                <button class="btn green icon-only" type="button" id="recordBtn" aria-label="말하기 시작" title="말하기 시작"><i class="fa-solid fa-microphone-lines"></i></button>
+
+                <div class="status-box">
+                    <p id="statusText">준비</p>
+                </div>
+
+                <div class="transcript-box">
+                    <p id="transcriptText">...</p>
+                </div>
+
+                <div class="score-box feedback-card" id="feedbackCard" role="button" tabindex="0" aria-controls="feedbackDetail" aria-expanded="false" aria-label="피드백 세부 일치도" data-ready="false">
+                    <div class="score-head">
+                        <div class="score-number" id="scoreText">-</div>
+                        <span class="feedback-cue" aria-hidden="true"><i class="fa-solid fa-chevron-up"></i></span>
+                    </div>
+                    <div class="meter" aria-label="말하기 점수">
+                        <div class="meter-fill" id="scoreFill"></div>
+                    </div>
+                    <p id="scoreNote" style="margin-top: 10px;"></p>
+                </div>
+
+                <div class="feedback-detail" id="feedbackDetail" hidden></div>
+
+                <div class="btn-row practice-save-row">
+                    <button class="btn ghost icon-only" type="button" id="resetSpeechBtn" aria-label="초기화" title="초기화"><i class="fa-solid fa-rotate-right"></i></button>
+                    <button class="btn primary icon-only" type="button" id="saveBtn" aria-label="저장" title="저장"><i class="fa-solid fa-bookmark"></i></button>
+                </div>
+            </aside>
+        </section>
+
+        <nav class="footer" aria-label="문법 이동">
+            <a class="btn icon-only" href="grammar2.html" aria-label="문법 2" title="문법 2"><i class="fa-solid fa-arrow-left"></i></a>
+            <a class="btn icon-only" href="grammar2-umdu-gauge.html" aria-label="엄두 게이지" title="엄두 게이지"><i class="fa-solid fa-gauge-high"></i></a>
+            <a class="btn primary icon-only" href="grammar2-speaking-pro.html" aria-label="말하기 PRO 전체 연습" title="말하기 PRO 전체 연습"><i class="fa-solid fa-microphone-lines"></i></a>
+        </nav>
+    </main>
+
+    <script>
+        const reasons = [
+            { id: 'busy', icon: 'fa-briefcase', image: '../assets/c16/grammar2/card-builder/reason-busy-work.webp', label: '일이 너무 많아서', hint: '업무와 과제 때문에' },
+            { id: 'time', icon: 'fa-clock', image: '../assets/c16/grammar2/card-builder/reason-no-time.webp', label: '시간이 없어서', hint: '일정이 빡빡해서' },
+            { id: 'exam', icon: 'fa-book-open-reader', image: '../assets/c16/grammar2/card-builder/reason-exam-near.webp', label: '시험이 가까워서', hint: '공부할 것이 많아서' },
+            { id: 'money', icon: 'fa-wallet', image: '../assets/c16/grammar2/card-builder/reason-no-money.webp', label: '돈이 부족해서', hint: '비용을 감당하기 어려워서' },
+            { id: 'tuition', icon: 'fa-coins', image: '../assets/c16/grammar2/card-builder/reason-expensive-lesson.webp', label: '수업료가 너무 비싸서', hint: '배우는 비용이 부담돼서' },
+            { id: 'tired', icon: 'fa-battery-quarter', image: '../assets/c16/grammar2/card-builder/reason-too-tired.webp', label: '너무 피곤해서', hint: '체력이 없어서' },
+            { id: 'crowded', icon: 'fa-users', image: '../assets/c16/grammar2/card-builder/reason-too-crowded.webp', label: '사람이 너무 많아서', hint: '복잡하고 기다려야 해서' },
+            { id: 'space', icon: 'fa-couch', image: '../assets/c16/grammar2/card-builder/reason-small-room.webp', label: '방이 너무 작아서', hint: '공간이 부족해서' }
+        ];
+
+        const actions = [
+            { id: 'travel', icon: 'fa-plane-departure', image: '../assets/c16/grammar2/card-builder/action-travel.webp', label: '여행 가다', phrase: '여행 갈' },
+            { id: 'camping', icon: 'fa-campground', image: '../assets/c16/grammar2/card-builder/action-camping.webp', label: '캠핑 가다', phrase: '캠핑 갈' },
+            { id: 'instrument', icon: 'fa-guitar', image: '../assets/c16/grammar2/card-builder/action-learn-instrument.webp', label: '악기 배우다', phrase: '악기를 배울' },
+            { id: 'exercise', icon: 'fa-dumbbell', image: '../assets/c16/grammar2/card-builder/action-exercise.webp', label: '운동하다', phrase: '운동할' },
+            { id: 'photo', icon: 'fa-camera', image: '../assets/c16/grammar2/card-builder/action-take-photo.webp', label: '사진 찍다', phrase: '사진 찍을' },
+            { id: 'friend', icon: 'fa-user-group', image: '../assets/c16/grammar2/card-builder/action-meet-friend.webp', label: '친구를 만나다', phrase: '친구를 만날' },
+            { id: 'drama', icon: 'fa-tv', image: '../assets/c16/grammar2/card-builder/action-watch-drama.webp', label: '드라마를 보다', phrase: '드라마를 볼' },
+            { id: 'piano', icon: 'fa-music', image: '../assets/c16/grammar2/card-builder/action-place-piano.webp', label: '피아노를 놓다', phrase: '피아노를 놓을' }
+        ];
+
+        const storageKey = 'c16-grammar2-card-builder-pro-v1';
+        const RecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        const state = {
+            reasonId: 'busy',
+            actionId: 'travel',
+            tense: 'present',
+            customReason: '',
+            customActionPhrase: '',
+            isRecording: false,
+            recognition: null,
+            transcript: '',
+            lastFeedback: null,
+            feedbackExpanded: false,
+            saved: loadSaved()
+        };
+
+        const refs = {
+            reasonGrid: document.getElementById('reasonGrid'),
+            actionGrid: document.getElementById('actionGrid'),
+            sentenceText: document.getElementById('sentenceText'),
+            sentenceChips: document.getElementById('sentenceChips'),
+            proTargetText: document.getElementById('proTargetText'),
+            statusText: document.getElementById('statusText'),
+            transcriptText: document.getElementById('transcriptText'),
+            scoreText: document.getElementById('scoreText'),
+            scoreFill: document.getElementById('scoreFill'),
+            scoreNote: document.getElementById('scoreNote'),
+            feedbackCard: document.getElementById('feedbackCard'),
+            feedbackDetail: document.getElementById('feedbackDetail'),
+            practicePanel: document.querySelector('.practice-panel'),
+            recordBtn: document.getElementById('recordBtn'),
+            listenBtn: document.getElementById('listenBtn'),
+            slowBtn: document.getElementById('slowBtn'),
+            resetSpeechBtn: document.getElementById('resetSpeechBtn'),
+            saveBtn: document.getElementById('saveBtn'),
+            randomBtn: document.getElementById('randomBtn'),
+            copyBtn: document.getElementById('copyBtn'),
+            customApplyBtn: document.getElementById('customApplyBtn'),
+            customReasonInput: document.getElementById('customReasonInput'),
+            customActionInput: document.getElementById('customActionInput'),
+            tenseButtons: document.querySelectorAll('[data-tense]')
+        };
+
+        init();
+
+        function init() {
+            renderCards();
+            bindEvents();
+            render();
+            if (!RecognitionClass) {
+                refs.statusText.textContent = '음성 인식 불가';
+                refs.recordBtn.disabled = true;
+            }
+        }
+
+        function iconMarkup(icon) {
+            return `<i class="fa-solid ${icon}" aria-hidden="true"></i>`;
+        }
+
+        function visualMarkup(item) {
+            if (item.image) {
+                return `<img class="pick-image" src="${escapeHtml(item.image)}" alt="" loading="lazy" />`;
+            }
+            return `<span class="pick-icon">${iconMarkup(item.icon)}</span>`;
+        }
+
+        function renderCards() {
+            refs.reasonGrid.innerHTML = reasons.map((item) => `
+                <button class="pick-card ${item.image ? 'has-image' : ''}" type="button" data-reason="${item.id}" aria-label="${escapeHtml(item.label)}" title="${escapeHtml(item.label)}">
+                    ${visualMarkup(item)}
+                    <span class="pick-check">${iconMarkup('fa-check')}</span>
+                </button>
+            `).join('');
+
+            refs.actionGrid.innerHTML = actions.map((item) => `
+                <button class="pick-card ${item.image ? 'has-image' : ''}" type="button" data-action="${item.id}" aria-label="${escapeHtml(item.label)}" title="${escapeHtml(item.label)}">
+                    ${visualMarkup(item)}
+                    <span class="pick-check">${iconMarkup('fa-check')}</span>
+                </button>
+            `).join('');
+        }
+
+        function bindEvents() {
+            refs.reasonGrid.addEventListener('click', (event) => {
+                const card = event.target.closest('[data-reason]');
+                if (!card) return;
+                state.reasonId = card.dataset.reason;
+                state.customReason = '';
+                refs.customReasonInput.value = '';
+                resetSpeech();
+                render();
+            });
+
+            refs.actionGrid.addEventListener('click', (event) => {
+                const card = event.target.closest('[data-action]');
+                if (!card) return;
+                state.actionId = card.dataset.action;
+                state.customActionPhrase = '';
+                refs.customActionInput.value = '';
+                resetSpeech();
+                render();
+            });
+
+            refs.tenseButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.tense = button.dataset.tense;
+                    resetSpeech();
+                    render();
+                });
+            });
+
+            refs.customApplyBtn.addEventListener('click', applyCustom);
+            refs.randomBtn.addEventListener('click', randomize);
+            refs.copyBtn.addEventListener('click', copySentence);
+            refs.listenBtn.addEventListener('click', () => speak(getSentence(), 0.94));
+            refs.slowBtn.addEventListener('click', () => speak(getSentence(), 0.72));
+            refs.recordBtn.addEventListener('click', toggleRecord);
+            refs.resetSpeechBtn.addEventListener('click', resetSpeech);
+            refs.saveBtn.addEventListener('click', saveSentence);
+            refs.feedbackCard.addEventListener('click', () => toggleFeedbackDetail());
+            refs.feedbackCard.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                toggleFeedbackDetail();
+            });
+        }
+
+        function render() {
+            const sentence = getSentence();
+            const reason = getReasonText();
+            const action = getActionPhrase();
+            refs.sentenceText.textContent = sentence;
+            refs.proTargetText.textContent = sentence;
+            refs.sentenceChips.innerHTML = [
+                reason,
+                action,
+                state.tense === 'past' ? '생각도 못 했어요' : '생각도 못 해요'
+            ].map((chip) => `<span class="chip">${escapeHtml(chip)}</span>`).join('');
+
+            document.querySelectorAll('[data-reason]').forEach((button) => {
+                button.classList.toggle('is-selected', !state.customReason && button.dataset.reason === state.reasonId);
+            });
+            document.querySelectorAll('[data-action]').forEach((button) => {
+                button.classList.toggle('is-selected', !state.customActionPhrase && button.dataset.action === state.actionId);
+            });
+            refs.tenseButtons.forEach((button) => {
+                const active = button.dataset.tense === state.tense;
+                button.classList.toggle('is-active', active);
+                button.setAttribute('aria-pressed', String(active));
+            });
+        }
+
+        function getReasonText() {
+            if (state.customReason) return state.customReason;
+            return reasons.find((item) => item.id === state.reasonId).label;
+        }
+
+        function getActionPhrase() {
+            if (state.customActionPhrase) return state.customActionPhrase;
+            return actions.find((item) => item.id === state.actionId).phrase;
+        }
+
+        function getSentence() {
+            const ending = state.tense === 'past' ? '생각도 못 했어요.' : '생각도 못 해요.';
+            return `${getReasonText()} ${getActionPhrase()} ${ending}`;
+        }
+
+        function applyCustom() {
+            const reason = refs.customReasonInput.value.trim();
+            const action = refs.customActionInput.value.trim();
+            if (reason) {
+                state.customReason = reason;
+            }
+            if (action) {
+                state.customActionPhrase = action;
+            }
+            resetSpeech();
+            render();
+        }
+
+        function randomize() {
+            const reason = reasons[Math.floor(Math.random() * reasons.length)];
+            const action = actions[Math.floor(Math.random() * actions.length)];
+            state.reasonId = reason.id;
+            state.actionId = action.id;
+            state.customReason = '';
+            state.customActionPhrase = '';
+            refs.customReasonInput.value = '';
+            refs.customActionInput.value = '';
+            resetSpeech();
+            render();
+        }
+
+        async function copySentence() {
+            const sentence = getSentence();
+            try {
+                await navigator.clipboard.writeText(sentence);
+                refs.statusText.textContent = '복사됨';
+            } catch (error) {
+                refs.statusText.textContent = sentence;
+            }
+        }
+
+        function speak(text, rate) {
+            if (!window.speechSynthesis) {
+                refs.statusText.textContent = '듣기 불가';
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = rate;
+            utterance.pitch = 1;
+            window.speechSynthesis.speak(utterance);
+            refs.statusText.textContent = rate < 0.8 ? '느리게' : '듣기';
+        }
+
+        function toggleRecord() {
+            if (state.isRecording) {
+                stopRecord();
+            } else {
+                startRecord();
+            }
+        }
+
+        function startRecord() {
+            if (!RecognitionClass) return;
+            stopRecord();
+            state.transcript = '';
+            state.recognition = new RecognitionClass();
+            state.recognition.lang = 'ko-KR';
+            state.recognition.interimResults = true;
+            state.recognition.continuous = false;
+            state.isRecording = true;
+            refs.recordBtn.classList.add('recording');
+            refs.recordBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+            refs.recordBtn.setAttribute('aria-label', '말하기 중지');
+            refs.recordBtn.setAttribute('title', '말하기 중지');
+            refs.statusText.textContent = '녹음 중';
+            refs.transcriptText.textContent = '...';
+
+            state.recognition.onresult = (event) => {
+                let interim = '';
+                let finalText = '';
+                for (let i = event.resultIndex; i < event.results.length; i += 1) {
+                    const text = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalText += text;
+                    } else {
+                        interim += text;
+                    }
+                }
+                state.transcript = (finalText || interim).trim();
+                refs.transcriptText.textContent = state.transcript || '...';
+                if (finalText) {
+                    scoreSpeech(finalText);
+                }
+            };
+
+            state.recognition.onerror = () => {
+                refs.statusText.textContent = '다시';
+                finishRecordingUi();
+            };
+
+            state.recognition.onend = () => {
+                if (state.isRecording && state.transcript) {
+                    scoreSpeech(state.transcript);
+                } else if (state.isRecording) {
+                    refs.statusText.textContent = '다시';
+                }
+                finishRecordingUi();
+            };
+
+            state.recognition.start();
+        }
+
+        function stopRecord() {
+            if (state.recognition) {
+                try {
+                    state.recognition.stop();
+                } catch (error) {
+                    state.recognition = null;
+                }
+            }
+            finishRecordingUi();
+        }
+
+        function finishRecordingUi() {
+            state.isRecording = false;
+            refs.recordBtn.classList.remove('recording');
+            refs.recordBtn.innerHTML = '<i class="fa-solid fa-microphone-lines"></i>';
+            refs.recordBtn.setAttribute('aria-label', '말하기 시작');
+            refs.recordBtn.setAttribute('title', '말하기 시작');
+        }
+
+        function scoreSpeech(transcript) {
+            const score = similarityScore(getSentence(), transcript);
+            state.lastFeedback = buildFeedback(transcript, score);
+            state.feedbackExpanded = false;
+            refs.scoreText.textContent = `${score}%`;
+            refs.scoreFill.style.width = `${score}%`;
+            refs.transcriptText.textContent = transcript;
+            if (score >= 82) {
+                refs.statusText.textContent = '아주 좋아요! 문장 구조와 끝 표현이 자연스러워요.';
+                refs.scoreNote.textContent = '정확한 연결';
+            } else if (score >= 58) {
+                refs.statusText.textContent = '확인';
+                refs.scoreNote.textContent = '끝 표현';
+            } else {
+                refs.statusText.textContent = '다시';
+                refs.scoreNote.textContent = '듣기';
+            }
+            renderFeedback();
+        }
+
+        function buildFeedback(transcript, score) {
+            const target = getSentence();
+            const reason = getReasonText();
+            const action = getActionPhrase();
+            const ending = state.tense === 'past' ? '생각도 못 했어요' : '생각도 못 해요';
+            const spoken = String(transcript || '').trim();
+            const parts = [
+                { label: '이유', text: reason, matched: includesSegment(spoken, reason) },
+                { label: '행동', text: action, matched: includesSegment(spoken, action) },
+                { label: '표현', text: ending, matched: includesSegment(spoken, ending) }
+            ];
+            const matchedCount = parts.filter((part) => part.matched).length;
+            let message = '좋은 시도예요. 목표 문장을 듣고 빠진 부분만 다시 붙이면 더 선명해집니다.';
+
+            if (score >= 90) {
+                message = '훌륭해요. 이유, 행동, “생각도 못 해요”가 또렷하게 이어졌고 문장 리듬도 안정적이에요.';
+            } else if (score >= 82) {
+                message = '아주 좋아요. 핵심 구조가 잘 살아 있고, 이유에서 행동으로 넘어가는 흐름도 자연스러워요.';
+            } else if (score >= 58) {
+                message = '거의 왔어요. 카드 조합은 잘 잡혔으니 행동 부분이나 끝 표현만 한 번 더 확인해 보세요.';
+            }
+
+            return { score, target, spoken, parts, matchedCount, message };
+        }
+
+        function includesSegment(spoken, segment) {
+            const normalizedSpoken = normalizeKorean(spoken);
+            const normalizedSegment = normalizeKorean(segment);
+            if (!normalizedSpoken || !normalizedSegment) return false;
+            return normalizedSpoken.includes(normalizedSegment);
+        }
+
+        function toggleFeedbackDetail(force) {
+            if (!state.lastFeedback) {
+                refs.statusText.textContent = '먼저 말하기';
+                return;
+            }
+            state.feedbackExpanded = typeof force === 'boolean' ? force : !state.feedbackExpanded;
+            renderFeedback();
+        }
+
+        function renderFeedback() {
+            const ready = Boolean(state.lastFeedback);
+            const open = ready && state.feedbackExpanded;
+            refs.feedbackCard.dataset.ready = String(ready);
+            refs.feedbackCard.classList.toggle('is-open', open);
+            refs.feedbackCard.setAttribute('aria-expanded', String(open));
+            refs.feedbackDetail.hidden = !open;
+            refs.practicePanel.classList.toggle('detail-open', open);
+            document.body.classList.toggle('feedback-open', open);
+
+            if (!ready) {
+                refs.feedbackDetail.innerHTML = '';
+                return;
+            }
+
+            refs.feedbackDetail.innerHTML = feedbackDetailMarkup(state.lastFeedback);
+        }
+
+        function feedbackDetailMarkup(feedback) {
+            return `
+                <p class="feedback-message">${escapeHtml(feedback.message)}</p>
+                <div class="feedback-lines">
+                    <div class="feedback-line">
+                        <span>목표</span>
+                        <strong>${escapeHtml(feedback.target)}</strong>
+                    </div>
+                    <div class="feedback-line">
+                        <span>인식</span>
+                        <strong>${escapeHtml(feedback.spoken || '...')}</strong>
+                    </div>
+                </div>
+                <div class="match-grid">
+                    ${feedback.parts.map((part) => `
+                        <span class="match-pill ${part.matched ? 'is-good' : ''}" title="${escapeHtml(part.text)}">
+                            ${iconMarkup(part.matched ? 'fa-check' : 'fa-arrow-rotate-left')}
+                            <b>${escapeHtml(part.label)}</b>
+                            <em>${part.matched ? '일치' : '확인'}</em>
+                        </span>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function resetSpeech() {
+            stopRecord();
+            window.speechSynthesis && window.speechSynthesis.cancel();
+            state.transcript = '';
+            state.lastFeedback = null;
+            state.feedbackExpanded = false;
+            refs.transcriptText.textContent = '...';
+            refs.scoreText.textContent = '-';
+            refs.scoreFill.style.width = '0';
+            refs.scoreNote.textContent = '';
+            refs.statusText.textContent = RecognitionClass ? '준비' : '음성 인식 불가';
+            renderFeedback();
+        }
+
+        function saveSentence() {
+            const sentence = getSentence();
+            if (!state.saved.includes(sentence)) {
+                state.saved.unshift(sentence);
+                state.saved = state.saved.slice(0, 12);
+                localStorage.setItem(storageKey, JSON.stringify(state.saved));
+            }
+            refs.statusText.textContent = '저장됨';
+        }
+
+        function loadSaved() {
+            try {
+                return JSON.parse(localStorage.getItem(storageKey) || '[]');
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function normalizeKorean(text) {
+            return String(text || '')
+                .toLowerCase()
+                .replace(/[.,!?~"'“”‘’\s]/g, '')
+                .replace(/못해요/g, '못해요')
+                .replace(/못했어요/g, '못했어요');
+        }
+
+        function similarityScore(target, spoken) {
+            const a = normalizeKorean(target);
+            const b = normalizeKorean(spoken);
+            if (!a || !b) return 0;
+            const distance = levenshtein(a, b);
+            const maxLen = Math.max(a.length, b.length);
+            return Math.max(0, Math.round((1 - distance / maxLen) * 100));
+        }
+
+        function levenshtein(a, b) {
+            const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+            for (let i = 0; i <= a.length; i += 1) dp[i][0] = i;
+            for (let j = 0; j <= b.length; j += 1) dp[0][j] = j;
+            for (let i = 1; i <= a.length; i += 1) {
+                for (let j = 1; j <= b.length; j += 1) {
+                    const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                    dp[i][j] = Math.min(
+                        dp[i - 1][j] + 1,
+                        dp[i][j - 1] + 1,
+                        dp[i - 1][j - 1] + cost
+                    );
+                }
+            }
+            return dp[a.length][b.length];
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>

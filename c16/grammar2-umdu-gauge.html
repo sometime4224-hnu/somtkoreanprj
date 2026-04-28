@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 2 보조자료 | 엄두 게이지</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #fff7ed;
+            --paper: #ffffff;
+            --paper-soft: #fffaf5;
+            --ink: #111827;
+            --muted: #64748b;
+            --line: #fed7aa;
+            --line-strong: #fb923c;
+            --accent: #ea580c;
+            --accent-dark: #9a3412;
+            --blue: #2563eb;
+            --blue-soft: #eff6ff;
+            --teal: #0f766e;
+            --teal-soft: #ecfdf5;
+            --rose: #e11d48;
+            --rose-soft: #fff1f2;
+            --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Noto Sans KR", sans-serif;
+            background: linear-gradient(180deg, var(--bg) 0%, #f8fafc 58%, #ffffff 100%);
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 46px;
+            padding: 0 14px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .topbar a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .topbar strong {
+            min-width: 0;
+            overflow: hidden;
+            color: #334155;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .shell {
+            width: min(1180px, calc(100% - 20px));
+            margin: 0 auto;
+            padding: 10px 0 30px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 18px;
+            align-items: end;
+            margin-top: 14px;
+            padding: 22px;
+            border: 1px solid rgba(251, 146, 60, 0.32);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: var(--shadow);
+        }
+
+        .eyebrow {
+            margin: 0 0 8px;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 38px;
+            line-height: 1.16;
+            letter-spacing: 0;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 22px;
+            line-height: 1.3;
+            letter-spacing: 0;
+        }
+
+        h3 {
+            margin: 0;
+            font-size: 17px;
+            line-height: 1.35;
+            letter-spacing: 0;
+        }
+
+        .lead {
+            max-width: 720px;
+            margin: 10px 0 0;
+            color: #475569;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.75;
+        }
+
+        .hero-meter {
+            display: grid;
+            grid-template-columns: repeat(3, 112px);
+            gap: 8px;
+        }
+
+        .meter-chip {
+            display: grid;
+            gap: 6px;
+            min-height: 86px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
+            text-align: center;
+        }
+
+        .meter-chip strong {
+            font-size: 22px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .meter-chip span {
+            color: #475569;
+            font-size: 12px;
+            font-weight: 900;
+            line-height: 1.35;
+        }
+
+        .meter-chip[data-level="0"] strong {
+            color: var(--teal);
+        }
+
+        .meter-chip[data-level="1"] strong {
+            color: var(--blue);
+        }
+
+        .meter-chip[data-level="2"] strong {
+            color: var(--rose);
+        }
+
+        .activity {
+            display: grid;
+            grid-template-columns: 92px minmax(0, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+            align-items: start;
+        }
+
+        .deck {
+            display: grid;
+            gap: 6px;
+        }
+
+        .deck-button {
+            display: grid;
+            gap: 4px;
+            justify-items: center;
+            align-items: center;
+            width: 100%;
+            min-height: 48px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #334155;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.16s, background 0.16s, transform 0.16s;
+        }
+
+        .deck-button:hover {
+            border-color: #fdba74;
+            background: #fff7ed;
+            transform: translateY(-1px);
+        }
+
+        .deck-button.is-active {
+            border-color: var(--accent);
+            background: #ffedd5;
+            color: var(--accent-dark);
+        }
+
+        .deck-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--accent);
+            font-size: 12px;
+            box-shadow: inset 0 0 0 1px rgba(251, 146, 60, 0.24);
+        }
+
+        .deck-button span:last-child {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            font-size: 10px;
+            font-weight: 900;
+            line-height: 1.15;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .activity-panel {
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: var(--shadow);
+        }
+
+        .panel-head {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 16px 0;
+        }
+
+        .panel-head__title {
+            min-width: 0;
+        }
+
+        .panel-head__title p {
+            margin: 0 0 7px;
+        }
+
+        .panel-head__action {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 36px;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 0 11px;
+            background: var(--blue-soft);
+            color: #1d4ed8;
+            font-size: 12px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .panel-tools {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .view-toggle {
+            display: inline-grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            overflow: hidden;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .view-toggle__button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-width: 82px;
+            min-height: 36px;
+            border: 0;
+            border-right: 1px solid #fed7aa;
+            padding: 0 10px;
+            background: transparent;
+            color: #9a3412;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .view-toggle__button:last-child {
+            border-right: 0;
+        }
+
+        .view-toggle__button.is-active {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .image-stage {
+            padding: 10px 10px 8px;
+        }
+
+        .source-image {
+            display: block;
+            width: 100%;
+            aspect-ratio: 42 / 23;
+            object-fit: contain;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #f8fafc;
+            cursor: pointer;
+        }
+
+        .source-image[hidden] {
+            display: none;
+        }
+
+        .scene-fallback {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 7px;
+            width: 100%;
+        }
+
+        .scene-fallback[hidden] {
+            display: none;
+        }
+
+        .scene-panel {
+            display: grid;
+            grid-template-rows: 1fr auto;
+            min-height: 168px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--ink);
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+        }
+
+        .scene-panel:hover {
+            transform: translateY(-1px);
+            border-color: #fdba74;
+            box-shadow: 0 14px 26px rgba(15, 23, 42, 0.08);
+        }
+
+        .scene-panel.is-selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.2);
+        }
+
+        .scene-panel[data-level="0"] .scene-art {
+            background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 100%);
+        }
+
+        .scene-panel[data-level="1"] .scene-art {
+            background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+        }
+
+        .scene-panel[data-level="2"] .scene-art {
+            background: linear-gradient(180deg, #fff1f2 0%, #ffffff 100%);
+        }
+
+        .scene-art {
+            position: relative;
+            display: grid;
+            place-items: center;
+            min-height: 112px;
+            padding: 12px;
+        }
+
+        .scene-art::before {
+            content: "";
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 26px;
+            height: 8px;
+            border-radius: 8px;
+            background: rgba(148, 163, 184, 0.2);
+        }
+
+        .scene-main-icon {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px;
+            height: 54px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.86);
+            color: #334155;
+            font-size: 25px;
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .scene-panel[data-level="0"] .scene-main-icon {
+            color: var(--teal);
+        }
+
+        .scene-panel[data-level="1"] .scene-main-icon {
+            color: var(--blue);
+        }
+
+        .scene-panel[data-level="2"] .scene-main-icon {
+            color: var(--rose);
+        }
+
+        .scene-badge {
+            position: absolute;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #475569;
+            font-size: 11px;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+        }
+
+        .scene-badge:nth-child(2) {
+            top: 18px;
+            left: 18px;
+        }
+
+        .scene-badge:nth-child(3) {
+            top: 28px;
+            right: 20px;
+        }
+
+        .scene-badge:nth-child(4) {
+            bottom: 42px;
+            left: 36px;
+        }
+
+        .scene-badge:nth-child(5) {
+            bottom: 46px;
+            right: 34px;
+        }
+
+        .scene-caption {
+            min-height: 48px;
+            padding: 7px;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+
+        .scene-level {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 20px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .scene-panel[data-level="0"] .scene-level {
+            background: var(--teal);
+        }
+
+        .scene-panel[data-level="1"] .scene-level {
+            background: var(--blue);
+        }
+
+        .scene-panel[data-level="2"] .scene-level {
+            background: var(--rose);
+        }
+
+        .scene-caption strong {
+            display: block;
+            overflow: hidden;
+            font-size: 11px;
+            font-weight: 900;
+            line-height: 1.25;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .scene-caption span:not(.scene-level) {
+            display: none;
+            margin-top: 3px;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.45;
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 6px;
+            padding: 0 10px 10px;
+        }
+
+        .level-button {
+            display: grid;
+            place-items: center;
+            min-height: 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 6px;
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.16s, background 0.16s, transform 0.16s;
+        }
+
+        .level-button:hover {
+            transform: translateY(-1px);
+            border-color: #fdba74;
+            background: #fff7ed;
+        }
+
+        .level-button.is-selected {
+            border-color: var(--accent);
+            background: #ffedd5;
+        }
+
+        .level-button strong {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .level-button span {
+            display: none;
+        }
+
+        .output {
+            min-width: 0;
+        }
+
+        .sentence-panel,
+        .drill-panel {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .sentence-panel {
+            min-height: 100%;
+            padding: 14px;
+        }
+
+        .result-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 30px;
+            border-radius: 8px;
+            padding: 0 10px;
+            background: #f8fafc;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .result-label[data-level="0"] {
+            background: var(--teal-soft);
+            color: #047857;
+        }
+
+        .result-label[data-level="1"] {
+            background: var(--blue-soft);
+            color: #1d4ed8;
+        }
+
+        .result-label[data-level="2"] {
+            background: var(--rose-soft);
+            color: #be123c;
+        }
+
+        .result-sentence {
+            margin: 10px 0 0;
+            color: #111827;
+            font-size: 22px;
+            font-weight: 900;
+            line-height: 1.42;
+        }
+
+        .result-note {
+            display: none;
+            margin: 12px 0 0;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.7;
+        }
+
+        .build-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .build-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 30px;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 0 8px;
+            background: #fff7ed;
+            color: var(--accent-dark);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .drill-panel {
+            display: none;
+            align-content: space-between;
+            gap: 12px;
+            padding: 16px;
+        }
+
+        .drill-panel p {
+            margin: 0;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .progress-list {
+            display: grid;
+            grid-template-columns: repeat(8, minmax(0, 1fr));
+            gap: 5px;
+        }
+
+        .progress-dot {
+            height: 8px;
+            border-radius: 8px;
+            background: #e2e8f0;
+        }
+
+        .progress-dot.is-seen {
+            background: #fdba74;
+        }
+
+        .nav-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 8px;
+            grid-column: 1 / -1;
+            margin-top: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 42px;
+            border: 1px solid #fdba74;
+            border-radius: 8px;
+            padding: 0 14px;
+            background: #ffffff;
+            color: var(--accent-dark);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .btn.ghost {
+            border-color: #cbd5e1;
+            color: #475569;
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .floating-view-toggle {
+            position: fixed;
+            right: 12px;
+            bottom: 12px;
+            z-index: 60;
+            grid-template-columns: repeat(2, 34px);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+        }
+
+        .floating-view-toggle .view-toggle__button {
+            min-width: 34px;
+            min-height: 34px;
+            padding: 0;
+        }
+
+        @media (max-width: 940px) {
+            .hero,
+            .activity {
+                grid-template-columns: 1fr;
+            }
+
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-meter {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .deck {
+                grid-template-columns: repeat(8, minmax(0, 1fr));
+            }
+
+            .deck-button {
+                grid-template-columns: 1fr;
+                min-height: 44px;
+                text-align: center;
+            }
+
+            .deck-icon {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .shell {
+                width: min(100% - 16px, 1120px);
+                padding-top: 8px;
+            }
+
+            .hero {
+                padding: 16px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .lead {
+                font-size: 14px;
+            }
+
+            .scene-panel {
+                min-height: 140px;
+            }
+
+            .scene-art {
+                min-height: 92px;
+            }
+
+            .deck {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            .source-image {
+                aspect-ratio: 42 / 25;
+            }
+
+            .hero-meter {
+                grid-template-columns: 1fr;
+            }
+
+            .result-sentence {
+                font-size: 20px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+        <span>|</span>
+        <a href="index.html">16과 목록</a>
+        <span>|</span>
+        <strong>문법 2 보조자료 | 엄두 게이지</strong>
+    </nav>
+
+    <main class="shell">
+        <section class="activity" aria-label="엄두 게이지 활동">
+            <aside class="deck" id="deck"></aside>
+
+            <div class="workspace">
+                <section class="output" aria-live="polite">
+                    <div class="sentence-panel">
+                        <span class="result-label" id="resultLabel"></span>
+                        <p class="result-sentence" id="resultSentence"></p>
+                        <p class="result-note" id="resultNote"></p>
+                        <div class="build-row" id="buildRow"></div>
+                    </div>
+                </section>
+
+                <section class="activity-panel" aria-labelledby="cardTitle">
+                    <div class="panel-head">
+                        <div class="panel-head__title">
+                            <p class="eyebrow" id="cardCategory">Situation</p>
+                            <h2 id="cardTitle"></h2>
+                        </div>
+                        <div class="panel-tools">
+                            <span class="panel-head__action" id="cardAction"></span>
+                        </div>
+                    </div>
+                    <div class="image-stage">
+                        <img id="sourceImage" class="source-image" alt="" hidden />
+                        <div id="sceneFallback" class="scene-fallback"></div>
+                    </div>
+                    <div id="levelControls" class="control-grid"></div>
+                </section>
+
+                <div class="nav-actions">
+                    <button class="btn ghost" type="button" id="prevBtn"><i class="fa-solid fa-arrow-left"></i> 이전 카드</button>
+                    <button class="btn primary" type="button" id="nextBtn">다음 카드 <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <div class="view-toggle floating-view-toggle" role="group" aria-label="상황 카드 보기 방식">
+            <button class="view-toggle__button" type="button" data-view="image" aria-label="이미지 보기" title="이미지" aria-pressed="true">
+                <i class="fa-solid fa-image"></i>
+            </button>
+            <button class="view-toggle__button" type="button" data-view="icon" aria-label="아이콘 보기" title="아이콘" aria-pressed="false">
+                <i class="fa-solid fa-icons"></i>
+            </button>
+        </div>
+
+        <nav class="footer" aria-label="문법 이동">
+            <a class="btn" href="grammar2.html"><i class="fa-solid fa-arrow-left"></i> 문법 2</a>
+            <a class="btn primary" href="grammar2-speaking-pro.html"><i class="fa-solid fa-microphone-lines"></i> 말하기 PRO</a>
+        </nav>
+
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Grammar 2 Support</p>
+                <h1>엄두 게이지</h1>
+                <p class="lead">같은 상황이 얼마나 심한지 보고, <strong>할 수 있어요</strong>, <strong>하기 어려워요</strong>, <strong>V-(으)ㄹ 생각도 못 해요</strong>로 바꿔 말해 보세요.</p>
+            </div>
+            <div class="hero-meter" aria-label="엄두 게이지 단계">
+                <div class="meter-chip" data-level="0">
+                    <strong>0</strong>
+                    <span>할 수 있어요</span>
+                </div>
+                <div class="meter-chip" data-level="1">
+                    <strong>1</strong>
+                    <span>하기 어려워요</span>
+                </div>
+                <div class="meter-chip" data-level="2">
+                    <strong>2</strong>
+                    <span>생각도 못 해요</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const cards = [
+            {
+                id: 'weather',
+                category: '날씨',
+                title: '비가 오다',
+                action: '등산 가다',
+                icon: 'fa-cloud-showers-heavy',
+                image: '../assets/c16/grammar2/umdu-gauge/weather-rain.webp',
+                cue: '비가 얼마나 오는지 보고 등산 가능성을 말해 보세요.',
+                levels: [
+                    {
+                        label: '비가 안 와요',
+                        detail: '길이 마르고 날씨가 좋아요.',
+                        expression: '비가 안 와서 등산 갈 수 있어요.',
+                        note: '문제가 없을 때는 가능 표현이 자연스럽습니다.',
+                        icons: ['fa-sun', 'fa-person-hiking']
+                    },
+                    {
+                        label: '비가 조금 와요',
+                        detail: '우산을 쓰면 갈 수도 있어요.',
+                        expression: '비가 조금 와서 등산 가기 어려워요.',
+                        note: '불편하지만 완전히 불가능하지는 않습니다.',
+                        icons: ['fa-cloud-rain', 'fa-umbrella']
+                    },
+                    {
+                        label: '폭우가 와요',
+                        detail: '비가 너무 많이 와서 출발하기 힘들어요.',
+                        expression: '비가 너무 많이 와서 등산 갈 생각도 못 해요.',
+                        note: '상황이 심해서 시작조차 못 할 때 목표 표현을 씁니다.',
+                        chips: ['비가 너무 많이 와서', '등산 갈', '생각도 못 해요'],
+                        icons: ['fa-cloud-showers-heavy', 'fa-triangle-exclamation', 'fa-water']
+                    }
+                ]
+            },
+            {
+                id: 'work',
+                category: '업무와 공부',
+                title: '할 일이 많다',
+                action: '여행 가다',
+                icon: 'fa-briefcase',
+                image: '../assets/c16/grammar2/umdu-gauge/work-study.webp',
+                cue: '할 일의 양을 보고 여행 이야기를 만들어 보세요.',
+                levels: [
+                    {
+                        label: '할 일이 거의 없어요',
+                        detail: '책상이 깨끗하고 일정이 여유로워요.',
+                        expression: '할 일이 별로 없어서 여행 갈 수 있어요.',
+                        note: '시간 여유가 있을 때는 가능 표현으로 충분합니다.',
+                        icons: ['fa-mug-saucer', 'fa-calendar-check']
+                    },
+                    {
+                        label: '할 일이 조금 있어요',
+                        detail: '일이 있지만 조절할 수 있어요.',
+                        expression: '할 일이 조금 있어서 여행 가기 어려워요.',
+                        note: '부담이 있지만 아직 엄두를 못 낼 정도는 아닙니다.',
+                        icons: ['fa-book-open', 'fa-clock']
+                    },
+                    {
+                        label: '일이 산더미예요',
+                        detail: '마감과 자료가 한꺼번에 쌓였어요.',
+                        expression: '일이 너무 많아서 여행 갈 생각도 못 해요.',
+                        note: '할 일이 압도적으로 많을 때 강한 불가능을 표현합니다.',
+                        chips: ['일이 너무 많아서', '여행 갈', '생각도 못 해요'],
+                        icons: ['fa-book', 'fa-laptop', 'fa-bell']
+                    }
+                ]
+            },
+            {
+                id: 'cost',
+                category: '비용',
+                title: '돈이 들다',
+                action: '악기를 배우다',
+                icon: 'fa-wallet',
+                image: '../assets/c16/grammar2/umdu-gauge/cost-instrument.webp',
+                cue: '돈의 부담 정도를 보고 악기 수업 문장을 말해 보세요.',
+                levels: [
+                    {
+                        label: '돈이 충분해요',
+                        detail: '수업료를 낼 수 있어요.',
+                        expression: '돈이 충분해서 악기를 배울 수 있어요.',
+                        note: '비용 문제가 없으면 가능 표현이 자연스럽습니다.',
+                        icons: ['fa-wallet', 'fa-guitar']
+                    },
+                    {
+                        label: '조금 비싸요',
+                        detail: '고민은 되지만 방법을 찾을 수 있어요.',
+                        expression: '수업료가 조금 비싸서 악기를 배우기 어려워요.',
+                        note: '부담이 있는 정도라면 “어려워요”가 알맞습니다.',
+                        icons: ['fa-coins', 'fa-guitar']
+                    },
+                    {
+                        label: '너무 비싸요',
+                        detail: '지갑이 거의 비어 있어서 시작하기 힘들어요.',
+                        expression: '수업료가 너무 비싸서 악기를 배울 생각도 못 해요.',
+                        note: '비용 때문에 시작조차 못 하는 상황입니다.',
+                        chips: ['수업료가 너무 비싸서', '악기를 배울', '생각도 못 해요'],
+                        icons: ['fa-wallet', 'fa-circle-exclamation', 'fa-music']
+                    }
+                ]
+            },
+            {
+                id: 'fatigue',
+                category: '피로',
+                title: '피곤하다',
+                action: '운동하다',
+                icon: 'fa-battery-quarter',
+                image: '../assets/c16/grammar2/umdu-gauge/fatigue-exercise.webp',
+                cue: '컨디션을 보고 운동할 수 있는지 말해 보세요.',
+                levels: [
+                    {
+                        label: '컨디션이 좋아요',
+                        detail: '몸이 가볍고 운동할 준비가 됐어요.',
+                        expression: '컨디션이 좋아서 운동할 수 있어요.',
+                        note: '체력이 충분하면 가능 표현을 씁니다.',
+                        icons: ['fa-dumbbell', 'fa-battery-full']
+                    },
+                    {
+                        label: '조금 피곤해요',
+                        detail: '운동은 가능하지만 쉽지 않아요.',
+                        expression: '조금 피곤해서 운동하기 어려워요.',
+                        note: '완전히 지친 상태가 아니면 중간 표현이 어울립니다.',
+                        icons: ['fa-person-walking', 'fa-battery-half']
+                    },
+                    {
+                        label: '완전히 지쳤어요',
+                        detail: '소파에서 일어나기도 힘들어요.',
+                        expression: '너무 피곤해서 운동할 생각도 못 해요.',
+                        note: '체력이 바닥나서 엄두가 안 나는 상황입니다.',
+                        chips: ['너무 피곤해서', '운동할', '생각도 못 해요'],
+                        icons: ['fa-couch', 'fa-battery-empty', 'fa-dumbbell']
+                    }
+                ]
+            },
+            {
+                id: 'crowd',
+                category: '혼잡',
+                title: '사람이 많다',
+                action: '사진 찍다',
+                icon: 'fa-users',
+                image: '../assets/c16/grammar2/umdu-gauge/crowd-photo.webp',
+                cue: '사람이 얼마나 많은지 보고 사진 찍기 문장을 말해 보세요.',
+                levels: [
+                    {
+                        label: '사람이 거의 없어요',
+                        detail: '사진을 편하게 찍을 수 있어요.',
+                        expression: '사람이 거의 없어서 사진 찍을 수 있어요.',
+                        note: '방해 요소가 없으므로 가능 표현이 어울립니다.',
+                        icons: ['fa-camera', 'fa-user']
+                    },
+                    {
+                        label: '사람이 조금 많아요',
+                        detail: '기다리면 찍을 수 있어요.',
+                        expression: '사람이 조금 많아서 사진 찍기 어려웠어요.',
+                        note: '불편하지만 시도할 여지는 있습니다.',
+                        icons: ['fa-camera', 'fa-user-group']
+                    },
+                    {
+                        label: '사람이 너무 많아요',
+                        detail: '줄이 길고 시야가 막혀요.',
+                        expression: '사람이 너무 많아서 사진 찍을 생각도 못 했어요.',
+                        note: '과거 상황이면 “못 했어요”로 마무리합니다.',
+                        chips: ['사람이 너무 많아서', '사진 찍을', '생각도 못 했어요'],
+                        icons: ['fa-people-group', 'fa-camera', 'fa-ban']
+                    }
+                ]
+            },
+            {
+                id: 'space',
+                category: '공간',
+                title: '방이 좁다',
+                action: '피아노를 놓다',
+                icon: 'fa-couch',
+                image: '../assets/c16/grammar2/umdu-gauge/space-piano.webp',
+                cue: '방의 넓이를 보고 피아노를 놓을 수 있는지 말해 보세요.',
+                levels: [
+                    {
+                        label: '방이 넓어요',
+                        detail: '빈 공간이 충분해요.',
+                        expression: '방이 넓어서 피아노를 놓을 수 있어요.',
+                        note: '공간이 충분하면 가능 표현이 자연스럽습니다.',
+                        icons: ['fa-border-all', 'fa-music']
+                    },
+                    {
+                        label: '방이 조금 좁아요',
+                        detail: '가구를 옮기면 가능할 수도 있어요.',
+                        expression: '방이 조금 좁아서 피아노를 놓기 어려워요.',
+                        note: '가능성은 남아 있지만 부담이 있는 상황입니다.',
+                        icons: ['fa-couch', 'fa-arrows-left-right']
+                    },
+                    {
+                        label: '방이 아주 좁아요',
+                        detail: '가구와 상자로 꽉 차 있어요.',
+                        expression: '방이 너무 작아서 피아노를 놓을 생각도 못 해요.',
+                        note: '공간이 전혀 없어 시작조차 생각하기 어렵습니다.',
+                        chips: ['방이 너무 작아서', '피아노를 놓을', '생각도 못 해요'],
+                        icons: ['fa-boxes-stacked', 'fa-couch', 'fa-music']
+                    }
+                ]
+            },
+            {
+                id: 'time',
+                category: '시간',
+                title: '시간이 부족하다',
+                action: '놀러 가다',
+                icon: 'fa-clock',
+                image: '../assets/c16/grammar2/umdu-gauge/time-schedule.webp',
+                cue: '일정의 여유를 보고 놀러 갈 수 있는지 말해 보세요.',
+                levels: [
+                    {
+                        label: '시간이 넉넉해요',
+                        detail: '일정에 빈 시간이 있어요.',
+                        expression: '시간이 넉넉해서 놀러 갈 수 있어요.',
+                        note: '여유가 있으면 가능 표현으로 말합니다.',
+                        icons: ['fa-calendar-check', 'fa-person-walking-luggage']
+                    },
+                    {
+                        label: '시간이 조금 부족해요',
+                        detail: '해야 할 일이 몇 가지 있어요.',
+                        expression: '시간이 조금 부족해서 놀러 가기 어려워요.',
+                        note: '중간 단계는 완전한 포기보다 “어려워요”가 자연스럽습니다.',
+                        icons: ['fa-calendar-days', 'fa-hourglass-half']
+                    },
+                    {
+                        label: '시험이 코앞이에요',
+                        detail: '공부할 것이 너무 많아요.',
+                        expression: '시험이 가까워서 놀러 갈 생각도 못 해요.',
+                        note: '긴급한 일정 때문에 여유가 전혀 없는 상황입니다.',
+                        chips: ['시험이 가까워서', '놀러 갈', '생각도 못 해요'],
+                        icons: ['fa-book-open-reader', 'fa-clock', 'fa-circle-exclamation']
+                    }
+                ]
+            },
+            {
+                id: 'health',
+                category: '건강',
+                title: '다리를 다치다',
+                action: '축구하다',
+                icon: 'fa-kit-medical',
+                image: '../assets/c16/grammar2/umdu-gauge/health-soccer.webp',
+                cue: '몸 상태를 보고 축구할 수 있는지 말해 보세요.',
+                levels: [
+                    {
+                        label: '몸이 괜찮아요',
+                        detail: '운동장에 나갈 수 있어요.',
+                        expression: '몸이 괜찮아서 축구할 수 있어요.',
+                        note: '문제가 없으면 가능 표현이 어울립니다.',
+                        icons: ['fa-futbol', 'fa-person-running']
+                    },
+                    {
+                        label: '조금 아파요',
+                        detail: '뛰기는 불편해요.',
+                        expression: '다리가 조금 아파서 축구하기 어려워요.',
+                        note: '불편하지만 완전히 못 하는 정도는 아닙니다.',
+                        icons: ['fa-bandage', 'fa-futbol']
+                    },
+                    {
+                        label: '다리를 다쳤어요',
+                        detail: '목발이 필요해서 뛸 수 없어요.',
+                        expression: '다리를 다쳐서 축구할 생각도 못 해요.',
+                        note: '몸 상태 때문에 시도조차 어려운 상황입니다.',
+                        chips: ['다리를 다쳐서', '축구할', '생각도 못 해요'],
+                        icons: ['fa-crutch', 'fa-kit-medical', 'fa-futbol']
+                    }
+                ]
+            }
+        ];
+
+        const levelMeta = [
+            { label: '0단계', mode: '할 수 있어요', icon: 'fa-circle-check' },
+            { label: '1단계', mode: '하기 어려워요', icon: 'fa-circle-minus' },
+            { label: '2단계', mode: '생각도 못 해요', icon: 'fa-ban' }
+        ];
+
+        const viewStorageKey = 'c16-grammar2-umdu-gauge-view';
+
+        const state = {
+            cardIndex: 0,
+            level: 2,
+            viewMode: localStorage.getItem(viewStorageKey) === 'icon' ? 'icon' : 'image',
+            seen: new Set()
+        };
+
+        const deckEl = document.getElementById('deck');
+        const cardCategoryEl = document.getElementById('cardCategory');
+        const cardTitleEl = document.getElementById('cardTitle');
+        const cardActionEl = document.getElementById('cardAction');
+        const sourceImageEl = document.getElementById('sourceImage');
+        const sceneFallbackEl = document.getElementById('sceneFallback');
+        const levelControlsEl = document.getElementById('levelControls');
+        const viewButtons = document.querySelectorAll('[data-view]');
+        const resultLabelEl = document.getElementById('resultLabel');
+        const resultSentenceEl = document.getElementById('resultSentence');
+        const resultNoteEl = document.getElementById('resultNote');
+        const buildRowEl = document.getElementById('buildRow');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function iconMarkup(name) {
+            return `<i class="fa-solid ${name}" aria-hidden="true"></i>`;
+        }
+
+        function usesImage(card) {
+            return state.viewMode === 'image' && Boolean(card.image);
+        }
+
+        function renderViewToggle(card) {
+            if (state.viewMode === 'image' && !card.image) {
+                state.viewMode = 'icon';
+            }
+
+            viewButtons.forEach((button) => {
+                const isActive = button.dataset.view === state.viewMode;
+                button.classList.toggle('is-active', isActive);
+                button.setAttribute('aria-pressed', String(isActive));
+                button.disabled = button.dataset.view === 'image' && !card.image;
+            });
+        }
+
+        function renderDeck() {
+            deckEl.innerHTML = cards.map((card, index) => `
+                <button class="deck-button ${index === state.cardIndex ? 'is-active' : ''}" type="button" data-card="${index}" aria-label="${card.category} ${card.title}" title="${card.category}: ${card.title}">
+                    <span class="deck-icon">${iconMarkup(card.icon)}</span>
+                    <span>${card.category}</span>
+                </button>
+            `).join('');
+
+            deckEl.querySelectorAll('[data-card]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.cardIndex = Number(button.dataset.card);
+                    state.level = 2;
+                    render();
+                });
+            });
+        }
+
+        function renderImage(card) {
+            sourceImageEl.onload = null;
+            sourceImageEl.onerror = null;
+            sourceImageEl.hidden = true;
+            sourceImageEl.removeAttribute('src');
+
+            if (!usesImage(card)) {
+                return;
+            }
+
+            const cardId = card.id;
+            sourceImageEl.alt = `${card.title} 상황 카드`;
+            sourceImageEl.onload = () => {
+                if (usesImage(card) && cards[state.cardIndex].id === cardId) {
+                    sourceImageEl.hidden = false;
+                    sceneFallbackEl.hidden = true;
+                }
+            };
+            sourceImageEl.onerror = () => {
+                sourceImageEl.hidden = true;
+                sceneFallbackEl.hidden = false;
+            };
+            sourceImageEl.src = card.image;
+        }
+
+        function renderScene(card) {
+            sceneFallbackEl.innerHTML = card.levels.map((level, index) => {
+                const badges = level.icons.slice(1, 5).map((name) => `<span class="scene-badge">${iconMarkup(name)}</span>`).join('');
+                return `
+                    <button class="scene-panel ${index === state.level ? 'is-selected' : ''}" type="button" data-level="${index}">
+                        <span class="scene-art">
+                            <span class="scene-main-icon">${iconMarkup(level.icons[0])}</span>
+                            ${badges}
+                        </span>
+                        <span class="scene-caption">
+                            <span class="scene-level">${index}</span>
+                            <strong>${level.label}</strong>
+                            <span>${level.detail}</span>
+                        </span>
+                    </button>
+                `;
+            }).join('');
+
+            sceneFallbackEl.querySelectorAll('[data-level]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    selectLevel(Number(button.dataset.level));
+                });
+            });
+
+            sceneFallbackEl.hidden = usesImage(card);
+        }
+
+        function renderControls(card) {
+            levelControlsEl.innerHTML = card.levels.map((level, index) => {
+                const meta = levelMeta[index];
+                return `
+                    <button class="level-button ${index === state.level ? 'is-selected' : ''}" type="button" data-level="${index}" aria-label="${meta.label} ${meta.mode}: ${level.label}" title="${level.label}">
+                        <strong>${iconMarkup(meta.icon)} ${index}</strong>
+                    </button>
+                `;
+            }).join('');
+
+            levelControlsEl.querySelectorAll('[data-level]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    selectLevel(Number(button.dataset.level));
+                });
+            });
+        }
+
+        function renderOutput(card) {
+            const level = card.levels[state.level];
+            const meta = levelMeta[state.level];
+            resultLabelEl.dataset.level = String(state.level);
+            resultLabelEl.innerHTML = `${iconMarkup(meta.icon)} ${meta.label} · ${meta.mode}`;
+            resultSentenceEl.textContent = level.expression;
+            resultNoteEl.textContent = level.note;
+
+            const chips = level.chips || [level.label, card.action, meta.mode];
+            buildRowEl.innerHTML = chips.map((chip) => `<span class="build-chip">${chip}</span>`).join('');
+        }
+
+        function selectLevel(level) {
+            state.level = level;
+            state.seen.add(cards[state.cardIndex].id);
+            const card = cards[state.cardIndex];
+            renderScene(card);
+            renderControls(card);
+            renderOutput(card);
+        }
+
+        function render() {
+            const card = cards[state.cardIndex];
+            state.seen.add(card.id);
+            cardCategoryEl.textContent = card.category;
+            cardTitleEl.textContent = card.title;
+            cardActionEl.innerHTML = `${iconMarkup('fa-pen')} ${card.action}`;
+
+            renderViewToggle(card);
+            renderDeck();
+            renderImage(card);
+            renderScene(card);
+            renderControls(card);
+            renderOutput(card);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            state.cardIndex = (state.cardIndex - 1 + cards.length) % cards.length;
+            state.level = 2;
+            render();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            state.cardIndex = (state.cardIndex + 1) % cards.length;
+            state.level = 2;
+            render();
+        });
+
+        sourceImageEl.addEventListener('click', (event) => {
+            if (sourceImageEl.hidden) return;
+            const rect = sourceImageEl.getBoundingClientRect();
+            const ratio = (event.clientX - rect.left) / rect.width;
+            const level = Math.max(0, Math.min(2, Math.floor(ratio * 3)));
+            selectLevel(level);
+        });
+
+        viewButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const nextViewMode = button.dataset.view;
+                if (nextViewMode === 'image' && !cards[state.cardIndex].image) return;
+                state.viewMode = nextViewMode;
+                localStorage.setItem(viewStorageKey, nextViewMode);
+                render();
+            });
+        });
+
+        render();
+    </script>
+</body>
+</html>
