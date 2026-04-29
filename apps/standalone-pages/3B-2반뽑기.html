@@ -79,11 +79,9 @@
         }
 
         .controls {
-            position: fixed;
-            top: 50%;
-            right: 24px;
-            transform: translateY(-50%);
-            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .draw-button {
@@ -145,7 +143,8 @@
             }
 
             .draw-button {
-                padding: 17px 24px;
+                padding: 17px 36px;
+                min-width: 160px;
             }
         }
     </style>
@@ -155,6 +154,7 @@
         <section class="result-board" aria-live="polite" aria-atomic="true">
             <h1 class="result-name is-empty" id="result">&nbsp;</h1>
         </section>
+
         <div class="controls">
             <button class="draw-button" id="drawButton" type="button">뽑기</button>
         </div>
@@ -163,13 +163,13 @@
     <script>
         const students = [
             "쿠엇반탕",
-            "응우엔 똑 만",
+            "응우엔 득 만",
             "팜티아잉",
             "응웬 꾸옥 중",
             "짠 황 아인 휘",
             "판 티 끼에우 비",
             "팜 티 투 니",
-            "응웬 티 응웬 응아",
+            "응웬 티 응웻 응아",
             "응웬 티 낫 하",
             "응웬 타잉 프엉 응아",
             "응웬 티 타오",
@@ -178,13 +178,13 @@
             "황 티 끼에우 와잉",
             "형 광 루안",
             "응웬 티 이엔 니",
-            "도 응우엔 톡 니",
+            "도 응우엔 특 니",
             "호 티 김 느",
             "레 띠엔 중",
             "응엔 중 득",
             "응웬 티 누 이",
             "휜 꾸옥 응이아",
-            "보 꽁 넛 호앙",
+            "보 꽁 닛 호앙",
             "하 반 쯔엉",
             "응웬 꾸옥 칸",
             "판 티 미 협",
@@ -198,10 +198,12 @@
 
         function shuffle(list) {
             const copy = [...list];
+
             for (let index = copy.length - 1; index > 0; index -= 1) {
                 const swapIndex = Math.floor(Math.random() * (index + 1));
                 [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
             }
+
             return copy;
         }
 
@@ -211,9 +213,12 @@
             }
 
             const pickedStudent = remainingStudents.pop();
+
             result.textContent = pickedStudent;
             result.classList.remove("is-empty", "pop");
+
             void result.offsetWidth;
+
             result.classList.add("pop");
         }
 
