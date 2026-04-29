@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 4 보조자료 | 명성 태그 매칭</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #eef2ff;
+            --surface: rgba(255, 255, 255, 0.96);
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #cbd5e1;
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-soft: #dbeafe;
+            --green: #059669;
+            --green-dark: #047857;
+            --green-soft: #dcfce7;
+            --amber: #d97706;
+            --amber-soft: #fff7ed;
+            --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Noto Sans KR", sans-serif;
+            background:
+                radial-gradient(circle at 10% 8%, rgba(37, 99, 235, 0.16), transparent 26%),
+                radial-gradient(circle at 92% 6%, rgba(16, 185, 129, 0.18), transparent 27%),
+                linear-gradient(180deg, #f8fafc 0%, var(--bg) 54%, #ffffff 100%);
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 0 14px;
+            border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .topbar a {
+            color: var(--blue-dark);
+            text-decoration: none;
+        }
+
+        .topbar strong {
+            min-width: 0;
+            overflow: hidden;
+            color: #334155;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .shell {
+            width: min(1120px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 12px 0 32px;
+        }
+
+        .panel {
+            border: 1px solid rgba(148, 163, 184, 0.46);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .sentence-panel {
+            display: grid;
+            gap: 10px;
+            padding: 14px;
+        }
+
+        .status-row,
+        .formula-row,
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-row {
+            justify-content: space-between;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 32px;
+            border: 1px solid #86efac;
+            border-radius: 999px;
+            padding: 0 11px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .badge.is-warn {
+            border-color: #fed7aa;
+            background: var(--amber-soft);
+            color: #9a3412;
+        }
+
+        .sentence {
+            margin: 0;
+            font-size: clamp(26px, 4vw, 42px);
+            font-weight: 900;
+            line-height: 1.28;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .formula-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 30px;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 0 9px;
+            background: var(--blue-soft);
+            color: #1d4ed8;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .formula-chip.is-form {
+            border-color: #86efac;
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+            align-items: start;
+        }
+
+        .pick-panel {
+            display: grid;
+            gap: 9px;
+            padding: 10px;
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 28px;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .panel-title span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .target-grid,
+        .tag-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .target-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .tag-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .target-button,
+        .tag-button {
+            min-width: 0;
+            border: 1px solid #dbe3ef;
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--ink);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .target-button {
+            display: grid;
+            grid-template-columns: 34px 1fr;
+            gap: 8px;
+            align-items: center;
+            min-height: 62px;
+            padding: 8px;
+        }
+
+        .target-button.is-active,
+        .tag-button.is-active {
+            border-color: var(--blue);
+            background: #eff6ff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .target-button.is-fit,
+        .tag-button.is-fit {
+            border-color: var(--green);
+            background: #ecfdf5;
+        }
+
+        .target-icon {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: var(--blue);
+        }
+
+        .target-button strong,
+        .tag-button strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .tag-button span {
+            display: block;
+            margin-top: 2px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .tag-section {
+            display: grid;
+            gap: 8px;
+        }
+
+        .target-copy {
+            display: block;
+            min-width: 0;
+        }
+
+        .target-copy small {
+            display: block;
+            margin-top: 2px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .tag-section + .tag-section {
+            margin-top: 2px;
+        }
+
+        .tag-section-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .tag-button {
+            display: grid;
+            gap: 4px;
+            min-height: 58px;
+            padding: 8px;
+        }
+
+        .tag-button[data-type="noun"] .type-mark {
+            color: var(--green-dark);
+        }
+
+        .tag-button[data-type="predicate"] .type-mark {
+            color: var(--blue-dark);
+        }
+
+        .footer {
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 38px;
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            padding: 0 12px;
+            background: #ffffff;
+            color: var(--blue-dark);
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        .btn.primary {
+            border-color: var(--blue);
+            background: var(--blue);
+            color: #ffffff;
+        }
+
+        @media (max-width: 860px) {
+            .board {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .shell {
+                width: min(100% - 14px, 1120px);
+                padding-top: 7px;
+            }
+
+            .sentence-panel {
+                position: sticky;
+                top: 44px;
+                z-index: 20;
+                padding: 10px;
+            }
+
+            .target-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .tag-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .target-button {
+                grid-template-columns: 1fr;
+                min-height: 74px;
+            }
+
+            .target-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .footer {
+                position: sticky;
+                bottom: 0;
+                z-index: 20;
+                border-top: 1px solid rgba(37, 99, 235, 0.18);
+                padding: 8px 0;
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(10px);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+        <span>|</span>
+        <a href="index.html">16과 목록</a>
+        <span>|</span>
+        <strong>문법 4 보조자료 | 명성 태그 매칭</strong>
+    </nav>
+
+    <main class="shell">
+        <section class="sentence-panel panel" aria-live="polite">
+            <div class="status-row">
+                <span class="badge" id="fitBadge"><i class="fa-solid fa-circle-check"></i> 좋은 매칭</span>
+                <span class="badge" id="formBadge">N(으)로 유명해요</span>
+            </div>
+            <p class="sentence" id="sentenceText"></p>
+            <div class="formula-row">
+                <span class="formula-chip" id="targetChip"></span>
+                <span class="formula-chip" id="tagChip"></span>
+                <span class="formula-chip is-form" id="formChip"></span>
+            </div>
+        </section>
+
+        <section class="board" aria-label="명성 태그 매칭">
+            <section class="pick-panel panel">
+                <div class="panel-title">
+                    <span><i class="fa-solid fa-location-dot"></i> 대상</span>
+                    <span id="targetCount"></span>
+                </div>
+                <div class="target-grid" id="targetGrid"></div>
+            </section>
+
+            <section class="pick-panel panel">
+                <div class="panel-title">
+                    <span><i class="fa-solid fa-tags"></i> 명성 태그</span>
+                </div>
+                <div class="tag-section">
+                    <div class="tag-section-title"><i class="fa-solid fa-cube"></i> 명사 태그</div>
+                    <div class="tag-grid" id="nounTagGrid"></div>
+                </div>
+                <div class="tag-section">
+                    <div class="tag-section-title"><i class="fa-solid fa-comment-dots"></i> 특징 태그</div>
+                    <div class="tag-grid" id="predicateTagGrid"></div>
+                </div>
+            </section>
+        </section>
+
+        <nav class="footer" aria-label="문법 이동">
+            <a class="btn" href="grammar4.html"><i class="fa-solid fa-arrow-left"></i> 문법 4</a>
+            <a class="btn" href="grammar4-fame-tag-match-vietnam.html"><i class="fa-solid fa-map-location-dot"></i> 베트남 버전</a>
+            <a class="btn" href="grammar4-vietnam-map-match.html"><i class="fa-solid fa-map"></i> 지도 버전</a>
+            <a class="btn primary" href="grammar4-speaking-pro.html"><i class="fa-solid fa-microphone-lines"></i> 말하기 PRO</a>
+        </nav>
+    </main>
+
+    <script>
+        const targets = [
+            { id: 'jeonju', icon: 'fa-bowl-food', name: '전주', hint: '음식 · 한옥', tags: ['bibimbap', 'hanok', 'foodGood'] },
+            { id: 'jeju', icon: 'fa-water', name: '제주도', hint: '자연 · 활동', tags: ['scuba', 'beautifulView', 'windStrong'] },
+            { id: 'jinhae', icon: 'fa-seedling', name: '진해', hint: '봄 · 벚꽃', tags: ['cherry', 'beautifulFlower'] },
+            { id: 'gangneung', icon: 'fa-mug-hot', name: '강릉', hint: '커피 · 바다', tags: ['coffee', 'beautifulSea'] },
+            { id: 'busan', icon: 'fa-film', name: '부산', hint: '영화 · 야경', tags: ['film', 'nightView'] },
+            { id: 'camp', icon: 'fa-campground', name: '한탄강 캠핑장', hint: '시설 · 캠핑', tags: ['camping', 'facilityGood'] },
+            { id: 'singer', icon: 'fa-microphone', name: '이 가수', hint: '노래 · 춤', tags: ['singWell', 'danceWell'] },
+            { id: 'andong', icon: 'fa-house-chimney', name: '안동', hint: '전통 · 한옥', tags: ['hanok', 'culture'] }
+        ];
+
+        const tags = [
+            { id: 'bibimbap', type: 'noun', label: '비빔밥' },
+            { id: 'hanok', type: 'noun', label: '한옥' },
+            { id: 'scuba', type: 'noun', label: '스킨스쿠버' },
+            { id: 'cherry', type: 'noun', label: '벚꽃' },
+            { id: 'coffee', type: 'noun', label: '커피' },
+            { id: 'film', type: 'noun', label: '영화제' },
+            { id: 'camping', type: 'noun', label: '캠핑' },
+            { id: 'culture', type: 'noun', label: '전통문화' },
+            { id: 'foodGood', type: 'predicate', label: '음식이 맛있다', giro: '음식이 맛있기로' },
+            { id: 'beautifulView', type: 'predicate', label: '경치가 아름답다', giro: '경치가 아름답기로' },
+            { id: 'windStrong', type: 'predicate', label: '바람이 강하다', giro: '바람이 강하기로' },
+            { id: 'beautifulFlower', type: 'predicate', label: '벚꽃이 아름답다', giro: '벚꽃이 아름답기로' },
+            { id: 'beautifulSea', type: 'predicate', label: '바다가 아름답다', giro: '바다가 아름답기로' },
+            { id: 'nightView', type: 'predicate', label: '야경이 예쁘다', giro: '야경이 예쁘기로' },
+            { id: 'facilityGood', type: 'predicate', label: '시설이 좋다', giro: '시설이 좋기로' },
+            { id: 'singWell', type: 'predicate', label: '노래를 잘하다', giro: '노래를 잘하기로' },
+            { id: 'danceWell', type: 'predicate', label: '춤을 잘 추다', giro: '춤을 잘 추기로' }
+        ];
+
+        const state = {
+            targetId: 'jeonju',
+            tagId: 'bibimbap'
+        };
+
+        const targetGrid = document.getElementById('targetGrid');
+        const nounTagGrid = document.getElementById('nounTagGrid');
+        const predicateTagGrid = document.getElementById('predicateTagGrid');
+        const sentenceText = document.getElementById('sentenceText');
+        const fitBadge = document.getElementById('fitBadge');
+        const formBadge = document.getElementById('formBadge');
+        const targetChip = document.getElementById('targetChip');
+        const tagChip = document.getElementById('tagChip');
+        const formChip = document.getElementById('formChip');
+        const targetCount = document.getElementById('targetCount');
+
+        function hasBatchim(text) {
+            const code = text.charCodeAt(text.length - 1);
+            if (code < 0xac00 || code > 0xd7a3) return false;
+            return (code - 0xac00) % 28 !== 0;
+        }
+
+        function jong(text) {
+            const code = text.charCodeAt(text.length - 1);
+            if (code < 0xac00 || code > 0xd7a3) return 0;
+            return (code - 0xac00) % 28;
+        }
+
+        function topicParticle(text) {
+            return hasBatchim(text) ? '은' : '는';
+        }
+
+        function roParticle(text) {
+            const final = jong(text);
+            return final === 0 || final === 8 ? '로' : '으로';
+        }
+
+        function icon(name) {
+            return `<i class="fa-solid ${name}" aria-hidden="true"></i>`;
+        }
+
+        function getTarget() {
+            return targets.find((target) => target.id === state.targetId);
+        }
+
+        function getTag() {
+            return tags.find((tag) => tag.id === state.tagId);
+        }
+
+        function buildSentence(target, tag) {
+            const subject = `${target.name}${topicParticle(target.name)}`;
+            if (tag.type === 'noun') {
+                return `${subject} ${tag.label}${roParticle(tag.label)} 유명해요.`;
+            }
+            return `${subject} ${tag.giro} 유명해요.`;
+        }
+
+        function renderTargets() {
+            const tag = getTag();
+            targetGrid.innerHTML = targets.map((target) => {
+                const isActive = target.id === state.targetId;
+                const isFit = target.tags.includes(tag.id);
+                return `
+                    <button class="target-button ${isActive ? 'is-active' : ''} ${isFit ? 'is-fit' : ''}" type="button" data-target="${target.id}">
+                        <span class="target-icon">${icon(target.icon)}</span>
+                        <span class="target-copy">
+                            <strong>${target.name}</strong>
+                            <small>${target.hint}</small>
+                        </span>
+                    </button>
+                `;
+            }).join('');
+
+            targetGrid.querySelectorAll('[data-target]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.targetId = button.dataset.target;
+                    const target = getTarget();
+                    if (!target.tags.includes(state.tagId)) {
+                        state.tagId = target.tags[0];
+                    }
+                    render();
+                });
+            });
+        }
+
+        function tagButton(tag) {
+            const target = getTarget();
+            const isActive = tag.id === state.tagId;
+            const isFit = target.tags.includes(tag.id);
+            const mark = tag.type === 'noun' ? 'N(으)로' : 'A/V-기로';
+            return `
+                <button class="tag-button ${isActive ? 'is-active' : ''} ${isFit ? 'is-fit' : ''}" type="button" data-tag="${tag.id}" data-type="${tag.type}">
+                    <strong>${tag.label}</strong>
+                    <span class="type-mark">${mark}</span>
+                </button>
+            `;
+        }
+
+        function renderTags() {
+            nounTagGrid.innerHTML = tags.filter((tag) => tag.type === 'noun').map(tagButton).join('');
+            predicateTagGrid.innerHTML = tags.filter((tag) => tag.type === 'predicate').map(tagButton).join('');
+
+            document.querySelectorAll('[data-tag]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.tagId = button.dataset.tag;
+                    render();
+                });
+            });
+        }
+
+        function renderOutput() {
+            const target = getTarget();
+            const tag = getTag();
+            const isFit = target.tags.includes(tag.id);
+            const form = tag.type === 'noun' ? 'N(으)로 유명해요' : 'A/V-기로 유명해요';
+
+            sentenceText.textContent = buildSentence(target, tag);
+            fitBadge.className = `badge ${isFit ? '' : 'is-warn'}`;
+            fitBadge.innerHTML = isFit
+                ? `${icon('fa-circle-check')} 좋은 매칭`
+                : `${icon('fa-triangle-exclamation')} 내용 재선택`;
+            formBadge.textContent = form;
+            targetChip.innerHTML = `${icon(target.icon)} ${target.name}`;
+            tagChip.textContent = tag.label;
+            formChip.textContent = form;
+            targetCount.textContent = `${targets.indexOf(target) + 1} / ${targets.length}`;
+        }
+
+        function render() {
+            renderOutput();
+            renderTargets();
+            renderTags();
+        }
+
+        render();
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>

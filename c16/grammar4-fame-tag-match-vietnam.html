@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 4 보조자료 | 베트남 명소 태그 매칭</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #eef2ff;
+            --surface: rgba(255, 255, 255, 0.96);
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #cbd5e1;
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-soft: #dbeafe;
+            --green: #059669;
+            --green-dark: #047857;
+            --green-soft: #dcfce7;
+            --amber: #d97706;
+            --amber-soft: #fff7ed;
+            --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Noto Sans KR", sans-serif;
+            background:
+                radial-gradient(circle at 10% 8%, rgba(37, 99, 235, 0.16), transparent 26%),
+                radial-gradient(circle at 92% 6%, rgba(16, 185, 129, 0.18), transparent 27%),
+                linear-gradient(180deg, #f8fafc 0%, var(--bg) 54%, #ffffff 100%);
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 0 14px;
+            border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .topbar a {
+            color: var(--blue-dark);
+            text-decoration: none;
+        }
+
+        .topbar strong {
+            min-width: 0;
+            overflow: hidden;
+            color: #334155;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .shell {
+            width: min(1180px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 12px 0 32px;
+        }
+
+        .panel {
+            border: 1px solid rgba(148, 163, 184, 0.46);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .sentence-panel {
+            display: grid;
+            gap: 10px;
+            padding: 14px;
+        }
+
+        .status-row,
+        .chip-row,
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-row {
+            justify-content: space-between;
+        }
+
+        .badge,
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 30px;
+            border-radius: 999px;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .badge {
+            border: 1px solid #86efac;
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .badge.is-warn {
+            border-color: #fed7aa;
+            background: var(--amber-soft);
+            color: #9a3412;
+        }
+
+        .chip {
+            border: 1px solid #bfdbfe;
+            background: var(--blue-soft);
+            color: #1d4ed8;
+        }
+
+        .chip.is-form {
+            border-color: #86efac;
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .sentence {
+            margin: 0;
+            font-size: clamp(25px, 3.8vw, 40px);
+            font-weight: 900;
+            line-height: 1.28;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .region-bar {
+            display: flex;
+            gap: 7px;
+            overflow-x: auto;
+            margin-top: 10px;
+            padding-bottom: 2px;
+        }
+
+        .region-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-width: max-content;
+            min-height: 34px;
+            border: 1px solid #bfdbfe;
+            border-radius: 999px;
+            padding: 0 11px;
+            background: #ffffff;
+            color: #1d4ed8;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .region-button.is-active {
+            border-color: var(--blue);
+            background: var(--blue);
+            color: #ffffff;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: minmax(310px, 0.74fr) minmax(0, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+            align-items: start;
+        }
+
+        .pick-panel {
+            display: grid;
+            gap: 9px;
+            padding: 10px;
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 28px;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .panel-title span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .target-grid,
+        .tag-grid,
+        .recommend-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .target-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .recommend-grid,
+        .tag-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .target-button,
+        .tag-button {
+            min-width: 0;
+            border: 1px solid #dbe3ef;
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--ink);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .target-button {
+            display: grid;
+            grid-template-columns: 34px 1fr;
+            gap: 8px;
+            align-items: center;
+            min-height: 66px;
+            padding: 8px;
+        }
+
+        .target-button.is-active,
+        .tag-button.is-active {
+            border-color: var(--blue);
+            background: #eff6ff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .target-button.is-fit,
+        .tag-button.is-fit {
+            border-color: var(--green);
+            background: #ecfdf5;
+        }
+
+        .target-icon {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: var(--blue);
+        }
+
+        .target-copy,
+        .target-copy small,
+        .tag-button small {
+            display: block;
+        }
+
+        .target-button strong,
+        .tag-button strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .tag-tile {
+            position: relative;
+            min-width: 0;
+        }
+
+        .tag-tile .tag-button {
+            width: 100%;
+            height: 100%;
+            padding-right: 40px;
+        }
+
+        .map-link,
+        .photo-link {
+            display: inline-grid;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #fed7aa;
+            border-radius: 999px;
+            background: #fff7ed;
+            color: #c2410c;
+            text-decoration: none;
+            box-shadow: 0 6px 14px rgba(194, 65, 12, 0.12);
+        }
+
+        .photo-link {
+            border-color: #c7d2fe;
+            background: #eef2ff;
+            color: #4338ca;
+            box-shadow: 0 6px 14px rgba(67, 56, 202, 0.12);
+        }
+
+        .tag-actions {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            display: grid;
+            gap: 4px;
+        }
+
+        .tag-actions .map-link,
+        .tag-actions .photo-link {
+            width: 26px;
+            height: 26px;
+            font-size: 11px;
+        }
+
+        .map-link:hover,
+        .map-link:focus-visible {
+            border-color: #fb923c;
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .photo-link:hover,
+        .photo-link:focus-visible {
+            border-color: #818cf8;
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .output-map-link[hidden],
+        .output-photo-link[hidden] {
+            display: none;
+        }
+
+        .target-copy small,
+        .tag-button small {
+            margin-top: 2px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .tag-section {
+            display: grid;
+            gap: 8px;
+        }
+
+        .tag-section + .tag-section {
+            margin-top: 2px;
+        }
+
+        .tag-section-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .tag-scroll {
+            max-height: 466px;
+            overflow: auto;
+            padding-right: 2px;
+        }
+
+        .tag-button {
+            display: grid;
+            gap: 3px;
+            min-height: 54px;
+            padding: 8px;
+        }
+
+        .footer {
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 38px;
+            border: 1px solid #93c5fd;
+            border-radius: 8px;
+            padding: 0 12px;
+            background: #ffffff;
+            color: var(--blue-dark);
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        .btn.primary {
+            border-color: var(--blue);
+            background: var(--blue);
+            color: #ffffff;
+        }
+
+        @media (max-width: 900px) {
+            .board {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .shell {
+                width: min(100% - 14px, 1180px);
+                padding-top: 7px;
+            }
+
+            .sentence-panel {
+                position: sticky;
+                top: 44px;
+                z-index: 20;
+                padding: 10px;
+            }
+
+            .target-grid,
+            .recommend-grid,
+            .tag-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .target-button {
+                grid-template-columns: 1fr;
+                min-height: 84px;
+            }
+
+            .target-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .tag-scroll {
+                max-height: none;
+                overflow: visible;
+            }
+
+            .footer {
+                position: sticky;
+                bottom: 0;
+                z-index: 20;
+                border-top: 1px solid rgba(37, 99, 235, 0.18);
+                padding: 8px 0;
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(10px);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+        <span>|</span>
+        <a href="index.html">16과 목록</a>
+        <span>|</span>
+        <strong>문법 4 보조자료 | 베트남 명소 태그 매칭</strong>
+    </nav>
+
+    <main class="shell">
+        <section class="sentence-panel panel" aria-live="polite">
+            <div class="status-row">
+                <span class="badge" id="fitBadge"><i class="fa-solid fa-circle-check"></i> 좋은 매칭</span>
+                <span class="badge" id="regionBadge">북부</span>
+            </div>
+            <p class="sentence" id="sentenceText"></p>
+            <div class="chip-row">
+                <span class="chip" id="targetChip"></span>
+                <span class="chip" id="tagChip"></span>
+                <a class="map-link output-map-link" id="mapAction" target="_blank" rel="noopener noreferrer" aria-label="구글맵에서 보기" title="구글맵에서 보기" hidden><i class="fa-solid fa-map-location-dot"></i></a>
+                <a class="photo-link output-photo-link" id="photoAction" target="_blank" rel="noopener noreferrer" aria-label="음식 사진 보기" title="음식 사진 보기" hidden><i class="fa-solid fa-image"></i></a>
+                <span class="chip is-form">N(으)로 유명해요</span>
+            </div>
+        </section>
+
+        <nav class="region-bar" id="regionBar" aria-label="베트남 지역 필터"></nav>
+
+        <section class="board" aria-label="베트남 명소 태그 매칭">
+            <section class="pick-panel panel">
+                <div class="panel-title">
+                    <span><i class="fa-solid fa-location-dot"></i> 베트남 명소</span>
+                    <span id="targetCount"></span>
+                </div>
+                <div class="target-grid" id="targetGrid"></div>
+            </section>
+
+            <section class="pick-panel panel">
+                <div class="panel-title">
+                    <span><i class="fa-solid fa-tags"></i> 명사 태그</span>
+                    <span id="tagCount"></span>
+                </div>
+                <div class="tag-section">
+                    <div class="tag-section-title"><i class="fa-solid fa-star"></i> 추천 태그</div>
+                    <div class="recommend-grid" id="recommendGrid"></div>
+                </div>
+                <div class="tag-section">
+                    <div class="tag-section-title"><i class="fa-solid fa-layer-group"></i> 전체 태그</div>
+                    <div class="tag-scroll">
+                        <div class="tag-grid" id="tagGrid"></div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <nav class="footer" aria-label="문법 이동">
+            <a class="btn" href="grammar4.html"><i class="fa-solid fa-arrow-left"></i> 문법 4</a>
+            <a class="btn" href="grammar4-fame-tag-match.html"><i class="fa-solid fa-tags"></i> 기본 버전</a>
+            <a class="btn" href="grammar4-vietnam-map-match.html"><i class="fa-solid fa-map"></i> 지도 버전</a>
+            <a class="btn primary" href="grammar4-speaking-pro.html"><i class="fa-solid fa-microphone-lines"></i> 말하기 PRO</a>
+        </nav>
+    </main>
+
+    <script>
+        const regions = [
+            { id: 'all', label: '전체', icon: 'fa-globe-asia' },
+            { id: 'north', label: '북부', icon: 'fa-mountain-sun' },
+            { id: 'central', label: '중부', icon: 'fa-landmark' },
+            { id: 'south', label: '남부', icon: 'fa-city' },
+            { id: 'east', label: '동부 해안', icon: 'fa-water' },
+            { id: 'west', label: '서부', icon: 'fa-tree' }
+        ];
+
+        const nounTags = {
+            oldQuarter: '구시가지',
+            hoanKiem: '호안끼엠 호수',
+            waterPuppet: '수상 인형극',
+            bunCha: '분짜',
+            eggCoffee: '에그 커피',
+            templeLiterature: '문묘',
+            port: '항구',
+            cyclo: '씨클로',
+            thangLongCitadel: '탕롱 황성',
+            stJosephCathedral: '성요셉 성당',
+            chaCa: '짜까',
+            halongBay: '하롱베이',
+            limestoneKarst: '석회암 카르스트',
+            cruise: '유람선',
+            cave: '동굴',
+            seafoodStreet: '해산물 거리',
+            tiTopIsland: '티톱섬',
+            terracedRice: '계단식 논',
+            fansipan: '판시판산',
+            ethnicVillage: '소수민족 마을',
+            trekking: '트레킹',
+            loveMarket: '러브 마켓',
+            bacHaMarket: '박하 시장',
+            trangAn: '짱안',
+            tamCoc: '땀꼭',
+            hangMua: '항무아',
+            baiDinhPagoda: '바이딘 사원',
+            dongVan: '동반 카르스트 고원',
+            maPiLeng: '마피렝 고개',
+            motorbikeLoop: '오토바이 루프',
+            lungCuFlagTower: '룽꾸 깃대',
+            buckwheatFlower: '메밀꽃',
+            catbaIsland: '깟바섬',
+            lanHaBay: '란하베이',
+            nationalPark: '국립공원',
+            kayak: '카약',
+            baBeLake: '바베호',
+            boatTour: '보트 투어',
+            quanHo: '꽌호 민요',
+            imperialCity: '황성',
+            royalTombs: '왕릉',
+            perfumeRiver: '향강',
+            royalCuisine: '궁중 음식',
+            aoDai: '아오자이',
+            thienMuPagoda: '티엔무 사원',
+            bunBoHue: '분보후에',
+            myKhe: '미케 해변',
+            dragonBridge: '용다리',
+            baNaHills: '바나힐',
+            marbleMountains: '오행산',
+            goldenBridge: '골든 브리지',
+            sonTra: '선짜 반도',
+            hanRiver: '한강',
+            miQuang: '미꽝',
+            ancientTown: '고대 도시',
+            lanterns: '등불',
+            japaneseBridge: '일본교',
+            tailorMade: '맞춤옷',
+            caoLau: '까오라우',
+            tanKyHouse: '떤끼 고택',
+            lanternMaking: '등불 만들기',
+            champaRuins: '참파 유적',
+            hinduTemple: '힌두 사원',
+            sonDoong: '손둥 동굴',
+            phongNhaCave: '퐁냐 동굴',
+            caveAdventure: '동굴 탐험',
+            nhatLeBeach: '냣레 해변',
+            quyNhonBeach: '끼꼬 해변',
+            eoGio: '에오조',
+            benThanh: '벤탄시장',
+            reunificationPalace: '통일궁',
+            notreDame: '노트르담 대성당',
+            warMuseum: '전쟁박물관',
+            nguyenHueStreet: '응우옌후에 거리',
+            landmark81: '랜드마크 81',
+            cuChiTunnel: '꾸찌 터널',
+            floatingMarket: '수상시장',
+            tropicalFruit: '열대 과일',
+            orchard: '과수원',
+            caiRang: '까이랑 수상시장',
+            ninhKieuWharf: '닌끼에우 부두',
+            binhThuyHouse: '빈투이 고택',
+            ongPagoda: '옹 사원',
+            huTieu: '후띠에우',
+            saoBeach: '사오 해변',
+            pepper: '후추',
+            pearl: '진주',
+            cableCar: '케이블카',
+            fishSauceFactory: '피시소스 공장',
+            hamNinhCrab: '함닌 게',
+            nightMarket: '야시장',
+            anThoiIslands: '안터이 제도',
+            coralReef: '산호초',
+            seaTurtle: '바다거북',
+            prisonRelic: '감옥 유적',
+            baDenMountain: '바덴산',
+            caoDaiTemple: '까오다이 사원',
+            coconut: '코코넛',
+            mekongCanal: '메콩 운하',
+            beach: '해변',
+            snorkeling: '스노클링',
+            poNagar: '포나가르 참탑',
+            mudBath: '머드 온천',
+            islandTour: '섬 투어',
+            redSandDunes: '붉은 모래언덕',
+            whiteSandDunes: '흰 모래언덕',
+            kiteSurfing: '카이트서핑',
+            fishingVillage: '어촌',
+            fishSauce: '피시소스',
+            seafood: '해산물',
+            christStatue: '예수상',
+            lighthouse: '등대',
+            poKlongGarai: '포 끌롱 가라이 참탑',
+            vineyard: '포도밭',
+            saltField: '소금밭',
+            chamCulture: '참 문화',
+            ganhDaDia: '현무암 바위 해안',
+            baiXep: '바이쎕 해변',
+            dienBienBattle: '디엔비엔푸 전투',
+            warRelic: '전쟁 유적',
+            thaiVillage: '태국족 마을',
+            homestay: '홈스테이',
+            teaHill: '차밭',
+            plumFlower: '자두꽃',
+            waterfall: '폭포',
+            ranch: '목장',
+            xuanHuong: '쑤언흐엉 호수',
+            flower: '꽃',
+            coffeeFarm: '커피 농장',
+            coolWeather: '시원한 날씨',
+            strawberry: '딸기',
+            pineForest: '소나무 숲',
+            langbiangMountain: '랑비앙산',
+            coffee: '커피',
+            worldCoffeeMuseum: '세계 커피 박물관',
+            dakLakMuseum: '닥락 박물관',
+            yokDon: '요크돈 국립공원',
+            drayNurWaterfall: '드라이누르 폭포',
+            bienHo: '비엔호 호수',
+            jaraiCulture: '짜라이 문화',
+            pineHill: '소나무 언덕',
+            oneSunDriedBeef: '한 번 말린 쇠고기',
+            samMountain: '삼산',
+            traSuForest: '짜스 멜라루카 숲',
+            floatingVillage: '수상 마을',
+            limestoneMountain: '석회암 산',
+            borderCity: '국경 도시',
+            laoCaiBorder: '라오까이 국경문',
+            banGiocWaterfall: '반족 폭포',
+            pacBoRelic: '팍보 유적',
+            mauSonMountain: '마우선산',
+            kyLuaMarket: '끼르어 시장',
+            tea: '차',
+            lychee: '리치',
+            vinhNghiemPagoda: '빈응이엠 사원',
+            phoMinhTower: '포민 탑',
+            xuanThuyNationalPark: '쑤언투이 국립공원',
+            samSonBeach: '삼선 해변',
+            lamKinhRelic: '람킨 유적',
+            cuaLoBeach: '끄어로 해변',
+            kimLienRelic: '낌리엔 유적',
+            hienLuongBridge: '히엔르엉 다리',
+            vinhMocTunnel: '빈목 터널',
+            tamThanhMural: '땀타인 벽화마을',
+            woodenChurch: '목조 성당',
+            suspensionBridge: '현수교',
+            camRanhBay: '깜라인만',
+            vinhTrangPagoda: '빈짱 사원',
+            vinhLongPottery: '빈롱 도자기',
+            flowerVillage: '꽃마을',
+            oldHouse: '고택',
+            khmerPagoda: '크메르 사원',
+            batPagoda: '박쥐 사원',
+            bacLieuPrinceHouse: '박리에우 공자 저택',
+            windFarm: '풍력발전단지',
+            caMauCape: '까마우 곶',
+            mangroveForest: '맹그로브 숲',
+            islandGateway: '섬 여행 관문'
+        };
+
+        const foodTags = {
+            pho: '쌀국수',
+            banhMi: '반미',
+            banhCuon: '반꾸온',
+            bunThang: '분탕',
+            banhDaCua: '반다꾸어',
+            nemCuaBe: '넴꾸어베',
+            chaMuc: '짜믁',
+            thangCo: '탕꼬',
+            salmonHotpot: '연어 훠궈',
+            fiveColorStickyRice: '오색 찹쌀밥',
+            roastDuckLangSon: '랑선 오리구이',
+            khauNhuc: '커우눅',
+            myChuNoodle: '미쭈 쌀국수',
+            comChay: '누룽지밥',
+            goatMeat: '염소고기',
+            phoNamDinh: '남딘 쌀국수',
+            xiuPao: '시우빠오',
+            auTauPorridge: '아우따우 죽',
+            buckwheatCake: '메밀떡',
+            tuHai: '투하이 조개',
+            grilledFish: '생선구이',
+            phuTheCake: '부테 떡',
+            nemBui: '넴부이',
+            banhBeo: '반베오',
+            comHen: '껌헨',
+            nemLui: '넴루이',
+            nemChua: '넴쭈아',
+            chaTom: '새우완자구이',
+            eelSoup: '장어국수',
+            nhutThanhChuong: '느엇타인쯔엉',
+            chaoCanh: '짜오깐',
+            banhBotLoc: '반봇록',
+            bunHen: '분헨',
+            chaoVatGiuong: '짜오밧즈엉',
+            banhTrangCuonThitHeo: '돼지고기 라이스페이퍼말이',
+            bunMamNem: '분맘넴',
+            comGaHoiAn: '호이안 닭밥',
+            banhMiHoiAn: '호이안 반미',
+            whiteRose: '화이트 로즈 만두',
+            mangoCake: '망고 케이크',
+            comGaTamKy: '땀끼 닭밥',
+            leafSalad: '잎 샐러드',
+            grilledChicken: '닭구이',
+            comLam: '대나무밥',
+            bunChaCa: '분짜까',
+            banhXeoTomNhay: '새우 반쎄오',
+            comTam: '껌땀',
+            goiCuon: '월남쌈',
+            phoSaiGon: '사이공 쌀국수',
+            boToCuChi: '꾸찌 송아지고기',
+            khoaiMi: '카사바',
+            banhXeo: '반쎄오',
+            caKhoTo: '뚝배기 조림 생선',
+            elephantEarFish: '코끼리귀 생선튀김',
+            banhCong: '반꽁',
+            nemNuong: '넴느엉',
+            bunNuocLeo: '분느억레오',
+            lauMam: '라우맘',
+            vitNauChao: '오리 발효두부 전골',
+            huTieuMyTho: '미토 후띠에우',
+            huTieuSaDec: '사덱 후띠에우',
+            bunCaLongXuyen: '롱쑤옌 생선국수',
+            comTamLongXuyen: '롱쑤옌 껌땀',
+            banhPhongTom: '새우 과자',
+            banhPia: '반삐아',
+            bunBoCay: '매운 소고기 국수',
+            baKhia: '바키아 게장',
+            cuaCaMau: '까마우 게',
+            lauMamUMinh: '우민 라우맘',
+            bunCaKienGiang: '끼엔장 생선국수',
+            goiCaTrich: '청어 샐러드',
+            bunKen: '분껜',
+            seaUrchin: '성게구이',
+            ocVuNang: '옥부낭 조개',
+            mamNhum: '성게 젓갈',
+            banhTrangPhoiSuong: '반짱포이쓰엉',
+            muoiTom: '새우소금',
+            coconutCandy: '코코넛 캔디',
+            banhCan: '반깐',
+            bunCaNhaTrang: '냐짱 생선국수',
+            nemNuongNhaTrang: '냐짱 넴느엉',
+            banhCanhChaCa: '어묵 국수',
+            lobster: '랍스터',
+            lauTha: '라우타',
+            goiCaMai: '마이 생선 샐러드',
+            banhKhot: '반콧',
+            stingrayHotpot: '가오리 전골',
+            saltedEggSpongeCake: '소금계란 카스텔라',
+            tunaEye: '참치눈 스튜',
+            banhHoiLongHeo: '내장 반호이',
+            paPinhTop: '파핑톱 생선구이',
+            beChao: '송아지고기 볶음',
+            freshMilk: '신선한 우유',
+            banhTrangNuong: '반짱느엉',
+            avocadoIceCream: '아보카도 아이스크림',
+            artichokeTea: '아티초크 차',
+            redNoodle: '분도',
+            phoKhoGiaLai: '잘라이 마른 쌀국수',
+            bunCuaThoi: '분꾸어토이',
+            bunCaChauDoc: '쩌우독 생선국수',
+            mamChauDoc: '쩌우독 젓갈',
+            palmSugar: '야자설탕',
+            banhCanhHaTien: '하띠엔 반깐'
+        };
+
+        Object.assign(nounTags, foodTags);
+
+        const mapQueries = {
+            oldQuarter: 'Hanoi Old Quarter',
+            hoanKiem: 'Hoan Kiem Lake',
+            templeLiterature: 'Temple of Literature Hanoi',
+            thangLongCitadel: 'Imperial Citadel of Thang Long',
+            stJosephCathedral: 'St Joseph Cathedral Hanoi',
+            halongBay: 'Ha Long Bay',
+            tiTopIsland: 'Ti Top Island',
+            fansipan: 'Fansipan Sa Pa',
+            bacHaMarket: 'Bac Ha Market',
+            trangAn: 'Trang An Scenic Landscape Complex',
+            tamCoc: 'Tam Coc Ninh Binh',
+            hangMua: 'Mua Cave Ninh Binh',
+            baiDinhPagoda: 'Bai Dinh Pagoda',
+            dongVan: 'Dong Van Karst Plateau Geopark',
+            maPiLeng: 'Ma Pi Leng Pass',
+            lungCuFlagTower: 'Lung Cu Flag Tower',
+            catbaIsland: 'Cat Ba Island',
+            lanHaBay: 'Lan Ha Bay',
+            baBeLake: 'Ba Be Lake',
+            imperialCity: 'Imperial City Hue',
+            royalTombs: 'Tombs of the Nguyen Emperors Hue',
+            perfumeRiver: 'Perfume River Hue',
+            thienMuPagoda: 'Thien Mu Pagoda',
+            myKhe: 'My Khe Beach Da Nang',
+            dragonBridge: 'Dragon Bridge Da Nang',
+            baNaHills: 'Ba Na Hills',
+            marbleMountains: 'Marble Mountains Da Nang',
+            goldenBridge: 'Golden Bridge Ba Na Hills',
+            sonTra: 'Son Tra Peninsula',
+            hanRiver: 'Han River Da Nang',
+            ancientTown: 'Hoi An Ancient Town',
+            japaneseBridge: 'Japanese Covered Bridge Hoi An',
+            tanKyHouse: 'Tan Ky Old House Hoi An',
+            sonDoong: 'Son Doong Cave',
+            phongNhaCave: 'Phong Nha Cave',
+            nhatLeBeach: 'Nhat Le Beach Dong Hoi',
+            quyNhonBeach: 'Ky Co Beach Quy Nhon',
+            eoGio: 'Eo Gio Quy Nhon',
+            benThanh: 'Ben Thanh Market',
+            reunificationPalace: 'Independence Palace Ho Chi Minh City',
+            notreDame: 'Notre Dame Cathedral Basilica of Saigon',
+            warMuseum: 'War Remnants Museum Ho Chi Minh City',
+            nguyenHueStreet: 'Nguyen Hue Walking Street Ho Chi Minh City',
+            landmark81: 'Landmark 81',
+            cuChiTunnel: 'Cu Chi Tunnels',
+            caiRang: 'Cai Rang Floating Market',
+            ninhKieuWharf: 'Ninh Kieu Wharf Can Tho',
+            binhThuyHouse: 'Binh Thuy Ancient House',
+            ongPagoda: 'Ong Temple Can Tho',
+            saoBeach: 'Sao Beach Phu Quoc',
+            cableCar: 'Hon Thom Cable Car Phu Quoc',
+            anThoiIslands: 'An Thoi Islands Phu Quoc',
+            prisonRelic: 'Con Dao Prison',
+            baDenMountain: 'Ba Den Mountain',
+            caoDaiTemple: 'Cao Dai Temple Tay Ninh',
+            poNagar: 'Po Nagar Cham Towers',
+            redSandDunes: 'Red Sand Dunes Mui Ne',
+            whiteSandDunes: 'White Sand Dunes Mui Ne',
+            christStatue: 'Christ of Vung Tau',
+            lighthouse: 'Vung Tau Lighthouse',
+            poKlongGarai: 'Po Klong Garai Cham Temple',
+            ganhDaDia: 'Ganh Da Dia',
+            baiXep: 'Bai Xep Beach Phu Yen',
+            dienBienBattle: 'Dien Bien Phu Victory Museum',
+            xuanHuong: 'Xuan Huong Lake Da Lat',
+            langbiangMountain: 'Lang Biang Mountain',
+            worldCoffeeMuseum: 'World Coffee Museum Buon Ma Thuot',
+            dakLakMuseum: 'Dak Lak Museum',
+            yokDon: 'Yok Don National Park',
+            drayNurWaterfall: 'Dray Nur Waterfall',
+            bienHo: 'Bien Ho Pleiku',
+            samMountain: 'Sam Mountain Chau Doc',
+            traSuForest: 'Tra Su Cajuput Forest',
+            banGiocWaterfall: 'Ban Gioc Waterfall',
+            pacBoRelic: 'Pac Bo Historical Site',
+            mauSonMountain: 'Mau Son Mountain Lang Son',
+            kyLuaMarket: 'Ky Lua Market Lang Son',
+            vinhNghiemPagoda: 'Vinh Nghiem Pagoda Bac Giang',
+            phoMinhTower: 'Pho Minh Tower Nam Dinh',
+            xuanThuyNationalPark: 'Xuan Thuy National Park',
+            samSonBeach: 'Sam Son Beach',
+            lamKinhRelic: 'Lam Kinh Historical Site',
+            cuaLoBeach: 'Cua Lo Beach',
+            kimLienRelic: 'Kim Lien Relic Site',
+            hienLuongBridge: 'Hien Luong Bridge',
+            vinhMocTunnel: 'Vinh Moc Tunnels',
+            tamThanhMural: 'Tam Thanh Mural Village',
+            woodenChurch: 'Kon Tum Wooden Church',
+            suspensionBridge: 'Kon Klor Suspension Bridge',
+            camRanhBay: 'Cam Ranh Bay',
+            vinhTrangPagoda: 'Vinh Trang Pagoda My Tho',
+            flowerVillage: 'Sa Dec Flower Village',
+            khmerPagoda: 'Khmer Pagoda Soc Trang',
+            batPagoda: 'Bat Pagoda Soc Trang',
+            bacLieuPrinceHouse: 'Bac Lieu Prince House',
+            windFarm: 'Bac Lieu Wind Farm',
+            caMauCape: 'Ca Mau Cape',
+            waterPuppet: 'Thang Long Water Puppet Theatre',
+            bunCha: 'Bun Cha Huong Lien',
+            eggCoffee: 'Cafe Giang egg coffee',
+            port: 'port',
+            cyclo: 'cyclo tour',
+            chaCa: 'Cha Ca La Vong',
+            limestoneKarst: 'limestone karst landscape',
+            cruise: 'cruise pier',
+            cave: 'cave',
+            seafoodStreet: 'seafood street',
+            terracedRice: 'terraced rice fields',
+            ethnicVillage: 'ethnic village',
+            trekking: 'trekking route',
+            loveMarket: 'love market',
+            motorbikeLoop: 'motorbike loop',
+            buckwheatFlower: 'buckwheat flower fields',
+            nationalPark: 'national park',
+            kayak: 'kayak tour',
+            boatTour: 'boat tour',
+            quanHo: 'Quan Ho folk song',
+            royalCuisine: 'royal cuisine restaurant',
+            aoDai: 'ao dai shop',
+            bunBoHue: 'bun bo Hue restaurant',
+            miQuang: 'Mi Quang restaurant',
+            lanterns: 'lantern street',
+            tailorMade: 'tailor shop',
+            caoLau: 'Cao Lau restaurant',
+            lanternMaking: 'lantern making workshop',
+            champaRuins: 'Champa ruins',
+            hinduTemple: 'Hindu temple',
+            caveAdventure: 'cave adventure tour',
+            floatingMarket: 'floating market',
+            tropicalFruit: 'tropical fruit market',
+            orchard: 'fruit orchard',
+            huTieu: 'Hu Tieu restaurant',
+            pepper: 'pepper farm',
+            pearl: 'pearl farm',
+            fishSauceFactory: 'fish sauce factory',
+            hamNinhCrab: 'Ham Ninh crab restaurant',
+            nightMarket: 'night market',
+            coralReef: 'coral reef snorkeling',
+            seaTurtle: 'sea turtle conservation',
+            coconut: 'coconut village',
+            mekongCanal: 'Mekong canal',
+            beach: 'beach',
+            snorkeling: 'snorkeling tour',
+            mudBath: 'mud bath',
+            islandTour: 'island tour',
+            kiteSurfing: 'kite surfing school',
+            fishingVillage: 'fishing village',
+            fishSauce: 'fish sauce factory',
+            seafood: 'seafood restaurant',
+            vineyard: 'vineyard',
+            saltField: 'salt fields',
+            chamCulture: 'Cham cultural center',
+            warRelic: 'war relic',
+            thaiVillage: 'Thai ethnic village',
+            homestay: 'homestay',
+            teaHill: 'tea hill',
+            plumFlower: 'plum blossom valley',
+            waterfall: 'waterfall',
+            ranch: 'dairy farm',
+            flower: 'flower garden',
+            coffeeFarm: 'coffee farm',
+            strawberry: 'strawberry farm',
+            pineForest: 'pine forest',
+            coffee: 'coffee shop',
+            jaraiCulture: 'Jarai village',
+            pineHill: 'pine hill',
+            oneSunDriedBeef: 'one sun dried beef restaurant',
+            floatingVillage: 'floating village',
+            limestoneMountain: 'limestone mountain',
+            borderCity: 'border gate',
+            laoCaiBorder: 'Lao Cai International Border Gate',
+            tea: 'tea plantation',
+            lychee: 'lychee garden',
+            vinhLongPottery: 'Vinh Long pottery kiln',
+            oldHouse: 'ancient house',
+            mangroveForest: 'mangrove forest',
+            islandGateway: 'island ferry terminal'
+        };
+
+        const foodMapQueries = {
+            bunCha: 'bun cha restaurant',
+            eggCoffee: 'egg coffee cafe',
+            chaCa: 'cha ca restaurant',
+            royalCuisine: 'Hue royal cuisine restaurant',
+            bunBoHue: 'bun bo Hue restaurant',
+            miQuang: 'Mi Quang restaurant',
+            caoLau: 'Cao Lau restaurant',
+            huTieu: 'Hu Tieu restaurant',
+            tropicalFruit: 'tropical fruit market',
+            pepper: 'pepper farm',
+            fishSauceFactory: 'fish sauce factory',
+            hamNinhCrab: 'Ham Ninh crab restaurant',
+            coconut: 'coconut candy shop',
+            fishSauce: 'fish sauce factory',
+            seafood: 'seafood restaurant',
+            tea: 'tea house',
+            lychee: 'lychee garden',
+            strawberry: 'strawberry farm',
+            coffee: 'coffee shop',
+            oneSunDriedBeef: 'one sun dried beef restaurant',
+            pho: 'pho restaurant',
+            banhMi: 'banh mi shop',
+            banhCuon: 'banh cuon restaurant',
+            bunThang: 'bun thang restaurant',
+            banhDaCua: 'banh da cua restaurant',
+            nemCuaBe: 'nem cua be restaurant',
+            chaMuc: 'cha muc restaurant',
+            thangCo: 'thang co restaurant',
+            salmonHotpot: 'salmon hotpot restaurant',
+            fiveColorStickyRice: 'five color sticky rice',
+            roastDuckLangSon: 'Lang Son roast duck restaurant',
+            khauNhuc: 'khau nhuc restaurant',
+            myChuNoodle: 'My Chu noodle restaurant',
+            comChay: 'com chay Ninh Binh restaurant',
+            goatMeat: 'goat meat restaurant',
+            phoNamDinh: 'pho Nam Dinh restaurant',
+            xiuPao: 'xiu pao bakery',
+            auTauPorridge: 'au tau porridge restaurant',
+            buckwheatCake: 'buckwheat cake',
+            tuHai: 'tu hai seafood restaurant',
+            grilledFish: 'grilled fish restaurant',
+            phuTheCake: 'phu the cake shop',
+            nemBui: 'nem Bui restaurant',
+            banhBeo: 'banh beo restaurant',
+            comHen: 'com hen restaurant',
+            nemLui: 'nem lui restaurant',
+            nemChua: 'nem chua shop',
+            chaTom: 'cha tom restaurant',
+            eelSoup: 'Nghe An eel soup restaurant',
+            nhutThanhChuong: 'nhut Thanh Chuong',
+            chaoCanh: 'chao canh restaurant',
+            banhBotLoc: 'banh bot loc restaurant',
+            bunHen: 'bun hen restaurant',
+            chaoVatGiuong: 'chao vat giuong restaurant',
+            banhTrangCuonThitHeo: 'banh trang cuon thit heo restaurant',
+            bunMamNem: 'bun mam nem restaurant',
+            comGaHoiAn: 'Hoi An chicken rice restaurant',
+            banhMiHoiAn: 'Hoi An banh mi shop',
+            whiteRose: 'white rose dumpling Hoi An',
+            mangoCake: 'Hoi An mango cake',
+            comGaTamKy: 'Tam Ky chicken rice restaurant',
+            leafSalad: 'Kon Tum leaf salad restaurant',
+            grilledChicken: 'grilled chicken restaurant',
+            comLam: 'com lam restaurant',
+            bunChaCa: 'bun cha ca restaurant',
+            banhXeoTomNhay: 'banh xeo tom nhay restaurant',
+            comTam: 'com tam restaurant',
+            goiCuon: 'goi cuon restaurant',
+            phoSaiGon: 'Saigon pho restaurant',
+            boToCuChi: 'bo to Cu Chi restaurant',
+            khoaiMi: 'khoai mi street food',
+            banhXeo: 'banh xeo restaurant',
+            caKhoTo: 'ca kho to restaurant',
+            elephantEarFish: 'elephant ear fish restaurant',
+            banhCong: 'banh cong restaurant',
+            nemNuong: 'nem nuong restaurant',
+            bunNuocLeo: 'bun nuoc leo restaurant',
+            lauMam: 'lau mam restaurant',
+            vitNauChao: 'vit nau chao restaurant',
+            huTieuMyTho: 'hu tieu My Tho restaurant',
+            huTieuSaDec: 'hu tieu Sa Dec restaurant',
+            bunCaLongXuyen: 'bun ca Long Xuyen restaurant',
+            comTamLongXuyen: 'com tam Long Xuyen restaurant',
+            banhPhongTom: 'banh phong tom shop',
+            banhPia: 'banh pia shop',
+            bunBoCay: 'bun bo cay restaurant',
+            baKhia: 'ba khia restaurant',
+            cuaCaMau: 'Ca Mau crab restaurant',
+            lauMamUMinh: 'lau mam U Minh restaurant',
+            bunCaKienGiang: 'bun ca Kien Giang restaurant',
+            goiCaTrich: 'goi ca trich restaurant',
+            bunKen: 'bun ken restaurant',
+            seaUrchin: 'grilled sea urchin restaurant',
+            ocVuNang: 'oc vu nang restaurant',
+            mamNhum: 'mam nhum',
+            banhTrangPhoiSuong: 'banh trang phoi suong shop',
+            muoiTom: 'Tay Ninh shrimp salt shop',
+            coconutCandy: 'Ben Tre coconut candy shop',
+            banhCan: 'banh can restaurant',
+            bunCaNhaTrang: 'bun ca Nha Trang restaurant',
+            nemNuongNhaTrang: 'nem nuong Nha Trang restaurant',
+            banhCanhChaCa: 'banh canh cha ca restaurant',
+            lobster: 'lobster restaurant',
+            lauTha: 'lau tha restaurant',
+            goiCaMai: 'goi ca mai restaurant',
+            banhKhot: 'banh khot restaurant',
+            stingrayHotpot: 'stingray hotpot restaurant',
+            saltedEggSpongeCake: 'salted egg sponge cake bakery',
+            tunaEye: 'tuna eye stew restaurant',
+            banhHoiLongHeo: 'banh hoi long heo restaurant',
+            paPinhTop: 'pa pinh top grilled fish restaurant',
+            beChao: 'be chao restaurant',
+            freshMilk: 'fresh milk shop',
+            banhTrangNuong: 'banh trang nuong stall',
+            avocadoIceCream: 'avocado ice cream shop',
+            artichokeTea: 'artichoke tea shop',
+            redNoodle: 'bun do restaurant',
+            phoKhoGiaLai: 'pho kho Gia Lai restaurant',
+            bunCuaThoi: 'bun cua thoi restaurant',
+            bunCaChauDoc: 'bun ca Chau Doc restaurant',
+            mamChauDoc: 'Chau Doc fish sauce market',
+            palmSugar: 'palm sugar shop',
+            banhCanhHaTien: 'banh canh Ha Tien restaurant'
+        };
+
+        Object.assign(mapQueries, foodMapQueries);
+
+        const foodPhotoQueries = {
+            ...foodMapQueries
+        };
+
+        const targets = [
+            { id: 'hanoi', region: 'north', icon: 'fa-city', name: '하노이', vi: 'Hà Nội', hint: '수도 · 문화', tags: ['oldQuarter', 'hoanKiem', 'waterPuppet', 'bunCha', 'eggCoffee', 'templeLiterature', 'cyclo', 'thangLongCitadel', 'stJosephCathedral', 'chaCa'] },
+            { id: 'haiphong', region: 'north', icon: 'fa-anchor', name: '하이퐁', vi: 'Hải Phòng', hint: '항구 · 해안', tags: ['port', 'seafood', 'catbaIsland', 'lanHaBay'] },
+            { id: 'halong', region: 'north', icon: 'fa-ship', name: '하롱베이', vi: 'Vịnh Hạ Long', hint: '바다 · 카르스트', tags: ['limestoneKarst', 'cruise', 'cave', 'halongBay', 'seafoodStreet', 'tiTopIsland'] },
+            { id: 'sapa', region: 'north', icon: 'fa-mountain', name: '사파', vi: 'Sa Pa', hint: '산악 · 트레킹', tags: ['terracedRice', 'fansipan', 'ethnicVillage', 'trekking', 'loveMarket', 'bacHaMarket'] },
+            { id: 'laocai', region: 'north', icon: 'fa-door-open', name: '라오까이', vi: 'Lào Cai', hint: '국경 · 산악', tags: ['laoCaiBorder', 'fansipan', 'trekking'] },
+            { id: 'caobang', region: 'north', icon: 'fa-water', name: '까오방', vi: 'Cao Bằng', hint: '폭포 · 동굴', tags: ['banGiocWaterfall', 'pacBoRelic', 'cave'] },
+            { id: 'langson', region: 'north', icon: 'fa-store', name: '랑선', vi: 'Lạng Sơn', hint: '시장 · 산', tags: ['kyLuaMarket', 'mauSonMountain', 'borderCity'] },
+            { id: 'thainguyen', region: 'north', icon: 'fa-mug-hot', name: '타이응우옌', vi: 'Thái Nguyên', hint: '차 · 박물관', tags: ['tea', 'teaHill'] },
+            { id: 'bacgiang', region: 'north', icon: 'fa-apple-whole', name: '박장', vi: 'Bắc Giang', hint: '과일 · 사원', tags: ['lychee', 'vinhNghiemPagoda'] },
+            { id: 'ninhbinh', region: 'north', icon: 'fa-water', name: '닌빈', vi: 'Ninh Bình', hint: '강 · 석회암', tags: ['trangAn', 'tamCoc', 'hangMua', 'limestoneKarst', 'boatTour', 'baiDinhPagoda'] },
+            { id: 'namdinh', region: 'north', icon: 'fa-tower-observation', name: '남딘', vi: 'Nam Định', hint: '탑 · 습지', tags: ['phoMinhTower', 'xuanThuyNationalPark'] },
+            { id: 'hagiang', region: 'north', icon: 'fa-road', name: '하장', vi: 'Hà Giang', hint: '고개 · 루프', tags: ['dongVan', 'maPiLeng', 'motorbikeLoop', 'ethnicVillage', 'lungCuFlagTower', 'buckwheatFlower'] },
+            { id: 'catba', region: 'north', icon: 'fa-umbrella-beach', name: '깟바섬', vi: 'Cát Bà', hint: '섬 · 국립공원', tags: ['lanHaBay', 'nationalPark', 'kayak', 'cave'] },
+            { id: 'babe', region: 'north', icon: 'fa-person-rowing', name: '바베호', vi: 'Ba Bể', hint: '호수 · 보트', tags: ['nationalPark', 'boatTour', 'cave', 'baBeLake'] },
+            { id: 'bacninh', region: 'north', icon: 'fa-music', name: '박닌', vi: 'Bắc Ninh', hint: '민요 · 전통', tags: ['quanHo'] },
+            { id: 'hue', region: 'central', icon: 'fa-landmark', name: '후에', vi: 'Huế', hint: '왕조 · 유산', tags: ['imperialCity', 'royalTombs', 'perfumeRiver', 'royalCuisine', 'aoDai', 'thienMuPagoda', 'bunBoHue'] },
+            { id: 'thanhhoa', region: 'central', icon: 'fa-umbrella-beach', name: '타인호아', vi: 'Thanh Hóa', hint: '해변 · 유적', tags: ['samSonBeach', 'lamKinhRelic'] },
+            { id: 'vinh', region: 'central', icon: 'fa-water', name: '빈', vi: 'Vinh', hint: '해변 · 역사', tags: ['cuaLoBeach', 'kimLienRelic'] },
+            { id: 'donghoi', region: 'central', icon: 'fa-umbrella-beach', name: '동허이', vi: 'Đồng Hới', hint: '해변 · 동굴', tags: ['nhatLeBeach', 'phongNhaCave', 'caveAdventure'] },
+            { id: 'quangtri', region: 'central', icon: 'fa-bridge', name: '꽝찌', vi: 'Quảng Trị', hint: '다리 · 터널', tags: ['hienLuongBridge', 'vinhMocTunnel', 'warRelic'] },
+            { id: 'danang', region: 'central', icon: 'fa-bridge', name: '다낭', vi: 'Đà Nẵng', hint: '해변 · 다리', tags: ['myKhe', 'dragonBridge', 'baNaHills', 'marbleMountains', 'goldenBridge', 'sonTra', 'hanRiver', 'miQuang', 'seafood'] },
+            { id: 'hoian', region: 'central', icon: 'fa-lightbulb', name: '호이안', vi: 'Hội An', hint: '고도 · 등불', tags: ['ancientTown', 'lanterns', 'japaneseBridge', 'tailorMade', 'caoLau', 'tanKyHouse', 'lanternMaking'] },
+            { id: 'myson', region: 'central', icon: 'fa-place-of-worship', name: '미선 유적', vi: 'Mỹ Sơn', hint: '참파 · 사원', tags: ['champaRuins', 'hinduTemple', 'chamCulture'] },
+            { id: 'phongnha', region: 'central', icon: 'fa-mountain-sun', name: '퐁냐-께방', vi: 'Phong Nha-Kẻ Bàng', hint: '동굴 · 국립공원', tags: ['sonDoong', 'phongNhaCave', 'nationalPark', 'caveAdventure', 'limestoneKarst'] },
+            { id: 'quangbinh', region: 'central', icon: 'fa-person-hiking', name: '꽝빈', vi: 'Quảng Bình', hint: '동굴 · 해변', tags: ['caveAdventure', 'nhatLeBeach', 'phongNhaCave'] },
+            { id: 'tamky', region: 'central', icon: 'fa-palette', name: '땀끼', vi: 'Tam Kỳ', hint: '벽화 · 해안', tags: ['tamThanhMural', 'beach'] },
+            { id: 'kontum', region: 'central', icon: 'fa-church', name: '꼰뚬', vi: 'Kon Tum', hint: '성당 · 고원', tags: ['woodenChurch', 'suspensionBridge', 'ethnicVillage'] },
+            { id: 'quynhon', region: 'central', icon: 'fa-umbrella-beach', name: '꾸이년', vi: 'Quy Nhơn', hint: '해변 · 참탑', tags: ['quyNhonBeach', 'eoGio', 'champaRuins', 'seafood'] },
+            { id: 'hcmc', region: 'south', icon: 'fa-building-columns', name: '호찌민시', vi: 'Thành phố Hồ Chí Minh', hint: '도시 · 역사', tags: ['benThanh', 'reunificationPalace', 'notreDame', 'warMuseum', 'nguyenHueStreet', 'landmark81'] },
+            { id: 'cuchi', region: 'south', icon: 'fa-person-digging', name: '꾸찌', vi: 'Củ Chi', hint: '터널 · 역사', tags: ['cuChiTunnel', 'warRelic'] },
+            { id: 'mekong', region: 'south', icon: 'fa-person-rowing', name: '메콩 델타', vi: 'Đồng bằng sông Cửu Long', hint: '강 · 과일', tags: ['floatingMarket', 'tropicalFruit', 'boatTour', 'orchard', 'mekongCanal'] },
+            { id: 'cantho', region: 'south', icon: 'fa-store', name: '껀터', vi: 'Cần Thơ', hint: '수상시장', tags: ['caiRang', 'floatingMarket', 'tropicalFruit', 'boatTour', 'ninhKieuWharf', 'binhThuyHouse', 'ongPagoda', 'huTieu'] },
+            { id: 'mytho', region: 'south', icon: 'fa-person-rowing', name: '미토', vi: 'Mỹ Tho', hint: '사원 · 강', tags: ['vinhTrangPagoda', 'mekongCanal', 'boatTour'] },
+            { id: 'vinhlong', region: 'south', icon: 'fa-seedling', name: '빈롱', vi: 'Vĩnh Long', hint: '과수원 · 도자기', tags: ['orchard', 'vinhLongPottery', 'mekongCanal'] },
+            { id: 'longxuyen', region: 'south', icon: 'fa-water', name: '롱쑤옌', vi: 'Long Xuyên', hint: '수상마을 · 강', tags: ['floatingVillage', 'samMountain', 'boatTour'] },
+            { id: 'sadec', region: 'south', icon: 'fa-seedling', name: '사덱', vi: 'Sa Đéc', hint: '꽃 · 고택', tags: ['flowerVillage', 'oldHouse'] },
+            { id: 'soctrang', region: 'south', icon: 'fa-place-of-worship', name: '속짱', vi: 'Sóc Trăng', hint: '사원 · 문화', tags: ['khmerPagoda', 'batPagoda'] },
+            { id: 'baclieu', region: 'south', icon: 'fa-wind', name: '박리에우', vi: 'Bạc Liêu', hint: '저택 · 풍력', tags: ['bacLieuPrinceHouse', 'windFarm'] },
+            { id: 'camau', region: 'south', icon: 'fa-tree', name: '까마우', vi: 'Cà Mau', hint: '곶 · 숲', tags: ['caMauCape', 'mangroveForest'] },
+            { id: 'rachgia', region: 'south', icon: 'fa-anchor', name: '락자', vi: 'Rạch Giá', hint: '항구 · 섬 관문', tags: ['port', 'islandGateway', 'seafood'] },
+            { id: 'phuquoc', region: 'south', icon: 'fa-umbrella-beach', name: '푸꾸옥', vi: 'Phú Quốc', hint: '섬 · 휴양', tags: ['saoBeach', 'pepper', 'pearl', 'cableCar', 'snorkeling', 'fishSauceFactory', 'hamNinhCrab', 'nightMarket', 'anThoiIslands'] },
+            { id: 'condao', region: 'south', icon: 'fa-fish', name: '꼰다오', vi: 'Côn Đảo', hint: '섬 · 자연', tags: ['coralReef', 'seaTurtle', 'prisonRelic', 'snorkeling'] },
+            { id: 'tayninh', region: 'south', icon: 'fa-mountain', name: '떠이닌', vi: 'Tây Ninh', hint: '산 · 사원', tags: ['baDenMountain', 'caoDaiTemple'] },
+            { id: 'bentre', region: 'south', icon: 'fa-leaf', name: '벤째', vi: 'Bến Tre', hint: '코코넛 · 운하', tags: ['coconut', 'mekongCanal', 'boatTour', 'orchard'] },
+            { id: 'nhatrang', region: 'east', icon: 'fa-water', name: '냐짱', vi: 'Nha Trang', hint: '해변 · 온천', tags: ['beach', 'snorkeling', 'poNagar', 'mudBath', 'seafood', 'islandTour'] },
+            { id: 'camranh', region: 'east', icon: 'fa-ship', name: '깜라인', vi: 'Cam Ranh', hint: '만 · 해변', tags: ['camRanhBay', 'beach', 'seafood'] },
+            { id: 'muine', region: 'east', icon: 'fa-wind', name: '무이네', vi: 'Mũi Né', hint: '모래언덕 · 바람', tags: ['redSandDunes', 'whiteSandDunes', 'kiteSurfing', 'fishingVillage'] },
+            { id: 'phanthiet', region: 'east', icon: 'fa-fish', name: '판티엣', vi: 'Phan Thiết', hint: '소스 · 해산물', tags: ['fishSauce', 'seafood', 'champaRuins'] },
+            { id: 'vungtau', region: 'east', icon: 'fa-anchor', name: '붕따우', vi: 'Vũng Tàu', hint: '해변 · 등대', tags: ['christStatue', 'beach', 'lighthouse', 'seafood'] },
+            { id: 'phanrang', region: 'east', icon: 'fa-torii-gate', name: '판랑-탑참', vi: 'Phan Rang-Tháp Chàm', hint: '참 문화 · 포도', tags: ['poKlongGarai', 'vineyard', 'saltField', 'chamCulture'] },
+            { id: 'phuyen', region: 'east', icon: 'fa-water', name: '푸옌', vi: 'Phú Yên', hint: '해안 · 바위', tags: ['ganhDaDia', 'baiXep', 'beach', 'seafood'] },
+            { id: 'tuyhoa', region: 'east', icon: 'fa-umbrella-beach', name: '뚜이호아', vi: 'Tuy Hòa', hint: '해변 · 바위', tags: ['ganhDaDia', 'baiXep', 'beach'] },
+            { id: 'dienbien', region: 'west', icon: 'fa-monument', name: '디엔비엔푸', vi: 'Điện Biên Phủ', hint: '전투 · 역사', tags: ['dienBienBattle', 'warRelic'] },
+            { id: 'maichau', region: 'west', icon: 'fa-house-chimney', name: '마이쩌우', vi: 'Mai Châu', hint: '마을 · 논밭', tags: ['thaiVillage', 'terracedRice', 'homestay', 'trekking'] },
+            { id: 'mocchau', region: 'west', icon: 'fa-seedling', name: '목쩌우', vi: 'Mộc Châu', hint: '차밭 · 꽃', tags: ['teaHill', 'plumFlower', 'waterfall', 'ranch'] },
+            { id: 'dalat', region: 'west', icon: 'fa-cloud-sun', name: '달랏', vi: 'Đà Lạt', hint: '고원 · 꽃', tags: ['xuanHuong', 'flower', 'coffeeFarm', 'coolWeather', 'waterfall', 'strawberry', 'pineForest', 'langbiangMountain', 'nightMarket'] },
+            { id: 'buonmathuot', region: 'west', icon: 'fa-mug-hot', name: '부온마투옷', vi: 'Buôn Ma Thuột', hint: '커피 · 고원', tags: ['coffee', 'worldCoffeeMuseum', 'dakLakMuseum', 'yokDon', 'drayNurWaterfall'] },
+            { id: 'pleiku', region: 'west', icon: 'fa-tree', name: '플래이쿠', vi: 'Pleiku', hint: '호수 · 고원', tags: ['bienHo', 'jaraiCulture', 'coffee', 'pineHill', 'teaHill', 'oneSunDriedBeef'] },
+            { id: 'chaudoc', region: 'west', icon: 'fa-water', name: '쩌우독', vi: 'Châu Đốc', hint: '숲 · 수상 마을', tags: ['samMountain', 'traSuForest', 'floatingVillage'] },
+            { id: 'hatien', region: 'west', icon: 'fa-map-location-dot', name: '하띠엔', vi: 'Hà Tiên', hint: '국경 · 해안', tags: ['limestoneMountain', 'beach', 'borderCity'] }
+        ];
+
+        const extraFoodTagsByTarget = {
+            hanoi: ['pho', 'banhCuon', 'bunThang'],
+            haiphong: ['banhDaCua', 'nemCuaBe'],
+            halong: ['chaMuc', 'seafood'],
+            sapa: ['thangCo', 'salmonHotpot', 'fiveColorStickyRice'],
+            laocai: ['thangCo', 'fiveColorStickyRice'],
+            caobang: ['banhCuon', 'fiveColorStickyRice'],
+            langson: ['roastDuckLangSon', 'khauNhuc'],
+            thainguyen: ['tea', 'comLam'],
+            bacgiang: ['lychee', 'myChuNoodle'],
+            ninhbinh: ['goatMeat', 'comChay'],
+            namdinh: ['phoNamDinh', 'xiuPao'],
+            hagiang: ['thangCo', 'auTauPorridge', 'buckwheatCake'],
+            catba: ['seafood', 'tuHai'],
+            babe: ['grilledFish', 'fiveColorStickyRice'],
+            bacninh: ['phuTheCake', 'nemBui'],
+            hue: ['banhBeo', 'comHen', 'nemLui'],
+            thanhhoa: ['nemChua', 'chaTom'],
+            vinh: ['eelSoup', 'nhutThanhChuong'],
+            donghoi: ['chaoCanh', 'banhBotLoc'],
+            quangtri: ['bunHen', 'chaoVatGiuong'],
+            danang: ['banhTrangCuonThitHeo', 'bunMamNem'],
+            hoian: ['comGaHoiAn', 'banhMiHoiAn', 'whiteRose', 'mangoCake'],
+            myson: ['miQuang', 'comGaTamKy'],
+            phongnha: ['chaoCanh', 'banhBotLoc', 'grilledChicken'],
+            quangbinh: ['chaoCanh', 'banhBotLoc'],
+            tamky: ['comGaTamKy', 'miQuang'],
+            kontum: ['leafSalad', 'grilledChicken', 'comLam'],
+            quynhon: ['bunChaCa', 'banhXeoTomNhay'],
+            hcmc: ['comTam', 'banhMi', 'phoSaiGon', 'goiCuon'],
+            cuchi: ['boToCuChi', 'khoaiMi'],
+            mekong: ['banhXeo', 'caKhoTo', 'elephantEarFish'],
+            cantho: ['banhCong', 'bunNuocLeo', 'lauMam', 'vitNauChao'],
+            mytho: ['huTieuMyTho', 'elephantEarFish'],
+            vinhlong: ['caKhoTo', 'banhXeo', 'tropicalFruit'],
+            longxuyen: ['bunCaLongXuyen', 'comTamLongXuyen'],
+            sadec: ['huTieuSaDec', 'banhPhongTom'],
+            soctrang: ['bunNuocLeo', 'banhPia'],
+            baclieu: ['bunBoCay', 'baKhia'],
+            camau: ['cuaCaMau', 'lauMamUMinh', 'baKhia'],
+            rachgia: ['bunCaKienGiang', 'goiCaTrich'],
+            phuquoc: ['bunKen', 'goiCaTrich', 'seaUrchin'],
+            condao: ['ocVuNang', 'mamNhum', 'seafood'],
+            tayninh: ['banhTrangPhoiSuong', 'muoiTom'],
+            bentre: ['coconutCandy', 'banhXeo', 'coconut'],
+            nhatrang: ['bunCaNhaTrang', 'nemNuongNhaTrang', 'banhCan'],
+            camranh: ['lobster', 'banhCan', 'seafood'],
+            muine: ['banhCan', 'lauTha', 'goiCaMai'],
+            phanthiet: ['lauTha', 'goiCaMai', 'banhCan'],
+            vungtau: ['banhKhot', 'stingrayHotpot', 'saltedEggSpongeCake'],
+            phanrang: ['banhCan', 'banhCanhChaCa', 'goatMeat'],
+            phuyen: ['tunaEye', 'banhHoiLongHeo'],
+            tuyhoa: ['tunaEye', 'banhHoiLongHeo'],
+            dienbien: ['paPinhTop', 'comLam', 'fiveColorStickyRice'],
+            maichau: ['comLam', 'grilledChicken'],
+            mocchau: ['beChao', 'freshMilk', 'tea'],
+            dalat: ['banhTrangNuong', 'avocadoIceCream', 'artichokeTea'],
+            buonmathuot: ['coffee', 'redNoodle', 'comLam'],
+            pleiku: ['phoKhoGiaLai', 'bunCuaThoi', 'oneSunDriedBeef'],
+            chaudoc: ['bunCaChauDoc', 'mamChauDoc', 'palmSugar'],
+            hatien: ['bunKen', 'banhCanhHaTien', 'seafood']
+        };
+
+        targets.forEach((target) => {
+            (extraFoodTagsByTarget[target.id] || []).forEach((tagId) => {
+                if (!target.tags.includes(tagId)) target.tags.push(tagId);
+            });
+        });
+
+        const state = {
+            region: 'all',
+            targetId: 'hanoi',
+            tagId: 'oldQuarter'
+        };
+
+        const regionBar = document.getElementById('regionBar');
+        const targetGrid = document.getElementById('targetGrid');
+        const recommendGrid = document.getElementById('recommendGrid');
+        const tagGrid = document.getElementById('tagGrid');
+        const sentenceText = document.getElementById('sentenceText');
+        const fitBadge = document.getElementById('fitBadge');
+        const regionBadge = document.getElementById('regionBadge');
+        const targetChip = document.getElementById('targetChip');
+        const tagChip = document.getElementById('tagChip');
+        const mapAction = document.getElementById('mapAction');
+        const photoAction = document.getElementById('photoAction');
+        const targetCount = document.getElementById('targetCount');
+        const tagCount = document.getElementById('tagCount');
+
+        function hasBatchim(text) {
+            const code = text.charCodeAt(text.length - 1);
+            if (code < 0xac00 || code > 0xd7a3) return false;
+            return (code - 0xac00) % 28 !== 0;
+        }
+
+        function jong(text) {
+            const code = text.charCodeAt(text.length - 1);
+            if (code < 0xac00 || code > 0xd7a3) return 0;
+            return (code - 0xac00) % 28;
+        }
+
+        function topicParticle(text) {
+            return hasBatchim(text) ? '은' : '는';
+        }
+
+        function roParticle(text) {
+            const final = jong(text);
+            return final === 0 || final === 8 ? '로' : '으로';
+        }
+
+        function icon(name) {
+            return `<i class="fa-solid ${name}" aria-hidden="true"></i>`;
+        }
+
+        function getTarget() {
+            return targets.find((target) => target.id === state.targetId);
+        }
+
+        function filteredTargets() {
+            return state.region === 'all'
+                ? targets
+                : targets.filter((target) => target.region === state.region);
+        }
+
+        function regionLabel(id) {
+            return regions.find((region) => region.id === id).label;
+        }
+
+        function buildSentence(target, tagId) {
+            const tag = nounTags[tagId];
+            return `${target.name}${topicParticle(target.name)} ${tag}${roParticle(tag)} 유명해요.`;
+        }
+
+        function mapsUrl(target, tagId) {
+            const query = mapQueries[tagId];
+            if (!query || !target.tags.includes(tagId)) return '';
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${query}, ${target.vi}, Vietnam`)}`;
+        }
+
+        function mapLink(target, tagId) {
+            const href = mapsUrl(target, tagId);
+            if (!href) return '';
+            const label = `${target.name} ${nounTags[tagId]} 구글맵에서 보기`;
+            return `<a class="map-link" href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${label}" title="구글맵에서 보기"><i class="fa-solid fa-map-location-dot"></i></a>`;
+        }
+
+        function photosUrl(target, tagId) {
+            const query = foodPhotoQueries[tagId];
+            if (!query || !target.tags.includes(tagId)) return '';
+            return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(`${query}, ${target.vi}, Vietnam food`)}`;
+        }
+
+        function photoLink(target, tagId) {
+            const href = photosUrl(target, tagId);
+            if (!href) return '';
+            const label = `${target.name} ${nounTags[tagId]} 음식 사진 보기`;
+            return `<a class="photo-link" href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${label}" title="음식 사진 보기"><i class="fa-solid fa-image"></i></a>`;
+        }
+
+        function tagActions(target, tagId) {
+            const links = [mapLink(target, tagId), photoLink(target, tagId)].filter(Boolean).join('');
+            return links ? `<span class="tag-actions">${links}</span>` : '';
+        }
+
+        function renderRegions() {
+            regionBar.innerHTML = regions.map((region) => `
+                <button class="region-button ${region.id === state.region ? 'is-active' : ''}" type="button" data-region="${region.id}">
+                    ${icon(region.icon)} ${region.label}
+                </button>
+            `).join('');
+
+            regionBar.querySelectorAll('[data-region]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.region = button.dataset.region;
+                    const list = filteredTargets();
+                    if (!list.some((target) => target.id === state.targetId)) {
+                        state.targetId = list[0].id;
+                        state.tagId = list[0].tags[0];
+                    }
+                    render();
+                });
+            });
+        }
+
+        function renderTargets() {
+            const list = filteredTargets();
+            targetGrid.innerHTML = list.map((target) => {
+                const isActive = target.id === state.targetId;
+                const isFit = target.tags.includes(state.tagId);
+                return `
+                    <button class="target-button ${isActive ? 'is-active' : ''} ${isFit ? 'is-fit' : ''}" type="button" data-target="${target.id}">
+                        <span class="target-icon">${icon(target.icon)}</span>
+                        <span class="target-copy">
+                            <strong>${target.name}</strong>
+                            <small>${target.vi} · ${target.hint}</small>
+                        </span>
+                    </button>
+                `;
+            }).join('');
+
+            targetGrid.querySelectorAll('[data-target]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.targetId = button.dataset.target;
+                    const target = getTarget();
+                    if (!target.tags.includes(state.tagId)) {
+                        state.tagId = target.tags[0];
+                    }
+                    render();
+                });
+            });
+        }
+
+        function tagButton(tagId, compact) {
+            const target = getTarget();
+            const isActive = tagId === state.tagId;
+            const isFit = target.tags.includes(tagId);
+            return `
+                <div class="tag-tile">
+                    <button class="tag-button ${isActive ? 'is-active' : ''} ${isFit ? 'is-fit' : ''}" type="button" data-tag="${tagId}">
+                        <strong>${nounTags[tagId]}</strong>
+                        <small>${compact ? '추천' : 'N(으)로'}</small>
+                    </button>
+                    ${tagActions(target, tagId)}
+                </div>
+            `;
+        }
+
+        function renderTags() {
+            const target = getTarget();
+            const allTagIds = Object.keys(nounTags);
+            recommendGrid.innerHTML = target.tags.map((tagId) => tagButton(tagId, true)).join('');
+            tagGrid.innerHTML = allTagIds.map((tagId) => tagButton(tagId, false)).join('');
+            tagCount.textContent = `${allTagIds.length}개`;
+
+            document.querySelectorAll('[data-tag]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.tagId = button.dataset.tag;
+                    render();
+                });
+            });
+        }
+
+        function renderOutput() {
+            const target = getTarget();
+            const isFit = target.tags.includes(state.tagId);
+            sentenceText.textContent = buildSentence(target, state.tagId);
+            fitBadge.className = `badge ${isFit ? '' : 'is-warn'}`;
+            fitBadge.innerHTML = isFit
+                ? `${icon('fa-circle-check')} 좋은 매칭`
+                : `${icon('fa-triangle-exclamation')} 내용 재선택`;
+            regionBadge.textContent = regionLabel(target.region);
+            targetChip.innerHTML = `${icon(target.icon)} ${target.name}`;
+            tagChip.textContent = nounTags[state.tagId];
+            const mapHref = mapsUrl(target, state.tagId);
+            mapAction.hidden = !mapHref;
+            if (mapHref) {
+                mapAction.href = mapHref;
+                mapAction.setAttribute('aria-label', `${target.name} ${nounTags[state.tagId]} 구글맵에서 보기`);
+            } else {
+                mapAction.removeAttribute('href');
+            }
+            const photoHref = photosUrl(target, state.tagId);
+            photoAction.hidden = !photoHref;
+            if (photoHref) {
+                photoAction.href = photoHref;
+                photoAction.setAttribute('aria-label', `${target.name} ${nounTags[state.tagId]} 음식 사진 보기`);
+            } else {
+                photoAction.removeAttribute('href');
+            }
+
+            const list = filteredTargets();
+            targetCount.textContent = `${list.indexOf(target) + 1} / ${list.length}`;
+        }
+
+        function render() {
+            renderRegions();
+            renderOutput();
+            renderTargets();
+            renderTags();
+        }
+
+        render();
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
