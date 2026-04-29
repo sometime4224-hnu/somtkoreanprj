@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 3 보조자료 | 해 볼 만 기준선</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #ecfdf5;
+            --surface: rgba(255, 255, 255, 0.96);
+            --line: #a7f3d0;
+            --line-soft: #e2e8f0;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --accent: #059669;
+            --accent-dark: #047857;
+            --accent-soft: #d1fae5;
+            --red: #e11d48;
+            --red-soft: #fff1f2;
+            --amber: #d97706;
+            --amber-soft: #fff7ed;
+            --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Noto Sans KR", sans-serif;
+            background:
+                radial-gradient(circle at 92% 8%, rgba(16, 185, 129, 0.2), transparent 25%),
+                linear-gradient(180deg, var(--bg) 0%, #f8fafc 68%, #ffffff 100%);
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 0 14px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .topbar a {
+            color: var(--accent-dark);
+            text-decoration: none;
+        }
+
+        .topbar strong {
+            min-width: 0;
+            overflow: hidden;
+            color: #334155;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .shell {
+            width: min(1180px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 12px 0 32px;
+        }
+
+        .panel,
+        .sentence-panel,
+        .contrast-panel {
+            border: 1px solid rgba(16, 185, 129, 0.32);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 330px;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .workspace {
+            display: grid;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .sentence-panel {
+            display: grid;
+            gap: 10px;
+            padding: 16px;
+        }
+
+        .sentence-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 30px;
+            border-radius: 999px;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .badge.bad {
+            border: 1px solid #fda4af;
+            background: var(--red-soft);
+            color: #be123c;
+        }
+
+        .badge.good {
+            border: 1px solid #86efac;
+            background: var(--accent-soft);
+            color: var(--accent-dark);
+        }
+
+        .badge.mid {
+            border: 1px solid #fed7aa;
+            background: var(--amber-soft);
+            color: #9a3412;
+        }
+
+        .sentence {
+            margin: 0;
+            font-size: clamp(24px, 3.4vw, 36px);
+            font-weight: 900;
+            line-height: 1.35;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .chip-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 30px;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 0 9px;
+            background: #ecfdf5;
+            color: var(--accent-dark);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .contrast-panel {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .contrast-card {
+            min-width: 0;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            padding: 10px;
+            background: #ffffff;
+        }
+
+        .contrast-card strong {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .contrast-card p {
+            margin: 0;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.55;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .contrast-card.is-active {
+            border-color: var(--accent);
+            background: #ecfdf5;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        .contrast-card.is-blocked {
+            border-color: #fda4af;
+            background: #fff1f2;
+        }
+
+        .panel {
+            padding: 12px;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .activity-card {
+            position: relative;
+            display: grid;
+            gap: 8px;
+            min-height: 120px;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            padding: 10px;
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.16s, background 0.16s, box-shadow 0.16s, transform 0.16s;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-1px);
+            border-color: #86efac;
+            background: #f0fdf4;
+        }
+
+        .activity-card.is-selected {
+            border-color: var(--accent);
+            background: #ecfdf5;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
+        }
+
+        .activity-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #ecfdf5;
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .activity-card strong {
+            color: #0f172a;
+            font-size: 14px;
+            font-weight: 900;
+            line-height: 1.35;
+        }
+
+        .activity-card span {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .side {
+            position: sticky;
+            top: 58px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .level-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .level-button {
+            display: grid;
+            grid-template-columns: 38px 1fr;
+            gap: 10px;
+            align-items: center;
+            width: 100%;
+            min-height: 58px;
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            padding: 9px;
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.16s, background 0.16s, box-shadow 0.16s, transform 0.16s;
+        }
+
+        .level-button:hover {
+            transform: translateY(-1px);
+            border-color: #86efac;
+        }
+
+        .level-button.is-active {
+            border-color: var(--accent);
+            background: #ecfdf5;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        .level-button[data-level="0"].is-active {
+            border-color: #fb7185;
+            background: #fff1f2;
+            box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+        }
+
+        .level-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #f8fafc;
+            color: #0f172a;
+            font-size: 17px;
+            font-weight: 900;
+        }
+
+        .level-copy strong {
+            display: block;
+            color: #0f172a;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .level-copy span {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .reason-pair {
+            display: grid;
+            gap: 8px;
+        }
+
+        .reason-card {
+            border: 1px solid var(--line-soft);
+            border-radius: 8px;
+            padding: 10px;
+            background: #ffffff;
+        }
+
+        .reason-card p {
+            margin: 0 0 6px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .reason-card strong {
+            color: #0f172a;
+            font-size: 14px;
+            font-weight: 900;
+            line-height: 1.45;
+        }
+
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 40px;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 0 13px;
+            background: #ffffff;
+            color: var(--accent-dark);
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        @media (max-width: 980px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .side {
+                position: static;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .shell {
+                width: min(100% - 14px, 1180px);
+                padding-top: 8px;
+            }
+
+            .sentence-panel,
+            .panel,
+            .contrast-panel {
+                padding: 10px;
+            }
+
+            .contrast-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 7px;
+            }
+
+            .activity-card {
+                min-height: 106px;
+                padding: 8px;
+            }
+
+            .activity-card > span:not(.activity-icon) {
+                display: none;
+            }
+
+            .level-button {
+                grid-template-columns: 34px 1fr;
+                min-height: 52px;
+            }
+
+            .level-number {
+                width: 34px;
+                height: 34px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+        <span>|</span>
+        <a href="index.html">16과 목록</a>
+        <span>|</span>
+        <strong>문법 3 보조자료 | 해 볼 만 기준선</strong>
+    </nav>
+
+    <main class="shell">
+        <section class="layout" aria-label="해 볼 만 기준선">
+            <div class="workspace">
+                <section class="sentence-panel" aria-live="polite">
+                    <div class="sentence-meta" id="sentenceMeta"></div>
+                    <p class="sentence" id="sentenceText"></p>
+                    <div class="chip-row" id="chipRow"></div>
+                </section>
+
+                <section class="contrast-panel" aria-label="해 볼 만하다 기준선 판단">
+                    <article class="contrast-card is-blocked" id="blockedCard">
+                        <strong><i class="fa-solid fa-circle-minus"></i> 기준 미달</strong>
+                        <p id="blockedText"></p>
+                    </article>
+                    <article class="contrast-card is-active" id="worthCard">
+                        <strong><i class="fa-solid fa-circle-check"></i> 기준 통과</strong>
+                        <p id="worthText"></p>
+                    </article>
+                </section>
+
+                <section class="panel">
+                    <div class="activity-grid" id="activityGrid"></div>
+                </section>
+            </div>
+
+            <aside class="side">
+                <section class="panel">
+                    <div class="level-grid" id="levelGrid"></div>
+                </section>
+
+                <section class="panel">
+                    <div class="reason-pair">
+                        <div class="reason-card">
+                            <p>걸림돌</p>
+                            <strong id="obstacleText"></strong>
+                        </div>
+                        <div class="reason-card">
+                            <p>가치 근거</p>
+                            <strong id="valueText"></strong>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </section>
+
+        <nav class="footer" aria-label="문법 이동">
+            <a class="btn" href="grammar3.html"><i class="fa-solid fa-arrow-left"></i> 문법 3</a>
+            <a class="btn" href="index.html"><i class="fa-solid fa-list"></i> 16과 목록</a>
+            <a class="btn primary" href="grammar3-speaking-pro.html"><i class="fa-solid fa-microphone-lines"></i> 말하기 PRO</a>
+        </nav>
+    </main>
+
+    <script>
+        const activities = [
+            {
+                id: 'jinhae',
+                icon: 'fa-seedling',
+                title: '진해 벚꽃 길',
+                action: '진해에 가 볼',
+                obstacle: '사람이 많아도',
+                value: '벚꽃 길이 아름다워서',
+                blocked: '사람이 너무 많고 꽃이 많이 져서 지금은 진해에 가 볼 만하지 않아요.'
+            },
+            {
+                id: 'ski',
+                icon: 'fa-person-swimming',
+                title: '청평 수상 스키',
+                action: '수상 스키를 타 볼',
+                obstacle: '가격이 조금 비싸도',
+                value: '처음 해 보는 경험이라서',
+                blocked: '가격이 비싸고 시간이 짧아서 수상 스키를 타 볼 만하지 않아요.'
+            },
+            {
+                id: 'food',
+                icon: 'fa-utensils',
+                title: '시장 떡볶이',
+                action: '떡볶이를 먹어 볼',
+                obstacle: '좀 매워도',
+                value: '맛이 좋아서',
+                blocked: '너무 맵고 줄이 길어서 떡볶이를 먹어 볼 만하지 않아요.'
+            },
+            {
+                id: 'hanok',
+                icon: 'fa-house-chimney',
+                title: '안동 한옥 체험',
+                action: '한옥 체험을 해 볼',
+                obstacle: '시간이 조금 걸려도',
+                value: '전통 문화를 느낄 수 있어서',
+                blocked: '시간이 오래 걸리고 프로그램이 짧아서 한옥 체험을 해 볼 만하지 않아요.'
+            },
+            {
+                id: 'bike',
+                icon: 'fa-bicycle',
+                title: '한강 자전거',
+                action: '자전거를 타 볼',
+                obstacle: '조금 힘들어도',
+                value: '강바람이 시원해서',
+                blocked: '길이 복잡하고 자전거 상태가 안 좋아서 자전거를 타 볼 만하지 않아요.'
+            },
+            {
+                id: 'museum',
+                icon: 'fa-landmark',
+                title: '박물관 전시',
+                action: '전시를 볼',
+                obstacle: '입장 줄이 길어도',
+                value: '자료가 알차서',
+                blocked: '입장료가 비싸고 전시가 짧아서 전시를 볼 만하지 않아요.'
+            },
+            {
+                id: 'walk',
+                icon: 'fa-person-walking',
+                title: '조용한 산책길',
+                action: '산책길을 걸어 볼',
+                obstacle: '날씨가 조금 흐려도',
+                value: '길이 조용해서',
+                blocked: '비가 오고 길이 미끄러워서 산책길을 걸어 볼 만하지 않아요.'
+            },
+            {
+                id: 'bibimbap',
+                icon: 'fa-bowl-food',
+                title: '전주 비빔밥',
+                action: '비빔밥을 먹어 볼',
+                obstacle: '가격이 조금 비싸도',
+                value: '재료가 신선해서',
+                blocked: '가격이 너무 비싸고 양이 적어서 비빔밥을 먹어 볼 만하지 않아요.'
+            }
+        ];
+
+        const levels = [
+            {
+                id: 0,
+                label: '기준 미달',
+                mode: '해 볼 만하지 않아요',
+                icon: 'fa-circle-minus',
+                badge: 'bad'
+            },
+            {
+                id: 1,
+                label: '기준 통과',
+                mode: '해 볼 만해요',
+                icon: 'fa-circle-check',
+                badge: 'good'
+            },
+            {
+                id: 2,
+                label: '충분히 가치 있음',
+                mode: '정말 해 볼 만해요',
+                icon: 'fa-star',
+                badge: 'mid'
+            }
+        ];
+
+        const state = {
+            activityIndex: 0,
+            level: 1
+        };
+
+        const activityGrid = document.getElementById('activityGrid');
+        const levelGrid = document.getElementById('levelGrid');
+        const sentenceMeta = document.getElementById('sentenceMeta');
+        const sentenceText = document.getElementById('sentenceText');
+        const chipRow = document.getElementById('chipRow');
+        const blockedText = document.getElementById('blockedText');
+        const worthText = document.getElementById('worthText');
+        const blockedCard = document.getElementById('blockedCard');
+        const worthCard = document.getElementById('worthCard');
+        const obstacleText = document.getElementById('obstacleText');
+        const valueText = document.getElementById('valueText');
+
+        function iconMarkup(name) {
+            return `<i class="fa-solid ${name}" aria-hidden="true"></i>`;
+        }
+
+        function worthSentence(activity, strong) {
+            const adverb = strong ? '정말 ' : '';
+            return `${activity.obstacle} ${activity.value} ${adverb}${activity.action} 만해요.`;
+        }
+
+        function renderActivities() {
+            activityGrid.innerHTML = activities.map((activity, index) => `
+                <button class="activity-card ${index === state.activityIndex ? 'is-selected' : ''}" type="button" data-activity="${index}" aria-label="${activity.title}">
+                    <span class="activity-icon">${iconMarkup(activity.icon)}</span>
+                    <strong>${activity.title}</strong>
+                    <span>${activity.obstacle}<br />${activity.value}</span>
+                </button>
+            `).join('');
+
+            activityGrid.querySelectorAll('[data-activity]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.activityIndex = Number(button.dataset.activity);
+                    render();
+                });
+            });
+        }
+
+        function renderLevels() {
+            levelGrid.innerHTML = levels.map((level) => `
+                <button class="level-button ${level.id === state.level ? 'is-active' : ''}" type="button" data-level="${level.id}">
+                    <span class="level-number">${level.id}</span>
+                    <span class="level-copy">
+                        <strong>${iconMarkup(level.icon)} ${level.label}</strong>
+                        <span>${level.mode}</span>
+                    </span>
+                </button>
+            `).join('');
+
+            levelGrid.querySelectorAll('[data-level]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.level = Number(button.dataset.level);
+                    render();
+                });
+            });
+        }
+
+        function renderOutput() {
+            const activity = activities[state.activityIndex];
+            const level = levels[state.level];
+            const sentence = state.level === 0 ? activity.blocked : worthSentence(activity, state.level === 2);
+
+            sentenceMeta.innerHTML = `<span class="badge ${level.badge}">${iconMarkup(level.icon)} ${level.label} · ${level.mode}</span>`;
+            sentenceText.textContent = sentence;
+            chipRow.innerHTML = state.level === 0
+                ? ['걸림돌이 가치보다 큼', '기준 미달', '만하지 않아요'].map((chip) => `<span class="chip">${chip}</span>`).join('')
+                : [activity.obstacle, activity.value, `${activity.action} 만해요`].map((chip) => `<span class="chip">${chip}</span>`).join('');
+
+            blockedText.textContent = activity.blocked;
+            worthText.textContent = worthSentence(activity, true);
+            blockedCard.classList.toggle('is-active', state.level === 0);
+            worthCard.classList.toggle('is-active', state.level !== 0);
+            obstacleText.textContent = activity.obstacle;
+            valueText.textContent = activity.value;
+        }
+
+        function render() {
+            renderActivities();
+            renderLevels();
+            renderOutput();
+        }
+
+        render();
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>

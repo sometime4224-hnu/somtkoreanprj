@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 3 보조자료 3 | 기준 충족 애니메이션</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #f1f5f9;
+            --surface: rgba(255, 255, 255, 0.96);
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #cbd5e1;
+            --green: #059669;
+            --green-dark: #047857;
+            --green-soft: #dcfce7;
+            --rose: #e11d48;
+            --rose-soft: #fff1f2;
+            --amber: #d97706;
+            --amber-soft: #fff7ed;
+            --blue: #2563eb;
+            --blue-soft: #dbeafe;
+            --shadow: 0 18px 42px rgba(15, 23, 42, 0.1);
+            --score: 78%;
+            --burden: 42%;
+            --value: 82%;
+            --tilt: 7deg;
+            --threshold: 58%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Noto Sans KR", sans-serif;
+            background:
+                radial-gradient(circle at 12% 10%, rgba(37, 99, 235, 0.16), transparent 28%),
+                radial-gradient(circle at 90% 4%, rgba(16, 185, 129, 0.18), transparent 28%),
+                linear-gradient(180deg, #ecfdf5 0%, var(--bg) 58%, #ffffff 100%);
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 0 14px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.28);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .topbar a {
+            color: var(--green-dark);
+            text-decoration: none;
+        }
+
+        .topbar strong {
+            min-width: 0;
+            overflow: hidden;
+            color: #334155;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .shell {
+            width: min(1180px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 12px 0 32px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 0.78fr);
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .panel {
+            border: 1px solid rgba(148, 163, 184, 0.48);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .diagram-panel {
+            display: grid;
+            gap: 12px;
+            min-width: 0;
+            padding: 14px;
+        }
+
+        .status-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 34px;
+            border: 1px solid #86efac;
+            border-radius: 999px;
+            padding: 0 12px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .status-badge.is-fail {
+            border-color: #fda4af;
+            background: var(--rose-soft);
+            color: #be123c;
+        }
+
+        .status-badge.is-near {
+            border-color: #fed7aa;
+            background: var(--amber-soft);
+            color: #9a3412;
+        }
+
+        .motion-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .icon-button,
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 38px;
+            border: 1px solid #86efac;
+            border-radius: 8px;
+            padding: 0 12px;
+            background: #ffffff;
+            color: var(--green-dark);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        .icon-button {
+            width: 38px;
+            padding: 0;
+        }
+
+        .btn.primary,
+        .icon-button.primary {
+            border-color: var(--green);
+            background: var(--green);
+            color: #ffffff;
+        }
+
+        .threshold-stage {
+            position: relative;
+            display: grid;
+            min-height: 260px;
+            overflow: hidden;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            background:
+                linear-gradient(90deg, rgba(255, 241, 242, 0.95) 0%, rgba(255, 247, 237, 0.9) 52%, rgba(220, 252, 231, 0.95) 52%, rgba(240, 253, 244, 0.95) 100%),
+                #ffffff;
+        }
+
+        .zone-labels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 46px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.34);
+        }
+
+        .zone-labels span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .zone-labels span:first-child {
+            color: #be123c;
+        }
+
+        .zone-labels span:last-child {
+            color: var(--green-dark);
+        }
+
+        .track-wrap {
+            position: relative;
+            min-height: 132px;
+            margin: 28px 28px 8px;
+        }
+
+        .track {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            left: 0;
+            height: 18px;
+            border-radius: 999px;
+            background:
+                linear-gradient(90deg, #fb7185 0%, #f59e0b 47%, #22c55e 58%, #059669 100%);
+            box-shadow: inset 0 2px 7px rgba(15, 23, 42, 0.24);
+            transform: translateY(-50%);
+        }
+
+        .threshold-line {
+            position: absolute;
+            top: 8px;
+            bottom: 8px;
+            left: var(--threshold);
+            width: 3px;
+            border-radius: 999px;
+            background: #0f172a;
+            box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.1);
+        }
+
+        .threshold-line span {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            min-width: 86px;
+            border: 1px solid #94a3b8;
+            border-radius: 999px;
+            padding: 5px 8px;
+            background: #ffffff;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 900;
+            text-align: center;
+            transform: translateX(-50%);
+        }
+
+        .marker {
+            position: absolute;
+            top: 50%;
+            left: var(--score);
+            display: grid;
+            place-items: center;
+            width: 66px;
+            height: 66px;
+            border: 4px solid #ffffff;
+            border-radius: 50%;
+            background: var(--green);
+            color: #ffffff;
+            box-shadow: 0 14px 24px rgba(15, 23, 42, 0.22);
+            transform: translate(-50%, -50%);
+            transition: left 700ms cubic-bezier(0.2, 0.9, 0.2, 1), background 250ms ease;
+        }
+
+        .marker.is-fail {
+            background: var(--rose);
+        }
+
+        .marker.is-near {
+            background: var(--amber);
+        }
+
+        .marker strong {
+            font-size: 19px;
+            font-weight: 900;
+        }
+
+        .marker span {
+            margin-top: -4px;
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .marker::after {
+            content: "";
+            position: absolute;
+            inset: -10px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .threshold-stage.is-animating .marker::after {
+            animation: pulse 900ms ease-out;
+        }
+
+        .arrow-flow {
+            position: absolute;
+            top: calc(50% - 2px);
+            left: 22px;
+            width: calc(var(--score) - 22px);
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.28);
+            transform: translateY(-50%);
+            transition: width 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
+        }
+
+        .arrow-flow::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: -4px;
+            width: 0;
+            height: 0;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-left: 10px solid rgba(15, 23, 42, 0.34);
+            transform: translateY(-50%);
+        }
+
+        .stage-note {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 14px 16px;
+        }
+
+        .note-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 30px;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 0 9px;
+            background: var(--blue-soft);
+            color: #1d4ed8;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .scale-panel {
+            display: grid;
+            grid-template-columns: 1fr minmax(190px, 0.82fr);
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .balance {
+            position: relative;
+            min-height: 168px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .beam {
+            position: absolute;
+            top: 58px;
+            left: 14%;
+            width: 72%;
+            height: 8px;
+            border-radius: 999px;
+            background: #334155;
+            transform: rotate(var(--tilt));
+            transform-origin: center;
+            transition: transform 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
+        }
+
+        .stand {
+            position: absolute;
+            top: 64px;
+            left: 50%;
+            width: 8px;
+            height: 80px;
+            border-radius: 999px 999px 0 0;
+            background: #475569;
+            transform: translateX(-50%);
+        }
+
+        .base {
+            position: absolute;
+            right: 34%;
+            bottom: 22px;
+            left: 34%;
+            height: 12px;
+            border-radius: 999px;
+            background: #475569;
+        }
+
+        .pan {
+            position: absolute;
+            top: 84px;
+            display: grid;
+            gap: 5px;
+            width: 34%;
+            text-align: center;
+        }
+
+        .pan.left {
+            left: 6%;
+            color: #be123c;
+        }
+
+        .pan.right {
+            right: 6%;
+            color: var(--green-dark);
+        }
+
+        .pan-bar {
+            align-self: end;
+            width: 46px;
+            min-height: 24px;
+            margin: 0 auto;
+            border-radius: 8px 8px 3px 3px;
+            transition: height 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
+        }
+
+        .left .pan-bar {
+            height: var(--burden);
+            background: linear-gradient(180deg, #fb7185, #e11d48);
+        }
+
+        .right .pan-bar {
+            height: var(--value);
+            background: linear-gradient(180deg, #34d399, #059669);
+        }
+
+        .pan strong {
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .pan span {
+            color: #475569;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .logic-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .logic-item {
+            display: grid;
+            grid-template-columns: 32px 1fr;
+            gap: 8px;
+            align-items: center;
+            min-height: 48px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 8px;
+            background: #ffffff;
+        }
+
+        .logic-item i {
+            display: grid;
+            place-items: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #eef2ff;
+            color: #3730a3;
+        }
+
+        .logic-item strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .logic-item span {
+            display: block;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.4;
+        }
+
+        .sentence-panel {
+            display: grid;
+            align-content: start;
+            gap: 12px;
+            padding: 14px;
+        }
+
+        .sentence-card {
+            display: grid;
+            gap: 10px;
+            min-height: 188px;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 14px;
+            background: #ffffff;
+        }
+
+        .sentence-card.is-fail {
+            border-color: #fecdd3;
+            background: #fffafa;
+        }
+
+        .sentence-text {
+            margin: 0;
+            font-size: clamp(24px, 3.2vw, 36px);
+            font-weight: 900;
+            line-height: 1.35;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .micro-copy {
+            margin: 0;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.55;
+            word-break: keep-all;
+        }
+
+        .formula-flow {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.1fr;
+            gap: 8px;
+        }
+
+        .flow-card {
+            position: relative;
+            min-width: 0;
+            border: 1px solid #dbeafe;
+            border-radius: 8px;
+            padding: 10px;
+            background: #eff6ff;
+        }
+
+        .flow-card strong {
+            display: block;
+            color: #1d4ed8;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .flow-card span {
+            display: block;
+            margin-top: 5px;
+            color: #0f172a;
+            font-size: 12px;
+            font-weight: 900;
+            line-height: 1.4;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .flow-dot {
+            position: absolute;
+            top: -8px;
+            left: 6%;
+            z-index: 2;
+            width: 16px;
+            height: 16px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            background: var(--blue);
+            box-shadow: 0 5px 12px rgba(37, 99, 235, 0.32);
+        }
+
+        .formula-flow.is-animating .flow-dot {
+            animation: dotFlow 1500ms ease-in-out;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .scenario-button {
+            display: grid;
+            grid-template-columns: 38px 1fr;
+            gap: 9px;
+            align-items: center;
+            min-width: 0;
+            min-height: 76px;
+            border: 1px solid #dbeafe;
+            border-radius: 8px;
+            padding: 9px;
+            background: #ffffff;
+            color: var(--ink);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .scenario-button.is-active {
+            border-color: var(--green);
+            background: #ecfdf5;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        .scenario-icon {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #2563eb;
+        }
+
+        .scenario-button strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .scenario-button span {
+            display: block;
+            margin-top: 3px;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.75;
+                transform: scale(0.88);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.22);
+            }
+        }
+
+        @keyframes dotFlow {
+            0% {
+                left: 6%;
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+            }
+            48% {
+                left: 48%;
+            }
+            82% {
+                left: 84%;
+                opacity: 1;
+            }
+            100% {
+                left: 84%;
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero,
+            .scale-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .sentence-panel {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .shell {
+                width: min(100% - 14px, 1180px);
+                padding-top: 6px;
+            }
+
+            .diagram-panel,
+            .sentence-panel {
+                padding: 9px;
+            }
+
+            .threshold-stage {
+                min-height: 226px;
+            }
+
+            .track-wrap {
+                margin: 28px 14px 4px;
+            }
+
+            .marker {
+                width: 58px;
+                height: 58px;
+            }
+
+            .sentence-card {
+                min-height: 0;
+                padding: 11px;
+            }
+
+            .formula-flow,
+            .scenario-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scenario-button {
+                min-height: 66px;
+            }
+
+            .footer {
+                position: sticky;
+                bottom: 0;
+                z-index: 20;
+                align-items: center;
+                border-top: 1px solid rgba(16, 185, 129, 0.22);
+                padding: 8px 0;
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(10px);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+        <span>|</span>
+        <a href="index.html">16과 목록</a>
+        <span>|</span>
+        <strong>문법 3 보조자료 3 | 기준 충족 애니메이션</strong>
+    </nav>
+
+    <main class="shell">
+        <section class="hero" aria-label="V-(으)ㄹ 만하다 기준 충족 도식">
+            <section class="diagram-panel panel">
+                <div class="status-row">
+                    <div class="status-badge" id="statusBadge">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>기준 충족</span>
+                    </div>
+                    <div class="motion-controls">
+                        <button class="icon-button" type="button" id="prevBtn" aria-label="이전 상황">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button class="icon-button primary" type="button" id="playBtn" aria-label="애니메이션 재생">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        <button class="icon-button" type="button" id="nextBtn" aria-label="다음 상황">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="threshold-stage" id="thresholdStage">
+                    <div class="zone-labels" aria-hidden="true">
+                        <span><i class="fa-solid fa-circle-minus"></i> 기준 미달</span>
+                        <span><i class="fa-solid fa-circle-check"></i> 기준 충족</span>
+                    </div>
+                    <div class="track-wrap">
+                        <div class="track" aria-hidden="true"></div>
+                        <div class="arrow-flow" aria-hidden="true"></div>
+                        <div class="threshold-line" aria-hidden="true"><span>기준선</span></div>
+                        <div class="marker" id="marker">
+                            <strong id="scoreText">78</strong>
+                            <span>충족도</span>
+                        </div>
+                    </div>
+                    <div class="stage-note">
+                        <span class="note-chip"><i class="fa-solid fa-weight-hanging"></i> 걸림돌</span>
+                        <span class="note-chip"><i class="fa-solid fa-arrow-right"></i> 가치 근거가 밀어 올림</span>
+                        <span class="note-chip"><i class="fa-solid fa-flag-checkered"></i> 기준선 통과</span>
+                    </div>
+                </div>
+
+                <div class="scale-panel">
+                    <div class="balance" aria-label="걸림돌과 가치 근거 균형">
+                        <div class="beam" aria-hidden="true"></div>
+                        <div class="stand" aria-hidden="true"></div>
+                        <div class="base" aria-hidden="true"></div>
+                        <div class="pan left">
+                            <div class="pan-bar" aria-hidden="true"></div>
+                            <strong>걸림돌</strong>
+                            <span id="burdenValue">42</span>
+                        </div>
+                        <div class="pan right">
+                            <div class="pan-bar" aria-hidden="true"></div>
+                            <strong>가치 근거</strong>
+                            <span id="valueValue">82</span>
+                        </div>
+                    </div>
+                    <div class="logic-list">
+                        <div class="logic-item">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            <div>
+                                <strong>비교</strong>
+                                <span id="compareText">가치가 걸림돌보다 충분히 큼</span>
+                            </div>
+                        </div>
+                        <div class="logic-item">
+                            <i class="fa-solid fa-language"></i>
+                            <div>
+                                <strong>표현 선택</strong>
+                                <span id="choiceText">V-(으)ㄹ 만해요</span>
+                            </div>
+                        </div>
+                        <div class="logic-item">
+                            <i class="fa-solid fa-bullseye"></i>
+                            <div>
+                                <strong>핵심</strong>
+                                <span>어려움이 있어도 해 볼 가치가 충분한지 판단</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="sentence-panel panel">
+                <section class="sentence-card" id="sentenceCard" aria-live="polite">
+                    <div class="status-badge" id="sentenceBadge">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>V-(으)ㄹ 만해요</span>
+                    </div>
+                    <p class="sentence-text" id="sentenceText">사람이 많아도 벚꽃 길이 아름다워서 진해에 가 볼 만해요.</p>
+                    <p class="micro-copy" id="reasonText">걸림돌은 있지만 가치 근거가 충분해서 기준선을 넘습니다.</p>
+                </section>
+
+                <div class="formula-flow" id="formulaFlow" aria-label="문장 조립 순서">
+                    <span class="flow-dot" aria-hidden="true"></span>
+                    <div class="flow-card">
+                        <strong>1. 걸림돌</strong>
+                        <span id="obstacleText">사람이 많아도</span>
+                    </div>
+                    <div class="flow-card">
+                        <strong>2. 가치 근거</strong>
+                        <span id="valueText">벚꽃 길이 아름다워서</span>
+                    </div>
+                    <div class="flow-card">
+                        <strong>3. 판단</strong>
+                        <span id="judgementText">진해에 가 볼 만해요</span>
+                    </div>
+                </div>
+
+                <div class="scenario-grid" id="scenarioGrid" aria-label="상황 선택"></div>
+            </aside>
+        </section>
+
+        <nav class="footer" aria-label="문법 이동">
+            <a class="btn" href="grammar3.html"><i class="fa-solid fa-arrow-left"></i> 문법 3</a>
+            <a class="btn" href="grammar3-worth-gauge.html"><i class="fa-solid fa-gauge-high"></i> 보조자료 1</a>
+            <a class="btn primary" href="grammar3-speaking-pro.html"><i class="fa-solid fa-microphone-lines"></i> 말하기 PRO</a>
+        </nav>
+    </main>
+
+    <script>
+        const scenarios = [
+            {
+                icon: 'fa-seedling',
+                title: '진해 벚꽃 길',
+                burden: 42,
+                value: 82,
+                obstacle: '사람이 많아도',
+                valueReason: '벚꽃 길이 아름다워서',
+                judgement: '진해에 가 볼 만해요',
+                failJudgement: '진해에 가 볼 만하지 않아요',
+                passSentence: '사람이 많아도 벚꽃 길이 아름다워서 진해에 가 볼 만해요.',
+                failSentence: '사람이 너무 많고 꽃이 많이 져서 지금은 진해에 가 볼 만하지 않아요.'
+            },
+            {
+                icon: 'fa-person-swimming',
+                title: '수상 스키',
+                burden: 58,
+                value: 70,
+                obstacle: '가격이 조금 비싸도',
+                valueReason: '처음 해 보는 경험이라서',
+                judgement: '수상 스키를 타 볼 만해요',
+                failJudgement: '수상 스키를 타 볼 만하지 않아요',
+                passSentence: '가격이 조금 비싸도 처음 해 보는 경험이라서 수상 스키를 타 볼 만해요.',
+                failSentence: '가격이 비싸고 시간이 짧아서 수상 스키를 타 볼 만하지 않아요.'
+            },
+            {
+                icon: 'fa-landmark',
+                title: '박물관 전시',
+                burden: 70,
+                value: 48,
+                obstacle: '입장료가 비싸고',
+                valueReason: '전시가 짧아서',
+                judgement: '전시를 볼 만하지 않아요',
+                failJudgement: '전시를 볼 만하지 않아요',
+                passSentence: '입장 줄이 길어도 자료가 알차서 전시를 볼 만해요.',
+                failSentence: '입장료가 비싸고 전시가 짧아서 전시를 볼 만하지 않아요.'
+            },
+            {
+                icon: 'fa-bicycle',
+                title: '한강 자전거',
+                burden: 54,
+                value: 67,
+                obstacle: '조금 힘들어도',
+                valueReason: '강바람이 시원해서',
+                judgement: '자전거를 타 볼 만해요',
+                failJudgement: '자전거를 타 볼 만하지 않아요',
+                passSentence: '조금 힘들어도 강바람이 시원해서 자전거를 타 볼 만해요.',
+                failSentence: '길이 복잡하고 자전거 상태가 안 좋아서 자전거를 타 볼 만하지 않아요.'
+            }
+        ];
+
+        const threshold = 58;
+        const state = {
+            index: 0,
+            autoTimer: null
+        };
+
+        const root = document.documentElement;
+        const thresholdStage = document.getElementById('thresholdStage');
+        const marker = document.getElementById('marker');
+        const scoreText = document.getElementById('scoreText');
+        const statusBadge = document.getElementById('statusBadge');
+        const sentenceBadge = document.getElementById('sentenceBadge');
+        const sentenceCard = document.getElementById('sentenceCard');
+        const sentenceText = document.getElementById('sentenceText');
+        const reasonText = document.getElementById('reasonText');
+        const compareText = document.getElementById('compareText');
+        const choiceText = document.getElementById('choiceText');
+        const burdenValue = document.getElementById('burdenValue');
+        const valueValue = document.getElementById('valueValue');
+        const obstacleText = document.getElementById('obstacleText');
+        const valueText = document.getElementById('valueText');
+        const judgementText = document.getElementById('judgementText');
+        const formulaFlow = document.getElementById('formulaFlow');
+        const scenarioGrid = document.getElementById('scenarioGrid');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const playBtn = document.getElementById('playBtn');
+
+        function clamp(value, min, max) {
+            return Math.max(min, Math.min(max, value));
+        }
+
+        function getScore(item) {
+            return clamp(50 + item.value - item.burden, 8, 94);
+        }
+
+        function getStatus(score) {
+            if (score >= threshold + 12) {
+                return {
+                    type: 'pass',
+                    label: '기준 충족',
+                    icon: 'fa-circle-check',
+                    choice: 'V-(으)ㄹ 만해요',
+                    reason: '걸림돌은 있지만 가치 근거가 충분해서 기준선을 넘습니다.',
+                    compare: '가치가 걸림돌보다 충분히 큼'
+                };
+            }
+
+            if (score >= threshold) {
+                return {
+                    type: 'near',
+                    label: '간신히 충족',
+                    icon: 'fa-circle-half-stroke',
+                    choice: 'V-(으)ㄹ 만해요',
+                    reason: '걸림돌이 작지 않지만 가치 근거가 기준선을 조금 넘습니다.',
+                    compare: '가치가 기준선을 조금 넘음'
+                };
+            }
+
+            return {
+                type: 'fail',
+                label: '기준 미달',
+                icon: 'fa-circle-minus',
+                choice: 'V-(으)ㄹ 만하지 않아요',
+                reason: '걸림돌이 더 커서 해 볼 가치가 기준선에 닿지 못합니다.',
+                compare: '걸림돌이 가치보다 큼'
+            };
+        }
+
+        function iconMarkup(name) {
+            return `<i class="fa-solid ${name}" aria-hidden="true"></i>`;
+        }
+
+        function setBadge(element, status) {
+            element.className = `status-badge ${status.type === 'fail' ? 'is-fail' : ''} ${status.type === 'near' ? 'is-near' : ''}`;
+            element.innerHTML = `${iconMarkup(status.icon)}<span>${status.label}</span>`;
+        }
+
+        function renderScenarioButtons() {
+            scenarioGrid.innerHTML = scenarios.map((item, index) => `
+                <button class="scenario-button ${index === state.index ? 'is-active' : ''}" type="button" data-index="${index}" aria-label="${item.title}">
+                    <span class="scenario-icon">${iconMarkup(item.icon)}</span>
+                    <span>
+                        <strong>${item.title}</strong>
+                        <span>${item.obstacle}<br />${item.valueReason}</span>
+                    </span>
+                </button>
+            `).join('');
+
+            scenarioGrid.querySelectorAll('[data-index]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    stopAuto();
+                    state.index = Number(button.dataset.index);
+                    render();
+                });
+            });
+        }
+
+        function replayMotion() {
+            thresholdStage.classList.remove('is-animating');
+            formulaFlow.classList.remove('is-animating');
+            void thresholdStage.offsetWidth;
+            thresholdStage.classList.add('is-animating');
+            formulaFlow.classList.add('is-animating');
+        }
+
+        function render() {
+            const item = scenarios[state.index];
+            const score = getScore(item);
+            const status = getStatus(score);
+            const sentence = status.type === 'fail' ? item.failSentence : item.passSentence;
+            const judgement = status.type === 'fail' ? item.failJudgement : item.judgement;
+            const tilt = clamp((item.value - item.burden) / 3, -9, 9);
+
+            root.style.setProperty('--score', `${score}%`);
+            root.style.setProperty('--burden', `${item.burden}%`);
+            root.style.setProperty('--value', `${item.value}%`);
+            root.style.setProperty('--tilt', `${tilt}deg`);
+            root.style.setProperty('--threshold', `${threshold}%`);
+
+            marker.className = `marker ${status.type === 'fail' ? 'is-fail' : ''} ${status.type === 'near' ? 'is-near' : ''}`;
+            sentenceCard.className = `sentence-card ${status.type === 'fail' ? 'is-fail' : ''}`;
+            setBadge(statusBadge, status);
+            sentenceBadge.className = `status-badge ${status.type === 'fail' ? 'is-fail' : ''} ${status.type === 'near' ? 'is-near' : ''}`;
+            sentenceBadge.innerHTML = `${iconMarkup(status.icon)}<span>${status.choice}</span>`;
+
+            scoreText.textContent = String(Math.round(score));
+            burdenValue.textContent = String(item.burden);
+            valueValue.textContent = String(item.value);
+            sentenceText.textContent = sentence;
+            reasonText.textContent = status.reason;
+            compareText.textContent = status.compare;
+            choiceText.textContent = status.choice;
+            obstacleText.textContent = item.obstacle;
+            valueText.textContent = item.valueReason;
+            judgementText.textContent = judgement;
+
+            renderScenarioButtons();
+            replayMotion();
+        }
+
+        function go(delta) {
+            state.index = (state.index + delta + scenarios.length) % scenarios.length;
+            render();
+        }
+
+        function stopAuto() {
+            if (state.autoTimer) {
+                clearInterval(state.autoTimer);
+                state.autoTimer = null;
+                playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                playBtn.setAttribute('aria-label', '애니메이션 재생');
+            }
+        }
+
+        function toggleAuto() {
+            if (state.autoTimer) {
+                stopAuto();
+                return;
+            }
+
+            playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            playBtn.setAttribute('aria-label', '자동 재생 정지');
+            replayMotion();
+            state.autoTimer = setInterval(() => go(1), 2400);
+        }
+
+        prevBtn.addEventListener('click', () => {
+            stopAuto();
+            go(-1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            stopAuto();
+            go(1);
+        });
+
+        playBtn.addEventListener('click', toggleAuto);
+
+        render();
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
