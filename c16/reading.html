@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>16과 읽기 | 한강공원의 숨은 재미를 찾아서!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #edf6f7;
+      --paper: #fffdf7;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #d7e4e7;
+      --accent: #0f766e;
+      --accent-soft: #dff7f1;
+      --sky: #2563eb;
+      --sky-soft: #dbeafe;
+      --rose: #e11d48;
+      --gold: #f59e0b;
+      --gold-soft: #fff7ed;
+      --shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans KR", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(130deg, rgba(37, 99, 235, 0.12), transparent 34%),
+        linear-gradient(300deg, rgba(15, 118, 110, 0.14), transparent 38%),
+        var(--bg);
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(215, 228, 231, 0.9);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar a,
+    .topbar span {
+      color: var(--accent);
+      font-weight: 900;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .topbar span {
+      color: var(--muted);
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 24px auto 52px;
+    }
+
+    .hero,
+    .card,
+    .visual-card {
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 253, 247, 0.96);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 18px;
+      padding: 26px;
+    }
+
+    .badge {
+      display: inline-flex;
+      width: max-content;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(2.1rem, 5vw, 4rem);
+      line-height: 1.08;
+      word-break: keep-all;
+    }
+
+    h2,
+    h3,
+    p {
+      word-break: keep-all;
+    }
+
+    .hero p,
+    .section-copy {
+      margin: 0;
+      color: #475569;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .action-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .action-link.secondary {
+      border: 1px solid #c9dde2;
+      background: rgba(255, 255, 255, 0.74);
+      color: var(--accent);
+    }
+
+    .hero-preview {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid #c9dde2;
+      border-radius: 22px;
+      background: rgba(248, 252, 255, 0.88);
+    }
+
+    .hero-preview img {
+      width: 100%;
+      max-height: 360px;
+      border-radius: 16px;
+      object-fit: cover;
+      object-position: top;
+      border: 1px solid #d7e4e7;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: var(--sky-soft);
+      color: var(--sky);
+      font-size: 0.88rem;
+      font-weight: 900;
+    }
+
+    .grid-2,
+    .grid-3 {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .visual-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      background: white;
+    }
+
+    .visual-card div {
+      padding: 16px 18px 18px;
+    }
+
+    .visual-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.02rem;
+    }
+
+    .card {
+      margin-top: 18px;
+    }
+
+    .card h2 {
+      margin: 0;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      font-size: 1.18rem;
+    }
+
+    .article-body {
+      padding: 28px 28px 30px;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .article-title {
+      margin: 0 0 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      color: var(--rose);
+      text-align: center;
+      font-size: 1.32rem;
+    }
+
+    .article-body p {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.9;
+    }
+
+    .article-body p + p {
+      margin-top: 22px;
+    }
+
+    .activity-card {
+      display: grid;
+      gap: 10px;
+      min-height: 180px;
+      padding: 18px;
+      border: 1px solid #dce8eb;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.78);
+      text-decoration: none;
+    }
+
+    .activity-card strong {
+      color: var(--accent);
+      font-size: 1.04rem;
+    }
+
+    .activity-card span {
+      color: #475569;
+      line-height: 1.65;
+    }
+
+    .activity-card em {
+      align-self: end;
+      color: var(--sky);
+      font-style: normal;
+      font-weight: 900;
+    }
+
+    .content-pad {
+      padding: 18px 20px 20px;
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .vocab-item,
+    .question,
+    .writing-box {
+      padding: 16px;
+      border: 1px solid #dce8eb;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .vocab-item strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+
+    .vocab-item span,
+    .question li,
+    .question p {
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    .question strong,
+    .writing-box h3 {
+      display: block;
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    .options {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    details {
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 10px 12px;
+    }
+
+    details p {
+      margin: 0;
+      padding: 0 12px 12px;
+    }
+
+    .blank-table,
+    .check-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .blank-row {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .blank-row strong {
+      display: inline-grid;
+      place-items: center;
+      min-height: 44px;
+      border-radius: 12px;
+      background: var(--gold-soft);
+      color: #9a3412;
+    }
+
+    .blank-line {
+      height: 34px;
+      border-bottom: 2px solid #c9d7e6;
+    }
+
+    .check-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .check-grid span {
+      min-height: 42px;
+      padding: 10px 12px;
+      border: 1px solid #dce8eb;
+      border-radius: 12px;
+      background: #fff;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .check-grid span::before {
+      content: "□ ";
+      color: var(--sky);
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid-2,
+      .grid-3,
+      .vocab-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 20px, 1180px);
+        margin-top: 14px;
+      }
+
+      .hero,
+      .card,
+      .visual-card {
+        border-radius: 20px;
+      }
+
+      .hero {
+        padding: 18px;
+      }
+
+      .topbar {
+        gap: 10px;
+        overflow-x: auto;
+        padding: 10px 12px;
+      }
+
+      .article-body {
+        padding: 22px 20px 24px;
+      }
+
+      .visual-card img {
+        height: auto;
+      }
+
+      .blank-row,
+      .check-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a href="../index.html">메인으로</a>
+    <a href="./index.html">16과 홈</a>
+    <span>읽기 메인</span>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <span class="badge">16과 읽고 쓰기</span>
+        <h1>한강공원의 숨은 재미를 찾아서!</h1>
+        <p>원본 읽기 지문을 바탕으로 지문 읽기, 컷툰 보기, 원문 문제, 쓰기 준비를 한 페이지에서 진행합니다.</p>
+        <div class="hero-actions">
+          <a class="action-link" href="./reading-cuttoon.html">컷툰 보기</a>
+          <a class="action-link secondary" href="#article">지문 읽기</a>
+          <a class="action-link secondary" href="#questions">문제 풀기</a>
+        </div>
+      </div>
+      <aside class="hero-preview">
+        <img src="../assets/c16/reading-writing/images/cuttoon/c16-reading-cuttoon-sheet-1.webp" alt="한강공원 읽기 컷툰 첫 번째 시트 미리보기">
+        <div class="pill-row">
+          <span class="pill">장소 소개</span>
+          <span class="pill">활동 정보</span>
+          <span class="pill">요금 읽기</span>
+          <span class="pill">V-(으)ㄹ 만하다</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid-2" aria-label="읽기 지문 시각 자료">
+      <article class="visual-card">
+        <img src="../assets/c16/reading-writing/images/hangang-rock-climbing.png" alt="한강공원의 인공 암벽장에서 사람들이 암벽 등반을 하는 사진">
+        <div>
+          <strong>뚝섬 한강공원</strong>
+          <p class="section-copy">높이가 다른 네모 모양의 울퉁불퉁한 벽에서 인공 암벽장을 이용할 수 있습니다.</p>
+        </div>
+      </article>
+
+      <article class="visual-card">
+        <img src="../assets/c16/reading-writing/images/hangang-railbike.png" alt="광나루 한강공원에서 가족이 레일바이크를 타는 사진">
+        <div>
+          <strong>광나루 한강공원</strong>
+          <p class="section-copy">자전거와 레일바이크를 즐길 수 있고, 어린이와 함께 온 가족도 이용할 만합니다.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="card" id="article">
+      <h2>읽기 지문</h2>
+      <div class="article-body">
+        <h3 class="article-title">한강공원의 숨은 재미를 찾아서!</h3>
+        <p>서울 시민의 산책 장소로 유명한 한강공원이 야외 활동의 천국이라는 사실을 아는 사람은 많지 않다. 도시에서는 생각도 못 했던 활동들을 한강에서는 즐길 수 있다. 서울시는 이번 봄에 한강공원에서 즐길 수 있는 특별한 활동을 추천하고 있다.</p>
+        <p>먼저 뚝섬 한강공원에 가면 높이가 다른 네모 모양의 울퉁불퉁한 벽을 볼 수 있는데 그게 바로 인공 암벽장이다. 인공 암벽장은 누구나 무료로 이용할 수 있고 암벽 등반도 무료로 배울 수 있다. 이용 시간은 성수기(3~11월)에는 오전 9시부터 오후 9시까지, 비수기(12~2월)에는 오전 9시부터 오후 5시까지이다.</p>
+        <p>광나루 한강공원에서는 자전거와 레일바이크를 즐길 수 있다. 자전거 이용 요금은 20분에 1,000원이고, 만 6세 미만 어린이는 무료다. 레일바이크는 약 10분 동안 탈 수 있는 길이인데 2인용 좌석 사이에 작은 의자가 있어서 어린이와 함께 온 가족도 이용할 만하다. 총 10대가 마련돼 있으며 이용 요금은 2,000원이다.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>읽기 활동</h2>
+      <div class="content-pad grid-3">
+        <a class="activity-card" href="./reading-cuttoon.html">
+          <strong>컷툰으로 읽기</strong>
+          <span>10개 문장을 3개 시트로 나누어 장면과 문장을 연결합니다.</span>
+          <em>바로가기</em>
+        </a>
+        <a class="activity-card" href="#questions">
+          <strong>원문 문제 확인</strong>
+          <span>활동 종류, 이용 시간, 요금 정보를 찾아 답합니다.</span>
+          <em>문제로 이동</em>
+        </a>
+        <a class="activity-card" href="#writing">
+          <strong>쓰기 준비</strong>
+          <span>잘 알려지지 않은 장소와 특별한 활동을 소개하는 글을 준비합니다.</span>
+          <em>쓰기 준비</em>
+        </a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>핵심 어휘</h2>
+      <div class="content-pad vocab-grid">
+        <div class="vocab-item"><strong>천국</strong><span>아주 즐겁고 좋은 곳이라는 비유적 표현</span></div>
+        <div class="vocab-item"><strong>인공 암벽장</strong><span>암벽 등반을 연습하도록 만든 시설</span></div>
+        <div class="vocab-item"><strong>성수기 / 비수기</strong><span>사람이 많이 찾는 시기 / 비교적 적은 시기</span></div>
+        <div class="vocab-item"><strong>레일바이크</strong><span>레일 위에서 페달을 밟아 움직이는 탈것</span></div>
+        <div class="vocab-item"><strong>만 6세 미만</strong><span>생일이 지난 나이로 6세가 되기 전</span></div>
+        <div class="vocab-item"><strong>이용할 만하다</strong><span>이용해 볼 가치가 있다</span></div>
+      </div>
+    </section>
+
+    <section class="card" id="questions">
+      <h2>원문 읽기 문제</h2>
+      <div class="content-pad grid-2">
+        <article class="question">
+          <strong>1. 한강에서 즐길 수 있는 야외 활동에 무엇 무엇이 있습니까?</strong>
+          <ul class="options">
+            <li>① __________</li>
+            <li>② __________</li>
+            <li>③ __________</li>
+          </ul>
+          <details>
+            <summary>정답 보기</summary>
+            <p>암벽 등반, 자전거 타기, 레일바이크 타기</p>
+          </details>
+        </article>
+        <article class="question">
+          <strong>2. 이 글의 내용과 같은 것은 무엇입니까?</strong>
+          <ul class="options">
+            <li>① 레일바이크는 2인용 좌석으로 되어 있다.</li>
+            <li>② 5세 어린이는 자전거 이용 요금이 무료다.</li>
+            <li>③ 서울 시민만 한강공원에서 암벽 등반을 할 수 있다.</li>
+          </ul>
+          <details>
+            <summary>정답 보기</summary>
+            <p>② 만 6세 미만 어린이는 자전거 이용 요금이 무료입니다.</p>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <section class="card" id="writing">
+      <h2>쓰기 준비</h2>
+      <div class="content-pad grid-2">
+        <article class="writing-box">
+          <h3>1. 특별한 장소를 소개하기 전에 메모하세요.</h3>
+          <div class="blank-table">
+            <div class="blank-row"><strong>장소</strong><div class="blank-line"></div></div>
+            <div class="blank-row"><strong>활동</strong><div class="blank-line"></div></div>
+            <div class="blank-row"><strong>먹을거리</strong><div class="blank-line"></div></div>
+          </div>
+        </article>
+        <article class="writing-box">
+          <h3>2. 그곳에서 특별하게 할 수 있는 활동을 고르세요.</h3>
+          <div class="check-grid">
+            <span>번지 점프</span>
+            <span>공예품 만들기</span>
+            <span>수상 스키</span>
+            <span>농사 체험</span>
+            <span>스카이다이빙</span>
+            <span>요리 배우기</span>
+          </div>
+        </article>
+        <article class="writing-box" style="grid-column: 1 / -1;">
+          <h3>3. 친구들에게 소개하고 싶은 특별한 장소나 활동을 간단하게 소개해 보세요.</h3>
+          <div class="blank-line"></div>
+          <div class="blank-line"></div>
+          <div class="blank-line"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
