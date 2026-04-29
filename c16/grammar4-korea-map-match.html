@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NB76SV96');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>16과 문법 4 보조자료 | 한국 명소 지도 태그 매칭</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg: #eef6f2;
+            --surface: rgba(255, 255, 255, 0.96);
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #cbd5e1;
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --blue-soft: #dbeafe;
+            --green: #059669;
+            --green-dark: #047857;
+            --green-soft: #dcfce7;
+            --amber: #d97706;
+            --amber-soft: #fff7ed;
+            --shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Noto Sans KR", sans-serif;
+            background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 62%, #ffffff 100%);
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 0 14px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.34);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .topbar a {
+            color: #1d4ed8;
+            text-decoration: none;
+        }
+
+        .topbar strong {
+            overflow: hidden;
+            color: #0f172a;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .shell {
+            width: min(1180px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 12px 0 32px;
+        }
+
+        .panel {
+            border: 1px solid rgba(148, 163, 184, 0.42);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .sentence-panel {
+            display: grid;
+            gap: 10px;
+            padding: 14px;
+        }
+
+        .status-row,
+        .chip-row,
+        .region-bar,
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-row,
+        .footer {
+            justify-content: space-between;
+        }
+
+        .badge,
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 30px;
+            border-radius: 999px;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .badge {
+            border: 1px solid #86efac;
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .chip {
+            border: 1px solid #bfdbfe;
+            background: var(--blue-soft);
+            color: #1d4ed8;
+        }
+
+        .chip.is-form {
+            border-color: #86efac;
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .sentence {
+            margin: 0;
+            font-size: clamp(24px, 3.6vw, 39px);
+            font-weight: 900;
+            line-height: 1.28;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .region-bar {
+            overflow-x: auto;
+            margin-top: 10px;
+            padding-bottom: 2px;
+        }
+
+        .region-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-width: max-content;
+            min-height: 34px;
+            border: 1px solid #bfdbfe;
+            border-radius: 999px;
+            padding: 0 11px;
+            background: #ffffff;
+            color: #1d4ed8;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .region-button.is-active {
+            border-color: var(--blue);
+            background: var(--blue);
+            color: #ffffff;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(360px, 0.9fr) minmax(0, 1fr);
+            gap: 12px;
+            align-items: start;
+            margin-top: 12px;
+        }
+
+        .map-panel {
+            display: grid;
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            min-height: 28px;
+            color: #334155;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .panel-title span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .map-canvas {
+            position: relative;
+            width: min(100%, 450px);
+            aspect-ratio: 1217 / 1500;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .map-layer {
+            position: absolute;
+            inset: 0;
+            transform-origin: 0 0;
+            transition: transform 220ms ease;
+        }
+
+        .map-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .map-tools {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .zoom-controls {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid #bfdbfe;
+            border-radius: 999px;
+            padding: 3px;
+            background: #ffffff;
+        }
+
+        .zoom-button {
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            border: 0;
+            border-radius: 999px;
+            background: #eff6ff;
+            color: var(--blue-dark);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .zoom-button:disabled {
+            cursor: default;
+            opacity: 0.38;
+        }
+
+        .zoom-level {
+            min-width: 42px;
+            color: #334155;
+            font-size: 11px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .pin {
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            z-index: 5;
+            display: grid;
+            place-items: center;
+            width: 25px;
+            height: 25px;
+            border: 2px solid #ffffff;
+            border-radius: 50% 50% 50% 8px;
+            background: #2563eb;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 12px;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.22);
+            transform: translate(-50%, -92%) rotate(-45deg);
+        }
+
+        .pin i {
+            transform: rotate(45deg);
+        }
+
+        .pin.is-active {
+            z-index: 8;
+            background: #f97316;
+            box-shadow: 0 0 0 6px rgba(249, 115, 22, 0.18), 0 10px 20px rgba(15, 23, 42, 0.2);
+        }
+
+        .pin.is-muted {
+            opacity: 0.32;
+        }
+
+        .pin-label {
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            z-index: 4;
+            display: inline-flex;
+            max-width: 82px;
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            border-radius: 999px;
+            padding: 2px 6px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #334155;
+            font-size: 10px;
+            font-weight: 900;
+            line-height: 1.2;
+            text-align: center;
+            transform: translate(-50%, 8px);
+            pointer-events: none;
+        }
+
+        .side {
+            display: grid;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .place-card {
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 10px;
+            align-items: center;
+            min-width: 0;
+            padding: 12px;
+        }
+
+        .place-icon {
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: #eff6ff;
+            color: var(--blue);
+            font-size: 22px;
+        }
+
+        .place-card strong {
+            display: block;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .place-card span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .tag-grid,
+        .mini-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .tag-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .mini-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .era-card {
+            display: grid;
+            gap: 10px;
+            min-height: 188px;
+            border: 1px solid #dbe3ef;
+            border-radius: 8px;
+            padding: 12px;
+            background: #ffffff;
+        }
+
+        .era-card.is-past {
+            background: #fff7ed;
+            border-color: #fed7aa;
+        }
+
+        .era-card.is-now {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+
+        .era-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .era-title span {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .era-card p {
+            margin: 0;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.55;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        .era-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .tag-tile {
+            position: relative;
+            min-width: 0;
+        }
+
+        .tag-button {
+            width: 100%;
+            min-height: 64px;
+            border: 1px solid #dbe3ef;
+            border-radius: 8px;
+            padding: 9px 40px 9px 9px;
+            background: #ffffff;
+            color: var(--ink);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .tag-button.is-active {
+            border-color: var(--green);
+            background: #ecfdf5;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        .tag-button strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .tag-button span {
+            display: block;
+            margin-top: 4px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .tag-actions {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            display: grid;
+            gap: 4px;
+        }
+
+        .tag-actions .past-link,
+        .tag-actions .photo-link {
+            width: 26px;
+            height: 26px;
+            font-size: 11px;
+        }
+
+        .photo-link,
+        .past-link {
+            display: inline-grid;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #fed7aa;
+            border-radius: 999px;
+            background: #fff7ed;
+            color: #c2410c;
+            text-decoration: none;
+            box-shadow: 0 6px 14px rgba(194, 65, 12, 0.12);
+        }
+
+        .photo-link {
+            border-color: #c7d2fe;
+            background: #eef2ff;
+            color: #4338ca;
+            box-shadow: 0 6px 14px rgba(67, 56, 202, 0.12);
+        }
+
+        .past-link:hover,
+        .past-link:focus-visible {
+            border-color: #fb923c;
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .photo-link[hidden] {
+            display: none;
+        }
+
+        .photo-link:hover,
+        .photo-link:focus-visible {
+            border-color: #818cf8;
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .mini-panel {
+            padding: 10px;
+        }
+
+        .mini-grid {
+            margin-top: 8px;
+        }
+
+        .mini-button {
+            min-width: 0;
+            min-height: 54px;
+            border: 1px solid #dbe3ef;
+            border-radius: 8px;
+            padding: 8px;
+            background: #ffffff;
+            color: var(--ink);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .mini-button.is-active {
+            border-color: var(--green);
+            background: #ecfdf5;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        .mini-button strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .mini-button span {
+            display: block;
+            margin-top: 4px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .footer {
+            margin-top: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 36px;
+            border: 1px solid #bfdbfe;
+            border-radius: 999px;
+            padding: 0 13px;
+            background: #ffffff;
+            color: #1d4ed8;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .btn.primary {
+            border-color: var(--blue);
+            background: var(--blue);
+            color: #ffffff;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .map-canvas {
+                width: min(100%, 480px);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .shell {
+                width: min(100% - 14px, 1180px);
+                padding-top: 7px;
+            }
+
+            .sentence-panel {
+                position: sticky;
+                top: 44px;
+                z-index: 25;
+                padding: 10px;
+            }
+
+            .map-canvas {
+                width: 100%;
+            }
+
+            .pin {
+                width: 24px;
+                height: 24px;
+            }
+
+            .place-card {
+                grid-template-columns: 40px 1fr;
+                padding: 10px;
+            }
+
+            .place-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .tag-grid,
+            .mini-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .footer {
+                position: sticky;
+                bottom: 0;
+                z-index: 20;
+                border-top: 1px solid rgba(37, 99, 235, 0.18);
+                padding: 8px 0;
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(10px);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../shared/project-topbar-compact.css" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NB76SV96"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="topbar">
+        <a href="../index.html"><i class="fa-solid fa-house"></i> 메인</a>
+        <span>|</span>
+        <a href="index.html">16과 목록</a>
+        <span>|</span>
+        <strong>문법 4 보조자료 | 한국 명소 지도</strong>
+    </nav>
+
+    <main class="shell">
+        <section class="sentence-panel panel" aria-live="polite">
+            <div class="status-row">
+                <span class="badge" id="regionBadge">수도권</span>
+                <span class="badge">명소 지도</span>
+            </div>
+            <p class="sentence" id="sentenceText"></p>
+            <div class="chip-row">
+                <span class="chip" id="placeChip"></span>
+                <span class="chip" id="tagChip"></span>
+                <a class="past-link" id="mapAction" target="_blank" rel="noopener noreferrer" aria-label="구글맵에서 보기" title="구글맵에서 보기"><i class="fa-solid fa-map-location-dot"></i></a>
+                <a class="photo-link" id="photoAction" target="_blank" rel="noopener noreferrer" aria-label="사진 보기" title="사진 보기" hidden><i class="fa-solid fa-image"></i></a>
+                <span class="chip is-form">N(으)로 유명해요</span>
+            </div>
+        </section>
+
+        <nav class="region-bar" id="regionBar" aria-label="한국 지역 필터"></nav>
+
+        <section class="layout" aria-label="한국 명소 지도 태그 매칭">
+            <section class="map-panel panel">
+                <div class="panel-title">
+                    <span><i class="fa-solid fa-map-location-dot"></i> 도시 핀</span>
+                    <span class="map-tools">
+                        <span id="pinCount"></span>
+                        <span class="zoom-controls" aria-label="지도 확대 조절">
+                            <button class="zoom-button" type="button" id="zoomOutBtn" aria-label="지도 축소"><i class="fa-solid fa-minus"></i></button>
+                            <span class="zoom-level" id="zoomLevel">100%</span>
+                            <button class="zoom-button" type="button" id="zoomInBtn" aria-label="지도 확대"><i class="fa-solid fa-plus"></i></button>
+                            <button class="zoom-button" type="button" id="zoomResetBtn" aria-label="지도 원위치"><i class="fa-solid fa-rotate-left"></i></button>
+                        </span>
+                    </span>
+                </div>
+                <div class="map-canvas" id="mapCanvas">
+                    <div class="map-layer" id="mapLayer">
+                        <img class="map-image" src="../assets/c16/grammar4/korea-region-map.png" alt="대한민국 주요 지역과 도시가 표시된 지도" />
+                        <div id="pinLayer"></div>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="side">
+                <section class="place-card panel">
+                    <span class="place-icon" id="placeIcon"></span>
+                    <span>
+                        <strong id="placeName"></strong>
+                        <span id="placeMeta"></span>
+                    </span>
+                </section>
+
+                <section class="map-panel panel">
+                    <div class="panel-title">
+                        <span><i class="fa-solid fa-star"></i> 명소 태그</span>
+                        <span id="tagCount"></span>
+                    </div>
+                    <div class="tag-grid" id="tagGrid"></div>
+                </section>
+
+                <section class="mini-panel panel">
+                    <div class="panel-title">
+                        <span><i class="fa-solid fa-compass"></i> 같은 지역</span>
+                        <span id="nearCount"></span>
+                    </div>
+                    <div class="mini-grid" id="nearGrid"></div>
+                </section>
+            </aside>
+        </section>
+
+        <nav class="footer" aria-label="문법 이동">
+            <a class="btn" href="grammar4.html"><i class="fa-solid fa-arrow-left"></i> 문법 4</a>
+            <a class="btn" href="grammar4-korea-then-now-map.html"><i class="fa-solid fa-code-compare"></i> 한국 비교</a>
+            <a class="btn" href="grammar4-vietnam-map-match.html"><i class="fa-solid fa-map"></i> 베트남 명소 지도</a>
+            <a class="btn primary" href="grammar4-speaking-pro.html"><i class="fa-solid fa-microphone-lines"></i> 말하기 PRO</a>
+        </nav>
+    </main>
+
+    <script>
+        const regions = [
+            { id: 'all', label: '전체', icon: 'fa-globe-asia' },
+            { id: 'capital', label: '수도권', icon: 'fa-building' },
+            { id: 'gangwon', label: '강원', icon: 'fa-mountain-sun' },
+            { id: 'chungcheong', label: '충청', icon: 'fa-landmark' },
+            { id: 'honam', label: '호남', icon: 'fa-seedling' },
+            { id: 'yeongnam', label: '영남', icon: 'fa-industry' },
+            { id: 'jeju', label: '제주', icon: 'fa-umbrella-beach' }
+        ];
+
+        const targets = [
+            { id: 'seoul', region: 'capital', x: 31.6, y: 21.4, icon: 'fa-city', name: '서울', ko: '서울', hint: '수도 · 대도시' },
+            { id: 'incheon', region: 'capital', x: 20.8, y: 22.5, icon: 'fa-plane-departure', name: '인천', ko: '인천', hint: '항구 · 공항' },
+            { id: 'suwon', region: 'capital', x: 31.6, y: 29.7, icon: 'fa-fort-awesome', name: '수원', ko: '수원', hint: '화성 · 산업' },
+            { id: 'chuncheon', region: 'gangwon', x: 51.6, y: 11.7, icon: 'fa-water', name: '춘천', ko: '춘천', hint: '호수 · 관광' },
+            { id: 'gangneung', region: 'gangwon', x: 74.2, y: 19.3, icon: 'fa-mug-hot', name: '강릉', ko: '강릉', hint: '동해 · 커피' },
+            { id: 'cheongju', region: 'chungcheong', x: 43.4, y: 38.6, icon: 'fa-print', name: '청주', ko: '청주', hint: '내륙 · 바이오' },
+            { id: 'sejong', region: 'chungcheong', x: 36.6, y: 43.9, icon: 'fa-building-columns', name: '세종', ko: '세종', hint: '행정 · 계획도시' },
+            { id: 'daejeon', region: 'chungcheong', x: 37.9, y: 49.8, icon: 'fa-atom', name: '대전', ko: '대전', hint: '과학 · 교통' },
+            { id: 'jeonju', region: 'honam', x: 28.7, y: 56.6, icon: 'fa-house-chimney', name: '전주', ko: '전주', hint: '한옥 · 음식' },
+            { id: 'gwangju', region: 'honam', x: 24.0, y: 69.8, icon: 'fa-palette', name: '광주', ko: '광주', hint: '민주 · 문화' },
+            { id: 'mokpo', region: 'honam', x: 14.8, y: 76.5, icon: 'fa-ship', name: '목포', ko: '목포', hint: '항구 · 섬' },
+            { id: 'daegu', region: 'yeongnam', x: 65.2, y: 54.5, icon: 'fa-shirt', name: '대구', ko: '대구', hint: '분지 · 산업' },
+            { id: 'pohang', region: 'yeongnam', x: 83.0, y: 49.5, icon: 'fa-industry', name: '포항', ko: '포항', hint: '철강 · 해안' },
+            { id: 'ulsan', region: 'yeongnam', x: 81.2, y: 61.5, icon: 'fa-ship', name: '울산', ko: '울산', hint: '자동차 · 조선' },
+            { id: 'busan', region: 'yeongnam', x: 76.2, y: 70.6, icon: 'fa-anchor', name: '부산', ko: '부산', hint: '항구 · 해변' },
+            { id: 'changwon', region: 'yeongnam', x: 63.4, y: 70.7, icon: 'fa-gears', name: '창원', ko: '창원', hint: '계획 · 기계산업' },
+            { id: 'jeju', region: 'jeju', x: 34.8, y: 95.9, icon: 'fa-volcano', name: '제주', ko: '제주', hint: '섬 · 관광' }
+        ];
+
+        const nounTags = {
+            gyeongbokgung: '경복궁',
+            nSeoulTower: '남산타워',
+            hanRiver: '한강',
+            bukchon: '북촌한옥마을',
+            gwangjangMarket: '광장시장',
+            tteokbokki: '떡볶이',
+            incheonAirport: '인천국제공항',
+            chinatown: '차이나타운',
+            wolmido: '월미도',
+            songdo: '송도국제도시',
+            jajangmyeon: '짜장면',
+            suwonHwaseong: '수원화성',
+            hwaseongHaenggung: '화성행궁',
+            chickenStreet: '통닭거리',
+            gwanggyoLake: '광교호수공원',
+            namiIsland: '남이섬',
+            soyangSkywalk: '소양강 스카이워크',
+            dakgalbi: '닭갈비',
+            makguksu: '막국수',
+            gyeongpoBeach: '경포대',
+            anmokCoffee: '안목커피거리',
+            ojukheon: '오죽헌',
+            chodangTofu: '초당순두부',
+            jikji: '직지',
+            sangdangFortress: '상당산성',
+            cheongnamdae: '청남대',
+            suamgol: '수암골',
+            sejongLake: '세종호수공원',
+            sejongArboretum: '국립세종수목원',
+            governmentComplex: '정부세종청사',
+            geumgangBridge: '금강보행교',
+            expoPark: '엑스포과학공원',
+            sungsimdang: '성심당',
+            yuseongHotSpring: '유성온천',
+            gyejoksanTrail: '계족산 황톳길',
+            jeonjuHanok: '전주한옥마을',
+            bibimbap: '전주비빔밥',
+            gyeonggijeon: '경기전',
+            kongnamulGukbap: '콩나물국밥',
+            acc: '국립아시아문화전당',
+            mudeungsan: '무등산',
+            may18Square: '5.18민주광장',
+            gwangjuBiennale: '광주비엔날레',
+            tteokgalbi: '떡갈비',
+            mokpoModernHistory: '목포근대역사관',
+            yudalsan: '유달산',
+            mokpoCableCar: '목포해상케이블카',
+            gatbawi: '갓바위',
+            hongeo: '홍어',
+            seomunMarket: '서문시장',
+            kimGwangseokStreet: '김광석거리',
+            palgongsan: '팔공산',
+            makchang: '막창',
+            flatDumpling: '납작만두',
+            homigot: '호미곶',
+            posco: '포스코',
+            yeongildae: '영일대해수욕장',
+            jukdoMarket: '죽도시장',
+            gwamegi: '과메기',
+            taehwagangGarden: '태화강 국가정원',
+            daewangam: '대왕암공원',
+            whaleVillage: '장생포고래문화마을',
+            eonyangBulgogi: '언양불고기',
+            haeundae: '해운대',
+            gwanganBridge: '광안대교',
+            jagalchi: '자갈치시장',
+            gamcheon: '감천문화마을',
+            dwaejiGukbap: '돼지국밥',
+            jinhaeCherry: '진해군항제',
+            yongjiLake: '용지호수',
+            masanFishMarket: '마산어시장',
+            aguJjim: '아귀찜',
+            hallasan: '한라산',
+            seongsanIlchulbong: '성산일출봉',
+            hyeopjaeBeach: '협재해변',
+            olleTrail: '제주올레길',
+            blackPork: '흑돼지',
+            tangerine: '감귤'
+        };
+
+        const foodTags = new Set([
+            'tteokbokki', 'jajangmyeon', 'chickenStreet', 'dakgalbi', 'makguksu',
+            'chodangTofu', 'sungsimdang', 'bibimbap', 'kongnamulGukbap', 'tteokgalbi',
+            'hongeo', 'makchang', 'flatDumpling', 'gwamegi', 'eonyangBulgogi',
+            'dwaejiGukbap', 'aguJjim', 'blackPork', 'tangerine'
+        ]);
+
+        const targetTags = {
+            seoul: ['gyeongbokgung', 'nSeoulTower', 'hanRiver', 'bukchon', 'gwangjangMarket', 'tteokbokki'],
+            incheon: ['incheonAirport', 'chinatown', 'wolmido', 'songdo', 'jajangmyeon'],
+            suwon: ['suwonHwaseong', 'hwaseongHaenggung', 'chickenStreet', 'gwanggyoLake'],
+            chuncheon: ['namiIsland', 'soyangSkywalk', 'dakgalbi', 'makguksu'],
+            gangneung: ['gyeongpoBeach', 'anmokCoffee', 'ojukheon', 'chodangTofu'],
+            cheongju: ['jikji', 'sangdangFortress', 'cheongnamdae', 'suamgol'],
+            sejong: ['sejongLake', 'sejongArboretum', 'governmentComplex', 'geumgangBridge'],
+            daejeon: ['expoPark', 'sungsimdang', 'yuseongHotSpring', 'gyejoksanTrail'],
+            jeonju: ['jeonjuHanok', 'bibimbap', 'gyeonggijeon', 'kongnamulGukbap'],
+            gwangju: ['acc', 'mudeungsan', 'may18Square', 'gwangjuBiennale', 'tteokgalbi'],
+            mokpo: ['mokpoModernHistory', 'yudalsan', 'mokpoCableCar', 'gatbawi', 'hongeo'],
+            daegu: ['seomunMarket', 'kimGwangseokStreet', 'palgongsan', 'makchang', 'flatDumpling'],
+            pohang: ['homigot', 'posco', 'yeongildae', 'jukdoMarket', 'gwamegi'],
+            ulsan: ['taehwagangGarden', 'daewangam', 'whaleVillage', 'eonyangBulgogi'],
+            busan: ['haeundae', 'gwanganBridge', 'jagalchi', 'gamcheon', 'dwaejiGukbap'],
+            changwon: ['jinhaeCherry', 'yongjiLake', 'masanFishMarket', 'aguJjim'],
+            jeju: ['hallasan', 'seongsanIlchulbong', 'hyeopjaeBeach', 'olleTrail', 'blackPork', 'tangerine']
+        };
+
+        targets.forEach((target) => {
+            target.tags = targetTags[target.id] || [];
+        });
+
+        const state = {
+            region: 'capital',
+            targetId: 'seoul',
+            tagId: 'gyeongbokgung',
+            zoomIndex: 0
+        };
+
+        const regionBar = document.getElementById('regionBar');
+        const mapCanvas = document.getElementById('mapCanvas');
+        const mapLayer = document.getElementById('mapLayer');
+        const pinLayer = document.getElementById('pinLayer');
+        const sentenceText = document.getElementById('sentenceText');
+        const regionBadge = document.getElementById('regionBadge');
+        const placeChip = document.getElementById('placeChip');
+        const tagChip = document.getElementById('tagChip');
+        const mapAction = document.getElementById('mapAction');
+        const photoAction = document.getElementById('photoAction');
+        const pinCount = document.getElementById('pinCount');
+        const placeIcon = document.getElementById('placeIcon');
+        const placeName = document.getElementById('placeName');
+        const placeMeta = document.getElementById('placeMeta');
+        const tagGrid = document.getElementById('tagGrid');
+        const tagCount = document.getElementById('tagCount');
+        const nearGrid = document.getElementById('nearGrid');
+        const nearCount = document.getElementById('nearCount');
+        const zoomOutBtn = document.getElementById('zoomOutBtn');
+        const zoomInBtn = document.getElementById('zoomInBtn');
+        const zoomResetBtn = document.getElementById('zoomResetBtn');
+        const zoomLevel = document.getElementById('zoomLevel');
+        const zoomSteps = [1, 1.35, 1.7, 2.15, 2.6];
+
+        function hasBatchim(text) {
+            const code = text.charCodeAt(text.length - 1);
+            if (code < 0xac00 || code > 0xd7a3) return false;
+            return (code - 0xac00) % 28 !== 0;
+        }
+
+        function topicParticle(text) {
+            return hasBatchim(text) ? '은' : '는';
+        }
+
+        function icon(name) {
+            return `<i class="fa-solid ${name}" aria-hidden="true"></i>`;
+        }
+
+        function clamp(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+        function getTarget() {
+            return targets.find((target) => target.id === state.targetId);
+        }
+
+        function filteredTargets() {
+            return state.region === 'all'
+                ? targets
+                : targets.filter((target) => target.region === state.region);
+        }
+
+        function regionLabel(id) {
+            return regions.find((region) => region.id === id).label;
+        }
+
+        function jong(text) {
+            const code = text.charCodeAt(text.length - 1);
+            if (code < 0xac00 || code > 0xd7a3) return 0;
+            return (code - 0xac00) % 28;
+        }
+
+        function roParticle(text) {
+            const finalSound = jong(text);
+            return finalSound !== 0 && finalSound !== 8 ? '으로' : '로';
+        }
+
+        function buildSentence(target, tagId) {
+            const tag = nounTags[tagId];
+            return `${target.name}${topicParticle(target.name)} ${tag}${roParticle(tag)} 유명해요.`;
+        }
+
+        function mapsUrl(target, tagId) {
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${nounTags[tagId]} ${target.ko}`)}`;
+        }
+
+        function photosUrl(target, tagId) {
+            if (!foodTags.has(tagId)) return '';
+            return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(`${nounTags[tagId]} ${target.ko} 사진`)}`;
+        }
+
+        function mapLink(target, tagId) {
+            const label = `${target.name} ${nounTags[tagId]} 구글맵에서 보기`;
+            return `<a class="past-link" href="${mapsUrl(target, tagId)}" target="_blank" rel="noopener noreferrer" aria-label="${label}" title="구글맵에서 보기"><i class="fa-solid fa-map-location-dot"></i></a>`;
+        }
+
+        function photoLink(target, tagId) {
+            const href = photosUrl(target, tagId);
+            if (!href) return '';
+            const label = `${target.name} ${nounTags[tagId]} 사진 보기`;
+            return `<a class="photo-link" href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${label}" title="사진 보기"><i class="fa-solid fa-image"></i></a>`;
+        }
+
+        function tagActions(target, tagId) {
+            return `<span class="tag-actions">${mapLink(target, tagId)}${photoLink(target, tagId)}</span>`;
+        }
+
+        function updateZoomControls() {
+            const scale = zoomSteps[state.zoomIndex];
+            zoomLevel.textContent = `${Math.round(scale * 100)}%`;
+            zoomOutBtn.disabled = state.zoomIndex === 0;
+            zoomInBtn.disabled = state.zoomIndex === zoomSteps.length - 1;
+            zoomResetBtn.disabled = state.zoomIndex === 0;
+        }
+
+        function updateMapTransform() {
+            const scale = zoomSteps[state.zoomIndex];
+            const target = getTarget();
+            const rect = mapCanvas.getBoundingClientRect();
+            let panX = 0;
+            let panY = 0;
+
+            if (scale > 1 && rect.width > 0 && rect.height > 0) {
+                panX = (rect.width / 2) - ((rect.width * target.x / 100) * scale);
+                panY = (rect.height / 2) - ((rect.height * target.y / 100) * scale);
+                panX = clamp(panX, rect.width * (1 - scale), 0);
+                panY = clamp(panY, rect.height * (1 - scale), 0);
+            }
+
+            mapLayer.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+            updateZoomControls();
+        }
+
+        function setZoomIndex(index) {
+            state.zoomIndex = clamp(index, 0, zoomSteps.length - 1);
+            updateMapTransform();
+        }
+
+        function renderRegions() {
+            regionBar.innerHTML = regions.map((region) => `
+                <button class="region-button ${region.id === state.region ? 'is-active' : ''}" type="button" data-region="${region.id}">
+                    ${icon(region.icon)} ${region.label}
+                </button>
+            `).join('');
+
+            regionBar.querySelectorAll('[data-region]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.region = button.dataset.region;
+                    const list = filteredTargets();
+                    if (!list.some((target) => target.id === state.targetId)) {
+                        state.targetId = list[0].id;
+                        state.tagId = list[0].tags[0];
+                    }
+                    render();
+                });
+            });
+        }
+
+        function renderPins() {
+            const visible = filteredTargets();
+            pinLayer.innerHTML = targets.map((target) => {
+                const isVisible = state.region === 'all' || target.region === state.region;
+                const isActive = target.id === state.targetId;
+                return `
+                    <button class="pin ${isActive ? 'is-active' : ''} ${isVisible ? '' : 'is-muted'}" type="button" data-target="${target.id}" style="--x:${target.x}%; --y:${target.y}%;" aria-label="${target.name}">
+                        ${icon(target.icon)}
+                    </button>
+                    <span class="pin-label" style="--x:${target.x}%; --y:${target.y}%;">${target.name}</span>
+                `;
+            }).join('');
+
+            pinLayer.querySelectorAll('[data-target]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const target = targets.find((item) => item.id === button.dataset.target);
+                    state.targetId = target.id;
+                    state.region = target.region;
+                    state.tagId = target.tags[0];
+                    render();
+                });
+            });
+
+            pinCount.textContent = `${visible.length} / ${targets.length}`;
+        }
+
+        function renderTags() {
+            const target = getTarget();
+            tagGrid.innerHTML = target.tags.map((tagId) => `
+                <div class="tag-tile">
+                    <button class="tag-button ${tagId === state.tagId ? 'is-active' : ''}" type="button" data-tag="${tagId}">
+                        <strong>${nounTags[tagId]}</strong>
+                        <span>N(으)로</span>
+                    </button>
+                    ${tagActions(target, tagId)}
+                </div>
+            `).join('');
+
+            tagGrid.querySelectorAll('[data-tag]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    state.tagId = button.dataset.tag;
+                    render();
+                });
+            });
+
+            tagCount.textContent = `${target.tags.length}개`;
+        }
+
+        function renderNearPlaces() {
+            const target = getTarget();
+            const near = targets
+                .filter((item) => item.region === target.region && item.id !== target.id)
+                .slice(0, 6);
+
+            nearGrid.innerHTML = near.map((item) => `
+                <button class="mini-button" type="button" data-near="${item.id}">
+                    <strong>${item.name}</strong>
+                    <span>${item.hint}</span>
+                </button>
+            `).join('');
+
+            nearGrid.querySelectorAll('[data-near]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const next = targets.find((item) => item.id === button.dataset.near);
+                    state.targetId = next.id;
+                    state.region = next.region;
+                    state.tagId = next.tags[0];
+                    render();
+                });
+            });
+
+            nearCount.textContent = `${near.length}곳`;
+        }
+
+        function renderOutput() {
+            const target = getTarget();
+            const tag = nounTags[state.tagId];
+            sentenceText.textContent = buildSentence(target, state.tagId);
+            regionBadge.textContent = regionLabel(target.region);
+            placeChip.innerHTML = `${icon(target.icon)} ${target.name}`;
+            tagChip.textContent = tag;
+            mapAction.href = mapsUrl(target, state.tagId);
+            mapAction.setAttribute('aria-label', `${target.name} ${tag} 구글맵에서 보기`);
+            const photoHref = photosUrl(target, state.tagId);
+            photoAction.hidden = !photoHref;
+            if (photoHref) {
+                photoAction.href = photoHref;
+                photoAction.setAttribute('aria-label', `${target.name} ${tag} 사진 보기`);
+            } else {
+                photoAction.removeAttribute('href');
+            }
+            placeIcon.innerHTML = icon(target.icon);
+            placeName.textContent = target.name;
+            placeMeta.textContent = `${target.ko} · ${target.hint}`;
+        }
+
+        function render() {
+            renderRegions();
+            renderOutput();
+            renderPins();
+            renderTags();
+            renderNearPlaces();
+            updateMapTransform();
+        }
+
+        zoomOutBtn.addEventListener('click', () => setZoomIndex(state.zoomIndex - 1));
+        zoomInBtn.addEventListener('click', () => setZoomIndex(state.zoomIndex + 1));
+        zoomResetBtn.addEventListener('click', () => setZoomIndex(0));
+        window.addEventListener('resize', updateMapTransform);
+
+        render();
+    </script>
+    <script src="../shared/site-copyright.js"></script>
+</body>
+</html>
